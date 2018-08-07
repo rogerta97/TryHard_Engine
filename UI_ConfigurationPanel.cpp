@@ -23,6 +23,11 @@ bool UI_ConfigurationPanel::Update()
 
 	ImGui::Begin("Configuration", &show); 
 
+	if (ImGui::CollapsingHeader("HardWare"))
+	{
+		
+	}
+
 	if(ImGui::CollapsingHeader("Camera"))
 	{
 		float tmp_speed = App->camera->GetSpeed();

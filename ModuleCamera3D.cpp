@@ -10,7 +10,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(0.0f, 0.0f, 5.0f);
+	Position = vec3(0.0f, 0.0f, -5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
@@ -37,16 +37,55 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	vec3 point_look = { 0, 0,0};
+	vec3 point_look = { 0, 0, 0};
+	bool moved = false; 
 	
 	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
 
 	CalculateViewMatrix(); 
 
+	//Camera WASD & ER input
+
+	vec3 increment = { 0,0,0 }; 
+
 	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
-		Move(vec3(0,0, -0.5)); 
+		increment = Z * -GetSpeed(); 
+		moved = true; 
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S))
+	{
+		increment = Z * GetSpeed();
+		moved = true;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A))
+	{
+		increment = X * -GetSpeed();
+		moved = true;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D))
+	{
+		increment = X * GetSpeed();
+		moved = true;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_E))
+	{
+		increment = Y * GetSpeed();
+		moved = true;
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_R))
+	{
+		increment = Y * -GetSpeed();
+		moved = true;
+	}
+
+	if(moved) Move(increment);
 
 	return UPDATE_CONTINUE;
 }

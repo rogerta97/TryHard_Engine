@@ -24,7 +24,7 @@ public:
 private:
 
 	void CalculateViewMatrix();
-	float speed = 1.0f; 
+	float speed = 0.1f; 
 
 public:
 	
