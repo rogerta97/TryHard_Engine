@@ -15,7 +15,7 @@ public:
 
 	// Utility
 
-	void DrawTopBar();
+	update_status DrawTopBar();
 	void SetDefaultStyle(); 
 
 };
