@@ -22,6 +22,9 @@
     <Filter Include="Sources\3rd Partys\ImGui">
       <UniqueIdentifier>{e48ad2f7-d061-4311-938d-6755e7d1db94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\MathGeoLib">
+      <UniqueIdentifier>{d2c36614-fcb5-4de7-82b4-c2578d7dc2fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">

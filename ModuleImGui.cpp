@@ -79,11 +79,12 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
-	DrawTopBar();
+	update_status ret = UPDATE_CONTINUE;
+	ret = DrawTopBar();
 	App->renderer3D->SetUIPrintSettings();
 	ImGui::Render();
 
-	return update_status::UPDATE_CONTINUE;
+	return ret;
 }
 
 bool ModuleImGui::CleanUp()
@@ -94,8 +95,24 @@ bool ModuleImGui::CleanUp()
 	return true;
 }
 
-void ModuleImGui::DrawTopBar()
+update_status ModuleImGui::DrawTopBar()
 {
-	ImGui::Begin("Yo no soy don omar, pero soy bandolero"); 
-	ImGui::End(); 
+	update_status ret = UPDATE_CONTINUE;
+	ImGui::ShowTestWindow();
+
+	ImGui::BeginMainMenuBar();
+
+
+	if (ImGui::BeginMenu("File"))
+	{
+		if (ImGui::MenuItem("Exit", "Shift + Esc"))
+		{
+			ret = UPDATE_STOP;
+		}
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMainMenuBar();
+
+	return ret;
 }

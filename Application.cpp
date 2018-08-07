@@ -4,25 +4,16 @@ Application::Application()
 {
 	window = new ModuleWindow();
 	input = new ModuleInput();
-	audio = new ModuleAudio(true);
 	imgui = new ModuleImGui(); 
 	scene_intro = new ModuleSceneIntro();
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
-	//physics = new ModulePhysics3D(this);
-	//player = new ModulePlayer(this);
-
-	// The order of calls is very important!
-	// Modules will Init() Start() and Update in this order
-	// They will CleanUp() in reverse order
 
 	// Main Modules
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	//AddModule(audio);
-	//AddModule(physics);
-	
+
 	// Scenes
 	AddModule(scene_intro);
 
