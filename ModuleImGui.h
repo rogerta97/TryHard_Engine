@@ -18,4 +18,9 @@ public:
 	update_status DrawTopBar();
 	void SetDefaultStyle(); 
 
+private: 
+
+	bool show_demo_window = false; 
+	bool show_style_editor = false; 
+
 };
