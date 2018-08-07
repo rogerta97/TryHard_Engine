@@ -18,9 +18,13 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	void SetSpeed(float new_speed); 
+	float GetSpeed(); 
+
 private:
 
 	void CalculateViewMatrix();
+	float speed = 1.0f; 
 
 public:
 	

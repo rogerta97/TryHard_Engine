@@ -22,6 +22,9 @@
     <Filter Include="Sources\3rd Partys\ImGui">
       <UniqueIdentifier>{e48ad2f7-d061-4311-938d-6755e7d1db94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Helpers">
+      <UniqueIdentifier>{1bd0133f-ddb6-4464-af10-6ffa8cab1724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="imgui_impl_sdl.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="UI_ConfigurationPanel.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -145,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="imgui_impl_sdl.cpp">
       <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ConfigurationPanel.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

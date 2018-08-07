@@ -1,6 +1,7 @@
 #include "ModuleImGui.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "UI_ConfigurationPanel.h"
 #include "Application.h"
 
 #include "imgui.h"
@@ -20,6 +21,9 @@ bool ModuleImGui::Start()
 
 	show_demo_window = false; 
 	show_style_editor = false; 
+
+	//Initialize Panels 
+	config_panel = new UI_ConfigurationPanel(); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -45,6 +49,10 @@ update_status ModuleImGui::Update(float dt)
 		return update_status::UPDATE_STOP; 
 
 	App->renderer3D->SetUIPrintSettings();
+
+	//Update Panels 
+	config_panel->Update(); 
+
 	ImGui::Render();
 
 	return update_status::UPDATE_CONTINUE;
@@ -72,8 +80,13 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Configuration"))
+	if (ImGui::BeginMenu("Edit"))
 	{
+		if (ImGui::MenuItem("Configuration"))
+		{
+			config_panel->show = !config_panel->show;
+		}
+
 		if (ImGui::MenuItem("Style"))
 		{
 			show_style_editor = !show_style_editor; 

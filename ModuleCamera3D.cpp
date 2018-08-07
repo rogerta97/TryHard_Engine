@@ -39,8 +39,14 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	vec3 point_look = { 0, 0,0};
 	
-	Look(Position, point_look, true);
-	CalculateViewMatrix();
+	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
+
+	CalculateViewMatrix(); 
+
+	if (App->input->GetKey(SDL_SCANCODE_W))
+	{
+		Move(vec3(0,0, -0.5)); 
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -90,6 +96,16 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 float* ModuleCamera3D::GetViewMatrix()
 {
 	return &ViewMatrix;
+}
+
+void ModuleCamera3D::SetSpeed(float new_speed)
+{
+	speed = new_speed; 
+}
+
+float ModuleCamera3D::GetSpeed()
+{
+	return speed;
 }
 
 // -----------------------------------------------------------------

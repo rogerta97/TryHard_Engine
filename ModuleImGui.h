@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "Globals.h"
 
+class UI_ConfigurationPanel; 
+
 class ModuleImGui : public Module
 {
 public:
@@ -22,5 +24,7 @@ private:
 
 	bool show_demo_window = false; 
 	bool show_style_editor = false; 
+
+	UI_ConfigurationPanel* config_panel; 
 
 };
