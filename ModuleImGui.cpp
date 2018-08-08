@@ -21,13 +21,12 @@ bool ModuleImGui::Start()
 	name = "ImGui";
 
 	show_demo_window = true; 
-	show_style_editor = true;
+	show_style_editor = false;
 
 	//Initialize Panels 
 	config_panel = new UI_ConfigurationPanel(); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
-	ImGui::InitDock(); 
 	SetDefaultStyle(); 
 
 	return true;
@@ -47,14 +46,12 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
+	
 	if (DrawTopBar() != update_status::UPDATE_CONTINUE)
 		return update_status::UPDATE_STOP; 
 
 	App->renderer3D->SetUIPrintSettings();
-
-	//Update Panels 
-	config_panel->Update(); 
-
+	DrawDocking();
 	ImGui::Render();
 
 	return update_status::UPDATE_CONTINUE;
@@ -70,49 +67,6 @@ bool ModuleImGui::CleanUp()
 
 update_status ModuleImGui::DrawTopBar()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
-
-	if (ImGui::Begin("Dock Demo", 0, window_flags))
-	{
-		float offset = 18.0f; 
-		ImGui::SetWindowPos(ImVec2(-5, offset));
-		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
-		// dock layout by hard-coded or .ini file
-		ImGui::BeginDockspace();
-
-		if (ImGui::BeginDock("Dock 1")) {
-			ImGui::Text("I'm Wubugui!");
-		}
-		ImGui::EndDock();
-
-		if (ImGui::BeginDock("Dock 2")) {
-			ImGui::Text("I'm BentleyBlanks!");
-		}
-		ImGui::EndDock();
-
-		if (ImGui::BeginDock("Dock 3")) {
-			ImGui::Text("I'm LonelyWaiting!");
-		}
-		ImGui::EndDock();
-
-		ImGui::EndDockspace();
-	}
-	ImGui::End();
-
-	// multiple dockspace supported
-	if (ImGui::Begin("Dock Demo2"))
-	{
-		ImGui::BeginDockspace();
-
-		if (ImGui::BeginDock("Dock 2")) {
-			ImGui::Text("Who's your daddy?");
-		}
-		ImGui::EndDock();
-
-		ImGui::EndDockspace();
-	}
-	ImGui::End();
-
 	ImGui::BeginMainMenuBar(); 
 
 	if (ImGui::BeginMenu("Files"))
@@ -150,16 +104,51 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-	if (show_demo_window) ImGui::ShowDemoWindow(); 
-	if (show_style_editor)
-	{
-		ImGui::Begin("Style Editor", &show_style_editor);
-		ImGui::ShowStyleEditor();
-		ImGui::End(); 
-	}
-
 	ImGui::EndMainMenuBar(); 
 
 	return UPDATE_CONTINUE;
 
 }
+
+update_status ModuleImGui::DrawDocking()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoMove;
+
+	if (ImGui::Begin("Dock Demo", 0, window_flags))
+	{
+		float offset = 18.0f;
+		ImGui::SetWindowPos(ImVec2(-5, offset));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
+		// dock layout by hard-coded or .ini file
+		ImGui::BeginDockspace();
+
+		//Update Panels 	
+		config_panel->Update();
+
+		ImGui::EndDockspace();
+	}
+
+	if (show_demo_window)
+	{
+		ImGui::ShowDemoWindow();
+	}
+		
+
+	if (show_style_editor)
+	{
+		ImGui::BeginDockspace();
+		if (ImGui::BeginDock("Style Editor", &show_style_editor))
+		{
+			ImGui::ShowStyleEditor();
+		}
+		ImGui::EndDock();
+		ImGui::EndDockspace();
+
+	}
+
+	ImGui::End();
+
+	return update_status::UPDATE_CONTINUE;
+}
+

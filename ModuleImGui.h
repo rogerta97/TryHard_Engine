@@ -18,6 +18,7 @@ public:
 	// Utility
 
 	update_status DrawTopBar();
+	update_status DrawDocking();
 	void SetDefaultStyle(); 
 
 private: 
