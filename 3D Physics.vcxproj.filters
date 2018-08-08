@@ -93,6 +93,9 @@
     <ClInclude Include="UI_ConfigurationPanel.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="imgui_dock.h">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -154,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="UI_ConfigurationPanel.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_dock.cpp">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 #include "ModuleImGui.h"
 #include "ModuleWindow.h"
+#include "imgui_dock.h"
 #include "ModuleRenderer3D.h"
 #include "UI_ConfigurationPanel.h"
 #include "Application.h"
@@ -19,13 +20,14 @@ bool ModuleImGui::Start()
 {
 	name = "ImGui";
 
-	show_demo_window = false; 
-	show_style_editor = false; 
+	show_demo_window = true; 
+	show_style_editor = true;
 
 	//Initialize Panels 
 	config_panel = new UI_ConfigurationPanel(); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
+	ImGui::InitDock(); 
 	SetDefaultStyle(); 
 
 	return true;
@@ -68,6 +70,49 @@ bool ModuleImGui::CleanUp()
 
 update_status ModuleImGui::DrawTopBar()
 {
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
+
+	if (ImGui::Begin("Dock Demo", 0, window_flags))
+	{
+		float offset = 18.0f; 
+		ImGui::SetWindowPos(ImVec2(-5, offset));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
+		// dock layout by hard-coded or .ini file
+		ImGui::BeginDockspace();
+
+		if (ImGui::BeginDock("Dock 1")) {
+			ImGui::Text("I'm Wubugui!");
+		}
+		ImGui::EndDock();
+
+		if (ImGui::BeginDock("Dock 2")) {
+			ImGui::Text("I'm BentleyBlanks!");
+		}
+		ImGui::EndDock();
+
+		if (ImGui::BeginDock("Dock 3")) {
+			ImGui::Text("I'm LonelyWaiting!");
+		}
+		ImGui::EndDock();
+
+		ImGui::EndDockspace();
+	}
+	ImGui::End();
+
+	// multiple dockspace supported
+	if (ImGui::Begin("Dock Demo2"))
+	{
+		ImGui::BeginDockspace();
+
+		if (ImGui::BeginDock("Dock 2")) {
+			ImGui::Text("Who's your daddy?");
+		}
+		ImGui::EndDock();
+
+		ImGui::EndDockspace();
+	}
+	ImGui::End();
+
 	ImGui::BeginMainMenuBar(); 
 
 	if (ImGui::BeginMenu("Files"))
