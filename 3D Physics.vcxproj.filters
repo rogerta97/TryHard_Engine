@@ -22,8 +22,17 @@
     <Filter Include="Sources\3rd Partys\ImGui">
       <UniqueIdentifier>{e48ad2f7-d061-4311-938d-6755e7d1db94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Helpers">
+    <Filter Include="Sources\UI_Editor">
       <UniqueIdentifier>{1bd0133f-ddb6-4464-af10-6ffa8cab1724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI_Editor\UI_Panels">
+      <UniqueIdentifier>{85b8cbd3-672c-4d81-9276-066fed115858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\Importers">
+      <UniqueIdentifier>{4e72e1e5-4c2d-4339-a961-2569a7756bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Resources">
+      <UniqueIdentifier>{d38a4d9f-fa84-4ef4-b1ca-a6df947da9a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,15 +99,30 @@
     <ClInclude Include="imgui_impl_sdl.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="UI_ConfigurationPanel.h">
-      <Filter>Sources\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="imgui_dock.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="UI_Panel.h">
-      <Filter>Sources\Helpers</Filter>
+      <Filter>Sources\UI_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ConfigurationPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ScenePanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureImporter.h">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleResources.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,11 +183,23 @@
     <ClCompile Include="imgui_impl_sdl.cpp">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="UI_ConfigurationPanel.cpp">
-      <Filter>Sources\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_dock.cpp">
       <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ConfigurationPanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ScenePanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureImporter.cpp">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleResources.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

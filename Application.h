@@ -7,6 +7,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleImGui.h"
+#include "ModuleResources.h"
 #include "ModuleAudio.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
@@ -17,6 +18,7 @@ class Application
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
+	ModuleResources* resources; 
 	ModuleImGui* imgui;
 	ModuleAudio* audio;
 	ModuleSceneIntro* scene_intro;

@@ -87,6 +87,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if(moved) Move(increment);
 
+	//Create texture for window rendering 
+	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -145,6 +148,11 @@ void ModuleCamera3D::SetSpeed(float new_speed)
 float ModuleCamera3D::GetSpeed()
 {
 	return speed;
+}
+
+Texture * ModuleCamera3D::GetViewportTexture()
+{
+	return nullptr;
 }
 
 // -----------------------------------------------------------------

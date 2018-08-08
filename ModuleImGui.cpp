@@ -2,8 +2,10 @@
 #include "ModuleWindow.h"
 #include "imgui_dock.h"
 #include "ModuleRenderer3D.h"
-#include "UI_ConfigurationPanel.h"
 #include "Application.h"
+
+#include "UI_ConfigurationPanel.h"
+#include "UI_ScenePanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -20,11 +22,12 @@ bool ModuleImGui::Start()
 {
 	name = "ImGui";
 
-	show_demo_window = true; 
+	show_demo_window = false; 
 	show_style_editor = false;
 
 	//Initialize Panels 
 	config_panel = new UI_ConfigurationPanel(); 
+	scene_panel = new UI_ScenePanel(); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -125,7 +128,10 @@ update_status ModuleImGui::DrawDocking()
 
 		//Update Panels 	
 		config_panel->Update();
+		ImGui::EndDockspace();
 
+		ImGui::BeginDockspace();
+		scene_panel->Update(); 
 		ImGui::EndDockspace();
 	}
 
@@ -134,7 +140,6 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::ShowDemoWindow();
 	}
 		
-
 	if (show_style_editor)
 	{
 		ImGui::BeginDockspace();

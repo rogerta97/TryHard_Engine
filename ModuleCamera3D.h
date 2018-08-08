@@ -21,6 +21,8 @@ public:
 	void SetSpeed(float new_speed); 
 	float GetSpeed(); 
 
+	Texture* GetViewportTexture(); 
+
 private:
 
 	void CalculateViewMatrix();
@@ -33,4 +35,5 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+	Texture* viewport_texture; 
 };

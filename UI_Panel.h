@@ -18,5 +18,7 @@ public:
 	{
 		return true;
 	}
+
+	bool show; 
 };
 

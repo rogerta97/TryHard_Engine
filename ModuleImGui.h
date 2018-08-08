@@ -3,6 +3,7 @@
 #include "Globals.h"
 
 class UI_ConfigurationPanel; 
+class UI_ScenePanel; 
 
 class ModuleImGui : public Module
 {
@@ -27,5 +28,6 @@ private:
 	bool show_style_editor = false; 
 
 	UI_ConfigurationPanel* config_panel; 
+	UI_ScenePanel* scene_panel; 
 
 };
