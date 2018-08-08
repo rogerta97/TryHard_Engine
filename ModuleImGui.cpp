@@ -123,41 +123,45 @@ update_status ModuleImGui::DrawDocking()
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
-		// dock layout by hard-coded or .ini file
-		ImGui::BeginDockspace();
 
-		//Update Panels 	
+		// dock layout by hard-coded or .ini file
+
+
+		//Update Panels 
+		ImGui::BeginDockspace();	
 		config_panel->Update();
 		ImGui::EndDockspace();
 
 		ImGui::BeginDockspace();
 		scene_panel->Update(); 
 		ImGui::EndDockspace();
-	}
 
-	if (show_style_editor)
-	{
-		ImGui::BeginDockspace();
-		if (ImGui::BeginDock("Style Editor", &show_style_editor))
+		if (show_style_editor)
 		{
-			ImGui::ShowStyleEditor();
+			ImGui::BeginDockspace();
+			if (ImGui::BeginDock("Style Editor", &show_style_editor))
+			{
+				ImGui::ShowStyleEditor();
+			}
+			ImGui::EndDock();
+			ImGui::EndDockspace();
+
 		}
-		ImGui::EndDock();
-		ImGui::EndDockspace();
 
-	}
-
-	if (show_demo_window)
-	{
-		ImGui::BeginDockspace();
-		if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+		if (show_demo_window)
 		{
-			ImGui::ShowTestWindow();
-		}
-		ImGui::EndDock();
-		ImGui::EndDockspace();
+			ImGui::BeginDockspace();
+			if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+			{
+				ImGui::ShowTestWindow();
+			}
+			ImGui::EndDock();
+			ImGui::EndDockspace();
 
+		}
 	}
+
+
 
 	ImGui::End();
 

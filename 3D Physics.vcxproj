@@ -76,6 +76,10 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Glew\include\eglew.h" />
+    <ClInclude Include="Glew\include\glew.h" />
+    <ClInclude Include="Glew\include\glxew.h" />
+    <ClInclude Include="Glew\include\wglew.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="imgui.h" />
@@ -100,6 +104,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureImporter.h" />
+    <ClInclude Include="TextureMSAA.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_Panel.h" />
@@ -107,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Color.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -128,6 +132,7 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
+    <ClCompile Include="TextureMSAA.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />

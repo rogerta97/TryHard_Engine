@@ -8,7 +8,7 @@
 #pragma comment (lib, "glut/glut32.lib")
 
 // ------------------------------------------------------------
-Primitive::Primitive() : transform(IdentityMatrix), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
+Primitive::Primitive() : transform(IdentityMatrix), color({ 0,100,0 }), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
 {}
 
 // ------------------------------------------------------------

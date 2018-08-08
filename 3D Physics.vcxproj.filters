@@ -34,6 +34,9 @@
     <Filter Include="Sources\Resources">
       <UniqueIdentifier>{d38a4d9f-fa84-4ef4-b1ca-a6df947da9a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\glew">
+      <UniqueIdentifier>{d0acad12-b077-44e3-9514-e0f8b204b32b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -121,6 +124,22 @@
     <ClInclude Include="OpenGL.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="p2List.h" />
+    <ClInclude Include="TextureMSAA.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\eglew.h">
+      <Filter>Sources\3rd Partys\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\glew.h">
+      <Filter>Sources\3rd Partys\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\glxew.h">
+      <Filter>Sources\3rd Partys\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="Glew\include\wglew.h">
+      <Filter>Sources\3rd Partys\glew</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -151,9 +170,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="glmath.cpp">
-      <Filter>Sources\Containers</Filter>
-    </ClCompile>
-    <ClCompile Include="Color.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneIntro.cpp">
@@ -197,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="ModuleResources.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureMSAA.cpp">
+      <Filter>Sources\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
