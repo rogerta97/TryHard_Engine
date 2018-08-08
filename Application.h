@@ -42,6 +42,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	Module* GetModuleAt(int id);
+	void PrintConfigData();
+
 private:
 
 	void AddModule(Module* mod);

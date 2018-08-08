@@ -42,7 +42,7 @@ void ModuleCamera3D::PrintConfigData()
 {
 	if (ImGui::CollapsingHeader("Camera"))
 	{
-		float tmp_speed = App->camera->GetSpeed();
+		float tmp_speed = GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		App->camera->SetSpeed(tmp_speed);
 	}
