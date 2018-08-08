@@ -34,6 +34,16 @@ bool ModuleCamera3D::CleanUp()
 	return true;
 }
 
+void ModuleCamera3D::PrintConfigData()
+{
+	if (ImGui::CollapsingHeader("Camera"))
+	{
+		float tmp_speed = App->camera->GetSpeed();
+		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
+		App->camera->SetSpeed(tmp_speed);
+	}
+}
+
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
