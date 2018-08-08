@@ -20,9 +20,6 @@ bool ModuleImGui::Start()
 {
 	name = "ImGui";
 
-	show_demo_window = true; 
-	show_style_editor = false;
-
 	//Initialize Panels 
 	config_panel = new UI_ConfigurationPanel(); 
 
@@ -126,14 +123,12 @@ update_status ModuleImGui::DrawDocking()
 		//Update Panels 	
 		config_panel->Update();
 
+
+
 		ImGui::EndDockspace();
 	}
 
-	if (show_demo_window)
-	{
-		ImGui::ShowDemoWindow();
-	}
-		
+
 
 	if (show_style_editor)
 	{
@@ -141,6 +136,18 @@ update_status ModuleImGui::DrawDocking()
 		if (ImGui::BeginDock("Style Editor", &show_style_editor))
 		{
 			ImGui::ShowStyleEditor();
+		}
+		ImGui::EndDock();
+		ImGui::EndDockspace();
+
+	}
+
+	if (show_demo_window)
+	{
+		ImGui::BeginDockspace();
+		if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+		{
+			ImGui::ShowTestWindow();
 		}
 		ImGui::EndDock();
 		ImGui::EndDockspace();
