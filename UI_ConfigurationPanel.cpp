@@ -33,12 +33,10 @@ bool UI_ConfigurationPanel::Update()
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d.%d.%d", version.major, version.minor, version.patch);
 		}
 
-		if (ImGui::CollapsingHeader("Camera"))
-		{
-			float tmp_speed = App->camera->GetSpeed();
-			ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
-			App->camera->SetSpeed(tmp_speed);
-		}
+		//for (int i = 0; App->GetModule(i) != nullptr; i++)
+		//{
+		//	App->GetModule(i)->PrintConfigData();
+		//}
 	}
 	ImGui::EndDock();  
 

@@ -135,17 +135,24 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::EndDockspace();
 	}
 
-	if (show_demo_window)
-	{
-		ImGui::ShowDemoWindow();
-	}
-		
 	if (show_style_editor)
 	{
 		ImGui::BeginDockspace();
 		if (ImGui::BeginDock("Style Editor", &show_style_editor))
 		{
 			ImGui::ShowStyleEditor();
+		}
+		ImGui::EndDock();
+		ImGui::EndDockspace();
+
+	}
+
+	if (show_demo_window)
+	{
+		ImGui::BeginDockspace();
+		if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+		{
+			ImGui::ShowTestWindow();
 		}
 		ImGui::EndDock();
 		ImGui::EndDockspace();

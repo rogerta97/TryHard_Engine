@@ -2,6 +2,8 @@
 
 #include "Globals.h"
 
+#include <list>
+
 class Application;
 struct PhysBody3D;
 
@@ -48,6 +50,9 @@ public:
 	{ 
 		return true; 
 	}
+
+	virtual void PrintConfigData() 
+	{}
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
