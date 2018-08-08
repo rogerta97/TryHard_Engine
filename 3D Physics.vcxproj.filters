@@ -96,6 +96,10 @@
     <ClInclude Include="imgui_dock.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="UI_Panel.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -161,5 +165,8 @@
     <ClCompile Include="imgui_dock.cpp">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3D Physics - class5.rc" />
   </ItemGroup>
 </Project>

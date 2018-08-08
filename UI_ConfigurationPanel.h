@@ -1,9 +1,9 @@
 #pragma once
 
-#include "imgui.h"
-#include "Globals.h"
+#include "UI_Panel.h"
 
-class UI_ConfigurationPanel
+
+class UI_ConfigurationPanel : public UI_Panel
 {
 
 public:
