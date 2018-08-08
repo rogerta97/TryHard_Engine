@@ -127,6 +127,37 @@ bool Application::CleanUp()
 	return ret;
 }
 
+Module * Application::GetModuleAt(int id)
+{
+	int i = 0;
+
+	for (std::list<Module*>::iterator item = list_modules.begin(); item != list_modules.end(); item++)
+	{
+		if (i == id)
+			return (*item);
+
+		i++;
+	}
+
+
+	return nullptr;
+}
+
+void Application::PrintConfigData()
+{
+	if (ImGui::CollapsingHeader("Application"))
+	{
+		if (ImGui::CollapsingHeader("HardWare"))
+		{
+			SDL_version version;
+			SDL_GetVersion(&version);
+
+			ImGui::Text("SDL Version"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d.%d.%d", version.major, version.minor, version.patch);
+		}
+	}
+}
+
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);

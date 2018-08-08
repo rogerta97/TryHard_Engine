@@ -24,19 +24,12 @@ bool UI_ConfigurationPanel::Update()
 
 	if (ImGui::BeginDock("Configuration"))
 	{
-		if (ImGui::CollapsingHeader("HardWare"))
+		App->PrintConfigData();
+
+		for (int i = 0; App->GetModuleAt(i) != nullptr; i++)
 		{
-			SDL_version version;
-			SDL_GetVersion(&version);
-
-			ImGui::Text("SDL Version"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d.%d.%d", version.major, version.minor, version.patch);
+			App->GetModuleAt(i)->PrintConfigData();
 		}
-
-		//for (int i = 0; App->GetModule(i) != nullptr; i++)
-		//{
-		//	App->GetModule(i)->PrintConfigData();
-		//}
 	}
 	ImGui::EndDock();  
 
