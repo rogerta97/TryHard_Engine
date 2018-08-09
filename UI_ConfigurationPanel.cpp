@@ -13,7 +13,8 @@ UI_ConfigurationPanel::~UI_ConfigurationPanel()
 
 bool UI_ConfigurationPanel::Start()
 {
-	show = false; 
+	show = true; 
+	CONSOLE_DEBUG("configuration started"); 
 
 	return true;
 }

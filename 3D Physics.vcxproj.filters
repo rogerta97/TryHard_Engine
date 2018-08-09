@@ -40,6 +40,9 @@
     <Filter Include="Sources\3rd Partys\DeviceId">
       <UniqueIdentifier>{1bad6b33-8d20-423c-9792-34beaafc0868}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Main">
+      <UniqueIdentifier>{75350157-234e-4820-8d57-c20c2c7ed20a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -69,12 +72,6 @@
     <ClInclude Include="glmath.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
@@ -83,12 +80,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Primitive.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="imgui.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
@@ -105,7 +96,6 @@
     <ClInclude Include="imgui_dock.h">
       <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="UI_Panel.h">
       <Filter>Sources\UI_Editor</Filter>
     </ClInclude>
@@ -127,7 +117,6 @@
     <ClInclude Include="OpenGL.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="p2List.h" />
     <ClInclude Include="TextureMSAA.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
@@ -143,11 +132,29 @@
     <ClInclude Include="Glew\include\wglew.h">
       <Filter>Sources\3rd Partys\glew</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ConsolePanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
     <ClInclude Include="DeviceId\DeviceId.h">
       <Filter>Sources\3rd Partys\DeviceId</Filter>
     </ClInclude>
     <ClInclude Include="DeviceId\dxgi1_4.h">
       <Filter>Sources\3rd Partys\DeviceId</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitive.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Sources\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,23 +179,11 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
     <ClCompile Include="ModuleSceneIntro.cpp">
       <Filter>Sources\Modules\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Primitive.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>Sources\3rd Partys\ImGui</Filter>
@@ -226,11 +221,26 @@
     <ClCompile Include="TextureMSAA.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ConsolePanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
     <ClCompile Include="DeviceId\DeviceId.cpp">
       <Filter>Sources\3rd Partys\DeviceId</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="3D Physics - class5.rc" />
+    <ClCompile Include="Application.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitive.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

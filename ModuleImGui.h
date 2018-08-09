@@ -1,12 +1,16 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "Console.h"
 
 class UI_ConfigurationPanel; 
 class UI_ScenePanel; 
+class UI_ConsolePanel;
 class UI_Panel;
 
-enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL };
+enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL };
+
+
 
 class ModuleImGui : public Module
 {
@@ -27,6 +31,8 @@ public:
 	update_status DrawDocking();
 	void SetDefaultStyle(); 
 
+	Console console;
+
 private: 
 
 	bool show_demo_window = false; 
@@ -36,5 +42,5 @@ private:
 
 	UI_ConfigurationPanel* config_panel; 
 	UI_ScenePanel* scene_panel; 
-
+	UI_ConsolePanel* console_panel; 
 };

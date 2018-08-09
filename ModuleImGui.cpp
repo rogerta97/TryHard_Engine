@@ -7,6 +7,7 @@
 #include "UI_Panel.h"
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
+#include "UI_ConsolePanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -30,8 +31,18 @@ bool ModuleImGui::Start()
 	show_style_editor = false;
 
 	//Initialize Panels 
+
 	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
 	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
+	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
+
+	std::list<UI_Panel*>::iterator panel = panels_list.begin();
+
+	while (panel != panels_list.end())
+	{
+		(*panel)->Start();
+		panel++;
+	}
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -83,6 +94,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 	case SCENE_PANEL:
 		panel = new UI_ScenePanel();
 		break;
+	case CONSOLE_PANEL:
+		panel = new UI_ConsolePanel();
+		break;
 	default:
 		break;
 	}
@@ -106,7 +120,7 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Edit"))
+	if (ImGui::BeginMenu("View"))
 	{
 		if (ImGui::MenuItem("Configuration"))
 		{
@@ -116,6 +130,11 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Style"))
 		{
 			show_style_editor = !show_style_editor; 
+		}
+
+		if (ImGui::MenuItem("Console"))
+		{
+			console_panel->show = !console_panel->show;
 		}
 
 		ImGui::EndMenu();
@@ -147,9 +166,6 @@ update_status ModuleImGui::DrawDocking()
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
-
-		// dock layout by hard-coded or .ini file
-
 
 		//Update Panels 
 		std::list<UI_Panel*>::iterator panel = panels_list.begin();
