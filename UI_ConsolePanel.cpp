@@ -25,6 +25,8 @@ bool UI_ConsolePanel::Start()
 	show_log = true; 
 	show_error = true; 
 
+	show = true; 
+
 	return false;
 }
 

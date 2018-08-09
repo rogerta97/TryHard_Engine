@@ -1,6 +1,7 @@
 #include "ModuleImGui.h"
 #include "ModuleWindow.h"
 #include "imgui_dock.h"
+#include "TextureMSAA.h"
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 
@@ -169,12 +170,12 @@ update_status ModuleImGui::DrawDocking()
 
 		//Update Panels 
 		std::list<UI_Panel*>::iterator panel = panels_list.begin();
-
 		while (panel != panels_list.end())
 		{
 			ImGui::BeginDockspace();
 			(*panel)->Update();
 			ImGui::EndDockspace();
+			ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
 			
 			panel++;
 		}
@@ -188,7 +189,6 @@ update_status ModuleImGui::DrawDocking()
 			}
 			ImGui::EndDock();
 			ImGui::EndDockspace();
-
 		}
 
 		if (show_demo_window)
@@ -202,10 +202,23 @@ update_status ModuleImGui::DrawDocking()
 			ImGui::EndDockspace();
 
 		}
+
+		/*ImGui::BeginDockspace();
+		scene_panel->Update();
+		ImGui::EndDockspace();*/
+
+	/*	ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); 
+
+		ImGui::BeginDockspace();
+		config_panel->Update();
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Bottom);
+
+		ImGui::BeginDockspace();
+		console_panel->Update();
+		ImGui::EndDockspace();*/
 	}
-
-
-
 	ImGui::End();
 
 	return update_status::UPDATE_CONTINUE;

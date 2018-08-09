@@ -33,13 +33,15 @@ bool UI_ScenePanel::Update()
 		{
 			ImGui::Image((void*)App->camera->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
-			App->camera->GetViewportTexture()->Render();
+			
 			//App->camera->GetViewportTexture()->Unbind();
 		}
 		glDisable(GL_TEXTURE_2D);
 	
 	}
 	ImGui::EndDock();
+
+	App->camera->GetViewportTexture()->Render();
 	App->camera->GetViewportTexture()->Unbind();
 
 	return true;
