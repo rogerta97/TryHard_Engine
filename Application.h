@@ -14,6 +14,10 @@
 #include "ModuleCamera3D.h"
 
 #include <list>
+#include <vector>
+
+#define HISTOGRAM_FR_LENGHT 50
+#define HISTOGRAM_MS_LENGHT 50
 
 class Application
 {
@@ -30,7 +34,19 @@ public:
 private:
 
 	Timer	ms_timer;
-	float	dt;
+
+	Timer				last_sec_frame_time;
+	unsigned int		last_sec_frame_count = 0;
+	unsigned int		prev_last_sec_frame_count = 0;
+
+	unsigned int		frame_count = 0;
+	Timer				startup_time;
+	Timer				frame_time;
+	float				dt = 0.0f;
+	uint				maxfps = 1000;
+	int                 frame_delay = 0;
+	float				avg_fps = -1.0f;
+
 	std::list<Module*> list_modules;
 
 public:
@@ -43,7 +59,7 @@ public:
 	bool CleanUp();
 
 	Module* GetModuleAt(int id);
-	void PrintConfigData();
+	void DisplayConfigData();
 
 private:
 
@@ -61,4 +77,7 @@ private:
 	float current_video_mem = -1.0f;
 	float available_video_mem = -1.0f;
 	float reserved_video_mem = -1.0f;
+
+	std::vector<float>	framerate_buffer;
+	std::vector<float>	ms_buffer;
 };

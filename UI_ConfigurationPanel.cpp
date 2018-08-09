@@ -26,11 +26,13 @@ bool UI_ConfigurationPanel::Update()
 
 	if (ImGui::BeginDock("Configuration"))
 	{
+
 		CONSOLE_DEBUG("%f", ImGui::GetContentRegionAvail().x); 
 
 		ImGui::SetWindowSize(ImVec2(150, ImGui::GetContentRegionAvail().y));
 
-		App->PrintConfigData();
+		//App->PrintConfigData();
+		App->DisplayConfigData();
 
 		for (int i = 0; App->GetModuleAt(i) != nullptr; i++)
 		{

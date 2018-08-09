@@ -213,7 +213,7 @@ update_status ModuleImGui::DrawDocking()
 		config_panel->Update(); 
 		ImGui::EndDockspace();
 
-		ImGui::SetNextDock("Scene", ImGuiDockSlot::ImGuiDockSlot_Right);
+		ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
 
 		ImGui::BeginDockspace();
 		console_panel->Update();
