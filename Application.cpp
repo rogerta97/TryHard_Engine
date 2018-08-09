@@ -76,13 +76,36 @@ bool Application::Init()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
+	dt = frame_time.Read() / 1000;
+	frame_time.Start();
 }
 
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	++frame_count;
+	++last_sec_frame_count;
+
+	bool ret = true;
+
+	if (last_sec_frame_time.Read() > 1000) {
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	avg_fps = float(frame_count) / (startup_time.Read()/1000);
+	float seconds_since_startup = (startup_time.Read()/1000);
+	unsigned int last_frame_ms = frame_time.Read();
+	float frames_on_last_update = prev_last_sec_frame_count;
+
+	framerate_buffer.push_back(frames_on_last_update);
+	if (framerate_buffer.size() > HISTOGRAM_FR_LENGHT)
+		framerate_buffer.erase(framerate_buffer.begin());
+
+	ms_buffer.push_back(last_frame_ms);
+	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
+		ms_buffer.erase(ms_buffer.begin());
 }
 
 void Application::GetHardWareData()
@@ -204,6 +227,10 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
+
+	framerate_buffer.clear();
+	ms_buffer.clear();
+
 	for (std::list<Module*>::reverse_iterator item = list_modules.rbegin(); item != list_modules.rend(); item++)
 	{
 		if (ret == true)
@@ -231,17 +258,29 @@ Module * Application::GetModuleAt(int id)
 	return nullptr;
 }
 
-void Application::PrintConfigData()
+void Application::DisplayConfigData()
 {
 	DisplayHardwareData();
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
+		ImVec2 size = ImGui::GetContentRegionAvail();
+		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 
+
+		char title[25];
+		sprintf_s(title, 25, "Framerate %.1f", framerate_buffer[framerate_buffer.size() - 1]);
+		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], framerate_buffer.size(), 0, title, 0.0f, 150.0f, ImVec2(size.x, 100));
+
+		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
+		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, 150.0f, ImVec2(size.x, 100));
 	}
+
+
 }
 
-void Application::AddModule(Module* mod)
+void Application::AddModule(Module* mod)  
 {
 	list_modules.push_back(mod);
 }

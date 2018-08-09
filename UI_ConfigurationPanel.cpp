@@ -26,7 +26,7 @@ bool UI_ConfigurationPanel::Update()
 
 	if (ImGui::BeginDock("Configuration"))
 	{
-		App->PrintConfigData();
+		App->DisplayConfigData();
 
 		for (int i = 0; App->GetModuleAt(i) != nullptr; i++)
 		{
