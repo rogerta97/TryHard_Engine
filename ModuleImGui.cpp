@@ -1,6 +1,7 @@
 #include "ModuleImGui.h"
 #include "ModuleWindow.h"
 #include "imgui_dock.h"
+#include "TextureMSAA.h"
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 
@@ -132,17 +133,8 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
 
 		//Update Panels 
-		ImGui::BeginDockspace();	
-		config_panel->Update();
-		ImGui::EndDockspace();
-
-		ImGui::BeginDockspace();
-		scene_panel->Update(); 
-		ImGui::EndDockspace();
-
-		ImGui::BeginDockspace();
-		console_panel->Update();
-		ImGui::EndDockspace();
+	
+	
 
 		if (show_style_editor)
 		{
@@ -153,7 +145,6 @@ update_status ModuleImGui::DrawDocking()
 			}
 			ImGui::EndDock();
 			ImGui::EndDockspace();
-
 		}
 
 		if (show_demo_window)
@@ -167,10 +158,23 @@ update_status ModuleImGui::DrawDocking()
 			ImGui::EndDockspace();
 
 		}
+
+		ImGui::BeginDockspace();
+		scene_panel->Update();
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); 
+
+		ImGui::BeginDockspace();
+		config_panel->Update();
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Bottom);
+
+		ImGui::BeginDockspace();
+		console_panel->Update();
+		ImGui::EndDockspace();
 	}
-
-
-
 	ImGui::End();
 
 	return update_status::UPDATE_CONTINUE;
