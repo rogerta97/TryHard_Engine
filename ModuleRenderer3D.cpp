@@ -1,5 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
+#include "TextureMSAA.h"
+#include "ModuleCamera3D.h"
+#include "OpenGL.h"
 #include "ModuleRenderer3D.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
@@ -7,6 +10,7 @@
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "Glew/libx86/glew32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled)
 {
@@ -29,6 +33,8 @@ bool ModuleRenderer3D::Init()
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+
+	glewInit(); 
 	
 	if(ret == true)
 	{
@@ -126,6 +132,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
+	App->camera->GetViewportTexture()->Bind();
 	return UPDATE_CONTINUE;
 }
 

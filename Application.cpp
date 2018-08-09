@@ -19,6 +19,7 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
@@ -32,6 +33,7 @@ Application::Application()
 	// Renderer last!
 	AddModule(imgui);
 	AddModule(renderer3D);
+
 
 }
 

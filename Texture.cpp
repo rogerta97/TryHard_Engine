@@ -17,7 +17,7 @@ void Texture::SetTextureID()
 
 unsigned int Texture::GetTextureID() const
 {
-	return 0;
+	return texture_id;
 }
 
 void Texture::SetWidth()

@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "glmath.h"
 
+class TextureMSAA; 
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -23,7 +25,7 @@ public:
 	void SetSpeed(float new_speed); 
 	float GetSpeed(); 
 
-	Texture* GetViewportTexture(); 
+	TextureMSAA* GetViewportTexture(); 
 
 private:
 
@@ -37,5 +39,5 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
-	Texture* viewport_texture; 
+	TextureMSAA* viewport_texture; 
 };

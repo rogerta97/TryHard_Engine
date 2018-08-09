@@ -41,10 +41,10 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 
-	Color plane_color(200, 100, 100);
+
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
-	p.color = Red;
+	p.color = { 0.8f,0.0f,1.0f };
 	p.Render();
 	 
 

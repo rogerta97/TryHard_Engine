@@ -1,6 +1,8 @@
 #include "UI_ScenePanel.h"
 #include "Application.h"
+#include "TextureMSAA.h"
 #include "ModuleWindow.h"
+#include "OpenGL.h"
 #include "imgui_dock.h"
 
 UI_ScenePanel::UI_ScenePanel()
@@ -21,31 +23,23 @@ bool UI_ScenePanel::Update()
 {
 	if (ImGui::BeginDock("Scene"))
 	{
-		//ImGui::SetNextWindowSize(ImVec2(App->window->screen_surface->w, App->window->screen_surface->h), ImGuiSetCond_FirstUseEver);
+		//Get size of the window
+		ImVec2 size = ImGui::GetContentRegionAvail();
 
-		//
-		//	//// Get the current cursor position (where your window is)
-		//	//ImVec2 pos = ImGui::GetCursorScreenPos();
+		//Render the texture
+		glEnable(GL_TEXTURE_2D);
+		if(App->camera->GetViewportTexture() != nullptr)
+		{
+			ImGui::Image((void*)App->camera->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
-		//	// A boolean to allow me to stop the game rendering
-		//	if (runApp) {
-		//		glViewport(0, 0, W, H);
-		//		// Render the scene into an FBO
-		//		game->render(time);
-		//		// Restore previous viewport
-		//		glViewport(0, 0, w, h);
-		//	}
-		//	// Get the texture associated to the FBO
-		//	auto tex = game->getRendered();
-
-		//	// Ask ImGui to draw it as an image:
-		//	// Under OpenGL the ImGUI image type is GLuint
-		//	// So make sure to use "(void *)tex" but not "&tex"
-		//	ImGui::GetWindowDrawList()->AddImage((void *)tex, ImVec2(ImGui::GetItemRectMin().x + pos.x, ImGui::GetItemRectMin().y + pos.y),
-		//		ImVec2(pos.x + h / 2, pos.y + w / 2), ImVec2(0, 1), ImVec2(1, 0));
+			App->camera->GetViewportTexture()->Render();
+			//App->camera->GetViewportTexture()->Unbind();
+		}
+		glDisable(GL_TEXTURE_2D);
 	
 	}
 	ImGui::EndDock();
+	App->camera->GetViewportTexture()->Unbind();
 
 	return true;
 }

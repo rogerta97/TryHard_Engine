@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "TextureMSAA.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
 
@@ -22,6 +23,9 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
+	viewport_texture = new TextureMSAA(); 
+	viewport_texture->Create(App->window->screen_surface->w, App->window->screen_surface->h, 2);
 
 	return ret;
 }
@@ -160,9 +164,9 @@ float ModuleCamera3D::GetSpeed()
 	return speed;
 }
 
-Texture * ModuleCamera3D::GetViewportTexture()
+TextureMSAA * ModuleCamera3D::GetViewportTexture()
 {
-	return nullptr;
+	return viewport_texture;
 }
 
 // -----------------------------------------------------------------
