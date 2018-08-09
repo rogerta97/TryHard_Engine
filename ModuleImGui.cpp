@@ -6,6 +6,7 @@
 
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
+#include "UI_ConsolePanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -26,8 +27,9 @@ bool ModuleImGui::Start()
 	show_style_editor = false;
 
 	//Initialize Panels 
-	config_panel = new UI_ConfigurationPanel(); 
+	config_panel = new UI_ConfigurationPanel(); config_panel->Start(); 
 	scene_panel = new UI_ScenePanel(); 
+	console_panel = new UI_ConsolePanel(); console_panel->Start(); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -82,7 +84,7 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Edit"))
+	if (ImGui::BeginMenu("View"))
 	{
 		if (ImGui::MenuItem("Configuration"))
 		{
@@ -92,6 +94,11 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Style"))
 		{
 			show_style_editor = !show_style_editor; 
+		}
+
+		if (ImGui::MenuItem("Console"))
+		{
+			console_panel->show = !console_panel->show;
 		}
 
 		ImGui::EndMenu();
@@ -124,9 +131,6 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetWindowPos(ImVec2(-5, offset));
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
 
-		// dock layout by hard-coded or .ini file
-
-
 		//Update Panels 
 		ImGui::BeginDockspace();	
 		config_panel->Update();
@@ -134,6 +138,10 @@ update_status ModuleImGui::DrawDocking()
 
 		ImGui::BeginDockspace();
 		scene_panel->Update(); 
+		ImGui::EndDockspace();
+
+		ImGui::BeginDockspace();
+		console_panel->Update();
 		ImGui::EndDockspace();
 
 		if (show_style_editor)

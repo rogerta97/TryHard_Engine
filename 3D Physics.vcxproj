@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Glew\include\eglew.h" />
     <ClInclude Include="Glew\include\glew.h" />
     <ClInclude Include="Glew\include\glxew.h" />
@@ -107,11 +108,13 @@
     <ClInclude Include="TextureMSAA.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
+    <ClInclude Include="UI_ConsolePanel.h" />
     <ClInclude Include="UI_Panel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -135,6 +138,7 @@
     <ClCompile Include="TextureMSAA.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
+    <ClCompile Include="UI_ConsolePanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
   </ItemGroup>
   <ItemGroup>

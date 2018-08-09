@@ -140,6 +140,12 @@
     <ClInclude Include="Glew\include\wglew.h">
       <Filter>Sources\3rd Partys\glew</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ConsolePanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -216,6 +222,12 @@
     </ClCompile>
     <ClCompile Include="TextureMSAA.cpp">
       <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ConsolePanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
