@@ -7,6 +7,7 @@
 
 UI_ScenePanel::UI_ScenePanel()
 {
+	type = Panel_Types::CONFIGURATION_PANEL;
 }
 
 UI_ScenePanel::~UI_ScenePanel()

@@ -4,6 +4,7 @@
 
 UI_ConfigurationPanel::UI_ConfigurationPanel()
 {
+	type = Panel_Types::CONFIGURATION_PANEL;
 }
 
 UI_ConfigurationPanel::~UI_ConfigurationPanel()

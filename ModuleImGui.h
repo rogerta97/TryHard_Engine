@@ -6,6 +6,11 @@
 class UI_ConfigurationPanel; 
 class UI_ScenePanel; 
 class UI_ConsolePanel;
+class UI_Panel;
+
+enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL };
+
+
 
 class ModuleImGui : public Module
 {
@@ -17,6 +22,8 @@ public:
 	update_status Update(float dt);
 	update_status PreUpdate(float dt);
 	bool CleanUp();
+
+	UI_Panel* AddPanel(Panel_Types type);
 
 	// Utility
 
@@ -30,6 +37,8 @@ private:
 
 	bool show_demo_window = false; 
 	bool show_style_editor = false; 
+
+	std::list<UI_Panel*> panels_list;
 
 	UI_ConfigurationPanel* config_panel; 
 	UI_ScenePanel* scene_panel; 

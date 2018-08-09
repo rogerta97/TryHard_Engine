@@ -5,12 +5,16 @@
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 
+#include "UI_Panel.h"
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_ConsolePanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
+
+
+
 
 ModuleImGui::ModuleImGui(bool start_enabled)
 {
@@ -28,9 +32,18 @@ bool ModuleImGui::Start()
 	show_style_editor = false;
 
 	//Initialize Panels 
-	config_panel = new UI_ConfigurationPanel(); config_panel->Start(); 
-	scene_panel = new UI_ScenePanel(); 
-	console_panel = new UI_ConsolePanel(); console_panel->Start(); 
+
+	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
+	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
+	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
+
+	std::list<UI_Panel*>::iterator panel = panels_list.begin();
+
+	while (panel != panels_list.end())
+	{
+		(*panel)->Start();
+		panel++;
+	}
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -70,6 +83,29 @@ bool ModuleImGui::CleanUp()
 
 	return true;
 }
+
+UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
+{
+	UI_Panel* panel = nullptr;
+	switch (type)
+	{
+	case CONFIGURATION_PANEL:
+		panel = new UI_ConfigurationPanel();
+		break;
+	case SCENE_PANEL:
+		panel = new UI_ScenePanel();
+		break;
+	case CONSOLE_PANEL:
+		panel = new UI_ConsolePanel();
+		break;
+	default:
+		break;
+	}
+
+	panels_list.push_back(panel);
+	return panel;
+}
+
 
 update_status ModuleImGui::DrawTopBar()
 {
@@ -133,8 +169,16 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
 
 		//Update Panels 
-	
-	
+		std::list<UI_Panel*>::iterator panel = panels_list.begin();
+		while (panel != panels_list.end())
+		{
+			ImGui::BeginDockspace();
+			(*panel)->Update();
+			ImGui::EndDockspace();
+			ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
+			
+			panel++;
+		}
 
 		if (show_style_editor)
 		{
@@ -159,11 +203,11 @@ update_status ModuleImGui::DrawDocking()
 
 		}
 
-		ImGui::BeginDockspace();
+		/*ImGui::BeginDockspace();
 		scene_panel->Update();
-		ImGui::EndDockspace();
+		ImGui::EndDockspace();*/
 
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); 
+	/*	ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); 
 
 		ImGui::BeginDockspace();
 		config_panel->Update();
@@ -173,7 +217,7 @@ update_status ModuleImGui::DrawDocking()
 
 		ImGui::BeginDockspace();
 		console_panel->Update();
-		ImGui::EndDockspace();
+		ImGui::EndDockspace();*/
 	}
 	ImGui::End();
 
