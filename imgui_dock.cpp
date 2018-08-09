@@ -1311,7 +1311,7 @@ void ImGui::SetNextDock(const char* panel , ImGuiDockSlot slot) {
 	}
 }
 
-bool ImGui::BeginDockspace()
+bool ImGui::BeginDockspace(ImVec2 size)
 {
     ImGuiContext& g = *GImGui;
 	cur_dock_panel = g.CurrentWindow->Name;
@@ -1323,7 +1323,7 @@ bool ImGui::BeginDockspace()
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar;
 	char child_name[1024];
 	sprintf( child_name , "##%s" , cur_dock_panel );
-	bool result = BeginChild( child_name , ImVec2( 0 , 0 ) , false , flags );
+	bool result = BeginChild( child_name , size , false , flags );
 
 	DockContext& dock = g_docklist[cur_dock_panel];
 	dock.m_workspace_pos = GetWindowPos();

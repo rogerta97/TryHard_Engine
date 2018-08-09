@@ -169,7 +169,7 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
 
 		//Update Panels 
-		std::list<UI_Panel*>::iterator panel = panels_list.begin();
+		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();
 		while (panel != panels_list.end())
 		{
 			ImGui::BeginDockspace();
@@ -178,7 +178,7 @@ update_status ModuleImGui::DrawDocking()
 			ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
 			
 			panel++;
-		}
+		}*/
 
 		if (show_style_editor)
 		{
@@ -203,23 +203,32 @@ update_status ModuleImGui::DrawDocking()
 
 		}
 
-		/*ImGui::BeginDockspace();
-		scene_panel->Update();
-		ImGui::EndDockspace();*/
-
-	/*	ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); 
-
 		ImGui::BeginDockspace();
-		config_panel->Update();
+		scene_panel->Update();
 		ImGui::EndDockspace();
 
 		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Bottom);
 
 		ImGui::BeginDockspace();
+		config_panel->Update(); 
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Scene", ImGuiDockSlot::ImGuiDockSlot_Right);
+
+		ImGui::BeginDockspace();
 		console_panel->Update();
-		ImGui::EndDockspace();*/
+		ImGui::EndDockspace();
 	}
 	ImGui::End();
+
+
+
+	
+
+		
+
+	
+
 
 	return update_status::UPDATE_CONTINUE;
 }

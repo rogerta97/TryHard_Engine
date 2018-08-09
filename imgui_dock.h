@@ -21,7 +21,7 @@ typedef enum ImGuiDockSlot {
 
 namespace ImGui{
 
-IMGUI_API bool BeginDockspace();
+IMGUI_API bool BeginDockspace(ImVec2 dimensions = ImVec2(0,0));
 IMGUI_API void EndDockspace();
 IMGUI_API void ShutdownDock();
 IMGUI_API void SetNextDock( const char* dock_panel , ImGuiDockSlot slot ); //dock_panel will be the parent panel in which the window will be splited. Call it after EndDockSpace() & Before BeginDockSpace()
