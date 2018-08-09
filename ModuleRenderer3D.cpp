@@ -177,3 +177,13 @@ void ModuleRenderer3D::SetUIPrintSettings()
 	glDisable(GL_COLOR_MATERIAL);
 	glShadeModel(GL_SMOOTH);
 }
+
+char* ModuleRenderer3D::GetGraphicsModel()
+{
+	return (char*)glGetString(GL_RENDERER);
+}
+
+char * ModuleRenderer3D::GetGraphicsVendor()
+{
+	return (char*)glGetString(GL_VENDOR);;
+}

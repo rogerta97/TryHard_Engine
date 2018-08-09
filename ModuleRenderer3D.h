@@ -20,6 +20,9 @@ public:
 	void OnResize(int width, int height);
 	void SetUIPrintSettings(); 
 
+	char* GetGraphicsModel();
+	char* GetGraphicsVendor();
+
 public:
 
 	Light lights[MAX_LIGHTS];

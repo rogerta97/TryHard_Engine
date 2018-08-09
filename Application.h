@@ -50,4 +50,15 @@ private:
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
+	void GetHardWareData();
+	void DisplayHardwareData();
+
+private:
+
+	//Hardware
+	float total_video_mem = -1.0f;
+	float current_video_mem = -1.0f;
+	float available_video_mem = -1.0f;
+	float reserved_video_mem = -1.0f;
 };
