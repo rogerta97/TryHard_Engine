@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "Globals.h"
+#include "ModuleImGui.h"
 
 class UI_Panel
 {
@@ -19,6 +20,8 @@ public:
 		return true;
 	}
 
-	bool show; 
+	Panel_Types type;
+
+	bool show;
 };
 

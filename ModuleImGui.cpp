@@ -4,11 +4,15 @@
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 
+#include "UI_Panel.h"
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
+
+
+
 
 ModuleImGui::ModuleImGui(bool start_enabled)
 {
@@ -26,8 +30,8 @@ bool ModuleImGui::Start()
 	show_style_editor = false;
 
 	//Initialize Panels 
-	config_panel = new UI_ConfigurationPanel(); 
-	scene_panel = new UI_ScenePanel(); 
+	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
+	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle(); 
@@ -67,6 +71,26 @@ bool ModuleImGui::CleanUp()
 
 	return true;
 }
+
+UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
+{
+	UI_Panel* panel = nullptr;
+	switch (type)
+	{
+	case CONFIGURATION_PANEL:
+		panel = new UI_ConfigurationPanel();
+		break;
+	case SCENE_PANEL:
+		panel = new UI_ScenePanel();
+		break;
+	default:
+		break;
+	}
+
+	panels_list.push_back(panel);
+	return panel;
+}
+
 
 update_status ModuleImGui::DrawTopBar()
 {
@@ -128,13 +152,16 @@ update_status ModuleImGui::DrawDocking()
 
 
 		//Update Panels 
-		ImGui::BeginDockspace();	
-		config_panel->Update();
-		ImGui::EndDockspace();
+		std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
-		ImGui::BeginDockspace();
-		scene_panel->Update(); 
-		ImGui::EndDockspace();
+		while (panel != panels_list.end())
+		{
+			ImGui::BeginDockspace();
+			(*panel)->Update();
+			ImGui::EndDockspace();
+			
+			panel++;
+		}
 
 		if (show_style_editor)
 		{
