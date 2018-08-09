@@ -37,6 +37,9 @@
     <Filter Include="Sources\3rd Partys\glew">
       <UniqueIdentifier>{d0acad12-b077-44e3-9514-e0f8b204b32b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\DeviceId">
+      <UniqueIdentifier>{1bad6b33-8d20-423c-9792-34beaafc0868}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -140,6 +143,12 @@
     <ClInclude Include="Glew\include\wglew.h">
       <Filter>Sources\3rd Partys\glew</Filter>
     </ClInclude>
+    <ClInclude Include="DeviceId\DeviceId.h">
+      <Filter>Sources\3rd Partys\DeviceId</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceId\dxgi1_4.h">
+      <Filter>Sources\3rd Partys\DeviceId</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -216,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="TextureMSAA.cpp">
       <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceId\DeviceId.cpp">
+      <Filter>Sources\3rd Partys\DeviceId</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
