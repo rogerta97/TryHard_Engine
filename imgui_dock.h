@@ -25,7 +25,7 @@ IMGUI_API bool BeginDockspace(ImVec2 dimensions = ImVec2(0,0));
 IMGUI_API void EndDockspace();
 IMGUI_API void ShutdownDock();
 IMGUI_API void SetNextDock( const char* dock_panel , ImGuiDockSlot slot ); //dock_panel will be the parent panel in which the window will be splited. Call it after EndDockSpace() & Before BeginDockSpace()
-IMGUI_API bool BeginDock(const char* label, bool* opened = NULL, ImGuiWindowFlags extra_flags = 0);
+IMGUI_API bool BeginDock(const char* label, bool* opened = NULL, ImGuiWindowFlags extra_flags = 0, int extra_pixels = -1);
 IMGUI_API void EndDock();
 IMGUI_API void DockDebugWindow(const char* dock_panel);
 IMGUI_API void InitDock();

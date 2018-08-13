@@ -14,7 +14,7 @@ UI_ConfigurationPanel::~UI_ConfigurationPanel()
 bool UI_ConfigurationPanel::Start()
 {
 	show = true; 
-	CONSOLE_DEBUG("configuration started"); 
+	CONSOLE_DEBUG("configuration started");
 
 	return true;
 }
@@ -24,7 +24,7 @@ bool UI_ConfigurationPanel::Update()
 	if (show == false)
 		return false; 
 
-	if (ImGui::BeginDock("Configuration"))
+	if (ImGui::BeginDock("Configuration",NULL,NULL))
 	{
 
 		CONSOLE_DEBUG("%f", ImGui::GetContentRegionAvail().x); 

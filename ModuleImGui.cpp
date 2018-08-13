@@ -76,6 +76,128 @@ update_status ModuleImGui::Update(float dt)
 	return update_status::UPDATE_CONTINUE;
 }
 
+update_status ModuleImGui::DrawTopBar()
+{
+	ImGui::BeginMainMenuBar();
+
+	if (ImGui::BeginMenu("Files"))
+	{
+		if (ImGui::MenuItem("Exit", "Shift + Esc"))
+		{
+			return UPDATE_STOP;
+		}
+
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("View"))
+	{
+		if (ImGui::MenuItem("Configuration"))
+		{
+			config_panel->show = !config_panel->show;
+		}
+
+		if (ImGui::MenuItem("Style"))
+		{
+			show_style_editor = !show_style_editor;
+		}
+
+		if (ImGui::MenuItem("Console"))
+		{
+			console_panel->show = !console_panel->show;
+		}
+
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Documentation"))
+	{
+		if (ImGui::MenuItem("ImGui Demo"))
+		{
+			show_demo_window = !show_demo_window;
+		}
+
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMainMenuBar();
+
+	return UPDATE_CONTINUE;
+
+}
+
+update_status ModuleImGui::DrawDocking()
+{
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoMove;
+
+	if (ImGui::Begin("Dock Demo", 0, window_flags))
+	{
+		float offset = 18.0f;
+		ImGui::SetWindowPos(ImVec2(-5, offset));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
+
+		//Update Panels 
+		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();
+		while (panel != panels_list.end())
+		{
+		ImGui::BeginDockspace();
+		(*panel)->Update();
+		ImGui::EndDockspace();
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
+
+		panel++;
+		}*/
+
+		if (show_style_editor)
+		{
+			ImGui::BeginDockspace();
+			if (ImGui::BeginDock("Style Editor", &show_style_editor))
+			{
+				ImGui::ShowStyleEditor();
+			}
+			ImGui::EndDock();
+			ImGui::EndDockspace();
+		}
+
+		if (show_demo_window)
+		{
+			ImGui::BeginDockspace();
+			if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+			{
+				ImGui::ShowTestWindow();
+			}
+			ImGui::EndDock();
+			ImGui::EndDockspace();
+
+		}
+
+		ImGui::BeginDockspace();
+		console_panel->Update();
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Top);
+
+		ImGui::BeginDockspace();
+		scene_panel->Update();
+		ImGui::EndDockspace();
+
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
+
+		ImGui::BeginDockspace();
+		config_panel->Update();
+		ImGui::EndDockspace();
+
+		//ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); To add it as a tab in the same dock
+
+	}
+	ImGui::End();
+
+	return update_status::UPDATE_CONTINUE;
+}
+
+
+
 bool ModuleImGui::CleanUp()
 {
 
@@ -107,129 +229,5 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 }
 
 
-update_status ModuleImGui::DrawTopBar()
-{
-	ImGui::BeginMainMenuBar(); 
 
-	if (ImGui::BeginMenu("Files"))
-	{
-		if (ImGui::MenuItem("Exit", "Shift + Esc"))
-		{
-			return UPDATE_STOP;
-		}
-	
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("View"))
-	{
-		if (ImGui::MenuItem("Configuration"))
-		{
-			config_panel->show = !config_panel->show;
-		}
-
-		if (ImGui::MenuItem("Style"))
-		{
-			show_style_editor = !show_style_editor; 
-		}
-
-		if (ImGui::MenuItem("Console"))
-		{
-			console_panel->show = !console_panel->show;
-		}
-
-		ImGui::EndMenu();
-	}
-
-	if (ImGui::BeginMenu("Documentation"))
-	{
-		if (ImGui::MenuItem("ImGui Demo"))
-		{
-			show_demo_window = !show_demo_window; 
-		}
-
-		ImGui::EndMenu();
-	}
-
-	ImGui::EndMainMenuBar(); 
-
-	return UPDATE_CONTINUE;
-
-}
-
-update_status ModuleImGui::DrawDocking()
-{
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
-	window_flags |= ImGuiWindowFlags_NoMove;
-
-	if (ImGui::Begin("Dock Demo", 0, window_flags))
-	{
-		float offset = 18.0f;
-		ImGui::SetWindowPos(ImVec2(-5, offset));
-		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
-
-		//Update Panels 
-		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();
-		while (panel != panels_list.end())
-		{
-			ImGui::BeginDockspace();
-			(*panel)->Update();
-			ImGui::EndDockspace();
-			ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
-			
-			panel++;
-		}*/
-
-		if (show_style_editor)
-		{
-			ImGui::BeginDockspace();
-			if (ImGui::BeginDock("Style Editor", &show_style_editor))
-			{
-				ImGui::ShowStyleEditor();
-			}
-			ImGui::EndDock();
-			ImGui::EndDockspace();
-		}
-
-		if (show_demo_window)
-		{
-			ImGui::BeginDockspace();
-			if (ImGui::BeginDock("Demo Editor", &show_demo_window))
-			{
-				ImGui::ShowTestWindow();
-			}
-			ImGui::EndDock();
-			ImGui::EndDockspace();
-
-		}
-
-		ImGui::BeginDockspace();
-		scene_panel->Update();
-		ImGui::EndDockspace();
-
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Bottom);
-
-		ImGui::BeginDockspace();
-		config_panel->Update(); 
-		ImGui::EndDockspace();
-
-		ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
-
-		ImGui::BeginDockspace();
-		console_panel->Update();
-		ImGui::EndDockspace();
-	}
-	ImGui::End();
-
-
-
-	
-
-		
-
-	
-
-
-	return update_status::UPDATE_CONTINUE;
-}
 
