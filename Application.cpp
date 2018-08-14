@@ -60,7 +60,7 @@ bool Application::Init()
 	}
 
 	// After all Init calls we call Start() in all modules
-	LOG("Application Start --------------");
+	CONSOLE_LOG("Application Start --------------");
 	item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == true)
@@ -269,12 +269,16 @@ void Application::DisplayConfigData()
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 
 
+		ImGui::GetStyle().FrameRounding = 0;
+
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", framerate_buffer[framerate_buffer.size() - 1]);
+		sprintf_s(title, 25, "Framerate %.1f", framerate_buffer[framerate_buffer.size() - 1]);	
 		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], framerate_buffer.size(), 0, title, 0.0f, 150.0f, ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, 150.0f, ImVec2(size.x, 100));
+
+		ImGui::GetStyle().FrameRounding = 80;
 	}
 
 

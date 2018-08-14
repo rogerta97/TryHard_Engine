@@ -53,7 +53,7 @@ bool ModuleImGui::Start()
 
 void ModuleImGui::SetDefaultStyle()
 {
-	ImGui::StyleColorsClassic();
+	ImGui::StyleColorsDark();
 }
 
 update_status ModuleImGui::PreUpdate(float dt)
@@ -135,7 +135,7 @@ update_status ModuleImGui::DrawDocking()
 	{
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
-		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w + 5, App->window->screen_surface->h - offset));
+		ImGui::SetWindowSize(ImVec2(App->window->GetWidth() + 8, App->window->GetHeight() + offset));
 
 		//Update Panels 
 		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();

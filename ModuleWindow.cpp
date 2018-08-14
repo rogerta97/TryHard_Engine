@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "imgui_dock.h"
 #include "ModuleWindow.h"
 
 ModuleWindow::ModuleWindow(bool start_enabled)
@@ -16,19 +17,22 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Init()
 {
-	LOG("Init SDL window & surface");
+	CONSOLE_LOG("Init SDL window & surface");
 	bool ret = true;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		CONSOLE_LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		width = SCREEN_WIDTH * SCREEN_SIZE;
+		height = SCREEN_HEIGHT * SCREEN_SIZE;
+		size_modified = false; 
+		borderless = false; 
+		display_mode = DISPLAY_WINDOWED; 
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
@@ -59,7 +63,7 @@ bool ModuleWindow::Init()
 
 		if(window == NULL)
 		{
-			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			CONSOLE_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
 		}
 		else
@@ -75,7 +79,7 @@ bool ModuleWindow::Init()
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {
-	LOG("Destroying SDL window and quitting all SDL systems");
+	CONSOLE_LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
 	if(window != NULL)
@@ -91,4 +95,68 @@ bool ModuleWindow::CleanUp()
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+}
+
+void ModuleWindow::PrintConfigData()
+{
+	if(ImGui::CollapsingHeader("Window"))
+	{
+		if (size_modified)
+			ResizeWindow(width, height);
+		
+		if (ImGui::DragInt("Width", &width, 1, 1, 10000))
+			size_modified = true;
+
+		if(ImGui::DragInt("Height", &height, 1, 1, 10000))
+			size_modified = true;	
+
+		ImGui::Separator();
+
+		int dm = display_mode; 
+		if (ImGui::Combo("Display Mode", &dm, "Fullscreen\0Fullscreen Windowed\0Windowed"))
+		{
+			Uint32 flags; 
+
+			switch (dm)
+			{
+			case DISPLAY_FULLSCREEN:
+				//It looks like shit we should work on resolution
+				flags |= SDL_WINDOW_FULLSCREEN;
+				SDL_SetWindowFullscreen(window, flags); 
+				break; 
+
+			case DISPLAY_FULLSCREEN_WINDOWED:
+				SDL_DisplayMode mode; 
+				SDL_GetDesktopDisplayMode(0, &mode);
+				SDL_SetWindowPosition(window, 0, 0); 
+				ResizeWindow(mode.w, mode.h); 
+				break;
+
+			case DISPLAY_WINDOWED:
+				SDL_SetWindowPosition(window, 400, 100);
+				ResizeWindow(1200, 1200);
+				break;
+			}
+
+
+			display_mode = (Display_Mode)dm; 
+		}
+	}
+}
+
+void ModuleWindow::ResizeWindow(int new_width, int new_height)
+{
+	SDL_SetWindowSize(window, new_width, new_height); 
+	width = new_width; 
+	height = new_height;
+}
+
+int ModuleWindow::GetWidth() const
+{
+	return width;
+}
+
+int ModuleWindow::GetHeight() const
+{
+	return height;
 }

@@ -44,7 +44,7 @@ bool UI_ConsolePanel::Update()
 		}
 		ImGui::SameLine(); 
 
-		//Log Button
+		//CONSOLE_LOG Button
 		btn_name = "Log(" + std::to_string(App->imgui->console.GetLogCount()) + ")";
 		if (ImGui::Button(btn_name.c_str()))
 		{
