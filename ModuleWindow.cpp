@@ -3,6 +3,7 @@
 #include "imgui_dock.h"
 #include "ModuleWindow.h"
 
+
 ModuleWindow::ModuleWindow(bool start_enabled)
 {
 	window = NULL;
@@ -30,8 +31,12 @@ bool ModuleWindow::Init()
 		//Create window
 		width = SCREEN_WIDTH * SCREEN_SIZE;
 		height = SCREEN_HEIGHT * SCREEN_SIZE;
-		size_modified = false; 
-		borderless = false; 
+		size_modified = false; 	
+		brightness = 1.0f; 
+
+		resizable = WIN_RESIZABLE; 
+		borderless = WIN_BORDERLESS;
+
 		display_mode = DISPLAY_WINDOWED; 
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
@@ -39,22 +44,22 @@ bool ModuleWindow::Init()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
+		if(display_mode == DISPLAY_FULLSCREEN)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if(display_mode == DISPLAY_FULLSCREEN_WINDOWED)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
@@ -137,9 +142,22 @@ void ModuleWindow::PrintConfigData()
 				ResizeWindow(1200, 1200);
 				break;
 			}
-
-
 			display_mode = (Display_Mode)dm; 
+		}
+
+		if (ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f, "%.2f"))
+		{
+			SDL_SetWindowBrightness(window, brightness); 
+		}
+
+		if (ImGui::Checkbox("Borderless", &borderless))
+		{				
+			SDL_SetWindowBordered(window, (SDL_bool)!borderless);
+		} ImGui::SameLine(); 
+
+		if (ImGui::Checkbox("Resizable", &resizable))
+		{
+	
 		}
 	}
 }

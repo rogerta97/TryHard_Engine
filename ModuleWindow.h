@@ -43,7 +43,8 @@ private:
 
 	int width, height; 
 	Display_Mode display_mode;
-	bool borderless; 
+	bool borderless, resizable; 
+	float brightness; 
 
 	bool size_modified; 
 };

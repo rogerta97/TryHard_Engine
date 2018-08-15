@@ -284,6 +284,11 @@ void Application::DisplayConfigData()
 
 }
 
+void Application::OpenWebBrowser(const char * web)
+{
+	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW); 
+}
+
 void Application::AddModule(Module* mod)  
 {
 	list_modules.push_back(mod);

@@ -110,15 +110,29 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::BeginMenu("Documentation"))
+	if (ImGui::BeginMenu("Help"))
 	{
 		if (ImGui::MenuItem("ImGui Demo"))
 		{
 			show_demo_window = !show_demo_window;
 		}
 
+		if (ImGui::MenuItem("GitHub Repo"))
+		{
+			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine");
+		}
+
+			
+		if (ImGui::MenuItem("Report a Bug!"))
+		{
+			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new"); 
+		}
+
 		ImGui::EndMenu();
 	}
+
+
+
 
 	ImGui::EndMainMenuBar();
 
@@ -200,7 +214,6 @@ update_status ModuleImGui::DrawDocking()
 
 bool ModuleImGui::CleanUp()
 {
-
 	ImGui_ImplSdlGL2_Shutdown();
 
 	return true;

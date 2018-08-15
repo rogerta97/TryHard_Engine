@@ -61,6 +61,8 @@ public:
 	Module* GetModuleAt(int id);
 	void DisplayConfigData();
 
+	void OpenWebBrowser(const char* web); 
+
 private:
 
 	void AddModule(Module* mod);
