@@ -270,7 +270,7 @@ void Application::DisplayConfigData()
 	{
 		if (ImGui::InputText("Engine name", (char*)name.c_str(), name.size()))
 			UpdateAppName();
-
+		
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);

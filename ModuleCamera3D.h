@@ -27,10 +27,14 @@ public:
 
 	TextureMSAA* GetViewportTexture(); 
 
+	void LockCamera(); 
+	void UnlockCamera(); 
+
 private:
 
 	void CalculateViewMatrix();
-	float speed = 0.1f; 
+	float speed = 0.1f;
+	bool locked; 
 
 public:
 	

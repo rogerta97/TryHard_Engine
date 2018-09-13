@@ -51,58 +51,56 @@ void ModuleCamera3D::PrintConfigData()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	if (locked == true)
+		return update_status::UPDATE_CONTINUE;
+
 	vec3 point_look = { 0, 0, 0};
 	bool moved = false; 
 	
 	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
-
 	CalculateViewMatrix(); 
 
 	//Camera WASD & ER input
-
 	vec3 increment = { 0,0,0 }; 
 
 	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
-		increment = Z * -GetSpeed(); 
+		increment += Z * -GetSpeed(); 
 		moved = true; 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S))
 	{
-		increment = Z * GetSpeed();
+		increment += Z * GetSpeed();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A))
 	{
-		increment = X * -GetSpeed();
+		increment += X * -GetSpeed();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D))
 	{
-		increment = X * GetSpeed();
+		increment += X * GetSpeed();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_E))
 	{
-		increment = Y * GetSpeed();
+		increment += Y * GetSpeed();
 		moved = true;
 	}
-
 
 	if (App->input->GetKey(SDL_SCANCODE_R))
 	{
-		increment = Y * -GetSpeed();
+		increment += Y * -GetSpeed();
 		moved = true;
 	}
 
-	if(moved) Move(increment);
-
-	//Create texture for window rendering 
-	
+	if(moved)
+		Move(increment);
 
 	return UPDATE_CONTINUE;
 }
@@ -167,6 +165,16 @@ float ModuleCamera3D::GetSpeed()
 TextureMSAA * ModuleCamera3D::GetViewportTexture()
 {
 	return viewport_texture;
+}
+
+void ModuleCamera3D::LockCamera()
+{
+	locked = true; 
+}
+
+void ModuleCamera3D::UnlockCamera()
+{
+	locked = false; 
 }
 
 // -----------------------------------------------------------------
