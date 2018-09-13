@@ -20,6 +20,8 @@ public:
 	uint GetDebugCount() const;
 	uint GetErrorCount() const;
 
+	void Clear(); 
+
 private: 
 
 	unsigned int log_count, debug_count, error_count; 

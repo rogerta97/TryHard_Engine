@@ -42,3 +42,9 @@ uint Console::GetErrorCount() const
 {
 	return error_count;
 }
+
+void Console::Clear()
+{
+	console_buffer.clear();
+	log_count = debug_count = error_count = 0; 
+}

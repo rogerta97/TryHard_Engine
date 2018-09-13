@@ -58,9 +58,20 @@ bool UI_ConsolePanel::Update()
 		{
 			show_error = !show_error;
 		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Clear"))
+		{
+			App->imgui->console.Clear();
+		}
 		
 		if (App->imgui->console.GetBuffer().size() == 0)
+		{
+			ImGui::EndDock();
 			return true;
+		}
+			
 
 		for (auto it = App->imgui->console.console_buffer.begin(); it != App->imgui->console.console_buffer.end(); it++)
 		{
