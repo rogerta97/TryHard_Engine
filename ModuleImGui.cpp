@@ -56,6 +56,12 @@ void ModuleImGui::SetDefaultStyle()
 	ImGui::StyleColorsDark();
 }
 
+void ModuleImGui::SendInput(SDL_Event * e) const
+{
+	ImGui_ImplSdlGL2_ProcessEvent(e);
+}
+
+
 update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);

@@ -14,6 +14,7 @@
 #include "ModuleCamera3D.h"
 
 #include <list>
+#include <string>
 #include <vector>
 
 #define HISTOGRAM_FR_LENGHT 50
@@ -32,6 +33,8 @@ public:
 	ModuleCamera3D* camera;
 
 private:
+	
+	std::string name;
 
 	Timer	ms_timer;
 
@@ -60,6 +63,8 @@ public:
 
 	Module* GetModuleAt(int id);
 	void DisplayConfigData();
+
+	void UpdateAppName(); 
 
 	void OpenWebBrowser(const char* web); 
 

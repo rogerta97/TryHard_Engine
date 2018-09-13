@@ -50,6 +50,10 @@ bool Application::Init()
 {
 	bool ret = true;
 
+	//Load title name from globals
+	name = TITLE; 
+	UpdateAppName(); 
+
 	// Call Init() in all modules
 	std::list<Module*>::iterator item = list_modules.begin();
 
@@ -264,10 +268,12 @@ void Application::DisplayConfigData()
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
+		if (ImGui::InputText("Engine name", (char*)name.c_str(), name.size()))
+			UpdateAppName();
+
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
-
 
 		ImGui::GetStyle().FrameRounding = 0;
 
@@ -282,6 +288,11 @@ void Application::DisplayConfigData()
 	}
 
 
+}
+
+void Application::UpdateAppName()
+{
+	SDL_SetWindowTitle(App->window->window, name.c_str()); 	
 }
 
 void Application::OpenWebBrowser(const char * web)
