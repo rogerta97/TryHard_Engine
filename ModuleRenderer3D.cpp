@@ -28,6 +28,8 @@ bool ModuleRenderer3D::Init()
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
+
+
 	if(context == NULL)
 	{
 		CONSOLE_ERROR("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -39,6 +41,7 @@ bool ModuleRenderer3D::Init()
 	if(ret == true)
 	{
 		ImGui::CreateContext();
+
 
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)

@@ -35,6 +35,7 @@ public:
 private:
 	
 	std::string name;
+	std::string org;
 
 	Timer	ms_timer;
 

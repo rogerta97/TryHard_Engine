@@ -177,6 +177,11 @@ void ModuleCamera3D::UnlockCamera()
 	locked = false; 
 }
 
+bool ModuleCamera3D::IsLocked()
+{
+	return locked;
+}
+
 // -----------------------------------------------------------------
 void ModuleCamera3D::CalculateViewMatrix()
 {

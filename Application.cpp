@@ -53,6 +53,8 @@ bool Application::Init()
 	//Load title name from globals
 	name = TITLE; 
 	UpdateAppName(); 
+	
+	org = "Concha La Lora"; 
 
 	// Call Init() in all modules
 	std::list<Module*>::iterator item = list_modules.begin();
@@ -265,12 +267,32 @@ Module * Application::GetModuleAt(int id)
 void Application::DisplayConfigData()
 {
 	DisplayHardwareData();
+	bool is_out = true; 
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		if (ImGui::InputText("Engine name", (char*)name.c_str(), name.size()))
-			UpdateAppName();
+		ImGui::InputText("Engine name", (char*)name.c_str(), name.size());
+		UpdateAppName();
+
+		if (ImGui::IsInputTextFocused())
+		{
+			App->camera->LockCamera(); 
+			is_out = false; 
+		}
+
+		ImGui::InputText("Organization", (char*)org.c_str(), org.size());
+
+		if (ImGui::IsInputTextFocused())
+		{
+			App->camera->LockCamera();
+			is_out = false; 
+		}
 		
+		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			App->camera->UnlockCamera();
+		}
+
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);

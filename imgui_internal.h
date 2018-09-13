@@ -704,6 +704,7 @@ struct ImGuiContext
     int                     DragDropAcceptFrameCount;           // Last time a target expressed a desire to accept the source
     ImVector<unsigned char> DragDropPayloadBufHeap;             // We don't expose the ImVector<> directly
     unsigned char           DragDropPayloadBufLocal[8];         // Local buffer for small payloads
+	bool					InputTextFocused;					// If input text is focused
 
     // Widget state
     ImGuiTextEditState      InputTextState;

@@ -29,6 +29,7 @@ public:
 
 	void LockCamera(); 
 	void UnlockCamera(); 
+	bool IsLocked(); 
 
 private:
 

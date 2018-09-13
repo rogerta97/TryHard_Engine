@@ -562,6 +562,7 @@ namespace ImGui
     IMGUI_API void          SetMouseCursor(ImGuiMouseCursor type);                              // set desired cursor type
     IMGUI_API void          CaptureKeyboardFromApp(bool capture = true);                        // manually override io.WantCaptureKeyboard flag next frame (said flag is entirely left for your application to handle). e.g. force capture keyboard when your widget is being hovered.
     IMGUI_API void          CaptureMouseFromApp(bool capture = true);                           // manually override io.WantCaptureMouse flag next frame (said flag is entirely left for your application to handle).
+	IMGUI_API bool          IsInputTextFocused();											    // returns true if the user is currently focusing in any text input field, return false in the opposite case.
 
     // Clipboard Utilities (also see the LogToClipboard() function to capture or output text data to the clipboard)
     IMGUI_API const char*   GetClipboardText();

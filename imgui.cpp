@@ -2836,6 +2836,8 @@ ImGuiContext* ImGui::CreateContext(ImFontAtlas* shared_font_atlas)
     if (GImGui == NULL)
         SetCurrentContext(ctx);
     Initialize(ctx);
+	ctx->InputTextFocused = false; 
+
     return ctx;
 }
 
@@ -4974,6 +4976,16 @@ void ImGui::CaptureKeyboardFromApp(bool capture)
 void ImGui::CaptureMouseFromApp(bool capture)
 {
     GImGui->WantCaptureMouseNextFrame = capture ? 1 : 0;
+}
+
+IMGUI_API bool ImGui::IsInputTextFocused()
+{
+	ImGuiContext* context = GetCurrentContext(); 
+	
+	if (context == nullptr)
+		return IMGUI_API false;
+
+	return IMGUI_API context->InputTextFocused;
 }
 
 bool ImGui::IsItemActive()
@@ -10442,6 +10454,7 @@ bool ImGui::InputTextEx(const char* label, char* buf, int buf_size, const ImVec2
             return false;
     }
     const bool hovered = ItemHoverable(frame_bb, id);
+	bool hovered_item = IsItemHovered(); 
     if (hovered)
         g.MouseCursor = ImGuiMouseCursor_TextInput;
 
@@ -10476,6 +10489,13 @@ bool ImGui::InputTextEx(const char* label, char* buf, int buf_size, const ImVec2
     bool clear_active_id = false;
 
     bool select_all = (g.ActiveId != id) && ((flags & ImGuiInputTextFlags_AutoSelectAll) != 0 || user_nav_input_start) && (!is_multiline);
+
+	if (hovered_item && io.MouseClicked[0])
+		g.InputTextFocused = true;
+
+	else if (io.MouseClicked[0] && hovered_item == false)
+		g.InputTextFocused = false;
+	
     if (focus_requested || user_clicked || user_scrolled || user_nav_input_start)
     {
         if (g.ActiveId != id)
@@ -11011,7 +11031,7 @@ bool ImGui::InputTextEx(const char* label, char* buf, int buf_size, const ImVec2
 
 bool ImGui::InputText(const char* label, char* buf, size_t buf_size, ImGuiInputTextFlags flags, ImGuiTextEditCallback callback, void* user_data)
 {
-    IM_ASSERT(!(flags & ImGuiInputTextFlags_Multiline)); //call InputTextMultiline()
+    IM_ASSERT(!(flags & ImGuiInputTextFlags_Multiline)); // call InputTextMultiline()
     return InputTextEx(label, buf, (int)buf_size, ImVec2(0,0), flags, callback, user_data);
 }
 
