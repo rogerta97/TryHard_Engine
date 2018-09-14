@@ -1,0 +1,21 @@
+version: '{branch}- 0.0.{build}'
+skip_tags: true
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+build:
+  verbosity: minimal
+before_package:
+- ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\3DEngine.exe C:\projects\TryHard_Engine\Game\.
+artifacts:
+- path: Game
+  name: Release
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: H8EVnAiznhi/hUeMclFzDvQiZX9B1+AMz5T6JN90KCzlqyzxkqyFITN1x3M8aUBi
+  artifact: Release
+  prerelease: true
+  on:
+    CONFIGURATION: Release
