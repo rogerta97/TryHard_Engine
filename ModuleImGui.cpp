@@ -58,7 +58,7 @@ void ModuleImGui::SetDefaultStyle()
 
 void ModuleImGui::SendInput(SDL_Event * e) const
 {
-	ImGui_ImplSdlGL2_ProcessEvent(e);
+		ImGui_ImplSdlGL2_ProcessEvent(e);
 }
 
 
