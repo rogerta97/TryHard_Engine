@@ -150,6 +150,7 @@ update_status ModuleImGui::DrawDocking()
 {
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 
 	if (ImGui::Begin("Dock Demo", 0, window_flags))
 	{

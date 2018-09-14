@@ -34,6 +34,8 @@ public:
 
 	Console console;
 
+	bool is_initial_position = true;
+
 private: 
 
 	bool show_demo_window = false; 

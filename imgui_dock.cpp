@@ -17,6 +17,8 @@ using namespace ImGui;
 struct DockContext
 {
 
+	bool is_initial_position = true;
+
 	enum EndAction_
 	{
 		EndAction_None,
@@ -1074,8 +1076,10 @@ struct DockContext
 
 		splits();
 
+		if (dock.status == Status_Dragged) is_initial_position = false;
 
-		MoveBar(extra_pixels);
+		if (is_initial_position)
+			MoveBar(extra_pixels);
 
 
 		PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
