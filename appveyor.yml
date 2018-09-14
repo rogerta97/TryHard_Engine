@@ -8,7 +8,7 @@ build:
   project: 3D Physics.sln
   verbosity: minimal
 before_package:
-- ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\3DEngine.exe C:\projects\TryHard_Engine\Game\.
+- ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\TryHard Engine.exe C:\projects\TryHard_Engine\Game\.
 artifacts:
 - path: Game
   name: Release
