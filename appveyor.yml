@@ -5,12 +5,14 @@ configuration:
 - Debug
 - Release
 build:
+  project: 3D Physics.sln
   verbosity: minimal
 before_package:
 - ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\3DEngine.exe C:\projects\TryHard_Engine\Game\.
 artifacts:
 - path: Game
   name: Release
+  type: WebDeployPackage
 deploy:
 - provider: GitHub
   auth_token:
