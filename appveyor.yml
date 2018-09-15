@@ -5,7 +5,7 @@ configuration:
 - Debug
 - Release
 build:
-  project: 3D Physics.sln
+  project: TryHardEngine.sln
   verbosity: minimal
 before_package:
 - ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\TryHard Engine.exe C:\projects\TryHard_Engine\Game\.
