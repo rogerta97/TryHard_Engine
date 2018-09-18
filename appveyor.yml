@@ -8,7 +8,7 @@ build:
   project: TryHardEngine.sln
   verbosity: minimal
 before_package:
-- ps: Copy-Item C:\projects\TryHard_Engine\$env:CONFIGURATION\TryHardEngine.exe C:\projects\TryHard_Engine\Game\.
+- ps: Copy-Item C:\projects\TryHard_Engine\Source\$env:CONFIGURATION\TryHardEngine.exe C:\projects\TryHard_Engine\Game\.
 artifacts:
 - path: Game
   name: Release
