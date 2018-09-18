@@ -21,6 +21,7 @@ ModuleInput::~ModuleInput()
 bool ModuleInput::Init()
 {
 	CONSOLE_LOG("Init SDL input event system");
+	mouse_wheel = 0; 
 	bool ret = true;
 	SDL_Init(0);
 
@@ -93,7 +94,7 @@ update_status ModuleInput::PreUpdate(float dt)
 		switch(e.type)
 		{
 			case SDL_MOUSEWHEEL:
-			mouse_z = e.wheel.y;
+			mouse_wheel = e.wheel.y;
 			break;
 
 			case SDL_MOUSEMOTION:
@@ -128,4 +129,28 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+void ModuleInput::PrintConfigData()
+{
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (ImGui::CollapsingHeader("Input"))
+	{
+		ImGui::Text("Mouse Position:");
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "X: %d", App->input->mouse_x);
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Y: %d", App->input->mouse_y);
+		ImGui::Text("Mouse Motion:");
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "X: %d", App->input->mouse_x_motion);
+
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Y: %d", App->input->mouse_y_motion);
+
+		ImGui::Text("Mouse Wheel:");
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "State: %d", App->input->mouse_wheel);
+
+		ImGui::Text("Keys down:");      for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (io.KeysDownDuration[i] >= 0.0f) { ImGui::SameLine(); ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d (%.02f secs)", i, io.KeysDownDuration[i]); }
+		ImGui::Text("Keys pressed:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (ImGui::IsKeyPressed(i)) { ImGui::SameLine(); ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", i); }
+		ImGui::Text("Keys release:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (ImGui::IsKeyReleased(i)) { ImGui::SameLine(); ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", i); }
+		ImGui::Text("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
+	}
 }
