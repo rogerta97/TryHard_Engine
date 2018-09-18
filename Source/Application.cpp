@@ -25,7 +25,7 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(resources); 
-	AddModule(audio);
+	//AddModule(audio);
 	//AddModule(physics);
 
 	// Scenes

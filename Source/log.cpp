@@ -34,6 +34,7 @@ void console_log(const char file[], int line, const char* format, ...)
 
 	//OutputDebugString(tmp_string2);
 }
+
 void console_debug(const char file[], int line, const char* format, ...)
 {
 	static char tmp_string[4096];
@@ -48,6 +49,7 @@ void console_debug(const char file[], int line, const char* format, ...)
 
 	App->imgui->console.AddToConsole(tmp_string2, CONSOLE_MDEBUG);
 }
+
 void console_error(const char file[], int line, const char* format, ...)
 {
 	static char tmp_string[4096];

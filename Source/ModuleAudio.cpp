@@ -163,12 +163,3 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
-
-void ModuleAudio::PrintConfigData()
-{
-	if (ImGui::CollapsingHeader("Audio"))
-	{
-		ImGui::Text("Driver:"); ImGui::SameLine(); 
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", SDL_GetCurrentAudioDriver());
-	}
-}
