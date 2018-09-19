@@ -134,11 +134,40 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine");
 		}
-
-			
+		
 		if (ImGui::MenuItem("Report a Bug!"))
 		{
 			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new"); 
+		}
+
+		if (ImGui::BeginMenu("3rd Parties"))
+		{
+			if (ImGui::MenuItem("SDL"))
+			{
+				App->OpenWebBrowser("https://www.libsdl.org/download-2.0.php");
+			}
+
+			if (ImGui::MenuItem("ImGui"))
+			{
+				App->OpenWebBrowser("https://github.com/ocornut/imgui");
+			}
+
+			if (ImGui::MenuItem("MathGeoLib"))
+			{
+				App->OpenWebBrowser("http://clb.demon.fi/MathGeoLib/");
+			}
+
+			if (ImGui::MenuItem("DeviceID"))
+			{
+				App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new");
+			}
+
+			if (ImGui::MenuItem("PCG"))
+			{
+				App->OpenWebBrowser("http://www.pcg-random.org/");
+			}
+
+			ImGui::EndMenu();
 		}
 
 		ImGui::EndMenu();
