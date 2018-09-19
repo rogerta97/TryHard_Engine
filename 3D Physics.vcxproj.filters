@@ -55,6 +55,9 @@
     <Filter Include="Sources\3rd Partys\MathGeoLib\src">
       <UniqueIdentifier>{a6ffa79d-a363-4b10-96ac-005ac4c7392c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\PCGRandom">
+      <UniqueIdentifier>{c3b8a9ac-659e-4f38-9d0f-1dd8fb41d96a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -372,6 +375,12 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h">
       <Filter>Sources\3rd Partys\MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="PCGRandom\pcg_basic.h">
+      <Filter>Sources\3rd Partys\PCGRandom</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_RandomNumberPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -577,6 +586,12 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp">
       <Filter>Sources\3rd Partys\MathGeoLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="PCGRandom\pcg_basic.c">
+      <Filter>Sources\3rd Partys\PCGRandom</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_RandomNumberPanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

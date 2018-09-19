@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Globals.h"
+#include "PCGRandom\pcg_basic.h"
 
 #include <list>
 
@@ -9,7 +10,7 @@ struct PhysBody3D;
 
 class Module
 {
-private :
+private : 
 	bool enabled;
 
 public:

@@ -7,9 +7,10 @@
 class UI_ConfigurationPanel; 
 class UI_ScenePanel; 
 class UI_ConsolePanel;
+class UI_RandomNumberPanel; 
 class UI_Panel;
 
-enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL };
+enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL, RANDOM_PANEL };
 
 class ModuleImGui : public Module
 {
@@ -46,4 +47,6 @@ private:
 	UI_ConfigurationPanel* config_panel; 
 	UI_ScenePanel* scene_panel; 
 	UI_ConsolePanel* console_panel; 
+	UI_RandomNumberPanel* random_panel; 
+
 };

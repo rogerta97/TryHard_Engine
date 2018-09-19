@@ -9,6 +9,7 @@
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_ConsolePanel.h"
+#include "UI_RandomNumberPanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -36,6 +37,7 @@ bool ModuleImGui::Start()
 	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
 	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
 	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
+	random_panel = (UI_RandomNumberPanel*)AddPanel(RANDOM_PANEL); 
 
 	std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
@@ -111,6 +113,11 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Console"))
 		{
 			console_panel->show = !console_panel->show;
+		}
+
+		if (ImGui::MenuItem("Random Generator"))
+		{
+			random_panel->show = !random_panel->show;
 		}
 
 		ImGui::EndMenu();
@@ -209,6 +216,12 @@ update_status ModuleImGui::DrawDocking()
 		config_panel->Update();
 		ImGui::EndDockspace();
 
+		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
+
+		ImGui::BeginDockspace();
+		random_panel->Update();
+		ImGui::EndDockspace();
+
 		//ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); To add it as a tab in the same dock
 
 	}
@@ -239,6 +252,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case CONSOLE_PANEL:
 		panel = new UI_ConsolePanel();
+		break;
+	case RANDOM_PANEL:
+		panel = new UI_RandomNumberPanel();
 		break;
 	default:
 		break;

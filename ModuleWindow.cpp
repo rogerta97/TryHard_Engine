@@ -37,7 +37,8 @@ bool ModuleWindow::Init()
 		resizable = WIN_RESIZABLE; 
 		borderless = WIN_BORDERLESS;
 
-		display_mode = DISPLAY_WINDOWED; 
+	
+		display_mode = DISPLAY_FULLSCREEN_WINDOWED;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
@@ -62,6 +63,11 @@ bool ModuleWindow::Init()
 		if(display_mode == DISPLAY_FULLSCREEN_WINDOWED)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+			SDL_DisplayMode mode; 
+			SDL_GetDesktopDisplayMode(0, &mode);
+			SDL_SetWindowPosition(window, 0, 0);
+			ResizeWindow(mode.w, mode.h);
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
