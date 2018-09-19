@@ -37,23 +37,24 @@ bool UI_RandomNumberPanel::Update()
 
 		if (random_type == RND_TYPE_INT)
 		{
-			ImGui::InputInt("Max", &max);
 			ImGui::InputInt("Min", &min);
+			ImGui::InputInt("Max", &max);		
 		}
 		else
 		{
-			ImGui::InputFloat("Max", &maxf);
-			ImGui::InputFloat("Min", &minf);
+			ImGui::InputFloat("Min", &minf, 0.1f, 0.5f, 2);
+			ImGui::InputFloat("Max", &maxf, 0.1f, 0.5f, 2);
 		}
 
 		if (show_warning)
 		{
 			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Max & Min values should not match.");
-			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Max should be > Min.");
 			ImGui::SameLine(); 
 
 			if (ImGui::Button("OK"))
 				show_warning = false; 
+
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Max should be > Min.");
 
 			ImGui::EndDock();
 			return true;
@@ -64,18 +65,18 @@ bool UI_RandomNumberPanel::Update()
 	
 			if (random_type == RND_TYPE_INT)
 			{
-				if (max == min)
+				if (max <= min)
 					show_warning = true; 
 				else
-					generated_num = GetPCGRandomNumber((float)max, (float)min);
+					generated_num = GetPCGRandomNumberInt(max, min);
 			}
 				
 			else 
 			{
-				if (maxf == minf)
+				if (maxf <= minf)
 					show_warning = true;
 				else
-					generated_num = GetPCGRandomNumber((float)maxf, (float)minf);
+					generated_num = GetPCGRandomNumberFloat(maxf, minf);
 			}
 				
 
@@ -94,7 +95,7 @@ bool UI_RandomNumberPanel::Update()
 		}
 		else
 		{
-			ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Number: %f", generated_num);
+			ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Number: %.2f", generated_num);
 		}
 
 	}
