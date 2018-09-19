@@ -17,7 +17,7 @@ bool UI_RandomNumberPanel::Start()
 	generated_num = 0; 
 	random_type = RND_TYPE_INT; 
 	show_warning = false; 
-	show = true; 
+	show = false; 
 
 	return true;
 }
@@ -29,7 +29,7 @@ bool UI_RandomNumberPanel::Update()
 
 	if (ImGui::BeginDock("Random Generator", NULL, NULL))
 	{	
-		//ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 1.0f), "This engine is using simplified PCG library to generate random number creation. Select Help->Libraries to get extense information about it."); 
+		
 		ImGui::TextWrapped("This engine is using simplified PCG library to generate random number creation. Select Help->Libraries to get extense information about it.");
 		int rt = (int)random_type; 
 		ImGui::Combo("Number Type", &rt, "Integer\0Float");
