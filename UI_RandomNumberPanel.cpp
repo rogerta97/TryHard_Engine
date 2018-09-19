@@ -46,6 +46,8 @@ bool UI_RandomNumberPanel::Update()
 			ImGui::InputFloat("Max", &maxf, 0.1f, 0.5f, 2);
 		}
 
+		ImGui::Text("Bounded Variable: XXX"); 
+
 		if (show_warning)
 		{
 			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Max & Min values should not match.");
