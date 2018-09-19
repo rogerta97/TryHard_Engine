@@ -44,7 +44,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
-	p.color = { 0.8f,0.0f,1.0f };
+	p.color = { 0.8f,0.8f,0.6f };
 	p.Render();
 
 	Sphere s({0,0,0},100);
