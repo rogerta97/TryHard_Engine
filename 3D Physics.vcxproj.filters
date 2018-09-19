@@ -381,6 +381,9 @@
     <ClInclude Include="UI_RandomNumberPanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>Sources\Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">

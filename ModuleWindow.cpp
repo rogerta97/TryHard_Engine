@@ -38,7 +38,7 @@ bool ModuleWindow::Init()
 		borderless = WIN_BORDERLESS;
 
 	
-		display_mode = DISPLAY_FULLSCREEN_WINDOWED;
+		display_mode = DISPLAY_WINDOWED;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
