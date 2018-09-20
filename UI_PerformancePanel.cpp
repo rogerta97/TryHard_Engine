@@ -58,16 +58,16 @@ bool UI_PerformancePanel::Update()
 		ImGui::PlotHistogram("##Framerate", &start_time_buffer[0], start_time_buffer.size(), 0, "Start times in order", 0.0f, 1000.0f, ImVec2(size.x, 100));
 
 		//RUNTIME
-		//item = list_modules.begin();
+		item = list_modules.begin();
 
-		//while (item != list_modules.end())
-		//{
-		//	ImGui::Text("%s Start time: %d ms", (*item)->name, (*item)->start_time); ImGui::NewLine();
-		//	start_time_buffer.push_back((*item)->start_time);
-		//	item++;
-		//}
+		while (item != list_modules.end())
+		{
+			if (!(*item)->runtime_ms_buffer.empty())
+				ImGui::PlotLines("", &(*item)->runtime_ms_buffer[0], (*item)->runtime_ms_buffer.size(), 0, (*item)->name, 0.0f, 20.0f, ImVec2(300, 100));
 
-		//ImGui::PlotLines("", &camera_perf_buffer[0], camera_perf_buffer.size(), 0, "Camera", 0.0f, 5.0f, ImVec2(300, 100));
+			item++;
+		}
+
 	}
 	ImGui::EndDock();
 

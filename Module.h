@@ -62,6 +62,12 @@ public:
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
 
+	void ManageMsBuffer() {
+		if (runtime_ms_buffer.size() > 50)
+			runtime_ms_buffer.erase(runtime_ms_buffer.begin());
+		runtime_ms_buffer.push_back(performance_timer.Read()); 
+	}
+
 	public:
 	Timer performance_timer;
 

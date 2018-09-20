@@ -56,6 +56,8 @@ void ModuleCamera3D::PrintConfigData()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+	performance_timer.Start();
+
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
@@ -107,6 +109,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (moved)
 		Move(increment);
+
+
+	ManageMsBuffer();
 	
 	return UPDATE_CONTINUE;
 }

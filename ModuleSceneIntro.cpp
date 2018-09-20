@@ -38,6 +38,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	performance_timer.Start();
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
 	p.color = { 0.5f,0.5f,0.9f };
@@ -49,6 +50,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	Circle intersects = s.Intersect(p2);
 	 
+	ManageMsBuffer();
 	return UPDATE_CONTINUE;
 }
 

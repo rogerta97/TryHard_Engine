@@ -119,6 +119,7 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	performance_timer.Start();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -137,6 +138,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	ManageMsBuffer();
 	SDL_GL_SwapWindow(App->window->window);
 	App->camera->GetViewportTexture()->Bind();
 	return UPDATE_CONTINUE;

@@ -69,6 +69,7 @@ void ModuleImGui::SendInput(SDL_Event * e) const
 
 update_status ModuleImGui::PreUpdate(float dt)
 {
+	performance_timer.Start();
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
 	return update_status::UPDATE_CONTINUE;
@@ -84,6 +85,7 @@ update_status ModuleImGui::Update(float dt)
 	DrawDocking();
 	ImGui::Render();
 
+	ManageMsBuffer();
 	return update_status::UPDATE_CONTINUE;
 }
 
