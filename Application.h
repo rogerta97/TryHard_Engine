@@ -33,6 +33,8 @@ public:
 	ModuleCamera3D* camera;
 
 private:
+
+	bool cap_fps; 
 	
 	std::string name;
 	std::string org;
@@ -48,7 +50,8 @@ private:
 	Timer				frame_time;
 	float				dt = 0.0f;
 	uint				maxfps = 1000;
-	int                 frame_delay = 0;
+	float				frame_wish_time; 
+	int                 frame_delay;
 	float				avg_fps = -1.0f;
 
 	std::list<Module*> list_modules;
@@ -68,6 +71,9 @@ public:
 	void UpdateAppName(); 
 
 	void OpenWebBrowser(const char* web); 
+
+	float GetDt() const;
+	float GetLastFrameDelay() const;
 
 private:
 
