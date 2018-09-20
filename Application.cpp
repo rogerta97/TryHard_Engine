@@ -327,6 +327,11 @@ void Application::OpenWebBrowser(const char * web)
 	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW); 
 }
 
+const std::list<Module*>* Application::getModuleList()
+{
+	return &list_modules;
+}
+
 void Application::AddModule(Module* mod)  
 {
 	list_modules.push_back(mod);

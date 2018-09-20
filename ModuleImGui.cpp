@@ -21,16 +21,14 @@
 
 ModuleImGui::ModuleImGui(bool start_enabled)
 {
+	name = "ImGui";
 }
 
 ModuleImGui::~ModuleImGui()
-{
-}
+{}
 
 bool ModuleImGui::Start()
 {
-	name = "ImGui";
-
 	show_demo_window = false; 
 	show_style_editor = false;
 

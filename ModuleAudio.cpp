@@ -5,7 +5,9 @@
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
 ModuleAudio::ModuleAudio(bool start_enabled) :  music(NULL)
-{}
+{
+	name = "Audio";
+}
 
 // Destructor
 ModuleAudio::~ModuleAudio()
@@ -43,6 +45,7 @@ bool ModuleAudio::Init()
 
 	LoadFx("music/SFX_1.wav");
 
+	init_time = performance_timer.Read();
 	return ret;
 }
 

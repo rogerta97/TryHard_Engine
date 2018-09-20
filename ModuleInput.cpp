@@ -6,6 +6,7 @@
 
 ModuleInput::ModuleInput(bool start_enabled)
 {
+	name = "Input";
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
 	memset(mouse_buttons, KEY_IDLE, sizeof(KEY_STATE) * MAX_MOUSE_BUTTONS);
@@ -32,6 +33,7 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
+	init_time = performance_timer.Read();
 	return ret;
 }
 

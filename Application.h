@@ -69,6 +69,8 @@ public:
 
 	void OpenWebBrowser(const char* web); 
 
+	const std::list<Module*>* getModuleList();
+
 private:
 
 	void AddModule(Module* mod);

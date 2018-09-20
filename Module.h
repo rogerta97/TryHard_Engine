@@ -25,6 +25,7 @@ public:
 
 	virtual bool Init() 
 	{
+		init_time = performance_timer.Read();
 		return true; 
 	}
 
@@ -62,7 +63,7 @@ public:
 	public:
 	Timer performance_timer;
 
-	float init_time;
+	int init_time;
 	float start_time;
 	float update_time;
 };

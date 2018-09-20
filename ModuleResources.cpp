@@ -3,6 +3,7 @@
 
 ModuleResources::ModuleResources()
 {
+	name = "Resources";
 }
 
 

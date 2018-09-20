@@ -14,6 +14,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled)
 {
+	name = "Renderer";
 }
 
 // Destructor
@@ -110,6 +111,7 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	init_time = performance_timer.Read();
 	return ret;
 }
 
