@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="TextureMSAA.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
     <ClInclude Include="UI_InspectorPanel.h" />
@@ -186,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
@@ -251,6 +254,7 @@
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="TextureMSAA.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />
     <ClCompile Include="UI_InspectorPanel.cpp" />
