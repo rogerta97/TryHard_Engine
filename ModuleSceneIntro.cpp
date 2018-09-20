@@ -22,10 +22,8 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
-	//ImGui::Button("hello");
-
 	
-	
+	start_time = performance_timer.Read();
 	return ret;
 }
 
@@ -40,8 +38,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-
-
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
 	p.color = { 0.5f,0.5f,0.9f };

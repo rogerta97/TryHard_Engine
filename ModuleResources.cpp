@@ -21,11 +21,6 @@ Texture * ModuleResources::GetTextureFromID()
 	return nullptr;
 }
 
-bool ModuleResources::Start()
-{
-	return true;
-}
-
 update_status ModuleResources::Update()
 {
 	return update_status::UPDATE_CONTINUE;

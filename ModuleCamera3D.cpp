@@ -29,6 +29,9 @@ bool ModuleCamera3D::Start()
 	viewport_texture = new TextureMSAA(); 
 	viewport_texture->Create(App->window->screen_surface->w, App->window->screen_surface->h, 2);
 
+	SetSpeed(3); 
+
+	start_time = performance_timer.Read();
 	return ret;
 }
 
@@ -57,53 +60,54 @@ update_status ModuleCamera3D::Update(float dt)
 		return update_status::UPDATE_CONTINUE;
 
 	vec3 point_look = { 0, 0, 0};
+	int scale_value = 3; 
 	bool moved = false; 
 	
 	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
 	CalculateViewMatrix(); 
 
 	//Camera WASD & ER input
-	vec3 increment = { 0,0,0 }; 
+	vec3 increment = { 0.0f ,0.0f ,0.0f }; 
 
 	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
-		increment += Z * -GetSpeed(); 
+		increment += Z * -GetSpeed()*App->GetDt();
 		moved = true; 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S))
 	{
-		increment += Z * GetSpeed();
+		increment += Z * GetSpeed() * App->GetDt();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A))
 	{
-		increment += X * -GetSpeed();
+		increment += X * -GetSpeed() * App->GetDt();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D))
 	{
-		increment += X * GetSpeed();
+		increment += X * GetSpeed() * App->GetDt();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_E))
 	{
-		increment += Y * GetSpeed();
+		increment += Y * GetSpeed() * App->GetDt();
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R))
 	{
-		increment += Y * -GetSpeed();
+		increment += Y * -GetSpeed() * App->GetDt();
 		moved = true;
 	}
 
-	if(moved)
+	if (moved)
 		Move(increment);
-
+	
 	return UPDATE_CONTINUE;
 }
 

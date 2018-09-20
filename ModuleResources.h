@@ -14,7 +14,6 @@ public:
 	void AddTextureToList(Texture* new_texture); 
 	Texture* GetTextureFromID(); 
 
-	bool Start(); 
 	update_status Update();
 
 private: 

@@ -29,15 +29,15 @@ ModuleImGui::~ModuleImGui()
 
 bool ModuleImGui::Start()
 {
-	show_demo_window = false; 
+	show_demo_window = false;
 	show_style_editor = false;
 
 	//Initialize Panels 
 
 	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
-	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
+	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL);
 	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
-	random_panel = (UI_RandomNumberPanel*)AddPanel(RANDOM_PANEL); 
+	random_panel = (UI_RandomNumberPanel*)AddPanel(RANDOM_PANEL);
 	inspector_panel = (UI_InspectorPanel*)AddPanel(INSPECTOR_PANEL);
 	performance_panel = (UI_PerformancePanel*)AddPanel(PERFORMANCE_PANEL);
 
@@ -50,8 +50,9 @@ bool ModuleImGui::Start()
 	}
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
-	SetDefaultStyle(); 
+	SetDefaultStyle();
 
+	start_time = performance_timer.Read();
 	return true;
 }
 

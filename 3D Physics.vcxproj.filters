@@ -61,6 +61,9 @@
     <Filter Include="Sources\GameObject\Elements">
       <UniqueIdentifier>{96858c19-9296-4f6f-aef9-7845d8296707}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\JSON">
+      <UniqueIdentifier>{6de0e24f-9d76-4148-8df4-85bfd7dead05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -399,7 +402,15 @@
     <ClInclude Include="MeshImporter.h">
       <Filter>Sources\Modules\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="UI_PerformancePanel.h" />
+    <ClInclude Include="ModuleFileSystem.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON\parson.h">
+      <Filter>Sources\3rd Partys\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_PerformancePanel.h">
+	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
+	</ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -624,7 +635,15 @@
     <ClCompile Include="Component.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="UI_PerformancePanel.cpp" />
+    <ClCompile Include="ModuleFileSystem.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="JSON\parson.c">
+      <Filter>Sources\3rd Partys\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_PerformancePanel.cpp">
+	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
+	</ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

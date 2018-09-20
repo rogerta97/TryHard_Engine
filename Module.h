@@ -5,6 +5,7 @@
 #include "Timer.h"
 
 #include <list>
+#include <vector>
 
 class Application;
 struct PhysBody3D;
@@ -31,6 +32,7 @@ public:
 
 	virtual bool Start()
 	{
+		start_time = performance_timer.Read();
 		return true;
 	}
 
@@ -64,8 +66,8 @@ public:
 	Timer performance_timer;
 
 	int init_time;
-	float start_time;
-	float update_time;
+	int start_time;
+	std::vector<float> runtime_ms_buffer;
 };
 
 extern Application* App;

@@ -72,10 +72,14 @@ bool Application::Init()
 
 	while (item != list_modules.end() && ret == true)
 	{
+		(*item)->performance_timer.Start();
 		ret = (*item)->Start();
 		item++;
 	}
 
+	cap_fps = false;
+	frame_delay = 0; 
+	frame_wish_time = 1.0f / maxfps;
 	ms_timer.Start();
 	return ret;
 }
@@ -83,7 +87,14 @@ bool Application::Init()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = frame_time.Read() / 1000;
+	dt = (float)frame_time.Read() / 1000;
+
+	if (dt < frame_wish_time)
+	{
+		frame_delay = (frame_wish_time - dt)*1000; 		
+		SDL_Delay(frame_delay);
+	}
+
 	frame_time.Start();
 }
 
@@ -149,7 +160,6 @@ void Application::DisplayHardwareData()
 
 		ImGui::Text("Caps: "); ImGui::SameLine();
 
-
 		if (SDL_Has3DNow()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "3DNow,"); ImGui::SameLine();
 		if (SDL_HasAVX()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "AVX,"); ImGui::SameLine();
 		//if (SDL_HasAVX2()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "AVX2,"); ImGui::SameLine();		 Uncomment and the engine will crash 
@@ -161,7 +171,6 @@ void Application::DisplayHardwareData()
 		if (SDL_HasSSE3()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "SSE3,"); ImGui::SameLine();
 		if (SDL_HasSSE41()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "SSE41,"); ImGui::SameLine();
 		if (SDL_HasSSE42()) ImGui::TextColored(ImVec4(1, 1, 0, 1), "SSE42,");
-
 
 		ImGui::Separator();
 
@@ -302,6 +311,22 @@ void Application::DisplayConfigData()
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 
+		ImGui::SameLine();
+
+		ImGui::Checkbox("Cap FPS", &cap_fps); 
+
+		if (cap_fps)
+		{
+			ImGui::Spacing(); 
+
+			ImGui::DragInt("Cap Value", (int*)&maxfps, 1, 1, 1000);
+			
+			frame_wish_time = 1.0f / maxfps;
+			
+			ImGui::Spacing();
+		}
+
+
 		ImGui::GetStyle().FrameRounding = 0;
 
 		char title[25];
@@ -327,9 +352,20 @@ void Application::OpenWebBrowser(const char * web)
 	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW); 
 }
 
-const std::list<Module*>* Application::getModuleList()
+
+const std::list<Module*>* Application::getModuleList() const
 {
 	return &list_modules;
+}
+
+float Application::GetDt() const
+{
+	return dt;
+}
+
+float Application::GetLastFrameDelay() const
+{
+	return frame_delay;
 }
 
 void Application::AddModule(Module* mod)  
