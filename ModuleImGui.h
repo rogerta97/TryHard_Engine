@@ -4,6 +4,7 @@
 #include "Console.h"
 #include "SDL\include\SDL.h"
 
+class UI_PerformancePanel;
 class UI_ConfigurationPanel; 
 class UI_ScenePanel; 
 class UI_ConsolePanel;
@@ -11,7 +12,7 @@ class UI_RandomNumberPanel;
 class UI_InspectorPanel; 
 class UI_Panel;
 
-enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL, RANDOM_PANEL, INSPECTOR_PANEL };
+enum Panel_Types { CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL, RANDOM_PANEL, INSPECTOR_PANEL, PERFORMANCE_PANEL };
 
 class ModuleImGui : public Module
 {
@@ -50,5 +51,6 @@ private:
 	UI_ConsolePanel* console_panel; 
 	UI_RandomNumberPanel* random_panel; 
 	UI_InspectorPanel* inspector_panel; 
+	UI_PerformancePanel* performance_panel;
 
 };

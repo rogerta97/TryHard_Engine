@@ -408,6 +408,9 @@
     <ClInclude Include="JSON\parson.h">
       <Filter>Sources\3rd Partys\JSON</Filter>
     </ClInclude>
+    <ClInclude Include="UI_PerformancePanel.h">
+	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
+	</ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -638,6 +641,9 @@
     <ClCompile Include="JSON\parson.c">
       <Filter>Sources\3rd Partys\JSON</Filter>
     </ClCompile>
+    <ClCompile Include="UI_PerformancePanel.cpp">
+	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
+	</ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

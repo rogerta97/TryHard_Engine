@@ -61,6 +61,7 @@ bool Application::Init()
 
 	while (item != list_modules.end() && ret == true)
 	{
+		(*item)->performance_timer.Start();
 		ret = (*item)->Init();
 		item++;
 	}
