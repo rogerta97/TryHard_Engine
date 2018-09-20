@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Transform.h"
+#include "Component.h"
 
-class ComponentTransform
+class ComponentTransform : public Component
 {
 public:
 	ComponentTransform();
 	~ComponentTransform();
 
-	void Start(); 
-	void Update(); 
+	bool Start(); 
+	bool Update(); 
 
 private:
 	Transform transform; 

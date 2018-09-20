@@ -27,7 +27,7 @@ bool UI_InspectorPanel::Update()
 
 	if (ImGui::BeginDock("Inspector", &show, NULL))
 	{
-		ImGui::Text("visca la farlopa"); 
+		ImGui::Text("No GameObject Selected."); 
 	}
 
 	ImGui::EndDock();

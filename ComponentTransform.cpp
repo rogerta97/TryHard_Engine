@@ -13,10 +13,12 @@ ComponentTransform::~ComponentTransform()
 {
 }
 
-void ComponentTransform::Start()
+bool ComponentTransform::Start()
 {
+	return true; 
 }
 
-void ComponentTransform::Update()
+bool ComponentTransform::Update()
 {
+	return true; 
 }

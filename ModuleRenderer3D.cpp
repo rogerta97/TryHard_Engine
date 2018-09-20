@@ -190,3 +190,11 @@ char * ModuleRenderer3D::GetGraphicsVendor()
 {
 	return (char*)glGetString(GL_VENDOR);;
 }
+
+void ModuleRenderer3D::PrintConfigData()
+{
+	if (ImGui::CollapsingHeader("Render"))
+	{
+		ImGui::Text("Render Settings"); 
+	}
+}

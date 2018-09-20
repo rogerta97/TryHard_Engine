@@ -20,9 +20,10 @@ bool Component::Update()
 
 CompType Component::GetType() const
 {
-	return CompType();
+	return component_type;
 }
 
 void Component::SetType(CompType new_type)
 {
+	component_type = new_type; 
 }

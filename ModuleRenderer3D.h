@@ -23,6 +23,8 @@ public:
 	char* GetGraphicsModel();
 	char* GetGraphicsVendor();
 
+	void PrintConfigData(); 
+
 public:
 
 	Light lights[MAX_LIGHTS];

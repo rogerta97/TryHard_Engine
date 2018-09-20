@@ -396,6 +396,9 @@
     <ClInclude Include="Component.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -614,7 +617,12 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Sources\GameObject\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

@@ -23,7 +23,7 @@ bool UI_ConfigurationPanel::Update()
 	if (show == false)
 		return false; 
 
-	if (ImGui::BeginDock("Configuration",NULL,NULL))
+	if (ImGui::BeginDock("Configuration", &show ,NULL))
 	{
 		App->DisplayConfigData();
 
