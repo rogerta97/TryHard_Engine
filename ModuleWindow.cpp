@@ -84,6 +84,7 @@ bool ModuleWindow::Init()
 		}
 	}
 
+	init_time = performance_timer.Read();
 	return ret;
 }
 

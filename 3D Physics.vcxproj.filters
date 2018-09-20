@@ -399,6 +399,7 @@
     <ClInclude Include="MeshImporter.h">
       <Filter>Sources\Modules\Importers</Filter>
     </ClInclude>
+    <ClInclude Include="UI_PerformancePanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -623,6 +624,7 @@
     <ClCompile Include="Component.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
+    <ClCompile Include="UI_PerformancePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

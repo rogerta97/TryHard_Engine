@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "PCGRandom\pcg_basic.h"
+#include "Timer.h"
 
 #include <list>
 
@@ -57,6 +58,13 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
+
+	public:
+	Timer performance_timer;
+
+	float init_time;
+	float start_time;
+	float update_time;
 };
 
 extern Application* App;
