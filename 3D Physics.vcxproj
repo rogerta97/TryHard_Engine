@@ -179,6 +179,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
+    <ClInclude Include="UI_InspectorPanel.h" />
     <ClInclude Include="UI_Panel.h" />
     <ClInclude Include="UI_RandomNumberPanel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />
+    <ClCompile Include="UI_InspectorPanel.cpp" />
     <ClCompile Include="UI_RandomNumberPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
   </ItemGroup>

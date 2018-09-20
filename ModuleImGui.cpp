@@ -10,6 +10,7 @@
 #include "UI_ScenePanel.h"
 #include "UI_ConsolePanel.h"
 #include "UI_RandomNumberPanel.h"
+#include "UI_InspectorPanel.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -38,6 +39,7 @@ bool ModuleImGui::Start()
 	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL); 
 	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
 	random_panel = (UI_RandomNumberPanel*)AddPanel(RANDOM_PANEL); 
+	inspector_panel = (UI_InspectorPanel*)AddPanel(INSPECTOR_PANEL);
 
 	std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
@@ -188,7 +190,7 @@ update_status ModuleImGui::DrawDocking()
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-	if (ImGui::Begin("Dock Demo", 0, window_flags))
+	if (ImGui::Begin("MainDock", 0, window_flags))
 	{
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
@@ -229,26 +231,26 @@ update_status ModuleImGui::DrawDocking()
 
 		}
 
+		//ImGui::BeginDockspace();
+		//hjsagsdj
+		//ImGui::EndDockspace();
+
 		ImGui::BeginDockspace();
+
 		console_panel->Update();
-		ImGui::EndDockspace();
 
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Top);
-
-		ImGui::BeginDockspace();
-		scene_panel->Update();
-		ImGui::EndDockspace();
-
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
-
-		ImGui::BeginDockspace();
-		config_panel->Update();
-		ImGui::EndDockspace();
-
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
-
-		ImGui::BeginDockspace();
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		random_panel->Update();
+
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);	
+		scene_panel->Update();
+
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
+		inspector_panel->Update();
+		
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		config_panel->Update();
+
 		ImGui::EndDockspace();
 
 		//ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); To add it as a tab in the same dock
@@ -284,6 +286,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case RANDOM_PANEL:
 		panel = new UI_RandomNumberPanel();
+		break;
+	case INSPECTOR_PANEL:
+		panel = new UI_InspectorPanel();
 		break;
 	default:
 		break;

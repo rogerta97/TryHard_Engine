@@ -271,6 +271,8 @@ void Application::DisplayConfigData()
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
+		ImGui::Spacing();
+
 		ImGui::InputText("Engine name", (char*)name.c_str(), name.size());
 		UpdateAppName();
 
@@ -292,6 +294,8 @@ void Application::DisplayConfigData()
 		{
 			App->camera->UnlockCamera();
 		}
+
+		ImGui::Spacing(); 
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();

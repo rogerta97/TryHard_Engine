@@ -27,7 +27,7 @@ bool UI_RandomNumberPanel::Update()
 	if (show == false)
 		return true; 
 
-	if (ImGui::BeginDock("Random Generator", NULL, NULL))
+	if (ImGui::BeginDock("Random Generator", &show, NULL))
 	{	
 		
 		ImGui::TextWrapped("This engine is using simplified PCG library to generate random number creation. Select Help->Libraries to get extense information about it.");

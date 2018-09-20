@@ -44,7 +44,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
-	p.color = { 0.8f,0.8f,0.6f };
+	p.color = { 0.5f,0.5f,0.9f };
 	p.Render();
 
 	Sphere s({0,0,0},100);
@@ -53,9 +53,6 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	Circle intersects = s.Intersect(p2);
 	 
-
-
-
 	return UPDATE_CONTINUE;
 }
 

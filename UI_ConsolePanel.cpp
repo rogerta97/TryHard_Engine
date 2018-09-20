@@ -32,7 +32,7 @@ bool UI_ConsolePanel::Start()
 
 bool UI_ConsolePanel::Update()
 {	
-	if (ImGui::BeginDock("Console"))
+	if (ImGui::BeginDock("Console", &show))
 	{
 		std::string btn_name;
 

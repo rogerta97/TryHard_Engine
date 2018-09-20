@@ -384,6 +384,9 @@
     <ClInclude Include="Functions.h">
       <Filter>Sources\Main</Filter>
     </ClInclude>
+    <ClInclude Include="UI_InspectorPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -594,6 +597,9 @@
       <Filter>Sources\3rd Partys\PCGRandom</Filter>
     </ClCompile>
     <ClCompile Include="UI_RandomNumberPanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_InspectorPanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
