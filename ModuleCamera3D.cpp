@@ -30,6 +30,7 @@ bool ModuleCamera3D::Start()
 	viewport_texture->Create(App->window->screen_surface->w, App->window->screen_surface->h, 2);
 
 	SetSpeed(3); 
+	SetMouseSensitivity(0.25f);
 
 	start_time = performance_timer.Read();
 	return ret;
@@ -50,6 +51,10 @@ void ModuleCamera3D::PrintConfigData()
 		float tmp_speed = GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		App->camera->SetSpeed(tmp_speed);
+		float tmp_sensitivity = GetMouseSensitivity();
+		ImGui::SliderFloat("Rotation", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
+		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
+		App->camera->SetMouseSensitivity(tmp_sensitivity);
 	}
 }
 
@@ -64,7 +69,6 @@ update_status ModuleCamera3D::Update(float dt)
 	bool moved = false; 
 	
 	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
-	CalculateViewMatrix(); 
 
 	//Camera WASD & ER input
 	vec3 increment = { 0.0f ,0.0f ,0.0f }; 
@@ -107,6 +111,43 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (moved)
 		Move(increment);
+
+	// Mouse motion ----------------
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		Position -= Reference;
+
+		if (dx != 0)
+		{
+			float DeltaX = (float)dx * mouse_sensitivity;
+
+			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * mouse_sensitivity;
+
+			Y = rotate(Y, DeltaY, X);
+			Z = rotate(Z, DeltaY, X);
+
+			if (Y.y < 0.0f)
+			{
+				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = cross(Z, X);
+			}
+		}
+
+		Position = Reference + Z * length(Position);
+	}
+
+	CalculateViewMatrix();
 
 	return UPDATE_CONTINUE;
 }
@@ -163,7 +204,17 @@ void ModuleCamera3D::SetSpeed(float new_speed)
 	speed = new_speed; 
 }
 
-float ModuleCamera3D::GetSpeed()
+void ModuleCamera3D::SetMouseSensitivity(float new_sensitivity)
+{
+	mouse_sensitivity = new_sensitivity; 
+}
+
+float ModuleCamera3D::GetMouseSensitivity() const
+{
+	return mouse_sensitivity;
+}
+
+float ModuleCamera3D::GetSpeed() const
 {
 	return speed;
 }

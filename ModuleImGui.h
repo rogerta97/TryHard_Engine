@@ -35,6 +35,8 @@ public:
 
 	void SendInput(SDL_Event* e) const;
 
+	void ShowHelpMarker(const char* desc);
+
 	Console console;
 
 	bool is_initial_position = true;

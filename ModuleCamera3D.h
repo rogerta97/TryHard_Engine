@@ -24,7 +24,10 @@ public:
 	float* GetViewMatrix();
 
 	void SetSpeed(float new_speed); 
-	float GetSpeed(); 
+	float GetSpeed() const;
+
+	void SetMouseSensitivity(float new_sensitivity);
+	float GetMouseSensitivity() const;
 
 	TextureMSAA* GetViewportTexture(); 
 
@@ -36,6 +39,7 @@ private:
 
 	void CalculateViewMatrix();
 	float speed = 0.1f;
+	float mouse_sensitivity = 5.0f;
 	bool locked; 
 
 public:

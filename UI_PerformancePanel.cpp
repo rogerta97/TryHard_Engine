@@ -23,6 +23,10 @@ bool UI_PerformancePanel::Update()
 {
 	if (ImGui::BeginDock("Performance", &show, NULL))
 	{
+		ImGuiStyle& style = ImGui::GetStyle();
+		style.FrameRounding = 5;
+
+		const int histogram_height = 130;
 		std::list<Module*> list_modules = *App->getModuleList();
 		std::list<Module*>::iterator item = list_modules.begin();
 
@@ -44,7 +48,7 @@ bool UI_PerformancePanel::Update()
 			}
 
 			ImGui::NextColumn();
-			ImGui::PlotHistogram("##Framerate", &init_time_buffer[0], init_time_buffer.size(), 0, "Init times in order", 0.0f, 1000.0f, ImVec2(size.x, 100));
+			ImGui::PlotHistogram("##Framerate", &init_time_buffer[0], init_time_buffer.size(), 0, "Init times in order", 0.0f, 1000.0f, ImVec2(size.x, histogram_height));
 
 			ImGui::Columns(1);
 			ImGui::Separator();
@@ -68,7 +72,7 @@ bool UI_PerformancePanel::Update()
 			}
 
 			ImGui::NextColumn();
-			ImGui::PlotHistogram("##Framerate", &start_time_buffer[0], start_time_buffer.size(), 0, "Start times in order", 0.0f, 1000.0f, ImVec2(size.x, 100));
+			ImGui::PlotHistogram("##Framerate", &start_time_buffer[0], start_time_buffer.size(), 0, "Start times in order", 0.0f, 1000.0f, ImVec2(size.x, histogram_height));
 			ImGui::Columns(1);
 			ImGui::Separator();
 		}
