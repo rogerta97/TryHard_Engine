@@ -38,10 +38,9 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	performance_timer.Start();
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
-	p.color = { 0.5f,0.5f,0.9f };
+	p.color = { 233,0,255};  //Em mola que flipas el rosa de moment deixal porfa 
 	p.Render();
 
 	Sphere s({0,0,0},100);
@@ -50,7 +49,6 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	Circle intersects = s.Intersect(p2);
 	 
-	ManageMsBuffer();
 	return UPDATE_CONTINUE;
 }
 

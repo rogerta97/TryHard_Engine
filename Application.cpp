@@ -224,7 +224,9 @@ update_status Application::Update()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		(*item)->performance_timer.Start();
 		ret = (*item)->Update(dt);
+		(*item)->ManageMsBuffer();
 		item++;
 	}
 
