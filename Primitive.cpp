@@ -20,10 +20,21 @@ void Primitive::Render() const
 	glPushMatrix();
 	glMultMatrixf(transform.M);
 
-	if(axis == true)
+	glColor3f(color.r, color.g, color.b);
+
+	if(wire)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	InnerRender();
+
+	glPopMatrix();
+
+	if (axis == true)
 	{
 		// Draw Axis Grid
-		glLineWidth(2.0f);
+		glLineWidth(5.0f);
 
 		glBegin(GL_LINES);
 
@@ -51,17 +62,6 @@ void Primitive::Render() const
 
 		glLineWidth(1.0f);
 	}
-
-	glColor3f(color.r, color.g, color.b);
-
-	if(wire)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	InnerRender();
-
-	glPopMatrix();
 }
 
 // ------------------------------------------------------------
@@ -256,7 +256,7 @@ pPlane::pPlane(float x, float y, float z, float d) : Primitive(), normal(x, y, z
 
 void pPlane::InnerRender() const
 {
-	glLineWidth(1.0f);
+	glLineWidth(3.0f);
 
 	glBegin(GL_LINES);
 
