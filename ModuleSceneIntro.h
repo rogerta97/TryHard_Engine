@@ -3,7 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "imgui.h"
-
+#include "GameObject.h"
 
 #define MAX_SNAKE 2
 
@@ -18,6 +18,10 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	GameObject* CreateGameObject(); 
+
 public:
+
+	std::list<GameObject*> scene_gameobjects; 
 
 };

@@ -409,8 +409,14 @@
       <Filter>Sources\3rd Partys\JSON</Filter>
     </ClInclude>
     <ClInclude Include="UI_PerformancePanel.h">
-	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
-	</ClInclude>
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Sources\GameObject\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -642,8 +648,11 @@
       <Filter>Sources\3rd Partys\JSON</Filter>
     </ClCompile>
     <ClCompile Include="UI_PerformancePanel.cpp">
-	  <Filter>Sources\UI_Editor\UI_Panels</Filter>
-	</ClCompile>
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Sources\GameObject\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\Geometry\KDTree.inl">

@@ -3,10 +3,13 @@
 #include <list>
 #include "Component.h"
 
+#include "ComponentMesh.h"
+
 class GameObject
 {
 public:
 	GameObject();
+	GameObject(const char* name);
 	~GameObject();
 
 	void Start(); 
@@ -14,10 +17,13 @@ public:
 
 	bool AddComponent(Component* new_cmp);
 
+	Component* CreateComponent(CompType cmp_type); 
+
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type); 
 	
 public:
+	std::string name;
 	GameObject* parent;
 
 private:

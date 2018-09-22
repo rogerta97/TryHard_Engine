@@ -130,6 +130,14 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
+	if (ImGui::BeginMenu("Create"))
+	{
+		if (ImGui::MenuItem("Cube"))
+		{
+			
+		}
+	}
+
 	if (ImGui::BeginMenu("Help"))
 	{
 		if (ImGui::MenuItem("ImGui Demo"))

@@ -2,7 +2,9 @@
 
 #include "Texture.h"
 
-class TextureImporter
+#include "Importer.h"
+
+class TextureImporter : public Importer
 {
 public:
 	TextureImporter();
