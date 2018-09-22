@@ -27,7 +27,11 @@ bool ModuleSceneIntro::Start()
 
 	GameObject* new_go = CreateGameObject(); 
 	ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-	
+	cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE)); 
+	new_go->AddComponent(cmp); 
+
+	AddGameObjectToScene(new_go); 
+
 	return ret;
 }
 
@@ -48,6 +52,11 @@ GameObject * ModuleSceneIntro::CreateGameObject()
 	return new_go; 
 }
 
+void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
+{
+	scene_gameobjects.push_back(go); 
+}
+
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
@@ -61,6 +70,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p2({ 0,0,0 }, 0);
 
 	Circle intersects = s.Intersect(p2);
+
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->GetParent() == nullptr)
+		{
+			(*it)->Update(); 
+		}
+	}
 
 	//glBegin(GL_TRIANGLES);  // draw a cube with 12 triangles
 

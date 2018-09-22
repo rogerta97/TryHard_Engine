@@ -4,6 +4,7 @@
 #include "TextureImporter.h"
 #include <map>
 #include "Importer.h"
+#include "MeshImporter.h"
 
 
 class ModuleResources : public Module
@@ -19,13 +20,12 @@ public:
 	void LoadImporters(); 
 	update_status Update();
 
-	Importer* GetImporterFromType(ImporterType type);
+	MeshImporter* mesh_importer; 
 
 private: 
 	
 	std::map<unsigned int, Texture*> textures_list;
 
-	std::list<Importer*> importer_list; 
 
 };
 

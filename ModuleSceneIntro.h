@@ -19,6 +19,7 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(); 
+	void AddGameObjectToScene(GameObject* go); 
 
 public:
 

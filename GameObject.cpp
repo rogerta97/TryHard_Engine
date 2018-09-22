@@ -11,7 +11,8 @@ GameObject::GameObject()
 
 GameObject::GameObject(const char * name)
 {
-	this->name = name; 
+	this->name = name;
+	parent = nullptr; 
 }
 
 
@@ -26,6 +27,13 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
+	if (component_list.empty())
+		return; 
+
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		(*it)->Update(); 
+	}
 }
 
 Component * GameObject::GetComponent(CompType cmp_type)
@@ -33,9 +41,15 @@ Component * GameObject::GetComponent(CompType cmp_type)
 	return nullptr;
 }
 
+GameObject * GameObject::GetParent() const
+{
+	return parent;
+}
+
 bool GameObject::AddComponent(Component * new_cmp)
 {
-	return false;
+	component_list.push_back(new_cmp);
+	return true; 
 }
 
 Component * GameObject::CreateComponent(CompType cmp_type)

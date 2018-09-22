@@ -30,23 +30,14 @@ bool ModuleResources::Start()
 
 	LoadImporters();
 
-	//Call Start
-	for (std::list<Importer*>::iterator it = importer_list.begin(); it != importer_list.end(); it++)
-	{
-		if ((*it)->Start())
-			continue; 
-
-		ret = false; 
-	}
-
 	return ret;
 }
 
 void ModuleResources::LoadImporters()
 {
 	//Initiallize importers
-	MeshImporter* mesh_importer = new MeshImporter();
-	importer_list.push_back((Importer*)mesh_importer);
+	mesh_importer = new MeshImporter();
+	mesh_importer->Start(); 
 }
 
 update_status ModuleResources::Update()
@@ -54,13 +45,3 @@ update_status ModuleResources::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
-Importer * ModuleResources::GetImporterFromType(ImporterType type)
-{
-	for (auto it = importer_list.begin(); it != importer_list.end(); it++)
-	{
-		if ((*it)->imp_type == type)
-			return (*it); 
-	}
-
-	return nullptr; 
-}

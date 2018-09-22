@@ -21,6 +21,7 @@ public:
 
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type); 
+	GameObject* GetParent() const;
 	
 public:
 	std::string name;

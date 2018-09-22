@@ -4,6 +4,7 @@
 
 ComponentMesh::ComponentMesh()
 {
+	draw_mesh = true; 
 }
 
 
@@ -13,7 +14,7 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update()
 {
-	if (draw_mesh)
+	if (draw_mesh == false)
 		return false;
 
 	mesh->DrawMesh();
