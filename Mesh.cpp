@@ -68,7 +68,7 @@ void Mesh::DrawMesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_id);
 
 	// ... draw other buffers
-	glDrawElements(GL_TRIANGLES, num_index, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_TRIANGLES, num_index, GL_INT, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glDisableClientState(GL_VERTEX_ARRAY);
