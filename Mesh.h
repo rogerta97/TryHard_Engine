@@ -12,7 +12,6 @@ public:
 	~Mesh();
 
 	uint CreateBuffer();
-	void BindBuffer(); 
 	void UnbindBuffer();
 
 	bool SetCubeData(); 
@@ -28,9 +27,10 @@ private:
 	int* indices;
 
 	uint num_vertex;
-	uint num_index; 
+	uint num_indices; 
 
-	unsigned int buffer_id; 
+	uint vertex_id; 
+	uint indices_id; 
 
 	BasicMeshType type; 
 };

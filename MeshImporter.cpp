@@ -39,14 +39,9 @@ Mesh * MeshImporter::CreateCubeMesh()
 
 Mesh * MeshImporter::CreatePlaneMesh()
 {
-	Mesh* new_plane_mesh = new Mesh(); 
-
-	new_plane_mesh->CreateBuffer(); 
-	new_plane_mesh->BindBuffer(); 
-	new_plane_mesh->SetPlaneData(); 
-	new_plane_mesh->UnbindBuffer();
-
-	return new_plane_mesh;
+	Mesh* mesh = new Mesh(); 
+	mesh->SetPlaneData(); 
+	return mesh;
 }
 
 Mesh * MeshImporter::GetMeshByType(BasicMeshType type)
