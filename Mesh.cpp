@@ -84,7 +84,7 @@ void Mesh::DrawMesh()
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_TRIANGLES, num_indices, GL_INT, NULL);
 
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
