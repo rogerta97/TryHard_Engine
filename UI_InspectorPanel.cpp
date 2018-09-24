@@ -16,6 +16,7 @@ UI_InspectorPanel::~UI_InspectorPanel()
 bool UI_InspectorPanel::Start()
 {
 	show = true;
+	gameobject = nullptr; 
 
 	return true;
 }
@@ -27,7 +28,20 @@ bool UI_InspectorPanel::Update()
 
 	if (ImGui::BeginDock("Inspector", &show, NULL))
 	{
-		ImGui::Text("No GameObject Selected."); 
+		if (gameobject == nullptr)
+		{
+			ImGui::Text("No GameObject is Selected");
+			ImGui::EndDock();			
+			return false;
+		}
+			
+		if (gameobject->HasComponents())
+		{
+			for (std::list<Component*>::iterator it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
+			{
+				PrintProperties((*it)->GetType());
+			}
+		}	
 	}
 
 	ImGui::EndDock();
@@ -44,3 +58,44 @@ GameObject * UI_InspectorPanel::GetGameObject()
 {
 	return gameobject;
 }
+
+
+
+void UI_InspectorPanel::PrintProperties(CompType type)
+{
+	ImGui::Text("GameObject Info:");
+	
+	ImGui::Spacing(); 
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+
+
+
+	ImGui::Spacing();
+	ImGui::Separator();
+
+	switch (type)
+	{
+	case CMP_TRANSFORM:
+		//To Do
+		break;
+
+	case CMP_RENDERER:
+		PrintMeshProperties();
+		break;
+	}
+}
+
+
+void UI_InspectorPanel::PrintMeshProperties()
+{
+	if (ImGui::CollapsingHeader("Mesh Renderer"))
+	{
+		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
+		mesh_cmp->PrintRenderSettings(); 
+	}
+}
+
+

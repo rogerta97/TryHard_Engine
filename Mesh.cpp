@@ -78,27 +78,70 @@ bool Mesh::SetPlaneData()
 void Mesh::DrawMesh()
 {
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	
-	glBindBuffer(GL_VERTEX_ARRAY, vertex_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	glDrawElements(GL_TRIANGLES, num_indices, GL_INT, NULL);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//
+	//glBindBuffer(GL_VERTEX_ARRAY, vertex_id);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+	//glDrawElements(GL_TRIANGLES, num_indices, GL_INT, NULL);
+	//
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_VERTEX_ARRAY, 0);
+	//
+	//glDisableClientState(GL_VERTEX_ARRAY);
 
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_VERTEX_ARRAY, 0);
-	
-	glDisableClientState(GL_VERTEX_ARRAY);
+	const float sizex = 0.5f;
+	const float sizey = 0.5f;
+	const float sizez = 0.5f;
 
+	glBegin(GL_QUADS);
 
-	//glLineWidth(2.0f);
-	//glBegin(GL_LINES);
-	//glVertex3f(0.f, 0.f, 0.f);
-	//glVertex3f(0.f, 10.f, 0.f);
-	//glEnd();
-	//glLineWidth(1.0f);
+	glColor3f(1.0, 1.0, 1.0);
+
+	// FRONT
+	glVertex3f(-sizex, -sizey, sizez);
+	glVertex3f(sizex, -sizey, sizez);
+	glVertex3f(sizex, sizey, sizez);
+	glVertex3f(-sizex, sizey, sizez);
+
+	// BACK
+	glVertex3f(-sizex, -sizey, -sizez);
+	glVertex3f(-sizex, sizey, -sizez);
+	glVertex3f(sizex, sizey, -sizez);
+	glVertex3f(sizex, -sizey, -sizez);
+
+	glColor3f(1.0, 1.0, 1.0);
+
+	// LEFT
+	glVertex3f(-sizex, -sizey, sizez);
+	glVertex3f(-sizex, sizey, sizez);
+	glVertex3f(-sizex, sizey, -sizez);
+	glVertex3f(-sizex, -sizey, -sizez);
+
+	// RIGHT
+	glVertex3f(sizex, -sizey, -sizez);
+	glVertex3f(sizex, sizey, -sizez);
+	glVertex3f(sizex, sizey, sizez);
+	glVertex3f(sizex, -sizey, sizez);
+
+	glColor3f(1.0, 0.0, 1.0);
+
+	// TOP
+	glVertex3f(-sizex, sizey, sizez);
+	glVertex3f(sizex, sizey, sizez);
+	glVertex3f(sizex, sizey, -sizez);
+	glVertex3f(-sizex, sizey, -sizez);
+
+	// BOTTOM
+	glVertex3f(-sizex, -sizey, sizez);
+	glVertex3f(-sizex, -sizey, -sizez);
+	glVertex3f(sizex, -sizey, -sizez);
+	glVertex3f(sizex, -sizey, sizez);
+
+	glEnd();
+
 }
 
 BasicMeshType Mesh::GetType()

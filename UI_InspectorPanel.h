@@ -1,6 +1,8 @@
 #pragma once
 #include "UI_Panel.h"
 
+#include "Component.h"
+
 class GameObject; 
 
 class UI_InspectorPanel :
@@ -15,6 +17,11 @@ public:
 
 	void SetGameObject(GameObject* new_go); 
 	GameObject* GetGameObject(); 
+
+private: 
+
+	void PrintProperties(CompType type); 
+	void PrintMeshProperties(); 
 
 private: 
 	GameObject * gameobject; 

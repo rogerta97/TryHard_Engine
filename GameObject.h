@@ -19,9 +19,15 @@ public:
 
 	Component* CreateComponent(CompType cmp_type); 
 
+	//Utility
+	bool HasComponents(); 
+	bool HasChilds(); 
+
 	//Getters & Setters
-	Component* GetComponent(CompType cmp_type); 
+	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+
+	std::list<Component*> component_list;
 	
 public:
 	std::string name;
@@ -29,6 +35,5 @@ public:
 
 private:
 	std::list<GameObject*> child_list; 
-	std::list<Component*> component_list; 
 };
 

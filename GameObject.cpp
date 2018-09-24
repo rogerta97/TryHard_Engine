@@ -36,9 +36,15 @@ void GameObject::Update()
 	}
 }
 
-Component * GameObject::GetComponent(CompType cmp_type)
+Component * GameObject::GetComponent(CompType cmp_type) const
 {
-	return nullptr;
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		if ((*it)->GetType() == cmp_type)
+			return (*it); 
+	}
+
+	return nullptr; 
 }
 
 GameObject * GameObject::GetParent() const
@@ -67,4 +73,14 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 	}
 
 	return new_cmp; 
+}
+
+bool GameObject::HasComponents()
+{
+	return !component_list.empty();
+}
+
+bool GameObject::HasChilds()
+{
+	return !child_list.empty();;
 }

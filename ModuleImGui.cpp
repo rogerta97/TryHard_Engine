@@ -132,10 +132,22 @@ update_status ModuleImGui::DrawTopBar()
 
 	if (ImGui::BeginMenu("Create"))
 	{
-		if (ImGui::MenuItem("Cube"))
+		if (ImGui::MenuItem("Empty"))
 		{
 			
 		}
+
+		if (ImGui::MenuItem("Plane"))
+		{			
+			GameObject* new_go = App->scene_intro->CreateGameObject();
+			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
+			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE));
+			new_go->AddComponent(cmp);
+
+			inspector_panel->SetGameObject(new_go); 
+		}
+
+		ImGui::EndMenu();
 	}
 
 	if (ImGui::BeginMenu("Help"))

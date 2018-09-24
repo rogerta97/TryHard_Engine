@@ -25,12 +25,7 @@ bool ModuleSceneIntro::Start()
 	
 	start_time = performance_timer.Read();
 
-	GameObject* new_go = CreateGameObject(); 
-	ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-	cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE)); 
-	new_go->AddComponent(cmp); 
-
-	AddGameObjectToScene(new_go); 
+ 
 
 	return ret;
 }
@@ -45,9 +40,12 @@ bool ModuleSceneIntro::CleanUp()
 
 GameObject * ModuleSceneIntro::CreateGameObject()
 {
-	GameObject* new_go = new GameObject("plane_test"); 
+	GameObject* new_go = new GameObject(""); 
 
-	//Here we will add a transform component since it's mandatory
+	//Here we will add the component transform, every GO should have it.
+
+	AddGameObjectToScene(new_go);
+
 
 	return new_go; 
 }

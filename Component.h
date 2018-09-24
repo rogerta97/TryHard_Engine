@@ -1,6 +1,6 @@
 #pragma once
 
-enum CompType {CMP_TRANSFORM, CMP_RENDERER};
+enum CompType {CMP_TRANSFORM = 0, CMP_RENDERER};
 
 class Component {
 public:
@@ -14,7 +14,7 @@ public:
 	CompType GetType() const;
 	void SetType(CompType new_type);
 
-private:
+protected:
 
 	CompType component_type;  
 };
