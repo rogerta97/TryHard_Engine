@@ -98,7 +98,7 @@ void Mesh::DrawMesh()
 
 	glBegin(GL_QUADS);
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(0.5, 0.6, 1.0);
 
 	// FRONT
 	glVertex3f(-sizex, -sizey, sizez);
@@ -112,7 +112,7 @@ void Mesh::DrawMesh()
 	glVertex3f(sizex, sizey, -sizez);
 	glVertex3f(sizex, -sizey, -sizez);
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(0.5, 0.6, 1.0);
 
 	// LEFT
 	glVertex3f(-sizex, -sizey, sizez);
@@ -126,7 +126,7 @@ void Mesh::DrawMesh()
 	glVertex3f(sizex, sizey, sizez);
 	glVertex3f(sizex, -sizey, sizez);
 
-	glColor3f(1.0, 0.0, 1.0);
+	glColor3f(0.5, 0.6, 1.0);
 
 	// TOP
 	glVertex3f(-sizex, sizey, sizez);

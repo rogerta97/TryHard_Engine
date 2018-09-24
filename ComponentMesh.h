@@ -1,15 +1,8 @@
 #pragma once
 
 #include "Component.h"
+#include "ModuleRenderer3D.h"
 #include "Mesh.h"
-
-struct RenderSettings
-{
-	bool depth_test = false; 
-	bool cull_face = false; 
-	bool wireframe = false; 
-	bool color_material = true; 
-};
 
 class ComponentMesh : public Component
 {

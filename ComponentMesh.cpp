@@ -1,4 +1,5 @@
 #include "ComponentMesh.h"
+#include "Application.h"
 
 #include "imgui.h"
 #include "OpenGL.h"
@@ -26,9 +27,11 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false)
 		return false;
 
-	SetDrawSettings(); 
+	if(render_settings_modified)
+		SetDrawSettings(); 
+
 	mesh->DrawMesh();
-	SetDefaultSettings(); 
+	App->renderer3D->SetDefaultRenderSettings(); 
 
 	return true; 
 }
@@ -41,24 +44,24 @@ void ComponentMesh::SetMesh(Mesh * new_mesh)
 void ComponentMesh::SetDrawSettings()
 {
 	//Make needed render changes just in case is needed, if not the engine will render as default 
+	if (!render_settings_modified)
+		return; 
 
-		if (render_settings.depth_test) 
-			glEnable(GL_DEPTH_TEST);
-		else  glDisable(GL_DEPTH_TEST);
+	if (render_settings.depth_test) 
+		glEnable(GL_DEPTH_TEST);
+	else  glDisable(GL_DEPTH_TEST);
 
-		if (render_settings.cull_face) 
-			glEnable(GL_CULL_FACE);
-		else  glDisable(GL_CULL_FACE);
+	if (render_settings.cull_face) 
+		glEnable(GL_CULL_FACE);
+	else  glDisable(GL_CULL_FACE);
 
-		if (render_settings.color_material) 
-			glEnable(GL_COLOR_MATERIAL);
-		else  glDisable(GL_COLOR_MATERIAL);
+	if (render_settings.color_material) 
+		glEnable(GL_COLOR_MATERIAL);
+	else  glDisable(GL_COLOR_MATERIAL);
 
-		if (render_settings.wireframe)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
-		else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
+	if (render_settings.wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
+	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
 }
 

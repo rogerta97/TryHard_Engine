@@ -102,11 +102,16 @@ bool ModuleRenderer3D::Init()
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		//This should be load from JSON files
+		render_settings.depth_test = true; 
+		render_settings.cull_face = true;
+		render_settings.wireframe = false;
+		render_settings.color_material = true;
+
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+
+		SetDefaultRenderSettings(); 
 	}
 
 	// Projection matrix for
@@ -194,10 +199,48 @@ char * ModuleRenderer3D::GetGraphicsVendor()
 	return (char*)glGetString(GL_VENDOR);;
 }
 
+void ModuleRenderer3D::SetDefaultRenderSettings()
+{
+	if (render_settings.depth_test)
+		glEnable(GL_DEPTH_TEST);
+	else  glDisable(GL_DEPTH_TEST);
+
+	if (render_settings.cull_face)
+		glEnable(GL_CULL_FACE);
+	else  glDisable(GL_CULL_FACE);
+
+	if (render_settings.color_material)
+		glEnable(GL_COLOR_MATERIAL);
+	else  glDisable(GL_COLOR_MATERIAL);
+
+	if (render_settings.wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+RenderSettings ModuleRenderer3D::GetDefaultRenderSettings()
+{
+	return render_settings;
+}
+
 void ModuleRenderer3D::PrintConfigData()
 {
 	if (ImGui::CollapsingHeader("Render"))
 	{
-		ImGui::Text("Render Settings"); 
+		//Draw info
+		ImGui::Checkbox("Depth Test", &render_settings.depth_test);
+			
+
+		//ImGui::SameLine();
+		ImGui::Checkbox("Cull Face", &render_settings.cull_face);
+	
+
+		//ImGui::SameLine();
+		ImGui::Checkbox("Wireframe", &render_settings.wireframe);
+
+
+		//ImGui::SameLine();
+		ImGui::Checkbox("Color Material", &render_settings.color_material);
+	
 	}
 }
