@@ -52,14 +52,6 @@ bool Mesh::SetPlaneData()
 	vertex[3].y = 0.0f;
 	vertex[3].z = -1.0f;
 
-	//vertex[4].x = -1.0f;
-	//vertex[4].y = 0.0f;
-	//vertex[4].z = 1.0f;
-
-	//vertex[5].x = 1.0;
-	//vertex[5].y = 0.0f;
-	//vertex[5].z = -1.0f;
-
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
 	//Pass to VRAM
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertex*3, vertex, GL_STATIC_DRAW);
@@ -85,7 +77,6 @@ bool Mesh::SetPlaneData()
 
 void Mesh::DrawMesh()
 {
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
@@ -99,57 +90,6 @@ void Mesh::DrawMesh()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
-
-	//const float sizex = 0.5f;
-	//const float sizey = 0.5f;
-	//const float sizez = 0.5f;
-
-	//glBegin(GL_QUADS);
-
-	//glColor3f(0.5, 0.6, 1.0);
-
-	//// FRONT
-	//glVertex3f(-sizex, -sizey, sizez);
-	//glVertex3f(sizex, -sizey, sizez);
-	//glVertex3f(sizex, sizey, sizez);
-	//glVertex3f(-sizex, sizey, sizez);
-
-	//// BACK
-	//glVertex3f(-sizex, -sizey, -sizez);
-	//glVertex3f(-sizex, sizey, -sizez);
-	//glVertex3f(sizex, sizey, -sizez);
-	//glVertex3f(sizex, -sizey, -sizez);
-
-	//glColor3f(0.5, 0.6, 1.0);
-
-	//// LEFT
-	//glVertex3f(-sizex, -sizey, sizez);
-	//glVertex3f(-sizex, sizey, sizez);
-	//glVertex3f(-sizex, sizey, -sizez);
-	//glVertex3f(-sizex, -sizey, -sizez);
-
-	//// RIGHT
-	//glVertex3f(sizex, -sizey, -sizez);
-	//glVertex3f(sizex, sizey, -sizez);
-	//glVertex3f(sizex, sizey, sizez);
-	//glVertex3f(sizex, -sizey, sizez);
-
-	//glColor3f(0.5, 0.6, 1.0);
-
-	//// TOP
-	//glVertex3f(-sizex, sizey, sizez);
-	//glVertex3f(sizex, sizey, sizez);
-	//glVertex3f(sizex, sizey, -sizez);
-	//glVertex3f(-sizex, sizey, -sizez);
-
-	//// BOTTOM
-	//glVertex3f(-sizex, -sizey, sizez);
-	//glVertex3f(-sizex, -sizey, -sizez);
-	//glVertex3f(sizex, -sizey, -sizez);
-	//glVertex3f(sizex, -sizey, sizez);
-
-	//glEnd();
-
 }
 
 BasicMeshType Mesh::GetType()
