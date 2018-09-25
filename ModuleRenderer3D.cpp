@@ -77,7 +77,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		glClearDepth(1.0f);
 		
 		//Initialize clear color
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(0.4f, 0.4f, 0.4f, 1.f);
 
 		//Check for error
 		error = glGetError();
