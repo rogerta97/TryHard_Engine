@@ -60,7 +60,7 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	pPlane p(0, 1, 0, 0);
 	p.axis = true;
-	p.color = {100, 0, 0};  //Em mola que flipas el rosa de moment deixal porfa 
+	p.color = {0.15f, 0.15f, 0.15f};  //Em mola que flipas el rosa de moment deixal porfa 
 	p.Render();
 
 	Sphere s({0,0,0},100);

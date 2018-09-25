@@ -34,7 +34,7 @@ void Primitive::Render() const
 	if (axis == true)
 	{
 		// Draw Axis Grid
-		glLineWidth(5.0f);
+		glLineWidth(3.0f);
 
 		glBegin(GL_LINES);
 
