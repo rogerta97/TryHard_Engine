@@ -33,7 +33,7 @@ bool Mesh::SetPlaneData()
 	type = BasicMeshType::MESH_PLANE;
 		
 	//Create Vertices
-	num_vertex = 6;
+	num_vertex = 4;
 	vertex = new float3[num_vertex];
 
 	vertex[0].x = 1.0f;
@@ -52,13 +52,13 @@ bool Mesh::SetPlaneData()
 	vertex[3].y = 0.0f;
 	vertex[3].z = -1.0f;
 
-	vertex[4].x = -1.0f;
-	vertex[4].y = 0.0f;
-	vertex[4].z = 1.0f;
+	//vertex[4].x = -1.0f;
+	//vertex[4].y = 0.0f;
+	//vertex[4].z = 1.0f;
 
-	vertex[5].x = 1.0;
-	vertex[5].y = 0.0f;
-	vertex[5].z = -1.0f;
+	//vertex[5].x = 1.0;
+	//vertex[5].y = 0.0f;
+	//vertex[5].z = -1.0f;
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
 	//Pass to VRAM
@@ -66,19 +66,19 @@ bool Mesh::SetPlaneData()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	////Create Indices
-	//num_indices = 6;
-	//indices = new int[num_indices];
-	//indices[0] = 1;
-	//indices[1] = 0;
-	//indices[2] = 2;
-	//indices[3] = 3;
-	//indices[4] = 1;
-	//indices[5] = 2;
+	num_indices = 6;
+	indices = new int[num_indices];
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+	indices[3] = 3;
+	indices[4] = 2;
+	indices[5] = 1;
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	////Pass to VRAM
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+	//Pass to VRAM
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	return true; 
 }
@@ -90,9 +90,12 @@ void Mesh::DrawMesh()
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+		
+	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, NULL);
 	
-	glDrawArrays(GL_TRIANGLES, 0, num_vertex*3);
-	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 	glDisableClientState(GL_VERTEX_ARRAY);

@@ -38,9 +38,18 @@ void ComponentMesh::SetMesh(Mesh * new_mesh)
 void ComponentMesh::SetDrawSettings()
 {
 	//Make needed render changes just in case is needed, if not the engine will render as default 
+
 	if (wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
-	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+	{
+		glLineWidth(4.0f); 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glLineWidth(1.0f);
+	}
 }
 
 void ComponentMesh::SetDefaultSettings()
