@@ -7,7 +7,10 @@
 #include <list>
 #include <vector>
 
+#include "JSON\parson.h"
+
 class Application;
+//struct JSON_Object;
 struct PhysBody3D;
 
 class Module
@@ -24,7 +27,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init() 
+	virtual bool Init(JSON_Object* config)
 	{
 		init_time = performance_timer.Read();
 		return true; 

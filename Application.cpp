@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "SDL/include/SDL_cpuinfo.h"
 #include "DeviceId\DeviceId.h"
+#include "JSON\parson.h"
 
 Application::Application()
 {
@@ -53,33 +54,42 @@ bool Application::Init()
 	//Load title name from globals
 	name = TITLE; 
 	UpdateAppName(); 
+
+	JSON_Object* config = json_value_get_object(json_parse_file("config.json"));
 	
 	org = "Concha La Lora"; 
 
 	// Call Init() in all modules
-	std::list<Module*>::iterator item = list_modules.begin();
+	std::list<Module*>::iterator module_iterator = list_modules.begin();
 
-	while (item != list_modules.end() && ret == true)
+	while (module_iterator != list_modules.end() && ret == true)
 	{
-		(*item)->performance_timer.Start();
-		ret = (*item)->Init();
-		item++;
+		(*module_iterator)->performance_timer.Start();
+		ret = (*module_iterator)->Init(json_object_get_object(config,(*module_iterator)->name));
+		module_iterator++;
 	}
+
+	// Apply config to app
+
+	config = json_object_get_object(config, "App");
+
+	cap_fps = json_object_get_boolean(config, "cap_fps");
+	if (cap_fps)
+		max_fps = json_object_get_number(config, "max_fps");
 
 	// After all Init calls we call Start() in all modules
 	CONSOLE_LOG("Application Start --------------");
-	item = list_modules.begin();
+	module_iterator = list_modules.begin();
 
-	while (item != list_modules.end() && ret == true)
+	while (module_iterator != list_modules.end() && ret == true)
 	{
-		(*item)->performance_timer.Start();
-		ret = (*item)->Start();
-		item++;
+		(*module_iterator)->performance_timer.Start();
+		ret = (*module_iterator)->Start();
+		module_iterator++;
 	}
 
-	cap_fps = false;
 	frame_delay = 0; 
-	frame_wish_time = 1.0f / maxfps;
+	frame_wish_time = 1.0f / max_fps;
 	ms_timer.Start();
 	return ret;
 }
@@ -321,11 +331,16 @@ void Application::DisplayConfigData()
 		{
 			ImGui::Spacing(); 
 
-			ImGui::DragInt("Cap Value", (int*)&maxfps, 1, 1, 1000);
+			ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
 			
-			frame_wish_time = 1.0f / maxfps;
+			frame_wish_time = 1.0f / max_fps;
 			
 			ImGui::Spacing();
+		}
+		else {
+			max_fps = 1000;
+
+			frame_wish_time = 1.0f / max_fps;
 		}
 
 

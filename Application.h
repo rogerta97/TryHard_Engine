@@ -33,8 +33,6 @@ public:
 	ModuleCamera3D* camera;
 
 private:
-
-	bool cap_fps; 
 	
 	std::string name;
 	std::string org;
@@ -49,7 +47,8 @@ private:
 	Timer				startup_time;
 	Timer				frame_time;
 	float				dt = 0.0f;
-	uint				maxfps = 1000;
+	uint				max_fps = 1000;
+	bool				cap_fps;
 	float				frame_wish_time; 
 	int                 frame_delay;
 	float				avg_fps = -1.0f;

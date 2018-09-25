@@ -22,7 +22,7 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Init(JSON_Object* config);
 	bool CleanUp();
 
 	void SetTitle(const char* title);
@@ -39,9 +39,11 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
-private: 
+	//To have them in case of resize
+	int width, height;
+	float scale;
 
-	int width, height; 
+private: 
 	Display_Mode display_mode;
 	bool borderless, resizable; 
 	float brightness; 

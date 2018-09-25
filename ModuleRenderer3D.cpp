@@ -22,7 +22,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 {}
 
 // Called before render is available
-bool ModuleRenderer3D::Init()
+bool ModuleRenderer3D::Init(JSON_Object* config)
 {
 	CONSOLE_LOG("Creating 3D Renderer context");
 	bool ret = true;
@@ -115,7 +115,7 @@ bool ModuleRenderer3D::Init()
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->width, App->window->height);
 
 	init_time = performance_timer.Read();
 	return ret;

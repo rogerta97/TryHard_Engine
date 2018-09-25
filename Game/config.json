@@ -1,0 +1,14 @@
+{
+  "App": {
+    "engine_name": "TryHard Engine",
+    "organization": "UPC",
+    "cap_fps":  true,
+    "max_fps": 60
+  },
+  "Window": {
+    "scale":  1,
+    "width": 1280,
+    "height": 1000,
+    "fullscreen": false
+  }
+}

@@ -17,7 +17,7 @@ ModuleWindow::~ModuleWindow()
 }
 
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Init(JSON_Object* config)
 {
 	CONSOLE_LOG("Init SDL window & surface");
 	bool ret = true;
@@ -30,8 +30,9 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		width = SCREEN_WIDTH * SCREEN_SIZE;
-		height = SCREEN_HEIGHT * SCREEN_SIZE;
+		scale = json_object_get_number(config, "scale");
+		width = json_object_get_number(config,"width") * scale;
+		height = json_object_get_number(config, "height") * scale;
 		size_modified = false; 	
 		brightness = 1.0f; 
 
@@ -39,7 +40,11 @@ bool ModuleWindow::Init()
 		borderless = WIN_BORDERLESS;
 
 	
-		display_mode = DISPLAY_WINDOWED;
+		if (json_object_get_boolean(config, "fullscreen"))
+			display_mode = DISPLAY_FULLSCREEN_WINDOWED;
+		else
+			display_mode = DISPLAY_WINDOWED;
+
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
