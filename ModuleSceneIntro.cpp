@@ -58,8 +58,9 @@ void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	pPlane p(0, 1, 0, 0);
+	pPlane p(0, 1, 0, 500);
 	p.axis = true;
+	//p.Scale(0.01f, 0.01f, 0.01f);
 	p.color = {0.15f, 0.15f, 0.15f};  //Em mola que flipas el rosa de moment deixal porfa //ANS: la xupas
 	p.Render();
 
