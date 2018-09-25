@@ -31,7 +31,7 @@ public:
 	char* GetGraphicsModel();
 	char* GetGraphicsVendor();
 
-	void SetDefaultRenderSettings(); 
+	void UpdateRenderSettings(); 
 	RenderSettings GetDefaultRenderSettings(); 
 
 	void PrintConfigData(); 

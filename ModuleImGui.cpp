@@ -82,6 +82,7 @@ update_status ModuleImGui::Update(float dt)
 
 	App->renderer3D->SetUIPrintSettings();
 	DrawDocking();
+	App->renderer3D->UpdateRenderSettings();
 	ImGui::Render();
 
 	return update_status::UPDATE_CONTINUE;

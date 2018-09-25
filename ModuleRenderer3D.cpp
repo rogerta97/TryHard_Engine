@@ -77,7 +77,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		glClearDepth(1.0f);
 		
 		//Initialize clear color
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(0.4f, 0.4f, 0.4f, 1.f);
 
 		//Check for error
 		error = glGetError();
@@ -111,7 +111,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 
-		SetDefaultRenderSettings(); 
+		UpdateRenderSettings();
 	}
 
 	// Projection matrix for
@@ -199,7 +199,7 @@ char * ModuleRenderer3D::GetGraphicsVendor()
 	return (char*)glGetString(GL_VENDOR);;
 }
 
-void ModuleRenderer3D::SetDefaultRenderSettings()
+void ModuleRenderer3D::UpdateRenderSettings()
 {
 	if (render_settings.depth_test)
 		glEnable(GL_DEPTH_TEST);
@@ -228,19 +228,21 @@ void ModuleRenderer3D::PrintConfigData()
 	if (ImGui::CollapsingHeader("Render"))
 	{
 		//Draw info
-		ImGui::Checkbox("Depth Test", &render_settings.depth_test);
+		bool go = false; 
+
+		if (ImGui::Checkbox("Depth Test", &render_settings.depth_test)) go = true; 
 			
-
 		//ImGui::SameLine();
-		ImGui::Checkbox("Cull Face", &render_settings.cull_face);
+		if (ImGui::Checkbox("Cull Face", &render_settings.cull_face)) go = true;
 	
+		//ImGui::SameLine();
+		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true;
 
 		//ImGui::SameLine();
-		ImGui::Checkbox("Wireframe", &render_settings.wireframe);
+		if (ImGui::Checkbox("Color Material", &render_settings.color_material)) go = true;
 
-
-		//ImGui::SameLine();
-		ImGui::Checkbox("Color Material", &render_settings.color_material);
+		if (go)
+			UpdateRenderSettings(); 
 	
 	}
 }

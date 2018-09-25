@@ -21,9 +21,8 @@ public:
 private:
 
 	Mesh * mesh;
-	RenderSettings render_settings; 
 	
 	bool draw_mesh; 
-	bool render_settings_modified; 
+	bool wireframe; 
 };
 
