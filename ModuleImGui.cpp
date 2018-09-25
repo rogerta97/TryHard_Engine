@@ -91,11 +91,16 @@ update_status ModuleImGui::DrawTopBar()
 {
 	ImGui::BeginMainMenuBar();
 
-	if (ImGui::BeginMenu("Files"))
+	if (ImGui::BeginMenu("File"))
 	{
 		if (ImGui::MenuItem("Exit", "Shift + Esc"))
 		{
 			return UPDATE_STOP;
+		}
+
+		if (ImGui::MenuItem("Save"))
+		{
+			App->SaveConfigAfterUpdate();
 		}
 
 		ImGui::EndMenu();

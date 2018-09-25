@@ -65,6 +65,8 @@ public:
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
 
+	virtual void SaveConfigData(JSON_Object* config) {}
+
 	void ManageMsBuffer() {
 		if (runtime_ms_buffer.size() > 50)
 			runtime_ms_buffer.erase(runtime_ms_buffer.begin());

@@ -55,7 +55,12 @@ bool Application::Init()
 	name = TITLE; 
 	UpdateAppName(); 
 
-	JSON_Object* config = json_value_get_object(json_parse_file("config.json"));
+	JSON_Object* config = json_value_get_object(json_parse_file("user-config.json"));
+
+	if (!json_object_get_object(config, "App"))
+		config = json_value_get_object(json_parse_file("config.json"));
+
+
 	
 	org = "Concha La Lora"; 
 
@@ -126,6 +131,11 @@ void Application::FinishUpdate()
 	float seconds_since_startup = (startup_time.Read()/1000);
 	unsigned int last_frame_ms = frame_time.Read();
 	float frames_on_last_update = prev_last_sec_frame_count;
+
+	if (save_config_later) {
+		SaveConfigData();
+		save_config_later = false;
+	}
 
 	framerate_buffer.push_back(frames_on_last_update);
 	if (framerate_buffer.size() > HISTOGRAM_FR_LENGHT)
@@ -214,6 +224,34 @@ void Application::DisplayHardwareData()
 			ImGui::Text("VRAM usage");
 		}
 	}
+}
+
+void Application::SaveConfigData()
+{
+	JSON_Value* config = json_parse_file("user-config.json");
+
+	JSON_Value* app_config = json_value_init_object();
+
+	JSON_Object* app_config_object = json_object(app_config);
+
+	json_object_set_number(app_config_object, "max_fps", max_fps);
+	json_object_set_boolean(app_config_object, "cap_fps", cap_fps);
+	json_object_set_string(app_config_object, "engine_name", "");
+	json_object_set_string(app_config_object, "organization", "");
+
+	json_object_set_value(json_object(config), "App", app_config);
+
+	std::list<Module*>::iterator module_iterator = list_modules.begin();
+
+	while (module_iterator != list_modules.end())
+	{
+		JSON_Value* module_config = json_value_init_object();
+		(*module_iterator)->SaveConfigData(json_object(module_config));
+		json_object_set_value(json_object(config), (*module_iterator)->name, module_config);
+		module_iterator++;
+	}
+	json_serialize_to_file(config, "user-config.json");
+
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -383,6 +421,11 @@ float Application::GetDt() const
 float Application::GetLastFrameDelay() const
 {
 	return frame_delay;
+}
+
+void Application::SaveConfigAfterUpdate()
+{
+	save_config_later = true;
 }
 
 void Application::AddModule(Module* mod)  

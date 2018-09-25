@@ -76,7 +76,7 @@ public:
 
 	float GetDt() const;
 	float GetLastFrameDelay() const;
-
+	void SaveConfigAfterUpdate();
 
 private:
 
@@ -86,6 +86,9 @@ private:
 
 	void GetHardWareData();
 	void DisplayHardwareData();
+	void SaveConfigData();
+
+	bool save_config_later = false;
 
 private:
 

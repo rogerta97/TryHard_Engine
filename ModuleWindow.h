@@ -32,6 +32,8 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
+	void SaveConfigData(JSON_Object* config);
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;

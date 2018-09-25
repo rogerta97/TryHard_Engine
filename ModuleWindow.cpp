@@ -192,3 +192,11 @@ int ModuleWindow::GetHeight() const
 {
 	return height;
 }
+
+void ModuleWindow::SaveConfigData(JSON_Object * config)
+{
+	json_object_set_number(config, "width", width);
+	json_object_set_number(config, "height", height);
+	json_object_set_number(config, "scale", 1);
+	json_object_set_boolean(config, "fullscreen", false);
+}
