@@ -93,6 +93,12 @@ void ComponentMesh::PrintRenderSettings()
 		if (ImGui::Checkbox("Color Material", &render_settings.color_material))
 			render_settings_modified = true;
 
+		if (ImGui::Button("Set Default Settings"))
+		{
+			RenderSettings settings = App->renderer3D->GetDefaultRenderSettings(); 
+			render_settings = settings; 
+		}
+
 		ImGui::TreePop();
 	}
 
