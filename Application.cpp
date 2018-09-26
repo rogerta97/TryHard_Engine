@@ -78,6 +78,9 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
+	vsync.is_active = false; 
+	vsync.vsync_lvl = 0;
+
 	cap_fps = json_object_get_boolean(config, "cap_fps");
 	if (cap_fps)
 		max_fps = json_object_get_number(config, "max_fps");
@@ -363,7 +366,25 @@ void Application::DisplayConfigData()
 
 		ImGui::SameLine();
 
-		ImGui::Checkbox("Cap FPS", &cap_fps); 
+		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine(); 
+		
+		ImGui::Checkbox("Vsync", &vsync.is_active); 
+
+		if (vsync.is_active)
+		{
+			//Use Vsync		
+			if (GetLastSecFramerate() > 60)
+				vsync.SetLevel(1);
+			if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+				vsync.SetLevel(2);
+			else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+				vsync.SetLevel(3);
+		}
+		else
+			vsync.SetLevel(0);
+		
+		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		if (cap_fps)
 		{
@@ -380,7 +401,6 @@ void Application::DisplayConfigData()
 
 			frame_wish_time = 1.0f / max_fps;
 		}
-
 
 		ImGui::GetStyle().FrameRounding = 0;
 
@@ -422,6 +442,16 @@ float Application::GetDt() const
 float Application::GetLastFrameDelay() const
 {
 	return frame_delay;
+}
+
+Vsync Application::GetVsync() const
+{
+	return vsync;
+}
+
+float Application::GetLastSecFramerate()
+{
+	return framerate_buffer[framerate_buffer.size() - 1];
 }
 
 void Application::SaveConfigAfterUpdate()
