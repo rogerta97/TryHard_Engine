@@ -6,7 +6,7 @@
 
 #include "Importer.h"
 
-
+class GameObject; 
 
 class MeshImporter : public Importer
 {
@@ -20,7 +20,8 @@ public:
 
 	//Basic Geometry Data
 	Mesh* CreateCubeMesh(); 
-	Mesh* CreatePlaneMesh(); 
+	Mesh* CreatePlaneMesh();
+	std::list<GameObject*> CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
 
 	Mesh* GetMeshByType(BasicMeshType type); 
 

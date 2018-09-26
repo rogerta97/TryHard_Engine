@@ -3,7 +3,7 @@
 #include "MathGeoLib\MathGeoLib.h"
 #include "Globals.h"
 
-enum BasicMeshType { MESH_CUBE, MESH_PLANE };
+enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX };
 
 class Mesh
 {
@@ -21,7 +21,9 @@ public:
 
 	BasicMeshType GetType();
 
-private: 
+public: 
+
+	std::string name; 
 
 	float3* vertex; 
 	int* indices;

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "GameObject.h"
 
 #define MAX_KEYS 300
 
@@ -33,6 +34,7 @@ bool ModuleInput::Init(JSON_Object* config)
 		ret = false;
 	}
 
+	file_droped = ""; 
 	init_time = performance_timer.Read();
 	return ret;
 }
@@ -59,6 +61,11 @@ void ModuleInput::PrintConfigData()
 		ImGui::Text("Keys release:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (ImGui::IsKeyReleased(i)) { ImGui::SameLine(); ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", i); }
 		ImGui::Text("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
 	}
+}
+
+std::string ModuleInput::GetFileDroped()
+{
+	return file_droped;
 }
 
 // Called every draw update
@@ -117,6 +124,8 @@ update_status ModuleInput::PreUpdate(float dt)
 	while(SDL_PollEvent(&e))
 	{
 		App->imgui->SendInput(&e); 
+		std::string file_path; 
+		std::list<GameObject*> GO_list;
 
 		switch(e.type)
 		{
@@ -135,6 +144,15 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_QUIT:
 			quit = true;
 			break;
+
+			case SDL_DROPFILE:
+				file_droped = e.drop.file; 
+				GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+
+				for(auto it = GO_list.begin(); it != GO_list.end(); it++)
+					App->scene_intro->AddGameObjectToScene((*it));
+				
+				break; 
 
 			case SDL_WINDOWEVENT:
 			{

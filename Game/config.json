@@ -7,8 +7,8 @@
   },
   "Window": {
     "scale":  1,
-    "width": 1280,
-    "height": 1000,
+    "width": 800,
+    "height": 8900,
     "fullscreen": false
   }
 }
