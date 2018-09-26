@@ -56,11 +56,6 @@ bool ModuleWindow::Init(JSON_Object* config)
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(resizable == true)
-		{
-			flags |= SDL_WINDOW_RESIZABLE;
-		}
-
 		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
@@ -163,16 +158,6 @@ void ModuleWindow::PrintConfigData()
 		{
 			SDL_SetWindowBrightness(window, brightness); 
 		}
-
-		if (ImGui::Checkbox("Borderless", &borderless))
-		{				
-			SDL_SetWindowBordered(window, (SDL_bool)!borderless);
-		} ImGui::SameLine(); 
-
-		if (ImGui::Checkbox("Resizable", &resizable))
-		{
-	
-		}
 	}
 }
 
@@ -191,6 +176,16 @@ int ModuleWindow::GetWidth() const
 int ModuleWindow::GetHeight() const
 {
 	return height;
+}
+
+void ModuleWindow::GetPosition(int * x, int * y)
+{
+	SDL_GetWindowPosition(window, x,y);
+}
+
+void ModuleWindow::SetPosition(int x, int y)
+{
+	SDL_SetWindowPosition(window, x, y);
 }
 
 void ModuleWindow::SaveConfigData(JSON_Object * config)

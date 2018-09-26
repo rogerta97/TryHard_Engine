@@ -43,6 +43,8 @@ public:
 
 private: 
 
+	int x_motion, y_motion;
+
 	bool show_demo_window = false; 
 	bool show_style_editor = false; 
 

@@ -71,6 +71,9 @@ update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
+	x_motion = -App->input->GetMouseXMotion();
+	y_motion = -App->input->GetMouseYMotion();
+
 	return update_status::UPDATE_CONTINUE;
 }
 
@@ -92,8 +95,15 @@ update_status ModuleImGui::DrawTopBar()
 {
 	ImGui::BeginMainMenuBar();
 
+	ImVec2 size = ImGui::GetContentRegionAvail();
+	
+	size.y+=10;
+
 	if (ImGui::BeginMenu("File"))
 	{
+		if (ImGui::IsItemHovered()) {
+			LOG("HHE");
+		}
 		if (ImGui::MenuItem("Exit", "Shift + Esc"))
 		{
 			return UPDATE_STOP;
@@ -206,10 +216,42 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-
-
-
 	ImGui::EndMainMenuBar();
+
+	int mouse_x = App->input->GetMouseX();
+	int mouse_y = App->input->GetMouseY();
+
+	bool clicking = false;
+	bool dragging = false;
+
+	if (mouse_x != 0 && mouse_y != 0) {
+
+		if (mouse_x < size.x)
+		{
+			if (mouse_y < size.y) 
+			{
+				dragging = true;
+			}
+		}
+
+	}
+
+	if (x_motion != 0)
+		clicking = true;
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		int x_win_pos, y_win_pos;
+		App->window->GetPosition(&x_win_pos, &y_win_pos);
+
+		if (x_motion != 0)
+			clicking = true;
+
+		if (clicking)
+			LOG("PENE");
+	}
+
+
 
 	return UPDATE_CONTINUE;
 

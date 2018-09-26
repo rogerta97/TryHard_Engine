@@ -1,1 +1,22 @@
-{"App":{"max_fps":1000,"cap_fps":false,"engine_name":"","organization":""},"Window":{"width":1920,"height":1080,"scale":1,"fullscreen":false},"Camera":{},"Input":{},"Resources":{},"Audio":{},"Scene":{},"ImGui":{},"Renderer":{}}
+{
+  "App": {
+    
+    "max_fps": 1000,
+    "cap_fps": false,
+    "engine_name": "",
+    "organization": ""
+  },
+  "Window": {
+    "width": 1520,
+    "height": 1080,
+    "scale": 1,
+    "fullscreen": false
+  },
+  "Camera": {},
+  "Input": {},
+  "Resources": {},
+  "Audio": {},
+  "Scene": {},
+  "ImGui": {},
+  "Renderer": {}
+}
