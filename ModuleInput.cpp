@@ -148,10 +148,8 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_DROPFILE:
 				file_droped = e.drop.file; 
 				GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-
-				for(auto it = GO_list.begin(); it != GO_list.end(); it++)
-					App->scene_intro->AddGameObjectToScene((*it));
-				
+				App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));
+							
 				break; 
 
 			case SDL_WINDOWEVENT:

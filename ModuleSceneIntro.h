@@ -19,10 +19,16 @@ public:
 	bool CleanUp();
 
 	GameObject* CreateGameObject(); 
+	GameObject* CreateGameObject(std::list<GameObject*> list_childs);
+
 	void AddGameObjectToScene(GameObject* go); 
+
+	void SetSelectedGameObject(GameObject* selected); 
+	GameObject* GetSelectedGameObject() const;
 
 public:
 
 	std::list<GameObject*> scene_gameobjects; 
+	GameObject* selected_go; 
 
 };

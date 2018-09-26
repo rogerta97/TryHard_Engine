@@ -27,12 +27,15 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
-	if (component_list.empty())
-		return; 
-
+ 
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		(*it)->Update(); 
+	}
+
+	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	{
+		(*it)->Update();
 	}
 }
 
@@ -56,6 +59,13 @@ bool GameObject::AddComponent(Component * new_cmp)
 {
 	component_list.push_back(new_cmp);
 	return true; 
+}
+
+bool GameObject::AddChild(GameObject * child)
+{
+	child_list.push_back(child); 
+
+	return true;
 }
 
 Component * GameObject::CreateComponent(CompType cmp_type)

@@ -40,6 +40,7 @@ public:
 	Console console;
 
 	bool is_initial_position = true;
+	UI_InspectorPanel* inspector_panel;
 
 private: 
 
@@ -55,7 +56,6 @@ private:
 	UI_ScenePanel* scene_panel; 
 	UI_ConsolePanel* console_panel; 
 	UI_RandomNumberPanel* random_panel; 
-	UI_InspectorPanel* inspector_panel; 
 	UI_PerformancePanel* performance_panel;
 
 };

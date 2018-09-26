@@ -16,6 +16,7 @@ public:
 	void Update(); 
 
 	bool AddComponent(Component* new_cmp);
+	bool AddChild(GameObject* child); 
 
 	Component* CreateComponent(CompType cmp_type); 
 

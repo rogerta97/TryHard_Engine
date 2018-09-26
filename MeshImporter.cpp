@@ -66,62 +66,63 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 	{
 		int num_meshes = scene->mNumMeshes; 
 
-		/*for (int i = 0; i < num_meshes; i++)
-		{*/
+		for (int i = 0; i < num_meshes; i++)
+		{
 			//Create the GameObject where the data will be stored
-			GameObject* game_object = new GameObject(); 
+			GameObject* game_object = new GameObject();
 
 			//Create the mesh where the data will be stored 
-			aiMesh* curr_mesh = scene->mMeshes[0]; 
-			Mesh* new_mesh = new Mesh(); 
-			new_mesh->type = MESH_FBX; 
-			new_mesh->name = curr_mesh->mName.C_Str(); 
+			aiMesh* curr_mesh = scene->mMeshes[i];
+			Mesh* new_mesh = new Mesh();
+			new_mesh->type = MESH_FBX;
+			new_mesh->name = curr_mesh->mName.C_Str();
 
 			//Load Vertices
 			new_mesh->num_vertex = curr_mesh->mNumVertices;
 			new_mesh->vertex = new float3[new_mesh->num_vertex];
 			memcpy(new_mesh->vertex, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertex);
 
-			glGenBuffers(1, &new_mesh->vertex_id); 
-			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertex_id); 
+			glGenBuffers(1, &new_mesh->vertex_id);
+			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertex_id);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertex, new_mesh->vertex, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0); 
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			CONSOLE_LOG("%d vertices", new_mesh->num_vertex);
-	
+
 			//Load Indices
 			if (curr_mesh->HasFaces())
 			{
-				new_mesh->num_indices = curr_mesh->mNumFaces * 3; 
-				new_mesh->indices = new int[new_mesh->num_indices]; 
+				new_mesh->num_indices = curr_mesh->mNumFaces * 3;
+				new_mesh->indices = new int[new_mesh->num_indices];
 
 				for (int j = 0; j < curr_mesh->mNumFaces; j++)
 				{
-					aiFace curr_face = curr_mesh->mFaces[j]; 
+					aiFace curr_face = curr_mesh->mFaces[j];
 
 					if (curr_face.mNumIndices != 3)
 					{
-						CONSOLE_ERROR("Geometry index in face %d is != 3", j); 
+						CONSOLE_ERROR("Geometry index in face %d is != 3", j);
 					}
 					else
-						memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint)* 3);					
+						memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
 				}
 
 				glGenBuffers(1, &new_mesh->indices_id);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*new_mesh->num_indices, &new_mesh->indices, GL_STATIC_DRAW);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-				CONSOLE_LOG("%d indices", new_mesh->num_indices); 
+				CONSOLE_LOG("%d indices", new_mesh->num_indices);
 			}
 			//Add it to Mesh List
-			
-			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->CreateComponent(CMP_RENDERER); 
-			cmp_mesh->SetMesh(new_mesh);
-			game_object->AddComponent(cmp_mesh); 
 
-			output_list.push_back(game_object); 
-	
+			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->CreateComponent(CMP_RENDERER);
+			cmp_mesh->SetMesh(new_mesh);
+			game_object->AddComponent(cmp_mesh);
+
+			App->scene_intro->AddGameObjectToScene(game_object); 
+			output_list.push_back(game_object);
+		}
 		
 		//Release Scene
 		aiReleaseImport(scene);

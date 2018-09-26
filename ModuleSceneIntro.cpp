@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneIntro.h"
+#include "UI_InspectorPanel.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 
@@ -50,9 +51,34 @@ GameObject * ModuleSceneIntro::CreateGameObject()
 	return new_go; 
 }
 
+GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_childs)
+{
+	GameObject* parent_go = new GameObject();
+
+	for (auto it = list_childs.begin(); it != list_childs.end(); it++)
+	{
+		(*it)->parent = parent_go; 
+		parent_go->AddChild((*it)); 
+	}
+
+	AddGameObjectToScene(parent_go); 
+	return parent_go; 
+}
+
 void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 {
 	scene_gameobjects.push_back(go); 
+}
+
+void ModuleSceneIntro::SetSelectedGameObject(GameObject * selected)
+{
+	selected_go = selected;
+	App->imgui->inspector_panel->SetGameObject(selected); 
+}
+
+GameObject* ModuleSceneIntro::GetSelectedGameObject() const
+{
+	return selected_go;
 }
 
 // Update
