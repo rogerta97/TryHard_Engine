@@ -32,6 +32,9 @@ bool ModuleImGui::Start()
 	show_demo_window = false;
 	show_style_editor = false;
 
+	last_dx = 0;
+	last_dy = 0;
+
 	//Initialize Panels 
 
 	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
@@ -63,7 +66,7 @@ void ModuleImGui::SetDefaultStyle()
 
 void ModuleImGui::SendInput(SDL_Event * e) const
 {
-		ImGui_ImplSdlGL2_ProcessEvent(e);
+	ImGui_ImplSdlGL2_ProcessEvent(e);
 }
 
 
@@ -71,14 +74,17 @@ update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
 
+	x_motion = -App->input->GetMouseXMotion();
+	y_motion = -App->input->GetMouseYMotion();
+
 	return update_status::UPDATE_CONTINUE;
 }
 
 update_status ModuleImGui::Update(float dt)
 {
-	
+
 	if (DrawTopBar() != update_status::UPDATE_CONTINUE)
-		return update_status::UPDATE_STOP; 
+		return update_status::UPDATE_STOP;
 
 	App->renderer3D->SetUIPrintSettings();
 	DrawDocking();
@@ -92,8 +98,15 @@ update_status ModuleImGui::DrawTopBar()
 {
 	ImGui::BeginMainMenuBar();
 
+	ImVec2 size = ImGui::GetContentRegionAvail();
+
+	size.y += 10;
+
 	if (ImGui::BeginMenu("File"))
 	{
+		if (ImGui::IsItemHovered()) {
+			LOG("HHE");
+		}
 		if (ImGui::MenuItem("Exit", "Shift + Esc"))
 		{
 			return UPDATE_STOP;
@@ -140,17 +153,17 @@ update_status ModuleImGui::DrawTopBar()
 	{
 		if (ImGui::MenuItem("Empty"))
 		{
-			
+
 		}
 
 		if (ImGui::MenuItem("Plane"))
-		{			
+		{
 			GameObject* new_go = App->scene_intro->CreateGameObject();
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
 			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE));
 			new_go->AddComponent(cmp);
 
-			inspector_panel->SetGameObject(new_go); 
+			inspector_panel->SetGameObject(new_go);
 		}
 
 		ImGui::EndMenu();
@@ -167,10 +180,10 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine");
 		}
-		
+
 		if (ImGui::MenuItem("Report a Bug!"))
 		{
-			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new"); 
+			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new");
 		}
 
 		if (ImGui::BeginMenu("3rd Parties"))
@@ -206,10 +219,67 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
-
-
-
 	ImGui::EndMainMenuBar();
+
+	int mouse_x = App->input->GetMouseX();
+	int mouse_y = App->input->GetMouseY();
+
+
+
+
+	if (mouse_x < size.x && mouse_x > 0)
+	{
+		if (mouse_y < size.y && mouse_y > 0)
+		{
+			dragging = true;
+		}
+	}
+
+
+
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && dragging)
+	{
+		int x_win_pos, y_win_pos;
+		App->window->GetPosition(&x_win_pos, &y_win_pos);
+
+		int dx = App->input->GetMouseXMotion();
+		int dy = App->input->GetMouseYMotion();
+
+		if (dx == 0 && dy == 0)
+			return UPDATE_CONTINUE;
+
+		if (last_dx != dx && last_dy != dy)
+		{
+			if (dx != 0 && dy != 0)
+			{
+				App->window->SetPosition(x_win_pos + dx, y_win_pos + dy);
+				last_dy = -dy;
+				last_dx = -dx;
+			}
+			
+		}
+		else 
+		{
+			if (last_dy != dy) {
+				App->window->SetPosition(x_win_pos, y_win_pos + dy);
+				last_dy = -dy;
+			}
+
+			if (last_dx != dx)
+			{
+				App->window->SetPosition(x_win_pos + dx, y_win_pos);
+				last_dx = -dx;
+			}
+
+		}
+
+	}
+	else
+		dragging = false;
+
+
+
 
 	return UPDATE_CONTINUE;
 
@@ -273,12 +343,12 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		random_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);	
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);
 		scene_panel->Update();
 
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
 		inspector_panel->Update();
-		
+
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		config_panel->Update();
 
