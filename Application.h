@@ -20,6 +20,15 @@
 #define HISTOGRAM_FR_LENGHT 50
 #define HISTOGRAM_MS_LENGHT 50
 
+struct Vsync
+{
+	bool	is_active = false;
+	uint	vsync_lvl = 0;
+
+	void SetActive(bool active) { is_active = active; };
+	void SetLevel(uint lvl) { vsync_lvl = lvl; };
+};
+
 class Application
 {
 public:
@@ -53,6 +62,8 @@ private:
 	int                 frame_delay;
 	float				avg_fps = -1.0f;
 
+	Vsync				vsync; 
+	
 	std::list<Module*> list_modules;
 
 public:
@@ -70,12 +81,12 @@ public:
 	void UpdateAppName(); 
 
 	void OpenWebBrowser(const char* web); 
-
-
 	const std::list<Module*>* getModuleList() const;
 
 	float GetDt() const;
 	float GetLastFrameDelay() const;
+	Vsync GetVsync() const; 
+	float GetLastSecFramerate(); 
 	void SaveConfigAfterUpdate();
 
 private:

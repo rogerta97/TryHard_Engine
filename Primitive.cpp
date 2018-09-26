@@ -260,7 +260,7 @@ void pPlane::InnerRender() const
 
 	glBegin(GL_LINES);
 
-	float d = 7.0f;
+	float d = 4.0f;
 
 	for(float i = -d; i <= d; i += 1.0f)
 	{
