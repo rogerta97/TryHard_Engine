@@ -23,8 +23,9 @@ Application::Application()
 	// Main Modules
 
 	AddModule(window);
-	AddModule(camera);
+
 	AddModule(input);
+	AddModule(camera);
 	AddModule(resources); 
 	AddModule(audio);
 	//AddModule(physics);

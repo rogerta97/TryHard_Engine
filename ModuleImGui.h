@@ -43,7 +43,8 @@ public:
 
 private: 
 
-	int x_motion, y_motion;
+	int x_motion, y_motion, last_dx, last_dy;
+	bool dragging = false;
 
 	bool show_demo_window = false; 
 	bool show_style_editor = false; 
