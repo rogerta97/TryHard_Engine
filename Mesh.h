@@ -24,6 +24,7 @@ public:
 public: 
 
 	std::string name; 
+	float3 color; 
 
 	float3* vertex; 
 	int* indices;

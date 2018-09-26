@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "GameObject.h"
 
 Component::Component()
 {
@@ -26,4 +27,14 @@ CompType Component::GetType() const
 void Component::SetType(CompType new_type)
 {
 	component_type = new_type; 
+}
+
+GameObject * Component::GetGameObject() const
+{
+	return gameobject;
+}
+
+void Component::SetGameObject(GameObject * new_go)
+{
+	gameobject = new_go; 
 }

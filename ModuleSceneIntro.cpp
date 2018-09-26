@@ -74,6 +74,9 @@ void ModuleSceneIntro::SetSelectedGameObject(GameObject * selected)
 {
 	selected_go = selected;
 	App->imgui->inspector_panel->SetGameObject(selected); 
+
+	//Child "selected" boolean should also change to true, but they should not be set as current gameobject. 
+	selected->SelectGameObjectRecursive(); 	
 }
 
 GameObject* ModuleSceneIntro::GetSelectedGameObject() const

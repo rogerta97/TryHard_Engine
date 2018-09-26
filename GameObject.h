@@ -20,6 +20,8 @@ public:
 
 	Component* CreateComponent(CompType cmp_type); 
 
+	void SelectGameObjectRecursive(); 
+
 	//Utility
 	bool HasComponents(); 
 	bool HasChilds(); 
@@ -29,6 +31,8 @@ public:
 	GameObject* GetParent() const;
 
 	std::list<Component*> component_list;
+
+	bool selected; 
 	
 public:
 	std::string name;

@@ -4,6 +4,8 @@
 
 Mesh::Mesh()
 {
+	name = ""; 
+	color = { DEFAULT_GEOMETRY_COLOR };
 }
 
 

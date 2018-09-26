@@ -25,7 +25,18 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false)
 		return false;
 
+	glColor3f(DEFAULT_GEOMETRY_COLOR);
 	mesh->DrawMesh();
+
+	//if the mesh is selected we draw it again in wireframe mode
+	if (gameobject->selected)
+	{
+		glColor3f(DEFAULT_WIREFRAME_COLOR);
+		wireframe = true;
+		SetDrawSettings();
+		mesh->DrawMesh();
+		wireframe = false;
+	}
 
 	return true; 
 }

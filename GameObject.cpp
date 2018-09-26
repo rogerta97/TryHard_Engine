@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+#include "Component.h"
 #include "ComponentMesh.h"
 
 
@@ -13,6 +14,7 @@ GameObject::GameObject(const char * name)
 {
 	this->name = name;
 	parent = nullptr; 
+	selected = false; 
 }
 
 
@@ -79,10 +81,21 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 
 		case CMP_RENDERER:
 			new_cmp = new ComponentMesh(); 
+			new_cmp->SetGameObject(this); 
 			break;
 	}
 
 	return new_cmp; 
+}
+
+void GameObject::SelectGameObjectRecursive()
+{
+	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	{
+		(*it)->SelectGameObjectRecursive(); 
+	}
+
+	selected = true; 
 }
 
 bool GameObject::HasComponents()
