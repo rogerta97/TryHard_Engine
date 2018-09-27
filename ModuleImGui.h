@@ -44,7 +44,7 @@ public:
 
 private: 
 
-	int x_motion, y_motion, last_dx, last_dy;
+	int x_motion, y_motion, last_x, last_y;
 	bool dragging = false;
 
 	bool show_demo_window = false; 

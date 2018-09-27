@@ -27,6 +27,7 @@ ModuleImGui::ModuleImGui(bool start_enabled)
 	name = "ImGui";
 }
 
+
 ModuleImGui::~ModuleImGui()
 {}
 
@@ -35,8 +36,8 @@ bool ModuleImGui::Start()
 	show_demo_window = false;
 	show_style_editor = false;
 
-	last_dx = 0;
-	last_dy = 0;
+	last_x = 0;
+	last_y = 0;
 
 	//Initialize Panels 
 
@@ -248,15 +249,13 @@ update_status ModuleImGui::DrawTopBar()
 	}
 
 
-
+	int global_mouse_x, global_mouse_y;
+	SDL_GetGlobalMouseState(&global_mouse_x, &global_mouse_y);
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && dragging)
 	{
 		int x_win_pos, y_win_pos;
 		App->window->GetPosition(&x_win_pos, &y_win_pos);
-
-		int global_mouse_x, global_mouse_y;
-
 
 
 		int dx = App->input->GetMouseXMotion();
@@ -265,36 +264,16 @@ update_status ModuleImGui::DrawTopBar()
 		if (dx == 0 && dy == 0)
 			return UPDATE_CONTINUE;
 
-		if (last_dx != dx && last_dy != dy)
-		{
-			if (dx != 0 && dy != 0)
-			{
-				App->window->SetPosition(x_win_pos + dx, y_win_pos + dy);
-				last_dy = -dy;
-				last_dx = -dx;
-			}
-			
-		}
-		else 
-		{
-			//if (last_dy != dy) {
-			//	App->window->SetPosition(x_win_pos, y_win_pos + dy);
-			//	last_dy = -dy;
-			//}
 
-			//if (last_dx != dx)
-			//{
-			//	App->window->SetPosition(x_win_pos + dx, y_win_pos);
-			//	last_dx = -dx;
-			//}
+		App->window->SetPosition(x_win_pos + (global_mouse_x - last_x), y_win_pos + (global_mouse_y - last_y));
 
-		}
 
 	}
 	else
 		dragging = false;
 
-
+	last_x = global_mouse_x;
+	last_y = global_mouse_y;
 
 
 	return UPDATE_CONTINUE;
@@ -306,6 +285,7 @@ update_status ModuleImGui::DrawDocking()
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
+
 
 	if (ImGui::Begin("MainDock", 0, window_flags))
 	{
