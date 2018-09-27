@@ -31,7 +31,7 @@ void console_log(const char file[], int line, const char* format, ...)
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
 	OutputDebugString(tmp_string2);
 
-	App->imgui->console.AddToConsole(tmp_string2, CONSOLE_MLOG); 
+	App->imgui->console.AddToConsole(tmp_string, CONSOLE_MLOG);
 
 	//OutputDebugString(tmp_string2);
 }

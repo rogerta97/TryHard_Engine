@@ -14,7 +14,7 @@ Console::~Console()
 {
 }
 
-void Console::AddToConsole(const char* new_message, Console_Message_Type type)
+void Console::AddToConsole(std::string new_message, Console_Message_Type type)
 {
 	if (type == CONSOLE_MLOG) log_count++; 
 	else if (type == CONSOLE_MDEBUG) debug_count++;
@@ -23,10 +23,10 @@ void Console::AddToConsole(const char* new_message, Console_Message_Type type)
 	if (log_count > 100 || debug_count > 100 || error_count > 100)
 		Clear();
 
-	console_buffer.insert(std::pair<Console_Message_Type, const char*>(type, new_message)); 
+	console_buffer.insert(std::pair<Console_Message_Type, std::string>(type, new_message));
 }
 
-std::multimap<Console_Message_Type, const char*> Console::GetBuffer() const
+std::multimap<Console_Message_Type, std::string> Console::GetBuffer() const
 {
 	return console_buffer;
 }

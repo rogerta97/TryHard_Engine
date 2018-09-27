@@ -78,18 +78,18 @@ bool UI_ConsolePanel::Update()
 			switch (it->first)
 			{
 			case Console_Message_Type::CONSOLE_MLOG:
-				if(show_log)
-					ImGui::TextColored(log_color, it->second);
+				if (show_log)
+					ImGui::TextColored(log_color, it->second.c_str());
 				break;
 
 			case Console_Message_Type::CONSOLE_MDEBUG:
 				if (show_debug)
-					ImGui::TextColored(debug_color, it->second);
+					ImGui::TextColored(debug_color, it->second.c_str());
 				break;
 
 			case Console_Message_Type::CONSOLE_MERROR:
 				if (show_error)
-					ImGui::TextColored(error_color, it->second);
+					ImGui::TextColored(error_color, it->second.c_str());
 				break;
 			}
 		}

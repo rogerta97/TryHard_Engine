@@ -11,10 +11,10 @@ public:
 	Console();
 	~Console();
 
-	void AddToConsole(const char* new_message, Console_Message_Type type);
-	std::multimap<Console_Message_Type, const char*> GetBuffer() const; 
+	void AddToConsole(std::string new_message, Console_Message_Type type);
+	std::multimap<Console_Message_Type, std::string> GetBuffer() const;
 
-	std::multimap<Console_Message_Type, const char*> console_buffer;
+	std::multimap<Console_Message_Type, std::string> console_buffer;
 
 	uint GetLogCount() const; 
 	uint GetDebugCount() const;
