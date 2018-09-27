@@ -22,6 +22,69 @@ uint Mesh::CreateBuffer()
 
 bool Mesh::SetCubeData()
 {
+	////Create the buffers
+	//vertex_id = CreateBuffer();
+	//indices_id = CreateBuffer();
+
+	//type = BasicMeshType::MESH_CUBE;
+	//num_vertex = 8;
+	//vertex = new float3[num_vertex];
+
+	//int w = 1;
+	//int h = 1;
+	//int d = 1;
+
+	//vertex[0].x = -w;
+	//vertex[0].y = -h;
+	//vertex[0].z = +d;
+
+	//vertex[1].x = +w;
+	//vertex[1].y = -h;
+	//vertex[1].z = +d;
+
+	//vertex[2].x = +w;
+	//vertex[2].y = +h;
+	//vertex[2].z = +d;
+
+	//vertex[3].x = +w;
+	//vertex[3].y = +h;
+	//vertex[3].z = +d;
+
+	//vertex[4].x = -w;
+	//vertex[4].y = -h;
+	//vertex[4].z = -d;
+
+	//vertex[5].x = +w;
+	//vertex[5].y = -h;
+	//vertex[5].z = -d;
+
+	//vertex[6].x = +w;
+	//vertex[6].y = +h;
+	//vertex[6].z = -d;
+
+	//vertex[7].x = +w;
+	//vertex[7].y = +h;
+	//vertex[7].z = -d;
+
+	//glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
+	////Pass to VRAM
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertex * 3, vertex, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//////Create Indices
+	//num_indices = 6;
+	//indices = new int[num_indices];
+	//indices[0] = 0;
+	//indices[1] = 1;
+	//indices[2] = 2;
+	//indices[3] = 3;
+	//indices[4] = 2;
+	//indices[5] = 1;
+
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+	////Pass to VRAM
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	return false;
 }
@@ -49,16 +112,17 @@ bool Mesh::SetPlaneData()
 	vertices[2].x = -1.0f;
 	vertices[2].y = 0.0f;
 	vertices[2].z = 1.0f;
-	
+
 	vertices[3].x = -1.0;
 	vertices[3].y = 0.0f;
 	vertices[3].z = -1.0f;
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices*3, vertices, GL_STATIC_DRAW); //Info to VRAM
+	//Pass to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices *3, vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Create Indices
+	////Create Indices
 	num_indices = 6;
 	indices = new int[num_indices];
 	indices[0] = 0;
@@ -69,35 +133,9 @@ bool Mesh::SetPlaneData()
 	indices[5] = 1;
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW); //Info to VRAM
+	//Pass to VRAM
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	//Create Texture Coords
-	num_uvs = num_indices; 
-	uvs_cords = new float[num_uvs*2]; 
-
-	uvs_cords[0] = 0.0f;
-	uvs_cords[1] = 1.0f;
-
-	uvs_cords[2] = 0.0f;
-	uvs_cords[3] = 0.0f;
-
-	uvs_cords[4] = 1.0f;
-	uvs_cords[5] = 1.0f;
-
-	uvs_cords[6] = 1.0f;
-	uvs_cords[7] = 0.0f;
-
-	uvs_cords[8] = 1.0f;
-	uvs_cords[9] = 1.0f;
-
-	uvs_cords[10] = 0.0f;
-	uvs_cords[11] = 0.0f;
-
-	glGenBuffers(1, &uvs_id);
-	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs *2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 
 }
