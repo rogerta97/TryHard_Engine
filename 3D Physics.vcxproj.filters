@@ -132,9 +132,6 @@
     <ClInclude Include="TextureImporter.h">
       <Filter>Sources\Modules\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Sources\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleResources.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -519,6 +516,9 @@
     <ClInclude Include="Assimp\include\version.h">
       <Filter>Sources\3rd Partys\Assimp</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Sources\GameObject\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -574,9 +574,6 @@
     </ClCompile>
     <ClCompile Include="TextureImporter.cpp">
       <Filter>Sources\Modules\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Sources\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ModuleResources.cpp">
       <Filter>Sources\Modules</Filter>
@@ -753,6 +750,9 @@
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
+      <Filter>Sources\GameObject\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Sources\GameObject\Elements</Filter>
     </ClCompile>
   </ItemGroup>

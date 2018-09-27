@@ -38,21 +38,21 @@ bool Mesh::SetPlaneData()
 	num_vertex = 4;
 	vertex = new float3[num_vertex];
 
-	vertex[0].x = 10.0f;
+	vertex[0].x = 1.0f;
 	vertex[0].y = 0.0f;
-	vertex[0].z = 10.0f;
+	vertex[0].z = 1.0f;
 
-	vertex[1].x = 10.0;
+	vertex[1].x = 1.0;
 	vertex[1].y = 0.0f;
-	vertex[1].z = -10.0f;
+	vertex[1].z = -1.0f;
 
-	vertex[2].x = -10.0f;
+	vertex[2].x = -1.0f;
 	vertex[2].y = 0.0f;
-	vertex[2].z = 10.0f;
+	vertex[2].z = 1.0f;
 
-	vertex[3].x = -10.0;
+	vertex[3].x = -1.0;
 	vertex[3].y = 0.0f;
-	vertex[3].z = -10.0f;
+	vertex[3].z = -1.0f;
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
 	//Pass to VRAM

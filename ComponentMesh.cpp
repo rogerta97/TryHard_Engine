@@ -20,18 +20,16 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update()
 {
-	SetDrawSettings();
-
+	
 	if (draw_mesh == false)
 		return false;
 
-	glColor3f(DEFAULT_GEOMETRY_COLOR);
+	SetDrawSettings();
 	mesh->DrawMesh();
 
 	//if the mesh is selected we draw it again in wireframe mode
-	if (gameobject->selected)
+	if (gameobject->selected && wireframe == false)
 	{
-		glColor3f(DEFAULT_WIREFRAME_COLOR);
 		wireframe = true;
 		SetDrawSettings();
 		mesh->DrawMesh();
@@ -52,14 +50,17 @@ void ComponentMesh::SetDrawSettings()
 
 	if (wireframe)
 	{
-		glLineWidth(4.0f); 
+		glLineWidth(3.0f);
+		glColor3f(DEFAULT_WIREFRAME_COLOR);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	
 	else
 	{
+		glLineWidth(2.0f);
+		glColor3f(DEFAULT_GEOMETRY_COLOR);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glLineWidth(1.0f);
+		
 	}
 }
 

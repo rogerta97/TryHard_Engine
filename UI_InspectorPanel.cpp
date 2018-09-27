@@ -52,6 +52,7 @@ bool UI_InspectorPanel::Update()
 void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 {
 	gameobject = new_go; 
+	new_go->SelectGameObjectRecursive(); 
 }
 
 GameObject * UI_InspectorPanel::GetGameObject()

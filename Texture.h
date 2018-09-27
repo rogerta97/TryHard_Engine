@@ -19,6 +19,7 @@ public:
 	void Clear(); 
 
 private:
+
 	unsigned int texture_id;
 	unsigned int width;
 	unsigned int height;
