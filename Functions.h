@@ -1,7 +1,13 @@
+#pragma once
 
 #include "PCGRandom\pcg_basic.h"
 #include <time.h>
+#include <string.h>
 #include <math.h>
+
+using namespace std;
+
+
 
 int GetPCGRandomNumberInt(int max_value, int min_value)
 {
@@ -38,3 +44,5 @@ float GetPCGRandomNumberFloat(float max_value, float min_value)
 
 	return num_generated;
 }
+
+

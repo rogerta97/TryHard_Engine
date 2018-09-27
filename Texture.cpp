@@ -11,8 +11,9 @@ Texture::~Texture()
 {
 }
 
-void Texture::SetWidth()
+void Texture::SetWidth(float width)
 {
+	this->width = width; 
 }
 
 unsigned int Texture::GetWidth() const
@@ -20,8 +21,9 @@ unsigned int Texture::GetWidth() const
 	return 0;
 }
 
-void Texture::SetHeight()
+void Texture::SetHeight(float height)
 {
+	this->height = height;
 }
 
 unsigned int Texture::GetHeight() const

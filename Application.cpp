@@ -13,6 +13,7 @@ Application::Application()
 	resources = new ModuleResources(); 
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
+	file_system = new ModuleFileSystem(); 
 	//physics = new ModulePhysics3D(this);
 	//player = new ModulePlayer(this);
 
@@ -34,6 +35,7 @@ Application::Application()
 	AddModule(scene_intro);
 
 	// Renderer last!
+	AddModule(file_system); 
 	AddModule(imgui);
 	AddModule(renderer3D);
 
