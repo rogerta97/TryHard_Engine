@@ -137,6 +137,32 @@ bool Mesh::SetPlaneData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	num_uvs = num_indices;
+	uvs_cords = new float[num_uvs * 2];
+
+	uvs_cords[0] = 0.0f;
+	uvs_cords[1] = 1.0f;
+
+	uvs_cords[2] = 0.0f;
+	uvs_cords[3] = 0.0f;
+
+	uvs_cords[4] = 1.0f;
+	uvs_cords[5] = 1.0f;
+
+	uvs_cords[6] = 1.0f;
+	uvs_cords[7] = 0.0f;
+
+	uvs_cords[8] = 1.0f;
+	uvs_cords[9] = 1.0f;
+
+	uvs_cords[10] = 0.0f;
+	uvs_cords[11] = 0.0f;
+
+	glGenBuffers(1, &uvs_id);
+	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	return true; 
 }
 
