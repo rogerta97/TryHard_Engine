@@ -63,8 +63,7 @@ void ComponentMesh::SetDrawSettings()
 	{
 		glLineWidth(2.0f);
 		glColor3f(DEFAULT_GEOMETRY_COLOR);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		
 	}
 }
 
@@ -72,33 +71,39 @@ void ComponentMesh::DrawMesh()
 {
 	bool mat_active = false; 
 
-	if (material != nullptr && wireframe)
+	if (material != nullptr && wireframe == false)
 		mat_active = true;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_id);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 
 	if (mat_active) 
 	{
+		glEnable(GL_TEXTURE_2D);
 		material->GetDiffuseTexture()->Bind();
-		glEnable(GL_TEXTURE_2D); 
+		
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);	
 	}
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
+
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	if (mat_active)
 	{
 		material->GetDiffuseTexture()->UnBind();
 		glDisable(GL_TEXTURE_2D);
 	}
-	
+
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void ComponentMesh::SetDefaultSettings()

@@ -18,7 +18,7 @@ void Texture::SetWidth(float width)
 
 unsigned int Texture::GetWidth() const
 {
-	return 0;
+	return width;
 }
 
 void Texture::SetHeight(float height)
@@ -28,7 +28,7 @@ void Texture::SetHeight(float height)
 
 unsigned int Texture::GetHeight() const
 {
-	return 0;
+	return height;
 }
 
 void Texture::SetTextureSettings()
@@ -41,20 +41,20 @@ void Texture::SetTextureSettings()
 
 void Texture::SetCheckTexture()
 {
-	buffer = new GLubyte[10 * 10 * 4]; 
-	GLubyte checkImage[10][10][4];
-	for (int i = 0; i < 10; i++) { // height
-		for (int j = 0; j < 10; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
+	//buffer = new GLubyte[10 * 10 * 4]; 
+	//GLubyte checkImage[10][10][4];
+	//for (int i = 0; i < 10; i++) { // height
+	//	for (int j = 0; j < 10; j++) {
+	//		int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+	//		checkImage[i][j][0] = (GLubyte)c;
+	//		checkImage[i][j][1] = (GLubyte)c;
+	//		checkImage[i][j][2] = (GLubyte)c;
+	//		checkImage[i][j][3] = (GLubyte)255;
+	//	}
+	//}
 
-	memcpy(buffer, checkImage, 400 * sizeof(GLubyte));
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	//memcpy(buffer, checkImage, 400 * sizeof(GLubyte));
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 }
 
 void Texture::Bind()

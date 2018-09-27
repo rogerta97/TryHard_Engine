@@ -24,14 +24,17 @@ public:
 	std::string name; 
 	float3 color; 
 
-	float3* vertex; 
+	float3* vertices; 
 	int* indices;
+	float* uvs_cords; 
 
-	uint num_vertex;
+	uint num_vertices;
 	uint num_indices; 
+	uint num_uvs; 
 
-	uint vertex_id; 
+	uint vertices_id; 
 	uint indices_id; 
+	uint uvs_id; 
 
 	BasicMeshType type; 
 };

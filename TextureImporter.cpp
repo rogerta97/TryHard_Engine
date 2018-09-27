@@ -2,6 +2,7 @@
 
 #include "DevIL Windows SDK\include\IL\il.h"
 #include "DevIL Windows SDK\include\IL\ilu.h"
+#include "DevIL Windows SDK\include\IL\ilut.h"
 
 #pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/DevIL.lib")
 #pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILU.lib")
@@ -15,6 +16,8 @@ bool TextureImporter::Start()
 {
 	ilInit(); 
 	iluInit(); 
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
 
 	return true;
 }
@@ -51,18 +54,25 @@ Texture* TextureImporter::LoadTexture(const char * path)
 		ILinfo image_info; 
 		iluGetImageInfo(&image_info);
 
+		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
+			iluFlipImage(); 
+
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
-		tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
-		tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT)); 
+		if (success)
+		{
+			tex->CreateBuffer();
 
-		tex->CreateBuffer(); 
-		tex->Bind(); 
-		tex->SetTextureSettings(); 
+			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
+			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
+			
+			tex->Bind();
+			tex->SetTextureSettings();
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+			tex->UnBind();
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, ilGetData());
-
-		tex->UnBind();
+			textures_list.push_back(tex); 
+		}		
 	}
 
 	return tex; 
