@@ -170,8 +170,10 @@ update_status ModuleImGui::DrawTopBar()
 
 			//Add sample texture
 			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
-			mat->SetDiffuseTexture(App->resources->texture_importer->GetCheckedTexture());
-			new_go->AddComponent(mat);
+			Texture* generated_texture = App->resources->texture_importer->LoadTexture("C:\\Users\\FULLMAC\\Documents\\GitHub\\TryHard_Engine\\Game\\Assets\\Textures\\Baker_house.png");
+			mat->SetDiffuseTexture(generated_texture);
+
+			//new_go->AddComponent(mat);
 
 			inspector_panel->SetGameObject(new_go);
 		}

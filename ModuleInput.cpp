@@ -160,8 +160,12 @@ update_status ModuleInput::PreUpdate(float dt)
 						 
 						case FX_PNG:
 						{
+							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+
 							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
-							//App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));
+							GameObject* current_go = App->scene_intro->GetSelectedGameObject(); 
+
+				
 							break;
 						}
 					}							

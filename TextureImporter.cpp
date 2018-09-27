@@ -48,8 +48,8 @@ Texture* TextureImporter::LoadTexture(const char * path)
 		tex = new Texture(); 
 
 		//Get data of the image
-	/*	ILinfo image_info; 
-		iluGetImageInfo(&image_info);*/
+		ILinfo image_info; 
+		iluGetImageInfo(&image_info);
 
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
@@ -60,10 +60,7 @@ Texture* TextureImporter::LoadTexture(const char * path)
 		tex->Bind(); 
 		tex->SetTextureSettings(); 
 
-		tex->buffer = new GLubyte[tex->GetWidth()*tex->GetHeight()];
-		memcpy(tex->buffer, ilGetData(), tex->GetWidth()*tex->GetHeight());
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->buffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, ilGetData());
 
 		tex->UnBind();
 	}
