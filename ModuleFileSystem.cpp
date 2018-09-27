@@ -12,6 +12,8 @@ ModuleFileSystem::~ModuleFileSystem()
 
 bool ModuleFileSystem::Start()
 {
+	models_path = "C:\\Users\\FULLMAC\\Documents\\GitHub\\TryHard_Engine\\Game\\Assets\\3DModels\\"; 
+
 	return true;
 }
 
@@ -37,4 +39,9 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 
 		return FX_ERR;
 	
+}
+
+std::string ModuleFileSystem::GetModelsPath()
+{
+	return models_path;
 }

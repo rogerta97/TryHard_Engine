@@ -26,8 +26,6 @@ public:
 
 	void Clear(); 
 
-	GLubyte* buffer; 
-
 private:
 
 	uint texture_id;

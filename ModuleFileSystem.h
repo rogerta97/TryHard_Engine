@@ -20,8 +20,11 @@ public:
 	bool CleanUp();
 
 	file_extension GetFileExtension(std::string full_path);
+	std::string GetModelsPath(); 
 
 private:
+
+	std::string models_path; 
 
 
 };
