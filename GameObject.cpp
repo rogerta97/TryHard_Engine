@@ -32,7 +32,8 @@ void GameObject::Update()
  
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
-		(*it)->Update(); 
+		if((*it)->GetType() != CMP_MATERIAL)
+			(*it)->Update(); 
 	}
 
 	for (auto it = child_list.begin(); it != child_list.end(); it++)

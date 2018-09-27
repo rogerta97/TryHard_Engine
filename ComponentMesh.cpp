@@ -70,6 +70,11 @@ void ComponentMesh::SetDrawSettings()
 
 void ComponentMesh::DrawMesh()
 {
+	bool mat_active = false; 
+
+	if (material != nullptr && wireframe)	
+		mat_active = true;
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_id);
@@ -77,15 +82,14 @@ void ComponentMesh::DrawMesh()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 
-	if (material != nullptr && wireframe)
-	{
-		material->GetDiffuseTexture()->Bind(); 
-	}
-
+	
+	if (mat_active) material->GetDiffuseTexture()->Bind(); 
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	if (mat_active) material->GetDiffuseTexture()->UnBind(); 
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 }

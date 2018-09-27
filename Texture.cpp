@@ -51,7 +51,7 @@ void Texture::SetCheckTexture()
 		}
 	}
 
-	buffer = (GLubyte*)checkImage;
+	memcpy(buffer, checkImage, 400 * sizeof(GLubyte));
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 }
 

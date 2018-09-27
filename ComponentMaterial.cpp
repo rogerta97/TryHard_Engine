@@ -4,6 +4,7 @@
 
 ComponentMaterial::ComponentMaterial()
 {
+	component_type = CMP_MATERIAL;
 }
 
 
