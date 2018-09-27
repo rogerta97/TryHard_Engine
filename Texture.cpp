@@ -52,23 +52,25 @@ void Texture::SetCheckTexture()
 	}
 
 	buffer = (GLubyte*)checkImage;
-}
-
-void Texture::LoadToMemory()
-{
-
-}
-
-void Texture::UnloadFromMemory()
-{
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 }
 
 void Texture::Bind()
 {
+	glBindTexture(GL_TEXTURE_2D, texture_id);
 }
 
 void Texture::UnBind()
 {
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+uint Texture::CreateBuffer()
+{
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &texture_id);
+
+	return texture_id;
 }
 
 void Texture::Clear()

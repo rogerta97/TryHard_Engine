@@ -48,3 +48,12 @@ update_status ModuleResources::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+Texture * ModuleResources::GetCheckedTexture()
+{
+	Texture* new_text; 
+
+	new_text->SetCheckTexture(); 
+
+	return new_text;
+}
+

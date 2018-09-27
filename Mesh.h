@@ -17,8 +17,6 @@ public:
 	bool SetCubeData(); 
 	bool SetPlaneData(); 
 
-	void DrawMesh();
-
 	BasicMeshType GetType();
 
 public: 

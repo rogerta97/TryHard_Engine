@@ -59,6 +59,22 @@ GameObject * GameObject::GetParent() const
 
 bool GameObject::AddComponent(Component * new_cmp)
 {
+	if (new_cmp->GetType() == CMP_MATERIAL) 
+	{
+		ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+
+		if (mesh == nullptr)
+		{
+			CONSOLE_ERROR("Component Material can't be added to a GameObject with no Mesh");
+			return false;
+		}
+		else
+		{
+			mesh->AssignMaterial((ComponentMaterial*)new_cmp); 
+		}
+	
+	}
+
 	component_list.push_back(new_cmp);
 	return true; 
 }

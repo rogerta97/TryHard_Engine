@@ -24,6 +24,8 @@ public:
 	MeshImporter* mesh_importer; 
 	TextureImporter* texture_importer; 
 
+	Texture* GetCheckedTexture(); 
+
 private: 
 	
 	std::map<unsigned int, Texture*> textures_list;

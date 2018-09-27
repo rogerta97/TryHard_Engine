@@ -16,6 +16,7 @@ public:
 	bool CleanUp();
 
 	Texture* LoadTexture(const char* path); 
+	Texture* GetCheckedTexture(); 
 
 	~TextureImporter();
 

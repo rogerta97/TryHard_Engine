@@ -1,4 +1,5 @@
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "Application.h"
 
 #include "imgui.h"
@@ -7,10 +8,13 @@
 
 ComponentMesh::ComponentMesh()
 {
-	draw_mesh = true; 
 	component_type = CMP_RENDERER; 
 
+	material = nullptr;
+	mesh = nullptr; 
+
 	wireframe = false; 
+	draw_mesh = true;
 }
 
 
@@ -25,14 +29,14 @@ bool ComponentMesh::Update()
 		return false;
 
 	SetDrawSettings();
-	mesh->DrawMesh();
+	DrawMesh();
 
 	//if the mesh is selected we draw it again in wireframe mode
 	if (gameobject->selected && wireframe == false)
 	{
 		wireframe = true;
 		SetDrawSettings();
-		mesh->DrawMesh();
+		DrawMesh();
 		wireframe = false;
 	}
 
@@ -64,6 +68,28 @@ void ComponentMesh::SetDrawSettings()
 	}
 }
 
+void ComponentMesh::DrawMesh()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertex_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
+
+	if (material != nullptr && wireframe)
+	{
+		material->GetDiffuseTexture()->Bind(); 
+	}
+
+	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
 void ComponentMesh::SetDefaultSettings()
 {	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -72,4 +98,14 @@ void ComponentMesh::SetDefaultSettings()
 void ComponentMesh::PrintRenderSettings()
 {
 	ImGui::Checkbox("Wireframe", &wireframe);
+}
+
+void ComponentMesh::AssignMaterial(ComponentMaterial * new_mat)
+{
+	material = new_mat; 
+}
+
+ComponentMaterial * ComponentMesh::GetMaterial()
+{
+	return material;
 }

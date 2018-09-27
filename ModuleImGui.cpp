@@ -170,8 +170,8 @@ update_status ModuleImGui::DrawTopBar()
 
 			//Add sample texture
 			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
-			//mat->SetDiffuseTexture(App->resources->ma);
-			new_go->AddComponent(cmp);
+			mat->SetDiffuseTexture(App->resources->texture_importer->GetCheckedTexture());
+			new_go->AddComponent(mat);
 
 			inspector_panel->SetGameObject(new_go);
 		}

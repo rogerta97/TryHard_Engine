@@ -4,6 +4,8 @@
 #include "ModuleRenderer3D.h"
 #include "Mesh.h"
 
+class ComponentMaterial; 
+
 class ComponentMesh : public Component
 {
 public:
@@ -11,6 +13,7 @@ public:
 	~ComponentMesh();
 
 	bool Update();
+	void DrawMesh(); 
 
 	void SetMesh(Mesh* new_mesh);
 	void SetDrawSettings(); 
@@ -18,9 +21,13 @@ public:
 
 	void PrintRenderSettings(); 
 
+	void AssignMaterial(ComponentMaterial* new_mat);
+	ComponentMaterial* GetMaterial(); 
+
 private:
 
 	Mesh * mesh;
+	ComponentMaterial* material; 
 	
 	bool draw_mesh; 
 	bool wireframe; 

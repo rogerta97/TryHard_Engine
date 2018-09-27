@@ -19,11 +19,10 @@ public:
 	void SetCheckTexture();
 
 	//Memory management
-	void LoadToMemory();
-	void UnloadFromMemory(); 
-
 	void Bind();
 	void UnBind();
+
+	uint CreateBuffer(); 
 
 	void Clear(); 
 
