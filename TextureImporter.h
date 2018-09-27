@@ -15,6 +15,8 @@ public:
 	bool Update();
 	bool CleanUp();
 
+	Texture* LoadTexture(const char* path); 
+
 	~TextureImporter();
 
 private:

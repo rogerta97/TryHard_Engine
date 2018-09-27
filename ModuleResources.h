@@ -4,8 +4,9 @@
 #include "TextureImporter.h"
 #include <map>
 #include "Importer.h"
-#include "MeshImporter.h"
 
+#include "MeshImporter.h"
+#include "TextureImporter.h"
 
 class ModuleResources : public Module
 {
@@ -21,6 +22,7 @@ public:
 	update_status Update();
 
 	MeshImporter* mesh_importer; 
+	TextureImporter* texture_importer; 
 
 private: 
 	

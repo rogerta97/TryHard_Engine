@@ -1,6 +1,10 @@
 #include "TextureImporter.h"
 
+#include "DevIL Windows SDK\include\IL\il.h"
 
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/DevIL.lib")
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILU.lib")
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILUT.lib")
 
 TextureImporter::TextureImporter()
 {
@@ -8,19 +12,27 @@ TextureImporter::TextureImporter()
 
 bool TextureImporter::Start()
 {
-	return false;
+	ilInit(); 
+
+	return true;
 }
 
 bool TextureImporter::Update()
 {
-	return false;
+	return true;
 }
 
 bool TextureImporter::CleanUp()
 {
-	return false;
+	return true;
 }
 
+Texture* TextureImporter::LoadTexture(const char * path)
+{
+	Texture* tex; 
+
+	return tex; 
+}
 
 TextureImporter::~TextureImporter()
 {

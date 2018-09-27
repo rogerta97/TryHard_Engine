@@ -1,12 +1,13 @@
 #pragma once
+
+#include "Globals.h"
+#include "OpenGL.h"
+
 class Texture
 {
 public:
 	Texture();
 	~Texture();
-
-	void SetTextureID();
-	unsigned int GetTextureID() const;
 
 	void SetWidth();
 	unsigned int GetWidth() const;
@@ -14,14 +15,26 @@ public:
 	void SetHeight();
 	unsigned int GetHeight() const;
 
+	void SetTextureSettings(); 
+	void SetCheckTexture();
+
+	//Memory management
 	void LoadToMemory();
 	void UnloadFromMemory(); 
+
+	void Bind();
+	void UnBind();
+
 	void Clear(); 
 
 private:
 
-	unsigned int texture_id;
-	unsigned int width;
-	unsigned int height;
+	uint texture_id;
+	uint width;
+	uint height;
+
+	GLubyte* buffer; 
+
+
 };
 

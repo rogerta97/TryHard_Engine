@@ -3,8 +3,6 @@
 #include <list>
 #include "Component.h"
 
-#include "ComponentMesh.h"
-
 class GameObject
 {
 public:

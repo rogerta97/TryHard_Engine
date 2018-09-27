@@ -2,7 +2,7 @@
 
 #include "Component.h"
 #include "ComponentMesh.h"
-
+#include "ComponentMaterial.h"
 
 GameObject::GameObject()
 {
@@ -82,6 +82,11 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 		case CMP_RENDERER:
 			new_cmp = new ComponentMesh(); 
 			new_cmp->SetGameObject(this); 
+			break;
+
+		case CMP_MATERIAL:
+			new_cmp = new ComponentMaterial();
+			new_cmp->SetGameObject(this);
 			break;
 	}
 

@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "imgui_dock.h"
 
+#include "ComponentMesh.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {

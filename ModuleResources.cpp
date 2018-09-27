@@ -38,6 +38,9 @@ void ModuleResources::LoadImporters()
 	//Initiallize importers
 	mesh_importer = new MeshImporter();
 	mesh_importer->Start(); 
+
+	texture_importer = new TextureImporter();
+	texture_importer->Start();
 }
 
 update_status ModuleResources::Update()

@@ -67,6 +67,9 @@
     <Filter Include="Sources\3rd Partys\Assimp">
       <UniqueIdentifier>{2081e84d-8208-4558-ac69-5d05a6529292}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\Devil">
+      <UniqueIdentifier>{09c64d9e-6615-42e0-9a0e-74d45b982eef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -181,9 +184,6 @@
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="ComponentTransform.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentMesh.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="MathGeoLib\Geometry\AABB.h">
@@ -519,6 +519,36 @@
     <ClInclude Include="Texture.h">
       <Filter>Sources\GameObject\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\devil_cpp_wrapper.hpp">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\devil_internal_exports.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\il_wrap.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilu_region.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil\include\ilut_config.h">
+      <Filter>Sources\3rd Partys\Devil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -754,6 +784,9 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Sources\GameObject\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

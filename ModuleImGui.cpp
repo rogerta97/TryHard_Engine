@@ -13,6 +13,9 @@
 #include "UI_InspectorPanel.h"
 #include "UI_PerformancePanel.h"
 
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
+
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 
@@ -159,8 +162,15 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Plane"))
 		{
 			GameObject* new_go = App->scene_intro->CreateGameObject();
+			
+			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
 			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE));
+			new_go->AddComponent(cmp);
+
+			//Add sample texture
+			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
+			//mat->SetDiffuseTexture(App->resources->ma);
 			new_go->AddComponent(cmp);
 
 			inspector_panel->SetGameObject(new_go);
