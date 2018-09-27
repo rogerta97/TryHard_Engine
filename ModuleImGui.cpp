@@ -233,7 +233,7 @@ update_status ModuleImGui::DrawTopBar()
 	}
 
 	ImGui::SetCursorPosX(App->window->width - 20);
-	if (ImGui::MenuItem("\xD7"))
+	if (ImGui::MenuItem("X"))
 	{
 		return UPDATE_STOP;
 	}
