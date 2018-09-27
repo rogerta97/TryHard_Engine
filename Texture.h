@@ -9,10 +9,10 @@ public:
 	Texture();
 	~Texture();
 
-	void SetWidth();
+	void SetWidth(float width);
 	unsigned int GetWidth() const;
 
-	void SetHeight();
+	void SetHeight(float height);
 	unsigned int GetHeight() const;
 
 	void SetTextureSettings(); 
@@ -26,14 +26,12 @@ public:
 
 	void Clear(); 
 
+	GLubyte* buffer; 
+
 private:
 
 	uint texture_id;
 	uint width;
 	uint height;
-
-	GLubyte* buffer; 
-
-
 };
 

@@ -31,7 +31,42 @@ bool TextureImporter::CleanUp()
 
 Texture* TextureImporter::LoadTexture(const char * path)
 {
-	Texture* tex; 
+	Texture* tex = nullptr;
+
+	ILuint imageID;
+	GLuint textureID;
+	ILboolean success;
+	ILenum error;
+	ilGenImages(1, &imageID);
+	ilBindImage(imageID);
+
+	success = ilLoadImage(path);
+
+	if (success)
+	{
+		//Create Texture where data will be stored 
+		tex = new Texture(); 
+
+		//Get data of the image
+	/*	ILinfo image_info; 
+		iluGetImageInfo(&image_info);*/
+
+		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+
+		tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
+		tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT)); 
+
+		tex->CreateBuffer(); 
+		tex->Bind(); 
+		tex->SetTextureSettings(); 
+
+		tex->buffer = new GLubyte[tex->GetWidth()*tex->GetHeight()];
+		memcpy(tex->buffer, ilGetData(), tex->GetWidth()*tex->GetHeight());
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->buffer);
+
+		tex->UnBind();
+	}
 
 	return tex; 
 }

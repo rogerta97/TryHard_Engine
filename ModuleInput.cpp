@@ -3,6 +3,9 @@
 #include "ModuleInput.h"
 #include "GameObject.h"
 
+#include "ModuleFileSystem.h"
+
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(bool start_enabled)
@@ -124,8 +127,6 @@ update_status ModuleInput::PreUpdate(float dt)
 	while(SDL_PollEvent(&e))
 	{
 		App->imgui->SendInput(&e); 
-		std::string file_path; 
-		std::list<GameObject*> GO_list;
 
 		switch(e.type)
 		{
@@ -146,12 +147,28 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_DROPFILE:
+			{
 				file_droped = e.drop.file; 
-				GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-				App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));
-							
-				break; 
+				switch (App->file_system->GetFileExtension(file_droped))
+					{
+						case FX_FBX:
+						{
+							std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+							App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));	
+							break;
+						}
+						 
+						case FX_PNG:
+						{
+							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+							//App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));
+							break;
+						}
+					}							
+			}
 
+			break;
+			
 			case SDL_WINDOWEVENT:
 			{
 				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
