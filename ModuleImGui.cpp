@@ -253,6 +253,10 @@ update_status ModuleImGui::DrawTopBar()
 		int x_win_pos, y_win_pos;
 		App->window->GetPosition(&x_win_pos, &y_win_pos);
 
+		int global_mouse_x, global_mouse_y;
+
+
+
 		int dx = App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
@@ -271,16 +275,16 @@ update_status ModuleImGui::DrawTopBar()
 		}
 		else 
 		{
-			if (last_dy != dy) {
-				App->window->SetPosition(x_win_pos, y_win_pos + dy);
-				last_dy = -dy;
-			}
+			//if (last_dy != dy) {
+			//	App->window->SetPosition(x_win_pos, y_win_pos + dy);
+			//	last_dy = -dy;
+			//}
 
-			if (last_dx != dx)
-			{
-				App->window->SetPosition(x_win_pos + dx, y_win_pos);
-				last_dx = -dx;
-			}
+			//if (last_dx != dx)
+			//{
+			//	App->window->SetPosition(x_win_pos + dx, y_win_pos);
+			//	last_dx = -dx;
+			//}
 
 		}
 
