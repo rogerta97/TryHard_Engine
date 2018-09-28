@@ -19,6 +19,7 @@ public:
 	Component* CreateComponent(CompType cmp_type); 
 
 	void SelectGameObjectRecursive(); 
+	void PrintHierarchyRecursive(); 
 
 	//Utility
 	bool HasComponents(); 
@@ -27,6 +28,8 @@ public:
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+
+	int GetNumChilds(); 
 
 	std::list<Component*> component_list;
 

@@ -38,7 +38,7 @@ public:
 	ModuleResources* resources; 
 	ModuleImGui* imgui;
 	ModuleAudio* audio;
-	ModuleSceneIntro* scene_intro;
+	ModuleSceneIntro* scene;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleFileSystem* file_system; 

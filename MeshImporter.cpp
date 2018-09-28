@@ -165,7 +165,7 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 				
 			}
 
-			App->scene_intro->AddGameObjectToScene(game_object); 
+			App->scene->AddGameObjectToScene(game_object); 
 			output_list.push_back(game_object);
 		}
 		

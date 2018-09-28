@@ -154,7 +154,7 @@ update_status ModuleInput::PreUpdate(float dt)
 						case FX_FBX:
 						{
 							std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-							App->scene_intro->SetSelectedGameObject(App->scene_intro->CreateGameObject(GO_list));	
+							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list));	
 							break;
 						}
 						 
@@ -163,7 +163,7 @@ update_status ModuleInput::PreUpdate(float dt)
 							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
 
 							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
-							GameObject* current_go = App->scene_intro->GetSelectedGameObject(); 
+							GameObject* current_go = App->scene->GetSelectedGameObject(); 
 
 				
 							break;

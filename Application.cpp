@@ -9,7 +9,7 @@ Application::Application()
 	input = new ModuleInput();
 	audio = new ModuleAudio(true);
 	imgui = new ModuleImGui();
-	scene_intro = new ModuleSceneIntro();
+	scene = new ModuleSceneIntro();
 	resources = new ModuleResources(); 
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
@@ -32,7 +32,7 @@ Application::Application()
 	//AddModule(physics);
 
 	// Scenes
-	AddModule(scene_intro);
+	AddModule(scene);
 
 	// Renderer last!
 	AddModule(file_system); 

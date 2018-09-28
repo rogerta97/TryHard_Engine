@@ -1,4 +1,7 @@
 #include "GameObject.h"
+#include "imgui_dock.h"
+#include "imgui.h"
+#include "Application.h"
 
 #include "Component.h"
 #include "ComponentMesh.h"
@@ -56,6 +59,11 @@ Component * GameObject::GetComponent(CompType cmp_type) const
 GameObject * GameObject::GetParent() const
 {
 	return parent;
+}
+
+int GameObject::GetNumChilds()
+{
+	return (int)child_list.size();
 }
 
 bool GameObject::AddComponent(Component * new_cmp)
@@ -118,6 +126,23 @@ void GameObject::SelectGameObjectRecursive()
 	}
 
 	selected = true; 
+}
+
+void GameObject::PrintHierarchyRecursive()
+{
+	if (HasChilds())
+	{
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		{
+			(*it)->PrintHierarchyRecursive(); 
+		}
+	}
+	else
+	{
+		ImGuiTreeNodeFlags node_flags; 
+		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
+		ImGui::TreeNodeEx("Selectable Leaf");
+	}
 }
 
 bool GameObject::HasComponents()

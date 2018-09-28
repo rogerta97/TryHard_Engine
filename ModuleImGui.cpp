@@ -164,7 +164,7 @@ update_status ModuleImGui::DrawTopBar()
 
 		if (ImGui::MenuItem("Plane"))
 		{
-			GameObject* new_go = App->scene_intro->CreateGameObject();
+			GameObject* new_go = App->scene->CreateGameObject();
 			
 			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
