@@ -549,6 +549,9 @@
     <ClInclude Include="Devil\include\ilut_config.h">
       <Filter>Sources\3rd Partys\Devil</Filter>
     </ClInclude>
+    <ClInclude Include="UI_HierarchyPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -787,6 +790,9 @@
     </ClCompile>
     <ClCompile Include="ComponentMaterial.cpp">
       <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_HierarchyPanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

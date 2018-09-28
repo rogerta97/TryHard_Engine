@@ -12,6 +12,7 @@
 #include "UI_RandomNumberPanel.h"
 #include "UI_InspectorPanel.h"
 #include "UI_PerformancePanel.h"
+#include "UI_HierarchyPanel.h"
 
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -47,6 +48,7 @@ bool ModuleImGui::Start()
 	random_panel = (UI_RandomNumberPanel*)AddPanel(RANDOM_PANEL);
 	inspector_panel = (UI_InspectorPanel*)AddPanel(INSPECTOR_PANEL);
 	performance_panel = (UI_PerformancePanel*)AddPanel(PERFORMANCE_PANEL);
+	hierarchy_panel = (UI_HierarchyPanel*)AddPanel(HIERARCHY_PANEL);
 
 	std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
@@ -353,6 +355,9 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		performance_panel->Update();
 
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		hierarchy_panel->Update();
+
 		ImGui::EndDockspace();
 
 		//ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); To add it as a tab in the same dock
@@ -394,6 +399,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case PERFORMANCE_PANEL:
 		panel = new UI_PerformancePanel();
+		break;
+	case HIERARCHY_PANEL:
+		panel = new UI_HierarchyPanel();
 		break;
 	default:
 		break;
