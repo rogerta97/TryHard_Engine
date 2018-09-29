@@ -19,7 +19,7 @@ public:
 	Component* CreateComponent(CompType cmp_type); 
 
 	void SelectGameObjectRecursive(); 
-	void PrintHierarchyRecursive(); 
+	void PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
 
 	//Utility
 	bool HasComponents(); 

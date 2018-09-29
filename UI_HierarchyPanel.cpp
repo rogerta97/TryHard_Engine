@@ -24,10 +24,10 @@ bool UI_HierarchyPanel::Update()
 	if (ImGui::BeginDock("Hierarchy", &show, NULL))
 	{
 		static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-		int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
+		static int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3); // Increase spacing to differentiate leaves from expanded contents.
 
-		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick /*| ((selection_mask & (1 << i 1)) ? ImGuiTreeNodeFlags_Selected : 0*/;
+		int id = -1; 
 
 		for (auto it = App->scene->scene_gameobjects.begin(); it != App->scene->scene_gameobjects.end(); it++)
 		{
@@ -37,17 +37,22 @@ bool UI_HierarchyPanel::Update()
 			else
 			{
 				if ((*it)->HasChilds())
-				{
-					(*it)->PrintHierarchyRecursive();									
+				{			
+					(*it)->PrintHierarchyRecursive(selection_mask, node_clicked, id);													
 				}
 				else
 				{
-					node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen || ImGuiTreeNodeFlags_Bullet; 
-					if(ImGui::TreeNodeEx("Selectable Leaf"))
-						{
-							int a;
-						}
+					bool opened = ImGui::MenuItem("Selectable Leaf");
+					if(opened) ImGui::TreePop();
+					id++; 
 				}
+			}
+
+			if (node_clicked != -1)
+			{
+				selection_mask = (1 << node_clicked); 
+				CONSOLE_LOG("Selection: %d", selection_mask); 
+				CONSOLE_LOG("Node: %d", node_clicked);
 			}
 		}
 	
