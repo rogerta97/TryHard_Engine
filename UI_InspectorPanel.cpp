@@ -29,20 +29,72 @@ bool UI_InspectorPanel::Update()
 
 	if (ImGui::BeginDock("Inspector", &show, NULL))
 	{
+		//If there is not a current GO quit
 		if (gameobject == nullptr)
 		{
 			ImGui::Text("No GameObject is Selected");
 			ImGui::EndDock();			
 			return false;
 		}
+
+		//Print common GO info  --------------------------------------
+		char* name_buf = (char*)gameobject->name.c_str(); 
+
+		bool is_out = true; 
+		bool is_active = gameobject->IsActive(); 
+
+		ImGui::Spacing();
+
+		ImGui::InputText("Name", name_buf, 50); 
+
+		ImGui::Spacing();
+
+		if (ImGui::Checkbox("Active", &is_active))
+			gameobject->SetActive(is_active); 
+
+		ImGui::SameLine();
+
+		if (ImGui::Checkbox("Static", &is_active))
+			gameobject->SetActive(is_active);
+
+		ImGui::Spacing(); 
+
+		ImGui::Separator(); ImGui::Separator(); 
+
+		ImGui::Spacing(); 
+
+		if (ImGui::IsInputTextFocused())
+		{
+			App->camera->LockCamera();
+			is_out = false;
+		}
+
+		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			App->camera->UnlockCamera();
+		}
+
+		// ------------------------------------------------------------------------------------
 			
+		; 
 		if (gameobject->HasComponents())
 		{
 			for (std::list<Component*>::iterator it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
 			{
 				PrintProperties((*it)->GetType());
 			}
-		}	
+
+			ImGui::Spacing();
+
+			ImGui::Separator(); ImGui::Separator();
+
+			ImGui::Spacing();
+		}
+
+		if (ImGui::Button("AddComponent", ImVec2(280, 25)))
+		{
+		
+		}
 	}
 
 	ImGui::EndDock();
@@ -52,8 +104,12 @@ bool UI_InspectorPanel::Update()
 
 void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 {
+	//Delete prev selected objects 
+	if (gameobject != nullptr)
+		gameobject->SetSelectedRecursive(false); 
+
 	gameobject = new_go; 
-	new_go->SelectGameObjectRecursive(); 
+	new_go->SetSelectedRecursive(true); 
 }
 
 GameObject * UI_InspectorPanel::GetGameObject()
@@ -61,23 +117,8 @@ GameObject * UI_InspectorPanel::GetGameObject()
 	return gameobject;
 }
 
-
-
 void UI_InspectorPanel::PrintProperties(CompType type)
 {
-	ImGui::Text("GameObject Info:");
-	
-	ImGui::Spacing(); 
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-
-
-
-	ImGui::Spacing();
-	ImGui::Separator();
-
 	switch (type)
 	{
 	case CMP_TRANSFORM:

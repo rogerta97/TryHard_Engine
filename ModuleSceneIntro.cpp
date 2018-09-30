@@ -84,11 +84,8 @@ void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 
 void ModuleSceneIntro::SetSelectedGameObject(GameObject * selected)
 {
-	selected_go = selected;
-	App->imgui->inspector_panel->SetGameObject(selected); 
-
-	//Child "selected" boolean should also change to true, but they should not be set as current gameobject. 
-	selected->SelectGameObjectRecursive(); 	
+	if(selected != nullptr)
+		App->imgui->inspector_panel->SetGameObject(selected); 
 }
 
 GameObject* ModuleSceneIntro::GetSelectedGameObject() const
@@ -113,7 +110,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
-		if ((*it)->GetParent() == nullptr)
+		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
 		{
 			(*it)->Update(); 
 		}
