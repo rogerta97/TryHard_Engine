@@ -165,6 +165,7 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Plane"))
 		{
 			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->name = "Plane";
 			
 			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
@@ -183,6 +184,7 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Cube"))
 		{
 			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->name = "Cube"; 
 
 			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
