@@ -113,6 +113,18 @@ void ComponentMesh::SetDefaultSettings()
 
 void ComponentMesh::PrintRenderSettings()
 {
+	ImGui::Spacing(); 
+
+	ImGui::Text("Vertices:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", mesh->num_vertices);
+
+	ImGui::Text("Index:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", mesh->num_indices);
+
+	ImGui::Text("TexCoords:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", mesh->num_uvs*2);
+
+	ImGui::Spacing(); 
+	ImGui::Separator(); 
+	ImGui::Spacing();
+
 	ImGui::Checkbox("Wireframe", &wireframe);
 }
 

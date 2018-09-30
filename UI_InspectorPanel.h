@@ -21,7 +21,9 @@ public:
 private: 
 
 	void PrintProperties(CompType type); 
+
 	void PrintMeshProperties(); 
+	void PrintMaterialProperties();
 
 private: 
 	GameObject * gameobject; 

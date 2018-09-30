@@ -128,16 +128,30 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 	case CMP_RENDERER:
 		PrintMeshProperties();
 		break;
+
+	case CMP_MATERIAL:
+		PrintMaterialProperties();
+		break;
 	}
 }
 
 
 void UI_InspectorPanel::PrintMeshProperties()
 {
-	if (ImGui::CollapsingHeader("Mesh Renderer"))
+	if (ImGui::CollapsingHeader("Component Mesh Renderer"))
 	{
 		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
 		mesh_cmp->PrintRenderSettings(); 
+	}
+}
+
+void UI_InspectorPanel::PrintMaterialProperties()
+{
+
+	if (ImGui::CollapsingHeader("Component Material"))
+	{
+		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
+		mesh_cmp->PrintRenderSettings();
 	}
 }
 
