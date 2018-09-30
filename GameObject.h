@@ -18,7 +18,8 @@ public:
 
 	Component* CreateComponent(CompType cmp_type); 
 
-	void SelectGameObjectRecursive(); 
+	void SetSelectedRecursive(bool selected); 
+
 	void PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
 
 	//Utility
@@ -28,6 +29,8 @@ public:
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+	void SetActive(bool activated);
+	bool IsActive() const;
 
 	int GetNumChilds(); 
 
@@ -41,5 +44,6 @@ public:
 
 private:
 	std::list<GameObject*> child_list; 
+	bool active; 
 };
 

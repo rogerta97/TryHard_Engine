@@ -33,6 +33,9 @@ void GameObject::Start()
 void GameObject::Update()
 {
  
+	if (!active)
+		return; 
+
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		if((*it)->GetType() != CMP_MATERIAL)
@@ -59,6 +62,16 @@ Component * GameObject::GetComponent(CompType cmp_type) const
 GameObject * GameObject::GetParent() const
 {
 	return parent;
+}
+
+void GameObject::SetActive(bool activated)
+{
+	active = activated; 
+}
+
+bool GameObject::IsActive() const
+{
+	return active;
 }
 
 int GameObject::GetNumChilds()
@@ -118,15 +131,16 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 	return new_cmp; 
 }
 
-void GameObject::SelectGameObjectRecursive()
+void GameObject::SetSelectedRecursive(bool selected)
 {
 	for (auto it = child_list.begin(); it != child_list.end(); it++)
 	{
-		(*it)->SelectGameObjectRecursive(); 
+		(*it)->SetSelectedRecursive(selected);
 	}
 
-	selected = true; 
+	this->selected = selected;
 }
+
 
 void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 {
@@ -141,7 +155,8 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		if (ImGui::IsItemClicked())
 		{
 			node_clicked = id;
-			CONSOLE_LOG("clicked parent");
+			App->scene->SetSelectedGameObject(this); 
+			
 		}
 
 		if(opened)
@@ -159,15 +174,13 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	{
 		node_flags |= ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | ((mask & (1 << id)) ? ImGuiTreeNodeFlags_Selected : 0); // ImGuiTreeNodeFlags_Bullet;
 
-		if (ImGui::TreeNodeEx(name.c_str(), node_flags))
-		{
-
-		}
-
+		ImGui::TreeNodeEx(name.c_str(), node_flags);
+		
 		if (ImGui::IsItemClicked())
 		{
 			node_clicked = id;
-			CONSOLE_LOG("clicked child");
+			App->scene->SetSelectedGameObject(this);
+			
 		}
 	}
 
