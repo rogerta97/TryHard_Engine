@@ -22,69 +22,118 @@ uint Mesh::CreateBuffer()
 
 bool Mesh::SetCubeData()
 {
-	////Create the buffers
-	//vertex_id = CreateBuffer();
-	//indices_id = CreateBuffer();
+	//Create the buffers
+	vertices_id = CreateBuffer();
+	indices_id = CreateBuffer();
 
-	//type = BasicMeshType::MESH_CUBE;
-	//num_vertex = 8;
-	//vertex = new float3[num_vertex];
+	type = BasicMeshType::MESH_CUBE;
+	num_vertices = 8;
+	vertices = new float3[num_vertices];
 
-	//int w = 1;
-	//int h = 1;
-	//int d = 1;
+	int w = 1;
+	int h = 1;
+	int d = 1;
 
-	//vertex[0].x = -w;
-	//vertex[0].y = -h;
-	//vertex[0].z = +d;
+	vertices[0].x = -w;
+	vertices[0].y = -h;
+	vertices[0].z = +d;
 
-	//vertex[1].x = +w;
-	//vertex[1].y = -h;
-	//vertex[1].z = +d;
+	vertices[1].x = +w;
+	vertices[1].y = -h;
+	vertices[1].z = +d;
 
-	//vertex[2].x = +w;
-	//vertex[2].y = +h;
-	//vertex[2].z = +d;
+	vertices[2].x = -w;
+	vertices[2].y = +h;
+	vertices[2].z = +d;
 
-	//vertex[3].x = +w;
-	//vertex[3].y = +h;
-	//vertex[3].z = +d;
+	vertices[3].x = +w;
+	vertices[3].y = +h;
+	vertices[3].z = +d;
 
-	//vertex[4].x = -w;
-	//vertex[4].y = -h;
-	//vertex[4].z = -d;
+	vertices[4].x = -w;
+	vertices[4].y = -h;
+	vertices[4].z = -d;
 
-	//vertex[5].x = +w;
-	//vertex[5].y = -h;
-	//vertex[5].z = -d;
+	vertices[5].x = +w;
+	vertices[5].y = -h;
+	vertices[5].z = -d;
 
-	//vertex[6].x = +w;
-	//vertex[6].y = +h;
-	//vertex[6].z = -d;
+	vertices[6].x = -w;
+	vertices[6].y = +h;
+	vertices[6].z = -d;
 
-	//vertex[7].x = +w;
-	//vertex[7].y = +h;
-	//vertex[7].z = -d;
+	vertices[7].x = +w;
+	vertices[7].y = +h;
+	vertices[7].z = -d;
 
-	//glBindBuffer(GL_ARRAY_BUFFER, vertex_id);
-	////Pass to VRAM
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertex * 3, vertex, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+	//Pass to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//////Create Indices
-	//num_indices = 6;
-	//indices = new int[num_indices];
-	//indices[0] = 0;
-	//indices[1] = 1;
-	//indices[2] = 2;
-	//indices[3] = 3;
-	//indices[4] = 2;
-	//indices[5] = 1;
+	////Create Indices
+	num_indices = 36;
+	indices = new int[num_indices];
 
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	////Pass to VRAM
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//Front
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+
+	indices[3] = 3;
+	indices[4] = 2;
+	indices[5] = 1;
+
+	//Right
+	indices[6] = 1;
+	indices[7] = 5;
+	indices[8] = 3;
+
+	indices[9] = 5;
+	indices[10] = 7;
+	indices[11] = 3;
+
+	//Back
+	indices[12] = 4;
+	indices[13] = 7;
+	indices[14] = 5;
+
+	indices[15] = 4;
+	indices[16] = 6;
+	indices[17] = 7;
+
+	//Left
+	indices[18] = 0;
+	indices[19] = 6;
+	indices[20] = 4;
+
+	indices[21] = 2;
+	indices[22] = 6;
+	indices[23] = 0;
+
+	//Top
+	indices[24] = 2;
+	indices[25] = 3;
+	indices[26] = 6;
+
+	indices[27] = 3;
+	indices[28] = 7;
+	indices[29] = 6;
+
+	//Bottom
+	indices[30] = 0;
+	indices[31] = 5;
+	indices[32] = 1;
+
+	indices[33] = 0;
+	indices[34] = 4;
+	indices[35] = 5;
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+	//Pass to VRAM
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	return false;
 }

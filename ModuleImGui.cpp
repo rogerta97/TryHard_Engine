@@ -180,6 +180,17 @@ update_status ModuleImGui::DrawTopBar()
 
 			inspector_panel->SetGameObject(new_go);
 		}
+		if (ImGui::MenuItem("Cube"))
+		{
+			GameObject* new_go = App->scene->CreateGameObject();
+
+			//Add Mesh
+			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
+			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_CUBE));
+			new_go->AddComponent(cmp);
+
+			inspector_panel->SetGameObject(new_go);
+		}
 
 		ImGui::EndMenu();
 	}

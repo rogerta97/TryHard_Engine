@@ -26,6 +26,7 @@ MeshImporter::~MeshImporter()
 bool MeshImporter::Start()
 {
 	CreatePlaneMesh(); 
+	CreateCubeMesh();
 	imp_type = IMP_MESH;
 
 	return true;
@@ -44,7 +45,11 @@ bool MeshImporter::CleanUp()
 
 Mesh * MeshImporter::CreateCubeMesh()
 {
-	return nullptr;
+	Mesh* mesh = new Mesh();
+	mesh->SetCubeData();
+	mesh_list.push_back(mesh);
+
+	return mesh;
 }
 
 Mesh * MeshImporter::CreatePlaneMesh()
