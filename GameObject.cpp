@@ -136,32 +136,50 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	if (HasChilds())
 	{
 		node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((mask & (1 << node_clicked)) ? ImGuiTreeNodeFlags_Selected : 0);
-		if (ImGui::TreeNodeEx("NameParent", node_flags))
+		bool opened = ImGui::TreeNodeEx(name.c_str(), node_flags); 
+
+		if (ImGui::IsItemClicked())
+		{
+			node_clicked = id;
+			CONSOLE_LOG("clicked parent");
+		}
+
+		if(opened)
 		{
 			for (auto it = child_list.begin(); it != child_list.end(); it++)
 			{
 				(*it)->PrintHierarchyRecursive(mask, node_clicked, id);
 			}
 
-			ImGui::TreePop(); 
-		}
+			ImGui::TreePop(); 		
+		}	
+
+		//if (ImGui::IsItemClicked())
+		//{
+		//	node_clicked = id;
+		//	CONSOLE_LOG("clicked parent"); 
+		//}
 	}
 	
 	else
 	{
 		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; 
 		node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet;
-		if (ImGui::TreeNodeEx("NameChild", node_flags))
+
+		if (ImGui::TreeNodeEx(name.c_str(), node_flags))
 		{
 
 		}
 
+		if (ImGui::IsItemClicked())
+		{
+			node_clicked = id;
+			CONSOLE_LOG("clicked child");
+		}
 	}
 
-	if (ImGui::IsItemClicked())
-	{
-		node_clicked = id;
-	}
+
+
 }
 
 bool GameObject::HasComponents()

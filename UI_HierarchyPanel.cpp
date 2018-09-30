@@ -42,8 +42,11 @@ bool UI_HierarchyPanel::Update()
 				}
 				else
 				{
-					bool opened = ImGui::MenuItem("Selectable Leaf");
-					if(opened) ImGui::TreePop();
+					if (ImGui::MenuItem((*it)->name.c_str()))
+					{
+						ImGui::TreePop();
+					}
+					
 					id++; 
 				}
 			}
@@ -51,8 +54,6 @@ bool UI_HierarchyPanel::Update()
 			if (node_clicked != -1)
 			{
 				selection_mask = (1 << node_clicked); 
-				CONSOLE_LOG("Selection: %d", selection_mask); 
-				CONSOLE_LOG("Node: %d", node_clicked);
 			}
 		}
 	

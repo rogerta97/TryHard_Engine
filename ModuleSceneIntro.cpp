@@ -51,9 +51,21 @@ GameObject * ModuleSceneIntro::CreateGameObject()
 	return new_go; 
 }
 
-GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_childs)
+GameObject * ModuleSceneIntro::CreateGameObject(const char* name)
 {
-	GameObject* parent_go = new GameObject();
+	GameObject* new_go = new GameObject(name);
+
+	//Here we will add the component transform, every GO should have it.
+
+	AddGameObjectToScene(new_go);
+
+
+	return new_go;
+}
+
+GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_childs, const char* name = "")
+{
+	GameObject* parent_go = new GameObject(name);
 
 	for (auto it = list_childs.begin(); it != list_childs.end(); it++)
 	{

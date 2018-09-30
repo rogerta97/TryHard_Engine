@@ -154,7 +154,7 @@ update_status ModuleInput::PreUpdate(float dt)
 						case FX_FBX:
 						{
 							std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list));	
+							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, "RootGameObject"));	
 							break;
 						}
 						 

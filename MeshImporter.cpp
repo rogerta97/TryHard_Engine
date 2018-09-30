@@ -78,7 +78,9 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 			aiMesh* curr_mesh = scene->mMeshes[i];
 			Mesh* new_mesh = new Mesh();
 			new_mesh->type = MESH_FBX;
-			new_mesh->name = curr_mesh->mName.C_Str();
+
+			aiNode* curr_node = scene->mRootNode->mChildren[i]; 
+			game_object->name = new_mesh->name = curr_node->mName.C_Str();
 
 			//Load Vertices
 			new_mesh->num_vertices = curr_mesh->mNumVertices;

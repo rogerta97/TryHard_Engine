@@ -18,8 +18,9 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	GameObject* CreateGameObject(); 
-	GameObject* CreateGameObject(std::list<GameObject*> list_childs);
+	GameObject* CreateGameObject();
+	GameObject* CreateGameObject(const char* name);
+	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 
 	void AddGameObjectToScene(GameObject* go); 
 
