@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
 
+using namespace std; 
+
 enum file_extension
 {
 	FX_PNG,
@@ -19,12 +21,17 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	file_extension GetFileExtension(std::string full_path);
-	std::string GetModelsPath(); 
+	file_extension GetFileExtension(string full_path);
+	string GetWorkingDirectory() const;
+
+	string GetModelsPath(); 
+	string GetTexturesPath();
 
 private:
 
-	std::string models_path; 
+	string game_path; 
+	string models_path; 
+	string textures_path;
 
 
 };

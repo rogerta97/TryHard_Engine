@@ -67,6 +67,16 @@ void Texture::UnBind()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+uint Texture::GetTextureID()
+{
+	return texture_id;
+}
+
+void Texture::SetTextureID(uint id)
+{
+	texture_id = id; 
+}
+
 uint Texture::CreateBuffer()
 {
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

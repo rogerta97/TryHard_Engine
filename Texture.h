@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "OpenGL.h"
+#include <string>
 
 class Texture
 {
@@ -22,6 +23,9 @@ public:
 	void Bind();
 	void UnBind();
 
+	uint GetTextureID(); 
+	void SetTextureID(uint id); 
+
 	uint CreateBuffer(); 
 
 	void Clear(); 
@@ -31,5 +35,7 @@ private:
 	uint texture_id;
 	uint width;
 	uint height;
+
+	std::string path; 
 };
 

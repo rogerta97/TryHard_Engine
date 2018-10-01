@@ -4,6 +4,7 @@
 #include "imgui_dock.h"
 
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -147,12 +148,19 @@ void UI_InspectorPanel::PrintMeshProperties()
 
 void UI_InspectorPanel::PrintMaterialProperties()
 {
-
 	if (ImGui::CollapsingHeader("Component Material"))
 	{
-		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
-		mesh_cmp->PrintRenderSettings();
+		ComponentMaterial* mat_cmp = (ComponentMaterial*)GetGameObject()->GetComponent(CMP_MATERIAL);
+
+		ImGui::Spacing();
+		ImGui::Text("Diffuse: "); 
+		
+		ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
+
+		ImGui::Text("Path:"); 
+		ImGui::Text("Texture ID:"); 
 	}
+		
 }
 
 

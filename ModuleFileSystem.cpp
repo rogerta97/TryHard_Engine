@@ -1,5 +1,6 @@
 #include "ModuleFileSystem.h"
 #include <fstream>
+#include <Windows.h>
 
 
 ModuleFileSystem::ModuleFileSystem(bool start_enabled)
@@ -12,7 +13,12 @@ ModuleFileSystem::~ModuleFileSystem()
 
 bool ModuleFileSystem::Start()
 {
-	models_path = "C:\\Users\\FULLMAC\\Documents\\GitHub\\TryHard_Engine\\Game\\Assets\\3DModels\\"; 
+	char* buf = new char[256];
+	GetCurrentDirectoryA(256, buf);
+
+	game_path = buf + std::string("\\"); 
+	models_path = game_path + string("Assets\\3DModels\\");
+	textures_path = game_path + string("Textures\\");
 
 	return true;
 }
@@ -41,7 +47,17 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 	
 }
 
+std::string ModuleFileSystem::GetWorkingDirectory() const
+{
+	return game_path;
+}
+
 std::string ModuleFileSystem::GetModelsPath()
+{
+	return models_path;
+}
+
+std::string ModuleFileSystem::GetTexturesPath()
 {
 	return models_path;
 }
