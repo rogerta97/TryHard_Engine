@@ -23,7 +23,13 @@ public:
 	void Bind();
 	void UnBind();
 
-	uint GetTextureID(); 
+	const char* GetPath() const; 
+	void SetPath(const char* path); 
+
+	const char* GetName() const; 
+	void SetName(const char* new_name); 
+
+	uint GetTextureID() const; 
 	void SetTextureID(uint id); 
 
 	uint CreateBuffer(); 
@@ -36,6 +42,7 @@ private:
 	uint width;
 	uint height;
 
-	std::string path; 
+	std::string path;
+	std::string name; 
 };
 

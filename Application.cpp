@@ -27,6 +27,7 @@ Application::Application()
 
 	AddModule(input);
 	AddModule(camera);
+	AddModule(file_system);
 	AddModule(resources); 
 	AddModule(audio);
 	//AddModule(physics);
@@ -34,8 +35,7 @@ Application::Application()
 	// Scenes
 	AddModule(scene);
 
-	// Renderer last!
-	AddModule(file_system); 
+	// Renderer last!	
 	AddModule(imgui);
 	AddModule(renderer3D);
 

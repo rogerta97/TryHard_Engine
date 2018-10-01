@@ -18,7 +18,7 @@ bool ModuleFileSystem::Start()
 
 	game_path = buf + std::string("\\"); 
 	models_path = game_path + string("Assets\\3DModels\\");
-	textures_path = game_path + string("Textures\\");
+	textures_path = game_path + string("Assets\\Textures\\");
 
 	return true;
 }
@@ -52,6 +52,17 @@ std::string ModuleFileSystem::GetWorkingDirectory() const
 	return game_path;
 }
 
+string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
+{
+	string result_string(path);
+
+	int pos = result_string.find_last_of('\\');
+	int to_copy = result_string.length() - pos; 
+	result_string = result_string.substr(pos + 1, to_copy);
+
+	return result_string;
+}
+
 std::string ModuleFileSystem::GetModelsPath()
 {
 	return models_path;
@@ -59,5 +70,5 @@ std::string ModuleFileSystem::GetModelsPath()
 
 std::string ModuleFileSystem::GetTexturesPath()
 {
-	return models_path;
+	return textures_path;
 }

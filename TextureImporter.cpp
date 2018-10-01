@@ -1,4 +1,5 @@
 #include "TextureImporter.h"
+#include "Application.h"
 
 #include "DevIL Windows SDK\include\IL\il.h"
 #include "DevIL Windows SDK\include\IL\ilu.h"
@@ -19,6 +20,9 @@ bool TextureImporter::Start()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
+	string go_symbol_path = string(App->file_system->GetTexturesPath() + "GameObjectIcon.png"); 
+	LoadTexture(go_symbol_path.c_str());
+
 	return true;
 }
 
@@ -32,7 +36,7 @@ bool TextureImporter::CleanUp()
 	return true;
 }
 
-Texture* TextureImporter::LoadTexture(const char * path)
+Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 {
 	Texture* tex = nullptr;
 
@@ -54,7 +58,7 @@ Texture* TextureImporter::LoadTexture(const char * path)
 		ILinfo image_info; 
 		iluGetImageInfo(&image_info);
 
-		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
+		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT && not_flip == false)
 			iluFlipImage(); 
 
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
@@ -65,6 +69,10 @@ Texture* TextureImporter::LoadTexture(const char * path)
 
 			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
+			tex->SetPath(path);
+
+			//Set the name 
+			tex->SetName(App->file_system->GetLastPathItem(path).c_str()); 
 			
 			tex->Bind();
 			tex->SetTextureSettings();
@@ -89,6 +97,17 @@ Texture * TextureImporter::GetCheckedTexture()
 
 	return new_tex; 
 
+}
+
+Texture * TextureImporter::GetTexture(const char* name)
+{
+	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
+	{
+		if ((*it)->GetName() == string(name))
+			return (*it); 
+	}
+
+	return nullptr; 
 }
 
 TextureImporter::~TextureImporter()

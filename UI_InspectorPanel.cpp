@@ -46,6 +46,8 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing();
 
+		ImGui::Image((ImTextureID)App->resources->texture_importer->GetTexture("GameObjectIcon.png")->GetTextureID(), ImVec2(45, 38));  ImGui::SameLine(); 
+
 		ImGui::InputText("Name", name_buf, 50); 
 
 		ImGui::Spacing();
@@ -157,8 +159,20 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		
 		ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
 
-		ImGui::Text("Path:"); 
-		ImGui::Text("Texture ID:"); 
+		ImGui::Spacing(); 
+
+		ImGui::Text("Path: "); ImGui::SameLine(); 
+		ImGui::TextColored(ImVec4(1,1,0,1), "%s", mat_cmp->GetDiffuseTexture()->GetPath());
+
+		ImGui::Text("Texture ID: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetTextureID());
+	
+		ImGui::Text("Width:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetWidth());
+
+		ImGui::Text("Height:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetHeight());
+
 	}
 		
 }

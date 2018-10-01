@@ -15,8 +15,10 @@ public:
 	bool Update();
 	bool CleanUp();
 
-	Texture* LoadTexture(const char* path); 
+	Texture* LoadTexture(const char* path, bool not_flip = false); 
 	Texture* GetCheckedTexture(); 
+
+	Texture* GetTexture(const char* name); 
 
 	~TextureImporter();
 

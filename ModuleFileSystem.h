@@ -23,6 +23,7 @@ public:
 
 	file_extension GetFileExtension(string full_path);
 	string GetWorkingDirectory() const;
+	string GetLastPathItem(const char* path, bool termination = false);
 
 	string GetModelsPath(); 
 	string GetTexturesPath();

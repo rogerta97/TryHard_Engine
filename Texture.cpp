@@ -67,7 +67,27 @@ void Texture::UnBind()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-uint Texture::GetTextureID()
+const char * Texture::GetPath() const
+{
+	return path.c_str();
+}
+
+void Texture::SetPath(const char * path)
+{
+	this->path = path; 
+}
+
+const char * Texture::GetName() const
+{
+	return name.c_str();
+}
+
+void Texture::SetName(const char * new_name)
+{
+	name = new_name; 
+}
+
+uint Texture::GetTextureID() const
 {
 	return texture_id;
 }
