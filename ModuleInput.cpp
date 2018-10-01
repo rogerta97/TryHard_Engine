@@ -5,6 +5,8 @@
 
 #include "ModuleFileSystem.h"
 
+#include "ComponentMaterial.h"
+
 
 #define MAX_KEYS 300
 
@@ -161,11 +163,42 @@ update_status ModuleInput::PreUpdate(float dt)
 						case FX_PNG:
 						{
 							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-
 							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+
 							GameObject* current_go = App->scene->GetSelectedGameObject(); 
 
-				
+							if (current_go != nullptr)
+							{
+								ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+								if (mat == nullptr)
+								{
+									//ImGui::OpenPopup("Create Component Material");
+									//if (ImGui::BeginPopupModal("Create Component Material", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+									//{
+									//	ImGui::Text("Not possible to apply a texture without Component Material. Do you want to create it now?");
+									//	ImGui::Separator();
+
+									//	//static int dummy_i = 0;
+									//	//ImGui::Combo("Combo", &dummy_i, "Delete\0Delete harder\0");
+
+									//	static bool dont_ask_me_next_time = false;
+									//	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+									//	ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+									//	ImGui::PopStyleVar();
+
+									//	if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+									//	ImGui::SetItemDefaultFocus();
+									//	ImGui::SameLine();
+									//	if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+									//	ImGui::EndPopup();
+									//}
+								}
+								else
+								{
+									mat->SetDiffuseTexture(text);
+								}					
+							}				
 							break;
 						}
 					}							

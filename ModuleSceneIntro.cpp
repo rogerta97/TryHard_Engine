@@ -84,8 +84,12 @@ void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 
 void ModuleSceneIntro::SetSelectedGameObject(GameObject * selected)
 {
-	if(selected != nullptr)
-		App->imgui->inspector_panel->SetGameObject(selected); 
+	if (selected != nullptr)
+	{
+		App->imgui->inspector_panel->SetGameObject(selected);
+		selected_go = selected; 
+	}
+	
 }
 
 GameObject* ModuleSceneIntro::GetSelectedGameObject() const

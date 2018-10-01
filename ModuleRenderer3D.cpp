@@ -224,6 +224,10 @@ void ModuleRenderer3D::UpdateRenderSettings()
 		glEnable(GL_COLOR_MATERIAL);
 	else  glDisable(GL_COLOR_MATERIAL);
 
+	if (render_settings.texture)
+		glEnable(GL_TEXTURE_2D);
+	else  glDisable(GL_TEXTURE_2D);
+
 	if (render_settings.wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -248,6 +252,8 @@ void ModuleRenderer3D::PrintConfigData()
 		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true;
 
 		if (ImGui::Checkbox("Color Material", &render_settings.color_material)) go = true;
+
+		if (ImGui::Checkbox("2D Texture", &render_settings.texture)) go = true;
 
 		if (ImGui::Checkbox("Wireframe when Selected", &render_settings.wireframe_selected)) go = true;
 

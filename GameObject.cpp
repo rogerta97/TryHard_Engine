@@ -155,8 +155,7 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		if (ImGui::IsItemClicked())
 		{
 			node_clicked = id;
-			App->scene->SetSelectedGameObject(this); 
-			
+			App->scene->SetSelectedGameObject(this); 			
 		}
 
 		if(opened)

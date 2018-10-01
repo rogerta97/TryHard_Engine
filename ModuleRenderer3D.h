@@ -12,6 +12,7 @@ struct RenderSettings
 	bool cull_face = false;
 	bool wireframe = false;
 	bool color_material = true;
+	bool texture = true; 
 	bool wireframe_selected = true; 
 };
 
