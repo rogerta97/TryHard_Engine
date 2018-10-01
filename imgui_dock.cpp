@@ -359,60 +359,91 @@ struct DockContext
 	}
 
 
-	void MoveBar(int extra_pixels = -1) {	//Added by Pol Ferrando
-		if (extra_pixels == -1) return;
-		for (int i = 0; i < m_docks.size(); ++i)
+	void MoveBar(Dock& dock, Panel_Types type) {	//Added by Pol Ferrando
+
+		if (!dock.first_loop) return;
+		dock.first_loop = false;
+
+		if (strcmp(dock.label, "Hierarchy##MainDock") == 0)
 		{
-			Dock& dock = *m_docks[i];
-			if (!dock.first_loop) continue;
-			dock.first_loop = false;
-
-			if (!dock.isContainer()) continue;
-
-			ImVec2 dsize(0, 0);
-
-			ImVec2 min_size0 = dock.children[0]->getMinSize();
-			ImVec2 min_size1 = dock.children[1]->getMinSize();
-
-
-			ImVec2 pos0 = dock.children[0]->pos;
-			ImVec2 pos1 = dock.children[1]->pos;
-			ImVec2 size0 = dock.children[0]->size;
-			ImVec2 size1 = dock.children[1]->size;
-
-			if (dock.isHorizontal())
-			{
-				dsize.x = extra_pixels;
-				dsize.x = -ImMin(-dsize.x, dock.children[0]->size.x - min_size0.x);
-				dsize.x = ImMin(dsize.x, dock.children[1]->size.x - min_size1.x);
-				size0 += dsize;
-				size1 -= dsize;
-				pos0 = dock.pos;
-				pos1.x = pos0.x + size0.x;
-				pos1.y = dock.pos.y;
-				size0.y = size1.y = dock.size.y;
-				size1.x = ImMax(min_size1.x, dock.size.x - size0.x);
-				size0.x = ImMax(min_size0.x, dock.size.x - size1.x);
-			}
-			else
-			{
-
-				dsize.y = extra_pixels;
-				dsize.y = -ImMin(-dsize.y, dock.children[0]->size.y - min_size0.y);
-				dsize.y = ImMin(dsize.y, dock.children[1]->size.y - min_size1.y);
-				size0 += dsize;
-				size1 -= dsize;
-				pos0 = dock.pos;
-				pos1.x = dock.pos.x;
-				pos1.y = pos0.y + size0.y;
-				size0.x = size1.x = dock.size.x;
-				size1.y = ImMax(min_size1.y, dock.size.y - size0.y);
-				size0.y = ImMax(min_size0.y, dock.size.y - size1.y);
-			}
-			dock.children[0]->setPosSize(pos0, size0);
-			dock.children[1]->setPosSize(pos1, size1);
-
+			//dock.parent->size.x -= 600;
 		}
+
+		if (strcmp(dock.label, "Scene##MainDock") == 0)
+		{
+			dock.size.x += 800;
+			dock.parent->size.x += 3000;
+		}
+
+		if (strcmp(dock.label, "Console##MainDock") == 0)
+		{
+			dock.size.y += -300;
+		}
+
+		//for (int i = 0; i < m_docks.size(); ++i)
+		//{
+		//	Dock& dock_iterator = *m_docks[i];
+
+		//	if (type == SCENE_PANEL)
+		//	{
+		//		if (!dock_iterator.first_loop) return;
+
+		//		dock_iterator.first_loop = false;
+		//		dock_iterator.size.x += 100;
+		//	}
+
+		//}
+
+
+
+		//else {
+
+		//	if (!newdock->isContainer()) return;
+
+		//	ImVec2 dsize(0, 0);
+
+		//	ImVec2 min_size0 = dock.children[0]->getMinSize();
+		//	ImVec2 min_size1 = dock.children[1]->getMinSize();
+
+
+		//	ImVec2 pos0 = dock.children[0]->pos;
+		//	ImVec2 pos1 = dock.children[1]->pos;
+		//	ImVec2 size0 = dock.children[0]->size;
+		//	ImVec2 size1 = dock.children[1]->size;
+
+		//	if (dock.isHorizontal())
+		//	{
+		//		dsize.x = extra_pixels;
+		//		dsize.x = -ImMin(-dsize.x, dock.children[0]->size.x - min_size0.x);
+		//		dsize.x = ImMin(dsize.x, dock.children[1]->size.x - min_size1.x);
+		//		size0 += dsize;
+		//		size1 -= dsize;
+		//		pos0 = dock.pos;
+		//		pos1.x = pos0.x + size0.x;
+		//		pos1.y = dock.pos.y;
+		//		size0.y = size1.y = dock.size.y;
+		//		size1.x = ImMax(min_size1.x, dock.size.x - size0.x);
+		//		size0.x = ImMax(min_size0.x, dock.size.x - size1.x);
+		//	}
+		//	else
+		//	{
+
+		//		dsize.y = extra_pixels;
+		//		dsize.y = -ImMin(-dsize.y, dock.children[0]->size.y - min_size0.y);
+		//		dsize.y = ImMin(dsize.y, dock.children[1]->size.y - min_size1.y);
+		//		size0 += dsize;
+		//		size1 -= dsize;
+		//		pos0 = dock.pos;
+		//		pos1.x = dock.pos.x;
+		//		pos1.y = pos0.y + size0.y;
+		//		size0.x = size1.x = dock.size.x;
+		//		size1.y = ImMax(min_size1.y, dock.size.y - size0.y);
+		//		size0.y = ImMax(min_size0.y, dock.size.y - size1.y);
+		//	}
+		//	dock.children[0]->setPosSize(pos0, size0);
+		//	dock.children[1]->setPosSize(pos1, size1);
+		//}
+
 	}
 
 
@@ -997,7 +1028,7 @@ struct DockContext
 	}
 
 
-	bool begin(const char* label, bool* opened, ImGuiWindowFlags extra_flags, int extra_pixels = -1)
+	bool begin(const char* label, bool* opened, ImGuiWindowFlags extra_flags, Panel_Types type)
 	{
 		ImGuiDockSlot next_slot = m_next_dock_slot;
 		m_next_dock_slot = ImGuiDockSlot_Tab;
@@ -1079,7 +1110,7 @@ struct DockContext
 		if (dock.status == Status_Dragged) is_initial_position = false;
 
 		if (is_initial_position)
-			MoveBar(extra_pixels);
+			MoveBar(dock, type);
 
 
 		PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
@@ -1378,6 +1409,25 @@ void ImGui::SetNextDock(const char* panel, ImGuiDockSlot slot) {
 	}
 }
 
+IMGUI_API bool ImGui::BeginDock(const char * label, bool * opened, ImGuiWindowFlags extra_flags, Panel_Types type)
+{
+	IM_ASSERT(cur_dock_panel);
+
+	if (!cur_dock_panel)	return false;
+
+	if (g_docklist.find(cur_dock_panel) != g_docklist.end())
+	{
+		DockContext& context = g_docklist[cur_dock_panel];
+
+		char new_label[128];
+		sprintf_s(new_label, "%s##%s", label, cur_dock_panel);
+
+		return context.begin(new_label, opened, extra_flags, type);
+	}
+
+	return false;
+}
+
 bool ImGui::BeginDockspace(ImVec2 size)
 {
 	ImGuiContext& g = *GImGui;
@@ -1404,25 +1454,6 @@ IMGUI_API void ImGui::EndDockspace()
 	EndChild();
 
 	cur_dock_panel = nullptr;
-}
-
-bool ImGui::BeginDock(const char* label, bool* opened, ImGuiWindowFlags extra_flags, int extra_pixels)
-{
-	IM_ASSERT(cur_dock_panel);
-
-	if (!cur_dock_panel)	return false;
-
-	if (g_docklist.find(cur_dock_panel) != g_docklist.end())
-	{
-		DockContext& context = g_docklist[cur_dock_panel];
-
-		char new_label[128];
-		sprintf_s(new_label, "%s##%s", label, cur_dock_panel);
-
-		return context.begin(new_label, opened, extra_flags, extra_pixels);
-	}
-
-	return false;
 }
 
 

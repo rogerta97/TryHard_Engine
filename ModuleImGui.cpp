@@ -352,25 +352,46 @@ update_status ModuleImGui::DrawDocking()
 
 		ImGui::BeginDockspace();
 
-		console_panel->Update();
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		//random_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		random_panel->Update();
+		hierarchy_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);
-		scene_panel->Update();
 
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
 		inspector_panel->Update();
 
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		config_panel->Update();
-
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		performance_panel->Update();
 
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		hierarchy_panel->Update();
+		config_panel->Update();
+
+
+
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Left);
+		scene_panel->Update();
+
+		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Bottom);
+		console_panel->Update();
+
+
+
+
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);
+		//scene_panel->Update();
+
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
+		//inspector_panel->Update();
+
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		//config_panel->Update();
+
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		//performance_panel->Update();
+
+		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+		//hierarchy_panel->Update();
 
 		ImGui::EndDockspace();
 

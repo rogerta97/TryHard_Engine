@@ -7,7 +7,7 @@
 
 UI_ScenePanel::UI_ScenePanel()
 {
-	type = Panel_Types::CONFIGURATION_PANEL;
+	type = Panel_Types::SCENE_PANEL;
 }
 
 UI_ScenePanel::~UI_ScenePanel()
@@ -22,7 +22,7 @@ bool UI_ScenePanel::Start()
 
 bool UI_ScenePanel::Update()
 {
-	if (ImGui::BeginDock("Scene", &show,NULL,300))
+	if (ImGui::BeginDock("Scene", &show,NULL,type))
 	{
 		//Get size of the window
 		ImVec2 size = ImGui::GetContentRegionAvail();
