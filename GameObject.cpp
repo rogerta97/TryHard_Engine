@@ -4,6 +4,7 @@
 #include "Application.h"
 
 #include "Component.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
@@ -115,6 +116,8 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 	switch (cmp_type)
 	{
 		case CMP_TRANSFORM:
+			new_cmp = new ComponentTransform();
+			new_cmp->SetGameObject(this);
 			break; 
 
 		case CMP_RENDERER:

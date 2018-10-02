@@ -9,6 +9,7 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
@@ -78,6 +79,10 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 		{
 			//Create the GameObject where the data will be stored
 			GameObject* game_object = new GameObject();
+
+			//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
+			ComponentTransform* trans_cmp = (ComponentTransform*)game_object->CreateComponent(CMP_TRANSFORM);
+			game_object->AddComponent(trans_cmp); 
 
 			//Create the mesh where the data will be stored 
 			aiMesh* curr_mesh = scene->mMeshes[i];

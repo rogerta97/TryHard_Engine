@@ -9,7 +9,7 @@ public:
 	~Transform();
 
 	float3 position; 
-	float3 rotation; 
+	Quat rotation; 
 	float3 scale; 	
 };
 

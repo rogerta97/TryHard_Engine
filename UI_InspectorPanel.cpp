@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "imgui_dock.h"
 
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
@@ -128,7 +129,7 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 	switch (type)
 	{
 	case CMP_TRANSFORM:
-		//To Do
+		PrintTransformProperties();
 		break;
 
 	case CMP_RENDERER:
@@ -138,6 +139,34 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 	case CMP_MATERIAL:
 		PrintMaterialProperties();
 		break;
+	}
+}
+
+void UI_InspectorPanel::PrintTransformProperties()
+{
+	if (ImGui::CollapsingHeader("Component Transform"))
+	{
+		ComponentTransform* trans_cmp = (ComponentTransform*)GetGameObject()->GetComponent(CMP_TRANSFORM);
+
+		if (trans_cmp)
+		{
+			ImGui::Spacing();
+
+			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global");
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
+			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
+			float3 tmp_rot = trans_cmp->GetRotation().identity.ToEulerXYZ(); 
+			float show_rot[3] = { tmp_rot.x, tmp_rot.y,tmp_rot.z };
+			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
+		
+			ImGui::InputFloat3("Position", show_pos, 2);
+			ImGui::InputFloat3("Rotation", show_rot, 2);
+			ImGui::InputFloat3("Scale", show_scale, 2);
+		}
 	}
 }
 

@@ -22,6 +22,7 @@ private:
 
 	void PrintProperties(CompType type); 
 
+	void PrintTransformProperties();
 	void PrintMeshProperties(); 
 	void PrintMaterialProperties();
 

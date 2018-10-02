@@ -26,8 +26,6 @@ bool ModuleSceneIntro::Start()
 	
 	start_time = performance_timer.Read();
 
- 
-
 	return ret;
 }
 
