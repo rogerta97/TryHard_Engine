@@ -245,17 +245,17 @@ void ModuleRenderer3D::PrintConfigData()
 		//Draw info
 		bool go = false; 
 
-		if (ImGui::Checkbox("Depth Test", &render_settings.depth_test)) go = true; 
+		if (ImGui::Checkbox("Depth Test", &render_settings.depth_test)) go = true; ImGui::SameLine(); 
 			
 		if (ImGui::Checkbox("Cull Face", &render_settings.cull_face)) go = true;
 	
-		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true;
+		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true; ImGui::SameLine();
 
 		if (ImGui::Checkbox("Color Material", &render_settings.color_material)) go = true;
 
-		if (ImGui::Checkbox("2D Texture", &render_settings.texture)) go = true;
+		if (ImGui::Checkbox("2D Texture", &render_settings.texture)) go = true; ImGui::SameLine();
 
-		if (ImGui::Checkbox("Wireframe when Selected", &render_settings.wireframe_selected)) go = true;
+		if (ImGui::Checkbox("Wireframe Selected", &render_settings.wireframe_selected)) go = true;
 
 		if (go)
 			UpdateRenderSettings(); 

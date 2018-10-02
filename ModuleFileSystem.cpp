@@ -60,6 +60,9 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	int to_copy = result_string.length() - pos; 
 	result_string = result_string.substr(pos + 1, to_copy);
 
+	if (termination == false)
+		result_string = result_string.substr(0, result_string.size() - 4); 
+
 	return result_string;
 }
 

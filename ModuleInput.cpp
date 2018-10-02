@@ -156,7 +156,8 @@ update_status ModuleInput::PreUpdate(float dt)
 						case FX_FBX:
 						{
 							std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, "RootGameObject"));	
+							string name = App->file_system->GetLastPathItem(file_droped.c_str(), false); 
+							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, name.c_str()));
 							break;
 						}
 						 
@@ -173,26 +174,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 								if (mat == nullptr)
 								{
-									//ImGui::OpenPopup("Create Component Material");
-									//if (ImGui::BeginPopupModal("Create Component Material", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-									//{
-									//	ImGui::Text("Not possible to apply a texture without Component Material. Do you want to create it now?");
-									//	ImGui::Separator();
-
-									//	//static int dummy_i = 0;
-									//	//ImGui::Combo("Combo", &dummy_i, "Delete\0Delete harder\0");
-
-									//	static bool dont_ask_me_next_time = false;
-									//	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-									//	ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-									//	ImGui::PopStyleVar();
-
-									//	if (ImGui::Button("OK", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
-									//	ImGui::SetItemDefaultFocus();
-									//	ImGui::SameLine();
-									//	if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
-									//	ImGui::EndPopup();
-									//}
+									CONSOLE_ERROR("Texture can not be dragged with no Material on Destination"); 
 								}
 								else
 								{
