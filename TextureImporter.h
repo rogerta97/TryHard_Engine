@@ -26,7 +26,8 @@ public:
 
 	Texture* LoadTexture(const char* path, bool not_flip = false); 
 
-	bool SaveTextures(); 
+	bool SaveTexturesAsDDS();
+
 	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
 
 	Texture* GetCheckedTexture(); 

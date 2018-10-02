@@ -25,13 +25,16 @@ public:
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 
-	void SaveLoadedTextures(); 
+	string GetModelsPath() const; 
+	string GetTexturesPath() const;
+	string GetLibraryPath() const;
 
-	string GetModelsPath(); 
-	string GetTexturesPath();
+	std::vector<string> GetFilesInDirectory(const char* directory); 
+	bool IsFileInDirectory(const char* directory, const char* filename);
 
 private:
 
+	string library_path; 
 	string game_path; 
 	string models_path; 
 	string textures_path;

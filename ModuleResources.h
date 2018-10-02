@@ -19,9 +19,11 @@ public:
 	void AddTextureToList(Texture* new_texture); 
 	Texture* GetTextureFromID(); 
 
-	bool Start(); 
-	void LoadImporters(); 
+	bool Start(); 	
 	update_status Update();
+	bool CleanUp(); 
+
+	void LoadImporters();
 
 	MeshImporter* mesh_importer; 
 	TextureImporter* texture_importer; 

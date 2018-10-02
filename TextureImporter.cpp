@@ -63,7 +63,6 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 		if (success)
 		{
 			tex->CreateBuffer();
-
 			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
 			tex->SetPath(path);
@@ -83,7 +82,7 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 	return tex; 
 }
 
-bool TextureImporter::SaveTextures()
+bool TextureImporter::SaveTexturesAsDDS()
 {
 	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 	{
@@ -96,6 +95,7 @@ bool TextureImporter::SaveTextures()
 bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 {
 	//Textures will be saved into DDS for the moment
+	string textures_dir = App->file_system->GetLibraryPath() + "Textures\\";
 
 	//First, we should check if the texture has been already saved in DDS format. (TODO: resource manager) For now we will always save a new one. 
 	if (tex_to_save != nullptr)
@@ -105,16 +105,43 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 			case IL_DDS: 
 			{
 				//Save The texture
-				for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 				{
-					if (ilSaveL(IL_DDS, (*it), sizeof(Texture)) != -1)
+					for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 					{
-						CONSOLE_LOG("DEUNA"); 
+						//If the texture already exist in library, skip the saving process. 
+						if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName()))
+							continue;
+
+						//If not, save it
+						int size = ilSaveL(IL_DDS, NULL, 0);
+						if (size > 0)
+						{
+							//Copy data
+							GLubyte* data = new GLubyte[size];
+
+							(*it)->Bind();
+							data = ilGetData(); 
+
+							if(ilSaveL(IL_DDS, data, size))
+							{
+								//Create the file 
+								FILE* new_file;
+								string save_dir = textures_dir + (*it)->GetName() + ".dds";
+								new_file = fopen(save_dir.c_str(), "w");
+
+								//Save the info 
+								if (new_file != nullptr)
+								{
+									int result = fwrite(data, sizeof(ILubyte), sizeof(data), new_file);
+								}
+
+								fclose(new_file);
+							}
+
+							
+						}
 					}
-				}
-				
-
-
+				}		
 				break; 
 			}
 		}

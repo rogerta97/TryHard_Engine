@@ -1,7 +1,10 @@
 #include "ModuleFileSystem.h"
 #include "Application.h"
+
 #include <fstream>
+#include <string>
 #include <Windows.h>
+#include <filesystem>
 
 
 ModuleFileSystem::ModuleFileSystem(bool start_enabled)
@@ -18,6 +21,8 @@ bool ModuleFileSystem::Start()
 	GetCurrentDirectoryA(256, buf);
 
 	game_path = buf + std::string("\\"); 
+
+	library_path = game_path + std::string("Library\\"); 
 	models_path = game_path + string("Assets\\3DModels\\");
 	textures_path = game_path + string("Assets\\Textures\\");
 
@@ -31,8 +36,6 @@ update_status ModuleFileSystem::Update(float dt)
 
 bool ModuleFileSystem::CleanUp()
 {
-	SaveLoadedTextures(); 
-
 	return true;
 }
 
@@ -69,17 +72,63 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	return result_string;
 }
 
-void ModuleFileSystem::SaveLoadedTextures()
-{
-	App->resources->texture_importer->SaveTextures(); 
-}
 
-std::string ModuleFileSystem::GetModelsPath()
+
+std::string ModuleFileSystem::GetModelsPath() const
 {
 	return models_path;
 }
 
-std::string ModuleFileSystem::GetTexturesPath()
+std::string ModuleFileSystem::GetTexturesPath() const
 {
 	return textures_path;
+}
+
+std::string ModuleFileSystem::GetLibraryPath() const
+{
+	return library_path;
+}
+
+std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)
+{
+	std::vector<string> files_to_ret; 
+
+	std::string path(directory);
+	path.append("\\*");
+
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+
+	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
+	{
+		do {
+			files_to_ret.push_back(data.cFileName);
+		} while (FindNextFile(hFind, &data) != 0);
+		FindClose(hFind);
+	}
+
+	return files_to_ret; 
+}
+
+bool ModuleFileSystem::IsFileInDirectory(const char * directory, const char * filename)
+{
+	std::vector<string> files_to_ret;
+
+	std::string path(directory);
+	path.append("\\*");
+
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+
+	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
+	{
+		do {
+			if (data.cFileName == filename)
+				return true; 
+
+		} while (FindNextFile(hFind, &data) != 0);
+		FindClose(hFind);
+	}
+
+	return false;
 }

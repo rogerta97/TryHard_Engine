@@ -48,6 +48,13 @@ update_status ModuleResources::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+bool ModuleResources::CleanUp()
+{
+	texture_importer->SaveTexturesAsDDS(); 
+
+	return false;
+}
+
 Texture * ModuleResources::GetCheckedTexture()
 {
 	Texture* new_text; 
