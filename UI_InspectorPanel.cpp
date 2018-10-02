@@ -46,7 +46,10 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing();
 
-		ImGui::Image((ImTextureID)App->resources->texture_importer->GetTexture("GameObjectIcon.png")->GetTextureID(), ImVec2(45, 38));  ImGui::SameLine(); 
+		Texture* go_image = App->resources->texture_importer->GetTexture("GameObjectIcon"); 
+
+		if(go_image != nullptr)
+			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(45, 38));  ImGui::SameLine();
 
 		ImGui::InputText("Name", name_buf, 50); 
 
