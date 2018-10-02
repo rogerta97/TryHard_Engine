@@ -1,16 +1,13 @@
 #include "TextureImporter.h"
 #include "Application.h"
 
-#include "DevIL Windows SDK\include\IL\il.h"
-#include "DevIL Windows SDK\include\IL\ilu.h"
-#include "DevIL Windows SDK\include\IL\ilut.h"
+#include <iostream>
+#include <filesystem>
 
-#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/DevIL.lib")
-#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILU.lib")
-#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILUT.lib")
 
 TextureImporter::TextureImporter()
 {
+
 }
 
 bool TextureImporter::Start()
@@ -84,6 +81,47 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 	}
 
 	return tex; 
+}
+
+bool TextureImporter::SaveTextures()
+{
+	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
+	{
+		SaveTexture((*it), IL_DDS); 
+	}
+
+	return true;
+}
+
+bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
+{
+	//Textures will be saved into DDS for the moment
+
+	//First, we should check if the texture has been already saved in DDS format. (TODO: resource manager) For now we will always save a new one. 
+	if (tex_to_save != nullptr)
+	{
+		switch (format_type)
+		{
+			case IL_DDS: 
+			{
+				//Save The texture
+				for (auto it = textures_list.begin(); it != textures_list.end(); it++)
+				{
+					if (ilSaveL(IL_DDS, (*it), sizeof(Texture)) != -1)
+					{
+						CONSOLE_LOG("DEUNA"); 
+					}
+				}
+				
+
+
+				break; 
+			}
+		}
+	}
+
+
+	return true;
 }
 
 Texture * TextureImporter::GetCheckedTexture()

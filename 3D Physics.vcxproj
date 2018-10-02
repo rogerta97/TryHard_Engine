@@ -304,6 +304,8 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="PCGRandom\pcg_basic.c" />
     <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="Resource.h" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="TextureMSAA.cpp" />

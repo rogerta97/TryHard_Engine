@@ -25,6 +25,8 @@ public:
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 
+	void SaveLoadedTextures(); 
+
 	string GetModelsPath(); 
 	string GetTexturesPath();
 

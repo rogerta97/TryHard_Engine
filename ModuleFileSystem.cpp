@@ -1,4 +1,5 @@
 #include "ModuleFileSystem.h"
+#include "Application.h"
 #include <fstream>
 #include <Windows.h>
 
@@ -30,6 +31,8 @@ update_status ModuleFileSystem::Update(float dt)
 
 bool ModuleFileSystem::CleanUp()
 {
+	SaveLoadedTextures(); 
+
 	return true;
 }
 
@@ -64,6 +67,11 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 		result_string = result_string.substr(0, result_string.size() - 4); 
 
 	return result_string;
+}
+
+void ModuleFileSystem::SaveLoadedTextures()
+{
+	App->resources->texture_importer->SaveTextures(); 
 }
 
 std::string ModuleFileSystem::GetModelsPath()

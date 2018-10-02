@@ -5,6 +5,8 @@
 #include <map>
 #include "Importer.h"
 
+#include "Resource.h"
+
 #include "MeshImporter.h"
 #include "TextureImporter.h"
 
@@ -28,7 +30,7 @@ public:
 
 private: 
 	
-	std::map<unsigned int, Texture*> textures_list;
+	std::list<Resource*> resource_list;
 
 
 };

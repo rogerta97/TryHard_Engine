@@ -1,9 +1,18 @@
 #pragma once
 
 #include "Texture.h"
+#include "Importer.h"
+
+#include <filesystem>
 #include <list>
 
-#include "Importer.h"
+#include "DevIL Windows SDK\include\IL\il.h"
+#include "DevIL Windows SDK\include\IL\ilu.h"
+#include "DevIL Windows SDK\include\IL\ilut.h"
+
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/DevIL.lib")
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILU.lib")
+#pragma comment(lib, "DevIL Windows SDK/lib/x86/Release/ILUT.lib")
 
 
 class TextureImporter : public Importer
@@ -16,6 +25,10 @@ public:
 	bool CleanUp();
 
 	Texture* LoadTexture(const char* path, bool not_flip = false); 
+
+	bool SaveTextures(); 
+	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
+
 	Texture* GetCheckedTexture(); 
 
 	Texture* GetTexture(const char* name); 
