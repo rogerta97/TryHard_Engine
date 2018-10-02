@@ -30,7 +30,7 @@ public:
 
 	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
 
-	Texture* GetCheckedTexture(); 
+	Texture* DrawTextureList(); 
 
 	Texture* GetTexture(const char* name); 
 

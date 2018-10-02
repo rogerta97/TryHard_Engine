@@ -4,6 +4,8 @@
 #include <iostream>
 #include <filesystem>
 
+#include "ComponentMaterial.h"
+
 
 TextureImporter::TextureImporter()
 {
@@ -151,18 +153,34 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 	return true;
 }
 
-Texture * TextureImporter::GetCheckedTexture()
+Texture* TextureImporter::DrawTextureList()
 {
-	Texture* new_tex = new Texture(); 
-	new_tex->CreateBuffer(); 
-	new_tex->Bind();
-	new_tex->SetTextureSettings(); 
-	new_tex->SetCheckTexture(); 
-	new_tex->UnBind(); 
+	static bool show_browser = false; 
 
-	return new_tex; 
+	if (ImGui::Begin("Texture Browser", &show_browser))
+	{		
+		int i = 0; 
+		for (auto it = textures_list.begin(); it != textures_list.end(); it++, i++)
+		{
+			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+			if (ImGui::TreeNodeEx((*it)->GetName(), node_flags))
+			{
+				ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
+				if (mat != nullptr)
+				{
+					mat->SetDiffuseTexture((*it));
+				}
+					
+			}
+
+		}
+		ImGui::End(); 
+	}
+
+	return nullptr; 
 }
+
 
 Texture * TextureImporter::GetTexture(const char* name)
 {

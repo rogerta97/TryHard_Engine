@@ -180,6 +180,8 @@ void UI_InspectorPanel::PrintMeshProperties()
 	}
 }
 
+
+
 void UI_InspectorPanel::PrintMaterialProperties()
 {
 	if (ImGui::CollapsingHeader("Component Material"))
@@ -187,14 +189,35 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ComponentMaterial* mat_cmp = (ComponentMaterial*)GetGameObject()->GetComponent(CMP_MATERIAL);
 
 		ImGui::Spacing();
-		ImGui::Text("Diffuse: "); 
+
+		ImGui::Text("Diffuse: "); ImGui::SameLine(); 
+
+		static bool show_tex_explorer = false;
+		if (ImGui::SmallButton("Explore..."))
+		{
+			show_tex_explorer = true; 
+		}
+
+		if (show_tex_explorer)
+		{		
+			Texture* selected_tex = App->resources->texture_importer->DrawTextureList();
+
+			if (selected_tex)
+			{
+
+			}
+
+			
+		}
+		
+		ImGui::Spacing();
 		
 		ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
 
 		ImGui::Spacing(); 
 
-		ImGui::Text("Path: "); ImGui::SameLine(); 
-		ImGui::TextColored(ImVec4(1,1,0,1), "%s", mat_cmp->GetDiffuseTexture()->GetPath());
+		ImGui::TextWrapped("Path: "); ImGui::SameLine(); 
+		ImGui::TextWrapped(/*ImVec4(1,1,0,1),*/ "%s", mat_cmp->GetDiffuseTexture()->GetPath());
 
 		ImGui::Text("Texture ID: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetTextureID());
