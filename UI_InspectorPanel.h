@@ -26,6 +26,8 @@ private:
 	void PrintMaterialProperties();
 	void PrintBoundingBoxProperties();
 
+	void DeleteElement(CompType type);
+
 private: 
 	GameObject * gameobject; 
 	bool show_addcmp_ui; 

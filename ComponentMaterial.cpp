@@ -5,6 +5,7 @@
 ComponentMaterial::ComponentMaterial()
 {
 	component_type = CMP_MATERIAL;
+	active = true; 
 }
 
 

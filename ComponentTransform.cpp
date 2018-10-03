@@ -9,6 +9,7 @@ ComponentTransform::ComponentTransform()
 	transform.scale = float3(0.0f, 0.0f, 0.0f);
 
 	component_type = CMP_TRANSFORM; 
+	active = true;
 }
 
 ComponentTransform::~ComponentTransform()

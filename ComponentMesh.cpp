@@ -15,6 +15,8 @@ ComponentMesh::ComponentMesh()
 
 	wireframe = false; 
 	draw_mesh = true;
+
+	active = true;
 }
 
 
@@ -71,7 +73,7 @@ void ComponentMesh::DrawMesh()
 {
 	bool mat_active = false; 
 
-	if (material != nullptr && wireframe == false)
+	if (material != nullptr && wireframe == false && material->active)
 		mat_active = true;
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);

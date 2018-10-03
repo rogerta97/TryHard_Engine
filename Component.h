@@ -20,9 +20,11 @@ public:
 	GameObject* GetGameObject() const;
 	void SetGameObject(GameObject* new_type);
 
+	bool active;
+
 protected:
 
 	GameObject * gameobject; 
 	CompType component_type; 
-	bool active; 
+	
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include "Color.h"
 
 class Mesh; 
 
@@ -14,13 +15,12 @@ public:
 	bool Update(); 
 	bool CleanUp(); 
 
-	void DrawBoundingBox(); 
-
 	bool CreateEnclosedMeshAABB();
 
 private: 
 
 	AABB bounding_box; 
+	Color color; 
 
 };
 
