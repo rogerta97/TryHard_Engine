@@ -326,7 +326,7 @@ void UI_InspectorPanel::PrintBoundingBoxProperties()
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		ImGui::Text("Hi"); 
+		ImGui::Checkbox("Render Box", &box_cmp->drawbox);
 	}
 }
 

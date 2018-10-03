@@ -23,6 +23,8 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	void LookAtSelectedGameObject(); 
+
 	void SetSpeed(float new_speed); 
 	float GetSpeed() const;
 

@@ -15,18 +15,25 @@ ComponentBoundingBox::~ComponentBoundingBox()
 {
 }
 
+void ComponentBoundingBox::SetDraw(bool set)
+{
+	drawbox = set; 
+}
+
 bool ComponentBoundingBox::Start()
 {
 	CreateEnclosedMeshAABB(); 
 	color.Set(0, 1, 0, 1);
+
+	drawbox = true; 
 
 	return true;
 }
 
 bool ComponentBoundingBox::Update()
 {
-	//Get the points 
-	if (gameobject->selected)
+	//Draw The AABB
+	if (gameobject->selected && drawbox)
 	{
 		LineSegment curr_line;
 
@@ -67,4 +74,9 @@ bool ComponentBoundingBox::CreateEnclosedMeshAABB()
 	
 
 	return false;
+}
+
+float3 ComponentBoundingBox::GetBoxCenter()
+{
+	return bounding_box.CenterPoint();
 }

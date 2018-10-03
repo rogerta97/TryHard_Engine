@@ -12,6 +12,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentBoundingBox.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -171,6 +172,12 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 				game_object->AddComponent(cmp_mat);
 				
 			}
+
+			//Add Inivisble Bounding Box for functionallity
+			ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)game_object->CreateComponent(CMP_BOUNDINGBOX);
+			game_object->AddComponent(cmp_box);
+			cmp_box->SetDraw(false); 
+
 
 			App->scene->AddGameObjectToScene(game_object); 
 			output_list.push_back(game_object);

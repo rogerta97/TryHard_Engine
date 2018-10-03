@@ -109,6 +109,11 @@ update_status ModuleCamera3D::Update(float dt)
 		moved = true;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F))
+	{
+		LookAtSelectedGameObject(); 
+	}
+
 	if (moved)
 		Move(increment);
 
@@ -197,6 +202,11 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 float* ModuleCamera3D::GetViewMatrix()
 {
 	return &ViewMatrix;
+}
+
+void ModuleCamera3D::LookAtSelectedGameObject()
+{
+
 }
 
 void ModuleCamera3D::SetSpeed(float new_speed)
