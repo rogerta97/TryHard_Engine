@@ -195,19 +195,6 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SetSelectedGameObject(new_go);
 		}
 
-		if (ImGui::MenuItem("Sphere"))
-		{
-			GameObject* new_go = App->scene->CreateGameObject();
-			new_go->name = "Sphere";
-
-			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_SPHERE));
-			new_go->AddComponent(cmp);
-
-			App->scene->SetSelectedGameObject(new_go);
-		}
-
 		ImGui::EndMenu();
 	}
 

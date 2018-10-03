@@ -135,7 +135,7 @@ bool Mesh::SetCubeData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	return true;
+	return false;
 }
 
 bool Mesh::SetPlaneData()
@@ -219,112 +219,6 @@ bool Mesh::SetPlaneData()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 
-}
-
-bool Mesh::SetSphereData()
-{
-	type = BasicMeshType::MESH_SPHERE;
-
-	float radius = 2;
-	float sectorCount = 10;
-	float stackCount = 10;
-	
-	float PI = pi;
-
-	//Create the buffers
-	vertices_id = CreateBuffer();
-	indices_id = CreateBuffer();
-
-	num_vertices = (sectorCount + 1) * (stackCount + 1);
-
-	vertices = new float3[num_vertices];
-
-	float x, y, z, xy;                              // vertex position
-	float nx, ny, nz, lengthInv = 1.0f / radius;    // vertex normal
-	float s, t;                                     // vertex texCoord
-
-	float sectorStep = 2 * PI / sectorCount;
-	float stackStep = PI / stackCount;
-	float sectorAngle, stackAngle;
-
-	for (int i = 0; i <= stackCount; ++i)
-	{
-		stackAngle = PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-		xy = radius * cosf(stackAngle);             // r * cos(u)
-		z = radius * sinf(stackAngle);              // r * sin(u)
-
-													// add (sectorCount+1) vertices per stack
-													// the first and last vertices have same position and normal, but different tex coods
-		for (int j = 0; j <= sectorCount; ++j)
-		{
-			sectorAngle = j * sectorStep;
-
-			// vertex position (x, y, z)
-			x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
-			y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
-			vertices[i].x = x;
-			vertices[i].y = y;
-			vertices[i].z = z;
-
-			//// vertex normal (nx, ny, nz)
-			//nx = x * lengthInv;
-			//ny = y * lengthInv;
-			//nz = z * lengthInv;
-			//normals.push_back(nx);
-			//normals.push_back(ny);
-			//normals.push_back(nz);
-
-			//// vertex tex coord (s, t)
-			//s = (float)j / sectorCount;
-			//t = (float)i / stackCount;
-			//texCoords.push_back(s);
-			//texCoords.push_back(t);
-		}
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	//Pass to VRAM
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// generate index list of sphere triangles
-
-
-	num_indices = 1000;
-	indices = new int[num_indices];
-
-	int counter = 0;
-	int k1, k2;
-	for (int i = 0; i < stackCount; ++i)
-	{
-		k1 = i * (sectorCount + 1);     // beginning of current stack
-		k2 = k1 + sectorCount + 1;      // beginning of next stack
-
-		for (int j = 0; j < sectorCount; ++j, ++k1, ++k2)
-		{
-			// 2 triangles per sector excluding 1st and last stacks
-			if (i != 0)
-			{
-				indices[counter] = k1; counter++;
-				indices[counter] = k2; counter++;
-				indices[counter] = k1 + 1; counter++;
-			}
-
-			if (i != (stackCount - 1))
-			{
-				indices[counter] = k1 + 1; counter++;
-				indices[counter] = k2; counter++;
-				indices[counter] = k2 + 1; counter++;
-			}
-		}
-	}
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	//Pass to VRAM
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	return true;
 }
 
 
