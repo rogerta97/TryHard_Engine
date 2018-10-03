@@ -133,7 +133,12 @@ void ComponentMesh::AssignMaterial(ComponentMaterial * new_mat)
 	material = new_mat; 
 }
 
-ComponentMaterial * ComponentMesh::GetMaterial()
+Mesh * ComponentMesh::GetMesh() const
+{
+	return mesh;
+}
+
+ComponentMaterial * ComponentMesh::GetMaterial() const
 {
 	return material;
 }

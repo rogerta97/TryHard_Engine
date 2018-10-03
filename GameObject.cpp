@@ -5,7 +5,8 @@
 
 #include "Component.h"
 #include "ComponentTransform.h"
-#include "ComponentMesh.h"
+#include "ComponentMesh.h"+
+#include "ComponentBoundingBox.h"
 #include "ComponentMaterial.h"
 
 GameObject::GameObject()
@@ -82,21 +83,42 @@ int GameObject::GetNumChilds()
 
 bool GameObject::AddComponent(Component * new_cmp)
 {
-	if (new_cmp->GetType() == CMP_MATERIAL) 
-	{
-		ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+	//First we should check if it exist
+	Component* tmp_cmp = GetComponent(new_cmp->GetType());
 
-		if (mesh == nullptr)
-		{
-			CONSOLE_ERROR("Component Material can't be added to a GameObject with no Mesh");
-			return false;
-		}
-		else
-		{
-			mesh->AssignMaterial((ComponentMaterial*)new_cmp); 
-		}
-	
+	if (tmp_cmp != nullptr)
+	{
+		CONSOLE_ERROR("GameObject '%s' already has this component assigned", name.c_str()); 
 	}
+	else
+	{
+		if (new_cmp->GetType() == CMP_MATERIAL || new_cmp->GetType() == CMP_BOUNDINGBOX)
+		{
+			ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+
+			if (new_cmp->GetType() == CMP_MATERIAL)
+			{
+				if (mesh == nullptr)
+				{
+					CONSOLE_ERROR("Component Material can not be added to a GameObject with no Mesh");
+					return false;
+				}
+				else
+				{
+					mesh->AssignMaterial((ComponentMaterial*)new_cmp);
+				}
+			}
+			else
+			{
+				if (mesh == nullptr)
+				{
+					CONSOLE_ERROR("Bounding Box can not be added to a GameObject with no Mesh");
+					return false;
+				}
+			}
+		}
+	}
+
 
 	component_list.push_back(new_cmp);
 	return true; 
@@ -127,6 +149,11 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 
 		case CMP_MATERIAL:
 			new_cmp = new ComponentMaterial();
+			new_cmp->SetGameObject(this);
+			break;
+
+		case CMP_BOUNDINGBOX:
+			new_cmp = new ComponentBoundingBox();
 			new_cmp->SetGameObject(this);
 			break;
 	}

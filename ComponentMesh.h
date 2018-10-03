@@ -22,7 +22,9 @@ public:
 	void PrintRenderSettings(); 
 
 	void AssignMaterial(ComponentMaterial* new_mat);
-	ComponentMaterial* GetMaterial(); 
+	ComponentMaterial* GetMaterial() const;
+
+	Mesh* GetMesh() const; 
 
 private:
 

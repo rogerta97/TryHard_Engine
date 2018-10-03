@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentBoundingBox.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -20,6 +21,7 @@ bool UI_InspectorPanel::Start()
 {
 	show = true;
 	gameobject = nullptr; 
+	show_addcmp_ui = false; 
 
 	return true;
 }
@@ -82,8 +84,7 @@ bool UI_InspectorPanel::Update()
 		}
 
 		// ------------------------------------------------------------------------------------
-			
-		; 
+					 
 		if (gameobject->HasComponents())
 		{
 			for (std::list<Component*>::iterator it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
@@ -100,7 +101,51 @@ bool UI_InspectorPanel::Update()
 
 		if (ImGui::Button("AddComponent", ImVec2(280, 25)))
 		{
-		
+			show_addcmp_ui = true; 
+		}
+
+		if (show_addcmp_ui)
+		{
+			SEPARATE_WITH_SPACE
+
+			static int curr_selection = 0; 
+			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Bounding Box\0"))
+			{
+
+				switch (curr_selection)
+				{
+				case 0:
+					break; 
+
+				case 1: 
+				{
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->CreateComponent(CMP_RENDERER);
+					gameobject->AddComponent((ComponentMesh*)cmp_mesh);
+					break;
+				}
+					
+
+				case 2:
+				{
+					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->CreateComponent(CMP_MATERIAL);
+					gameobject->AddComponent((ComponentMaterial*)cmp_mat);
+					break;
+				}
+					
+
+				case 3:
+				{
+					ComponentBoundingBox * cmp_aabb = (ComponentBoundingBox*)gameobject->CreateComponent(CMP_BOUNDINGBOX);
+					gameobject->AddComponent((ComponentBoundingBox*)cmp_aabb);
+					break;
+				}
+					
+					
+				}
+				show_addcmp_ui = false; 
+			}
+
+			SEPARATE_WITH_SPACE
 		}
 	}
 
@@ -138,6 +183,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_MATERIAL:
 		PrintMaterialProperties();
+		break;
+
+	case CMP_BOUNDINGBOX:
+		PrintBoundingBoxProperties();
 		break;
 	}
 }
@@ -190,7 +239,9 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Spacing();
 
-		ImGui::Text("Diffuse: "); ImGui::SameLine(); 
+		ImGui::Text("Diffuse:"); ImGui::SameLine(); 
+
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetDiffuseTexture()->GetName()); ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
@@ -230,6 +281,14 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 	}
 		
+}
+
+void UI_InspectorPanel::PrintBoundingBoxProperties()
+{
+	if (ImGui::CollapsingHeader("Component Bounding Box"))
+	{
+		ImGui::Text("Hi"); 
+	}
 }
 
 

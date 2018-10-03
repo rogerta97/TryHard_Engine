@@ -36,6 +36,9 @@ enum update_status
 	UPDATE_ERROR
 };
 
+// ImGui Defines --------
+#define SEPARATE_WITH_SPACE ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
+
 // Configuration -----------
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true

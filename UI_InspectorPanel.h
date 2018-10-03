@@ -21,15 +21,13 @@ public:
 private: 
 
 	void PrintProperties(CompType type); 
-
 	void PrintTransformProperties();
-	
 	void PrintMeshProperties(); 
-
 	void PrintMaterialProperties();
-
+	void PrintBoundingBoxProperties();
 
 private: 
 	GameObject * gameobject; 
+	bool show_addcmp_ui; 
 };
 
