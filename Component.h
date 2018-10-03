@@ -1,6 +1,6 @@
 #pragma once
 
-enum CompType {CMP_TRANSFORM = 0, CMP_RENDERER, CMP_MATERIAL};
+enum CompType {CMP_TRANSFORM = 0, CMP_RENDERER, CMP_MATERIAL, CMP_BOUNDINGBOX};
 
 class GameObject; 
 
@@ -11,6 +11,7 @@ public:
 
 	virtual bool Start(); 
 	virtual bool Update(); 
+	virtual bool CleanUp(); 
 
 	//Setters & Getters
 	CompType GetType() const;
@@ -22,5 +23,6 @@ public:
 protected:
 
 	GameObject * gameobject; 
-	CompType component_type;  
+	CompType component_type; 
+	bool active; 
 };

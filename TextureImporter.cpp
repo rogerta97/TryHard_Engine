@@ -20,7 +20,7 @@ bool TextureImporter::Start()
 	ilutRenderer(ILUT_OPENGL);
 
 	string go_symbol_path = string(App->file_system->GetTexturesPath() + "GameObjectIcon.png"); 
-	LoadTexture(go_symbol_path.c_str());
+	LoadTexture(go_symbol_path.c_str(), true);
 
 	return true;
 }

@@ -19,6 +19,11 @@ bool Component::Update()
 	return false;
 }
 
+bool Component::CleanUp()
+{
+	return false;
+}
+
 CompType Component::GetType() const
 {
 	return component_type;
