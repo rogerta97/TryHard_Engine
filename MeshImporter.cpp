@@ -28,6 +28,7 @@ bool MeshImporter::Start()
 {
 	CreatePlaneMesh(); 
 	CreateCubeMesh();
+	CreateShpereMesh();
 	imp_type = IMP_MESH;
 
 	return true;
@@ -58,6 +59,15 @@ Mesh * MeshImporter::CreatePlaneMesh()
 	Mesh* mesh = new Mesh(); 
 	mesh->SetPlaneData(); 
 	mesh_list.push_back(mesh); 
+
+	return mesh;
+}
+
+Mesh * MeshImporter::CreateShpereMesh()
+{
+	Mesh* mesh = new Mesh();
+	mesh->SetSphereData();
+	mesh_list.push_back(mesh);
 
 	return mesh;
 }
