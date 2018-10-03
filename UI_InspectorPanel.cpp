@@ -99,31 +99,24 @@ bool UI_InspectorPanel::Update()
 			ImGui::Spacing();
 		}
 
-		if (ImGui::Button("AddComponent", ImVec2(280, 25)))
-		{
-			show_addcmp_ui = true; 
-		}
-
 		if (show_addcmp_ui)
 		{
-			SEPARATE_WITH_SPACE
-
-			static int curr_selection = 0; 
+				static int curr_selection = 0;
 			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Bounding Box\0"))
 			{
 
 				switch (curr_selection)
 				{
 				case 0:
-					break; 
+					break;
 
-				case 1: 
+				case 1:
 				{
 					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->CreateComponent(CMP_RENDERER);
 					gameobject->AddComponent((ComponentMesh*)cmp_mesh);
 					break;
 				}
-					
+
 
 				case 2:
 				{
@@ -131,7 +124,7 @@ bool UI_InspectorPanel::Update()
 					gameobject->AddComponent((ComponentMaterial*)cmp_mat);
 					break;
 				}
-					
+
 
 				case 3:
 				{
@@ -139,14 +132,22 @@ bool UI_InspectorPanel::Update()
 					gameobject->AddComponent((ComponentBoundingBox*)cmp_aabb);
 					break;
 				}
-					
-					
-				}
-				show_addcmp_ui = false; 
-			}
 
-			SEPARATE_WITH_SPACE
+
+				}
+				show_addcmp_ui = false;
+			}
 		}
+		else
+		{
+			if (ImGui::Button("AddComponent", ImVec2(280, 25)))
+			{
+				show_addcmp_ui = true;
+			}
+		}
+	
+
+		
 	}
 
 	ImGui::EndDock();
@@ -225,6 +226,19 @@ void UI_InspectorPanel::PrintMeshProperties()
 	if (ImGui::CollapsingHeader("Component Mesh Renderer"))
 	{
 		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
+
+		ImGui::Spacing();
+		ImGui::Checkbox("Active##1", &mesh_cmp->active);
+
+		if (!mesh_cmp->active)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
+		}
+
+		ImGui::Separator();
+		ImGui::Spacing();
+
 		mesh_cmp->PrintRenderSettings(); 
 	}
 }
@@ -237,6 +251,17 @@ void UI_InspectorPanel::PrintMaterialProperties()
 	{
 		ComponentMaterial* mat_cmp = (ComponentMaterial*)GetGameObject()->GetComponent(CMP_MATERIAL);
 
+		ImGui::Spacing();
+		ImGui::Checkbox("Active##2", &mat_cmp->active);
+
+
+		if (!mat_cmp->active)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
+		}
+
+		ImGui::Separator();
 		ImGui::Spacing();
 
 		ImGui::Text("Diffuse:"); ImGui::SameLine(); 
@@ -287,8 +312,27 @@ void UI_InspectorPanel::PrintBoundingBoxProperties()
 {
 	if (ImGui::CollapsingHeader("Component Bounding Box"))
 	{
+		ComponentBoundingBox* box_cmp = (ComponentBoundingBox*)GetGameObject()->GetComponent(CMP_BOUNDINGBOX);
+
+		ImGui::Spacing();
+		ImGui::Checkbox("Active##3", &box_cmp->active);
+
+		if (!box_cmp->active)
+		{
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
+		}
+
+		ImGui::Separator();
+		ImGui::Spacing();
+
 		ImGui::Text("Hi"); 
 	}
+}
+
+void UI_InspectorPanel::DeleteElement(CompType type)
+{
+
 }
 
 

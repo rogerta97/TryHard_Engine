@@ -40,7 +40,7 @@ void GameObject::Update()
 
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
-		if((*it)->GetType() != CMP_MATERIAL)
+		if((*it)->GetType() != CMP_MATERIAL && (*it)->active)
 			(*it)->Update(); 
 	}
 
@@ -121,6 +121,7 @@ bool GameObject::AddComponent(Component * new_cmp)
 
 
 	component_list.push_back(new_cmp);
+	new_cmp->Start(); 
 	return true; 
 }
 

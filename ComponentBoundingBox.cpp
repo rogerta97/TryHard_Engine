@@ -1,12 +1,14 @@
 #include "ComponentBoundingBox.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
+#include "OpenGL.h"
 
 #include "Mesh.h"
 
 ComponentBoundingBox::ComponentBoundingBox()
 {
 	component_type = CMP_BOUNDINGBOX; 
+	active = true;
 }
 
 ComponentBoundingBox::~ComponentBoundingBox()
@@ -15,15 +17,32 @@ ComponentBoundingBox::~ComponentBoundingBox()
 
 bool ComponentBoundingBox::Start()
 {
-	active = true; 
+	CreateEnclosedMeshAABB(); 
+	color.Set(0, 1, 0, 1);
 
 	return true;
 }
 
 bool ComponentBoundingBox::Update()
 {
-	if(active)
+	//Get the points 
+	if (gameobject->selected)
+	{
+		LineSegment curr_line;
 
+		glBegin(GL_LINES);
+		glColor3f(color.r, color.g, color.b);
+
+		for (int i = 0; i < 12; i++)
+		{
+			curr_line = bounding_box.Edge(i);
+
+			glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+		}
+
+		glEnd();
+	}
 
 	return true;
 }
@@ -33,10 +52,6 @@ bool ComponentBoundingBox::CleanUp()
 	return true;
 }
 
-void ComponentBoundingBox::DrawBoundingBox()
-{
-
-}
 
 bool ComponentBoundingBox::CreateEnclosedMeshAABB()
 {
@@ -45,7 +60,8 @@ bool ComponentBoundingBox::CreateEnclosedMeshAABB()
 	
 	if (mesh_cmp != nullptr)
 	{
-		bounding_box.MinimalEnclosingAABB(mesh_cmp->GetMesh()->vertices, mesh_cmp->GetMesh()->num_vertices);
+		bounding_box.SetNegativeInfinity();
+		bounding_box = bounding_box.MinimalEnclosingAABB(mesh_cmp->GetMesh()->vertices, mesh_cmp->GetMesh()->num_vertices);
 		return true; 
 	}
 	
