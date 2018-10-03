@@ -3,7 +3,7 @@
 #include "MathGeoLib\MathGeoLib.h"
 #include "Globals.h"
 
-enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX };
+enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_SPHERE, MESH_FBX };
 
 class Mesh
 {
@@ -16,6 +16,7 @@ public:
 
 	bool SetCubeData(); 
 	bool SetPlaneData(); 
+	bool SetSphereData();
 
 	BasicMeshType GetType();
 
