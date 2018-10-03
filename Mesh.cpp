@@ -221,6 +221,57 @@ bool Mesh::SetPlaneData()
 	return true; 
 }
 
+bool Mesh::SetSphereData()
+{
+	//Create the buffers
+	vertices_id = CreateBuffer();
+	indices_id = CreateBuffer();
+
+	type = BasicMeshType::MESH_SPHERE;
+
+	//Create Vertices
+	num_vertices = 4;
+	vertices = new float3[num_vertices];
+
+	vertices[0].x = 1.0f;
+	vertices[0].y = 0.0f;
+	vertices[0].z = 1.0f;
+
+	vertices[1].x = 1.0;
+	vertices[1].y = 0.0f;
+	vertices[1].z = -1.0f;
+
+	vertices[2].x = -1.0f;
+	vertices[2].y = 0.0f;
+	vertices[2].z = 1.0f;
+
+	vertices[3].x = -1.0;
+	vertices[3].y = 0.0f;
+	vertices[3].z = -1.0f;
+
+	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+	//Pass to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	////Create Indices
+	num_indices = 6;
+	indices = new int[num_indices];
+	indices[0] = 0;
+	indices[1] = 1;
+	indices[2] = 2;
+	indices[3] = 3;
+	indices[4] = 2;
+	indices[5] = 1;
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+	//Pass to VRAM
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	return true;
+}
+
 
 
 BasicMeshType Mesh::GetType()
