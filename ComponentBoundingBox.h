@@ -16,11 +16,15 @@ public:
 	bool CleanUp(); 
 
 	bool CreateEnclosedMeshAABB();
+	float3 GetBoxCenter(); 
+
+	void SetDraw(bool draw); 
+
+	bool drawbox;
 
 private: 
 
 	AABB bounding_box; 
 	Color color; 
-
 };
 
