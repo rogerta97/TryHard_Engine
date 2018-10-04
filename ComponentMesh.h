@@ -13,14 +13,16 @@ public:
 	~ComponentMesh();
 
 	bool Update();
+
 	void DrawMesh(); 
+	void DrawNormals();
 
 	void SetMesh(Mesh* new_mesh);
 	void SetDrawSettings(); 
 	void SetDefaultSettings();
 
 	void PrintRenderSettings(); 
-
+	 
 	void AssignMaterial(ComponentMaterial* new_mat);
 	ComponentMaterial* GetMaterial() const;
 
@@ -31,7 +33,9 @@ private:
 	Mesh * mesh;
 	ComponentMaterial* material; 
 	
-	bool draw_mesh; 
+	bool draw_mesh;
+	bool draw_normals; 
+
 	bool wireframe; 
 };
 

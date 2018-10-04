@@ -27,15 +27,19 @@ public:
 
 	float3* vertices; 
 	int* indices;
-	float* uvs_cords; 
+	float* uvs_cords;
+	float3* normal_cords; 
+
 
 	uint num_vertices;
 	uint num_indices; 
-	uint num_uvs; 
+	uint num_uvs;
+	uint num_normals; 
 
 	uint vertices_id; 
 	uint indices_id; 
 	uint uvs_id; 
+	uint normals_id; 
 
 	BasicMeshType type; 
 };

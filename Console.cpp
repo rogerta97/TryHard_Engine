@@ -20,7 +20,7 @@ void Console::AddToConsole(std::string new_message, Console_Message_Type type)
 	else if (type == CONSOLE_MDEBUG) debug_count++;
 	else if (type == CONSOLE_MERROR) error_count++;
 
-	if (log_count > 100 || debug_count > 100 || error_count > 100)
+	if (log_count > 1000 || debug_count > 1000 || error_count > 1000)
 		Clear();
 
 	console_buffer.insert(std::pair<Console_Message_Type, std::string>(type, new_message));

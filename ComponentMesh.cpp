@@ -15,6 +15,7 @@ ComponentMesh::ComponentMesh()
 
 	wireframe = false; 
 	draw_mesh = true;
+	draw_normals = false;
 
 	active = true;
 }
@@ -69,6 +70,27 @@ void ComponentMesh::SetDrawSettings()
 	}
 }
 
+void ComponentMesh::DrawNormals()
+{
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 0.0f, 0.0f);
+
+	for (int i = 0; i < mesh->num_normals; i++)
+	{
+		LineSegment curr_line; 
+		curr_line.a = mesh->vertices[i]; 
+		curr_line.b = mesh->vertices[i] + (mesh->normal_cords[i]*0.5f);
+
+		glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+		glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);	
+
+		
+	}
+
+	glEnd();
+	 
+}
+
 void ComponentMesh::DrawMesh()
 {
 	bool mat_active = false; 
@@ -93,6 +115,9 @@ void ComponentMesh::DrawMesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+	if (draw_normals)
+		DrawNormals(); 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -123,11 +148,13 @@ void ComponentMesh::PrintRenderSettings()
 
 	ImGui::Text("TexCoords:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", mesh->num_uvs*2);
 
+	ImGui::Text("Normals: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", mesh->num_normals);
+
 	ImGui::Spacing(); 
 	ImGui::Separator(); 
 	ImGui::Spacing();
 
-	ImGui::Checkbox("Wireframe", &wireframe);
+	ImGui::Checkbox("Wireframe", &wireframe); ImGui::SameLine(); ImGui::Checkbox("Draw Normals", &draw_normals); 
 }
 
 void ComponentMesh::AssignMaterial(ComponentMaterial * new_mat)

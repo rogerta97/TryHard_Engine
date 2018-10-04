@@ -155,6 +155,19 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 
+			//Load Normals
+			if (curr_mesh->HasNormals())
+			{
+				new_mesh->num_normals = new_mesh->num_vertices;
+				new_mesh->normal_cords = new float3[new_mesh->num_normals];
+				memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
+
+				glGenBuffers(1, &new_mesh->normals_id);
+				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+
 			//Add Mesh to GameObject
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->CreateComponent(CMP_RENDERER);
 			cmp_mesh->SetMesh(new_mesh);
