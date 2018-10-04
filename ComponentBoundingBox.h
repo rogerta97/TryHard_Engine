@@ -16,7 +16,9 @@ public:
 	bool CleanUp(); 
 
 	bool CreateEnclosedMeshAABB();
-	float3 GetBoxCenter(); 
+
+	float3 GetBoxCenter()const; 
+	float3 GetBoxDiagonal() const;
 
 	void SetDraw(bool draw); 
 

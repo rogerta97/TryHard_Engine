@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 
+#include "ComponentBoundingBox.h"
+
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";
@@ -215,7 +217,39 @@ float* ModuleCamera3D::GetViewMatrix()
 
 void ModuleCamera3D::LookAtSelectedGameObject()
 {
+	//If it does not have childs just look at the AABB
+	if (App->scene->GetSelectedGameObject() != nullptr)
+	{
+		if (App->scene->GetSelectedGameObject()->GetNumChilds() == 0)
+		{
+			//Compute the far distance we have to be from the object 
+			ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)App->scene->GetSelectedGameObject()->GetComponent(CMP_BOUNDINGBOX);
+			float distance = cmp_box->GetBoxDiagonal().Length(); 
 
+			//Rotate the camera
+			const vec3 center(cmp_box->GetBoxCenter().x, cmp_box->GetBoxCenter().y, cmp_box->GetBoxCenter().z);
+			
+
+			//Get the segment from camera to center
+			float3 cam_pos(Position.x, Position.y, Position.z);
+
+			LineSegment line; 
+
+			line.a = cmp_box->GetBoxCenter();
+			line.b = cam_pos;
+
+			float equivalence = distance / line.Length(); 
+			float3 dst_point = line.GetPoint(equivalence); 
+
+			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+			LookAt(center);
+		}
+		else //if not find the middle point between the object and look at it. 
+		{
+
+		}
+	}
+	
 }
 
 void ModuleCamera3D::SetSpeed(float new_speed)

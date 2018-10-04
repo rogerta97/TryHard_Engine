@@ -15,6 +15,11 @@ ComponentBoundingBox::~ComponentBoundingBox()
 {
 }
 
+float3 ComponentBoundingBox::GetBoxDiagonal() const
+{
+	return bounding_box.Diagonal();
+}
+
 void ComponentBoundingBox::SetDraw(bool set)
 {
 	drawbox = set; 
@@ -76,7 +81,7 @@ bool ComponentBoundingBox::CreateEnclosedMeshAABB()
 	return false;
 }
 
-float3 ComponentBoundingBox::GetBoxCenter()
+float3 ComponentBoundingBox::GetBoxCenter() const
 {
 	return bounding_box.CenterPoint();
 }
