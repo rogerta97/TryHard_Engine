@@ -45,4 +45,8 @@ float GetPCGRandomNumberFloat(float max_value, float min_value)
 	return num_generated;
 }
 
+bool AskUserIfSave() {
+	return true;
+}
+
 
