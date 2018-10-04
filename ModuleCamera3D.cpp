@@ -135,6 +135,8 @@ update_status ModuleCamera3D::Update(float dt)
 			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 		}
 
+
+
 		if (dy != 0)
 		{
 			float DeltaY = (float)dy * mouse_sensitivity;
@@ -149,7 +151,10 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 		}
 
-		Position = Reference + Z * length(Position);
+		//CONSOLE_LOG("dy:%d dx:%d", dy,dx);
+
+		if (dy != 0 || dx != 0)
+			Position = Reference + Z * length(Position);
 	}
 
 	CalculateViewMatrix();
