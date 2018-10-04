@@ -29,6 +29,7 @@ public:
 	UI_Panel* AddPanel(Panel_Types type);
 
 	// Utility
+	update_status ShowSavePopup();
 
 	update_status DrawTopBar();
 	update_status DrawDocking();
@@ -38,7 +39,10 @@ public:
 
 	void ShowHelpMarker(const char* desc);
 
+public:
 	Console console;
+
+	bool show_save_popup = false;
 
 	bool is_initial_position = true;
 	UI_InspectorPanel* inspector_panel;
@@ -50,6 +54,8 @@ private:
 
 	bool show_demo_window = false; 
 	bool show_style_editor = false; 
+
+	bool close_on_next_update = false;
 
 	std::list<UI_Panel*> panels_list;
 

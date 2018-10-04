@@ -100,8 +100,57 @@ update_status ModuleImGui::Update(float dt)
 	return update_status::UPDATE_CONTINUE;
 }
 
+update_status ModuleImGui::ShowSavePopup()
+{
+
+
+	if (App->imgui->show_save_popup)
+		ImGui::OpenPopup("Are you sure you want to exit?");
+	if (ImGui::BeginPopupModal("Are you sure you want to exit?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::Text("All those beautiful changes will be lost forever.\n");
+		ImGui::Separator();
+
+		//static int dummy_i = 0;
+		//ImGui::Combo("Combo", &dummy_i, "Delete\0Delete harder\0");
+
+		static bool dont_ask_me_next_time = false;
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+		ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
+		ImGui::PopStyleVar();
+
+		if (ImGui::Button("Yes please", ImVec2(120, 0)))
+		{
+			show_save_popup = false;
+			ImGui::CloseCurrentPopup();
+			App->SaveConfigAfterUpdate();
+			close_on_next_update = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("No", ImVec2(120, 0))) 
+		{
+			show_save_popup = false;
+			ImGui::CloseCurrentPopup();
+			close_on_next_update = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0))) 
+		{ 
+			show_save_popup = false;
+			ImGui::CloseCurrentPopup(); 
+		}
+
+		ImGui::EndPopup();
+	}
+
+	return update_status();
+}
+
 update_status ModuleImGui::DrawTopBar()
 {
+	if (close_on_next_update)
+		return UPDATE_STOP;
+
 	ImGui::BeginMainMenuBar();
 
 	ImVec2 size = ImGui::GetContentRegionAvail();
@@ -115,7 +164,7 @@ update_status ModuleImGui::DrawTopBar()
 		}
 		if (ImGui::MenuItem("Exit", "Shift + Esc"))
 		{
-			return UPDATE_STOP;
+			show_save_popup = true;
 		}
 
 		if (ImGui::MenuItem("Save"))
@@ -264,7 +313,7 @@ update_status ModuleImGui::DrawTopBar()
 	ImGui::SetCursorPosX(App->window->width - 20);
 	if (ImGui::MenuItem("X"))
 	{
-		return UPDATE_STOP;
+		show_save_popup = true;
 	}
 
 	ImGui::EndMainMenuBar();

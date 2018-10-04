@@ -24,6 +24,8 @@ bool UI_ScenePanel::Update()
 {
 	if (ImGui::BeginDock("Scene", &show,NULL,type))
 	{
+		App->imgui->ShowSavePopup(); 
+
 		//Get size of the window
 		ImVec2 size = ImGui::GetContentRegionAvail();
 
