@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 
-#include "ComponentBoundingBox.h"
+#include "ComponentMesh.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
@@ -238,24 +238,20 @@ void ModuleCamera3D::LookAtSelectedGameObject()
 
 	if (selected_go != nullptr)
 	{
-		ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)App->scene->GetSelectedGameObject()->GetComponent(CMP_BOUNDINGBOX);
+		ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_RENDERER);
 
 		if (selected_go->GetNumChilds() == 0)
 		{
-		
-			if (cmp_box != nullptr)
-			{
-				float distance = cmp_box->GetBoxDiagonal().Length();
+			float distance = cmp_mesh->bounding_box.Diagonal().Length();
 
-				//Rotate the camera
-				const vec3 center(cmp_box->GetBoxCenter().x, cmp_box->GetBoxCenter().y, cmp_box->GetBoxCenter().z);
+			//Rotate the camera
+			const vec3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
 
-				//Get the segment from camera to center
-				vec center_ts(center.x, center.y, center.z);
-				float3 dst_point = GetCamPointFromDistance(center_ts, distance);
-				Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
-				LookAt(center);
-			}
+			//Get the segment from camera to center
+			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
+			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+			LookAt(center);
+			
 		}
 		else //if not find the middle point between the object and look at it. 
 		{

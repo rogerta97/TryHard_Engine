@@ -12,7 +12,6 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "ComponentBoundingBox.h"
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -172,16 +171,18 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->CreateComponent(CMP_RENDERER);
 			cmp_mesh->SetMesh(new_mesh);
 			game_object->AddComponent(cmp_mesh);
+			cmp_mesh->CreateEnclosedMeshAABB(); 
+			cmp_mesh->draw_bounding_box = false;
 
 			if (scene->HasMaterials())
 			{
 				//Load Texture Image
 				aiMaterial* mat = scene->mMaterials[curr_mesh->mMaterialIndex];
-								
+
 				//Get the path
 				aiString texture_path;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path);
-				std::string path = App->file_system->GetModelsPath() + texture_path.C_Str(); 
+				std::string path = App->file_system->GetModelsPath() + texture_path.C_Str();
 
 				//Create the texture
 				Texture* new_texture = new Texture();
@@ -193,13 +194,8 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 
 				//Add it to the parent GO
 				game_object->AddComponent(cmp_mat);
-				
-			}
 
-			//Add Inivisble Bounding Box for functionallity
-			ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)game_object->CreateComponent(CMP_BOUNDINGBOX);
-			game_object->AddComponent(cmp_box);
-			cmp_box->SetDraw(false); 
+			}
 
 
 			App->scene->AddGameObjectToScene(game_object); 

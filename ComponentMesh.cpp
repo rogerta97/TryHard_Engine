@@ -1,5 +1,6 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+
 #include "Application.h"
 
 #include "imgui.h"
@@ -130,7 +131,10 @@ void ComponentMesh::DrawMesh()
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);	
+
+	if (draw_bounding_box)
+		DrawBoundingBox(); 
 }
 
 void ComponentMesh::SetDefaultSettings()
@@ -166,6 +170,50 @@ Mesh * ComponentMesh::GetMesh() const
 {
 	return mesh;
 }
+
+bool ComponentMesh::CreateEnclosedMeshAABB()
+{
+	//Get Vertices of the mesh 
+	ComponentMesh* mesh_cmp = (ComponentMesh*)gameobject->GetComponent(CMP_RENDERER);
+
+	if (mesh_cmp != nullptr)
+	{
+		bounding_box.SetNegativeInfinity();
+		bounding_box = bounding_box.MinimalEnclosingAABB(mesh_cmp->GetMesh()->vertices, mesh_cmp->GetMesh()->num_vertices);
+		return true;
+	}
+
+	return false;
+}
+
+void ComponentMesh::DrawBoundingBox()
+{
+	//Draw The AABB
+	if (gameobject->selected && draw_bounding_box)
+	{
+		LineSegment curr_line;
+
+		glBegin(GL_LINES);
+		glColor3f(0, 1, 0);
+
+		for (int i = 0; i < 12; i++)
+		{
+			curr_line = bounding_box.Edge(i);
+
+			glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+		}
+
+		glEnd();
+	}
+}
+
+void ComponentMesh::SetBBColor(float r, float g, float b)
+{
+	glColor3f(r,g,b); 
+}
+
+
 
 ComponentMaterial * ComponentMesh::GetMaterial() const
 {

@@ -6,7 +6,6 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "ComponentBoundingBox.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -126,14 +125,6 @@ bool UI_InspectorPanel::Update()
 				}
 
 
-				case 3:
-				{
-					ComponentBoundingBox * cmp_aabb = (ComponentBoundingBox*)gameobject->CreateComponent(CMP_BOUNDINGBOX);
-					gameobject->AddComponent((ComponentBoundingBox*)cmp_aabb);
-					break;
-				}
-
-
 				}
 				show_addcmp_ui = false;
 			}
@@ -184,10 +175,6 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_MATERIAL:
 		PrintMaterialProperties();
-		break;
-
-	case CMP_BOUNDINGBOX:
-		PrintBoundingBoxProperties();
 		break;
 	}
 }
@@ -240,6 +227,15 @@ void UI_InspectorPanel::PrintMeshProperties()
 		ImGui::Spacing();
 
 		mesh_cmp->PrintRenderSettings(); 
+
+		ImGui::Spacing(); 
+
+		if (ImGui::TreeNode("Bounding Box"))
+		{
+			ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+
+			ImGui::TreePop(); 
+		}
 	}
 }
 
@@ -264,9 +260,10 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		ImGui::Text("Diffuse:"); ImGui::SameLine(); 
+		ImGui::Text("Diffuse Texture:"); ImGui::SameLine(); 
 
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetDiffuseTexture()->GetName()); ImGui::SameLine(); 
+		if(mat_cmp->GetDiffuseTexture() != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetDiffuseTexture()->GetName()); ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
@@ -288,7 +285,16 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		
 		ImGui::Spacing();
 		
-		ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
+		if (mat_cmp->GetDiffuseTexture() != nullptr)
+			ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
+
+		ImGui::SameLine(); 
+
+		if (ImGui::Button("Checker Texture"))
+		{
+			Texture* check_tex = mat_cmp->GetDiffuseTexture()->GetCheckTexture(); 
+			mat_cmp->SetDiffuseTexture(check_tex); 
+		}
 
 		ImGui::Spacing(); 
 
@@ -308,27 +314,6 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		
 }
 
-void UI_InspectorPanel::PrintBoundingBoxProperties()
-{
-	if (ImGui::CollapsingHeader("Component Bounding Box"))
-	{
-		ComponentBoundingBox* box_cmp = (ComponentBoundingBox*)GetGameObject()->GetComponent(CMP_BOUNDINGBOX);
-
-		ImGui::Spacing();
-		ImGui::Checkbox("Active##3", &box_cmp->active);
-
-		if (!box_cmp->active)
-		{
-			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
-		}
-
-		ImGui::Separator();
-		ImGui::Spacing();
-
-		ImGui::Checkbox("Render Box", &box_cmp->drawbox);
-	}
-}
 
 void UI_InspectorPanel::DeleteElement(CompType type)
 {

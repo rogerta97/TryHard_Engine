@@ -5,6 +5,7 @@
 #include "Mesh.h"
 
 class ComponentMaterial; 
+class ComponentBoundingBox; 
 
 class ComponentMesh : public Component
 {
@@ -13,6 +14,8 @@ public:
 	~ComponentMesh();
 
 	bool Update();
+
+public: 
 
 	void DrawMesh(); 
 	void DrawNormals();
@@ -28,14 +31,21 @@ public:
 
 	Mesh* GetMesh() const; 
 
+	AABB bounding_box; 
+	bool CreateEnclosedMeshAABB();
+	void DrawBoundingBox(); 
+	void SetBBColor(float r, float g, float b); 
+
+	bool draw_bounding_box;
+
 private:
 
-	Mesh * mesh;
-	ComponentMaterial* material; 
+	Mesh *					mesh;
+	ComponentMaterial*		material; 
 	
-	bool draw_mesh;
-	bool draw_normals; 
-
-	bool wireframe; 
+	bool					draw_mesh;
+	bool					draw_normals;
+	
+	bool					wireframe; 
 };
 

@@ -55,12 +55,4 @@ bool ModuleResources::CleanUp()
 	return false;
 }
 
-Texture * ModuleResources::GetCheckedTexture()
-{
-	Texture* new_text; 
-
-	new_text->SetCheckTexture(); 
-
-	return new_text;
-}
 

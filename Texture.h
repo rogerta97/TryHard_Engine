@@ -17,7 +17,7 @@ public:
 	unsigned int GetHeight() const;
 
 	void SetTextureSettings(); 
-	void SetCheckTexture();
+	Texture* GetCheckTexture();
 
 	//Memory management
 	void Bind();

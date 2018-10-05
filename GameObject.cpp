@@ -5,8 +5,8 @@
 
 #include "Component.h"
 #include "ComponentTransform.h"
-#include "ComponentMesh.h"+
-#include "ComponentBoundingBox.h"
+#include "ComponentMesh.h"
+
 #include "ComponentMaterial.h"
 
 GameObject::GameObject()
@@ -40,7 +40,7 @@ void GameObject::Update()
 
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
-		if((*it)->GetType() != CMP_MATERIAL && (*it)->active)
+		if((*it)->GetType() != CMP_MATERIAL&& (*it)->active)
 			(*it)->Update(); 
 	}
 
@@ -92,7 +92,7 @@ bool GameObject::AddComponent(Component * new_cmp)
 	}
 	else
 	{
-		if (new_cmp->GetType() == CMP_MATERIAL || new_cmp->GetType() == CMP_BOUNDINGBOX)
+		if (new_cmp->GetType() == CMP_MATERIAL)
 		{
 			ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
 
@@ -150,11 +150,6 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 
 		case CMP_MATERIAL:
 			new_cmp = new ComponentMaterial();
-			new_cmp->SetGameObject(this);
-			break;
-
-		case CMP_BOUNDINGBOX:
-			new_cmp = new ComponentBoundingBox();
 			new_cmp->SetGameObject(this);
 			break;
 	}
@@ -230,18 +225,15 @@ bool GameObject::HasChilds()
 
 void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
 {
-	ComponentBoundingBox* cmp_bb = (ComponentBoundingBox*)GetComponent(CMP_BOUNDINGBOX);
+	ComponentMesh* cmp_mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
 
-	if (cmp_bb == nullptr) //We should create and delete a component to the object to get the center
+	if (cmp_mesh != nullptr)
 	{
-
-	}
-	else
-	{
-		position_amm += cmp_bb->GetBoxCenter();
-		distance_amm += cmp_bb->GetBoxDiagonal().Length();
+		position_amm += cmp_mesh->bounding_box.CenterPoint();
+		distance_amm += cmp_mesh->bounding_box.Diagonal().Length();
 	}
 
+	
 	if (HasChilds())
 	{
 		for (auto it = child_list.begin(); it != child_list.end(); it++)

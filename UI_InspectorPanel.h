@@ -24,7 +24,6 @@ private:
 	void PrintTransformProperties();
 	void PrintMeshProperties(); 
 	void PrintMaterialProperties();
-	void PrintBoundingBoxProperties();
 
 	void DeleteElement(CompType type);
 
