@@ -5,6 +5,7 @@
 #include "MathGeoLib\MathGeoLib.h"
 
 class TextureMSAA; 
+class ComponentBoundingBox; 
 
 class ModuleCamera3D : public Module
 {
@@ -24,6 +25,7 @@ public:
 	float* GetViewMatrix();
 
 	void LookAtSelectedGameObject(); 
+	float3 GetCamPointFromDistance(vec center, float distance);
 
 	void SetSpeed(float new_speed); 
 	float GetSpeed() const;

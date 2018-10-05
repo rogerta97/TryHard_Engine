@@ -2,6 +2,7 @@
 
 #include <list>
 #include "Component.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 class GameObject
 {
@@ -25,6 +26,8 @@ public:
 	//Utility
 	bool HasComponents(); 
 	bool HasChilds(); 
+
+	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
 
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;

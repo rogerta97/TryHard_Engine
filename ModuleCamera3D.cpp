@@ -215,38 +215,64 @@ float* ModuleCamera3D::GetViewMatrix()
 	return &ViewMatrix;
 }
 
+float3 ModuleCamera3D::GetCamPointFromDistance(vec center, float distance)
+{
+	float3 cam_pos(Position.x, Position.y, Position.z);
+
+	LineSegment line;
+
+	line.a = center;
+	line.b = cam_pos;
+
+	float equivalence = distance / line.Length();
+	float3 dst_point = line.GetPoint(equivalence);
+
+	return dst_point; 
+}
+
 void ModuleCamera3D::LookAtSelectedGameObject()
 {
 	//If it does not have childs just look at the AABB
-	if (App->scene->GetSelectedGameObject() != nullptr)
+
+	GameObject* selected_go = App->scene->GetSelectedGameObject(); 
+
+	if (selected_go != nullptr)
 	{
-		if (App->scene->GetSelectedGameObject()->GetNumChilds() == 0)
+		ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)App->scene->GetSelectedGameObject()->GetComponent(CMP_BOUNDINGBOX);
+
+		if (selected_go->GetNumChilds() == 0)
 		{
-			//Compute the far distance we have to be from the object 
-			ComponentBoundingBox* cmp_box = (ComponentBoundingBox*)App->scene->GetSelectedGameObject()->GetComponent(CMP_BOUNDINGBOX);
-			float distance = cmp_box->GetBoxDiagonal().Length(); 
+		
+			if (cmp_box != nullptr)
+			{
+				float distance = cmp_box->GetBoxDiagonal().Length();
 
-			//Rotate the camera
-			const vec3 center(cmp_box->GetBoxCenter().x, cmp_box->GetBoxCenter().y, cmp_box->GetBoxCenter().z);
-			
+				//Rotate the camera
+				const vec3 center(cmp_box->GetBoxCenter().x, cmp_box->GetBoxCenter().y, cmp_box->GetBoxCenter().z);
 
-			//Get the segment from camera to center
-			float3 cam_pos(Position.x, Position.y, Position.z);
-
-			LineSegment line; 
-
-			line.a = cmp_box->GetBoxCenter();
-			line.b = cam_pos;
-
-			float equivalence = distance / line.Length(); 
-			float3 dst_point = line.GetPoint(equivalence); 
-
-			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
-			LookAt(center);
+				//Get the segment from camera to center
+				vec center_ts(center.x, center.y, center.z);
+				float3 dst_point = GetCamPointFromDistance(center_ts, distance);
+				Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+				LookAt(center);
+			}
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
+			float3 pos_amm = {0,0,0};
+			float dist_amm = 0; 
 
+			selected_go->SetCenterCamDataRecursive(pos_amm, dist_amm); 
+
+			float3 tmpcenter = pos_amm / App->scene->GetGameObjectsAmmount();
+
+			vec center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
+			
+			float3 dst_point = GetCamPointFromDistance(center, dist_amm);
+			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+
+			const vec3 center_ts(center.x, center.y, center.z);
+			LookAt(center_ts);
 		}
 	}
 	

@@ -227,3 +227,26 @@ bool GameObject::HasChilds()
 {
 	return !child_list.empty();;
 }
+
+void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
+{
+	ComponentBoundingBox* cmp_bb = (ComponentBoundingBox*)GetComponent(CMP_BOUNDINGBOX);
+
+	if (cmp_bb == nullptr) //We should create and delete a component to the object to get the center
+	{
+
+	}
+	else
+	{
+		position_amm += cmp_bb->GetBoxCenter();
+		distance_amm += cmp_bb->GetBoxDiagonal().Length();
+	}
+
+	if (HasChilds())
+	{
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		{
+			(*it)->SetCenterCamDataRecursive(position_amm, distance_amm);
+		}			
+	}
+}

@@ -75,6 +75,11 @@ GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_chil
 	return parent_go; 
 }
 
+int ModuleSceneIntro::GetGameObjectsAmmount()
+{
+	return scene_gameobjects.size();
+}
+
 void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 {
 	scene_gameobjects.push_back(go); 
@@ -101,7 +106,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	pPlane p(0, 1, 0, 500);
 	p.axis = true;
 	//p.Scale(0.01f, 0.01f, 0.01f);
-	p.color = {0.15f, 0.15f, 0.15f};  //Em mola que flipas el rosa de moment deixal porfa //ANS: la xupas
+	p.color = {0.15f, 0.15f, 0.15f};  
 	p.Render();
 
 	Sphere s({0,0,0},100);
