@@ -190,7 +190,7 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 
 				//Create The Component
 				ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->CreateComponent(CMP_MATERIAL);
-				cmp_mat->SetDiffuseTexture(new_texture);
+				cmp_mat->diffuse = new_texture;
 
 				//Add it to the parent GO
 				game_object->AddComponent(cmp_mat);

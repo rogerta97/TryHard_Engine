@@ -41,10 +41,10 @@ void Texture::SetTextureSettings()
 
 Texture* Texture::GetCheckTexture()
 {
-	GLubyte* buffer = new GLubyte[10 * 10 * 4];
-	GLubyte checkImage[10][10][4];
-	for (int i = 0; i < 10; i++) { // height
-		for (int j = 0; j < 10; j++) {
+	GLubyte* buffer = new GLubyte[64 * 64 * 4];
+	GLubyte checkImage[64][64][4];
+	for (int i = 0; i < 64; i++) { // height
+		for (int j = 0; j < 64; j++) {
 			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
 			checkImage[i][j][0] = (GLubyte)c;
 			checkImage[i][j][1] = (GLubyte)c;
@@ -62,7 +62,7 @@ Texture* Texture::GetCheckTexture()
 	check_tex->CreateBuffer(); 
 	check_tex->Bind(); 
 	SetTextureSettings(); 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 10, 10, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 	check_tex->UnBind(); 
 
 	check_tex->width = 256; 

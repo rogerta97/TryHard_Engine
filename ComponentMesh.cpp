@@ -104,8 +104,8 @@ void ComponentMesh::DrawMesh()
 
 	if (mat_active) 
 	{
-		if(material->GetDiffuseTexture() != nullptr)
-			material->GetDiffuseTexture()->Bind();
+		if(material->diffuse != nullptr)
+			material->diffuse->Bind();
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
@@ -127,7 +127,7 @@ void ComponentMesh::DrawMesh()
 
 	if (mat_active)
 	{
-		material->GetDiffuseTexture()->UnBind();
+		material->diffuse->UnBind();
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
