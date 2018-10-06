@@ -71,45 +71,49 @@ update_status ModuleCamera3D::Update(float dt)
 	vec3 point_look = { 0, 0, 0};
 	int scale_value = 3; 
 	bool moved = false; 
+	speed_multiplier = 1;
 	
 	//Look(Position, point_look, true); //Si descomentas aixo mirara tot el rato el punt que li diguis
 
 	//Camera WASD & ER input
 	vec3 increment = { 0.0f ,0.0f ,0.0f }; 
 
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
+		speed_multiplier = 2;
+
 	if (App->input->GetKey(SDL_SCANCODE_W))
 	{
-		increment += Z * -GetSpeed()*App->GetDt();
+		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier;
 		moved = true; 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S))
 	{
-		increment += Z * GetSpeed() * App->GetDt();
+		increment += Z * GetSpeed() * App->GetDt() * speed_multiplier;
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A))
 	{
-		increment += X * -GetSpeed() * App->GetDt();
+		increment += X * -GetSpeed() * App->GetDt() * speed_multiplier;
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D))
 	{
-		increment += X * GetSpeed() * App->GetDt();
+		increment += X * GetSpeed() * App->GetDt() * speed_multiplier;
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_E))
 	{
-		increment += Y * GetSpeed() * App->GetDt();
+		increment += Y * GetSpeed() * App->GetDt() * speed_multiplier;
 		moved = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R))
 	{
-		increment += Y * -GetSpeed() * App->GetDt();
+		increment += Y * -GetSpeed() * App->GetDt() * speed_multiplier;
 		moved = true;
 	}
 
@@ -118,14 +122,13 @@ update_status ModuleCamera3D::Update(float dt)
 		LookAtSelectedGameObject(); 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-	{
-		orbit = !orbit;
-	}
+
 
 
 	if (moved)
 		Move(increment);
+
+	//Position = Reference + Z * length(Position);
 
 	//// Mouse motion ----------------
 
@@ -137,6 +140,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (dy != 0 || dx != 0) {
 
+			if (App->input->GetKey(SDL_SCANCODE_LALT))
 			Position -= Reference;
 
 			if (dx != 0)
@@ -167,7 +171,7 @@ update_status ModuleCamera3D::Update(float dt)
 			//CONSOLE_LOG("dy:%d dx:%d", dy, dx);
 
 
-			if (orbit)
+			if (App->input->GetKey(SDL_SCANCODE_LALT))
 				Position = Reference + Z * length(Position);
 		}
 	}
