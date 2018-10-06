@@ -127,6 +127,8 @@ update_status ModuleCamera3D::Update(float dt)
 	if (moved)
 		Move(increment);
 
+	//Position = Reference + Z * length(Position);
+
 	//// Mouse motion ----------------
 
 	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
@@ -137,6 +139,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (dy != 0 || dx != 0) {
 
+			if (App->input->GetKey(SDL_SCANCODE_LALT))
 			Position -= Reference;
 
 			if (dx != 0)
@@ -167,7 +170,7 @@ update_status ModuleCamera3D::Update(float dt)
 			//CONSOLE_LOG("dy:%d dx:%d", dy, dx);
 
 
-			if (orbit)
+			if (App->input->GetKey(SDL_SCANCODE_LALT))
 				Position = Reference + Z * length(Position);
 		}
 	}
