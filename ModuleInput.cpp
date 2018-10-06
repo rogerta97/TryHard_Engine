@@ -31,15 +31,15 @@ bool ModuleInput::Init(JSON_Object* config)
 	bool ret = true;
 	SDL_Init(0);
 
-	mouse_wheel = 0; 
+	mouse_wheel = 0;
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		CONSOLE_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 
-	file_droped = ""; 
+	file_droped = "";
 	init_time = performance_timer.Read();
 	return ret;
 }
@@ -79,19 +79,19 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	
-	for(int i = 0; i < MAX_KEYS; ++i)
+
+	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if(keys[i] == 1)
+		if (keys[i] == 1)
 		{
-			if(keyboard[i] == KEY_IDLE)
+			if (keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
 				keyboard[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
@@ -104,18 +104,18 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_y /= App->window->scale;
 	mouse_z = 0;
 
-	for(int i = 0; i < 5; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
-		if(buttons & SDL_BUTTON(i))
+		if (buttons & SDL_BUTTON(i))
 		{
-			if(mouse_buttons[i] == KEY_IDLE)
+			if (mouse_buttons[i] == KEY_IDLE)
 				mouse_buttons[i] = KEY_DOWN;
 			else
 				mouse_buttons[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
+			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
 				mouse_buttons[i] = KEY_UP;
 			else
 				mouse_buttons[i] = KEY_IDLE;
@@ -126,17 +126,17 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	bool quit = false;
 	SDL_Event e;
-	while(SDL_PollEvent(&e))
+	while (SDL_PollEvent(&e))
 	{
-		App->imgui->SendInput(&e); 
+		App->imgui->SendInput(&e);
 
-		switch(e.type)
+		switch (e.type)
 		{
-			case SDL_MOUSEWHEEL:
+		case SDL_MOUSEWHEEL:
 			mouse_wheel = e.wheel.y;
 			break;
 
-			case SDL_MOUSEMOTION:
+		case SDL_MOUSEMOTION:
 			mouse_x = e.motion.x / App->window->width;
 			mouse_y = e.motion.y / App->window->height;
 
@@ -144,59 +144,86 @@ update_status ModuleInput::PreUpdate(float dt)
 			mouse_y_motion = e.motion.yrel / App->window->scale;
 			break;
 
-			case SDL_QUIT:
+		case SDL_QUIT:
 			quit = true;
 			break;
 
-			case SDL_DROPFILE:
+		case SDL_DROPFILE:
+		{
+			file_droped = e.drop.file;
+			switch (App->file_system->GetFileExtension(file_droped))
 			{
-				file_droped = e.drop.file; 
-				switch (App->file_system->GetFileExtension(file_droped))
+			case FX_FBX:
+			{
+				std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
+				App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, name.c_str()));
+				break;
+			}
+
+			case FX_PNG:
+			{
+				//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+				GameObject* current_go = nullptr;
+				current_go = App->scene->GetSelectedGameObject();
+
+				if (current_go != nullptr)
+				{
+					Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+
+					ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+					if (mat == nullptr)
 					{
-						case FX_FBX:
-						{
-							std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-							string name = App->file_system->GetLastPathItem(file_droped.c_str(), false); 
-							App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, name.c_str()));
-							break;
-						}
-						 
-						case FX_PNG:
-						{
-							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
-
-							GameObject* current_go = App->scene->GetSelectedGameObject(); 
-
-							if (current_go != nullptr)
-							{
-								ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
-
-								if (mat == nullptr)
-								{
-									CONSOLE_ERROR("Texture can not be dragged with no Material on Destination"); 
-								}
-								else
-								{
-									mat->diffuse = text;
-								}					
-							}				
-							break;
-						}
-					}							
+						CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+					}
+					else
+					{
+						mat->diffuse = text;
+					}
+				}
+				else
+					CONSOLE_ERROR("Could not load texture as there is no Game Object");
+				break;
 			}
 
-			break;
-			
-			case SDL_WINDOWEVENT:
+			case FX_DDS:
 			{
-				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
-					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				////In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+				//Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+
+				//GameObject* current_go = App->scene->GetSelectedGameObject();
+
+				//if (current_go != nullptr)
+				//{
+				//	ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+				//	if (mat == nullptr)
+				//	{
+				//		CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+				//	}
+				//	else
+				//	{
+
+				//		//mat->diffuse = text;
+				//	}
+				//}
+				//break;
 			}
+			}
+		}
+
+		break;
+
+		case SDL_WINDOWEVENT:
+		{
+			if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				App->renderer3D->OnResize(e.window.data1, e.window.data2);
+		}
 		}
 	}
 
-	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+	if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
 
 	return UPDATE_CONTINUE;

@@ -26,6 +26,8 @@ bool ModuleSceneIntro::Start()
 	
 	start_time = performance_timer.Read();
 
+	selected_go = nullptr;
+
 	return ret;
 }
 
