@@ -135,89 +135,37 @@ bool Mesh::SetCubeData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	num_uvs = num_indices*3;
-	uvs_cords = new float[num_uvs];
+	num_uvs = num_indices;
+	uvs_cords = new float3[num_uvs];
 
 	//Front 
-	uvs_cords[0] = 0.0f;
-	uvs_cords[1] = 0.0f;
-	uvs_cords[2] = 0.0f;
+	uvs_cords[0] = { 0.0f, 0.0f, 0.0f }; 	uvs_cords[1] = { 1.0f, 0.0f, 0.0f};
+	uvs_cords[2] = { 0.0f, 1.0f, 0.0f };	uvs_cords[3] = { 1.0f, 1.0f, 0.0f};
+	uvs_cords[4] = { 0.0f, 1.0f, 0.0f };	uvs_cords[5] = { 1.0f, 0.0f, 0.0f};
 
-	uvs_cords[3] = 1.0f;
-	uvs_cords[4] = 0.0f;
-	uvs_cords[5] = 0.0f;
+	uvs_cords[6] = { 1.0f, 0.0f, 0.0f };	uvs_cords[7] = { 1.0f, 0.0f, 0.0f};
+	uvs_cords[8] = { 0.0f, 1.0f, 0.0f };	uvs_cords[9] = { 1.0f, 0.0f, 0.0f};
+	uvs_cords[10] = { 1.0f, 1.0f, 0.0f };	uvs_cords[11] = { 0.0f, 1.0f, 0.0f };
 
-	uvs_cords[6] = 0.0f;
-	uvs_cords[7] = 1.0f;
-	uvs_cords[8] = 0.0f;
+	uvs_cords[12] = { 0.0f, 0.0f, 0.0f };	uvs_cords[13] = { 1.0f, 1.0f, 0.0f };
+	uvs_cords[14] = { 1.0f, 0.0f, 0.0f };	uvs_cords[15] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[16] = { 0.0f, 1.0f, 0.0f };	uvs_cords[17] = { 1.0f, 1.0f, 0.0f };
 
-	uvs_cords[9] = 1.0f;
-	uvs_cords[10] = 1.0f;
-	uvs_cords[11] = 0.0f;
+	uvs_cords[18] = { 0.0f, 0.0f, 0.0f };	uvs_cords[19] = { 1.0f, 1.0f, 0.0f };
+	uvs_cords[20] = { 1.0f, 0.0f, 0.0f };	uvs_cords[21] = { 0.0f, 1.0f, 0.0f };
+	uvs_cords[22] = { 1.0f, 1.0f, 0.0f };	uvs_cords[23] = { 0.0f, 0.0f, 0.0f };
 
-	uvs_cords[12] = 0.0f;
-	uvs_cords[13] = 1.0f;
-	uvs_cords[14] = 0.0f;
+	uvs_cords[24] = { 1.0f, 0.0f, 0.0f };	uvs_cords[25] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[26] = { 1.0f, 1.0f, 0.0f };	uvs_cords[27] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[28] = { 0.0f, 1.0f, 0.0f };	uvs_cords[29] = { 1.0f, 0.0f, 0.0f };
 
-	uvs_cords[15] = 1.0f;
-	uvs_cords[16] = 0.0f;
-	uvs_cords[17] = 0.0f;
-
-	//Right
-
-	uvs_cords[0] = 0.0f;
-	uvs_cords[1] = 0.0f;
-	uvs_cords[2] = 0.0f;
-
-	uvs_cords[3] = 1.0f;
-	uvs_cords[4] = 0.0f;
-	uvs_cords[5] = 0.0f;
-
-	uvs_cords[6] = 0.0f;
-	uvs_cords[7] = 1.0f;
-	uvs_cords[8] = 0.0f;
-
-	uvs_cords[9] = 1.0f;
-	uvs_cords[10] = 0.0f;
-	uvs_cords[11] = 0.0f;
-
-	uvs_cords[12] = 1.0f;
-	uvs_cords[13] = 1.0f;
-	uvs_cords[14] = 0.0f;
-
-	uvs_cords[15] = 0.0f;
-	uvs_cords[16] = 1.0f;
-	uvs_cords[17] = 0.0f;
-
-	//Back
-
-	uvs_cords[0] = 0.0f;
-	uvs_cords[1] = 0.0f;
-	uvs_cords[2] = 0.0f;
-
-	uvs_cords[3] = 1.0f;
-	uvs_cords[4] = 0.0f;
-	uvs_cords[5] = 0.0f;
-
-	uvs_cords[6] = 0.0f;
-	uvs_cords[7] = 1.0f;
-	uvs_cords[8] = 0.0f;
-
-	uvs_cords[9] = 1.0f;
-	uvs_cords[10] = 0.0f;
-	uvs_cords[11] = 0.0f;
-
-	uvs_cords[12] = 1.0f;
-	uvs_cords[13] = 1.0f;
-	uvs_cords[14] = 0.0f;
-
-	uvs_cords[15] = 0.0f;
-	uvs_cords[16] = 1.0f;
-	uvs_cords[17] = 0.0f;
+	uvs_cords[30] = { 0.0f, 0.0f, 0.0f };	uvs_cords[31] = { 1.0f, 1.0f, 0.0f };
+	uvs_cords[32] = { 1.0f, 0.0f, 0.0f };	uvs_cords[33] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[34] = { 0.0f, 1.0f, 0.0f };	uvs_cords[35] = { 1.0f, 1.0f, 0.0f };
 
 	glGenBuffers(1, &uvs_id);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float2)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return false;
@@ -271,36 +219,19 @@ bool Mesh::SetPlaneData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	num_uvs = num_indices;
-	uvs_cords = new float[num_uvs * 3];
+	num_uvs = num_indices*2;
+	uvs_cords = new float3[num_uvs];
 
-	uvs_cords[0] = 0.0f;
-	uvs_cords[1] = 1.0f;
-	uvs_cords[2] = 0.0f;
-
-	uvs_cords[3] = 0.0f;
-	uvs_cords[4] = 0.0f;
-	uvs_cords[5] = 0.0f;
-
-	uvs_cords[6] = 1.0f;
-	uvs_cords[7] = 1.0f;
-	uvs_cords[8] = 0.0f;
-
-	uvs_cords[9] = 1.0f;
-	uvs_cords[10] = 0.0f;
-	uvs_cords[11] = 0.0f;
-
-	uvs_cords[12] = 1.0f;
-	uvs_cords[13] = 1.0f;
-	uvs_cords[14] = 0.0f;
-
-	uvs_cords[15] = 0.0f;
-	uvs_cords[16] = 0.0f;
-	uvs_cords[17] = 0.0f;
+	uvs_cords[0] = { 0.0f, 1.0f, 0.0f };
+	uvs_cords[1] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[2] = { 1.0f, 1.0f, 0.0f };
+	uvs_cords[3] = { 1.0f, 0.0f, 0.0f };
+	uvs_cords[4] = { 1.0f, 1.0f, 0.0f };
+	uvs_cords[5] = { 0.0f, 0.0f, 0.0f };
 
 	glGenBuffers(1, &uvs_id);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 3, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 
