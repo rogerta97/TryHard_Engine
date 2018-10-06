@@ -262,8 +262,8 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine(); 
 
-		if(mat_cmp->GetDiffuseTexture() != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetDiffuseTexture()->GetName()); ImGui::SameLine(); 
+		if(mat_cmp->diffuse != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName()); ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
@@ -282,33 +282,37 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 			
 		}
+		ImGui::SameLine(); 
+
+		if (ImGui::SmallButton("Checker Texture"))
+		{
+			Texture* check_tex = mat_cmp->diffuse->GetCheckTexture();
+			mat_cmp->diffuse = check_tex;
+		}
 		
 		ImGui::Spacing();
 		
-		if (mat_cmp->GetDiffuseTexture() != nullptr)
-			ImGui::Image((ImTextureID)mat_cmp->GetDiffuseTexture()->GetTextureID(), ImVec2(150,150), ImVec2(0,1), ImVec2(1,0));
-
-		ImGui::SameLine(); 
-
-		if (ImGui::Button("Checker Texture"))
+		if (mat_cmp->diffuse != nullptr)
 		{
-			Texture* check_tex = mat_cmp->GetDiffuseTexture()->GetCheckTexture(); 
-			mat_cmp->SetDiffuseTexture(check_tex); 
+			ImGui::Image((ImTextureID)mat_cmp->diffuse->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
+
+			ImGui::SameLine();
+
+			ImGui::Spacing();
+
+			ImGui::TextWrapped("Path: "); ImGui::SameLine();
+			ImGui::TextWrapped(/*ImVec4(1,1,0,1),*/ "%s", mat_cmp->diffuse->GetPath());
+
+			ImGui::Text("Texture ID: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetTextureID());
+
+			ImGui::Text("Width:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetWidth());
+
+			ImGui::Text("Height:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetHeight());
 		}
-
-		ImGui::Spacing(); 
-
-		ImGui::TextWrapped("Path: "); ImGui::SameLine(); 
-		ImGui::TextWrapped(/*ImVec4(1,1,0,1),*/ "%s", mat_cmp->GetDiffuseTexture()->GetPath());
-
-		ImGui::Text("Texture ID: "); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetTextureID());
-	
-		ImGui::Text("Width:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetWidth());
-
-		ImGui::Text("Height:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetDiffuseTexture()->GetHeight());
+			
 
 	}
 		

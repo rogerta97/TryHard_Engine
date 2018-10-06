@@ -225,7 +225,7 @@ update_status ModuleImGui::DrawTopBar()
 			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
 			std::string path = App->file_system->GetTexturesPath().c_str() + std::string("Baker_house.png"); 
 			Texture* generated_texture = App->resources->texture_importer->LoadTexture(path.c_str());
-			mat->SetDiffuseTexture(generated_texture);
+			mat->diffuse = generated_texture;
 
 			new_go->AddComponent(mat);
 
@@ -240,6 +240,10 @@ update_status ModuleImGui::DrawTopBar()
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
 			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_CUBE));
 			new_go->AddComponent(cmp);
+
+			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
+			//mat->SetDiffuseTexture(nullptr); 
+			new_go->AddComponent(mat);
 
 			App->scene->SetSelectedGameObject(new_go);
 		}

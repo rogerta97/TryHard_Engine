@@ -178,7 +178,7 @@ update_status ModuleInput::PreUpdate(float dt)
 								}
 								else
 								{
-									mat->SetDiffuseTexture(text);
+									mat->diffuse = text;
 								}					
 							}				
 							break;

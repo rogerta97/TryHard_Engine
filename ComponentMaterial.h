@@ -10,12 +10,10 @@ public:
 
 	bool Update();
 
-	void SetDiffuseTexture(Texture* tex);
-	Texture* GetDiffuseTexture() const; 
+	Texture * diffuse;
 
 private:
 
-	Texture * diffuse; 
 	
 };
 

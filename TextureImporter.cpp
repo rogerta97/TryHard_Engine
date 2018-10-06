@@ -169,7 +169,7 @@ Texture* TextureImporter::DrawTextureList()
 
 				if (mat != nullptr)
 				{
-					mat->SetDiffuseTexture((*it));
+					mat->diffuse = (*it);
 				}
 					
 			}
