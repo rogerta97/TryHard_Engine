@@ -164,9 +164,35 @@ update_status ModuleInput::PreUpdate(float dt)
 						case FX_PNG:
 						{
 							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+							GameObject* current_go = nullptr;
+							current_go = App->scene->GetSelectedGameObject();
+
+							if (current_go != nullptr)
+							{
+								Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+
+								ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+								if (mat == nullptr)
+								{
+									CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+								}
+								else
+								{
+									mat->SetDiffuseTexture(text);
+								}
+							}
+							else
+								CONSOLE_ERROR("Could not load texture as there is no Game Object");
+							break;
+						}
+
+						case FX_DDS:
+						{
+							//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
 							Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
 
-							GameObject* current_go = App->scene->GetSelectedGameObject(); 
+							GameObject* current_go = App->scene->GetSelectedGameObject();
 
 							if (current_go != nullptr)
 							{
@@ -174,13 +200,13 @@ update_status ModuleInput::PreUpdate(float dt)
 
 								if (mat == nullptr)
 								{
-									CONSOLE_ERROR("Texture can not be dragged with no Material on Destination"); 
+									CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
 								}
 								else
 								{
 									mat->SetDiffuseTexture(text);
-								}					
-							}				
+								}
+							}
 							break;
 						}
 					}							
