@@ -42,9 +42,7 @@ public:
 private:
 
 	void CalculateViewMatrix();
-	float speed = 0.1f;
-	float mouse_sensitivity = 5.0f;
-	bool locked; 
+
 
 public:
 	
@@ -54,4 +52,10 @@ private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	TextureMSAA* viewport_texture; 
+
+	float speed = 0.1f;
+	float mouse_sensitivity = 5.0f;
+	bool locked;
+
+	bool orbit = true;
 };

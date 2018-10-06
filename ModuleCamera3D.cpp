@@ -17,6 +17,8 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 
 	Position = vec3(3.0f, 3.0f, -8.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+	orbit = true;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -116,6 +118,12 @@ update_status ModuleCamera3D::Update(float dt)
 		LookAtSelectedGameObject(); 
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+	{
+		orbit = !orbit;
+	}
+
+
 	if (moved)
 		Move(increment);
 
@@ -156,10 +164,11 @@ update_status ModuleCamera3D::Update(float dt)
 				}
 			}
 
-			CONSOLE_LOG("dy:%d dx:%d", dy, dx);
+			//CONSOLE_LOG("dy:%d dx:%d", dy, dx);
 
 
-			Position = Reference + Z * length(Position);
+			if (orbit)
+				Position = Reference + Z * length(Position);
 		}
 	}
 
