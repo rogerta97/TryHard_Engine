@@ -22,153 +22,132 @@ uint Mesh::CreateBuffer()
 
 bool Mesh::SetCubeData()
 {
-	//Create the buffers
+	//Set Vertices
 	vertices_id = CreateBuffer();
-	indices_id = CreateBuffer();
 
 	type = BasicMeshType::MESH_CUBE;
-	num_vertices = 8;
+
+	num_vertices = 4;
 	vertices = new float3[num_vertices];
 
-	int w = 1;
-	int h = 1;
-	int d = 1;
+	int size = 2;
+	float half_size = (float)size / 2.0f; 
 
-	vertices[0].x = -w;
-	vertices[0].y = -h;
-	vertices[0].z = +d;
+	vertices[0] = { -half_size, half_size, half_size };
+	vertices[1] = { half_size, half_size, half_size };
+	vertices[2] = { -half_size, -half_size, half_size };
+	vertices[3] = { half_size, -half_size, half_size };
 
-	vertices[1].x = +w;
-	vertices[1].y = -h;
-	vertices[1].z = +d;
-
-	vertices[2].x = -w;
-	vertices[2].y = +h;
-	vertices[2].z = +d;
-
-	vertices[3].x = +w;
-	vertices[3].y = +h;
-	vertices[3].z = +d;
-
-	vertices[4].x = -w;
-	vertices[4].y = -h;
-	vertices[4].z = -d;
-
-	vertices[5].x = +w;
-	vertices[5].y = -h;
-	vertices[5].z = -d;
-
-	vertices[6].x = -w;
-	vertices[6].y = +h;
-	vertices[6].z = -d;
-
-	vertices[7].x = +w;
-	vertices[7].y = +h;
-	vertices[7].z = -d;
+	//vertices[4] = { -half_size, half_size, -half_size };
+	//vertices[5] = { half_size, half_size, -half_size };
+	//vertices[6] = { -half_size, -half_size, -half_size };
+	//vertices[7] = { half_size, -half_size, -half_size };
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	//Pass to VRAM
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	//Create Indices
-	num_indices = 36;
+	indices_id = CreateBuffer();
+
+	num_indices = 6;
 	indices = new int[num_indices];
 
 	//Front
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
+	indices[0] = 1;
+	indices[1] = 2;
+	indices[2] = 3;
 
-	indices[3] = 3;
-	indices[4] = 2;
-	indices[5] = 1;
+	indices[3] = 1;
+	indices[4] = 0;
+	indices[5] = 2;
 
-	//Right
-	indices[6] = 1;
-	indices[7] = 5;
-	indices[8] = 3;
+	////Back
+	//indices[6] = 7;
+	//indices[7] = 6;
+	//indices[8] = 4;
 
-	indices[9] = 5;
-	indices[10] = 7;
-	indices[11] = 3;
+	//indices[9] = 4;
+	//indices[10] = 5;
+	//indices[11] = 7;
 
-	//Back
-	indices[12] = 4;
-	indices[13] = 7;
-	indices[14] = 5;
+	//// Right
+	//indices[12] = 7;
+	//indices[13] = 1;
+	//indices[14] = 3;
 
-	indices[15] = 4;
-	indices[16] = 6;
-	indices[17] = 7;
+	//indices[15] = 7;
+	//indices[16] = 5;
+	//indices[17] = 1;
 
-	//Left
-	indices[18] = 0;
-	indices[19] = 6;
-	indices[20] = 4;
+	//// Left
+	//indices[18] = 6;
+	//indices[19] = 0;
+	//indices[20] = 4;
 
-	indices[21] = 2;
-	indices[22] = 6;
-	indices[23] = 0;
+	//indices[21] = 2;
+	//indices[22] = 0;
+	//indices[23] = 6;
 
-	//Top
-	indices[24] = 2;
-	indices[25] = 3;
-	indices[26] = 6;
+	//// Top
+	//indices[24] = 1;
+	//indices[25] = 5;
+	//indices[26] = 0;
 
-	indices[27] = 3;
-	indices[28] = 7;
-	indices[29] = 6;
+	//indices[27] = 0;
+	//indices[28] = 5;
+	//indices[29] = 4;
 
-	//Bottom
-	indices[30] = 0;
-	indices[31] = 5;
-	indices[32] = 1;
+	//// Bottom
+	//indices[30] = 3;
+	//indices[31] = 2;
+	//indices[32] = 7;
 
-	indices[33] = 0;
-	indices[34] = 4;
-	indices[35] = 5;
+	//indices[33] = 2;
+	//indices[34] = 6;
+	//indices[35] = 7;
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	//Pass to VRAM
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	num_uvs = num_indices;
-	uvs_cords = new float3[num_uvs];
+	////Create UV's
+	//uvs_id = CreateBuffer();
+	//num_uvs = num_indices;
+	//uvs_cords = new float[num_uvs*2];
 
-	//Front 
-	uvs_cords[0] = { 0.0f, 0.0f, 0.0f }; 	uvs_cords[1] = { 1.0f, 0.0f, 0.0f};
-	uvs_cords[2] = { 0.0f, 1.0f, 0.0f };	uvs_cords[3] = { 1.0f, 1.0f, 0.0f};
-	uvs_cords[4] = { 0.0f, 1.0f, 0.0f };	uvs_cords[5] = { 1.0f, 0.0f, 0.0f};
+	////Front 
+	//uvs_cords[0] = { 1.0f, 1.0f}; 	uvs_cords[1] = { 0.0f, 0.0f};
+	//uvs_cords[2] = { 1.0f, 0.0f};	uvs_cords[3] = { 1.0f, 1.0f};
+	//uvs_cords[4] = { 0.0f, 1.0f};	uvs_cords[5] = { 0.0f, 0.0f};
 
-	uvs_cords[6] = { 1.0f, 0.0f, 0.0f };	uvs_cords[7] = { 1.0f, 0.0f, 0.0f};
-	uvs_cords[8] = { 0.0f, 1.0f, 0.0f };	uvs_cords[9] = { 1.0f, 0.0f, 0.0f};
-	uvs_cords[10] = { 1.0f, 1.0f, 0.0f };	uvs_cords[11] = { 0.0f, 1.0f, 0.0f };
+	//uvs_cords[6] = { 1.0f, 0.0f, 0.0f };	uvs_cords[7] = { 1.0f, 0.0f, 0.0f};
+	//uvs_cords[8] = { 0.0f, 1.0f, 0.0f };	uvs_cords[9] = { 1.0f, 0.0f, 0.0f};
+	//uvs_cords[10] = { 1.0f, 1.0f, 0.0f };	uvs_cords[11] = { 0.0f, 1.0f, 0.0f };
 
-	uvs_cords[12] = { 0.0f, 0.0f, 0.0f };	uvs_cords[13] = { 1.0f, 1.0f, 0.0f };
-	uvs_cords[14] = { 1.0f, 0.0f, 0.0f };	uvs_cords[15] = { 0.0f, 0.0f, 0.0f };
-	uvs_cords[16] = { 0.0f, 1.0f, 0.0f };	uvs_cords[17] = { 1.0f, 1.0f, 0.0f };
+	//uvs_cords[12] = { 0.0f, 0.0f, 0.0f };	uvs_cords[13] = { 1.0f, 1.0f, 0.0f };
+	//uvs_cords[14] = { 1.0f, 0.0f, 0.0f };	uvs_cords[15] = { 0.0f, 0.0f, 0.0f };
+	//uvs_cords[16] = { 0.0f, 1.0f, 0.0f };	uvs_cords[17] = { 1.0f, 1.0f, 0.0f };
 
-	uvs_cords[18] = { 0.0f, 0.0f, 0.0f };	uvs_cords[19] = { 1.0f, 1.0f, 0.0f };
-	uvs_cords[20] = { 1.0f, 0.0f, 0.0f };	uvs_cords[21] = { 0.0f, 1.0f, 0.0f };
-	uvs_cords[22] = { 1.0f, 1.0f, 0.0f };	uvs_cords[23] = { 0.0f, 0.0f, 0.0f };
+	//uvs_cords[18] = { 0.0f, 0.0f, 0.0f };	uvs_cords[19] = { 1.0f, 1.0f, 0.0f };
+	//uvs_cords[20] = { 1.0f, 0.0f, 0.0f };	uvs_cords[21] = { 0.0f, 1.0f, 0.0f };
+	//uvs_cords[22] = { 1.0f, 1.0f, 0.0f };	uvs_cords[23] = { 0.0f, 0.0f, 0.0f };
 
-	uvs_cords[24] = { 1.0f, 0.0f, 0.0f };	uvs_cords[25] = { 0.0f, 0.0f, 0.0f };
-	uvs_cords[26] = { 1.0f, 1.0f, 0.0f };	uvs_cords[27] = { 0.0f, 0.0f, 0.0f };
-	uvs_cords[28] = { 0.0f, 1.0f, 0.0f };	uvs_cords[29] = { 1.0f, 0.0f, 0.0f };
+	//uvs_cords[24] = { 1.0f, 0.0f, 0.0f };	uvs_cords[25] = { 0.0f, 0.0f, 0.0f };
+	//uvs_cords[26] = { 1.0f, 1.0f, 0.0f };	uvs_cords[27] = { 0.0f, 0.0f, 0.0f };
+	//uvs_cords[28] = { 0.0f, 1.0f, 0.0f };	uvs_cords[29] = { 1.0f, 0.0f, 0.0f };
 
-	uvs_cords[30] = { 0.0f, 0.0f, 0.0f };	uvs_cords[31] = { 1.0f, 1.0f, 0.0f };
-	uvs_cords[32] = { 1.0f, 0.0f, 0.0f };	uvs_cords[33] = { 0.0f, 0.0f, 0.0f };
-	uvs_cords[34] = { 0.0f, 1.0f, 0.0f };	uvs_cords[35] = { 1.0f, 1.0f, 0.0f };
+	//uvs_cords[30] = { 0.0f, 0.0f, 0.0f };	uvs_cords[31] = { 1.0f, 1.0f, 0.0f };
+	//uvs_cords[32] = { 1.0f, 0.0f, 0.0f };	uvs_cords[33] = { 0.0f, 0.0f, 0.0f };
+	//uvs_cords[34] = { 0.0f, 1.0f, 0.0f };	uvs_cords[35] = { 1.0f, 1.0f, 0.0f };
 
 	glGenBuffers(1, &uvs_id);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float2)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	return false;
+	return true;
 }
 
 bool Mesh::SetPlaneData()
@@ -219,19 +198,30 @@ bool Mesh::SetPlaneData()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	num_uvs = num_indices*2;
-	uvs_cords = new float3[num_uvs];
+	num_uvs = num_indices;
+	uvs_cords = new float[num_uvs*2];
 
-	uvs_cords[0] = { 0.0f, 1.0f, 0.0f };
-	uvs_cords[1] = { 0.0f, 0.0f, 0.0f };
-	uvs_cords[2] = { 1.0f, 1.0f, 0.0f };
-	uvs_cords[3] = { 1.0f, 0.0f, 0.0f };
-	uvs_cords[4] = { 1.0f, 1.0f, 0.0f };
-	uvs_cords[5] = { 0.0f, 0.0f, 0.0f };
+	uvs_cords[0] = 0.0f;
+	uvs_cords[1] = 1.0f;
+
+	uvs_cords[2] = 0.0f;
+	uvs_cords[3] = 0.0f;
+
+	uvs_cords[4] = 1.0f;
+	uvs_cords[5] = 1.0f;
+
+	uvs_cords[6] = 1.0f;
+	uvs_cords[7] = 0.0f;
+
+	uvs_cords[8] = 1.0f;
+	uvs_cords[9] = 1.0f;
+
+	uvs_cords[10] = 0.0f;
+	uvs_cords[11] = 0.0f;
 
 	glGenBuffers(1, &uvs_id);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs*2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 

@@ -29,7 +29,7 @@ ComponentMesh::~ComponentMesh()
 bool ComponentMesh::Update()
 {
 	
-	if (draw_mesh == false)
+	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
 	SetDrawSettings();
@@ -109,7 +109,9 @@ void ComponentMesh::DrawMesh()
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);	
+		
+		if(mesh->GetType() == MESH_FBX) glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		else glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 	}
 
 	glEnableClientState(GL_VERTEX_ARRAY);

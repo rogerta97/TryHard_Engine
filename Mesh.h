@@ -27,7 +27,7 @@ public:
 
 	float3* vertices; 
 	int* indices;
-	float3* uvs_cords;
+	float* uvs_cords;
 	float3* normal_cords; 
 
 

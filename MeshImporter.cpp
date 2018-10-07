@@ -157,8 +157,8 @@ std::list<GameObject*> MeshImporter::CreateFBXMesh(const char* full_path)
 //
 //				memcpy(destination, source, calculated_size_of_source);
 //=======
-				new_mesh->uvs_cords = new float3[new_mesh->num_uvs];
-				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float3) * new_mesh->num_uvs);
+				new_mesh->uvs_cords = new float[new_mesh->num_uvs*3];
+				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs*3);
 
 
 				glGenBuffers(1, &new_mesh->uvs_id);
