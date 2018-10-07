@@ -27,16 +27,16 @@ bool Mesh::SetCubeData()
 
 	type = BasicMeshType::MESH_CUBE;
 
-	num_vertices = 4;
+	num_vertices = 3;
 	vertices = new float3[num_vertices];
 
 	int size = 2;
 	float half_size = (float)size / 2.0f; 
 
-	vertices[0] = { -half_size, half_size, half_size };
-	vertices[1] = { half_size, half_size, half_size };
-	vertices[2] = { -half_size, -half_size, half_size };
-	vertices[3] = { half_size, -half_size, half_size };
+	//vertices[0] = { -half_size, half_size, half_size };
+	vertices[0] = { half_size, half_size, half_size };
+	vertices[1] = { -half_size, -half_size, half_size };
+	vertices[2] = { half_size, -half_size, half_size };
 
 	//vertices[4] = { -half_size, half_size, -half_size };
 	//vertices[5] = { half_size, half_size, -half_size };
@@ -50,17 +50,17 @@ bool Mesh::SetCubeData()
 	//Create Indices
 	indices_id = CreateBuffer();
 
-	num_indices = 6;
+	num_indices = 3;
 	indices = new int[num_indices];
 
 	//Front
-	indices[0] = 1;
-	indices[1] = 2;
-	indices[2] = 3;
+	indices[0] = 2;
+	indices[1] = 0;
+	indices[2] = 1;
 
-	indices[3] = 1;
-	indices[4] = 0;
-	indices[5] = 2;
+	//indices[3] = 1;
+	//indices[4] = 0;
+	//indices[5] = 2;
 
 	////Back
 	//indices[6] = 7;
@@ -113,14 +113,24 @@ bool Mesh::SetCubeData()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	////Create UV's
-	//uvs_id = CreateBuffer();
-	//num_uvs = num_indices;
-	//uvs_cords = new float[num_uvs*2];
+	uvs_id = CreateBuffer();
 
-	////Front 
-	//uvs_cords[0] = { 1.0f, 1.0f}; 	uvs_cords[1] = { 0.0f, 0.0f};
-	//uvs_cords[2] = { 1.0f, 0.0f};	uvs_cords[3] = { 1.0f, 1.0f};
-	//uvs_cords[4] = { 0.0f, 1.0f};	uvs_cords[5] = { 0.0f, 0.0f};
+	num_uvs = num_indices;
+	uvs_cords = new float[num_uvs*2];
+
+	//Front 
+	uvs_cords[0] = 1.0f; 
+	uvs_cords[1] = 1.0f;
+
+	uvs_cords[2] = 0.0f;
+	uvs_cords[3] = 0.0f;
+
+	uvs_cords[4] = 1.0f;
+	uvs_cords[5] = 0.0f;
+
+	//uvs_cords[6] = 1.0f; uvs_cords[7] = 1.0f;
+	//uvs_cords[8] = 0.0f; uvs_cords[9] = 1.0f;
+	//uvs_cords[10] = 0.0f; uvs_cords[11] = 0.0f;
 
 	//uvs_cords[6] = { 1.0f, 0.0f, 0.0f };	uvs_cords[7] = { 1.0f, 0.0f, 0.0f};
 	//uvs_cords[8] = { 0.0f, 1.0f, 0.0f };	uvs_cords[9] = { 1.0f, 0.0f, 0.0f};
@@ -144,7 +154,7 @@ bool Mesh::SetCubeData()
 
 	glGenBuffers(1, &uvs_id);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_uvs, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true;
