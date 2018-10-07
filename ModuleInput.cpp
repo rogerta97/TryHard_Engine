@@ -151,7 +151,8 @@ update_status ModuleInput::PreUpdate(float dt)
 		case SDL_DROPFILE:
 		{
 			file_droped = e.drop.file;
-			switch (App->file_system->GetFileExtension(file_droped))
+			file_extension file_dropped_extension = App->file_system->GetFileExtension(file_droped);
+			switch (file_dropped_extension)
 			{
 			case FX_FBX:
 			{
@@ -189,26 +190,25 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			case FX_DDS:
 			{
-				////In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-				//Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+				//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+				Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
 
-				//GameObject* current_go = App->scene->GetSelectedGameObject();
+				GameObject* current_go = App->scene->GetSelectedGameObject();
 
-				//if (current_go != nullptr)
-				//{
-				//	ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+				if (current_go != nullptr)
+				{
+					ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
 
-				//	if (mat == nullptr)
-				//	{
-				//		CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
-				//	}
-				//	else
-				//	{
-
-				//		//mat->diffuse = text;
-				//	}
-				//}
-				//break;
+					if (mat == nullptr)
+					{
+						CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+					}
+					else
+					{
+						mat->diffuse = text;
+					}
+				}
+				break;
 			}
 			}
 		}
