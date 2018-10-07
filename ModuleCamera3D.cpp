@@ -22,7 +22,9 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 }
 
 ModuleCamera3D::~ModuleCamera3D()
-{}
+{
+	
+}
 
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()
@@ -119,7 +121,7 @@ update_status ModuleCamera3D::Update(float dt)
 		moved = true;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F))
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		cam_interpolation.interpolate = true; 	
 		cam_interpolation.interpolation_timer.Start(); 
