@@ -5,6 +5,9 @@
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 
+#include "DevIL Windows SDK\include\IL\il.h"
+#include "Assimp\include\version.h"
+
 #include "UI_Panel.h"
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
@@ -19,6 +22,7 @@
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
+
 
 
 
@@ -284,14 +288,30 @@ update_status ModuleImGui::DrawTopBar()
 
 		if (ImGui::BeginMenu("3rd Parties"))
 		{
-			if (ImGui::MenuItem("SDL"))
+			SDL_version version;
+			SDL_GetVersion(&version);
+
+			std::string sdl ("SDL (" + std::to_string(version.major) + "." + std::to_string(version.minor) + "." + std::to_string(version.patch) + ")");
+
+			if (ImGui::MenuItem(sdl.c_str()))
 			{
 				App->OpenWebBrowser("https://www.libsdl.org/download-2.0.php");
 			}
 
-			if (ImGui::MenuItem("ImGui"))
+			std::string imgui("Dear ImGui (");
+			imgui.append(ImGui::GetVersion());
+			imgui.append(")");
+
+			if (ImGui::MenuItem(imgui.c_str()))
 			{
 				App->OpenWebBrowser("https://github.com/ocornut/imgui");
+			}
+
+			std::string assimp("Assimp (" + std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision()) + ")");
+
+
+			if (ImGui::MenuItem(assimp.c_str())) {
+				App->OpenWebBrowser("http://www.assimp.org/");
 			}
 
 			if (ImGui::MenuItem("MathGeoLib"))
