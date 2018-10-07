@@ -239,6 +239,7 @@ update_status ModuleImGui::DrawTopBar()
 			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
 			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_CUBE));
+			cmp->CreateEnclosedMeshAABB(); 
 			new_go->AddComponent(cmp);
 
 			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);

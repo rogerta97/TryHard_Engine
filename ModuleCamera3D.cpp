@@ -36,6 +36,8 @@ bool ModuleCamera3D::Start()
 	SetSpeed(3); 
 	SetMouseSensitivity(0.25f);
 
+	cam_interpolation.interpolate = false; 
+
 	start_time = performance_timer.Read();
 	return ret;
 }
@@ -119,11 +121,15 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
-		LookAtSelectedGameObject(); 
+		cam_interpolation.interpolate = true; 	
+		cam_interpolation.interpolation_timer.Start(); 
+		cam_interpolation.line = GetInterpolationSegment();
 	}
 
-
-
+	if (cam_interpolation.interpolate)
+	{
+		InterpolateCamera(1000.0f); 
+	}
 
 	if (moved)
 		Move(increment);
@@ -243,11 +249,12 @@ float3 ModuleCamera3D::GetCamPointFromDistance(vec center, float distance)
 	return dst_point; 
 }
 
-void ModuleCamera3D::LookAtSelectedGameObject()
+LineSegment ModuleCamera3D::GetInterpolationSegment()
 {
 	//If it does not have childs just look at the AABB
 
 	GameObject* selected_go = App->scene->GetSelectedGameObject(); 
+	LineSegment return_segment;
 
 	if (selected_go != nullptr)
 	{
@@ -255,15 +262,18 @@ void ModuleCamera3D::LookAtSelectedGameObject()
 
 		if (selected_go->GetNumChilds() == 0)
 		{
-			float distance = cmp_mesh->bounding_box.Diagonal().Length();
+			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 3;
 
 			//Rotate the camera
-			const vec3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
+			vec center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
 
 			//Get the segment from camera to center
 			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
-			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
-			LookAt(center);
+
+			return_segment.a = center; 
+			return_segment.b = dst_point;
+	/*		Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+			LookAt(center);*/
 			
 		}
 		else //if not find the middle point between the object and look at it. 
@@ -277,7 +287,7 @@ void ModuleCamera3D::LookAtSelectedGameObject()
 
 			vec center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
 			
-			float3 dst_point = GetCamPointFromDistance(center, dist_amm);
+			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 15);
 			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
 
 			const vec3 center_ts(center.x, center.y, center.z);
@@ -285,6 +295,27 @@ void ModuleCamera3D::LookAtSelectedGameObject()
 		}
 	}
 	
+	return return_segment; 
+}
+
+bool ModuleCamera3D::InterpolateCamera(float time)
+{
+	if (cam_interpolation.interpolation_timer.Read() <= time)
+	{
+		//Get Percentage 
+		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
+
+		//CONSOLE_LOG("percentage: %f", percentage); 
+		CONSOLE_LOG("timer: %d", cam_interpolation.interpolation_timer.Read());
+
+		Position = { cam_interpolation.line.GetPoint(1 - percentage).x, cam_interpolation.line.GetPoint(1 - percentage).y, cam_interpolation.line.GetPoint(1 - percentage).z };
+		return false; 
+	}
+	else
+	{
+		cam_interpolation.interpolate = false; 
+		return true; 
+	}
 }
 
 void ModuleCamera3D::SetSpeed(float new_speed)

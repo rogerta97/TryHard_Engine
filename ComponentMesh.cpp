@@ -175,17 +175,11 @@ Mesh * ComponentMesh::GetMesh() const
 
 bool ComponentMesh::CreateEnclosedMeshAABB()
 {
-	//Get Vertices of the mesh 
-	ComponentMesh* mesh_cmp = (ComponentMesh*)gameobject->GetComponent(CMP_RENDERER);
-
-	if (mesh_cmp != nullptr)
-	{
-		bounding_box.SetNegativeInfinity();
-		bounding_box = bounding_box.MinimalEnclosingAABB(mesh_cmp->GetMesh()->vertices, mesh_cmp->GetMesh()->num_vertices);
-		return true;
-	}
-
-	return false;
+	
+	bounding_box.SetNegativeInfinity();
+	bounding_box = bounding_box.MinimalEnclosingAABB(GetMesh()->vertices, GetMesh()->num_vertices);
+	return true;
+	
 }
 
 void ComponentMesh::DrawBoundingBox()

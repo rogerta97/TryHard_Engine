@@ -2,10 +2,20 @@
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
+#include "Timer.h"
 #include "MathGeoLib\MathGeoLib.h"
 
 class TextureMSAA; 
 class ComponentBoundingBox; 
+
+struct CameraInterpolation
+{
+public: 
+
+	Timer interpolation_timer; 
+	LineSegment line; 
+	bool interpolate; 
+};
 
 class ModuleCamera3D : public Module
 {
@@ -24,7 +34,8 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
-	void LookAtSelectedGameObject(); 
+	LineSegment GetInterpolationSegment(); 
+	bool InterpolateCamera(float time);
 	float3 GetCamPointFromDistance(vec center, float distance);
 
 	void SetSpeed(float new_speed); 
@@ -59,4 +70,7 @@ private:
 	bool locked;
 
 	bool orbit = true;
+
+	CameraInterpolation cam_interpolation;
+
 };

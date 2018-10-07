@@ -27,21 +27,21 @@ bool Mesh::SetCubeData()
 
 	type = BasicMeshType::MESH_CUBE;
 
-	num_vertices = 3;
+	num_vertices = 8;
 	vertices = new float3[num_vertices];
 
 	int size = 2;
 	float half_size = (float)size / 2.0f; 
 
-	//vertices[0] = { -half_size, half_size, half_size };
-	vertices[0] = { half_size, half_size, half_size };
-	vertices[1] = { -half_size, -half_size, half_size };
-	vertices[2] = { half_size, -half_size, half_size };
+	vertices[0] = { -half_size, half_size, half_size };
+	vertices[1] = { half_size, half_size, half_size };
+	vertices[2] = { -half_size, -half_size, half_size };
+	vertices[3] = { half_size, -half_size, half_size };
 
-	//vertices[4] = { -half_size, half_size, -half_size };
-	//vertices[5] = { half_size, half_size, -half_size };
-	//vertices[6] = { -half_size, -half_size, -half_size };
-	//vertices[7] = { half_size, -half_size, -half_size };
+	vertices[4] = { -half_size, half_size, -half_size };
+	vertices[5] = { half_size, half_size, -half_size };
+	vertices[6] = { -half_size, -half_size, -half_size };
+	vertices[7] = { half_size, -half_size, -half_size };
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
@@ -50,62 +50,62 @@ bool Mesh::SetCubeData()
 	//Create Indices
 	indices_id = CreateBuffer();
 
-	num_indices = 3;
+	num_indices = 36;
 	indices = new int[num_indices];
 
 	//Front
 	indices[0] = 2;
-	indices[1] = 0;
-	indices[2] = 1;
+	indices[1] = 1;
+	indices[2] = 0;
 
-	//indices[3] = 1;
-	//indices[4] = 0;
-	//indices[5] = 2;
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 1;
 
-	////Back
-	//indices[6] = 7;
-	//indices[7] = 6;
-	//indices[8] = 4;
+	//Back
+	indices[6] = 7;
+	indices[7] = 6;
+	indices[8] = 4;
 
-	//indices[9] = 4;
-	//indices[10] = 5;
-	//indices[11] = 7;
+	indices[9] = 4;
+	indices[10] = 5;
+	indices[11] = 7;
 
-	//// Right
-	//indices[12] = 7;
-	//indices[13] = 1;
-	//indices[14] = 3;
+	// Right
+	indices[12] = 7;
+	indices[13] = 1;
+	indices[14] = 3;
 
-	//indices[15] = 7;
-	//indices[16] = 5;
-	//indices[17] = 1;
+	indices[15] = 7;
+	indices[16] = 5;
+	indices[17] = 1;
 
-	//// Left
-	//indices[18] = 6;
-	//indices[19] = 0;
-	//indices[20] = 4;
+	// Left
+	indices[18] = 6;
+	indices[19] = 0;
+	indices[20] = 4;
 
-	//indices[21] = 2;
-	//indices[22] = 0;
-	//indices[23] = 6;
+	indices[21] = 2;
+	indices[22] = 0;
+	indices[23] = 6;
 
-	//// Top
-	//indices[24] = 1;
-	//indices[25] = 5;
-	//indices[26] = 0;
+	// Top
+	indices[24] = 1;
+	indices[25] = 5;
+	indices[26] = 0;
 
-	//indices[27] = 0;
-	//indices[28] = 5;
-	//indices[29] = 4;
+	indices[27] = 0;
+	indices[28] = 5;
+	indices[29] = 4;
 
-	//// Bottom
-	//indices[30] = 3;
-	//indices[31] = 2;
-	//indices[32] = 7;
+	// Bottom
+	indices[30] = 3;
+	indices[31] = 2;
+	indices[32] = 7;
 
-	//indices[33] = 2;
-	//indices[34] = 6;
-	//indices[35] = 7;
+	indices[33] = 2;
+	indices[34] = 6;
+	indices[35] = 7;
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
