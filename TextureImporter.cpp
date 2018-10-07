@@ -46,6 +46,22 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 	ilGenImages(1, &imageID);
 	ilBindImage(imageID);
 
+
+	////Check if the texture existed before
+	//string new_name = App->file_system->GetLastPathItem(path).c_str();
+
+	//std::list<Texture*>::iterator tex_iterator;
+
+	//for (tex_iterator = textures_list.begin(); tex_iterator != textures_list.end(); tex_iterator++) {
+	//	if (new_name.compare((*tex_iterator)->GetName()) == 0) {
+	//		tex = (*tex_iterator);
+	//	}
+	//}
+
+	////If we already have it, no need to load
+	//if (tex != nullptr)
+	//	return tex;
+
 	success = ilLoadImage(path);
 
 	if (success)
