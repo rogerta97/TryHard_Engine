@@ -21,7 +21,7 @@ bool UI_PerformancePanel::Start()
 
 bool UI_PerformancePanel::Update()
 {
-	if (ImGui::BeginDock("Performance", &show, NULL))
+	if (ImGui::Begin("Performance", &show, NULL))
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.FrameRounding = 5;
@@ -102,7 +102,7 @@ bool UI_PerformancePanel::Update()
 			runtimes_buffer.clear();
 		}
 	}
-	ImGui::EndDock();
+	ImGui::End();
 
 	return true;
 }

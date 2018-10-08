@@ -71,11 +71,11 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing(); 
 
-		if (ImGui::IsInputTextFocused())
-		{
-			App->camera->LockCamera();
-			is_out = false;
-		}
+		//if (ImGui::IsInputTextFocused())
+		//{
+		//	App->camera->LockCamera();
+		//	is_out = false;
+		//}
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{

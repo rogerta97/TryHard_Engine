@@ -66,6 +66,10 @@ bool ModuleImGui::Start()
 	SetDefaultStyle();
 
 	start_time = performance_timer.Read();
+	ImGuiIO& io = ImGui::GetIO();
+
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigDockingWithShift = false;
 	return true;
 }
 
@@ -412,13 +416,11 @@ update_status ModuleImGui::DrawDocking()
 
 		if (show_style_editor)
 		{
-			ImGui::BeginDockspace();
-			if (ImGui::BeginDock("Style Editor", &show_style_editor))
+			if (ImGui::Begin("Style Editor", &show_style_editor))
 			{
 				ImGui::ShowStyleEditor();
 			}
-			ImGui::EndDock();
-			ImGui::EndDockspace();
+			ImGui::End();
 		}
 
 		if (show_demo_window)
@@ -448,7 +450,7 @@ update_status ModuleImGui::DrawDocking()
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
 		inspector_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
+
 		performance_panel->Update();
 
 		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);

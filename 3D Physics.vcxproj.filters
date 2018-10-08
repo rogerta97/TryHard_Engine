@@ -555,6 +555,15 @@
     <ClInclude Include="UI_HierarchyPanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -802,6 +811,9 @@
     </ClCompile>
     <ClCompile Include="Resource.h">
       <Filter>Sources\GameObject\Resources\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Sources\3rd Partys\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
