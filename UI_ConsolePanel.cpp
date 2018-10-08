@@ -32,7 +32,7 @@ bool UI_ConsolePanel::Start()
 
 bool UI_ConsolePanel::Update()
 {	
-	if (ImGui::BeginDock("Console", &show,NULL))
+	if (ImGui::Begin("Console", &show,NULL))
 	{
 		std::string btn_name;
 
@@ -68,7 +68,7 @@ bool UI_ConsolePanel::Update()
 		
 		if (App->imgui->console.GetBuffer().size() == 0)
 		{
-			ImGui::EndDock();
+			ImGui::End();
 			return true;
 		}
 			
@@ -94,7 +94,7 @@ bool UI_ConsolePanel::Update()
 			}
 		}
 	}
-	ImGui::EndDock();
+	ImGui::End();
 
 
 

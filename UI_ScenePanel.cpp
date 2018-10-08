@@ -22,9 +22,8 @@ bool UI_ScenePanel::Start()
 
 bool UI_ScenePanel::Update()
 {
-	if (ImGui::BeginDock("Scene", &show,NULL,type))
+	if (ImGui::Begin("Scene", &show,NULL))
 	{
-		App->imgui->ShowSavePopup(); 
 
 		//Get size of the window
 		ImVec2 size = ImGui::GetContentRegionAvail();
@@ -41,7 +40,7 @@ bool UI_ScenePanel::Update()
 		glDisable(GL_TEXTURE_2D);
 	
 	}
-	ImGui::EndDock();
+	ImGui::End();
 
 	App->camera->GetViewportTexture()->Render();
 	App->camera->GetViewportTexture()->Unbind();

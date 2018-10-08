@@ -113,8 +113,9 @@ update_status ModuleImGui::ShowSavePopup()
 
 
 	if (App->imgui->show_save_popup)
-		ImGui::OpenPopup("Are you sure you want to exit?");
-	if (ImGui::BeginPopupModal("Are you sure you want to exit?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		ImGui::OpenPopup("Do you want to save before exit?");
+
+	if (ImGui::BeginPopupModal("Do you want to save before exit?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("All those beautiful changes will be lost forever.\n");
 		ImGui::Separator();
@@ -391,28 +392,32 @@ update_status ModuleImGui::DrawTopBar()
 
 update_status ModuleImGui::DrawDocking()
 {
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar;
-	window_flags |= ImGuiWindowFlags_NoMove;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 
+	bool main_dock_open = true;
 
-	if (ImGui::Begin("MainDock", 0, window_flags))
+	if (ImGui::Begin("MainDock", &main_dock_open, window_flags))
 	{
+		ShowSavePopup();
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
-		ImGui::SetWindowSize(ImVec2(App->window->GetWidth() + 8, App->window->GetHeight() + offset));
+		ImGui::SetWindowSize(ImVec2(App->window->GetWidth() + 8, App->window->GetHeight() - offset));
 
 		//Update Panels 
 		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();
 		while (panel != panels_list.end())
 		{
-		ImGui::BeginDockspace();
 		(*panel)->Update();
-		ImGui::EndDockspace();
 		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
 
 		panel++;
 		}*/
+
+
+
+		ImGui::DockSpace(ImGui::GetID("MainDock"));
 
 		if (show_style_editor)
 		{
@@ -425,66 +430,27 @@ update_status ModuleImGui::DrawDocking()
 
 		if (show_demo_window)
 		{
-			ImGui::BeginDockspace();
-			if (ImGui::BeginDock("Demo Editor", &show_demo_window))
+			if (ImGui::Begin("Demo Editor", &show_demo_window))
 			{
 				ImGui::ShowTestWindow();
 			}
-			ImGui::EndDock();
-			ImGui::EndDockspace();
-
+			ImGui::End();
 		}
 
-		//ImGui::BeginDockspace();
-		//hjsagsdj
-		//ImGui::EndDockspace();
-
-		ImGui::BeginDockspace();
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		//random_panel->Update();
 
 		hierarchy_panel->Update();
 
-
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
+		
 		inspector_panel->Update();
 
-
+		if (performance_panel->show)
 		performance_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
 		config_panel->Update();
 
-
-
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Left);
 		scene_panel->Update();
 
-		ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Bottom);
 		console_panel->Update();
-
-
-
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Top);
-		//scene_panel->Update();
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Right);
-		//inspector_panel->Update();
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		//config_panel->Update();
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		//performance_panel->Update();
-
-		//ImGui::SetNextDock("MainDock", ImGuiDockSlot::ImGuiDockSlot_Tab);
-		//hierarchy_panel->Update();
-
-		ImGui::EndDockspace();
-
-		//ImGui::SetNextDock("Configuration##Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right); To add it as a tab in the same dock
 
 	}
 	ImGui::End();

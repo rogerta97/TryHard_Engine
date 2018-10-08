@@ -21,7 +21,7 @@ bool UI_HierarchyPanel::Start()
 
 bool UI_HierarchyPanel::Update()
 {
-	if (ImGui::BeginDock("Hierarchy", &show, NULL))
+	if (ImGui::Begin("Hierarchy", &show, NULL))
 	{
 		static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
 		static int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
@@ -43,7 +43,7 @@ bool UI_HierarchyPanel::Update()
 		ImGui::PopStyleVar();
 	}
 
-	ImGui::EndDock(); 
+	ImGui::End(); 
 
 	return true;
 }

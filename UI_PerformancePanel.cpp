@@ -21,7 +21,7 @@ bool UI_PerformancePanel::Start()
 
 bool UI_PerformancePanel::Update()
 {
-	if (ImGui::Begin("Performance", &show, NULL))
+	if (ImGui::Begin("Performance", &show))
 	{
 		ImGuiStyle& style = ImGui::GetStyle();
 		style.FrameRounding = 5;

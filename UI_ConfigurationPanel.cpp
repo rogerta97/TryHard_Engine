@@ -23,7 +23,7 @@ bool UI_ConfigurationPanel::Update()
 	if (show == false)
 		return false; 
 
-	if (ImGui::BeginDock("Configuration", &show ,NULL))
+	if (ImGui::Begin("Configuration", &show ,NULL))
 	{
 		App->DisplayConfigData();
 
@@ -32,7 +32,7 @@ bool UI_ConfigurationPanel::Update()
 			App->GetModuleAt(i)->PrintConfigData();
 		}
 	}
-	ImGui::EndDock();  
+	ImGui::End();  
 
 	return true;
 }

@@ -27,7 +27,7 @@ bool UI_RandomNumberPanel::Update()
 	if (show == false)
 		return true; 
 
-	if (ImGui::BeginDock("Random Generator", &show, NULL))
+	if (ImGui::Begin("Random Generator", &show, NULL))
 	{	
 		
 		ImGui::TextWrapped("This engine is using simplified PCG library to generate random number creation. Select Help->Libraries to get extense information about it.");
@@ -58,7 +58,7 @@ bool UI_RandomNumberPanel::Update()
 
 			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Max should be > Min.");
 
-			ImGui::EndDock();
+			ImGui::End();
 			return true;
 		}
 
@@ -102,7 +102,7 @@ bool UI_RandomNumberPanel::Update()
 
 	}
 
-	ImGui::EndDock();
+	ImGui::End();
 
 	return true;
 }

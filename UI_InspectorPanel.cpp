@@ -30,13 +30,13 @@ bool UI_InspectorPanel::Update()
 	if (show == false)
 		return false; 
 
-	if (ImGui::BeginDock("Inspector", &show, NULL))
+	if (ImGui::Begin("Inspector", &show, NULL))
 	{
 		//If there is not a current GO quit
 		if (gameobject == nullptr)
 		{
 			ImGui::Text("No GameObject is Selected");
-			ImGui::EndDock();			
+			ImGui::End();			
 			return false;
 		}
 
@@ -141,7 +141,7 @@ bool UI_InspectorPanel::Update()
 		
 	}
 
-	ImGui::EndDock();
+	ImGui::End();
 
 	return true;
 }
