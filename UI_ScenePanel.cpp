@@ -28,10 +28,26 @@ bool UI_ScenePanel::Update()
 		//Get size of the window
 		ImVec2 size = ImGui::GetContentRegionAvail();
 
+		float difference = 0;
+
+		if (size.x < size.y)
+		{
+			difference = size.y - size.x;
+			size.y = size.x;
+		}
+		else if (size.y < size.x) 
+		{
+			difference = size.x - size.y;
+			size.x = size.y;
+		}
+
+		ImGui::SetCursorPosX(difference / 2);
+
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
 		if(App->camera->GetViewportTexture() != nullptr)
 		{
+
 			ImGui::Image((void*)App->camera->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
 			
