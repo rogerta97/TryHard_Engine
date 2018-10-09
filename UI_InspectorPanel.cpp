@@ -70,6 +70,8 @@ bool UI_InspectorPanel::Update()
 		if(ImGui::Button("Delete"))
 		{
 			gameobject->DeleteRecursive(); 
+			ImGui::End();
+			return false; 
 		}
 
 		ImGui::Spacing(); 
