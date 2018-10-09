@@ -26,6 +26,12 @@ bool ComponentTransform::Update()
 	return true; 
 }
 
+bool ComponentTransform::CleanUp()
+{
+
+	return true; 
+}
+
 float3 ComponentTransform::GetPosition() const
 {
 	return transform.position;

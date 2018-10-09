@@ -23,6 +23,8 @@ public:
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 	int GetGameObjectsAmmount(); 
 
+	void DeleteGameObjectFromList(GameObject* go);
+
 	void AddGameObjectToScene(GameObject* go); 
 
 	void SetSelectedGameObject(GameObject* selected); 

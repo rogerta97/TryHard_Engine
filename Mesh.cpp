@@ -6,6 +6,8 @@ Mesh::Mesh()
 {
 	name = ""; 
 	color = { DEFAULT_GEOMETRY_COLOR };
+
+	num_normals = num_vertices = num_indices = num_uvs = 0; 
 }
 
 
@@ -315,6 +317,38 @@ bool Mesh::SetSphereData()
 	//GenBuffFromMeshes();
 
 	return true;
+}
+
+void Mesh::CleanMeshData()
+{
+	
+	glDeleteBuffers(1, &indices_id);
+	glDeleteBuffers(1, &uvs_id);
+	glDeleteBuffers(1, &normals_id);
+
+	if (num_vertices != 0)
+	{
+		glDeleteBuffers(1, &vertices_id);
+		delete(vertices);
+	}
+
+	if (num_indices != 0)
+	{
+		glDeleteBuffers(1, &indices_id);
+		delete(indices);
+	}
+
+	if (num_uvs != 0)
+	{
+		glDeleteBuffers(1, &uvs_id);
+		delete(uvs_cords);
+	}
+
+	if (num_normals != 0)
+	{
+		glDeleteBuffers(1, &normals_id);
+		delete(normal_cords);
+	}
 }
 
 

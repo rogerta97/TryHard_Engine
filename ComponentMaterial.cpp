@@ -1,6 +1,6 @@
 #include "ComponentMaterial.h"
-
-
+#include "ComponentMesh.h"
+#include "GameObject.h"
 
 ComponentMaterial::ComponentMaterial()
 {
@@ -17,5 +17,17 @@ ComponentMaterial::~ComponentMaterial()
 bool ComponentMaterial::Update()
 {
 	return false;
+}
+
+bool ComponentMaterial::CleanUp()
+{
+	if (diffuse != nullptr)
+	{
+		diffuse->Clear();
+		diffuse = nullptr;
+		delete (diffuse);
+	}
+
+	return true;
 }
 

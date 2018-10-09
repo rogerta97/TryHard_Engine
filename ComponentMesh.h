@@ -5,7 +5,6 @@
 #include "Mesh.h"
 
 class ComponentMaterial; 
-class ComponentBoundingBox; 
 
 class ComponentMesh : public Component
 {
@@ -14,6 +13,7 @@ public:
 	~ComponentMesh();
 
 	bool Update();
+	bool CleanUp(); 
 
 public: 
 
@@ -28,6 +28,8 @@ public:
 	 
 	void AssignMaterial(ComponentMaterial* new_mat);
 	ComponentMaterial* GetMaterial() const;
+	void SetMaterial(ComponentMaterial* mat);
+	void DeleteMaterial(); 
 
 	Mesh* GetMesh() const; 
 

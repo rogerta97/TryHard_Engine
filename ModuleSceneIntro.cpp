@@ -82,6 +82,19 @@ int ModuleSceneIntro::GetGameObjectsAmmount()
 	return scene_gameobjects.size();
 }
 
+void ModuleSceneIntro::DeleteGameObjectFromList(GameObject* go)
+{
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if (go == (*it))
+		{
+			delete (*it); 
+			scene_gameobjects.erase(it);
+			return;
+		}
+	}
+}
+
 void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
 {
 	scene_gameobjects.push_back(go); 

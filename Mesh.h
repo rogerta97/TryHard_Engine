@@ -18,6 +18,8 @@ public:
 	bool SetPlaneData(); 
 	bool SetSphereData();
 
+	void CleanMeshData(); 
+
 	BasicMeshType GetType();
 
 public: 

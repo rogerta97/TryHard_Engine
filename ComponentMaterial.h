@@ -9,6 +9,7 @@ public:
 	~ComponentMaterial();
 
 	bool Update();
+	bool CleanUp(); 
 
 	Texture * diffuse;
 
