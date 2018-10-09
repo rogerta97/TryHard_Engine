@@ -82,19 +82,6 @@ bool UI_PerformancePanel::Update()
 		PrintUpdatePlots();
 		PrintPostUpdatePlots();
 
-		ImGui::PushClipRect(
-			ImVec2(100, 100),
-			ImVec2(100, 110),
-			false
-		);
-		
-		ImGui::GetWindowDrawList()->AddRectFilled
-		(
-			ImVec2(100,100), 
-			ImVec2(100, 110),
-			ImGui::ColorConvertFloat4ToU32(ImVec4(1, .15, .15, 1))
-		);
-
 	}
 	ImGui::End();
 

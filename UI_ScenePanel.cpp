@@ -22,7 +22,7 @@ bool UI_ScenePanel::Start()
 
 bool UI_ScenePanel::Update()
 {
-	if (ImGui::Begin("Scene", &show,NULL))
+	if (ImGui::Begin("Scene", &show))
 	{
 
 		//Get size of the window
