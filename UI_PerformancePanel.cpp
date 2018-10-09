@@ -27,10 +27,10 @@ bool UI_PerformancePanel::Update()
 		style.FrameRounding = 5;
 
 		const int histogram_height = 130;
-		std::list<Module*> list_modules = *App->getModuleList();
-		std::list<Module*>::iterator item = list_modules.begin();
+		list_modules = *App->getModuleList();
+		module_iterator = list_modules.begin();
 
-		ImVec2 size = ImGui::GetContentRegionAvail();
+		size = ImGui::GetContentRegionAvail();
 		size.x = size.x / 2;
 
 		//INIT
@@ -40,11 +40,11 @@ bool UI_PerformancePanel::Update()
 
 			ImGui::Columns(2, "", false);
 
-			while (item != list_modules.end())
+			while (module_iterator != list_modules.end())
 			{
-				ImGui::BulletText("%s: %d ms", (*item)->name, (*item)->init_time);
-				init_time_buffer.push_back((*item)->init_time);
-				item++;
+				ImGui::BulletText("%s: %d ms", (*module_iterator)->name, (*module_iterator)->init_time);
+				init_time_buffer.push_back((*module_iterator)->init_time);
+				module_iterator++;
 			}
 
 			ImGui::NextColumn();
@@ -56,7 +56,7 @@ bool UI_PerformancePanel::Update()
 		}
 
 		//STARTS
-		item = list_modules.begin();
+		module_iterator = list_modules.begin();
 
 		if (ImGui::CollapsingHeader("Start times"))
 		{
@@ -64,11 +64,11 @@ bool UI_PerformancePanel::Update()
 
 			ImGui::Columns(2, "", false);
 
-			while (item != list_modules.end())
+			while (module_iterator != list_modules.end())
 			{
-				ImGui::BulletText("%s: %d ms", (*item)->name, (*item)->start_time);
-				start_time_buffer.push_back((*item)->start_time);
-				item++;
+				ImGui::BulletText("%s: %d ms", (*module_iterator)->name, (*module_iterator)->start_time);
+				start_time_buffer.push_back((*module_iterator)->start_time);
+				module_iterator++;
 			}
 
 			ImGui::NextColumn();
@@ -78,31 +78,107 @@ bool UI_PerformancePanel::Update()
 		}
 
 		//RUNTIME
-		if (ImGui::CollapsingHeader("Runtime data"))
-		{
-			item = list_modules.begin();
+		PrintPreUpdatePlots();
+		PrintUpdatePlots();
+		PrintPostUpdatePlots();
 
-			std::vector<float>	runtimes_buffer;
+		ImGui::PushClipRect(
+			ImVec2(100, 100),
+			ImVec2(100, 110),
+			false
+		);
+		
+		ImGui::GetWindowDrawList()->AddRectFilled
+		(
+			ImVec2(100,100), 
+			ImVec2(100, 110),
+			ImGui::ColorConvertFloat4ToU32(ImVec4(1, .15, .15, 1))
+		);
 
-			ImGui::Columns(2, "", false);
-			while (item != list_modules.end())
-			{
-				if (!(*item)->runtime_ms_buffer.empty()) {
-					ImGui::PlotLines("", &(*item)->runtime_ms_buffer[0], (*item)->runtime_ms_buffer.size(), 0, (*item)->name, 0.0f, 20.0f, ImVec2(size.x, 100));
-					ImGui::NextColumn();
-
-					runtimes_buffer.push_back((*item)->runtime_ms_buffer[0]);
-				}
-				item++;
-			}
-
-			ImGui::Columns(1);
-			ImGui::NewLine();
-			ImGui::PlotHistogram("##Framerate", &runtimes_buffer[0], runtimes_buffer.size(), 0, "Runtimes of all modules in order", 0.0f, 10.0f, ImVec2(size.x * 2, 200));
-			runtimes_buffer.clear();
-		}
 	}
 	ImGui::End();
 
 	return true;
+}
+
+void UI_PerformancePanel::PrintPreUpdatePlots()
+{
+	if (ImGui::CollapsingHeader("Preupdate data"))
+	{
+		module_iterator = list_modules.begin();
+
+		std::vector<float>	runtimes_buffer;
+
+		ImGui::Columns(2, "", false);
+		while (module_iterator != list_modules.end())
+		{
+			if (!(*module_iterator)->preupdate_ms_buffer.empty()) {
+				ImGui::PlotLines("", &(*module_iterator)->preupdate_ms_buffer[0], (*module_iterator)->preupdate_ms_buffer.size(), 0, (*module_iterator)->name, 0.0f, 20.0f, ImVec2(size.x, 100));
+				ImGui::NextColumn();
+
+				runtimes_buffer.push_back((*module_iterator)->preupdate_ms_buffer[0]);
+			}
+			module_iterator++;
+		}
+
+		ImGui::Columns(1);
+		ImGui::NewLine();
+		ImGui::PlotHistogram("##Framerate", &runtimes_buffer[0], runtimes_buffer.size(), 0, "Runtimes of all modules in order", 0.0f, 10.0f, ImVec2(size.x * 2, 200));
+		runtimes_buffer.clear();
+	}
+}
+
+void UI_PerformancePanel::PrintUpdatePlots()
+{
+	if (ImGui::CollapsingHeader("Update data"))
+	{
+		module_iterator = list_modules.begin();
+
+		std::vector<float>	runtimes_buffer;
+
+		ImGui::Columns(2, "", false);
+		while (module_iterator != list_modules.end())
+		{
+			if (!(*module_iterator)->update_ms_buffer.empty()) {
+				ImGui::PlotLines("", &(*module_iterator)->update_ms_buffer[0], (*module_iterator)->update_ms_buffer.size(), 0, (*module_iterator)->name, 0.0f, 20.0f, ImVec2(size.x, 100));
+				ImGui::NextColumn();
+
+				runtimes_buffer.push_back((*module_iterator)->update_ms_buffer[0]);
+			}
+			module_iterator++;
+		}
+
+		ImGui::Columns(1);
+		ImGui::NewLine();
+		ImGui::PlotHistogram("##Framerate", &runtimes_buffer[0], runtimes_buffer.size(), 0, "Runtimes of all modules in order", 0.0f, 10.0f, ImVec2(size.x * 2, 200));
+		runtimes_buffer.clear();
+	}
+}
+
+void UI_PerformancePanel::PrintPostUpdatePlots()
+{
+
+	if (ImGui::CollapsingHeader("Post Update data"))
+	{
+		module_iterator = list_modules.begin();
+
+		std::vector<float>	runtimes_buffer;
+
+		ImGui::Columns(2, "", false);
+		while (module_iterator != list_modules.end())
+		{
+			if (!(*module_iterator)->preupdate_ms_buffer.empty()) {
+				ImGui::PlotLines("", &(*module_iterator)->preupdate_ms_buffer[0], (*module_iterator)->preupdate_ms_buffer.size(), 0, (*module_iterator)->name, 0.0f, 20.0f, ImVec2(size.x, 100));
+				ImGui::NextColumn();
+
+				runtimes_buffer.push_back((*module_iterator)->preupdate_ms_buffer[0]);
+			}
+			module_iterator++;
+		}
+
+		ImGui::Columns(1);
+		ImGui::NewLine();
+		ImGui::PlotHistogram("##Framerate", &runtimes_buffer[0], runtimes_buffer.size(), 0, "Runtimes of all modules in order", 0.0f, 10.0f, ImVec2(size.x * 2, 200));
+		runtimes_buffer.clear();
+	}
 }

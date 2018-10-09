@@ -270,7 +270,9 @@ update_status Application::Update()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		(*item)->performance_timer.Start();
 		ret = (*item)->PreUpdate(dt);
+		(*item)->ManageMsBuffer(TYPE_PREUPDATE);
 		item++;
 	}
 
@@ -280,7 +282,7 @@ update_status Application::Update()
 	{
 		(*item)->performance_timer.Start();
 		ret = (*item)->Update(dt);
-		(*item)->ManageMsBuffer();
+		(*item)->ManageMsBuffer(TYPE_UPDATE);
 		item++;
 	}
 
@@ -288,7 +290,9 @@ update_status Application::Update()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
+		(*item)->performance_timer.Start();
 		ret = (*item)->PostUpdate(dt);
+		(*item)->ManageMsBuffer(TYPE_POSTUPDATE);
 		item++;
 	}
 
