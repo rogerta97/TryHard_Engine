@@ -11,6 +11,7 @@ public:
 
 	bool Start(); 
 	bool Update(); 
+	bool CleanUp(); 
 
 	//Setters & Getters
 	float3 GetPosition() const;

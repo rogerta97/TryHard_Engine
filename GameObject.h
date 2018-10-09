@@ -17,6 +17,10 @@ public:
 	bool AddComponent(Component* new_cmp);
 	bool AddChild(GameObject* child); 
 
+	void DeleteRecursive(); 
+	void DeleteAllComponents(); 
+	bool DeleteComponent(CompType cmp); 
+
 	Component* CreateComponent(CompType cmp_type); 
 
 	void SetSelectedRecursive(bool selected); 

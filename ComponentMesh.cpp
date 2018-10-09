@@ -44,7 +44,20 @@ bool ComponentMesh::Update()
 		wireframe = false;
 	}
 
-	return true; 
+	return true;	
+}
+
+bool ComponentMesh::CleanUp()
+{
+	if (mesh != nullptr)
+	{
+		mesh->CleanMeshData();
+		mesh = nullptr; 
+	}
+
+	material->CleanUp(); 
+		
+	return false;
 }
 
 void ComponentMesh::SetMesh(Mesh * new_mesh)
@@ -214,4 +227,17 @@ void ComponentMesh::SetBBColor(float r, float g, float b)
 ComponentMaterial * ComponentMesh::GetMaterial() const
 {
 	return material;
+}
+
+void ComponentMesh::SetMaterial(ComponentMaterial * mat)
+{
+	material = mat; 
+}
+
+void ComponentMesh::DeleteMaterial()
+{
+	if(material != nullptr)
+		material->CleanUp(); 
+
+	material = nullptr; 
 }

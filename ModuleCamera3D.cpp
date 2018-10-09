@@ -307,7 +307,6 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 		//Get Percentage 
 		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
 
-		//CONSOLE_LOG("percentage: %f", percentage); 
 		CONSOLE_LOG("timer: %d", cam_interpolation.interpolation_timer.Read());
 
 		Position = { cam_interpolation.line.GetPoint(1 - percentage).x, cam_interpolation.line.GetPoint(1 - percentage).y, cam_interpolation.line.GetPoint(1 - percentage).z };

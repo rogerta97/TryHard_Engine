@@ -6,7 +6,6 @@
 #include "MathGeoLib\MathGeoLib.h"
 
 class TextureMSAA; 
-class ComponentBoundingBox; 
 
 struct CameraInterpolation
 {

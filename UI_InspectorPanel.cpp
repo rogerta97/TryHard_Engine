@@ -65,6 +65,13 @@ bool UI_InspectorPanel::Update()
 		if (ImGui::Checkbox("Static", &is_active))
 			gameobject->SetActive(is_active);
 
+		ImGui::SameLine(); 
+
+		if(ImGui::Button("Delete"))
+		{
+			gameobject->DeleteRecursive(); 
+		}
+
 		ImGui::Spacing(); 
 
 		ImGui::Separator(); ImGui::Separator(); 
@@ -153,7 +160,7 @@ void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 		gameobject->SetSelectedRecursive(false); 
 
 	gameobject = new_go; 
-	new_go->SetSelectedRecursive(true); 
+	if(gameobject) new_go->SetSelectedRecursive(true); 
 }
 
 GameObject * UI_InspectorPanel::GetGameObject()

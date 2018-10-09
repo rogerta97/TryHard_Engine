@@ -121,4 +121,5 @@ uint Texture::CreateBuffer()
 
 void Texture::Clear()
 {
+	glDeleteBuffers(1, &texture_id); 
 }

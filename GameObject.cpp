@@ -3,6 +3,8 @@
 #include "imgui.h"
 #include "Application.h"
 
+#include "UI_InspectorPanel.h"
+
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
@@ -132,6 +134,60 @@ bool GameObject::AddChild(GameObject * child)
 	return true;
 }
 
+void GameObject::DeleteRecursive()
+{
+
+	//Here we should assign another GO as current automatically, but we will keep it nullptr for now 
+	if (this == App->imgui->inspector_panel->GetGameObject())
+		App->imgui->inspector_panel->SetGameObject(nullptr); 
+
+	if (HasChilds() > 0)
+	{
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		{
+			(*it)->DeleteRecursive(); 
+		}
+	}
+
+	DeleteAllComponents(); 
+
+	component_list.clear(); 
+	child_list.clear(); 
+
+	parent = nullptr; 	
+
+	App->scene->DeleteGameObjectFromList(this);
+
+
+}
+
+void GameObject::DeleteAllComponents()
+{
+	for (auto it = component_list.begin(); it != component_list.end();)
+	{
+		(*it)->CleanUp();
+		delete (*it);
+		it = component_list.erase(it);
+	}
+}
+
+bool GameObject::DeleteComponent(CompType cmp)
+{
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		if ((*it)->GetType() == cmp)
+		{
+			(*it)->CleanUp();
+			delete (*it);
+			component_list.erase(it);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 Component * GameObject::CreateComponent(CompType cmp_type)
 {
 	Component* new_cmp = nullptr; 
@@ -204,8 +260,22 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		if (ImGui::IsItemClicked())
 		{
 			node_clicked = id;
-			App->scene->SetSelectedGameObject(this);
+			App->scene->SetSelectedGameObject(this);		
+		}
+		if (ImGui::IsItemClicked(1))
+		{	
+			bool toggle; 
+			ImGui::OpenPopup("Options");
+			if (ImGui::BeginPopup("Options"))
+			{
 			
+				if (ImGui::MenuItem("Delete", "", &toggle))
+				{
+
+				}
+
+				ImGui::EndPopup(); 			
+			}
 		}
 	}
 
