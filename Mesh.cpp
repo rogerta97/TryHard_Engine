@@ -10,6 +10,29 @@ Mesh::Mesh()
 	num_normals = num_vertices = num_indices = num_uvs = 0; 
 }
 
+Mesh::Mesh(Mesh * new_mesh)
+{
+	name = new_mesh->name;
+	color =new_mesh->color;
+	
+	vertices = new_mesh->vertices;
+	indices = new_mesh->indices;
+	uvs_cords = new_mesh->uvs_cords;
+	normal_cords = new_mesh->normal_cords;
+	
+	num_vertices = new_mesh->num_vertices;
+	num_indices = new_mesh->num_indices;
+	num_uvs = new_mesh->num_uvs;
+	num_normals = new_mesh->num_normals;
+
+	vertices_id =new_mesh->vertices_id;
+	indices_id =new_mesh->indices_id;
+	uvs_id = new_mesh->uvs_id;
+	normals_id =new_mesh->normals_id;
+	
+	type = new_mesh->type;
+}
+
 
 Mesh::~Mesh()
 {
@@ -25,8 +48,6 @@ uint Mesh::CreateBuffer()
 bool Mesh::SetCubeData()
 {
 	//Set Vertices
-	vertices_id = CreateBuffer();
-
 	type = BasicMeshType::MESH_CUBE;
 
 	num_vertices = 8;
@@ -45,13 +66,7 @@ bool Mesh::SetCubeData()
 	vertices[6] = { -half_size, -half_size, -half_size };
 	vertices[7] = { half_size, -half_size, -half_size };
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	//Create Indices
-	indices_id = CreateBuffer();
-
 	num_indices = 36;
 	indices = new int[num_indices];
 
@@ -109,11 +124,6 @@ bool Mesh::SetCubeData()
 	indices[34] = 6;
 	indices[35] = 7;
 
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 	////Create UV's
 	uvs_id = CreateBuffer();
 
@@ -154,20 +164,12 @@ bool Mesh::SetCubeData()
 	//uvs_cords[32] = { 1.0f, 0.0f, 0.0f };	uvs_cords[33] = { 0.0f, 0.0f, 0.0f };
 	//uvs_cords[34] = { 0.0f, 1.0f, 0.0f };	uvs_cords[35] = { 1.0f, 1.0f, 0.0f };
 
-	glGenBuffers(1, &uvs_id);
-	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	return true;
 }
 
 bool Mesh::SetPlaneData()
 {
 	//Create the buffers
-	vertices_id = CreateBuffer(); 
-	indices_id = CreateBuffer(); 
-
 	type = BasicMeshType::MESH_PLANE;
 		
 	//Create Vertices
@@ -190,11 +192,6 @@ bool Mesh::SetPlaneData()
 	vertices[3].y = 0.0f;
 	vertices[3].z = -1.0f;
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	//Pass to VRAM
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices *3, vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	////Create Indices
 	num_indices = 6;
 	indices = new int[num_indices];
@@ -204,11 +201,6 @@ bool Mesh::SetPlaneData()
 	indices[3] = 3;
 	indices[4] = 2;
 	indices[5] = 1;
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	//Pass to VRAM
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	num_uvs = num_indices;
 	uvs_cords = new float[num_uvs*2];
@@ -230,11 +222,6 @@ bool Mesh::SetPlaneData()
 
 	uvs_cords[10] = 0.0f;
 	uvs_cords[11] = 0.0f;
-
-	glGenBuffers(1, &uvs_id);
-	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs*2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 
 }
@@ -320,8 +307,7 @@ bool Mesh::SetSphereData()
 }
 
 void Mesh::CleanMeshData()
-{
-	
+{	
 	glDeleteBuffers(1, &indices_id);
 	glDeleteBuffers(1, &uvs_id);
 	glDeleteBuffers(1, &normals_id);
@@ -329,25 +315,25 @@ void Mesh::CleanMeshData()
 	if (num_vertices != 0)
 	{
 		glDeleteBuffers(1, &vertices_id);
-		delete(vertices);
+		//delete(vertices);
 	}
 
 	if (num_indices != 0)
 	{
 		glDeleteBuffers(1, &indices_id);
-		delete(indices);
+		//delete(indices);
 	}
 
 	if (num_uvs != 0)
 	{
 		glDeleteBuffers(1, &uvs_id);
-		delete(uvs_cords);
+		//delete(uvs_cords);
 	}
 
 	if (num_normals != 0)
 	{
 		glDeleteBuffers(1, &normals_id);
-		delete(normal_cords);
+		//delete(normal_cords);
 	}
 }
 
@@ -356,6 +342,42 @@ void Mesh::CleanMeshData()
 BasicMeshType Mesh::GetType()
 {
 	return type;
+}
+
+void Mesh::LoadToMemory()
+{
+	if (num_vertices != 0)
+	{
+		glGenBuffers(1, &vertices_id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	if (num_indices != 0)
+	{
+		glGenBuffers(1, &indices_id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	if (num_uvs != 0)
+	{
+		glGenBuffers(1, &uvs_id);
+		glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 2, uvs_cords, GL_STATIC_DRAW); 
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	if (num_normals != 0)
+	{
+		glGenBuffers(1, &normals_id);
+		glBindBuffer(GL_ARRAY_BUFFER, normals_id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_normals * 3, normal_cords, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
 }
 
 void Mesh::UnbindBuffer()

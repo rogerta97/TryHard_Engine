@@ -22,6 +22,7 @@ public:
 	Mesh* CreateCubeMesh(); 
 	Mesh* CreatePlaneMesh();
 	Mesh* CreateSphereMesh();
+
 	std::list<GameObject*> CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
 
 	Mesh* GetMeshByType(BasicMeshType type); 

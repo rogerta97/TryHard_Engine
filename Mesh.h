@@ -9,6 +9,7 @@ class Mesh
 {
 public:
 	Mesh();
+	Mesh(Mesh* new_mesh);
 	~Mesh();
 
 	uint CreateBuffer();
@@ -22,6 +23,9 @@ public:
 
 	BasicMeshType GetType();
 
+	void LoadToMemory(); 
+
+
 public: 
 
 	std::string name; 
@@ -31,7 +35,6 @@ public:
 	int* indices;
 	float* uvs_cords;
 	float3* normal_cords; 
-
 
 	uint num_vertices;
 	uint num_indices; 

@@ -30,6 +30,7 @@ public:
 	//Utility
 	bool HasComponents(); 
 	bool HasChilds(); 
+	void DeleteChildFromList(GameObject* child_to_delete);
 
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
 
