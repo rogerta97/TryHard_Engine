@@ -16,6 +16,9 @@ UI_HierarchyPanel::~UI_HierarchyPanel()
 bool UI_HierarchyPanel::Start()
 {
 	show = true; 
+	show_click_menu = false; 
+
+
 	return true;
 }
 
@@ -33,14 +36,44 @@ bool UI_HierarchyPanel::Update()
 			if ((*it)->parent != nullptr)
 				continue; 
 
-			else					
-				(*it)->PrintHierarchyRecursive(selection_mask, node_clicked, id);													
-			
-
+			else
+			{
+				if ((*it)->PrintHierarchyRecursive(selection_mask, node_clicked, id))
+				{
+					if (App->scene->scene_gameobjects.empty())
+					{
+						ImGui::PopStyleVar();
+						ImGui::End();
+						return true;
+					}
+						 
+				}
+			}
+																	
 			if (node_clicked != -1)			
 				selection_mask = (1 << node_clicked); 			
 		}	
 		ImGui::PopStyleVar();
+	}
+
+	if (ImGui::IsMouseHoveringWindow() && ImGui::IsMouseClicked(1))
+		App->imgui->hierarchy_panel->show_click_menu = true;
+
+
+	if (App->imgui->hierarchy_panel->show_click_menu)
+	{
+		ImGui::OpenPopup("Options");
+		if (ImGui::BeginPopup("Options"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				App->imgui->hierarchy_panel->show_click_menu = false;
+				App->scene->GetSelectedGameObject()->DeleteRecursive();
+				App->scene->SetSelectedGameObject(nullptr);
+			}
+
+			ImGui::EndPopup();
+		}
 	}
 
 	ImGui::End(); 

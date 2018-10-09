@@ -47,6 +47,8 @@ public:
 	bool is_initial_position = true;
 	UI_InspectorPanel* inspector_panel;
 
+	UI_HierarchyPanel* hierarchy_panel;
+
 private: 
 
 	int x_motion, y_motion, last_x, last_y;
@@ -64,6 +66,4 @@ private:
 	UI_ConsolePanel* console_panel; 
 	UI_RandomNumberPanel* random_panel; 
 	UI_PerformancePanel* performance_panel;
-	UI_HierarchyPanel* hierarchy_panel; 
-
 };

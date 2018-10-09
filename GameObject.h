@@ -25,7 +25,7 @@ public:
 
 	void SetSelectedRecursive(bool selected); 
 
-	void PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
+	bool PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
 
 	//Utility
 	bool HasComponents(); 

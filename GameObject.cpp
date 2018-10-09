@@ -4,6 +4,7 @@
 #include "Application.h"
 
 #include "UI_InspectorPanel.h"
+#include "UI_HierarchyPanel.h"
 
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -137,30 +138,31 @@ bool GameObject::AddChild(GameObject * child)
 void GameObject::DeleteRecursive()
 {
 
-	//Here we should assign another GO as current automatically, but we will keep it nullptr for now 
-	if (this == App->imgui->inspector_panel->GetGameObject())
-		App->imgui->inspector_panel->SetGameObject(nullptr);
-
-	if (parent != nullptr)
-		parent->DeleteChildFromList(this);
-
 	if (HasChilds() > 0)
 	{
-		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		for (auto it = child_list.begin(); it != child_list.end();)
 		{
-			(*it)->DeleteRecursive(); 
+			(*it)->DeleteRecursive();
+			it = child_list.erase(it); 
 		}
+
+		child_list.clear();
 	}
 
+	//Here we should assign another GO as current automatically, but we will keep it nullptr for now 
+	if (this == App->imgui->inspector_panel->GetGameObject())
+	{
+		App->scene->SetSelectedGameObject(nullptr); 
+	}
+		
+	//if (parent != nullptr)
+	//	parent->DeleteChildFromList(this);
+
 	DeleteAllComponents(); 
-
 	component_list.clear(); 
-	child_list.clear(); 
-
+	
 	parent = nullptr; 	
-
 	App->scene->DeleteGameObjectFromList(this);
-
 
 }
 
@@ -227,8 +229,9 @@ void GameObject::SetSelectedRecursive(bool selected)
 }
 
 
-void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
+bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 {
+	bool ret = false; 
 	ImGuiTreeNodeFlags node_flags; 
 	id++;
 
@@ -260,30 +263,15 @@ void GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 
 		ImGui::TreeNodeEx(name.c_str(), node_flags);
 		
+		
 		if (ImGui::IsItemClicked())
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this);		
 		}
-		if (ImGui::IsItemClicked(1))
-		{	
-			bool toggle; 
-			ImGui::OpenPopup("Options");
-			if (ImGui::BeginPopup("Options"))
-			{
-			
-				if (ImGui::MenuItem("Delete", "", &toggle))
-				{
-
-				}
-
-				ImGui::EndPopup(); 			
-			}
-		}
+	
 	}
-
-
-
+	return ret; 
 }
 
 bool GameObject::HasComponents()

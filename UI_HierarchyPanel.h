@@ -10,5 +10,7 @@ public:
 	bool Start(); 
 	bool Update(); 
 	bool CleanUp(); 
+
+	bool show_click_menu; 
 };
 

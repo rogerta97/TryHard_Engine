@@ -217,6 +217,8 @@ void ModuleCamera3D::LookAt( const vec3 &Spot)
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
 
+	float3
+
 	CalculateViewMatrix();
 }
 
@@ -278,6 +280,7 @@ LineSegment ModuleCamera3D::GetInterpolationSegment()
 			const vec3 centervc(center.x, center.y, center.z);
 			LookAt(centervc);
 			
+			
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
@@ -308,8 +311,7 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 		//Get Percentage 
 		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
 
-		CONSOLE_LOG("timer: %d", cam_interpolation.interpolation_timer.Read());
-
+		CONSOLE_LOG("timer: %d", cam_interpolation.interpolation_timer.Read()); 
 		Position = { cam_interpolation.line.GetPoint(1 - percentage).x, cam_interpolation.line.GetPoint(1 - percentage).y, cam_interpolation.line.GetPoint(1 - percentage).z };
 		return false; 
 	}
