@@ -24,29 +24,43 @@ bool UI_ScenePanel::Update()
 {
 	if (ImGui::Begin("Scene", &show))
 	{
-
 		//Get size of the window
-		ImVec2 size = ImGui::GetContentRegionAvail();
 
-		float difference = 0;
 
-		if (size.x < size.y)
-		{
-			difference = size.y - size.x;
-			size.y = size.x;
-		}
-		else if (size.y < size.x) 
-		{
-			difference = size.x - size.y;
-			size.x = size.y;
-		}
 
-		ImGui::SetCursorPosX(difference / 2);
 
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
 		if(App->camera->GetViewportTexture() != nullptr)
 		{
+
+			ImVec2 size = { 0,0 };
+			ImVec2 region_size = ImGui::GetContentRegionAvail();
+			const float region_ratio = region_size.y / region_size.x;
+
+			uint original_tex_width = App->camera->GetViewportTexture()->GetWidth();
+			float original_tex_height = App->camera->GetViewportTexture()->GetHeight();
+
+			float original_tex_ratio = original_tex_height / original_tex_width;
+			float difference = 0;
+
+			if (region_ratio < original_tex_ratio)
+			{
+				size.y = region_size.y;
+				size.x = region_size.y / original_tex_ratio;
+
+				difference = region_size.x - size.x;
+				ImGui::SetCursorPosX(difference / 2);
+			}
+			else if (region_ratio > original_tex_ratio)
+			{
+				size.x = region_size.x;
+				size.y = region_size.x * original_tex_ratio;
+
+				difference = region_size.y - size.y;
+				ImGui::SetCursorPosY(difference / 2);
+			}
+
 
 			ImGui::Image((void*)App->camera->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 

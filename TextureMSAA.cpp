@@ -113,7 +113,7 @@ void TextureMSAA::SetWidth()
 
 unsigned int TextureMSAA::GetWidth() const
 {
-	return 0;
+	return width;
 }
 
 void TextureMSAA::SetHeight()
@@ -122,7 +122,7 @@ void TextureMSAA::SetHeight()
 
 unsigned int TextureMSAA::GetHeight() const
 {
-	return 0;
+	return height;
 }
 
 void TextureMSAA::LoadToMemory()
