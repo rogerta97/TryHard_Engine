@@ -157,6 +157,12 @@ update_status ModuleInput::PreUpdate(float dt)
 			case FX_FBX:
 			{
 				std::list<GameObject*> GO_list = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+
+				if (App->scene->GetSelectedGameObject() != nullptr) // for now we will delate the current object every time we create a new one
+				{
+					App->scene->GetSelectedGameObject()->DeleteRecursive(); 
+				}
+
 				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
 				App->scene->SetSelectedGameObject(App->scene->CreateGameObject(GO_list, name.c_str()));
 				break;

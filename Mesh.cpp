@@ -170,9 +170,6 @@ bool Mesh::SetCubeData()
 bool Mesh::SetPlaneData()
 {
 	//Create the buffers
-	vertices_id = CreateBuffer(); 
-	indices_id = CreateBuffer(); 
-
 	type = BasicMeshType::MESH_PLANE;
 		
 	//Create Vertices
@@ -195,11 +192,6 @@ bool Mesh::SetPlaneData()
 	vertices[3].y = 0.0f;
 	vertices[3].z = -1.0f;
 
-	glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
-	//Pass to VRAM
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices *3, vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	////Create Indices
 	num_indices = 6;
 	indices = new int[num_indices];
@@ -209,11 +201,6 @@ bool Mesh::SetPlaneData()
 	indices[3] = 3;
 	indices[4] = 2;
 	indices[5] = 1;
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
-	//Pass to VRAM
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	num_uvs = num_indices;
 	uvs_cords = new float[num_uvs*2];
@@ -235,11 +222,6 @@ bool Mesh::SetPlaneData()
 
 	uvs_cords[10] = 0.0f;
 	uvs_cords[11] = 0.0f;
-
-	glGenBuffers(1, &uvs_id);
-	glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs*2, uvs_cords, GL_STATIC_DRAW); //Info to VRAM
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	return true; 
 }

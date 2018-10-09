@@ -222,6 +222,12 @@ update_status ModuleImGui::DrawTopBar()
 
 		if (ImGui::MenuItem("Plane"))
 		{
+
+			if (App->scene->GetSelectedGameObject() != nullptr) // for now we will delate the current object every time we create a new one
+			{
+				App->scene->GetSelectedGameObject()->DeleteRecursive();
+			}
+
 			GameObject* new_go = App->scene->CreateGameObject();
 			new_go->name = "Plane";
 			
@@ -242,6 +248,11 @@ update_status ModuleImGui::DrawTopBar()
 		}
 		if (ImGui::MenuItem("Cube"))
 		{
+			if (App->scene->GetSelectedGameObject() != nullptr) // for now we will delate the current object every time we create a new one
+			{
+				App->scene->GetSelectedGameObject()->DeleteRecursive();
+			}
+
 			GameObject* new_go = App->scene->CreateGameObject();
 			new_go->name = "Cube"; 
 
