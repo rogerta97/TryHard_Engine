@@ -88,6 +88,8 @@ bool Application::Init()
 	if (cap_fps)
 		max_fps = json_object_get_number(config, "max_fps");
 
+	ImGui::GetStyle().FrameRounding = 15;
+
 	// After all Init calls we call Start() in all modules
 	CONSOLE_LOG("Application Start --------------");
 	module_iterator = list_modules.begin();
