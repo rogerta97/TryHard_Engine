@@ -39,6 +39,7 @@ bool ModuleCamera3D::Start()
 	SetMouseSensitivity(0.25f);
 
 	cam_interpolation.interpolate = false; 
+	cam_interpolation.interpolation_ms = 1000.0f; 
 
 	start_time = performance_timer.Read();
 	return ret;
@@ -63,6 +64,7 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SliderFloat("Rotation", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
 		App->camera->SetMouseSensitivity(tmp_sensitivity);
+		ImGui::DragInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 50, 2000);
 	}
 }
 
@@ -130,13 +132,11 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (cam_interpolation.interpolate)
 	{
-		InterpolateCamera(1000.0f); 
+		InterpolateCamera(cam_interpolation.interpolation_ms);
 	}
 
 	if (moved)
 		Move(increment);
-
-	//Position = Reference + Z * length(Position);
 
 	//// Mouse motion ----------------
 
@@ -264,7 +264,7 @@ LineSegment ModuleCamera3D::GetInterpolationSegment()
 
 		if (selected_go->GetNumChilds() == 0)
 		{
-			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 3;
+			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 1;
 
 			//Rotate the camera
 			vec center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
@@ -272,10 +272,11 @@ LineSegment ModuleCamera3D::GetInterpolationSegment()
 			//Get the segment from camera to center
 			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
 
-			return_segment.a = center; 
-			return_segment.b = dst_point;
-	/*		Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
-			LookAt(center);*/
+			return_segment.a = dst_point;
+			return_segment.b = float3({ Position.x, Position.y, Position.z });		
+
+			const vec3 centervc(center.x, center.y, center.z);
+			LookAt(centervc);
 			
 		}
 		else //if not find the middle point between the object and look at it. 

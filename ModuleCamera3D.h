@@ -12,6 +12,7 @@ struct CameraInterpolation
 public: 
 
 	Timer interpolation_timer; 
+	uint interpolation_ms; 
 	LineSegment line; 
 	bool interpolate; 
 };
