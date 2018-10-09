@@ -62,6 +62,7 @@ bool ComponentMesh::CleanUp()
 
 void ComponentMesh::SetMesh(Mesh * new_mesh)
 {
+	new_mesh->LoadToMemory();
 	mesh = new_mesh;
 }
 

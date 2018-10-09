@@ -139,7 +139,10 @@ void GameObject::DeleteRecursive()
 
 	//Here we should assign another GO as current automatically, but we will keep it nullptr for now 
 	if (this == App->imgui->inspector_panel->GetGameObject())
-		App->imgui->inspector_panel->SetGameObject(nullptr); 
+		App->imgui->inspector_panel->SetGameObject(nullptr);
+
+	if (parent != nullptr)
+		parent->DeleteChildFromList(this);
 
 	if (HasChilds() > 0)
 	{
@@ -291,6 +294,18 @@ bool GameObject::HasComponents()
 bool GameObject::HasChilds()
 {
 	return !child_list.empty();;
+}
+
+void GameObject::DeleteChildFromList(GameObject * child_to_delete)
+{
+	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	{
+		if ((*it) == child_to_delete)
+		{
+			child_list.erase(it);
+			return; 
+		}			
+	}
 }
 
 void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
