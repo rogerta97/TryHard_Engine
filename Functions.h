@@ -49,4 +49,3 @@ bool AskUserIfSave() {
 	return true;
 }
 
-

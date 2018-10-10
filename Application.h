@@ -91,6 +91,10 @@ public:
 	float GetLastSecFramerate(); 
 	void SaveConfigAfterUpdate();
 
+	float getHighest(std::vector<float>	buffer);
+	float getAverage(std::vector<float>	buffer);
+
+
 private:
 
 	void AddModule(Module* mod);

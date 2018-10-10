@@ -10,10 +10,10 @@ Application::Application()
 	audio = new ModuleAudio(true);
 	imgui = new ModuleImGui();
 	scene = new ModuleSceneIntro();
-	resources = new ModuleResources(); 
+	resources = new ModuleResources();
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
-	file_system = new ModuleFileSystem(); 
+	file_system = new ModuleFileSystem();
 	//physics = new ModulePhysics3D(this);
 	//player = new ModulePlayer(this);
 
@@ -28,7 +28,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(camera);
 	AddModule(file_system);
-	AddModule(resources); 
+	AddModule(resources);
 	AddModule(audio);
 	//AddModule(physics);
 
@@ -55,17 +55,20 @@ bool Application::Init()
 	bool ret = true;
 
 	//Load title name from globals
-	name = TITLE; 
-	UpdateAppName(); 
+	name = TITLE;
+	UpdateAppName();
 
 	JSON_Object* config = json_value_get_object(json_parse_file("user-config.json"));
 
 	if (!json_object_get_object(config, "App"))
 		config = json_value_get_object(json_parse_file("config.json"));
 
+	framerate_buffer.resize(HISTOGRAM_FR_LENGHT);
 
-	
-	org = "Concha La Lora"; 
+	for (int i = 0; i < framerate_buffer.size(); i++)
+		framerate_buffer[i] = 0;
+
+	org = "Concha La Lora";
 
 	// Call Init() in all modules
 	std::list<Module*>::iterator module_iterator = list_modules.begin();
@@ -73,7 +76,7 @@ bool Application::Init()
 	while (module_iterator != list_modules.end() && ret == true)
 	{
 		(*module_iterator)->performance_timer.Start();
-		ret = (*module_iterator)->Init(json_object_get_object(config,(*module_iterator)->name));
+		ret = (*module_iterator)->Init(json_object_get_object(config, (*module_iterator)->name));
 		module_iterator++;
 	}
 
@@ -81,7 +84,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = false; 
+	vsync.is_active = false;
 	vsync.vsync_lvl = 0;
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
@@ -101,7 +104,7 @@ bool Application::Init()
 		module_iterator++;
 	}
 
-	frame_delay = 0; 
+	frame_delay = 0;
 	frame_wish_time = 1.0f / max_fps;
 	ms_timer.Start();
 	return ret;
@@ -114,7 +117,7 @@ void Application::PrepareUpdate()
 
 	if (dt < frame_wish_time)
 	{
-		frame_delay = (frame_wish_time - dt)*1000; 		
+		frame_delay = (frame_wish_time - dt) * 1000;
 		SDL_Delay(frame_delay);
 	}
 
@@ -127,16 +130,27 @@ void Application::FinishUpdate()
 	++frame_count;
 	++last_sec_frame_count;
 
+	ms_buffer.push_back(frame_time.Read());
+	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
+		ms_buffer.erase(ms_buffer.begin());
+
+
 	bool ret = true;
 
 	if (last_sec_frame_time.Read() > 1000) {
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
 		last_sec_frame_count = 0;
+
+		framerate_buffer.push_back(prev_last_sec_frame_count);
+		if (framerate_buffer.size() > HISTOGRAM_FR_LENGHT)
+			framerate_buffer.erase(framerate_buffer.begin());
+
+
 	}
 
-	avg_fps = float(frame_count) / (startup_time.Read()/1000);
-	float seconds_since_startup = (startup_time.Read()/1000);
+	avg_fps = float(frame_count) / (startup_time.Read() / 1000);
+	float seconds_since_startup = (startup_time.Read() / 1000);
 	unsigned int last_frame_ms = frame_time.Read();
 	float frames_on_last_update = prev_last_sec_frame_count;
 
@@ -145,13 +159,7 @@ void Application::FinishUpdate()
 		save_config_later = false;
 	}
 
-	framerate_buffer.push_back(frames_on_last_update);
-	if (framerate_buffer.size() > HISTOGRAM_FR_LENGHT)
-		framerate_buffer.erase(framerate_buffer.begin());
 
-	ms_buffer.push_back(last_frame_ms);
-	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
-		ms_buffer.erase(ms_buffer.begin());
 }
 
 void Application::GetHardWareData()
@@ -339,7 +347,7 @@ Module * Application::GetModuleAt(int id)
 void Application::DisplayConfigData()
 {
 	DisplayHardwareData();
-	bool is_out = true; 
+	bool is_out = true;
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
@@ -361,13 +369,13 @@ void Application::DisplayConfigData()
 		//	App->camera->LockCamera();
 		//	is_out = false; 
 		//}
-		
+
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			App->camera->UnlockCamera();
 		}
 
-		ImGui::Spacing(); 
+		ImGui::Spacing();
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
@@ -375,9 +383,9 @@ void Application::DisplayConfigData()
 
 		ImGui::SameLine();
 
-		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine(); 
-		
-		ImGui::Checkbox("Vsync", &vsync.is_active); 
+		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
+
+		ImGui::Checkbox("Vsync", &vsync.is_active);
 
 		if (vsync.is_active)
 		{
@@ -391,18 +399,18 @@ void Application::DisplayConfigData()
 		}
 		else
 			vsync.SetLevel(0);
-		
+
 		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
 			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		if (cap_fps)
 		{
-			ImGui::Spacing(); 
+			ImGui::Spacing();
 
 			ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
-			
+
 			frame_wish_time = 1.0f / max_fps;
-			
+
 			ImGui::Spacing();
 		}
 		else {
@@ -414,12 +422,22 @@ void Application::DisplayConfigData()
 		ImGui::GetStyle().FrameRounding = 0;
 
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", framerate_buffer[framerate_buffer.size() - 1]);	
+		sprintf_s(title, 25, "Framerate %.1f", framerate_buffer[framerate_buffer.size() - 1]);
 
-		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], framerate_buffer.size(), 0, title, 0.0f, 150, ImVec2(size.x, 100));
+		float highest = getHighest(framerate_buffer);
+		float average = getAverage(framerate_buffer);
+
+		int plot_margin = 10;
+
+		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], HISTOGRAM_FR_LENGHT, 0, title, 0.0f,(highest-average)+average + highest * 0.1f, ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
-		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, 150.0f, ImVec2(size.x, 100));
+
+		average = getAverage(ms_buffer);
+		highest = getHighest(ms_buffer);
+
+
+		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
 
 		ImGui::GetStyle().FrameRounding = 80;
 	}
@@ -429,12 +447,12 @@ void Application::DisplayConfigData()
 
 void Application::UpdateAppName()
 {
-	SDL_SetWindowTitle(App->window->window, name.c_str()); 	
+	SDL_SetWindowTitle(App->window->window, name.c_str());
 }
 
 void Application::OpenWebBrowser(const char * web)
 {
-	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW); 
+	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW);
 }
 
 
@@ -468,7 +486,35 @@ void Application::SaveConfigAfterUpdate()
 	save_config_later = true;
 }
 
-void Application::AddModule(Module* mod)  
+float Application::getHighest(std::vector<float> buffer)
+{
+	float highest = buffer[0];
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i] > highest)
+			highest = buffer[i];
+	}
+	return highest;
+}
+
+float Application::getAverage(std::vector<float> buffer)
+{
+	float average = 0;
+	int count = 0;
+	for (int i = 0; i < buffer.size(); i++)
+	{
+		if (buffer[i] != 0) {
+			average += buffer[i];
+			count++;
+		}
+	}
+
+	average /= count;
+
+	return average;
+}
+
+void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
 }
