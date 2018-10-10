@@ -175,9 +175,6 @@ update_status ModuleCamera3D::Update(float dt)
 				}
 			}
 
-			//CONSOLE_LOG("dy:%d dx:%d", dy, dx);
-
-
 			if (App->input->GetKey(SDL_SCANCODE_LALT))
 				Position = Reference + Z * length(Position);
 		}
@@ -288,7 +285,6 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 			vec center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
 			
 			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 1);
-			//Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
 
 			cam_interpolation.line.a = dst_point;
 			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });

@@ -150,8 +150,6 @@ void GameObject::DeleteGameObject()
 
 void GameObject::DeleteRecursive()
 {
-	bool has_childs = false; 
-
 	if (this == App->imgui->inspector_panel->GetGameObject())
 	{
 		App->scene->SetSelectedGameObject(nullptr);
@@ -159,20 +157,14 @@ void GameObject::DeleteRecursive()
 
 	if (HasChilds() > 0)
 	{
-		for (auto it = child_list.begin(); it != child_list.end();)
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
 		{		
 			(*it)->DeleteRecursive();
-			has_childs = true; 
 		}
 
-		child_list.clear();
 	}
-
-	DeleteAllComponents(); 
-	component_list.clear(); 
-	
-	App->scene->DeleteGameObjectFromList(this);
-
+ 
+	App->scene->AddGameObjectToDeleteList(this);
 
 }
 
@@ -184,6 +176,8 @@ void GameObject::DeleteAllComponents()
 		delete (*it);
 		it = component_list.erase(it);
 	}
+
+	component_list.clear(); 
 }
 
 bool GameObject::DeleteComponent(CompType cmp)

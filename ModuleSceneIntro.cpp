@@ -13,7 +13,9 @@ ModuleSceneIntro::ModuleSceneIntro(bool start_enabled)
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
-{}
+{
+
+}
 
 // Load assets
 bool ModuleSceneIntro::Start()
@@ -37,6 +39,37 @@ bool ModuleSceneIntro::CleanUp()
 	LOG("Unloading Intro scene");
 
 	return true;
+}
+
+void ModuleSceneIntro::DeleteGameObjectsNow()
+{
+	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
+	{
+		(*it)->DeleteAllComponents();
+		
+		if ((*it)->parent != nullptr)
+			(*it)->parent->DeleteChildFromList((*it));
+				
+		(*it)->parent = nullptr;
+
+		//delete (*it); 
+		DeleteGameObjectFromList((*it)); 
+		it = go_to_delete.erase(it);			
+	}
+}
+
+void ModuleSceneIntro::CleanScene()
+{
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->GetParent() == nullptr)
+			(*it)->DeleteRecursive(); 
+	}
+}
+
+void ModuleSceneIntro::AddGameObjectToDeleteList(GameObject * to_del)
+{
+	go_to_delete.push_back(to_del); 
 }
 
 GameObject * ModuleSceneIntro::CreateGameObject()
@@ -133,6 +166,9 @@ update_status ModuleSceneIntro::Update(float dt)
 			(*it)->Update(); 
 		}
 	}
+
+	if (go_to_delete.size() != 0)
+		DeleteGameObjectsNow(); 
 	 
 	return UPDATE_CONTINUE;
 }

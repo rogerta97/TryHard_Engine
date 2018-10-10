@@ -223,10 +223,7 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Plane"))
 		{
 
-			if (App->scene->GetSelectedGameObject() != nullptr) // for now we will delate the current object every time we create a new one
-			{
-				App->scene->GetSelectedGameObject()->DeleteRecursive();
-			}
+			App->scene->CleanScene(); 
 
 			GameObject* new_go = App->scene->CreateGameObject();
 			new_go->name = "Plane";
@@ -249,10 +246,7 @@ update_status ModuleImGui::DrawTopBar()
 		}
 		if (ImGui::MenuItem("Cube"))
 		{
-			if (App->scene->GetSelectedGameObject() != nullptr) // for now we will delate the current object every time we create a new one
-			{
-				App->scene->GetSelectedGameObject()->DeleteRecursive();
-			}
+			App->scene->CleanScene();
 
 			GameObject* new_go = App->scene->CreateGameObject();
 			new_go->name = "Cube"; 
@@ -299,9 +293,8 @@ update_status ModuleImGui::DrawTopBar()
 		}
 
 		if (ImGui::MenuItem("Report a Bug!"))
-		{
 			App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new");
-		}
+		
 
 		if (ImGui::BeginMenu("3rd Parties"))
 		{
@@ -311,41 +304,29 @@ update_status ModuleImGui::DrawTopBar()
 			std::string sdl ("SDL (" + std::to_string(version.major) + "." + std::to_string(version.minor) + "." + std::to_string(version.patch) + ")");
 
 			if (ImGui::MenuItem(sdl.c_str()))
-			{
 				App->OpenWebBrowser("https://www.libsdl.org/download-2.0.php");
-			}
-
+			
 			std::string imgui("Dear ImGui (");
 			imgui.append(ImGui::GetVersion());
 			imgui.append(")");
 
 			if (ImGui::MenuItem(imgui.c_str()))
-			{
 				App->OpenWebBrowser("https://github.com/ocornut/imgui");
-			}
-
+			
 			std::string assimp("Assimp (" + std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision()) + ")");
 
-
-			if (ImGui::MenuItem(assimp.c_str())) {
+			if (ImGui::MenuItem(assimp.c_str())) 
 				App->OpenWebBrowser("http://www.assimp.org/");
-			}
-
+			
 			if (ImGui::MenuItem("MathGeoLib"))
-			{
 				App->OpenWebBrowser("http://clb.demon.fi/MathGeoLib/");
-			}
-
+			
 			if (ImGui::MenuItem("DeviceID"))
-			{
 				App->OpenWebBrowser("https://github.com/rogerta97/TryHard_Engine/issues/new");
-			}
-
+			
 			if (ImGui::MenuItem("PCG"))
-			{
 				App->OpenWebBrowser("http://www.pcg-random.org/");
-			}
-
+			
 			ImGui::EndMenu();
 		}
 
@@ -360,7 +341,6 @@ update_status ModuleImGui::DrawTopBar()
 
 	ImGui::EndMainMenuBar();
 
-
 	// Make it Draggable
 	int x_win_pos, y_win_pos;
 	App->window->GetPosition(&x_win_pos, &y_win_pos);
@@ -368,17 +348,14 @@ update_status ModuleImGui::DrawTopBar()
 	int global_mouse_x, global_mouse_y;
 	SDL_GetGlobalMouseState(&global_mouse_x, &global_mouse_y);
 
-
-
 	int mouse_x = global_mouse_x - x_win_pos;
 	int mouse_y = global_mouse_y - y_win_pos;
 
 	if (mouse_x < size.x && mouse_x > 0)
 	{
 		if (mouse_y < size.y)
-		{
 			dragging = true;
-		}
+		
 	}
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && dragging)
@@ -397,9 +374,7 @@ update_status ModuleImGui::DrawTopBar()
 	last_x = global_mouse_x;
 	last_y = global_mouse_y;
 
-
 	return UPDATE_CONTINUE;
-
 }
 
 update_status ModuleImGui::DrawDocking()
@@ -413,21 +388,10 @@ update_status ModuleImGui::DrawDocking()
 	if (ImGui::Begin("MainDock", &main_dock_open, window_flags))
 	{
 		ShowSavePopup();
+
 		float offset = 18.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
 		ImGui::SetWindowSize(ImVec2(App->window->GetWidth() + 8, App->window->GetHeight() - offset));
-
-		//Update Panels 
-		/*std::list<UI_Panel*>::iterator panel = panels_list.begin();
-		while (panel != panels_list.end())
-		{
-		(*panel)->Update();
-		ImGui::SetNextDock("Dock Demo", ImGuiDockSlot::ImGuiDockSlot_Right);
-
-		panel++;
-		}*/
-
-
 
 		ImGui::DockSpace(ImGui::GetID("MainDock"));
 
@@ -450,21 +414,16 @@ update_status ModuleImGui::DrawDocking()
 		}
 
 
-		hierarchy_panel->Update();
-
-		
+		hierarchy_panel->Update();		
 		inspector_panel->Update();
 
-		if (performance_panel->show)
-		performance_panel->Update();
+		if (performance_panel->show) performance_panel->Update();
 
 		config_panel->Update();
-
 		scene_panel->Update();
-
 		console_panel->Update();
-
 	}
+
 	ImGui::End();
 
 	return update_status::UPDATE_CONTINUE;

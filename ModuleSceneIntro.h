@@ -18,6 +18,10 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void DeleteGameObjectsNow(); 
+	void CleanScene(); 
+	void AddGameObjectToDeleteList(GameObject* to_del); 
+
 	GameObject* CreateGameObject();
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
@@ -33,6 +37,7 @@ public:
 public:
 
 	std::list<GameObject*> scene_gameobjects; 
+	std::list<GameObject*> go_to_delete; 
 	GameObject* selected_go; 
 
 };

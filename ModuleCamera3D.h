@@ -11,7 +11,7 @@ struct CameraInterpolation
 {
 	void Init()
 	{
-		interpolation_ms = 600.0f; 
+		interpolation_ms = 350.0f; 
 		source_vec = { 0,0,0 }; 
 		dst_vec = { 0,0,0 };
 		interpolate = false; 
