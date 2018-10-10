@@ -30,6 +30,7 @@ public:
 	//Utility
 	bool HasComponents(); 
 	bool HasChilds(); 
+	GameObject* GetChild(int index) const; 
 	void DeleteChildFromList(GameObject* child_to_delete);
 
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
@@ -37,6 +38,7 @@ public:
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+	void SetParent(GameObject* new_parent); 
 	void SetActive(bool activated);
 	bool IsActive() const;
 

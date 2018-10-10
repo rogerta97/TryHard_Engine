@@ -7,6 +7,8 @@
 #include "Importer.h"
 
 class GameObject; 
+class aiScene; 
+class aiNode; 
 
 class MeshImporter : public Importer
 {
@@ -23,7 +25,8 @@ public:
 	Mesh* CreatePlaneMesh();
 	Mesh* CreateSphereMesh();
 
-	std::list<GameObject*> CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
+	GameObject* CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
+	void LoadFBXMesh(const char* path, aiNode* node, aiScene* scene, GameObject* gameobject_in);
 
 	Mesh* GetMeshByType(BasicMeshType type); 
 

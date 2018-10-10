@@ -69,6 +69,12 @@ GameObject * GameObject::GetParent() const
 	return parent;
 }
 
+void GameObject::SetParent(GameObject * new_parent)
+{
+	parent = new_parent; 
+	new_parent->child_list.push_back(this); 
+}
+
 void GameObject::SetActive(bool activated)
 {
 	active = activated; 
@@ -282,6 +288,18 @@ bool GameObject::HasComponents()
 bool GameObject::HasChilds()
 {
 	return !child_list.empty();;
+}
+
+GameObject * GameObject::GetChild(int index) const
+{
+	int i = 0; 
+	for (auto it = child_list.begin(); it != child_list.end(); it++, i++)
+	{
+		if (i == index)
+			return (*it);
+	}
+
+	return nullptr; 
 }
 
 void GameObject::DeleteChildFromList(GameObject * child_to_delete)
