@@ -575,6 +575,7 @@ float3 float3::Cross(const float3 &rhs) const
 #endif
 }
 
+
 float3x3 float3::OuterProduct(const float3 &rhs) const
 {
 	const float3 &u = *this;
