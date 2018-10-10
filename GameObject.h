@@ -17,6 +17,7 @@ public:
 	bool AddComponent(Component* new_cmp);
 	bool AddChild(GameObject* child); 
 
+	void DeleteGameObject(); 
 	void DeleteRecursive(); 
 	void DeleteAllComponents(); 
 	bool DeleteComponent(CompType cmp); 

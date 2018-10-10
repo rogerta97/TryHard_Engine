@@ -272,7 +272,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine(); 
 
 		if(mat_cmp->diffuse != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName()); ImGui::SameLine(); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName()); 
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))

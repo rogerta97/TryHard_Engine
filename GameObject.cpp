@@ -72,7 +72,9 @@ GameObject * GameObject::GetParent() const
 void GameObject::SetParent(GameObject * new_parent)
 {
 	parent = new_parent; 
-	new_parent->child_list.push_back(this); 
+
+	if(new_parent != nullptr)
+		new_parent->child_list.push_back(this); 
 }
 
 void GameObject::SetActive(bool activated)
@@ -141,34 +143,36 @@ bool GameObject::AddChild(GameObject * child)
 	return true;
 }
 
+void GameObject::DeleteGameObject()
+{
+
+}
+
 void GameObject::DeleteRecursive()
 {
+	bool has_childs = false; 
+
+	if (this == App->imgui->inspector_panel->GetGameObject())
+	{
+		App->scene->SetSelectedGameObject(nullptr);
+	}
 
 	if (HasChilds() > 0)
 	{
 		for (auto it = child_list.begin(); it != child_list.end();)
-		{
+		{		
 			(*it)->DeleteRecursive();
-			it = child_list.erase(it); 
+			has_childs = true; 
 		}
 
 		child_list.clear();
 	}
 
-	//Here we should assign another GO as current automatically, but we will keep it nullptr for now 
-	if (this == App->imgui->inspector_panel->GetGameObject())
-	{
-		App->scene->SetSelectedGameObject(nullptr); 
-	}
-		
-	//if (parent != nullptr)
-	//	parent->DeleteChildFromList(this);
-
 	DeleteAllComponents(); 
 	component_list.clear(); 
 	
-	parent = nullptr; 	
 	App->scene->DeleteGameObjectFromList(this);
+
 
 }
 

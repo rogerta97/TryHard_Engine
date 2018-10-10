@@ -88,7 +88,6 @@ void ModuleSceneIntro::DeleteGameObjectFromList(GameObject* go)
 	{
 		if (go == (*it))
 		{
-			delete (*it); 
 			scene_gameobjects.erase(it);
 			return;
 		}
