@@ -49,9 +49,3 @@ bool AskUserIfSave() {
 	return true;
 }
 
-bool ContainsSentence(string to_check, string sentence)
-{
-	return sentence.find(to_check); 
-}
-
-
