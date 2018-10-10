@@ -287,11 +287,14 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 
 			vec center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
 			
-			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 15);
-			Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
+			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 1);
+			//Position.x = dst_point.x; Position.y = dst_point.y; Position.z = dst_point.z;
 
-			const vec3 center_ts(center.x, center.y, center.z);
-			//LookAt(center_ts);
+			cam_interpolation.line.a = dst_point;
+			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });
+
+			cam_interpolation.dst_vec = -normalize(Position - vec3(center.x, center.y, center.z));
+			cam_interpolation.source_vec = -Z;
 		}
 	}
 }
