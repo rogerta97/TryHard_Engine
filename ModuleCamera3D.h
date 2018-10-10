@@ -9,11 +9,24 @@ class TextureMSAA;
 
 struct CameraInterpolation
 {
-public: 
+	void Init()
+	{
+		interpolation_ms = 1000.0f; 
+		source_vec = { 0,0,0 }; 
+		dst_vec = { 0,0,0 };
+		interpolate = false; 
+	}
 
 	Timer interpolation_timer; 
 	uint interpolation_ms; 
+
+	//Position
 	LineSegment line; 
+
+	//Rotation
+	vec3 source_vec; 
+	vec3 dst_vec; 
+
 	bool interpolate; 
 };
 
@@ -34,7 +47,7 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
-	LineSegment GetInterpolationSegment(); 
+	void FillInterpolationSegmentAndRot(); 
 	bool InterpolateCamera(float time);
 	float3 GetCamPointFromDistance(vec center, float distance);
 

@@ -102,10 +102,10 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 
 bool TextureImporter::SaveTexturesAsDDS()
 {
-	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
-	{
-		SaveTexture((*it), IL_DDS); 
-	}
+	//for (auto it = textures_list.begin(); it != textures_list.end(); it++)
+	//{
+	//	SaveTexture((*it), IL_DDS); 
+	//}
 
 	return true;
 }
