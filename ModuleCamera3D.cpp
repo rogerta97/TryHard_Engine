@@ -122,6 +122,11 @@ update_status ModuleCamera3D::Update(float dt)
 		moved = true;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_P))
+	{
+		LookAt({ 0,0,0 });
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		cam_interpolation.interpolate = true; 	
@@ -179,6 +184,8 @@ update_status ModuleCamera3D::Update(float dt)
 				Position = Reference + Z * length(Position);
 		}
 	}
+
+	//CONSOLE_LOG("%d,%d,%d", Position.x, Position.y, Position.x);
 
 	CalculateViewMatrix();
 
@@ -297,6 +304,7 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 
 bool ModuleCamera3D::InterpolateCamera(float time)
 {
+	vec3 look_point;
 	if (cam_interpolation.interpolation_timer.Read() <= time)
 	{
 		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
@@ -308,9 +316,9 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 		float3 src_vector = { cam_interpolation.source_vec.x,  cam_interpolation.source_vec.y , cam_interpolation.source_vec.z }; 
 		float3 dst_vector = { cam_interpolation.dst_vec.x,  cam_interpolation.dst_vec.y , cam_interpolation.dst_vec.z };
 
-		float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, percentage);		
+		float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, percentage);	
 
-		vec3 look_point = { curr_rot.x, curr_rot.y, curr_rot.z };
+		look_point = { curr_rot.x, curr_rot.y, curr_rot.z };
 
 		LookAt(Position + look_point); 
 
@@ -319,6 +327,7 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 	else
 	{
 		cam_interpolation.interpolate = false; 
+		LookAt(look_point);
 		return true; 
 	}
 }
