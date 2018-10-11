@@ -47,6 +47,7 @@ void GameObject::Update()
 			(*it)->Update(); 
 	}
 
+
 	for (auto it = child_list.begin(); it != child_list.end(); it++)
 	{
 		(*it)->Update();
