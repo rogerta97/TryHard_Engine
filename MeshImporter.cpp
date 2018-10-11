@@ -108,6 +108,28 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 		game_object->SetParent(parent_gameobject);
 		game_object->name = App->file_system->GetLastPathItem(full_path, false); 
 	}
+
+	if(node->mTransformation[0] != nullptr)
+	{
+		//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
+		ComponentTransform* trans_cmp = (ComponentTransform*)game_object->CreateComponent(CMP_TRANSFORM);
+
+		aiVector3D translation;
+		aiVector3D scaling;
+		aiQuaternion rotation;
+
+		node->mTransformation.Decompose(scaling, rotation, translation);
+
+		float3 pos(translation.x, translation.y, translation.z);
+		Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+		float3 esc(scaling.x, scaling.y, scaling.z);
+
+		trans_cmp->SetPosition(pos);
+		trans_cmp->SetRotation(rot); 
+		trans_cmp->SetScale(esc); 
+
+		game_object->AddComponent(trans_cmp);
+	}
 		
 	if (node->mNumMeshes > 0)
 	{
@@ -116,10 +138,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 		for (int i = 0; i < num_meshes; i++)
 		{			
-			//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
-			ComponentTransform* trans_cmp = (ComponentTransform*)game_object->CreateComponent(CMP_TRANSFORM);
-			game_object->AddComponent(trans_cmp);
-
 			//Create the mesh where the data will be stored 
 			aiMesh* curr_mesh = scene->mMeshes[node->mMeshes[i]];
 			Mesh* new_mesh = new Mesh();
