@@ -10,7 +10,7 @@ build:
 before_package:
 - ps: Copy-Item C:\projects\TryHard_Engine\Source\$env:CONFIGURATION\TryHardEngine.exe C:\projects\TryHard_Engine\Game\.
 artifacts:
-- path: Game
+- path: TryHard_Engine\Game
   name: Release
   type: WebDeployPackage
 deploy:
