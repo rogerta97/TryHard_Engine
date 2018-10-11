@@ -114,9 +114,19 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	if (std::string(node->mName.C_Str()) == std::string("RootNode"))
 	{
 		game_object->SetParent(parent_gameobject);
-		game_object->name = App->file_system->GetLastPathItem(full_path, false); 
+		game_object->name = App->file_system->GetLastPathItem(full_path, false);
 	}
+	else
+		game_object->name = node->mName.C_Str(); 
 
+	uint found = game_object->name.find(string("_$AssimpFbx$_")); 
+
+	if (found != string::npos) //It has transform info
+	{
+		string new_name = game_object->name.substr(0, found); 
+		game_object->name = new_name;
+	}
+	
 	if(node->mTransformation[0] != nullptr)
 	{
 		//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
@@ -196,11 +206,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			{
 				//Load the UV's
 				new_mesh->num_uvs = new_mesh->num_indices;
-				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];
-
-				if (curr_mesh->mTextureCoords[0] != nullptr)
-					memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
-
+				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];			
+				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
 				glGenBuffers(1, &new_mesh->uvs_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);

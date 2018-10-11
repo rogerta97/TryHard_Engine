@@ -275,9 +275,10 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 			cam_interpolation.line.a = dst_point;
 			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });		
 
-
 			cam_interpolation.dst_vec = -normalize(Position - center);
 			cam_interpolation.source_vec = -Z;			
+
+			cam_interpolation.center = cmp_mesh->bounding_box.CenterPoint(); 
 			
 		}
 		else //if not find the middle point between the object and look at it. 
@@ -293,11 +294,13 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 			
 			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 1);
 
+			cam_interpolation.center = center;
+
 			cam_interpolation.line.a = dst_point;
 			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 
 			cam_interpolation.dst_vec = -normalize(Position - vec3(center.x, center.y, center.z));
-			cam_interpolation.source_vec = -Z;
+			cam_interpolation.source_vec = -Z;			
 		}
 	}
 }
@@ -327,7 +330,8 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 	else
 	{
 		cam_interpolation.interpolate = false; 
-		LookAt(look_point);
+		vec3 center = { cam_interpolation.center.x, cam_interpolation.center.y, cam_interpolation.center.z };
+		LookAt(center);
 		return true; 
 	}
 }
