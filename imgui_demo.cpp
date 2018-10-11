@@ -2750,6 +2750,7 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
                                     ImGui::Text("Pos: (%.2f,%.2f)->(%.2f,%.2f)", glyph->X0, glyph->Y0, glyph->X1, glyph->Y1);
                                     ImGui::Text("UV: (%.3f,%.3f)->(%.3f,%.3f)", glyph->U0, glyph->V0, glyph->U1, glyph->V1);
                                     ImGui::EndTooltip();
+
                                 }
                             }
                             ImGui::Dummy(ImVec2((cell_size + cell_spacing) * 16, (cell_size + cell_spacing) * 16));
@@ -2762,6 +2763,8 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
             }
             ImGui::PopID();
         }
+
+
         static float window_scale = 1.0f;
         ImGui::DragFloat("this window scale", &window_scale, 0.005f, 0.3f, 2.0f, "%.1f");              // scale only this window
         ImGui::DragFloat("global scale", &ImGui::GetIO().FontGlobalScale, 0.005f, 0.3f, 2.0f, "%.1f"); // scale everything

@@ -91,7 +91,7 @@ bool Application::Init()
 	if (cap_fps)
 		max_fps = json_object_get_number(config, "max_fps");
 
-	ImGui::GetStyle().FrameRounding = 15;
+	ImGui::GetStyle().FrameRounding = 3;
 
 	// After all Init calls we call Start() in all modules
 	CONSOLE_LOG("Application Start --------------");
@@ -439,9 +439,23 @@ void Application::DisplayConfigData()
 
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
 
-		ImGui::GetStyle().FrameRounding = 80;
+		ImGui::GetStyle().FrameRounding = 3;
+
+
 	}
 
+	if (ImGui::CollapsingHeader("Fonts"))
+	{
+		ImFontAtlas* atlas = ImGui::GetIO().Fonts;
+		for (int i = 0; i < atlas->Fonts.Size; i++)
+		{
+			ImFont* font = atlas->Fonts[i];
+			ImGui::PushID(font);
+			ImGui::Text("Font '%s', %.2f px, %d glyphs",font->ConfigData->Name, font->FontSize, font->Glyphs.Size);
+			ImGui::SameLine(); if (ImGui::SmallButton("Set as default")) ImGui::GetIO().FontDefault = font;
+			ImGui::PopID();
+		}
+	}
 
 }
 

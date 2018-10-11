@@ -38,6 +38,11 @@ ModuleImGui::~ModuleImGui()
 
 bool ModuleImGui::Start()
 {
+	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/orkney-regular.otf", 14.0f);
+	pFont->DisplayOffset = { 0,1 };
+	 pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Quicksand-Regular.otf", 14.0f);
+
+
 	show_demo_window = false;
 	show_style_editor = false;
 
@@ -70,6 +75,7 @@ bool ModuleImGui::Start()
 
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigDockingWithShift = false;
+
 	return true;
 }
 
@@ -333,11 +339,16 @@ update_status ModuleImGui::DrawTopBar()
 		ImGui::EndMenu();
 	}
 
+	ImVec4* colors = ImGui::GetStyle().Colors;
+	colors[ImGuiCol_HeaderHovered] = ImVec4(0.98f, 0.26f, 0.26f, 0.80f);
+
 	ImGui::SetCursorPosX(App->window->width - 20);
 	if (ImGui::MenuItem("X"))
 	{
 		show_save_popup = true;
 	}
+
+	colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
 
 	ImGui::EndMainMenuBar();
 
