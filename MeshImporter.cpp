@@ -15,6 +15,8 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
+void LogAssimpLogs(const char * str, char * userData);
+
 MeshImporter::MeshImporter()
 {
 }
@@ -26,6 +28,12 @@ MeshImporter::~MeshImporter()
 
 bool MeshImporter::Start()
 {
+	struct aiLogStream logs;
+	logs = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	logs.callback = LogAssimpLogs;
+	aiAttachLogStream(&logs);
+	return true;
+
 	CreatePlaneMesh();
 	CreateCubeMesh();
 	CreateSphereMesh();
@@ -276,3 +284,7 @@ Mesh * MeshImporter::GetMeshByType(BasicMeshType type)
 	return nullptr;
 }
 
+void LogAssimpLogs(const char * str, char * userData)
+{
+	CONSOLE_LOG("%s", str);
+}
