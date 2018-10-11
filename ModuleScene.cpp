@@ -1,24 +1,24 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
 #include "UI_InspectorPanel.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 
 #include "GameObject.h"
 
-ModuleSceneIntro::ModuleSceneIntro(bool start_enabled)
+ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleScene::~ModuleScene()
 {
 
 }
 
 // Load assets
-bool ModuleSceneIntro::Start()
+bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -34,14 +34,14 @@ bool ModuleSceneIntro::Start()
 }
 
 // Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
 	return true;
 }
 
-void ModuleSceneIntro::DeleteGameObjectsNow()
+void ModuleScene::DeleteGameObjectsNow()
 {
 	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
 	{
@@ -58,7 +58,7 @@ void ModuleSceneIntro::DeleteGameObjectsNow()
 	}
 }
 
-void ModuleSceneIntro::CleanScene()
+void ModuleScene::CleanScene()
 {
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
@@ -67,12 +67,12 @@ void ModuleSceneIntro::CleanScene()
 	}
 }
 
-void ModuleSceneIntro::AddGameObjectToDeleteList(GameObject * to_del)
+void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)
 {
 	go_to_delete.push_back(to_del); 
 }
 
-GameObject * ModuleSceneIntro::CreateGameObject()
+GameObject * ModuleScene::CreateGameObject()
 {
 	GameObject* new_go = new GameObject(""); 
 
@@ -84,7 +84,7 @@ GameObject * ModuleSceneIntro::CreateGameObject()
 	return new_go; 
 }
 
-GameObject * ModuleSceneIntro::CreateGameObject(const char* name)
+GameObject * ModuleScene::CreateGameObject(const char* name)
 {
 	GameObject* new_go = new GameObject(name);
 
@@ -96,7 +96,7 @@ GameObject * ModuleSceneIntro::CreateGameObject(const char* name)
 	return new_go;
 }
 
-GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_childs, const char* name = "")
+GameObject * ModuleScene::CreateGameObject(std::list<GameObject*> list_childs, const char* name = "")
 {
 	GameObject* parent_go = new GameObject(name);
 
@@ -110,12 +110,12 @@ GameObject * ModuleSceneIntro::CreateGameObject(std::list<GameObject*> list_chil
 	return parent_go; 
 }
 
-int ModuleSceneIntro::GetGameObjectsAmmount()
+int ModuleScene::GetGameObjectsAmmount()
 {
 	return scene_gameobjects.size();
 }
 
-void ModuleSceneIntro::DeleteGameObjectFromList(GameObject* go)
+void ModuleScene::DeleteGameObjectFromList(GameObject* go)
 {
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
@@ -127,25 +127,25 @@ void ModuleSceneIntro::DeleteGameObjectFromList(GameObject* go)
 	}
 }
 
-void ModuleSceneIntro::AddGameObjectToScene(GameObject* go)
+void ModuleScene::AddGameObjectToScene(GameObject* go)
 {
 	scene_gameobjects.push_back(go); 
 }
 
-void ModuleSceneIntro::SetSelectedGameObject(GameObject * selected)
+void ModuleScene::SetSelectedGameObject(GameObject * selected)
 {
 	App->imgui->inspector_panel->SetGameObject(selected);
 	selected_go = selected; 
 	
 }
 
-GameObject* ModuleSceneIntro::GetSelectedGameObject() const
+GameObject* ModuleScene::GetSelectedGameObject() const
 {
 	return selected_go;
 }
 
 // Update
-update_status ModuleSceneIntro::Update(float dt)
+update_status ModuleScene::Update(float dt)
 {
 	pPlane p(0, 1, 0, 500);
 	p.axis = true;

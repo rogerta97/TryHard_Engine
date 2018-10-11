@@ -9,7 +9,7 @@
 #include "ModuleImGui.h"
 #include "ModuleResources.h"
 #include "ModuleAudio.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleScene.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleFileSystem.h"
@@ -38,7 +38,7 @@ public:
 	ModuleResources* resources; 
 	ModuleImGui* imgui;
 	ModuleAudio* audio;
-	ModuleSceneIntro* scene;
+	ModuleScene* scene;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleFileSystem* file_system; 

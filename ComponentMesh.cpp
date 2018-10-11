@@ -55,7 +55,8 @@ bool ComponentMesh::CleanUp()
 		mesh = nullptr; 
 	}
 
-	material->CleanUp(); 
+	if(material != nullptr)
+		material->CleanUp(); 
 		
 	return false;
 }

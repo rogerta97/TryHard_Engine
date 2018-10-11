@@ -169,9 +169,9 @@ bool ModuleAudio::PlayFx(unsigned int id, int repeat)
 
 void ModuleAudio::PrintConfigData()
 {
-	if (ImGui::CollapsingHeader("Audio"))
+	/*if (ImGui::CollapsingHeader("Audio"))
 	{
 		ImGui::Text("Driver:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), SDL_GetCurrentAudioDriver());
-	}
+	}*/
 }

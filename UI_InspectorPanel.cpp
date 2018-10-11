@@ -80,12 +80,6 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing(); 
 
-		//if (ImGui::IsInputTextFocused())
-		//{
-		//	App->camera->LockCamera();
-		//	is_out = false;
-		//}
-
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			App->camera->UnlockCamera();
@@ -205,8 +199,8 @@ void UI_InspectorPanel::PrintTransformProperties()
 			ImGui::Spacing();
 
 			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
-			float3 tmp_rot = trans_cmp->GetRotation().identity.ToEulerXYZ(); 
-			float show_rot[3] = { tmp_rot.x, tmp_rot.y,tmp_rot.z };
+			float3 tmp_rot = trans_cmp->GetRotation().ToEulerXYZ(); 
+			float show_rot[3] = { RADTODEG * tmp_rot.x,  RADTODEG *tmp_rot.y, RADTODEG *tmp_rot.z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 		
 			ImGui::InputFloat3("Position", show_pos, 2);

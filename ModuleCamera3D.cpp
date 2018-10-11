@@ -56,6 +56,16 @@ void ModuleCamera3D::PrintConfigData()
 {
 	if (ImGui::CollapsingHeader("Camera"))
 	{
+		SEPARATE_WITH_SPACE
+
+		float show_pos[3] = { Position.x,  Position.y,  Position.z };
+	 
+
+		ImGui::InputFloat3("Position", show_pos, 2);
+		//ImGui::InputFloat3("Rotation", show_rot, 2);
+
+		SEPARATE_WITH_SPACE
+
 		float tmp_speed = GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		App->camera->SetSpeed(tmp_speed);
@@ -64,6 +74,8 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
 		App->camera->SetMouseSensitivity(tmp_sensitivity);
 		ImGui::DragInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 50, 2000);
+
+		SEPARATE_WITH_SPACE
 	}
 }
 
@@ -129,9 +141,12 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		cam_interpolation.interpolate = true; 	
-		cam_interpolation.interpolation_timer.Start(); 
-		FillInterpolationSegmentAndRot();
+		if (App->scene->GetSelectedGameObject() != nullptr)
+		{
+			cam_interpolation.interpolate = true;
+			cam_interpolation.interpolation_timer.Start();
+			FillInterpolationSegmentAndRot();
+		}
 	}
 
 	if (cam_interpolation.interpolate)
@@ -275,9 +290,10 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 			cam_interpolation.line.a = dst_point;
 			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });		
 
-
 			cam_interpolation.dst_vec = -normalize(Position - center);
 			cam_interpolation.source_vec = -Z;			
+
+			cam_interpolation.center = cmp_mesh->bounding_box.CenterPoint(); 
 			
 		}
 		else //if not find the middle point between the object and look at it. 
@@ -293,11 +309,13 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 			
 			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 1);
 
+			cam_interpolation.center = center;
+
 			cam_interpolation.line.a = dst_point;
 			cam_interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 
 			cam_interpolation.dst_vec = -normalize(Position - vec3(center.x, center.y, center.z));
-			cam_interpolation.source_vec = -Z;
+			cam_interpolation.source_vec = -Z;			
 		}
 	}
 }
@@ -327,7 +345,8 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 	else
 	{
 		cam_interpolation.interpolate = false; 
-		LookAt(look_point);
+		vec3 center = { cam_interpolation.center.x, cam_interpolation.center.y, cam_interpolation.center.z };
+		LookAt(center);
 		return true; 
 	}
 }

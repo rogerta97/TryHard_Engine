@@ -27,6 +27,8 @@ struct CameraInterpolation
 	vec3 source_vec; 
 	vec3 dst_vec; 
 
+	vec center; 
+
 	bool interpolate; 
 };
 

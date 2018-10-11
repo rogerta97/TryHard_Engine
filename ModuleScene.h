@@ -8,11 +8,11 @@
 #define MAX_SNAKE 2
 
 
-class ModuleSceneIntro : public Module
+class ModuleScene : public Module
 {
 public:
-	ModuleSceneIntro(bool start_enabled = true);
-	~ModuleSceneIntro();
+	ModuleScene(bool start_enabled = true);
+	~ModuleScene();
 
 	bool Start();
 	update_status Update(float dt);
