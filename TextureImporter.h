@@ -10,9 +10,9 @@
 #include "DevIL Windows SDK\include\IL\ilu.h"
 #include "DevIL Windows SDK\include\IL\ilut.h"
 
-#pragma comment(lib, "DevIL Windows SDK/libx86/x86/Release/DevIL.lib")
-#pragma comment(lib, "DevIL Windows SDK/libx86/x86/Release/ILU.lib")
-#pragma comment(lib, "DevIL Windows SDK/libx86/x86/Release/ILUT.lib")
+#pragma comment(lib, "DevIL Windows SDK/libx86/DevIL.lib")
+#pragma comment(lib, "DevIL Windows SDK/libx86/ILU.lib")
+#pragma comment(lib, "DevIL Windows SDK/libx86/ILUT.lib")
 
 
 class TextureImporter : public Importer
