@@ -211,10 +211,9 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 				glGenBuffers(1, &new_mesh->uvs_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_uvs * 2, new_mesh->uvs_cords, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
-
 
 			//Load Normals
 			if (curr_mesh->HasNormals())

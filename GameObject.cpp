@@ -245,7 +245,7 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((mask & (1 << id)) ? ImGuiTreeNodeFlags_Selected : 0);
 		bool opened = ImGui::TreeNodeEx(name.c_str(), node_flags); 
 
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this); 			
@@ -269,7 +269,7 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		ImGui::TreeNodeEx(name.c_str(), node_flags);
 		
 		
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this);		
