@@ -366,7 +366,7 @@ void Mesh::LoadToMemory()
 	{
 		glGenBuffers(1, &uvs_id);
 		glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 2, uvs_cords, GL_STATIC_DRAW); 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 3, uvs_cords, GL_STATIC_DRAW); 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 

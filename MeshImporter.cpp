@@ -205,7 +205,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			if (curr_mesh->HasTextureCoords(0))
 			{
 				//Load the UV's
-				new_mesh->num_uvs = new_mesh->num_indices;
+				new_mesh->num_uvs = curr_mesh->mNumVertices;
 				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];			
 				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
