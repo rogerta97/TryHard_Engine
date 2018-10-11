@@ -9,7 +9,7 @@ Application::Application()
 	input = new ModuleInput();
 	audio = new ModuleAudio(true);
 	imgui = new ModuleImGui();
-	scene = new ModuleSceneIntro();
+	scene = new ModuleScene();
 	resources = new ModuleResources();
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();

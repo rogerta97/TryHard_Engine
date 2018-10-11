@@ -56,6 +56,16 @@ void ModuleCamera3D::PrintConfigData()
 {
 	if (ImGui::CollapsingHeader("Camera"))
 	{
+		SEPARATE_WITH_SPACE
+
+		float show_pos[3] = { Position.x,  Position.y,  Position.z };
+	 
+
+		ImGui::InputFloat3("Position", show_pos, 2);
+		//ImGui::InputFloat3("Rotation", show_rot, 2);
+
+		SEPARATE_WITH_SPACE
+
 		float tmp_speed = GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		App->camera->SetSpeed(tmp_speed);
@@ -64,6 +74,8 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
 		App->camera->SetMouseSensitivity(tmp_sensitivity);
 		ImGui::DragInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 50, 2000);
+
+		SEPARATE_WITH_SPACE
 	}
 }
 
@@ -129,9 +141,12 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		cam_interpolation.interpolate = true; 	
-		cam_interpolation.interpolation_timer.Start(); 
-		FillInterpolationSegmentAndRot();
+		if (App->scene->GetSelectedGameObject() != nullptr)
+		{
+			cam_interpolation.interpolate = true;
+			cam_interpolation.interpolation_timer.Start();
+			FillInterpolationSegmentAndRot();
+		}
 	}
 
 	if (cam_interpolation.interpolate)
