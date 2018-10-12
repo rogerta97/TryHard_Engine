@@ -142,11 +142,6 @@ update_status ModuleCamera3D::Update(float dt)
 		moved = true;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_P))
-	{
-		LookAt({ 0,0,0 });
-	}
-
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		if (App->scene->GetSelectedGameObject() != nullptr)

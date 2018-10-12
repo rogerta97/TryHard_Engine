@@ -84,7 +84,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = false;
+	vsync.is_active = true;
 	vsync.vsync_lvl = 0;
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
@@ -389,6 +389,9 @@ void Application::DisplayConfigData()
 
 		if (vsync.is_active)
 		{
+			if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+				CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			
 			//Use Vsync		
 			if (GetLastSecFramerate() > 60)
 				vsync.SetLevel(1);
@@ -400,8 +403,7 @@ void Application::DisplayConfigData()
 		else
 			vsync.SetLevel(0);
 
-		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
-			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+
 
 		if (cap_fps)
 		{
