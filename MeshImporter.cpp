@@ -80,6 +80,26 @@ Mesh * MeshImporter::CreateSphereMesh()
 	return mesh;
 }
 
+void MeshImporter::DrawMeshList()
+{
+	std::vector<string> models_files = App->file_system->GetFilesInDirectory(App->file_system->GetModelsPath().c_str());
+
+	if (ImGui::BeginPopup("select_mesh"))
+	{
+		for (auto it = models_files.begin(); it != models_files.end(); it++)
+		{
+			if ((*it) != "." && (*it) != "..")
+			{
+				ImGui::Selectable((*it).c_str());
+			}
+		
+		}
+			
+
+		ImGui::EndPopup();
+	}
+}
+
 GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 {
 	//Use Assimp to load the file 
@@ -164,6 +184,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			new_mesh->type = MESH_FBX;
 
 			game_object->name = node->mName.C_Str(); 
+			new_mesh->name = curr_mesh->mName.C_Str(); 
 
 			//Load Vertices
 			new_mesh->num_vertices = curr_mesh->mNumVertices;
@@ -243,9 +264,9 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiMaterial* mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
 				//Get the path
-				aiString texture_path;
-				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_path);
-				std::string path = App->file_system->GetModelsPath() + texture_path.C_Str();
+				aiString texture_name;
+				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
+				std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
 
 				//Create the texture
 				Texture* new_texture = new Texture();

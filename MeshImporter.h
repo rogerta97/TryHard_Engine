@@ -25,6 +25,8 @@ public:
 	Mesh* CreatePlaneMesh();
 	Mesh* CreateSphereMesh();
 
+	void DrawMeshList();
+
 	GameObject* CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
 	void LoadFBXMesh(const char* path, aiNode* node, aiScene* scene, GameObject* gameobject_in);
 

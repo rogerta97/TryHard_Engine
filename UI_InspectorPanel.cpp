@@ -226,19 +226,48 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
 		}
 
-		ImGui::Separator();
+		ImGui::Separator(); 
+
+		ImGui::Spacing();
+
+		ImGui::Text("Current Mesh:"); ImGui::SameLine();
+
+		const char* name_test = mesh_cmp->GetMesh()->name.c_str(); 
+
+		if (mesh_cmp->GetMesh() != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
+
+	/*	ImGui::SameLine(); 
+		static bool show_mesh_explorer = false;
+		if (ImGui::SmallButton("+##MeshResourceList"))
+		{
+			ImGui::OpenPopup("select_mesh");
+			show_mesh_explorer = true; 
+		}
+	
+		if (show_mesh_explorer)
+		{
+			App->resources->mesh_importer->DrawMeshList();
+		}*/
+
+		ImGui::Spacing();
+
+		ImGui::Separator(); 
+
 		ImGui::Spacing();
 
 		mesh_cmp->PrintRenderSettings(); 
 
+		ImGui::SameLine(); 
+
+		ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+
 		ImGui::Spacing(); 
 
-		if (ImGui::TreeNode("Bounding Box"))
-		{
-			ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+		
+			
 
-			ImGui::TreePop(); 
-		}
+		
 	}
 }
 
@@ -271,14 +300,15 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
-		if (ImGui::Button("+"))
+		if (ImGui::SmallButton("+##TextureResourceList"))
 		{
-			show_tex_explorer = true; 
+			ImGui::OpenPopup("select_tex");
+			show_tex_explorer = true;
 		}
 
 		if (show_tex_explorer)
-		{		
-			App->resources->texture_importer->DrawTextureList();		
+		{
+			App->resources->texture_importer->DrawTextureList();
 		}
 
 		ImGui::SameLine(); 
