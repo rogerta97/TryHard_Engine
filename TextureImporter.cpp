@@ -22,6 +22,9 @@ bool TextureImporter::Start()
 	string go_symbol_path = string(App->file_system->GetTexturesPath() + "GameObjectIcon.png"); 
 	LoadTexture(go_symbol_path.c_str(), true);
 
+	checker_texture = new Texture(); 
+	checker_texture->FillCheckerTextureData(); 
+
 	return true;
 }
 
@@ -208,6 +211,16 @@ Texture * TextureImporter::GetTexture(const char* name)
 	}
 
 	return nullptr; 
+}
+
+void TextureImporter::GenerateCheckerTexture()
+{
+	checker_texture->FillCheckerTextureData(); 
+}
+
+Texture * TextureImporter::GetCheckerTexture() const
+{
+	return checker_texture;
 }
 
 TextureImporter::~TextureImporter()

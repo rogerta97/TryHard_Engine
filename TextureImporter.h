@@ -34,11 +34,15 @@ public:
 
 	Texture* GetTexture(const char* name); 
 
+	void GenerateCheckerTexture();
+	Texture* GetCheckerTexture() const; 
+
 	~TextureImporter();
 
 private:
 
 	std::list<Texture*> textures_list; 
+	Texture* checker_texture = nullptr; 
 
 };
 

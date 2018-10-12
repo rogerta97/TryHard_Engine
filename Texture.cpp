@@ -39,7 +39,7 @@ void Texture::SetTextureSettings()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
-Texture* Texture::GetCheckTexture()
+void Texture::FillCheckerTextureData()
 {
 	GLubyte* buffer = new GLubyte[64 * 64 * 4];
 	GLubyte checkImage[64][64][4];
@@ -56,19 +56,17 @@ Texture* Texture::GetCheckTexture()
 	memcpy(buffer, checkImage, 400 * sizeof(GLubyte));
 
 	//Create the texture to return 
-	Texture* check_tex = new Texture(); 
-	check_tex->name = "Checker Texture"; 
+	name = "Checker Texture"; 
 
-	check_tex->CreateBuffer(); 
-	check_tex->Bind(); 
+	CreateBuffer(); 
+	Bind(); 
 	SetTextureSettings(); 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 64, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
-	check_tex->UnBind(); 
+	UnBind(); 
 
-	check_tex->width = 256; 
-	check_tex->height = 256;
+	width = 256; 
+	height = 256;
 
-	return check_tex; 
 }
 
 void Texture::Bind()
