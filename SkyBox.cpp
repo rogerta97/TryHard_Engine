@@ -13,14 +13,24 @@ SkyBox::~SkyBox()
 void SkyBox::InitSkyBox(const char * folder_name)
 {
 
-	string curr_path = App->file_system->GetSkyBoxPath() + "miramar_front.png";
+	string curr_path;
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_front.png";
 	CreateFrontPlane(curr_path.c_str());
 
-	CreateRightPlane();
-	CreateLeftPlane();
-	CreateBackPlane();
-	CreateTopPlane();
-	CreateDownPlane();	
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_right.png";
+	CreateRightPlane(curr_path.c_str());
+
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_left.png";
+	CreateLeftPlane(curr_path.c_str());
+
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_back.png";
+	CreateBackPlane(curr_path.c_str());
+
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_up.png";
+	CreateTopPlane(curr_path.c_str());
+
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_down.png";
+	CreateDownPlane(curr_path.c_str());
 }
 
 void SkyBox::Draw()
@@ -30,18 +40,21 @@ void SkyBox::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	//for (int i = 0; i < 6; i++)
-	//{
-		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[0].vertices_id);
+	for (int i = 0; i < 6; i++)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i].vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		glBindTexture(GL_TEXTURE_2D, sky_textures[0]->GetTextureID());
-		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[0].uvs_id);	
-		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sky_cube[0].indices_id);
-		glDrawElements(GL_TRIANGLES, sky_cube[0].num_indices, GL_UNSIGNED_INT, NULL);	
-	//}
+		if (sky_textures[i] != nullptr)
+		{
+			glBindTexture(GL_TEXTURE_2D, sky_textures[i]->GetTextureID());
+			glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i].uvs_id);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		}
+	
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sky_cube[i].indices_id);
+		glDrawElements(GL_TRIANGLES, sky_cube[i].num_indices, GL_UNSIGNED_INT, NULL);	
+	}
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -130,7 +143,7 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	// ----------------------------------------------------------------------------
 }
 
-void SkyBox::CreateRightPlane()
+void SkyBox::CreateRightPlane(const char* plane_tex_path)
 {
 	//Create Right Plane  ------------------------------------------------------------
 
@@ -185,9 +198,34 @@ void SkyBox::CreateRightPlane()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
+
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_RIGHT].num_uvs = sky_cube[SKYBOX_RIGHT].num_vertices;
+	sky_cube[SKYBOX_RIGHT].uvs_cords = new float[sky_cube[SKYBOX_RIGHT].num_uvs * 2];
+			 
+	sky_cube[SKYBOX_RIGHT].uvs_cords[0] = 0.0f;
+	sky_cube[SKYBOX_RIGHT].uvs_cords[1] = 1.0f;
+			 
+	sky_cube[SKYBOX_RIGHT].uvs_cords[2] = 1.0f;
+	sky_cube[SKYBOX_RIGHT].uvs_cords[3] = 1.0f;
+			 
+	sky_cube[SKYBOX_RIGHT].uvs_cords[4] = 0.0f;
+	sky_cube[SKYBOX_RIGHT].uvs_cords[5] = 0.0f;
+			 
+	sky_cube[SKYBOX_RIGHT].uvs_cords[6] = 1.0f;
+	sky_cube[SKYBOX_RIGHT].uvs_cords[7] = 0.0f;
+
+	sky_textures[SKYBOX_RIGHT] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_RIGHT].uvs_id = sky_cube[SKYBOX_RIGHT].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_RIGHT].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_RIGHT].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SkyBox::CreateLeftPlane()
+void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 {
 	//Create Left Plane  ------------------------------------------------------------
 
@@ -242,9 +280,34 @@ void SkyBox::CreateLeftPlane()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
+
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_LEFT].num_uvs = sky_cube[SKYBOX_LEFT].num_vertices;
+	sky_cube[SKYBOX_LEFT].uvs_cords = new float[sky_cube[SKYBOX_LEFT].num_uvs * 2];
+			 
+	sky_cube[SKYBOX_LEFT].uvs_cords[0] = 1.0f;
+	sky_cube[SKYBOX_LEFT].uvs_cords[1] = 1.0f;
+			 
+	sky_cube[SKYBOX_LEFT].uvs_cords[2] = 0.0f;
+	sky_cube[SKYBOX_LEFT].uvs_cords[3] = 1.0f;
+			 
+	sky_cube[SKYBOX_LEFT].uvs_cords[4] = 1.0f;
+	sky_cube[SKYBOX_LEFT].uvs_cords[5] = 0.0f;
+			 
+	sky_cube[SKYBOX_LEFT].uvs_cords[6] = 0.0f;
+	sky_cube[SKYBOX_LEFT].uvs_cords[7] = 0.0f;
+
+	sky_textures[SKYBOX_LEFT] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_LEFT].uvs_id = sky_cube[SKYBOX_LEFT].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_LEFT].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_LEFT].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SkyBox::CreateBackPlane()
+void SkyBox::CreateBackPlane(const char* plane_tex_path)
 {
 	//Create Right Plane  ------------------------------------------------------------
 
@@ -299,9 +362,34 @@ void SkyBox::CreateBackPlane()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
+
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_BACK].num_uvs = sky_cube[SKYBOX_BACK].num_vertices;
+	sky_cube[SKYBOX_BACK].uvs_cords = new float[sky_cube[SKYBOX_BACK].num_uvs * 2];
+			 
+	sky_cube[SKYBOX_BACK].uvs_cords[0] = 1.0f;
+	sky_cube[SKYBOX_BACK].uvs_cords[1] = 1.0f;
+			 
+	sky_cube[SKYBOX_BACK].uvs_cords[2] = 0.0f;
+	sky_cube[SKYBOX_BACK].uvs_cords[3] = 1.0f;
+			 
+	sky_cube[SKYBOX_BACK].uvs_cords[4] = 1.0f;
+	sky_cube[SKYBOX_BACK].uvs_cords[5] = 0.0f;
+			 
+	sky_cube[SKYBOX_BACK].uvs_cords[6] = 0.0f;
+	sky_cube[SKYBOX_BACK].uvs_cords[7] = 0.0f;
+
+	sky_textures[SKYBOX_BACK] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_BACK].uvs_id = sky_cube[SKYBOX_BACK].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_BACK].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_BACK].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SkyBox::CreateTopPlane()
+void SkyBox::CreateTopPlane(const char* plane_tex_path)
 {
 	//Create Right Plane  ------------------------------------------------------------
 
@@ -356,9 +444,34 @@ void SkyBox::CreateTopPlane()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
+
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_TOP].num_uvs = sky_cube[SKYBOX_TOP].num_vertices;
+	sky_cube[SKYBOX_TOP].uvs_cords = new float[sky_cube[SKYBOX_TOP].num_uvs * 2];
+			
+	sky_cube[SKYBOX_TOP].uvs_cords[0] = 1.0f;
+	sky_cube[SKYBOX_TOP].uvs_cords[1] = 0.0f;
+
+	sky_cube[SKYBOX_TOP].uvs_cords[2] = 1.0f;
+	sky_cube[SKYBOX_TOP].uvs_cords[3] = 1.0f;
+
+	sky_cube[SKYBOX_TOP].uvs_cords[4] = 0.0f;
+	sky_cube[SKYBOX_TOP].uvs_cords[5] = 0.0f;
+
+	sky_cube[SKYBOX_TOP].uvs_cords[6] = 0.0f;
+	sky_cube[SKYBOX_TOP].uvs_cords[7] = 1.0f;
+
+	sky_textures[SKYBOX_TOP] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_TOP].uvs_id = sky_cube[SKYBOX_TOP].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_TOP].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_TOP].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void SkyBox::CreateDownPlane()
+void SkyBox::CreateDownPlane(const char* plane_tex_path)
 {
 	//Create Right Plane  ------------------------------------------------------------
 
@@ -413,4 +526,29 @@ void SkyBox::CreateDownPlane()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
+
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_DOWN].num_uvs = sky_cube[SKYBOX_DOWN].num_vertices;
+	sky_cube[SKYBOX_DOWN].uvs_cords = new float[sky_cube[SKYBOX_DOWN].num_uvs * 2];
+			 
+	sky_cube[SKYBOX_DOWN].uvs_cords[0] = 0.0f;
+	sky_cube[SKYBOX_DOWN].uvs_cords[1] = 1.0f;
+			 
+	sky_cube[SKYBOX_DOWN].uvs_cords[2] = 1.0f;
+	sky_cube[SKYBOX_DOWN].uvs_cords[3] = 1.0f;
+			 
+	sky_cube[SKYBOX_DOWN].uvs_cords[4] = 0.0f;
+	sky_cube[SKYBOX_DOWN].uvs_cords[5] = 0.0f;
+			 
+	sky_cube[SKYBOX_DOWN].uvs_cords[6] = 1.0f;
+	sky_cube[SKYBOX_DOWN].uvs_cords[7] = 0.0f;
+
+	sky_textures[SKYBOX_DOWN] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_DOWN].uvs_id = sky_cube[SKYBOX_DOWN].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_DOWN].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_DOWN].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
