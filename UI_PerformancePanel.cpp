@@ -14,6 +14,7 @@ UI_PerformancePanel::~UI_PerformancePanel()
 
 bool UI_PerformancePanel::Start()
 {
+	show = false;
 	return true;
 }
 

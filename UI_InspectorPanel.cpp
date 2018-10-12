@@ -271,18 +271,13 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
 		{
-			show_tex_explorer = true; 
+			ImGui::OpenPopup("select_texture");
 		}
+
+		App->resources->texture_importer->DrawTextureList();
 
 		if (show_tex_explorer)
 		{		
-			Texture* selected_tex = App->resources->texture_importer->DrawTextureList();
-
-			if (selected_tex)
-			{
-
-			}
-
 			
 		}
 		ImGui::SameLine(); 
