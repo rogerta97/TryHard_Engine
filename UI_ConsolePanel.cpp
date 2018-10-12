@@ -72,9 +72,12 @@ bool UI_ConsolePanel::Update()
 			ImGui::End();
 			return true;
 		}
-			
 
-		for (auto it = App->imgui->console.console_buffer.begin(); it != App->imgui->console.console_buffer.end(); it++)
+		ImGui::Spacing(); 
+			
+		ImGui::BeginChild("Child");
+
+		for (auto it = App->imgui->console.console_buffer.rbegin(); it != App->imgui->console.console_buffer.rend(); it++)
 		{
 			switch (it->first)
 			{
@@ -94,6 +97,8 @@ bool UI_ConsolePanel::Update()
 				break;
 			}
 		}
+
+		ImGui::EndChild();
 	}
 	ImGui::End();
 
