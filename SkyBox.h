@@ -24,7 +24,7 @@ public:
 	void InitSkyBox(const char* folder_name); 
 	void Draw();
 
-	void CreateFrontPlane(); 
+	void CreateFrontPlane(const char* front_image_path); 
 	void CreateRightPlane();
 	void CreateLeftPlane(); 
 	void CreateBackPlane();
@@ -32,7 +32,7 @@ public:
 	void CreateDownPlane(); 
 
 	Mesh sky_cube[6]; 
-	Texture sky_textures[6];
+	Texture* sky_textures[6];
 
 };
 

@@ -94,6 +94,11 @@ std::string ModuleFileSystem::GetLibraryPath() const
 	return library_path;
 }
 
+string ModuleFileSystem::GetSkyBoxPath() const
+{
+	return skybox_path;
+}
+
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)
 {
 	std::vector<string> files_to_ret; 

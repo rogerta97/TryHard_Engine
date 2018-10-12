@@ -1,27 +1,6 @@
 #include "SkyBox.h"
 #include "Application.h"
 
-//int num_uvs = num_indices;
-//float* uvs_cords = new float[num_uvs * 2];
-
-//uvs_cords[0] = 0.0f;
-//uvs_cords[1] = 1.0f;
-
-//uvs_cords[2] = 0.0f;
-//uvs_cords[3] = 0.0f;
-
-//uvs_cords[4] = 1.0f;
-//uvs_cords[5] = 1.0f;
-
-//uvs_cords[6] = 1.0f;
-//uvs_cords[7] = 0.0f;
-
-//uvs_cords[8] = 1.0f;
-//uvs_cords[9] = 1.0f;
-
-//uvs_cords[10] = 0.0f;
-//uvs_cords[11] = 0.0f;	
-
 SkyBox::SkyBox()
 {
 }
@@ -33,7 +12,10 @@ SkyBox::~SkyBox()
 
 void SkyBox::InitSkyBox(const char * folder_name)
 {
-	CreateFrontPlane(); 
+
+	string curr_path = App->file_system->GetSkyBoxPath() + "miramar_front.png";
+	CreateFrontPlane(curr_path.c_str());
+
 	CreateRightPlane();
 	CreateLeftPlane();
 	CreateBackPlane();
@@ -43,22 +25,30 @@ void SkyBox::InitSkyBox(const char * folder_name)
 
 void SkyBox::Draw()
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
+	glColor3f(1.0f, 1.0f, 1.0f); 
 
-	for (int i = 0; i < 6; i++)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i].vertices_id);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	//for (int i = 0; i < 6; i++)
+	//{
+		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[0].vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sky_cube[i].indices_id);
-		glDrawElements(GL_TRIANGLES, sky_cube[i].num_indices, GL_UNSIGNED_INT, NULL);	
-	}
+		glBindTexture(GL_TEXTURE_2D, sky_textures[0]->GetTextureID());
+		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[0].uvs_id);	
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sky_cube[0].indices_id);
+		glDrawElements(GL_TRIANGLES, sky_cube[0].num_indices, GL_UNSIGNED_INT, NULL);	
+	//}
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 }
 
-void SkyBox::CreateFrontPlane()
+void SkyBox::CreateFrontPlane(const char* front_image_path)
 {
 	//Create Front Plane  ------------------------------------------------------------
 
@@ -112,6 +102,30 @@ void SkyBox::CreateFrontPlane()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * 6, sky_cube[SKYBOX_FRONT].indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+	//Load The texture if it's valid 
+	sky_cube[SKYBOX_FRONT].num_uvs = sky_cube[SKYBOX_FRONT].num_vertices;
+	sky_cube[SKYBOX_FRONT].uvs_cords = new float[sky_cube[SKYBOX_FRONT].num_uvs * 2];
+
+	sky_cube[SKYBOX_FRONT].uvs_cords[0] = 0.0f;
+	sky_cube[SKYBOX_FRONT].uvs_cords[1] = 1.0f;
+
+	sky_cube[SKYBOX_FRONT].uvs_cords[2] = 1.0f;
+	sky_cube[SKYBOX_FRONT].uvs_cords[3] = 1.0f;
+
+	sky_cube[SKYBOX_FRONT].uvs_cords[4] = 0.0f;
+	sky_cube[SKYBOX_FRONT].uvs_cords[5] = 0.0f;
+
+	sky_cube[SKYBOX_FRONT].uvs_cords[6] = 1.0f;
+	sky_cube[SKYBOX_FRONT].uvs_cords[7] = 0.0f;
+
+	sky_textures[SKYBOX_FRONT] = App->resources->texture_importer->LoadTexture(front_image_path);
+
+	// ---------------------
+
+	sky_cube[SKYBOX_FRONT].uvs_id = sky_cube[SKYBOX_FRONT].CreateBuffer();
+	glBindBuffer(GL_ARRAY_BUFFER, sky_cube[SKYBOX_FRONT].uvs_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, sky_cube[SKYBOX_FRONT].uvs_cords, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// ----------------------------------------------------------------------------
 }

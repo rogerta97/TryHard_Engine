@@ -25,6 +25,8 @@ bool TextureImporter::Start()
 	checker_texture = new Texture(); 
 	checker_texture->FillCheckerTextureData(); 
 
+	textures_list.clear(); 
+
 	return true;
 }
 
@@ -56,9 +58,12 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 
 	std::list<Texture*>::iterator tex_iterator;
 
-	for (tex_iterator = textures_list.begin(); tex_iterator != textures_list.end(); tex_iterator++) {
-		if (new_name.compare((*tex_iterator)->GetName()) == 0) {
-			tex = (*tex_iterator);
+	if (!textures_list.empty())
+	{
+		for (auto tex_iterator = textures_list.begin(); tex_iterator != textures_list.end(); tex_iterator++) {
+			if (new_name.compare((*tex_iterator)->GetName()) == 0) {
+				tex = (*tex_iterator);
+			}
 		}
 	}
 
