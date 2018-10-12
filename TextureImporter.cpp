@@ -176,19 +176,29 @@ Texture* TextureImporter::DrawTextureList()
 	if (ImGui::Begin("Texture Browser", &show_browser))
 	{		
 		int i = 0; 
-		for (auto it = textures_list.begin(); it != textures_list.end(); it++, i++)
-		{
-			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-			if (ImGui::TreeNodeEx((*it)->GetName(), node_flags))
-			{
-				ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-				if (mat != nullptr)
+		std::vector<string> textures_on_folder = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str()); 
+
+		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++)
+		{
+			if ((*it) != "." && (*it) != "..")
+			{
+				ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+				ImGui::TreeNodeEx((*it).c_str(), node_flags);
+
+				if(ImGui::IsItemClicked())
 				{
-					mat->diffuse = (*it);
+					ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
+
+					if (mat != nullptr)
+					{
+						string file_path = App->file_system->GetTexturesPath() + (*it);
+						mat->diffuse = LoadTexture(file_path.c_str());
+					}
+
 				}
-					
 			}
+			
 
 		}
 		ImGui::End(); 
