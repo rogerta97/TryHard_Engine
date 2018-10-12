@@ -208,7 +208,6 @@ update_status ModuleCamera3D::Update(float dt)
 	if (skybox != nullptr)
 	{
 		skybox->Draw(); 
-		CONSOLE_LOG("skybox drawed"); 
 	}
 
 	CalculateViewMatrix();
