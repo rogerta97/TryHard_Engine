@@ -11,5 +11,7 @@ public:
 
 	bool Start();
 	bool Update();
+
+	bool show = true;
 };
 
