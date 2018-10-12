@@ -39,6 +39,7 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 {
 	Texture* tex = nullptr;
 
+
 	ILuint imageID;
 	GLuint textureID;
 	ILboolean success;
