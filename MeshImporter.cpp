@@ -32,11 +32,10 @@ bool MeshImporter::Start()
 	logs = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	logs.callback = LogAssimpLogs;
 	aiAttachLogStream(&logs);
-	return true;
 
 	CreatePlaneMesh();
 	CreateCubeMesh();
-	CreateSphereMesh();
+
 	imp_type = IMP_MESH;
 
 	return true;

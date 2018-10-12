@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "Timer.h"
+#include "SkyBox.h"
 #include "MathGeoLib\MathGeoLib.h"
 
 class TextureMSAA; 
@@ -73,6 +74,7 @@ private:
 public:
 	
 	vec3 X, Y, Z, Position, Reference;
+	SkyBox* skybox = nullptr; 
 
 private:
 

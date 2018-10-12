@@ -40,6 +40,9 @@ bool ModuleCamera3D::Start()
 
 	cam_interpolation.Init(); 
 
+	skybox = new SkyBox(); 
+	skybox->InitSkyBox("");
+
 	start_time = performance_timer.Read();
 	return ret;
 }
@@ -200,7 +203,13 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
-	//CONSOLE_LOG("%d,%d,%d", Position.x, Position.y, Position.x);
+	//SkyBox
+
+	if (skybox != nullptr)
+	{
+		skybox->Draw(); 
+		CONSOLE_LOG("skybox drawed"); 
+	}
 
 	CalculateViewMatrix();
 

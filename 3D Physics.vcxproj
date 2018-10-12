@@ -224,6 +224,7 @@
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="PCGRandom\pcg_basic.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="TextureMSAA.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resource.h" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="TextureMSAA.cpp" />
