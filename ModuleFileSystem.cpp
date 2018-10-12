@@ -99,7 +99,7 @@ std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory
 	std::vector<string> files_to_ret; 
 
 	std::string path(directory);
-	path.append("\\*");
+	path.append("*");
 
 	WIN32_FIND_DATA data;
 	HANDLE hFind;
