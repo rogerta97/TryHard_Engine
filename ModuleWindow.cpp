@@ -29,10 +29,14 @@ bool ModuleWindow::Init(JSON_Object* config)
 	}
 	else
 	{
+		//Get screen size
+		SDL_DisplayMode DM;
+		SDL_GetCurrentDisplayMode(0, &DM);
+
 		//Create window
 		scale = json_object_get_number(config, "scale");
-		width = json_object_get_number(config,"width") * scale;
-		height = json_object_get_number(config, "height") * scale;
+		width = DM.w;
+		height = DM.h - 40;
 		size_modified = false; 	
 		brightness = 1.0f; 
 
@@ -85,6 +89,8 @@ bool ModuleWindow::Init(JSON_Object* config)
 			screen_surface = SDL_GetWindowSurface(window);
 		}
 	}
+
+	SDL_SetWindowPosition(window, 0, 0);
 
 	init_time = performance_timer.Read();
 	return ret;
