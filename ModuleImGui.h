@@ -21,6 +21,7 @@ public:
 	ModuleImGui(bool start_enabled = true);
 	~ModuleImGui();
 
+	bool Init(JSON_Object* config);
 	bool Start();
 	update_status Update(float dt);
 	update_status PreUpdate(float dt);
@@ -45,9 +46,9 @@ public:
 	bool show_save_popup = false;
 
 	bool is_initial_position = true;
-	UI_InspectorPanel* inspector_panel;
 
-	UI_HierarchyPanel* hierarchy_panel;
+	UI_InspectorPanel* inspector_panel = nullptr;
+	UI_HierarchyPanel* hierarchy_panel = nullptr;
 
 private: 
 
@@ -61,9 +62,9 @@ private:
 
 	std::list<UI_Panel*> panels_list;
 
-	UI_ConfigurationPanel* config_panel; 
-	UI_ScenePanel* scene_panel; 
-	UI_ConsolePanel* console_panel; 
-	UI_RandomNumberPanel* random_panel; 
-	UI_PerformancePanel* performance_panel;
+	UI_ConfigurationPanel* config_panel = nullptr; 
+	UI_ScenePanel* scene_panel = nullptr;
+	UI_ConsolePanel* console_panel = nullptr;
+	UI_RandomNumberPanel* random_panel = nullptr;
+	UI_PerformancePanel* performance_panel = nullptr;
 };

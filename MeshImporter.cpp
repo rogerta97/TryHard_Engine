@@ -98,6 +98,8 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 	delete(tmp_go);
 	to_ret->parent = nullptr; 
 
+	App->scene->SetSelectedGameObject(to_ret); 
+
 	return to_ret;
 
 }

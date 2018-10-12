@@ -127,7 +127,7 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 					for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 					{
 						//If the texture already exist in library, skip the saving process. 
-						if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName()))
+						if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName().c_str()))
 							continue;
 
 						//If not, save it

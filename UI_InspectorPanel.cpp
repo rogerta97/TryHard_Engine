@@ -263,10 +263,12 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		ImGui::Text("Diffuse Texture:"); ImGui::SameLine(); 
+		ImGui::Text("Diffuse Texture:"); 
 
 		if(mat_cmp->diffuse != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName()); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName().c_str()); 
+
+		ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
@@ -276,15 +278,9 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		if (show_tex_explorer)
 		{		
-			Texture* selected_tex = App->resources->texture_importer->DrawTextureList();
-
-			if (selected_tex)
-			{
-
-			}
-
-			
+			App->resources->texture_importer->DrawTextureList();		
 		}
+
 		ImGui::SameLine(); 
 
 		if (ImGui::SmallButton("Checker Texture"))

@@ -26,7 +26,7 @@ public:
 	const char* GetPath() const; 
 	void SetPath(const char* path); 
 
-	const char* GetName() const; 
+	std::string GetName() const; 
 	void SetName(const char* new_name); 
 
 	uint GetTextureID() const; 

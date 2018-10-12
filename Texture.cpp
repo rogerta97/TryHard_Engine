@@ -91,9 +91,9 @@ void Texture::SetPath(const char * path)
 	this->path = path; 
 }
 
-const char * Texture::GetName() const
+std::string Texture::GetName() const
 {
-	return name.c_str();
+	return name;
 }
 
 void Texture::SetName(const char * new_name)

@@ -30,6 +30,10 @@ bool ModuleScene::Start()
 
 	selected_go = nullptr;
 
+	//Load House FBX
+	string path = App->file_system->GetModelsPath() + "BakerHouse.fbx"; 
+	App->resources->mesh_importer->CreateFBXMesh(path.c_str());
+
 	return ret;
 }
 
@@ -134,6 +138,9 @@ void ModuleScene::AddGameObjectToScene(GameObject* go)
 
 void ModuleScene::SetSelectedGameObject(GameObject * selected)
 {
+	if (App->imgui->inspector_panel == nullptr)
+		return; 
+
 	App->imgui->inspector_panel->SetGameObject(selected);
 	selected_go = selected; 
 	
