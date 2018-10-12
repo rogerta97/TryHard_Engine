@@ -24,11 +24,6 @@ bool UI_ScenePanel::Update()
 {
 	if (ImGui::Begin("Scene", &show))
 	{
-		//Get size of the window
-
-
-
-
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
 		if(App->camera->GetViewportTexture() != nullptr)

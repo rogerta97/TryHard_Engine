@@ -16,8 +16,6 @@ public:
 
 	void PrintPostUpdatePlots();
 
-	bool show = false;
-
 private:
 	ImVec2 size;
 	std::list<Module*> list_modules;

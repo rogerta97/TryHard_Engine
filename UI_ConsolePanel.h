@@ -11,8 +11,6 @@ public:
 	bool Start();
 	bool Update();
 
-	bool show = false;
-
 private: 
 
 	bool show_debug; 

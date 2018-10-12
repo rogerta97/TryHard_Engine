@@ -215,6 +215,14 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			performance_panel->show = !performance_panel->show;
 		}
+		if (ImGui::MenuItem("Hierarchy"))
+		{
+			hierarchy_panel->show = !hierarchy_panel->show;
+		}
+		if (ImGui::MenuItem("Inspector"))
+		{
+			inspector_panel->show = !inspector_panel->show;
+		}
 
 		ImGui::EndMenu();
 	}
@@ -424,15 +432,9 @@ update_status ModuleImGui::DrawDocking()
 			ImGui::End();
 		}
 
+		for (auto panel = panels_list.begin(); panel != panels_list.end(); panel++)
+			if ((*panel)->show) (*panel)->Update();
 
-		hierarchy_panel->Update();		
-		inspector_panel->Update();
-
-		if (performance_panel->show) performance_panel->Update();
-
-		config_panel->Update();
-		scene_panel->Update();
-		console_panel->Update();
 	}
 
 	ImGui::End();

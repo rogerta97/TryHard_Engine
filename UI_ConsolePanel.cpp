@@ -13,6 +13,7 @@ UI_ConsolePanel::UI_ConsolePanel()
 
 UI_ConsolePanel::~UI_ConsolePanel()
 {
+	type = CONSOLE_PANEL;
 }
 
 bool UI_ConsolePanel::Start()
