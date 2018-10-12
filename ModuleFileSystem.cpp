@@ -26,7 +26,7 @@ bool ModuleFileSystem::Start()
 	library_path = game_path + std::string("Library\\"); 
 	models_path = game_path + string("Assets\\3DModels\\");
 	textures_path = game_path + string("Assets\\Textures\\");
-	
+	skybox_path = game_path + string("Assets\\Textures\\SkyBox\\");
 
 	return true;
 }
@@ -92,6 +92,11 @@ std::string ModuleFileSystem::GetTexturesPath() const
 std::string ModuleFileSystem::GetLibraryPath() const
 {
 	return library_path;
+}
+
+string ModuleFileSystem::GetSkyBoxPath() const
+{
+	return skybox_path;
 }
 
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)

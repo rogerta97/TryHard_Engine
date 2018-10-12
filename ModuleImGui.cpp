@@ -36,21 +36,8 @@ ModuleImGui::ModuleImGui(bool start_enabled)
 ModuleImGui::~ModuleImGui()
 {}
 
-bool ModuleImGui::Start()
+bool ModuleImGui::Init(JSON_Object* config)
 {
-	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/orkney-regular.otf", 14.0f);
-	pFont->DisplayOffset = { 0,1 };
-	 pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Quicksand-Regular.otf", 14.0f);
-
-
-	show_demo_window = false;
-	show_style_editor = false;
-
-	last_x = 0;
-	last_y = 0;
-
-	//Initialize Panels 
-
 	config_panel = (UI_ConfigurationPanel*)AddPanel(CONFIGURATION_PANEL);
 	scene_panel = (UI_ScenePanel*)AddPanel(SCENE_PANEL);
 	console_panel = (UI_ConsolePanel*)AddPanel(CONSOLE_PANEL);
@@ -66,6 +53,21 @@ bool ModuleImGui::Start()
 		(*panel)->Start();
 		panel++;
 	}
+
+	return true;
+}
+
+bool ModuleImGui::Start()
+{
+	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/orkney-regular.otf", 14.0f);
+	pFont->DisplayOffset = { 0,1 };
+	pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Quicksand-Regular.otf", 14.0f);
+
+	show_demo_window = false;
+	show_style_editor = false;
+
+	last_x = 0;
+	last_y = 0;
 
 	ImGui_ImplSdlGL2_Init(App->window->window);
 	SetDefaultStyle();
@@ -274,19 +276,6 @@ update_status ModuleImGui::DrawTopBar()
 			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
 			//mat->SetDiffuseTexture(nullptr); 
 			new_go->AddComponent(mat);
-
-			App->scene->SetSelectedGameObject(new_go);
-		}
-
-		if (ImGui::MenuItem("Sphere"))
-		{
-			GameObject* new_go = App->scene->CreateGameObject();
-			new_go->name = "Sphere";
-
-			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_SPHERE));
-			new_go->AddComponent(cmp);
 
 			App->scene->SetSelectedGameObject(new_go);
 		}

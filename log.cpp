@@ -32,8 +32,6 @@ void console_log(const char file[], int line, const char* format, ...)
 	OutputDebugString(tmp_string2);
 
 	App->imgui->console.AddToConsole(tmp_string, CONSOLE_MLOG);
-
-	//OutputDebugString(tmp_string2);
 }
 
 void console_debug(const char file[], int line, const char* format, ...)
@@ -47,8 +45,9 @@ void console_debug(const char file[], int line, const char* format, ...)
 	vsprintf_s(tmp_string, 4096, format, ap);
 	va_end(ap);
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
+	OutputDebugString(tmp_string2);
 
-	App->imgui->console.AddToConsole(tmp_string2, CONSOLE_MDEBUG);
+	App->imgui->console.AddToConsole(tmp_string, CONSOLE_MDEBUG);
 }
 
 void console_error(const char file[], int line, const char* format, ...)
@@ -62,6 +61,7 @@ void console_error(const char file[], int line, const char* format, ...)
 	vsprintf_s(tmp_string, 4096, format, ap);
 	va_end(ap);
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
+	OutputDebugString(tmp_string2);
 
-	App->imgui->console.AddToConsole(tmp_string2, CONSOLE_MERROR);
+	App->imgui->console.AddToConsole(tmp_string, CONSOLE_MERROR);
 }

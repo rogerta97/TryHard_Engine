@@ -22,6 +22,11 @@ bool TextureImporter::Start()
 	string go_symbol_path = string(App->file_system->GetTexturesPath() + "GameObjectIcon.png");
 	LoadTexture(go_symbol_path.c_str(), true);
 
+	checker_texture = new Texture();
+	checker_texture->FillCheckerTextureData();
+
+	textures_list.clear();
+
 	return true;
 }
 
@@ -39,6 +44,7 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 {
 	Texture* tex = nullptr;
 
+
 	ILuint imageID;
 	GLuint textureID;
 	ILboolean success;
@@ -52,9 +58,12 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 
 	std::list<Texture*>::iterator tex_iterator;
 
-	for (tex_iterator = textures_list.begin(); tex_iterator != textures_list.end(); tex_iterator++) {
-		if (new_name.compare((*tex_iterator)->GetName()) == 0) {
-			tex = (*tex_iterator);
+	if (!textures_list.empty())
+	{
+		for (auto tex_iterator = textures_list.begin(); tex_iterator != textures_list.end(); tex_iterator++) {
+			if (new_name.compare((*tex_iterator)->GetName()) == 0) {
+				tex = (*tex_iterator);
+			}
 		}
 	}
 
@@ -127,15 +136,17 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 				for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 				{
 					//If the texture already exist in library, skip the saving process. 
-					if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName()))
+					if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName().c_str()))
 						continue;
 
 					//If not, save it
 					int size = ilSaveL(IL_DDS, NULL, 0);
 					if (size > 0)
 					{
+
 						//Copy data
 						GLubyte* data = new GLubyte[size];
+
 
 						(*it)->Bind();
 						data = ilGetData();
@@ -171,36 +182,38 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 
 bool TextureImporter::DrawTextureList()
 {
-	static bool show_browser = false;
 
-	ImGui::SameLine();
 	if (ImGui::BeginPopup("select_texture"))
 	{
 		ImGui::Text("Loaded textures:");
 		ImGui::Separator();
 		int i = 0;
 
-		std::vector<string> textures_on_folder = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str());
+		std::vector<string> texture_files = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str());
 
-		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
-			if ((*it) != "." && (*it) != "..")
+		if (ImGui::BeginPopup("select_tex"))
+		{
+			for (auto it = texture_files.begin(); it != texture_files.end(); it++)
 			{
-				if (ImGui::Selectable(textures_on_folder[i].c_str()))
+				if ((*it) != "." && (*it) != "..")
 				{
-					ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
-
-					if (mat != nullptr)
+					if (ImGui::Selectable((*it).c_str()))
 					{
-						string file_path = App->file_system->GetTexturesPath() + (*it);
-						mat->diffuse = LoadTexture(file_path.c_str());
+						ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
+
+						if (mat != nullptr)
+						{
+							string file_path = App->file_system->GetTexturesPath() + (*it);
+							mat->diffuse = LoadTexture(file_path.c_str());
+						}
 					}
 				}
 			}
+			ImGui::EndPopup();
 		}
-		ImGui::EndPopup();
-	}
 
-	return false;
+		return false;
+	}
 }
 
 
@@ -213,6 +226,16 @@ Texture * TextureImporter::GetTexture(const char* name)
 	}
 
 	return nullptr;
+}
+
+void TextureImporter::GenerateCheckerTexture()
+{
+	checker_texture->FillCheckerTextureData();
+}
+
+Texture * TextureImporter::GetCheckerTexture() const
+{
+	return checker_texture;
 }
 
 TextureImporter::~TextureImporter()

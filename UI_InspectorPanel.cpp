@@ -226,19 +226,48 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
 		}
 
-		ImGui::Separator();
+		ImGui::Separator(); 
+
+		ImGui::Spacing();
+
+		ImGui::Text("Current Mesh:"); ImGui::SameLine();
+
+		const char* name_test = mesh_cmp->GetMesh()->name.c_str(); 
+
+		if (mesh_cmp->GetMesh() != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
+
+	/*	ImGui::SameLine(); 
+		static bool show_mesh_explorer = false;
+		if (ImGui::SmallButton("+##MeshResourceList"))
+		{
+			ImGui::OpenPopup("select_mesh");
+			show_mesh_explorer = true; 
+		}
+	
+		if (show_mesh_explorer)
+		{
+			App->resources->mesh_importer->DrawMeshList();
+		}*/
+
+		ImGui::Spacing();
+
+		ImGui::Separator(); 
+
 		ImGui::Spacing();
 
 		mesh_cmp->PrintRenderSettings(); 
 
+		ImGui::SameLine(); 
+
+		ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+
 		ImGui::Spacing(); 
 
-		if (ImGui::TreeNode("Bounding Box"))
-		{
-			ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+		
+			
 
-			ImGui::TreePop(); 
-		}
+		
 	}
 }
 
@@ -263,30 +292,32 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		ImGui::Text("Diffuse Texture:"); ImGui::SameLine(); 
+		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
 		if(mat_cmp->diffuse != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName()); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName().c_str()); 
+
+		ImGui::SameLine(); 
 
 		static bool show_tex_explorer = false;
-		if (ImGui::SmallButton("Explore..."))
+		if (ImGui::SmallButton("+##TextureResourceList"))
 		{
 			ImGui::OpenPopup("select_texture");
 		}
 
 		App->resources->texture_importer->DrawTextureList();
 
-		if (show_tex_explorer)
-		{		
-			
-		}
+
 		ImGui::SameLine(); 
 
-		if (ImGui::SmallButton("Checker Texture"))
+		ImGui::ImageButton((ImTextureID)App->resources->texture_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15), ImVec2(0, 1), ImVec2(1, 0), 1);
+
+		if (ImGui::IsItemClicked())
 		{
-			Texture* check_tex = mat_cmp->diffuse->GetCheckTexture();
+			Texture* check_tex = App->resources->texture_importer->GetCheckerTexture();
 			mat_cmp->diffuse = check_tex;
 		}
+
 		
 		ImGui::Spacing();
 		

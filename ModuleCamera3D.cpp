@@ -40,6 +40,9 @@ bool ModuleCamera3D::Start()
 
 	cam_interpolation.Init(); 
 
+	skybox = new SkyBox(); 
+	skybox->InitSkyBox("");
+
 	start_time = performance_timer.Read();
 	return ret;
 }
@@ -48,6 +51,11 @@ bool ModuleCamera3D::Start()
 bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
+
+	if (skybox != nullptr)
+	{
+		skybox->CleanUpSkyBox();
+	}
 
 	return true;
 }
@@ -200,7 +208,12 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
-	//CONSOLE_LOG("%d,%d,%d", Position.x, Position.y, Position.x);
+	//SkyBox
+
+	if (skybox != nullptr)
+	{
+		skybox->Draw(); 
+	}
 
 	CalculateViewMatrix();
 

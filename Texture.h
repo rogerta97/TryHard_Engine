@@ -17,7 +17,7 @@ public:
 	unsigned int GetHeight() const;
 
 	void SetTextureSettings(); 
-	Texture* GetCheckTexture();
+	void FillCheckerTextureData();
 
 	//Memory management
 	void Bind();
@@ -26,7 +26,7 @@ public:
 	const char* GetPath() const; 
 	void SetPath(const char* path); 
 
-	const char* GetName() const; 
+	std::string GetName() const; 
 	void SetName(const char* new_name); 
 
 	uint GetTextureID() const; 
