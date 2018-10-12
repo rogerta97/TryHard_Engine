@@ -182,38 +182,36 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 
 bool TextureImporter::DrawTextureList()
 {
+	static bool show_browser = false;
 
+	ImGui::SameLine();
 	if (ImGui::BeginPopup("select_texture"))
 	{
 		ImGui::Text("Loaded textures:");
 		ImGui::Separator();
 		int i = 0;
 
-		std::vector<string> texture_files = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str());
+		std::vector<string> textures_on_folder = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str());
 
-		if (ImGui::BeginPopup("select_tex"))
-		{
-			for (auto it = texture_files.begin(); it != texture_files.end(); it++)
+		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
+			if ((*it) != "." && (*it) != "..")
 			{
-				if ((*it) != "." && (*it) != "..")
+				if (ImGui::Selectable(textures_on_folder[i].c_str()))
 				{
-					if (ImGui::Selectable((*it).c_str()))
-					{
-						ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
+					ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-						if (mat != nullptr)
-						{
-							string file_path = App->file_system->GetTexturesPath() + (*it);
-							mat->diffuse = LoadTexture(file_path.c_str());
-						}
+					if (mat != nullptr)
+					{
+						string file_path = App->file_system->GetTexturesPath() + (*it);
+						mat->diffuse = LoadTexture(file_path.c_str());
 					}
 				}
 			}
-			ImGui::EndPopup();
 		}
-
-		return false;
+		ImGui::EndPopup();
 	}
+
+	return false;
 }
 
 

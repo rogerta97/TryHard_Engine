@@ -297,16 +297,13 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		if(mat_cmp->diffuse != nullptr)
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName().c_str()); 
 
-		ImGui::SameLine(); 
-
 		static bool show_tex_explorer = false;
-		if (ImGui::SmallButton("+##TextureResourceList"))
+		if (ImGui::SmallButton("Explore..."))
 		{
 			ImGui::OpenPopup("select_texture");
 		}
 
 		App->resources->texture_importer->DrawTextureList();
-
 
 		ImGui::SameLine(); 
 
