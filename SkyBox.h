@@ -23,6 +23,7 @@ public:
 	
 	void InitSkyBox(const char* folder_name); 
 	void Draw();
+	void CleanUpSkyBox(); 
 
 	void CreateFrontPlane(const char* plane_tex_path);
 	void CreateRightPlane(const char* plane_tex_path);

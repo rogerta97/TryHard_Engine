@@ -61,6 +61,13 @@ void SkyBox::Draw()
 
 }
 
+void SkyBox::CleanUpSkyBox()
+{
+	for (int i = 0; i < 6; i++)
+		sky_cube[i].CleanMeshData(); 
+
+}
+
 void SkyBox::CreateFrontPlane(const char* front_image_path)
 {
 	//Create Front Plane  ------------------------------------------------------------

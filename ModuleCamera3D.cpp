@@ -52,6 +52,11 @@ bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
 
+	if (skybox != nullptr)
+	{
+		skybox->CleanUpSkyBox();
+	}
+
 	return true;
 }
 
