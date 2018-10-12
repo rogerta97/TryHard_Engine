@@ -73,20 +73,20 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT].num_vertices = 4;
 	sky_cube[SKYBOX_FRONT].vertices = new float3[4];
 
-	sky_cube[SKYBOX_FRONT].vertices[0].x = 100.0f;
-	sky_cube[SKYBOX_FRONT].vertices[0].y = 100.0f;
+	sky_cube[SKYBOX_FRONT].vertices[0].x = 101.0f;
+	sky_cube[SKYBOX_FRONT].vertices[0].y = 101.0f;
 	sky_cube[SKYBOX_FRONT].vertices[0].z = 100.0f;
 
-	sky_cube[SKYBOX_FRONT].vertices[1].x = -100.0;
-	sky_cube[SKYBOX_FRONT].vertices[1].y = 100.0f;
+	sky_cube[SKYBOX_FRONT].vertices[1].x = -101.0f;
+	sky_cube[SKYBOX_FRONT].vertices[1].y = 101.0f;
 	sky_cube[SKYBOX_FRONT].vertices[1].z = 100.0f;
 
-	sky_cube[SKYBOX_FRONT].vertices[2].x = 100.0f;
-	sky_cube[SKYBOX_FRONT].vertices[2].y = -100.0f;
+	sky_cube[SKYBOX_FRONT].vertices[2].x = 101.0f;
+	sky_cube[SKYBOX_FRONT].vertices[2].y = -101.0f;
 	sky_cube[SKYBOX_FRONT].vertices[2].z = 100.0f;
 
-	sky_cube[SKYBOX_FRONT].vertices[3].x = -100.0;
-	sky_cube[SKYBOX_FRONT].vertices[3].y = -100.0f;
+	sky_cube[SKYBOX_FRONT].vertices[3].x = -101.0f;
+	sky_cube[SKYBOX_FRONT].vertices[3].y = -101.0f;
 	sky_cube[SKYBOX_FRONT].vertices[3].z = 100.0f;
 
 	// ---------------------
@@ -156,20 +156,20 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_RIGHT].vertices = new float3[4];
 
 	sky_cube[SKYBOX_RIGHT].vertices[0].x = -100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[0].y = 100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[0].z = 100.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[0].y = 101.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[0].z = 101.0f;
 
 	sky_cube[SKYBOX_RIGHT].vertices[1].x = -100.0;
-	sky_cube[SKYBOX_RIGHT].vertices[1].y = 100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[1].z = -100.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[1].y = 101.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[1].z = -101.0f;
 
 	sky_cube[SKYBOX_RIGHT].vertices[2].x = -100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[2].y = -100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[2].z = 100.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[2].y = -101.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[2].z = 101.0f;
 
 	sky_cube[SKYBOX_RIGHT].vertices[3].x = -100.0;
-	sky_cube[SKYBOX_RIGHT].vertices[3].y = -100.0f;
-	sky_cube[SKYBOX_RIGHT].vertices[3].z = -100.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[3].y = -101.0f;
+	sky_cube[SKYBOX_RIGHT].vertices[3].z = -101.0f;
 
 	// ---------------------
 
@@ -238,20 +238,20 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_LEFT].vertices = new float3[4];
 
 	sky_cube[SKYBOX_LEFT].vertices[0].x = 100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[0].y = 100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[0].z = 100.0f;
+	sky_cube[SKYBOX_LEFT].vertices[0].y = 101.0f;
+	sky_cube[SKYBOX_LEFT].vertices[0].z = 101.0f;
 
 	sky_cube[SKYBOX_LEFT].vertices[1].x = 100.0;
-	sky_cube[SKYBOX_LEFT].vertices[1].y = 100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[1].z = -100.0f;
+	sky_cube[SKYBOX_LEFT].vertices[1].y = 101.0f;
+	sky_cube[SKYBOX_LEFT].vertices[1].z = -101.0f;
 
 	sky_cube[SKYBOX_LEFT].vertices[2].x = 100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[2].y = -100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[2].z = 100.0f;
+	sky_cube[SKYBOX_LEFT].vertices[2].y = -101.0f;
+	sky_cube[SKYBOX_LEFT].vertices[2].z = 101.0f;
 			
 	sky_cube[SKYBOX_LEFT].vertices[3].x = 100.0;
-	sky_cube[SKYBOX_LEFT].vertices[3].y = -100.0f;
-	sky_cube[SKYBOX_LEFT].vertices[3].z = -100.0f;
+	sky_cube[SKYBOX_LEFT].vertices[3].y = -101.0f;
+	sky_cube[SKYBOX_LEFT].vertices[3].z = -101.0f;
 
 	// ---------------------
 
@@ -319,20 +319,20 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_BACK].num_vertices = 4;
 	sky_cube[SKYBOX_BACK].vertices = new float3[4];
 			
-	sky_cube[SKYBOX_BACK].vertices[0].x = 100.0f;
-	sky_cube[SKYBOX_BACK].vertices[0].y = 100.0f;
+	sky_cube[SKYBOX_BACK].vertices[0].x = 101.0f;
+	sky_cube[SKYBOX_BACK].vertices[0].y = 101.0f;
 	sky_cube[SKYBOX_BACK].vertices[0].z = -100.0f;
 		
-	sky_cube[SKYBOX_BACK].vertices[1].x = -100.0;
-	sky_cube[SKYBOX_BACK].vertices[1].y = 100.0f;
+	sky_cube[SKYBOX_BACK].vertices[1].x = -101.0f;
+	sky_cube[SKYBOX_BACK].vertices[1].y = 101.0f;
 	sky_cube[SKYBOX_BACK].vertices[1].z = -100.0f;
 			
-	sky_cube[SKYBOX_BACK].vertices[2].x = 100.0f;
-	sky_cube[SKYBOX_BACK].vertices[2].y = -100.0f;
+	sky_cube[SKYBOX_BACK].vertices[2].x = 101.0f;
+	sky_cube[SKYBOX_BACK].vertices[2].y = -101.0f;
 	sky_cube[SKYBOX_BACK].vertices[2].z = -100.0f;
 			
-	sky_cube[SKYBOX_BACK].vertices[3].x = -100.0;
-	sky_cube[SKYBOX_BACK].vertices[3].y = -100.0f;
+	sky_cube[SKYBOX_BACK].vertices[3].x = -101.0f;
+	sky_cube[SKYBOX_BACK].vertices[3].y = -101.0f;
 	sky_cube[SKYBOX_BACK].vertices[3].z = -100.0f;
 
 	// ---------------------
@@ -401,21 +401,21 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_TOP].num_vertices = 4;
 	sky_cube[SKYBOX_TOP].vertices = new float3[4];
 			 
-	sky_cube[SKYBOX_TOP].vertices[0].x = 100.0f;
+	sky_cube[SKYBOX_TOP].vertices[0].x = 101.0f;
 	sky_cube[SKYBOX_TOP].vertices[0].y = 100.0f;
-	sky_cube[SKYBOX_TOP].vertices[0].z = 100.0f;
+	sky_cube[SKYBOX_TOP].vertices[0].z = 101.0f;
 			 
-	sky_cube[SKYBOX_TOP].vertices[1].x = -100.0;
+	sky_cube[SKYBOX_TOP].vertices[1].x = -101.0;
 	sky_cube[SKYBOX_TOP].vertices[1].y = 100.0f;
-	sky_cube[SKYBOX_TOP].vertices[1].z = 100.0f;
+	sky_cube[SKYBOX_TOP].vertices[1].z = 101.0f;
 			 
-	sky_cube[SKYBOX_TOP].vertices[2].x = 100.0f;
+	sky_cube[SKYBOX_TOP].vertices[2].x = 101.0f;
 	sky_cube[SKYBOX_TOP].vertices[2].y = 100.0f;
-	sky_cube[SKYBOX_TOP].vertices[2].z = -100.0f;
+	sky_cube[SKYBOX_TOP].vertices[2].z = -101.0f;
 			 
-	sky_cube[SKYBOX_TOP].vertices[3].x = -100.0;
+	sky_cube[SKYBOX_TOP].vertices[3].x = -101.0;
 	sky_cube[SKYBOX_TOP].vertices[3].y = 100.0f;
-	sky_cube[SKYBOX_TOP].vertices[3].z = -100.0f;
+	sky_cube[SKYBOX_TOP].vertices[3].z = -101.0f;
 
 	// ---------------------
 
@@ -483,21 +483,21 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_DOWN].num_vertices = 4;
 	sky_cube[SKYBOX_DOWN].vertices = new float3[4];
 
-	sky_cube[SKYBOX_DOWN].vertices[0].x = 100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[0].x = 101.0f;
 	sky_cube[SKYBOX_DOWN].vertices[0].y = -100.0f;
-	sky_cube[SKYBOX_DOWN].vertices[0].z = 100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[0].z = 101.0f;
 			 
-	sky_cube[SKYBOX_DOWN].vertices[1].x = -100.0;
+	sky_cube[SKYBOX_DOWN].vertices[1].x = -101.0f;
 	sky_cube[SKYBOX_DOWN].vertices[1].y = -100.0f;
-	sky_cube[SKYBOX_DOWN].vertices[1].z = 100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[1].z = 101.0f;
 			 
-	sky_cube[SKYBOX_DOWN].vertices[2].x = 100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[2].x = 101.0f;
 	sky_cube[SKYBOX_DOWN].vertices[2].y = -100.0f;
-	sky_cube[SKYBOX_DOWN].vertices[2].z = -100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[2].z = -101.0f;
 			 
-	sky_cube[SKYBOX_DOWN].vertices[3].x = -100.0;
+	sky_cube[SKYBOX_DOWN].vertices[3].x = -101.0f;
 	sky_cube[SKYBOX_DOWN].vertices[3].y = -100.0f;
-	sky_cube[SKYBOX_DOWN].vertices[3].z = -100.0f;
+	sky_cube[SKYBOX_DOWN].vertices[3].z = -101.0f;
 
 	// ---------------------
 
