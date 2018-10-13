@@ -397,7 +397,7 @@ update_status ModuleImGui::DrawDocking()
 	{
 		ShowSavePopup();
 
-		float offset = 18.0f;
+		float offset = 12.0f;
 		ImGui::SetWindowPos(ImVec2(-5, offset));
 		ImGui::SetWindowSize(ImVec2(App->window->GetWidth() + 8, App->window->GetHeight() - offset));
 

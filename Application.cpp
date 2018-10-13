@@ -145,8 +145,6 @@ void Application::FinishUpdate()
 		framerate_buffer.push_back(prev_last_sec_frame_count);
 		if (framerate_buffer.size() > HISTOGRAM_FR_LENGHT)
 			framerate_buffer.erase(framerate_buffer.begin());
-
-
 	}
 
 	avg_fps = float(frame_count) / (startup_time.Read() / 1000);
@@ -159,6 +157,24 @@ void Application::FinishUpdate()
 		save_config_later = false;
 	}
 
+	if (vsync.is_active)
+	{
+		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+
+		//Use Vsync		
+		if (GetLastSecFramerate() > 60)
+			vsync.SetLevel(1);
+		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+			vsync.SetLevel(2);
+		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+			vsync.SetLevel(3);
+	}
+	else
+	{
+		vsync.SetLevel(0);
+		SDL_GL_SetSwapInterval(vsync.vsync_lvl);
+	}
 
 }
 
@@ -386,24 +402,6 @@ void Application::DisplayConfigData()
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
 
 		ImGui::Checkbox("Vsync", &vsync.is_active);
-
-		if (vsync.is_active)
-		{
-			if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
-				CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-			
-			//Use Vsync		
-			if (GetLastSecFramerate() > 60)
-				vsync.SetLevel(1);
-			if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-				vsync.SetLevel(2);
-			else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-				vsync.SetLevel(3);
-		}
-		else
-			vsync.SetLevel(0);
-
-
 
 		if (cap_fps)
 		{
