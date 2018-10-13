@@ -51,7 +51,7 @@ bool UI_InspectorPanel::Update()
 		Texture* go_image = App->resources->texture_importer->GetTexture("GameObjectIcon"); 
 
 		if(go_image != nullptr)
-			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(45, 38));  ImGui::SameLine();
+			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
 
 		if (ImGui::Checkbox(" ", &is_active))
 			gameobject->SetActive(is_active);

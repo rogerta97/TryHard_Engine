@@ -81,7 +81,7 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SliderFloat("Rotation", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
 		App->camera->SetMouseSensitivity(tmp_sensitivity);
-		ImGui::DragInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 50, 2000);
+		ImGui::SliderInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 2000);
 
 		SEPARATE_WITH_SPACE
 	}

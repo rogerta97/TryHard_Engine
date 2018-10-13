@@ -29,20 +29,20 @@ ComponentMesh::~ComponentMesh()
 bool ComponentMesh::Update()
 {
 	//
-	//if (draw_mesh == false || mesh == nullptr)
-	//	return false;
+	if (draw_mesh == false || mesh == nullptr)
+		return false;
 
 	SetDrawSettings();
 	DrawMesh();
 
-	////if the mesh is selected we draw it again in wireframe mode
-	//if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
-	//{
-	//	wireframe = true;
-	//	SetDrawSettings();
-	//	DrawMesh();
-	//	wireframe = false;
-	//}
+	//if the mesh is selected we draw it again in wireframe mode
+	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
+	{
+		wireframe = true;
+		SetDrawSettings();
+		DrawMesh();
+		wireframe = false;
+	}
 
 	return true;	
 }
@@ -124,7 +124,8 @@ void ComponentMesh::DrawMesh()
 		
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
-		
+		//glColor3f(1.0f, 0.5f, 0.0f);
+
 		if(mesh->GetType() == MESH_FBX) glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 		else glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 	}

@@ -25,8 +25,6 @@ bool TextureImporter::Start()
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
 
-	textures_list.clear();
-
 	return true;
 }
 

@@ -14,23 +14,22 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
 	file_system = new ModuleFileSystem();
+
 	//physics = new ModulePhysics3D(this);
 	//player = new ModulePlayer(this);
+	//AddModule(physics);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
 	// Main Modules
-
 	AddModule(window);
-
 	AddModule(input);
-	AddModule(resources);
 	AddModule(file_system);
+	AddModule(resources);
 	AddModule(camera);
 	AddModule(audio);
-	//AddModule(physics);
 
 	// Scenes
 	AddModule(scene);
@@ -159,22 +158,24 @@ void Application::FinishUpdate()
 
 	if (vsync.is_active)
 	{
-		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
-			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		SDL_GL_SetSwapInterval(1); 
+	}
+	//	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+	//		CONSOLE_ERROR("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
-		//Use Vsync		
-		if (GetLastSecFramerate() > 60)
-			vsync.SetLevel(1);
-		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-			vsync.SetLevel(2);
-		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-			vsync.SetLevel(3);
-	}
-	else
-	{
-		vsync.SetLevel(0);
-		SDL_GL_SetSwapInterval(vsync.vsync_lvl);
-	}
+	//	//Use Vsync		
+	//	if (GetLastSecFramerate() > 60)
+	//		vsync.SetLevel(1);
+	//	//if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+	//	//	vsync.SetLevel(2);
+	//	//else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+	//	//	vsync.SetLevel(3);
+	//}
+	//else
+	//{
+	//	vsync.SetLevel(0);
+	//	SDL_GL_SetSwapInterval(vsync.vsync_lvl);
+	//}
 
 }
 
