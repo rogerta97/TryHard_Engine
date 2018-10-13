@@ -160,11 +160,6 @@ update_status ModuleScene::Update(float dt)
 	p.color = {0.15f, 0.15f, 0.15f};  
 	p.Render();
 
-	Sphere s({0,0,0},100);
-
-	Plane p2({ 0,0,0 }, 0);
-
-	Circle intersects = s.Intersect(p2);
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
@@ -173,6 +168,9 @@ update_status ModuleScene::Update(float dt)
 			(*it)->Update(); 
 		}
 	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	if (go_to_delete.size() != 0)
 		DeleteGameObjectsNow(); 

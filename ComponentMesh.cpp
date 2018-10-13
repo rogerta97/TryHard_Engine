@@ -28,21 +28,21 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update()
 {
-	
-	if (draw_mesh == false || mesh == nullptr)
-		return false;
+	//
+	//if (draw_mesh == false || mesh == nullptr)
+	//	return false;
 
 	SetDrawSettings();
 	DrawMesh();
 
-	//if the mesh is selected we draw it again in wireframe mode
-	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
-	{
-		wireframe = true;
-		SetDrawSettings();
-		DrawMesh();
-		wireframe = false;
-	}
+	////if the mesh is selected we draw it again in wireframe mode
+	//if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
+	//{
+	//	wireframe = true;
+	//	SetDrawSettings();
+	//	DrawMesh();
+	//	wireframe = false;
+	//}
 
 	return true;	
 }
