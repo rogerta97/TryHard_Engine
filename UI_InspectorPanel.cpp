@@ -53,21 +53,21 @@ bool UI_InspectorPanel::Update()
 		if(go_image != nullptr)
 			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(45, 38));  ImGui::SameLine();
 
-		ImGui::InputText("Name", name_buf, 50); 
-
-		ImGui::Spacing();
-
-		if (ImGui::Checkbox("Active", &is_active))
-			gameobject->SetActive(is_active); 
-
-		ImGui::SameLine();
-
-		if (ImGui::Checkbox("Static", &is_active))
+		if (ImGui::Checkbox(" ", &is_active))
 			gameobject->SetActive(is_active);
 
 		ImGui::SameLine(); 
 
-		if(ImGui::Button("Delete"))
+		ImGui::InputText("Name", name_buf, 50); 
+
+	/*	ImGui::SameLine();
+
+		if (ImGui::Checkbox("Static", &is_active))
+			gameobject->SetActive(is_active);*/
+
+		ImGui::SameLine(); 
+
+		if(ImGui::SmallButton("X"))
 		{
 			gameobject->DeleteRecursive(); 
 			ImGui::End();
