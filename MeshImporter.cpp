@@ -102,22 +102,32 @@ void MeshImporter::DrawMeshList()
 GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 {
 	//Use Assimp to load the file 
+	GameObject* to_ret = nullptr; 
 	const aiScene* scene = aiImportFile(full_path, aiProcessPreset_TargetRealtime_MaxQuality);
-	aiNode* root_node = scene->mRootNode;
 
-	GameObject* tmp_go = new GameObject();
+	if (scene != nullptr)
+	{
+		aiNode* root_node = scene->mRootNode;
 
-	LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go);
+		GameObject* tmp_go = new GameObject();
 
-	//Release Scene
-	aiReleaseImport(scene);
+		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go);
 
-	GameObject* to_ret = tmp_go->GetChild(0);
+		//Release Scene
+		aiReleaseImport(scene);
 
-	delete(tmp_go);
-	to_ret->parent = nullptr; 
+		to_ret = tmp_go->GetChild(0);
 
-	App->scene->SetSelectedGameObject(to_ret); 
+		delete(tmp_go);
+		to_ret->parent = nullptr;
+
+		App->scene->SetSelectedGameObject(to_ret);
+	}
+	else
+	{
+		CONSOLE_ERROR("FBX could not be loaded"); 
+	}
+
 
 	return to_ret;
 
@@ -177,6 +187,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 		for (int i = 0; i < num_meshes; i++)
 		{			
+
+			CONSOLE_LOG("Creating Game Object Mesh..."); 
 			//Create the mesh where the data will be stored 
 			aiMesh* curr_mesh = scene->mMeshes[node->mMeshes[i]];
 			Mesh* new_mesh = new Mesh();
@@ -191,11 +203,12 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
 			glGenBuffers(1, &new_mesh->vertices_id);
+			CONSOLE_LOG("Array buffer for vertices with ID %d created", new_mesh->vertices_id);
 			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-			CONSOLE_LOG("%d vertices", new_mesh->num_vertices);
+			CONSOLE_LOG("Game Object %s loaded with %d vertices", game_object->name.c_str(),  new_mesh->num_vertices);
 
 			//Load Indices
 			if (curr_mesh->HasFaces())
@@ -216,11 +229,12 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				}
 
 				glGenBuffers(1, &new_mesh->indices_id);
+				CONSOLE_LOG("Array buffer for indices with ID %d created", new_mesh->indices_id);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-				CONSOLE_LOG("%d indices", new_mesh->num_indices);
+				CONSOLE_LOG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
 			}
 
 			//Load UV Coords
@@ -232,9 +246,14 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
 				glGenBuffers(1, &new_mesh->uvs_id);
+
+				CONSOLE_LOG("Array buffer for textures with ID %d created", new_mesh->uvs_id);
+
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+				CONSOLE_LOG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
 			}
 
 			//Load Normals
@@ -245,9 +264,14 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
 
 				glGenBuffers(1, &new_mesh->normals_id);
+
+				CONSOLE_LOG("Array buffer for normals with ID %d created", new_mesh->normals_id);
+
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+				CONSOLE_LOG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 			}
 
 			//Add Mesh to GameObject
@@ -259,17 +283,29 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 			if (scene->HasMaterials())
 			{
+				CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
+			
+
 				//Load Texture Image
 				aiMaterial* mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
 				//Get the path
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
+
+				CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
+
 				std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
 
 				//Create the texture
 				Texture* new_texture = new Texture();
 				new_texture = App->resources->texture_importer->LoadTexture(path.c_str());
+
+				if (new_texture != nullptr)
+				{
+					CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+				}
+				
 
 				//Create The Component
 				ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->CreateComponent(CMP_MATERIAL);
