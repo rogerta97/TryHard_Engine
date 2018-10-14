@@ -178,9 +178,8 @@ void Application::FinishUpdate()
 	else
 	{
 		vsync.SetLevel(0);
-		SDL_GL_SetSwapInterval(vsync.vsync_lvl);
 	}
-
+	SDL_GL_SetSwapInterval(vsync.vsync_lvl);
 }
 
 void Application::GetHardWareData()
