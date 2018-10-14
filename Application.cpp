@@ -82,10 +82,11 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = true;
+	vsync.is_active = false;
 	vsync.vsync_lvl = 0;
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
+
 	if (cap_fps)
 		max_fps = json_object_get_number(config, "max_fps");
 
@@ -164,24 +165,24 @@ void Application::FinishUpdate()
 	if (vsync.is_active)
 	{
 
-		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+		if (GetLastSecFramerate() > 60)
 		{
-			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+			App->cap_fps = true;
+			max_fps = 60; 
 		}
-		else
+				
+		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
 		{
+			App->cap_fps = true;
+			max_fps = 30;
+		}
 
-			//Use Vsync		
-			if (GetLastSecFramerate() > 60)
-				vsync.SetLevel(1);
-			if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-				vsync.SetLevel(2);
-			else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-				vsync.SetLevel(3);
-		}
+		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+		{
+			App->cap_fps = true;
+			max_fps = 16;
+		}	
 	}
-	else
-		vsync.SetLevel(0);
 }
 
 void Application::GetHardWareData()
@@ -401,27 +402,28 @@ void Application::DisplayConfigData()
 
 		ImGui::Checkbox("VSYNC ||", &vsync.is_active);
 
-		if (cap_fps)
-		{
-			ImGui::Spacing();
-
-			ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
-
-			frame_wish_time = 1.0f / max_fps;
-
-			ImGui::Spacing();
-		}
-		else {
-			max_fps = 1000;
-
-			frame_wish_time = 1.0f / max_fps;
-		}
-
 		ImGui::SameLine(); 
 
-		ImVec2 size = ImGui::GetContentRegionAvail();
+		
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
+		ImVec2 size = ImGui::GetContentRegionAvail();
+
+		//if (cap_fps)
+		//{
+		//	/*ImGui::Spacing();*/
+
+		//	ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
+
+		//	frame_wish_time = 1.0f / max_fps;
+
+		//	/*ImGui::Spacing();*/
+		//}
+		//else {
+		//	max_fps = 1000;
+
+		//	frame_wish_time = 1.0f / max_fps;
+		//}
 
 		ImGui::GetStyle().FrameRounding = 0;
 
