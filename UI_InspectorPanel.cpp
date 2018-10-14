@@ -104,7 +104,7 @@ bool UI_InspectorPanel::Update()
 		if (show_addcmp_ui)
 		{
 				static int curr_selection = 0;
-			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Bounding Box\0"))
+			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0"))
 			{
 
 				switch (curr_selection)
@@ -232,10 +232,27 @@ void UI_InspectorPanel::PrintMeshProperties()
 
 		ImGui::Text("Current Mesh:"); ImGui::SameLine();
 
-		const char* name_test = mesh_cmp->GetMesh()->name.c_str(); 
-
 		if (mesh_cmp->GetMesh() != nullptr)
+		{
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
+
+			ImGui::Spacing();
+
+			ImGui::Separator();
+
+			ImGui::Spacing();
+
+			mesh_cmp->PrintRenderSettings();
+
+			ImGui::SameLine();
+
+			ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
+
+			ImGui::Spacing();
+		}			
+		else
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*");
+
 
 	/*	ImGui::SameLine(); 
 		static bool show_mesh_explorer = false;
@@ -250,24 +267,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 			App->resources->mesh_importer->DrawMeshList();
 		}*/
 
-		ImGui::Spacing();
-
-		ImGui::Separator(); 
-
-		ImGui::Spacing();
-
-		mesh_cmp->PrintRenderSettings(); 
-
-		ImGui::SameLine(); 
-
-		ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
-
-		ImGui::Spacing(); 
-
-		
 			
-
-		
 	}
 }
 

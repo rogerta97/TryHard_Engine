@@ -234,6 +234,9 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Empty"))
 		{
 
+			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->name = "Empty";
+			App->scene->SetSelectedGameObject(new_go);
 		}
 
 		if (ImGui::MenuItem("Cube"))
