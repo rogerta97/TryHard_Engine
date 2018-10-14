@@ -286,7 +286,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
 			
 				//Load Texture Image
-				aiMaterial* mat = scene->mMaterials[curr_mesh->mMaterialIndex];
+				aiMaterial* mat = nullptr;
+				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
 				//Get the path
 				aiString texture_name;
@@ -316,7 +317,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				}
 				else
 				{
-					CONSOLE_ERROR("Texture not bounded correctly to %s Mesh, GameObject won't be loaded", game_object->name);
+					CONSOLE_ERROR("Texture not bounded correctly to '%s' Mesh, GameObject won't be loaded", game_object->name.c_str());
 					game_object->DeleteRecursive(); 
 					return; 
 				}
