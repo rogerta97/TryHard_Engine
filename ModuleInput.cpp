@@ -162,6 +162,11 @@ update_status ModuleInput::PreUpdate(float dt)
 
 				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
 				App->scene->SetSelectedGameObject(parent);
+
+				App->camera->cam_interpolation.interpolate = true;
+				App->camera->cam_interpolation.interpolation_timer.Start();
+				App->camera->FillInterpolationSegmentAndRot();
+
 			}
 
 			else if (file_dropped_extension == file_extension::FX_PNG || file_dropped_extension == file_extension::FX_DDS || file_dropped_extension == file_extension::FX_JPG)
@@ -187,45 +192,6 @@ update_status ModuleInput::PreUpdate(float dt)
 				else
 					CONSOLE_ERROR("Could not load texture as there is no Game Object");
 			}
-
-			//switch (file_dropped_extension)
-			//{
-			//case FX_FBX:
-			//{
-		
-			//	break;
-			//}
-
-			//case FX_PNG:
-			//{
-			//	//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-			//	
-			//	break;
-			//}
-
-			//case FX_DDS:
-			//{
-			//	//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-			//	Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
-
-			//	GameObject* current_go = App->scene->GetSelectedGameObject();
-
-			//	if (current_go != nullptr)
-			//	{
-			//		ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
-
-			//		if (mat == nullptr)
-			//		{
-			//			CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
-			//		}
-			//		else
-			//		{
-			//			mat->diffuse = text;
-			//		}
-			//	}
-			//	break;
-			//}
-			//}
 		}
 
 		break;

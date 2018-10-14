@@ -75,6 +75,7 @@ public:
 	
 	vec3 X, Y, Z, Position, Reference;
 	SkyBox* skybox = nullptr; 
+	CameraInterpolation cam_interpolation;
 
 private:
 
@@ -88,7 +89,5 @@ private:
 	bool locked;
 
 	bool orbit = true;
-
-	CameraInterpolation cam_interpolation;
 
 };
