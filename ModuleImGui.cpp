@@ -131,11 +131,6 @@ update_status ModuleImGui::ShowSavePopup()
 		//static int dummy_i = 0;
 		//ImGui::Combo("Combo", &dummy_i, "Delete\0Delete harder\0");
 
-		static bool dont_ask_me_next_time = false;
-		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-		ImGui::Checkbox("Don't ask me next time", &dont_ask_me_next_time);
-		ImGui::PopStyleVar();
-
 		if (ImGui::Button("Yes please", ImVec2(120, 0)))
 		{
 			show_save_popup = false;

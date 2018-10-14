@@ -345,6 +345,31 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 {
 	vec3 look_point = {0,0,0};
 
+	vec3 center = { cam_interpolation.center.x, cam_interpolation.center.y, cam_interpolation.center.z };
+
+	float3 src_vector = { cam_interpolation.source_vec.x,  cam_interpolation.source_vec.y , cam_interpolation.source_vec.z };
+	float3 dst_vector = { cam_interpolation.dst_vec.x,  cam_interpolation.dst_vec.y , cam_interpolation.dst_vec.z };
+	float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, 1);
+
+	bool end = false;
+
+	if (Reference.x == center.x && Reference.y == center.y && Reference.z == center.z) {
+		if (dst_vector.x == curr_rot.x && dst_vector.y == curr_rot.y && dst_vector.z == curr_rot.z)
+		{
+			end = true;
+		}
+		if (dst_vector.x != src_vector.x || dst_vector.y != src_vector.y || dst_vector.z != src_vector.z)
+		{
+			end = false;
+		}
+
+	}
+
+	if (end) {
+		cam_interpolation.interpolate = false;
+		return true;
+	}
+
 	if (cam_interpolation.interpolation_timer.Read() <= time)
 	{
 		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
@@ -367,7 +392,6 @@ bool ModuleCamera3D::InterpolateCamera(float time)
 	else
 	{
 		cam_interpolation.interpolate = false; 
-		vec3 center = { cam_interpolation.center.x, cam_interpolation.center.y, cam_interpolation.center.z };
 		LookAt(center);
 		return true; 
 	}
