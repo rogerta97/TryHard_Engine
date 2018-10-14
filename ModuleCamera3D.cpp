@@ -163,12 +163,12 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	if (App->input->GetMouseWheel() < 0) {
-		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
+		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed * 30;
 		moved = true;
 	}
 
 	if (App->input->GetMouseWheel() > 0) {
-		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
+		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed * 30;
 		moved = true;
 	}
 
