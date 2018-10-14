@@ -82,7 +82,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = true;
+	vsync.is_active = false;
 	vsync.vsync_lvl = 0;
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
@@ -399,7 +399,7 @@ void Application::DisplayConfigData()
 
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
 
-		ImGui::Checkbox("VSYNC ||", &vsync.is_active);
+		ImGui::Checkbox("VSYNC", &vsync.is_active);
 
 		if (cap_fps)
 		{
@@ -416,8 +416,6 @@ void Application::DisplayConfigData()
 
 			frame_wish_time = 1.0f / max_fps;
 		}
-
-		ImGui::SameLine(); 
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
