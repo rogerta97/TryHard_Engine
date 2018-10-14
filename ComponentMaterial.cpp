@@ -24,8 +24,12 @@ bool ComponentMaterial::CleanUp()
 {
 	if (diffuse != nullptr)
 	{
-		diffuse->Clear();
-		App->resources->texture_importer->DeleteTextureFromList(diffuse); 
+		if (!App->scene->IsTextureUsed(diffuse->GetTextureID(), gameobject))
+		{
+			diffuse->Clear();
+			App->resources->texture_importer->DeleteTextureFromList(diffuse);
+		}
+	 
 		diffuse = nullptr;
 		delete (diffuse);
 	}

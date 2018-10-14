@@ -43,6 +43,8 @@ public:
 	void SetActive(bool activated);
 	bool IsActive() const;
 
+	bool IsUsingTexture(int id, bool& used);
+
 	int GetNumChilds(); 
 
 	std::list<Component*> component_list;

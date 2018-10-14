@@ -138,6 +138,20 @@ void ModuleScene::AddGameObjectToScene(GameObject* go)
 	scene_gameobjects.push_back(go); 
 }
 
+bool ModuleScene::IsTextureUsed(int id, GameObject* skip)
+{
+	bool using_texture = false; 
+
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it) != skip)
+			if ((*it)->IsUsingTexture(id, using_texture))
+				return true; 
+	}
+	
+	return false; 
+}
+
 void ModuleScene::SetSelectedGameObject(GameObject * selected)
 {
 	if (App->imgui->inspector_panel == nullptr)

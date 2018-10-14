@@ -31,6 +31,8 @@ public:
 
 	void AddGameObjectToScene(GameObject* go); 
 
+	bool IsTextureUsed(int id, GameObject* skip); 
+
 	void SetSelectedGameObject(GameObject* selected); 
 	GameObject* GetSelectedGameObject() const;
 

@@ -58,7 +58,7 @@ Component * GameObject::GetComponent(CompType cmp_type) const
 {
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
-		if ((*it)->GetType() == cmp_type)
+		if ((*it)->GetType() == cmp_type && (*it))
 			return (*it); 
 	}
 
@@ -86,6 +86,23 @@ void GameObject::SetActive(bool activated)
 bool GameObject::IsActive() const
 {
 	return active;
+}
+
+
+
+bool GameObject::IsUsingTexture(int id, bool& used)
+{
+
+	ComponentMaterial* mat = (ComponentMaterial*)GetComponent(CMP_MATERIAL);
+
+	if (mat != nullptr && mat->diffuse != nullptr)
+	{
+		if (mat->diffuse->GetTextureID() == id)
+			return true;
+		else
+			return false;
+	}
+
 }
 
 int GameObject::GetNumChilds()
