@@ -164,9 +164,12 @@ void Application::FinishUpdate()
 	if (vsync.is_active)
 	{
 
-		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
 		{
 			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		}
+		else
+		{
 
 			//Use Vsync		
 			if (GetLastSecFramerate() > 60)
@@ -176,11 +179,9 @@ void Application::FinishUpdate()
 			else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
 				vsync.SetLevel(3);
 		}
-		else
-		{
-			vsync.SetLevel(0);
-		}
 	}
+	else
+		vsync.SetLevel(0);
 }
 
 void Application::GetHardWareData()
