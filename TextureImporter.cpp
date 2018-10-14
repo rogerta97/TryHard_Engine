@@ -228,13 +228,15 @@ bool TextureImporter::DrawTextureList()
 
 Texture * TextureImporter::GetTexture(const char* name)
 {
+	Texture* to_ret = new Texture(); 
+
 	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 	{
 		if ((*it)->GetName() == string(name))
-			return (*it);
+			memcpy(to_ret,(*it), sizeof(Texture));
 	}
 
-	return nullptr;
+	return to_ret;
 }
 
 void TextureImporter::GenerateCheckerTexture()

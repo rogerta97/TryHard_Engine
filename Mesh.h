@@ -28,23 +28,23 @@ public:
 
 public: 
 
-	std::string name; 
-	float3 color; 
+	std::string name = ""; 
+	float3 color = {0,0,0};
 
-	float3* vertices; 
-	int* indices;
-	float* uvs_cords;
-	float3* normal_cords; 
+	float3* vertices = nullptr; 
+	int* indices = nullptr;
+	float* uvs_cords = nullptr;
+	float3* normal_cords = nullptr;
 
-	uint num_vertices;
-	uint num_indices; 
-	uint num_uvs;
-	uint num_normals; 
+	uint num_vertices = 0;
+	uint num_indices = 0;
+	uint num_uvs = 0;
+	uint num_normals = 0;
 
-	uint vertices_id; 
-	uint indices_id; 
-	uint uvs_id; 
-	uint normals_id; 
+	uint vertices_id = -1; 
+	uint indices_id = -1;
+	uint uvs_id = -1;
+	uint normals_id = -1;
 
 	BasicMeshType type; 
 };

@@ -208,7 +208,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-			CONSOLE_LOG("Game Object %s loaded with %d vertices", game_object->name.c_str(),  new_mesh->num_vertices);
+			CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(),  new_mesh->num_vertices);
 
 			//Load Indices
 			if (curr_mesh->HasFaces())
@@ -234,7 +234,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-				CONSOLE_LOG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
+				CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
 			}
 
 			//Load UV Coords
@@ -253,7 +253,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-				CONSOLE_LOG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
+				CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
 			}
 
 			//Load Normals
@@ -271,7 +271,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-				CONSOLE_LOG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
+				CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 			}
 
 			//Add Mesh to GameObject
@@ -317,8 +317,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				}
 				else
 				{
-					CONSOLE_ERROR("Texture not bounded correctly to '%s' Mesh, GameObject won't be loaded", game_object->name.c_str());
-					game_object->DeleteRecursive(); 
+					CONSOLE_ERROR("Texture not bounded correctly to '%s' Mesh, Texture won't be applied", game_object->name.c_str());
 					return; 
 				}
 
@@ -343,17 +342,19 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	parent_gameobject = game_object;
 }
 
-Mesh * MeshImporter::GetMeshByType(BasicMeshType type)
+Mesh* MeshImporter::GetMeshByType(BasicMeshType type)
 {
+	Mesh* new_ret_mesh = new Mesh(); 
+
 	for (auto it = mesh_list.begin(); it != mesh_list.end(); it++)
 	{
 		if (type == (*it)->GetType())
 		{
-			return (*it);
+			memcpy(new_ret_mesh, (*it), sizeof(Mesh)); 
 		}
 	}
 
-	return nullptr;
+	return new_ret_mesh;
 }
 
 void LogAssimpLogs(const char * str, char * userData)

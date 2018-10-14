@@ -69,6 +69,8 @@ void ModuleScene::CleanScene()
 		if ((*it)->GetParent() == nullptr)
 			(*it)->DeleteRecursive(); 
 	}
+
+	App->scene->DeleteGameObjectsNow(); 
 }
 
 void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)

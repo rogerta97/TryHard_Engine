@@ -56,14 +56,13 @@ bool ComponentMesh::CleanUp()
 	}
 
 	if(material != nullptr)
-		material->CleanUp(); 
+		material->CleanUp();
 		
 	return false;
 }
 
 void ComponentMesh::SetMesh(Mesh * new_mesh)
 {
-	new_mesh->LoadToMemory();
 	mesh = new_mesh;
 }
 

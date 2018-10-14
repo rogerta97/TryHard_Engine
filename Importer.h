@@ -12,6 +12,7 @@ public:
 	virtual bool Update() { return true; }
 	virtual bool CleanUp() { return true; }
 
-	ImporterType imp_type; 
+	ImporterType imp_type;
+	bool load_item; 
 };
 

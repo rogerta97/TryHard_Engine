@@ -236,30 +236,6 @@ update_status ModuleImGui::DrawTopBar()
 
 		}
 
-		if (ImGui::MenuItem("Plane"))
-		{
-
-			App->scene->CleanScene(); 
-
-			GameObject* new_go = App->scene->CreateGameObject();
-			new_go->name = "Plane";
-			
-			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_PLANE));
-			cmp->CreateEnclosedMeshAABB();
-			new_go->AddComponent(cmp);
-
-			//Add sample texture
-			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
-			std::string path = App->file_system->GetTexturesPath().c_str() + std::string("Baker_house.png"); 
-			Texture* generated_texture = App->resources->texture_importer->LoadTexture(path.c_str());
-			mat->diffuse = generated_texture;
-
-			new_go->AddComponent(mat);
-
-			App->scene->SetSelectedGameObject(new_go);
-		}
 		if (ImGui::MenuItem("Cube"))
 		{
 			App->scene->CleanScene();
@@ -269,13 +245,13 @@ update_status ModuleImGui::DrawTopBar()
 
 			//Add Mesh
 			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
-			cmp->SetMesh(App->resources->mesh_importer->GetMeshByType(MESH_CUBE));
+			Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE); 
+
+			new_mesh->name = "CubeMesh"; 
+			new_mesh->LoadToMemory(); 
+			cmp->SetMesh(new_mesh);
 			cmp->CreateEnclosedMeshAABB(); 
 			new_go->AddComponent(cmp);
-
-			ComponentMaterial* mat = (ComponentMaterial*)new_go->CreateComponent(CMP_MATERIAL);
-			//mat->SetDiffuseTexture(nullptr); 
-			new_go->AddComponent(mat);
 
 			App->scene->SetSelectedGameObject(new_go);
 		}

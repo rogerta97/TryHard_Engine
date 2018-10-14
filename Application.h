@@ -8,7 +8,6 @@
 #include "ModuleInput.h"
 #include "ModuleImGui.h"
 #include "ModuleResources.h"
-#include "ModuleAudio.h"
 #include "ModuleScene.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
@@ -38,7 +37,6 @@ public:
 	ModuleInput* input;
 	ModuleResources* resources; 
 	ModuleImGui* imgui;
-	ModuleAudio* audio;
 	ModuleScene* scene;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;

@@ -8,7 +8,6 @@ Application::Application()
 {
 	window = new ModuleWindow();
 	input = new ModuleInput();
-	audio = new ModuleAudio(true);
 	imgui = new ModuleImGui();
 	scene = new ModuleScene();
 	resources = new ModuleResources();
@@ -30,7 +29,6 @@ Application::Application()
 	AddModule(file_system);
 	AddModule(resources);
 	AddModule(camera);
-	AddModule(audio);
 
 	// Scenes
 	AddModule(scene);
@@ -164,8 +162,11 @@ void Application::FinishUpdate()
 
 	if (vsync.is_active)
 	{
-		SDL_GL_SetSwapInterval(1); 
+		SDL_GL_SetSwapInterval(-1); 
 	}
+	else
+		SDL_GL_SetSwapInterval(0);
+
 	//	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
 	//		CONSOLE_ERROR("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
@@ -398,17 +399,9 @@ void Application::DisplayConfigData()
 			App->camera->UnlockCamera();
 		}
 
-		ImGui::Spacing();
-
-		ImVec2 size = ImGui::GetContentRegionAvail();
-		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
-
-		ImGui::SameLine();
-
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
 
-		ImGui::Checkbox("Vsync", &vsync.is_active);
+		ImGui::Checkbox("VSYNC ||", &vsync.is_active);
 
 		if (cap_fps)
 		{
@@ -425,6 +418,12 @@ void Application::DisplayConfigData()
 
 			frame_wish_time = 1.0f / max_fps;
 		}
+
+		ImGui::SameLine(); 
+
+		ImVec2 size = ImGui::GetContentRegionAvail();
+		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 
 		ImGui::GetStyle().FrameRounding = 0;
 
@@ -448,7 +447,7 @@ void Application::DisplayConfigData()
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Memory %.1f", memory[memory.size() - 1]);
-		ImGui::PlotHistogram("##Memory", &memory[0], memory.size(), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.7f, ImVec2(size.x, 100));
+		ImGui::PlotLines("##Memory", &memory[0], memory.size(), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.7f, ImVec2(size.x, 100));
 
 
 		ImGui::GetStyle().FrameRounding = 3;
