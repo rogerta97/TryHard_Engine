@@ -78,9 +78,12 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		App->camera->SetSpeed(tmp_speed);
 		float tmp_sensitivity = GetMouseSensitivity();
-		ImGui::SliderFloat("Rotation", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Rotation Speed", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
 		App->camera->SetMouseSensitivity(tmp_sensitivity);
+
+		ImGui::SliderFloat("Zoom Spped", &wheel_zoom_speed, 0.01f, 10.0f, "%.2f");
+
 		ImGui::SliderInt("Interpolation Speed", (int*)&cam_interpolation.interpolation_ms, 50, 2000);
 
 		SEPARATE_WITH_SPACE
@@ -153,12 +156,12 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	if (App->input->GetMouseWheel() < 0) {
-		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier;
+		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
 		moved = true;
 	}
 
 	if (App->input->GetMouseWheel() > 0) {
-		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier;
+		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
 		moved = true;
 	}
 

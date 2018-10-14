@@ -83,6 +83,7 @@ private:
 
 	float speed = 0.1f;
 	float mouse_sensitivity = 5.0f;
+	float wheel_zoom_speed = 5.0f;
 	float speed_multiplier;
 	bool locked;
 
