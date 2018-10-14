@@ -16,6 +16,10 @@ Application::Application()
 	camera = new ModuleCamera3D();
 	file_system = new ModuleFileSystem();
 
+	//physics = new ModulePhysics3D(this);
+	//player = new ModulePlayer(this);
+	//AddModule(physics);
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -79,7 +83,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = false;
+	vsync.is_active = true;
 	vsync.vsync_lvl = 0;
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
@@ -167,30 +171,36 @@ void Application::FinishUpdate()
 	}
 
 
-	if (vsync.is_active)
-	{
+	//if (vsync.is_active)
+	//{
 
-		//Use Vsync		
-		if (GetLastSecFramerate() > 60)
-		{
-			cap_fps = true; 
-			max_fps = 60; 
-		}
-			vsync.SetLevel(1);
-		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-		{
-			cap_fps = true;
-			max_fps = 30;
-		}
-		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-		{
-			cap_fps = true;
-			max_fps = 16;
-		}
-		
-	}
-	else
-		SDL_GL_SetSwapInterval(0);
+
+	//	//Use Vsync		
+	//	if (GetLastSecFramerate() > 60)
+	//	{
+	//		cap_fps = true; 
+	//		max_fps = 60; 
+	//	}
+	//		vsync.SetLevel(1);
+	//	if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+	//	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+	//	{
+	//		CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+	//	}
+	//	else
+	//	{
+
+	//		//Use Vsync		
+	//		if (GetLastSecFramerate() > 60)
+	//			vsync.SetLevel(1);
+	//		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+	//			vsync.SetLevel(2);
+	//		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+	//			vsync.SetLevel(3);
+	//	}
+	//}
+	//else
+	//	vsync.SetLevel(0);
 }
 
 void Application::GetHardWareData()
@@ -410,11 +420,6 @@ void Application::DisplayConfigData()
 
 		ImGui::Checkbox("VSYNC ||", &vsync.is_active);
 
-		ImGui::SameLine();
-
-		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
-
 		if (cap_fps)
 		{
 			ImGui::Spacing();
@@ -431,11 +436,12 @@ void Application::DisplayConfigData()
 			frame_wish_time = 1.0f / max_fps;
 		}
 
+
 		ImGui::SameLine();
+
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 
 
 		ImGui::GetStyle().FrameRounding = 0;

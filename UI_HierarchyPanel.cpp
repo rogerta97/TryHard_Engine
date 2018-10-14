@@ -67,14 +67,10 @@ bool UI_HierarchyPanel::Update()
 		{
 			if (ImGui::MenuItem("Delete"))
 			{
-				if (App->scene->GetSelectedGameObject() != nullptr)
-				{
-					App->imgui->hierarchy_panel->show_click_menu = false;
-					App->scene->GetSelectedGameObject()->DeleteRecursive();
-					App->scene->SetSelectedGameObject(nullptr);
-					delete App->scene->GetSelectedGameObject();
-				}
-				
+				App->imgui->hierarchy_panel->show_click_menu = false;
+				App->scene->GetSelectedGameObject()->DeleteRecursive();
+				App->scene->SetSelectedGameObject(nullptr);
+				delete App->scene->GetSelectedGameObject(); 
 			}
 
 			ImGui::EndPopup();
