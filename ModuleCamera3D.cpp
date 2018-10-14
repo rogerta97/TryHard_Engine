@@ -343,7 +343,8 @@ void ModuleCamera3D::FillInterpolationSegmentAndRot()
 
 bool ModuleCamera3D::InterpolateCamera(float time)
 {
-	vec3 look_point;
+	vec3 look_point = {0,0,0};
+
 	if (cam_interpolation.interpolation_timer.Read() <= time)
 	{
 		float percentage = (float)cam_interpolation.interpolation_timer.Read() / time;
