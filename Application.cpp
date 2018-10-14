@@ -171,8 +171,8 @@ void Application::FinishUpdate()
 	}
 
 
-	//if (vsync.is_active)
-	//{
+	if (vsync.is_active)
+	{
 
 
 	//	//Use Vsync		
@@ -190,15 +190,24 @@ void Application::FinishUpdate()
 	//	else
 	//	{
 
-	//		//Use Vsync		
-	//		if (GetLastSecFramerate() > 60)
-	//			vsync.SetLevel(1);
-	//		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-	//			vsync.SetLevel(2);
-	//		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-	//			vsync.SetLevel(3);
+		//Use Vsync		
+		if (GetLastSecFramerate() > 60)
+		{
+			cap_fps = true; 
+			max_fps = 60; 
+		}
+		else if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+		{
+			cap_fps = true;
+			max_fps = 30;
+		}
+		else if(GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+		{
+			cap_fps = true;
+			max_fps = 16;
+		}
 	//	}
-	//}
+	}
 	//else
 	//	vsync.SetLevel(0);
 }
