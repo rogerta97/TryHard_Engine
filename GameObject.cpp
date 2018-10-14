@@ -296,12 +296,12 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	return ret; 
 }
 
-bool GameObject::HasComponents()
+bool GameObject::HasComponents()  
 {
-	return !component_list.empty();
+	return  !component_list.empty();
 }
 
-bool GameObject::HasChilds()
+bool GameObject::HasChilds() const
 {
 	return !child_list.empty();;
 }

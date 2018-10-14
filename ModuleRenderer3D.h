@@ -30,11 +30,11 @@ public:
 	void OnResize(int width, int height);
 	void SetUIPrintSettings(); 
 
-	char* GetGraphicsModel();
-	char* GetGraphicsVendor();
+	char* GetGraphicsModel() const;
+	char* GetGraphicsVendor() const;
 
 	void UpdateRenderSettings(); 
-	RenderSettings GetDefaultRenderSettings(); 
+	RenderSettings GetDefaultRenderSettings() const; 
 
 	void PrintConfigData(); 
 

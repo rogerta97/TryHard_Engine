@@ -29,8 +29,8 @@ public:
 	bool PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
 
 	//Utility
-	bool HasComponents(); 
-	bool HasChilds(); 
+	bool HasComponents() ; 
+	bool HasChilds() const; 
 	GameObject* GetChild(int index) const; 
 	void DeleteChildFromList(GameObject* child_to_delete);
 

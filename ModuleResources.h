@@ -17,7 +17,6 @@ public:
 	~ModuleResources();
 
 	void AddTextureToList(Texture* new_texture); 
-	Texture* GetTextureFromID(); 
 
 	bool Start(); 	
 	update_status Update();
@@ -27,8 +26,6 @@ public:
 
 	MeshImporter* mesh_importer; 
 	TextureImporter* texture_importer; 
-
-	Texture* GetCheckedTexture(); 
 
 private: 
 	

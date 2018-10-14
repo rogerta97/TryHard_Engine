@@ -16,7 +16,7 @@ public:
 	bool Update();
 
 	void SetGameObject(GameObject* new_go); 
-	GameObject* GetGameObject(); 
+	GameObject* GetGameObject() const; 
 
 private: 
 

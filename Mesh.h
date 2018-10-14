@@ -16,12 +16,10 @@ public:
 	void UnbindBuffer();
 
 	bool SetCubeData(); 
-	bool SetPlaneData(); 
-	bool SetSphereData();
 
 	void CleanMeshData(); 
 
-	BasicMeshType GetType();
+	BasicMeshType GetType() const;
 
 	void LoadToMemory(); 
 

@@ -274,8 +274,8 @@ float* ModuleCamera3D::GetViewMatrix()
 {
 	return &ViewMatrix;
 }
-
-float3 ModuleCamera3D::GetCamPointFromDistance(vec center, float distance)
+ 
+float3 ModuleCamera3D::GetCamPointFromDistance(vec center, float distance) const
 {
 	float3 cam_pos(Position.x, Position.y, Position.z);
 
@@ -432,7 +432,7 @@ void ModuleCamera3D::UnlockCamera()
 	locked = false; 
 }
 
-bool ModuleCamera3D::IsLocked()
+bool ModuleCamera3D::IsLocked() const
 {
 	return locked;
 }

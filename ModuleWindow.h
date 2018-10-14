@@ -32,7 +32,7 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
-	void GetPosition(int* x, int* y);
+	void GetPosition(int* x, int* y) const;
 	void SetPosition(int x, int y);
 
 	void SaveConfigData(JSON_Object* config);

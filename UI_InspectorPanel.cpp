@@ -159,7 +159,7 @@ void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 	if(gameobject) new_go->SetSelectedRecursive(true); 
 }
 
-GameObject * UI_InspectorPanel::GetGameObject()
+GameObject * UI_InspectorPanel::GetGameObject() const
 {
 	return gameobject;
 }

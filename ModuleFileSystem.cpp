@@ -41,7 +41,7 @@ bool ModuleFileSystem::CleanUp()
 	return true;
 }
 
-file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
+file_extension ModuleFileSystem::GetFileExtension(std::string full_path) 
 {
 		std::string term = full_path.substr(full_path.length() - 4);
 

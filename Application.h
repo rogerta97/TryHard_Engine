@@ -89,7 +89,7 @@ public:
 	float GetDt() const;
 	float GetLastFrameDelay() const;
 	Vsync GetVsync() const; 
-	float GetLastSecFramerate(); 
+	float GetLastSecFramerate() const; 
 	void SaveConfigAfterUpdate();
 
 	float getHighest(std::vector<float>	buffer);

@@ -497,7 +497,7 @@ Vsync Application::GetVsync() const
 	return vsync;
 }
 
-float Application::GetLastSecFramerate()
+float Application::GetLastSecFramerate() const
 {
 	return framerate_buffer[framerate_buffer.size() - 1];
 }

@@ -41,7 +41,5 @@ private:
 	string models_path; 
 	string skybox_path;
 	string textures_path;
-
-
 };
 

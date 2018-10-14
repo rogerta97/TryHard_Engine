@@ -200,12 +200,12 @@ void ModuleRenderer3D::SetUIPrintSettings()
 	glShadeModel(GL_SMOOTH);
 }
 
-char* ModuleRenderer3D::GetGraphicsModel()
+char* ModuleRenderer3D::GetGraphicsModel() const
 {
 	return (char*)glGetString(GL_RENDERER);
 }
 
-char * ModuleRenderer3D::GetGraphicsVendor()
+char * ModuleRenderer3D::GetGraphicsVendor() const
 {
 	return (char*)glGetString(GL_VENDOR);;
 }
@@ -233,7 +233,7 @@ void ModuleRenderer3D::UpdateRenderSettings()
 	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-RenderSettings ModuleRenderer3D::GetDefaultRenderSettings()
+RenderSettings ModuleRenderer3D::GetDefaultRenderSettings() const
 {
 	return render_settings;
 }

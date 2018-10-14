@@ -64,7 +64,7 @@ Mesh * MeshImporter::CreateCubeMesh()
 Mesh * MeshImporter::CreatePlaneMesh()
 {
 	Mesh* mesh = new Mesh();
-	mesh->SetPlaneData();
+	//mesh->SetPlaneData();
 	mesh_list.push_back(mesh);
 
 	return mesh;
@@ -73,7 +73,7 @@ Mesh * MeshImporter::CreatePlaneMesh()
 Mesh * MeshImporter::CreateSphereMesh()
 {
 	Mesh* mesh = new Mesh();
-	mesh->SetSphereData();
+	//mesh->SetSphereData();
 	mesh_list.push_back(mesh);
 
 	return mesh;

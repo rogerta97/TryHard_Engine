@@ -184,7 +184,7 @@ int ModuleWindow::GetHeight() const
 	return height;
 }
 
-void ModuleWindow::GetPosition(int * x, int * y)
+void ModuleWindow::GetPosition(int * x, int * y) const
 {
 	SDL_GetWindowPosition(window, x,y);
 }

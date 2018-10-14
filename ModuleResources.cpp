@@ -18,11 +18,6 @@ void ModuleResources::AddTextureToList(Texture* new_texture)
 	
 }
 
-Texture * ModuleResources::GetTextureFromID()
-{
-	return nullptr;
-}
-
 bool ModuleResources::Start()
 {
 	//Initiallize importers

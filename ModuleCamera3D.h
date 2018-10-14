@@ -52,7 +52,7 @@ public:
 
 	void FillInterpolationSegmentAndRot(); 
 	bool InterpolateCamera(float time);
-	float3 GetCamPointFromDistance(vec center, float distance);
+	float3 GetCamPointFromDistance(vec center, float distance) const;
 
 	void SetSpeed(float new_speed); 
 	float GetSpeed() const;
@@ -64,7 +64,7 @@ public:
 
 	void LockCamera(); 
 	void UnlockCamera(); 
-	bool IsLocked(); 
+	bool IsLocked() const; 
 
 private:
 
