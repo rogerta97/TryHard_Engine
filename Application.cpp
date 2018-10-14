@@ -409,21 +409,21 @@ void Application::DisplayConfigData()
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.1f", avg_fps);
 		ImVec2 size = ImGui::GetContentRegionAvail();
 
-		//if (cap_fps)
-		//{
-		//	/*ImGui::Spacing();*/
+		if (cap_fps)
+		{
+			ImGui::Spacing();
 
-		//	ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
+			ImGui::DragInt("Cap Value", (int*)&max_fps, 1, 1, 1000);
 
-		//	frame_wish_time = 1.0f / max_fps;
+			frame_wish_time = 1.0f / max_fps;
 
-		//	/*ImGui::Spacing();*/
-		//}
-		//else {
-		//	max_fps = 1000;
+			ImGui::Spacing();
+		}
+		else {
+			max_fps = 1000;
 
-		//	frame_wish_time = 1.0f / max_fps;
-		//}
+			frame_wish_time = 1.0f / max_fps;
+		}
 
 		ImGui::GetStyle().FrameRounding = 0;
 
