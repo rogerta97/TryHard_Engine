@@ -3,6 +3,7 @@
 #include "DeviceId\DeviceId.h"
 #include "mmgr/mmgr.h"
 #include "JSON\parson.h"
+#include "ModuleWindow.h"
 
 Application::Application()
 {
@@ -132,7 +133,16 @@ void Application::FinishUpdate()
 	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
 		ms_buffer.erase(ms_buffer.begin());
 
-	memory.push_back(m_getMemoryStatistics().totalActualMemory);
+
+
+
+	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+	GlobalMemoryStatusEx(&memInfo);
+	DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
+
+	DWORDLONG virtualMemUsed = memInfo.ullTotalPageFile - memInfo.ullAvailPageFile;
+
+	memory.push_back(virtualMemUsed);
 
 	if (memory.size() > MAX_MEMORY_LOGGED)
 		memory.erase(memory.begin());
@@ -163,14 +173,12 @@ void Application::FinishUpdate()
 
 	if (vsync.is_active)
 	{
-
 		if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
 		{
 			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 		}
 		else
 		{
-
 			//Use Vsync		
 			if (GetLastSecFramerate() > 60)
 				vsync.SetLevel(1);
@@ -417,7 +425,7 @@ void Application::DisplayConfigData()
 			frame_wish_time = 1.0f / max_fps;
 		}
 
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 
 		ImVec2 size = ImGui::GetContentRegionAvail();
 		ImGui::Text("Framerate AVG: "); ImGui::SameLine();
@@ -433,19 +441,18 @@ void Application::DisplayConfigData()
 
 		int plot_margin = 10;
 
-		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], HISTOGRAM_FR_LENGHT, 0, title, 0.0f,(highest-average)+average + (highest * 0.1f), ImVec2(size.x, 100));
+		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], HISTOGRAM_FR_LENGHT, 0, title, 0.0f, (highest - average) + average + (highest * 0.1f), ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
 
 		average = getAverage(ms_buffer);
 		highest = getHighest(ms_buffer);
 
-		sMStats stats = m_getMemoryStatistics();
 
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Memory %.1f", memory[memory.size() - 1]);
-		ImGui::PlotLines("##Memory", &memory[0], memory.size(), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.7f, ImVec2(size.x, 100));
+		ImGui::PlotLines("##Memory", &memory[0], memory.size(), 0, title, 0.0f, memInfo.ullTotalPageFile, ImVec2(size.x, 100));
 
 
 		ImGui::GetStyle().FrameRounding = 3;
@@ -460,7 +467,7 @@ void Application::DisplayConfigData()
 		{
 			ImFont* font = atlas->Fonts[i];
 			ImGui::PushID(font);
-			ImGui::Text("Font '%s', %.2f px, %d glyphs",font->ConfigData->Name, font->FontSize, font->Glyphs.Size);
+			ImGui::Text("Font '%s', %.2f px, %d glyphs", font->ConfigData->Name, font->FontSize, font->Glyphs.Size);
 			ImGui::SameLine(); if (ImGui::SmallButton("Set as default")) ImGui::GetIO().FontDefault = font;
 			ImGui::PopID();
 		}
