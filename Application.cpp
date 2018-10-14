@@ -196,15 +196,17 @@ void Application::FinishUpdate()
 			cap_fps = true; 
 			max_fps = 60; 
 		}
+
 		else if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
 		{
 			cap_fps = true;
 			max_fps = 30;
 		}
+
 		else if(GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
 		{
 			cap_fps = true;
-			max_fps = 16;
+			max_fps = 60;
 		}
 	//	}
 	}
