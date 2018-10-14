@@ -58,6 +58,11 @@ public:
 		return mouse_y_motion;
 	}
 
+	int GetMouseWheel() const
+	{
+		return mouse_wheel;
+	}
+
 	void PrintConfigData(); 
 
 	std::string GetFileDroped(); 

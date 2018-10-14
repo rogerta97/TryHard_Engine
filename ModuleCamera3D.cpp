@@ -152,6 +152,16 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
+	if (App->input->GetMouseWheel() < 0) {
+		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier;
+		moved = true;
+	}
+
+	if (App->input->GetMouseWheel() > 0) {
+		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier;
+		moved = true;
+	}
+
 	if (cam_interpolation.interpolate)
 	{
 		InterpolateCamera(cam_interpolation.interpolation_ms);
