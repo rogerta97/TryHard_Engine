@@ -63,6 +63,8 @@ private:
 	int                 frame_delay;
 	float				avg_fps = -1.0f;
 
+	MEMORYSTATUSEX memInfo;
+
 	Vsync				vsync; 
 	
 	std::list<Module*> list_modules;
