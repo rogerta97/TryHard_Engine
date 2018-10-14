@@ -73,6 +73,9 @@
     <Filter Include="Sources\GameObject\Resources\Resource">
       <UniqueIdentifier>{c63c87d6-79de-4b0c-99d8-506874b20d1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\mmgr">
+      <UniqueIdentifier>{acf3e6c3-f343-488d-9995-4d626c09eb38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -567,6 +570,12 @@
     <ClInclude Include="SkyBox.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="mmgr\mmgr.h">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="mmgr\nommgr.h">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -820,6 +829,9 @@
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

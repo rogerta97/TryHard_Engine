@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "SDL/include/SDL_cpuinfo.h"
 #include "DeviceId\DeviceId.h"
+#include "mmgr/mmgr.h"
 #include "JSON\parson.h"
 
 Application::Application()
@@ -132,6 +133,11 @@ void Application::FinishUpdate()
 	ms_buffer.push_back(frame_time.Read());
 	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
 		ms_buffer.erase(ms_buffer.begin());
+
+	memory.push_back(m_getMemoryStatistics().totalActualMemory);
+
+	if (memory.size() > MAX_MEMORY_LOGGED)
+		memory.erase(memory.begin());
 
 
 	bool ret = true;
@@ -430,15 +436,20 @@ void Application::DisplayConfigData()
 
 		int plot_margin = 10;
 
-		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], HISTOGRAM_FR_LENGHT, 0, title, 0.0f,(highest-average)+average + highest * 0.1f, ImVec2(size.x, 100));
+		ImGui::PlotHistogram("##Framerate", &framerate_buffer[0], HISTOGRAM_FR_LENGHT, 0, title, 0.0f,(highest-average)+average + (highest * 0.1f), ImVec2(size.x, 100));
 
 		sprintf_s(title, 25, "Miliseconds %.1f", ms_buffer[ms_buffer.size() - 1]);
 
 		average = getAverage(ms_buffer);
 		highest = getHighest(ms_buffer);
 
+		sMStats stats = m_getMemoryStatistics();
 
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
+
+		sprintf_s(title, 25, "Memory %.1f", memory[memory.size() - 1]);
+		ImGui::PlotHistogram("##Memory", &memory[0], memory.size(), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.7f, ImVec2(size.x, 100));
+
 
 		ImGui::GetStyle().FrameRounding = 3;
 

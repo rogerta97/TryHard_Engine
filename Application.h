@@ -20,6 +20,7 @@
 
 #define HISTOGRAM_FR_LENGHT 50
 #define HISTOGRAM_MS_LENGHT 50
+#define MAX_MEMORY_LOGGED	50
 
 struct Vsync
 {
@@ -117,4 +118,5 @@ private:
 
 	std::vector<float>	framerate_buffer;
 	std::vector<float>	ms_buffer;
+	std::vector<float>	memory;
 };
