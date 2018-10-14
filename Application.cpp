@@ -160,29 +160,26 @@ void Application::FinishUpdate()
 		save_config_later = false;
 	}
 
+
 	if (vsync.is_active)
 	{
-		SDL_GL_SetSwapInterval(-1); 
+
+	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
+		CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+
+		//Use Vsync		
+		if (GetLastSecFramerate() > 60)
+			vsync.SetLevel(1);
+		if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
+			vsync.SetLevel(2);
+		else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
+			vsync.SetLevel(3);
 	}
 	else
-		SDL_GL_SetSwapInterval(0);
-
-	//	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
-	//		CONSOLE_ERROR("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-
-	//	//Use Vsync		
-	//	if (GetLastSecFramerate() > 60)
-	//		vsync.SetLevel(1);
-	//	//if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-	//	//	vsync.SetLevel(2);
-	//	//else if (GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-	//	//	vsync.SetLevel(3);
-	//}
-	//else
-	//{
-	//	vsync.SetLevel(0);
-	//	SDL_GL_SetSwapInterval(vsync.vsync_lvl);
-	//}
+	{
+		vsync.SetLevel(0);
+		SDL_GL_SetSwapInterval(vsync.vsync_lvl);
+	}
 
 }
 
