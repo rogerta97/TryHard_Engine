@@ -379,7 +379,19 @@ void Application::DisplayConfigData()
 		ImGui::InputText("Engine name", (char*)name.c_str(), name.size());
 		UpdateAppName();
 
+		//if (ImGui::IsInputTextFocused())
+		//{
+		//	App->camera->LockCamera(); 
+		//	is_out = false; 
+		//}
+
 		ImGui::InputText("Organization", (char*)org.c_str(), org.size());
+
+		//if (ImGui::IsInputTextFocused())
+		//{
+		//	App->camera->LockCamera();
+		//	is_out = false; 
+		//}
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{

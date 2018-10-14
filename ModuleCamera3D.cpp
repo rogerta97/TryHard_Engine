@@ -42,7 +42,6 @@ bool ModuleCamera3D::Start()
 
 	skybox = new SkyBox(); 
 	skybox->InitSkyBox("");
-	wheel_zoom_speed = 10; 
 
 	start_time = performance_timer.Read();
 	return ret;
@@ -157,12 +156,12 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	if (App->input->GetMouseWheel() < 0) {
-		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
+		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
 		moved = true;
 	}
 
 	if (App->input->GetMouseWheel() > 0) {
-		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
+		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed;
 		moved = true;
 	}
 
