@@ -30,6 +30,8 @@ public:
 
 	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
 
+	void DeleteTextureFromList(Texture* to_del);
+
 	bool DrawTextureList(); 
 
 	Texture* GetTexture(const char* name); 

@@ -1,6 +1,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 #include "GameObject.h"
+#include "Application.h"
 
 ComponentMaterial::ComponentMaterial()
 {
@@ -24,6 +25,7 @@ bool ComponentMaterial::CleanUp()
 	if (diffuse != nullptr)
 	{
 		diffuse->Clear();
+		App->resources->texture_importer->DeleteTextureFromList(diffuse); 
 		diffuse = nullptr;
 		delete (diffuse);
 	}

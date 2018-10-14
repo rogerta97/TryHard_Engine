@@ -285,7 +285,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			{
 				CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
 			
-
 				//Load Texture Image
 				aiMaterial* mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
@@ -293,27 +292,35 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
 
-				CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
-
-				std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
-
-				//Create the texture
-				Texture* new_texture = new Texture();
-				new_texture = App->resources->texture_importer->LoadTexture(path.c_str());
-
-				if (new_texture != nullptr)
+				if (string(texture_name.C_Str()) != string(""))
 				{
-					CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+					CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
+
+					std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
+
+					//Create the texture
+					Texture* new_texture = new Texture(); 
+					new_texture = App->resources->texture_importer->LoadTexture(path.c_str());
+
+					if (new_texture != nullptr)
+					{
+						CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+					}
+
+					//Create The Component
+					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->CreateComponent(CMP_MATERIAL);
+					cmp_mat->diffuse = new_texture;
+
+					//Add it to the parent GO
+					game_object->AddComponent(cmp_mat);
 				}
-				
+				else
+				{
+					CONSOLE_ERROR("Texture not bounded correctly to %s Mesh, GameObject won't be loaded", game_object->name);
+					game_object->DeleteRecursive(); 
+					return; 
+				}
 
-				//Create The Component
-				ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->CreateComponent(CMP_MATERIAL);
-				cmp_mat->diffuse = new_texture;
-
-				//Add it to the parent GO
-				game_object->AddComponent(cmp_mat);
-				
 				App->scene->AddGameObjectToScene(game_object);
 			}
 		}

@@ -26,11 +26,11 @@ void SkyBox::InitSkyBox(const char * folder_name)
 	curr_path = App->file_system->GetSkyBoxPath() + "miramar_back.png";
 	CreateBackPlane(curr_path.c_str());
 
-	/*curr_path = App->file_system->GetSkyBoxPath() + "miramar_up.png";
+	curr_path = App->file_system->GetSkyBoxPath() + "miramar_up.png";
 	CreateTopPlane(curr_path.c_str());
 
 	curr_path = App->file_system->GetSkyBoxPath() + "miramar_down.png";
-	CreateDownPlane(curr_path.c_str());*/
+	CreateDownPlane(curr_path.c_str());
 }
 
 void SkyBox::Draw()
@@ -40,7 +40,7 @@ void SkyBox::Draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i].vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);

@@ -50,7 +50,6 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 	ilGenImages(1, &imageID);
 	ilBindImage(imageID);
 
-
 	//Check if the texture existed before based on the name on its path
 	string new_name = App->file_system->GetLastPathItem(path).c_str();
 
@@ -176,6 +175,20 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 
 
 	return true;
+}
+
+void TextureImporter::DeleteTextureFromList(Texture * to_del)
+{
+	for (auto it = textures_list.begin(); it != textures_list.end();)
+	{
+		if ((*it) == to_del)
+		{
+			it = textures_list.erase(it);
+			continue; 
+		}
+
+		it++;
+	}
 }
 
 bool TextureImporter::DrawTextureList()

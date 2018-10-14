@@ -114,23 +114,38 @@ void ComponentMesh::DrawMesh()
 	if (material != nullptr && wireframe == false && material->active)
 		mat_active = true;
 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
 	if (mat_active) 
 	{
-		if(material->diffuse != nullptr)
-			material->diffuse->Bind();
-		
+		glEnable(GL_TEXTURE_2D); 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
-		//glColor3f(1.0f, 0.5f, 0.0f);
 
-		if(mesh->GetType() == MESH_FBX) glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-		else glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		if (material->diffuse != nullptr)
+			material->diffuse->Bind();
+
+		if (mesh->GetType() == MESH_FBX)
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+
+		else
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			
+		if (mesh->num_normals != 0)
+		{
+			glEnableClientState(GL_NORMAL_ARRAY);
+
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id); 
+			glNormalPointer(GL_FLOAT, 0, NULL);
+		}
+
+	
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
@@ -141,16 +156,16 @@ void ComponentMesh::DrawMesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 	if (mat_active)
 	{
 		material->diffuse->UnBind();
+		glDisable(GL_TEXTURE_2D); 
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);	
-
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	
+	
 	if (draw_bounding_box)
 		DrawBoundingBox(); 
 }
