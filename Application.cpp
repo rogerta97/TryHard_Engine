@@ -451,8 +451,6 @@ void Application::DisplayConfigData()
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
 
 		ImGui::GetStyle().FrameRounding = 3;
-
-
 	}
 
 	if (ImGui::CollapsingHeader("Fonts"))
@@ -467,7 +465,6 @@ void Application::DisplayConfigData()
 			ImGui::PopID();
 		}
 	}
-
 }
 
 void Application::UpdateAppName()
@@ -479,7 +476,6 @@ void Application::OpenWebBrowser(const char * web)
 {
 	ShellExecute(NULL, "open", web, NULL, NULL, SW_SHOW);
 }
-
 
 const std::list<Module*>* Application::getModuleList() const
 {

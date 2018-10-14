@@ -7,6 +7,7 @@ enum file_extension
 {
 	FX_PNG,
 	FX_FBX,
+	FX_JPG,
 	FX_DDS,
 	FX_ERR
 };

@@ -153,22 +153,19 @@ update_status ModuleInput::PreUpdate(float dt)
 		{
 			file_droped = e.drop.file;
 			file_extension file_dropped_extension = App->file_system->GetFileExtension(file_droped);
-			switch (file_dropped_extension)
-			{
-			case FX_FBX:
+
+			if (file_dropped_extension == file_extension::FX_FBX)
 			{
 				App->scene->CleanScene();
 
 				GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-				
+
 				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
 				App->scene->SetSelectedGameObject(parent);
-				break;
 			}
 
-			case FX_PNG:
+			else if (file_dropped_extension == file_extension::FX_PNG || file_dropped_extension == file_extension::FX_DDS || file_dropped_extension == file_extension::FX_JPG)
 			{
-				//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
 				GameObject* current_go = nullptr;
 				current_go = App->scene->GetSelectedGameObject();
 
@@ -189,32 +186,46 @@ update_status ModuleInput::PreUpdate(float dt)
 				}
 				else
 					CONSOLE_ERROR("Could not load texture as there is no Game Object");
-				break;
 			}
 
-			case FX_DDS:
-			{
-				//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
-				Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+			//switch (file_dropped_extension)
+			//{
+			//case FX_FBX:
+			//{
+		
+			//	break;
+			//}
 
-				GameObject* current_go = App->scene->GetSelectedGameObject();
+			//case FX_PNG:
+			//{
+			//	//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+			//	
+			//	break;
+			//}
 
-				if (current_go != nullptr)
-				{
-					ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+			//case FX_DDS:
+			//{
+			//	//In case the user drops a png or dds file, a texture will be created and aplied to the current selected gameobject. 
+			//	Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
 
-					if (mat == nullptr)
-					{
-						CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
-					}
-					else
-					{
-						mat->diffuse = text;
-					}
-				}
-				break;
-			}
-			}
+			//	GameObject* current_go = App->scene->GetSelectedGameObject();
+
+			//	if (current_go != nullptr)
+			//	{
+			//		ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+			//		if (mat == nullptr)
+			//		{
+			//			CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+			//		}
+			//		else
+			//		{
+			//			mat->diffuse = text;
+			//		}
+			//	}
+			//	break;
+			//}
+			//}
 		}
 
 		break;

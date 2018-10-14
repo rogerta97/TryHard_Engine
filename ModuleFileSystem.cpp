@@ -54,6 +54,9 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".DDS" || term == ".dds")
 			return FX_DDS;
 
+		else if (term == ".jpg" || term == ".JPG")
+			return FX_JPG;
+
 		return FX_ERR;
 	
 }
