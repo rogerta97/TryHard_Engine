@@ -93,6 +93,13 @@ void ModuleCamera3D::PrintConfigData()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
+
+	//SkyBox
+	if (skybox != nullptr)
+	{
+		skybox->Draw();
+	}
+
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
@@ -214,13 +221,6 @@ update_status ModuleCamera3D::Update(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_LALT))
 				Position = Reference + Z * length(Position);
 		}
-	}
-
-	//SkyBox
-
-	if (skybox != nullptr)
-	{
-		skybox->Draw(); 
 	}
 
 	CalculateViewMatrix();

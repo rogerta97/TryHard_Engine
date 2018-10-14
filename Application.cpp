@@ -173,23 +173,6 @@ void Application::FinishUpdate()
 
 	if (vsync.is_active)
 	{
-
-
-	//	//Use Vsync		
-	//	if (GetLastSecFramerate() > 60)
-	//	{
-	//		cap_fps = true; 
-	//		max_fps = 60; 
-	//	}
-	//		vsync.SetLevel(1);
-	//	if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-	//	if (VSYNC && SDL_GL_SetSwapInterval(vsync.vsync_lvl) < 0)
-	//	{
-	//		CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-	//	}
-	//	else
-	//	{
-
 		//Use Vsync		
 		if (GetLastSecFramerate() > 60)
 		{
@@ -208,10 +191,7 @@ void Application::FinishUpdate()
 			cap_fps = true;
 			max_fps = 60;
 		}
-	//	}
 	}
-	//else
-	//	vsync.SetLevel(0);
 }
 
 void Application::GetHardWareData()
@@ -468,12 +448,7 @@ void Application::DisplayConfigData()
 		average = getAverage(ms_buffer);
 		highest = getHighest(ms_buffer);
 
-
 		ImGui::PlotHistogram("##Framerate", &ms_buffer[0], ms_buffer.size(), 0, title, 0.0f, (highest - average) + average + highest * 0.1f, ImVec2(size.x, 100));
-
-		sprintf_s(title, 25, "Memory %.1f", memory[memory.size() - 1]);
-		ImGui::PlotLines("##Memory", &memory[0], memory.size(), 0, title, 0.0f, memInfo.ullTotalPageFile, ImVec2(size.x, 100));
-
 
 		ImGui::GetStyle().FrameRounding = 3;
 

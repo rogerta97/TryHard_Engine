@@ -77,6 +77,13 @@ bool UI_ConsolePanel::Update()
 			
 		ImGui::BeginChild("Child");
 
+		if (ImGui::IsMouseHoveringWindow())
+		{
+			App->camera->LockCamera();
+		}
+		else
+			App->camera->UnlockCamera(); 
+
 		for (auto it = App->imgui->console.console_buffer.rbegin(); it != App->imgui->console.console_buffer.rend(); it++)
 		{
 			switch (it->first)
