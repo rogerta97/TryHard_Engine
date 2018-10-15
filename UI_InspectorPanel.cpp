@@ -345,13 +345,14 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
 {
-	static int selected_proj = camera->GetProjection(); 
+	int selected_proj = camera->GetProjection(); 
 	std::string label = "Projection##" + camera->GetGameObject()->GetName();
 
 	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
 	{
 		camera->SetProjection((Projection_Type)selected_proj); 
-	}	
+	}
+
 }
 
 

@@ -19,6 +19,8 @@ ComponentCamera::ComponentCamera()
 	Position = vec3(3.0f, 3.0f, 8.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
 
+	projection = PROJ_PERSP;
+
 	orbit = true;
 }
 
