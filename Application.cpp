@@ -404,7 +404,7 @@ void Application::DisplayConfigData()
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			App->camera->UnlockCamera();
+			App->camera->GetEditorCamera()->UnlockCamera();
 		}
 
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();

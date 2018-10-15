@@ -148,7 +148,6 @@ bool GameObject::AddComponent(Component * new_cmp)
 		}
 	}
 
-
 	component_list.push_back(new_cmp);
 	new_cmp->Start(); 
 	return true; 
@@ -233,6 +232,11 @@ Component * GameObject::CreateComponent(CompType cmp_type)
 
 		case CMP_MATERIAL:
 			new_cmp = new ComponentMaterial();
+			new_cmp->SetGameObject(this);
+			break;
+
+		case CMP_CAMERA:
+			new_cmp = new ComponentCamera();
 			new_cmp->SetGameObject(this);
 			break;
 	}

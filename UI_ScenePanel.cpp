@@ -26,15 +26,15 @@ bool UI_ScenePanel::Update()
 	{
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
-		if(App->camera->GetViewportTexture() != nullptr)
+		if(App->camera->GetEditorCamera()->GetViewportTexture() != nullptr)
 		{
 
 			ImVec2 size = { 0,0 };
 			ImVec2 region_size = ImGui::GetContentRegionAvail();
 			const float region_ratio = region_size.y / region_size.x;
 
-			uint original_tex_width = App->camera->GetViewportTexture()->GetWidth();
-			float original_tex_height = App->camera->GetViewportTexture()->GetHeight();
+			uint original_tex_width = App->camera->GetEditorCamera()->GetViewportTexture()->GetWidth();
+			float original_tex_height = App->camera->GetEditorCamera()->GetViewportTexture()->GetHeight();
 
 			float original_tex_ratio = original_tex_height / original_tex_width;
 			float difference = 0;
@@ -57,7 +57,7 @@ bool UI_ScenePanel::Update()
 			}
 
 
-			ImGui::Image((void*)App->camera->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));	
+			ImGui::Image((void*)App->camera->GetEditorCamera()->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
 			//App->camera->GetViewportTexture()->Unbind();
 		}
@@ -66,8 +66,8 @@ bool UI_ScenePanel::Update()
 	}
 	ImGui::End();
 
-	App->camera->GetViewportTexture()->Render();
-	App->camera->GetViewportTexture()->Unbind();
+	App->camera->GetEditorCamera()->GetViewportTexture()->Render();
+	App->camera->GetEditorCamera()->GetViewportTexture()->Unbind();
 
 	return true;
 }

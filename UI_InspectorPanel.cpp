@@ -82,7 +82,7 @@ bool UI_InspectorPanel::Update()
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			App->camera->UnlockCamera();
+			App->camera->GetEditorCamera()->UnlockCamera();
 		}
 
 		// ------------------------------------------------------------------------------------
