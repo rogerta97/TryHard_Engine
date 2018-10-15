@@ -48,8 +48,8 @@ public:
 	Light lights[MAX_LIGHTS];
 	RenderSettings render_settings; 
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	/*mat3x3 NormalMatrix;
+	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;*/
 
 	ComponentCamera* rendering_camera; 
 };

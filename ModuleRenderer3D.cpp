@@ -143,6 +143,20 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
 
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	if (rendering_camera->GetProjection() == PROJ_ORTH)
+	{
+		mat4x4 ort = ortho(1, 1, 1, 1, 0.2, 20);
+		glLoadMatrixf(ort.M);
+	}
+	else if (rendering_camera->GetProjection() == PROJ_PERSP)
+	{
+		mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
+		glLoadMatrixf(&ProjectionMatrix);
+	}
+
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
 
@@ -177,7 +191,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+
+	mat4x4 ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
 	glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);

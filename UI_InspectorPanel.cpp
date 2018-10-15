@@ -110,23 +110,20 @@ bool UI_InspectorPanel::Update()
 
 				case 1:
 				{
-					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_RENDERER);
-					gameobject->AddComponent(CMP_RENDERER);
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_RENDERER);					
 					break;
 				}
 
 
 				case 2:
 				{
-					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);
-					gameobject->AddComponent(CMP_MATERIAL);
+					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);			
 					break;
 				}
 
 				case 3:
 				{
 					ComponentCamera * cmp_mat = (ComponentCamera*)gameobject->AddComponent(CMP_CAMERA);
-					gameobject->AddComponent(CMP_CAMERA);
 					break;
 				}
 
@@ -141,10 +138,7 @@ bool UI_InspectorPanel::Update()
 			{
 				show_addcmp_ui = true;
 			}
-		}
-	
-
-		
+		}		
 	}
 
 	ImGui::End();
@@ -181,6 +175,13 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_MATERIAL:
 		PrintMaterialProperties();
+		break;
+
+	case CMP_CAMERA:
+		if (ImGui::CollapsingHeader("Component Camera"))
+		{			
+			PrintCameraProperties((ComponentCamera*)GetGameObject()->GetComponent(CMP_CAMERA));
+		}	
 		break;
 	}
 }
@@ -274,8 +275,6 @@ void UI_InspectorPanel::PrintMeshProperties()
 	}
 }
 
-
-
 void UI_InspectorPanel::PrintMaterialProperties()
 {
 	if (ImGui::CollapsingHeader("Component Material"))
@@ -341,10 +340,18 @@ void UI_InspectorPanel::PrintMaterialProperties()
 			ImGui::Text("Height:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetHeight());
 		}
-			
+	}		
+}
 
-	}
-		
+void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
+{
+	static int selected_proj = camera->GetProjection(); 
+	std::string label = "Projection##" + camera->GetGameObject()->GetName();
+
+	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
+	{
+		camera->SetProjection((Projection_Type)selected_proj); 
+	}	
 }
 
 

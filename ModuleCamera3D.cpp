@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleCamera3D.h"
 #include "GameObject.h"
+#include "UI_InspectorPanel.h"
 
 #include "ComponentMesh.h"
 
@@ -37,8 +38,12 @@ bool ModuleCamera3D::Start()
 	skybox->InitSkyBox("");
 
 	//Create Editor Camera
-	ecam_go = new GameObject("Editor Camera"); 
+	ecam_go = new GameObject("EditorCamera"); 
+
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
+	cam->SetProjection(PROJ_PERSP); 
+	cam->SetAspect(ASP_EDITOR);
+
 	App->renderer3D->SetRenderCamera(cam); 
 
 	start_time = performance_timer.Read();
@@ -60,23 +65,25 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::PrintConfigData()
 {
-	if (ImGui::CollapsingHeader("Camera"))
+	if (ImGui::CollapsingHeader("Camera")) 
 	{
 		//Get the editor camera 
 		ComponentCamera* editor_camera = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA); 
 
-		SEPARATE_WITH_SPACE
+		ImGui::Spacing();
+		ImGui::Text("Editor Camera:");
+		ImGui::Separator();
+		ImGui::Spacing(); 
 
 		float show_pos[3] = { editor_camera->Position.x,  editor_camera->Position.y,  editor_camera->Position.z };
 	 
 		ImGui::InputFloat3("Position", show_pos, 2);
 		//ImGui::InputFloat3("Rotation", show_rot, 2);
 
-		SEPARATE_WITH_SPACE
-
 		float tmp_speed = editor_camera->GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
 		editor_camera->SetSpeed(tmp_speed);
+
 		float tmp_sensitivity = editor_camera->GetMouseSensitivity();
 		ImGui::SliderFloat("Rotation Speed", &tmp_sensitivity, 0.01f, 1.0f, "%.2f");
 		ImGui::SameLine(); App->imgui->ShowHelpMarker("Hold the right mouse button\n" "and drag to rotate the camera.\n");
@@ -84,9 +91,24 @@ void ModuleCamera3D::PrintConfigData()
 
 		ImGui::SliderFloat("Zoom Spped", &editor_camera->wheel_zoom_speed, 0.01f, 10.0f, "%.2f");
 
-		ImGui::SliderInt("Interpolation Speed", (int*)&editor_camera->cam_interpolation.interpolation_ms, 50, 2000);
+		ImGui::SliderInt("Interpolation Speed", (int*)&editor_camera->interpolation.interpolation_ms, 50, 2000);
+	
+		App->imgui->inspector_panel->PrintCameraProperties(App->camera->GetEditorCamera());
 
-		SEPARATE_WITH_SPACE
+		ImGui::Spacing();
+
+		ImGui::Text("Main Camera:");
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::Text("GameObject Bounded:"); ImGui::SameLine(); 
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*"); ImGui::SameLine(); 
+
+		if(ImGui::SmallButton("+##Camera"))
+		{
+
+		}
+
+		ImGui::Spacing();
 	}
 }
 
@@ -165,8 +187,8 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			if (App->scene->GetSelectedGameObject() != nullptr)
 			{
-				cam->cam_interpolation.interpolate = true;
-				cam->cam_interpolation.interpolation_timer.Start();
+				cam->interpolation.interpolate = true;
+				cam->interpolation.interpolation_timer.Start();
 				cam->FillInterpolationSegmentAndRot();
 			}
 		}
@@ -181,9 +203,9 @@ update_status ModuleCamera3D::Update(float dt)
 			moved = true;
 		}
 
-		if (cam->cam_interpolation.interpolate)
+		if (cam->interpolation.interpolate)
 		{
-			cam->InterpolateCamera(cam->cam_interpolation.interpolation_ms);
+			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
 		}
 
 		if (moved)
