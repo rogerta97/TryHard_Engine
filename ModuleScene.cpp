@@ -23,8 +23,13 @@ bool ModuleScene::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->GetEditorCamera()->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->GetEditorCamera()->LookAt(vec3(0, 0, 0));
+	if (App->camera->GetEditorCamera())
+	{
+		App->camera->GetEditorCamera()->Move(vec3(1.0f, 1.0f, 0.0f));
+		App->camera->GetEditorCamera()->LookAt(vec3(0, 0, 0));
+		AddGameObjectToScene(App->camera->GetEditorCamera()->GetGameObject());
+	}
+
 	
 	start_time = performance_timer.Read();
 
@@ -66,6 +71,9 @@ void ModuleScene::CleanScene()
 {
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
+		if ((*it)->GetName() == "Editor Camera")
+			continue; 
+
 		if ((*it)->GetParent() == nullptr)
 			(*it)->DeleteRecursive(); 
 	}

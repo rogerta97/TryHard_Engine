@@ -242,14 +242,13 @@ update_status ModuleImGui::DrawTopBar()
 			new_go->name = "Cube"; 
 
 			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->CreateComponent(CMP_RENDERER);
+			ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_RENDERER);
 			Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE); 
 
 			new_mesh->name = "CubeMesh"; 
 			new_mesh->LoadToMemory(); 
 			cmp->SetMesh(new_mesh);
 			cmp->CreateEnclosedMeshAABB(); 
-			new_go->AddComponent(cmp);
 
 			App->scene->SetSelectedGameObject(new_go);
 		}

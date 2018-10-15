@@ -161,7 +161,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	if(node->mTransformation[0] != nullptr)
 	{
 		//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
-		ComponentTransform* trans_cmp = (ComponentTransform*)game_object->CreateComponent(CMP_TRANSFORM);
+		ComponentTransform* trans_cmp = (ComponentTransform*)game_object->AddComponent(CMP_TRANSFORM);
 
 		aiVector3D translation;
 		aiVector3D scaling;
@@ -177,7 +177,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 		trans_cmp->SetRotation(rot); 
 		trans_cmp->SetScale(esc); 
 
-		game_object->AddComponent(trans_cmp);
 	}
 		
 	if (node->mNumMeshes > 0)
@@ -275,9 +274,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			}
 
 			//Add Mesh to GameObject
-			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->CreateComponent(CMP_RENDERER);
+			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_RENDERER);
 			cmp_mesh->SetMesh(new_mesh);
-			game_object->AddComponent(cmp_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->draw_bounding_box = false;
 
@@ -309,11 +307,11 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					//Create The Component
-					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->CreateComponent(CMP_MATERIAL);
+					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
 					cmp_mat->diffuse = new_texture;
 
 					//Add it to the parent GO
-					game_object->AddComponent(cmp_mat);
+					
 				}
 				else
 				{

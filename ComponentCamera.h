@@ -77,6 +77,8 @@ public:
 	vec3 X, Y, Z, Position, Reference;
 	CameraInterpolation cam_interpolation;
 	float wheel_zoom_speed = 5.0f;
+	float speed_multiplier;
+	float mouse_sensitivity = 5.0f;
 
 private: 
 
@@ -84,14 +86,9 @@ private:
 	Projection_Type projection; 
 
 	TextureMSAA* viewport_texture;
-
 	float speed = 0.1f;
-	float mouse_sensitivity = 5.0f;
-	
-	float speed_multiplier;
+
 	bool locked;
-
 	bool orbit = true;
-
 };
 

@@ -14,15 +14,13 @@ public:
 	void Start(); 
 	void Update(); 
 
-	bool AddComponent(Component* new_cmp);
+	Component* AddComponent(CompType new_cmp);
 	bool AddChild(GameObject* child); 
 
 	void DeleteGameObject(); 
 	void DeleteRecursive(); 
 	void DeleteAllComponents(); 
 	bool DeleteComponent(CompType cmp); 
-
-	Component* CreateComponent(CompType cmp_type); 
 
 	void SetSelectedRecursive(bool selected); 
 
@@ -39,8 +37,13 @@ public:
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+
 	void SetParent(GameObject* new_parent); 
 	void SetActive(bool activated);
+
+	std::string GetName() const; 
+	void SetName(const char* name);
+
 	bool IsActive() const;
 
 	bool IsUsingTexture(int id, bool& used);

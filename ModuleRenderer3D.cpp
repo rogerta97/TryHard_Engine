@@ -8,6 +8,8 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+#include "ComponentCamera.h"
+
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
@@ -29,7 +31,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
-
+	rendering_camera = nullptr; 
 
 	if(context == NULL)
 	{
@@ -236,6 +238,17 @@ void ModuleRenderer3D::UpdateRenderSettings()
 RenderSettings ModuleRenderer3D::GetDefaultRenderSettings() const
 {
 	return render_settings;
+}
+
+void ModuleRenderer3D::SetRenderCamera(ComponentCamera * cam)
+{
+	if(cam != nullptr)
+		rendering_camera = cam; 
+}
+
+ComponentCamera * ModuleRenderer3D::GetRenderCamera() const
+{
+	return rendering_camera;
 }
 
 void ModuleRenderer3D::PrintConfigData()

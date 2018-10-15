@@ -62,125 +62,7 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
-	vec3 point_look = { 0, 0, 0 };
-	int scale_value = 3;
-	bool moved = false;
-	speed_multiplier = 1;
-
-	//Camera WASD & ER input
-	vec3 increment = { 0.0f ,0.0f ,0.0f };
-
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
-		speed_multiplier = 2;
-
-	if (App->input->GetKey(SDL_SCANCODE_W))
-	{
-		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_S))
-	{
-		increment += Z * GetSpeed() * App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_A))
-	{
-		increment += X * -GetSpeed() * App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_D))
-	{
-		increment += X * GetSpeed() * App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_E))
-	{
-		increment += Y * GetSpeed() * App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_R))
-	{
-		increment += Y * -GetSpeed() * App->GetDt() * speed_multiplier;
-		moved = true;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-	{
-		if (App->scene->GetSelectedGameObject() != nullptr)
-		{
-			cam_interpolation.interpolate = true;
-			cam_interpolation.interpolation_timer.Start();
-			FillInterpolationSegmentAndRot();
-		}
-	}
-
-	if (App->input->GetMouseWheel() < 0) {
-		increment -= Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed * 30;
-		moved = true;
-	}
-
-	if (App->input->GetMouseWheel() > 0) {
-		increment += Z * -GetSpeed()*App->GetDt() * speed_multiplier * wheel_zoom_speed * 30;
-		moved = true;
-	}
-
-	if (cam_interpolation.interpolate)
-	{
-		InterpolateCamera(cam_interpolation.interpolation_ms);
-	}
-
-	if (moved)
-		Move(increment);
-
-	//// Mouse motion ----------------
-
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		if (dy != 0 || dx != 0) {
-
-			if (App->input->GetKey(SDL_SCANCODE_LALT))
-				Position -= Reference;
-
-			if (dx != 0)
-			{
-				float DeltaX = (float)dx * mouse_sensitivity;
-
-				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-				Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			}
-
-
-
-			if (dy != 0)
-			{
-				float DeltaY = (float)dy * mouse_sensitivity;
-
-				Y = rotate(Y, DeltaY, X);
-				Z = rotate(Z, DeltaY, X);
-
-				if (Y.y < 0.0f)
-				{
-					Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-					Y = cross(Z, X);
-				}
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_LALT))
-				Position = Reference + Z * length(Position);
-		}
-	}
-
-	CalculateViewMatrix();
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -376,7 +258,7 @@ float ComponentCamera::GetSpeed() const
 
 TextureMSAA * ComponentCamera::GetViewportTexture()
 {
-	return viewport_texture;
+	return viewport_texture; 
 }
 
 void ComponentCamera::LockCamera()

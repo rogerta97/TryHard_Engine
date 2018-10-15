@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -60,11 +61,6 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::InputText("Name", name_buf, 50); 
 
-	/*	ImGui::SameLine();
-
-		if (ImGui::Checkbox("Static", &is_active))
-			gameobject->SetActive(is_active);*/
-
 		ImGui::SameLine(); 
 
 		if(ImGui::SmallButton("X"))
@@ -104,7 +100,7 @@ bool UI_InspectorPanel::Update()
 		if (show_addcmp_ui)
 		{
 				static int curr_selection = 0;
-			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0"))
+			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Camera"))
 			{
 
 				switch (curr_selection)
@@ -114,16 +110,23 @@ bool UI_InspectorPanel::Update()
 
 				case 1:
 				{
-					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->CreateComponent(CMP_RENDERER);
-					gameobject->AddComponent((ComponentMesh*)cmp_mesh);
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_RENDERER);
+					gameobject->AddComponent(CMP_RENDERER);
 					break;
 				}
 
 
 				case 2:
 				{
-					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->CreateComponent(CMP_MATERIAL);
-					gameobject->AddComponent((ComponentMaterial*)cmp_mat);
+					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);
+					gameobject->AddComponent(CMP_MATERIAL);
+					break;
+				}
+
+				case 3:
+				{
+					ComponentCamera * cmp_mat = (ComponentCamera*)gameobject->AddComponent(CMP_CAMERA);
+					gameobject->AddComponent(CMP_CAMERA);
 					break;
 				}
 
