@@ -6,6 +6,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -60,11 +61,6 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::InputText("Name", name_buf, 50); 
 
-	/*	ImGui::SameLine();
-
-		if (ImGui::Checkbox("Static", &is_active))
-			gameobject->SetActive(is_active);*/
-
 		ImGui::SameLine(); 
 
 		if(ImGui::SmallButton("X"))
@@ -82,7 +78,7 @@ bool UI_InspectorPanel::Update()
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			App->camera->UnlockCamera();
+			App->camera->GetEditorCamera()->UnlockCamera();
 		}
 
 		// ------------------------------------------------------------------------------------
@@ -104,7 +100,7 @@ bool UI_InspectorPanel::Update()
 		if (show_addcmp_ui)
 		{
 				static int curr_selection = 0;
-			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0"))
+			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Camera"))
 			{
 
 				switch (curr_selection)
@@ -114,16 +110,20 @@ bool UI_InspectorPanel::Update()
 
 				case 1:
 				{
-					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->CreateComponent(CMP_RENDERER);
-					gameobject->AddComponent((ComponentMesh*)cmp_mesh);
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_RENDERER);					
 					break;
 				}
 
 
 				case 2:
 				{
-					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->CreateComponent(CMP_MATERIAL);
-					gameobject->AddComponent((ComponentMaterial*)cmp_mat);
+					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);			
+					break;
+				}
+
+				case 3:
+				{
+					ComponentCamera * cmp_mat = (ComponentCamera*)gameobject->AddComponent(CMP_CAMERA);
 					break;
 				}
 
@@ -138,10 +138,7 @@ bool UI_InspectorPanel::Update()
 			{
 				show_addcmp_ui = true;
 			}
-		}
-	
-
-		
+		}		
 	}
 
 	ImGui::End();
@@ -178,6 +175,13 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_MATERIAL:
 		PrintMaterialProperties();
+		break;
+
+	case CMP_CAMERA:
+		if (ImGui::CollapsingHeader("Component Camera"))
+		{			
+			PrintCameraProperties((ComponentCamera*)GetGameObject()->GetComponent(CMP_CAMERA));
+		}	
 		break;
 	}
 }
@@ -271,8 +275,6 @@ void UI_InspectorPanel::PrintMeshProperties()
 	}
 }
 
-
-
 void UI_InspectorPanel::PrintMaterialProperties()
 {
 	if (ImGui::CollapsingHeader("Component Material"))
@@ -338,10 +340,18 @@ void UI_InspectorPanel::PrintMaterialProperties()
 			ImGui::Text("Height:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetHeight());
 		}
-			
+	}		
+}
 
-	}
-		
+void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
+{
+	static int selected_proj = camera->GetProjection(); 
+	std::string label = "Projection##" + camera->GetGameObject()->GetName();
+
+	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
+	{
+		camera->SetProjection((Projection_Type)selected_proj); 
+	}	
 }
 
 

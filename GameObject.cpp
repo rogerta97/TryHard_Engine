@@ -83,12 +83,20 @@ void GameObject::SetActive(bool activated)
 	active = activated; 
 }
 
+std::string GameObject::GetName() const
+{
+	return name;
+}
+
+void GameObject::SetName(const char* name)
+{
+	this->name = name; 
+}
+
 bool GameObject::IsActive() const
 {
 	return active;
 }
-
-
 
 bool GameObject::IsUsingTexture(int id, bool& used)
 {
@@ -110,17 +118,41 @@ int GameObject::GetNumChilds()
 	return (int)child_list.size();
 }
 
-bool GameObject::AddComponent(Component * new_cmp)
+Component* GameObject::AddComponent(CompType new_type)
 {
 	//First we should check if it exist
-	Component* tmp_cmp = GetComponent(new_cmp->GetType());
+	Component* new_cmp = GetComponent(new_type);
 
-	if (tmp_cmp != nullptr)
+	if (new_cmp != nullptr)
 	{
 		CONSOLE_ERROR("GameObject '%s' already has this component assigned", name.c_str()); 
 	}
 	else
 	{
+		//First we create it 
+		switch (new_type)
+		{
+			case CMP_TRANSFORM:
+				new_cmp = new ComponentTransform();
+				new_cmp->SetGameObject(this);
+				break;
+
+			case CMP_RENDERER:
+				new_cmp = new ComponentMesh();
+				new_cmp->SetGameObject(this);
+				break;
+
+			case CMP_MATERIAL:
+				new_cmp = new ComponentMaterial();
+				new_cmp->SetGameObject(this);
+				break;
+
+			case CMP_CAMERA:
+				new_cmp = new ComponentCamera();
+				new_cmp->SetGameObject(this);
+				break;
+		}
+
 		if (new_cmp->GetType() == CMP_MATERIAL)
 		{
 			ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
@@ -148,10 +180,9 @@ bool GameObject::AddComponent(Component * new_cmp)
 		}
 	}
 
-
 	component_list.push_back(new_cmp);
 	new_cmp->Start(); 
-	return true; 
+	return new_cmp; 
 }
 
 bool GameObject::AddChild(GameObject * child)
@@ -212,32 +243,6 @@ bool GameObject::DeleteComponent(CompType cmp)
 	}
 
 	return false;
-}
-
-
-Component * GameObject::CreateComponent(CompType cmp_type)
-{
-	Component* new_cmp = nullptr; 
-
-	switch (cmp_type)
-	{
-		case CMP_TRANSFORM:
-			new_cmp = new ComponentTransform();
-			new_cmp->SetGameObject(this);
-			break; 
-
-		case CMP_RENDERER:
-			new_cmp = new ComponentMesh(); 
-			new_cmp->SetGameObject(this); 
-			break;
-
-		case CMP_MATERIAL:
-			new_cmp = new ComponentMaterial();
-			new_cmp->SetGameObject(this);
-			break;
-	}
-
-	return new_cmp; 
 }
 
 void GameObject::SetSelectedRecursive(bool selected)

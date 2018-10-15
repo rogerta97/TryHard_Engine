@@ -163,9 +163,9 @@ update_status ModuleInput::PreUpdate(float dt)
 				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
 				App->scene->SetSelectedGameObject(parent);
 
-				App->camera->cam_interpolation.interpolate = true;
-				App->camera->cam_interpolation.interpolation_timer.Start();
-				App->camera->FillInterpolationSegmentAndRot();
+				App->camera->GetEditorCamera()->interpolation.interpolate = true;
+				App->camera->GetEditorCamera()->interpolation.interpolation_timer.Start();
+				App->camera->GetEditorCamera()->FillInterpolationSegmentAndRot();
 
 			}
 

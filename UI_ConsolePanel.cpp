@@ -79,10 +79,10 @@ bool UI_ConsolePanel::Update()
 
 		if (ImGui::IsMouseHoveringWindow())
 		{
-			App->camera->LockCamera();
+			App->camera->GetEditorCamera()->LockCamera();
 		}
 		else
-			App->camera->UnlockCamera(); 
+			App->camera->GetEditorCamera()->UnlockCamera();
 
 		for (auto it = App->imgui->console.console_buffer.rbegin(); it != App->imgui->console.console_buffer.rend(); it++)
 		{

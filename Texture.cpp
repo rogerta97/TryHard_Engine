@@ -56,7 +56,8 @@ void Texture::FillCheckerTextureData()
 	memcpy(buffer, checkImage, 400 * sizeof(GLubyte));
 
 	//Create the texture to return 
-	name = "Checker Texture"; 
+	name = "CheckerTexture";
+	path = "*Auto Generated Texture*";
 
 	CreateBuffer(); 
 	Bind(); 

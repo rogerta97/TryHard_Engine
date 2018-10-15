@@ -6,6 +6,8 @@
 
 #define MAX_LIGHTS 8
 
+class ComponentCamera; 
+
 struct RenderSettings
 {
 	bool depth_test = false;
@@ -36,6 +38,9 @@ public:
 	void UpdateRenderSettings(); 
 	RenderSettings GetDefaultRenderSettings() const; 
 
+	void SetRenderCamera(ComponentCamera* cam); 
+	ComponentCamera* GetRenderCamera() const;
+
 	void PrintConfigData(); 
 
 public:
@@ -43,6 +48,8 @@ public:
 	Light lights[MAX_LIGHTS];
 	RenderSettings render_settings; 
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	/*mat3x3 NormalMatrix;
+	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;*/
+
+	ComponentCamera* rendering_camera; 
 };

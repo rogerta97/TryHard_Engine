@@ -4,6 +4,7 @@
 #include "Component.h"
 
 class GameObject; 
+class ComponentCamera; 
 
 class UI_InspectorPanel :
 	public UI_Panel
@@ -17,6 +18,8 @@ public:
 
 	void SetGameObject(GameObject* new_go); 
 	GameObject* GetGameObject() const; 
+
+	void PrintCameraProperties(ComponentCamera* cam);
 
 private: 
 

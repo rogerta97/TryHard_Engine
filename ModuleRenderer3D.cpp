@@ -8,6 +8,8 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+#include "ComponentCamera.h"
+
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
@@ -29,7 +31,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
-
+	rendering_camera = nullptr; 
 
 	if(context == NULL)
 	{
@@ -139,10 +141,24 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	if (rendering_camera->GetProjection() == PROJ_ORTH)
+	{
+		mat4x4 ort = ortho(1, 1, 1, 1, 0.2, 20);
+		glLoadMatrixf(ort.M);
+	}
+	else if (rendering_camera->GetProjection() == PROJ_PERSP)
+	{
+		mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
+		glLoadMatrixf(&ProjectionMatrix);
+	}
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
@@ -154,7 +170,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
-	App->camera->GetViewportTexture()->Bind();
+	App->camera->GetEditorCamera()->GetViewportTexture()->Bind();
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         	return UPDATE_CONTINUE;
 }
 
@@ -175,7 +191,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+
+	mat4x4 ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
 	glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);
@@ -236,6 +253,17 @@ void ModuleRenderer3D::UpdateRenderSettings()
 RenderSettings ModuleRenderer3D::GetDefaultRenderSettings() const
 {
 	return render_settings;
+}
+
+void ModuleRenderer3D::SetRenderCamera(ComponentCamera * cam)
+{
+	if(cam != nullptr)
+		rendering_camera = cam; 
+}
+
+ComponentCamera * ModuleRenderer3D::GetRenderCamera() const
+{
+	return rendering_camera;
 }
 
 void ModuleRenderer3D::PrintConfigData()
