@@ -242,7 +242,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			{
 				//Load the UV's
 				new_mesh->num_uvs = curr_mesh->mNumVertices;
-				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];			
+				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];	
+
+				if (new_mesh->uvs_cords != nullptr)
+					glTexCoordPointer(2, GL_FLOAT_R_NV, 0, &new_mesh->uvs_cords);
 				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
 				glGenBuffers(1, &new_mesh->uvs_id);

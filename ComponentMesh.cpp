@@ -121,6 +121,7 @@ void ComponentMesh::DrawMesh()
 
 	if (mat_active) 
 	{
+		
 		glEnable(GL_TEXTURE_2D); 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
