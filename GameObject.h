@@ -31,6 +31,7 @@ public:
 	bool HasChilds() const; 
 	GameObject* GetChild(int index) const; 
 	void DeleteChildFromList(GameObject* child_to_delete);
+	void GetEnclosedAABB(float3& min, float3& max); 
 
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
 

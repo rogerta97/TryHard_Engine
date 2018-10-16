@@ -335,6 +335,25 @@ void GameObject::DeleteChildFromList(GameObject * child_to_delete)
 	}
 }
 
+void GameObject::GetEnclosedAABB(float3& min, float3& max)
+{
+	if (HasChilds())
+	{
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		{
+			(*it)->GetEnclosedAABB(min, max);
+		}
+	}
+
+	ComponentMesh* curr_mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+
+	if (curr_mesh)
+	{
+		curr_mesh->CheckAABBPoints(min, max);
+	}
+
+}
+
 void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
 {
 	ComponentMesh* cmp_mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
@@ -345,7 +364,6 @@ void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distan
 		distance_amm += cmp_mesh->bounding_box.Diagonal().Length();
 	}
 
-	
 	if (HasChilds())
 	{
 		for (auto it = child_list.begin(); it != child_list.end(); it++)

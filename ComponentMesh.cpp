@@ -259,3 +259,12 @@ void ComponentMesh::DeleteMaterial()
 
 	material = nullptr; 
 }
+
+void ComponentMesh::CheckAABBPoints(float3 & min_point, float3 & max_point)
+{
+	if (bounding_box.minPoint.Distance({0,0,0}) >= min_point.Distance({ 0,0,0 }))
+		min_point = bounding_box.minPoint;
+
+	if (bounding_box.maxPoint.Distance({ 0,0,0 }) >= max_point.Distance({ 0,0,0 }))
+		max_point = bounding_box.maxPoint;	
+}

@@ -157,16 +157,25 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
-			float3 pos_amm = { 0,0,0 };
-			float dist_amm = 0;
+			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_RENDERER);
 
-			selected_go->SetCenterCamDataRecursive(pos_amm, dist_amm);
+			float3 min, max, position;
+			float distance; 
 
-			float3 tmpcenter = pos_amm / App->scene->GetGameObjectsAmmount();
+			min = max = position = { 0,0,0 };
 
+			selected_go->GetEnclosedAABB(min, max);
+			selected_go->SetCenterCamDataRecursive(position, distance);
+
+			AABB new_bb; 
+			new_bb.minPoint = min; 
+			new_bb.maxPoint = max; 
+			distance = new_bb.Diagonal().Length() + 1; 
+
+			float3 tmpcenter = position / App->scene->GetGameObjectsAmmount();
 			vec center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
 
-			float3 dst_point = GetCamPointFromDistance(center, dist_amm + 1);
+			float3 dst_point = GetCamPointFromDistance(center, distance);
 
 			interpolation.center = center;
 			

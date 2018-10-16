@@ -31,6 +31,8 @@ public:
 	void SetMaterial(ComponentMaterial* mat);
 	void DeleteMaterial(); 
 
+	void CheckAABBPoints(float3& min_point, float3 &max_point);
+
 	Mesh* GetMesh() const; 
 
 	AABB bounding_box; 
