@@ -145,14 +145,16 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 			vec3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
 
 			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
-
+			
 			interpolation.line.a = dst_point;
 			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
-			
+
 			interpolation.dst_vec = -normalize(Position - center);
 			interpolation.source_vec = -Z;
-		
+
 			interpolation.center = cmp_mesh->bounding_box.CenterPoint();
+			
+			
 
 		}
 		else //if not find the middle point between the object and look at it. 

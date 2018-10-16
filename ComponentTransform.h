@@ -2,6 +2,7 @@
 
 #include "Transform.h"
 #include "Component.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 class ComponentTransform : public Component
 {
@@ -18,12 +19,19 @@ public:
 	Quat GetRotation() const; 
 	float3 GetScale() const;
 
+	float4x4 GetViewMatrix(); 
+
 	void SetPosition(float3 new_pos);
 	void SetRotation(Quat new_pos);
 	void SetScale(float3 new_pos);
 
+private: 
+
+	void CalculateViewMatrix();
+
 private:
 
 	Transform transform; 
+	float4x4 ViewMatrix; 
 };
 

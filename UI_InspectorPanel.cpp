@@ -196,7 +196,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 		{
 			ImGui::Spacing();
 
-			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global");
+			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); ImGui::SmallButton("Reset");
 
 			ImGui::Spacing();
 			ImGui::Separator();
@@ -210,6 +210,8 @@ void UI_InspectorPanel::PrintTransformProperties()
 			ImGui::InputFloat3("Position", show_pos, 2);
 			ImGui::InputFloat3("Rotation", show_rot, 2);
 			ImGui::InputFloat3("Scale", show_scale, 2);
+
+			ImGui::Spacing(); 
 		}
 	}
 }

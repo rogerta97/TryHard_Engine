@@ -6,6 +6,7 @@
 #include "OpenGL.h"
 
 #include "GameObject.h"
+#include "ComponentTransform.h"
 
 ModuleScene::ModuleScene(bool start_enabled)
 {
@@ -34,9 +35,9 @@ bool ModuleScene::Start()
 
 	selected_go = nullptr;
 
-	//Load House FBX
-	string path = App->file_system->GetModelsPath() + "BakerHouse.fbx"; 
-	App->resources->mesh_importer->CreateFBXMesh(path.c_str());
+	////Load House FBX
+	//string path = App->file_system->GetModelsPath() + "BakerHouse.fbx"; 
+	//App->resources->mesh_importer->CreateFBXMesh(path.c_str());
 
 	return ret;
 }
@@ -86,6 +87,7 @@ GameObject * ModuleScene::CreateGameObject()
 {
 	GameObject* new_go = new GameObject(""); 
 
+	ComponentTransform* trans = (ComponentTransform*)new_go->AddComponent(CMP_TRANSFORM);
 	//Here we will add the component transform, every GO should have it.
 
 	AddGameObjectToScene(new_go);

@@ -1,5 +1,6 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentTransform.h"
 
 #include "Application.h"
 
@@ -108,20 +109,16 @@ void ComponentMesh::DrawNormals()
 
 void ComponentMesh::DrawMesh()
 {
-	bool mat_active = false; 
-
-	if (material != nullptr && wireframe == false && material->active)
-		mat_active = true;
-
+	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	if (mat_active) 
-	{
-		
+	if (material)
+	{		
 		glEnable(GL_TEXTURE_2D); 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
@@ -141,33 +138,30 @@ void ComponentMesh::DrawMesh()
 
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id); 
 			glNormalPointer(GL_FLOAT, 0, NULL);
-		}
-
-	
+		}	
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
-
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
 	if (draw_normals)
 		DrawNormals(); 
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	if (draw_bounding_box)
+		DrawBoundingBox();
 
-	if (mat_active)
+	if (material)
 	{
 		material->diffuse->UnBind();
-		glDisable(GL_TEXTURE_2D); 
+		glDisable(GL_TEXTURE_2D);
 	}
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	
-	if (draw_bounding_box)
-		DrawBoundingBox(); 
 }
 
 void ComponentMesh::SetDefaultSettings()
