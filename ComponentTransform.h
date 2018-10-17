@@ -14,6 +14,8 @@ public:
 	bool Update(); 
 	bool CleanUp(); 
 
+	void ResetTransform(); 
+
 	//Setters & Getters
 	float3 GetPosition() const;
 	Quat GetRotation() const; 

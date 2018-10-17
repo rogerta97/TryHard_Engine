@@ -34,6 +34,15 @@ bool ComponentTransform::CleanUp()
 	return true; 
 }
 
+void ComponentTransform::ResetTransform()
+{
+	transform.position = { 0,0,0 }; 
+	transform.rotation = Quat::identity; 
+	transform.scale = float3(1.0f, 1.0f, 1.0f); 
+
+	CalculateViewMatrix(); 
+}
+
 void ComponentTransform::CalculateViewMatrix()
 {
 	float4x4 new_mat = float4x4::identity;
@@ -71,7 +80,14 @@ float3 ComponentTransform::GetRotationEuler() const
 
 void ComponentTransform::SetRotationEuler(float3 new_rot)
 {
-	transform.rotation = Quat::FromEulerXYZ(DEGTORAD*new_rot.x, DEGTORAD*new_rot.y, DEGTORAD*new_rot.z);
+	Quat new_quat = Quat::identity; 
+
+	new_quat = new_quat * new_quat.RotateX(DEGTORAD*new_rot.x);
+	new_quat = new_quat * new_quat.RotateY(DEGTORAD*new_rot.y);
+	new_quat = new_quat * new_quat.RotateZ(DEGTORAD*new_rot.z);
+
+	transform.rotation = new_quat;
+	CalculateViewMatrix();
 }
 
 void ComponentTransform::SetPosition(float3 new_pos)

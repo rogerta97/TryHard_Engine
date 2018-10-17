@@ -196,7 +196,12 @@ void UI_InspectorPanel::PrintTransformProperties()
 		{
 			ImGui::Spacing();
 
-			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); ImGui::SmallButton("Reset");
+			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); 
+			
+			if(ImGui::SmallButton("Reset"))
+			{
+				trans_cmp->ResetTransform(); 
+			}
 
 			ImGui::Spacing();
 			ImGui::Separator();
@@ -206,13 +211,13 @@ void UI_InspectorPanel::PrintTransformProperties()
 			float show_rot[3] = { RADTODEG * trans_cmp->GetRotationEuler().x,  RADTODEG *trans_cmp->GetRotationEuler().y, RADTODEG *trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 		
-			if (ImGui::DragFloat3("Position", show_pos, 0.5f))
+			if (ImGui::DragFloat3("Position", show_pos, 0.2f))
 				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
 
-			if(ImGui::DragFloat3("Rotation", show_rot, 0.5f))
+			if(ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f , 180.0f))
 				trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
-			if(ImGui::DragFloat3("Scale", show_scale, 0.5f))
+			if(ImGui::DragFloat3("Scale", show_scale, 0.2f))
 				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
 			ImGui::Spacing(); 
