@@ -21,7 +21,7 @@ public:
 	SkyBox();
 	~SkyBox();
 	
-	void InitSkyBox(const char* folder_name); 
+	void InitSkyBox(const char* folder_name, float size); 
 	void Draw();
 	void CleanUpSkyBox(); 
 
@@ -34,6 +34,7 @@ public:
 
 	Mesh sky_cube[6]; 
 	Texture* sky_textures[6];
+	float size; 
 
 };
 

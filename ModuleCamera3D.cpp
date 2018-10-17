@@ -35,7 +35,7 @@ bool ModuleCamera3D::Start()
 	bool ret = true;
 
 	skybox = new SkyBox(); 
-	skybox->InitSkyBox("");
+	skybox->InitSkyBox("", 300.0f);
 
 	//Create Editor Camera
 	ecam_go = new GameObject("EditorCamera"); 
