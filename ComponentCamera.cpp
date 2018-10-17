@@ -203,15 +203,9 @@ bool ComponentCamera::InterpolateCamera(float time)
 	bool end = false;
 
 	if (Reference.x == center.x && Reference.y == center.y && Reference.z == center.z) {
-		if (dst_vector.x == curr_rot.x && dst_vector.y == curr_rot.y && dst_vector.z == curr_rot.z)
-		{
-			end = true;
-		}
-		if (dst_vector.x != src_vector.x || dst_vector.y != src_vector.y || dst_vector.z != src_vector.z)
-		{
+		end = true;
+		if (!AreFloat3Same(src_vector, dst_vector, 0.001f))
 			end = false;
-		}
-
 	}
 
 	if (end) {
@@ -289,6 +283,24 @@ float ComponentCamera::GetSpeed() const
 TextureMSAA * ComponentCamera::GetViewportTexture()
 {
 	return viewport_texture; 
+}
+
+bool ComponentCamera::AreSame(float a, float b, float epsilon)
+{
+	return fabs(a - b) < epsilon;
+}
+
+bool ComponentCamera::AreFloat3Same(float3 a, float3 b, float epsilon)
+{
+	bool ret = true;
+	if (!AreSame(a.x, b.x, epsilon))
+		ret = false;
+	if (!AreSame(a.y, b.y, epsilon))
+		ret = false;
+	if (!AreSame(a.z, b.z, epsilon))
+		ret = false;
+
+	return ret;
 }
 
 void ComponentCamera::LockCamera()

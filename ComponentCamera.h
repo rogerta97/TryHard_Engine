@@ -90,6 +90,9 @@ public:
 	//Docking Texture
 	TextureMSAA* GetViewportTexture();
 
+	bool AreSame(float a, float b, float epsilon);
+
+	bool AreFloat3Same(float3 a, float3 b, float epsilon);
 public: 
 
 	vec3 X, Y, Z, Position, Reference;
