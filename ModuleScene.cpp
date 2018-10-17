@@ -26,11 +26,10 @@ bool ModuleScene::Start()
 
 	if (App->camera->GetEditorCamera())
 	{
-		App->camera->GetEditorCamera()->Move(vec3(1.0f, 1.0f, 0.0f));
+		App->camera->GetEditorCamera()->Position = { 4,4,8 }; 
 		App->camera->GetEditorCamera()->LookAt(vec3(0, 0, 0));
 	}
-
-	
+			
 	start_time = performance_timer.Read();
 
 	selected_go = nullptr;

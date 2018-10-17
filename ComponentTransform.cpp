@@ -1,12 +1,13 @@
 #include "ComponentTransform.h"
-
+#include "Globals.h"
 
 
 ComponentTransform::ComponentTransform()
 {
 	transform.position = float3(0.0f, 0.0f, 0.0f);
 	transform.rotation = Quat::identity; 
-	transform.scale = float3(0.0f, 0.0f, 0.0f);
+	transform.scale = float3(1.0f, 1.0f, 1.0f);
+
 	CalculateViewMatrix(); 
 
 	component_type = CMP_TRANSFORM; 
@@ -35,7 +36,12 @@ bool ComponentTransform::CleanUp()
 
 void ComponentTransform::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4::FromTRS(transform.position, transform.rotation, transform.scale);
+	float4x4 new_mat = float4x4::identity;
+	new_mat = new_mat * transform.rotation; 
+	new_mat = new_mat * new_mat.Scale(transform.scale); 
+	new_mat.SetTranslatePart(transform.position); 
+
+	ViewMatrix = new_mat;
 }
 
 float3 ComponentTransform::GetPosition() const
@@ -56,6 +62,16 @@ float3 ComponentTransform::GetScale() const
 float4x4 ComponentTransform::GetViewMatrix()
 {
 	return ViewMatrix;
+}
+
+float3 ComponentTransform::GetRotationEuler() const
+{
+	return transform.rotation.ToEulerXYZ();
+}
+
+void ComponentTransform::SetRotationEuler(float3 new_rot)
+{
+	transform.rotation = Quat::FromEulerXYZ(DEGTORAD*new_rot.x, DEGTORAD*new_rot.y, DEGTORAD*new_rot.z);
 }
 
 void ComponentTransform::SetPosition(float3 new_pos)

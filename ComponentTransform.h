@@ -21,6 +21,9 @@ public:
 
 	float4x4 GetViewMatrix(); 
 
+	float3 GetRotationEuler() const; 
+	void SetRotationEuler(float3 new_rot);
+
 	void SetPosition(float3 new_pos);
 	void SetRotation(Quat new_pos);
 	void SetScale(float3 new_pos);

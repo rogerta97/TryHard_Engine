@@ -203,13 +203,17 @@ void UI_InspectorPanel::PrintTransformProperties()
 			ImGui::Spacing();
 
 			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
-			float3 tmp_rot = trans_cmp->GetRotation().ToEulerXYZ(); 
-			float show_rot[3] = { RADTODEG * tmp_rot.x,  RADTODEG *tmp_rot.y, RADTODEG *tmp_rot.z };
+			float show_rot[3] = { RADTODEG * trans_cmp->GetRotationEuler().x,  RADTODEG *trans_cmp->GetRotationEuler().y, RADTODEG *trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 		
-			ImGui::InputFloat3("Position", show_pos, 2);
-			ImGui::InputFloat3("Rotation", show_rot, 2);
-			ImGui::InputFloat3("Scale", show_scale, 2);
+			if (ImGui::DragFloat3("Position", show_pos, 0.5f))
+				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
+
+			if(ImGui::DragFloat3("Rotation", show_rot, 0.5f))
+				trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+			if(ImGui::DragFloat3("Scale", show_scale, 0.5f))
+				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
 			ImGui::Spacing(); 
 		}

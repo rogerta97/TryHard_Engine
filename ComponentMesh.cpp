@@ -140,6 +140,17 @@ void ComponentMesh::DrawMesh()
 			glNormalPointer(GL_FLOAT, 0, NULL);
 		}	
 	}
+	float4x4 view_mat = float4x4::identity;
+
+	if (trans)
+	{
+		GLfloat matrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+		view_mat.Set((float*)matrix);
+
+		glMatrixMode(GL_MODELVIEW); 
+		glLoadMatrixf((GLfloat*)(trans->GetViewMatrix().Transposed() * view_mat).v);
+	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
@@ -154,6 +165,12 @@ void ComponentMesh::DrawMesh()
 	{
 		material->diffuse->UnBind();
 		glDisable(GL_TEXTURE_2D);
+	}
+
+	if (trans)
+	{
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
