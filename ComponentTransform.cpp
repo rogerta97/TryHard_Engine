@@ -12,6 +12,10 @@ ComponentTransform::ComponentTransform()
 
 	CalculateViewMatrix(); 
 
+	transform.X = { 1.0f, 0.0f, 0.0f };
+	transform.Y = { 0.0f, 1.0f, 0.0f };
+	transform.Z = { 0.0f, 0.0f, 1.0f };
+
 	component_type = CMP_TRANSFORM; 
 	active = true;
 }
@@ -27,6 +31,12 @@ bool ComponentTransform::Start()
 
 bool ComponentTransform::Update()
 {
+	transform.DrawAxis(); 
+
+	CONSOLE_LOG("X: %f, %f, %f", transform.X.x, transform.X.y, transform.X.z); 
+	CONSOLE_LOG("Y: %f, %f, %f", transform.Y.x, transform.Y.y, transform.Y.z);
+	CONSOLE_LOG("Z: %f, %f, %f", transform.Z.x, transform.Z.y, transform.Z.z);
+
 	return true; 
 }
 
@@ -89,6 +99,15 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 		current_go = current_go->GetParent();
 			
 	} while (current_go != nullptr);
+
+	transform.X = { 1.0f, 0.0f, 0.0f }; 
+	transform.X = to_ret_mat.MulDir(transform.X);
+
+	transform.Y = { 0.0f, 1.0f, 0.0f };
+	transform.Y = to_ret_mat.MulDir(transform.Y);
+
+	transform.Z = { 0.0f, 0.0f, 1.0f };
+	transform.Z = to_ret_mat.MulDir(transform.Z);
 
 	return to_ret_mat;
 }

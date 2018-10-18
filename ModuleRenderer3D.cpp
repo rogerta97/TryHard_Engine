@@ -221,7 +221,6 @@ void ModuleRenderer3D::UseDebugRenderSettings()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(2.0f); 
 	glColor3f(DEFAULT_WIREFRAME_COLOR);
 }
 
