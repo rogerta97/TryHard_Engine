@@ -208,7 +208,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 			ImGui::Spacing();
 
 			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
-			float show_rot[3] = { RADTODEG * trans_cmp->GetRotationEuler().x,  RADTODEG *trans_cmp->GetRotationEuler().y, RADTODEG *trans_cmp->GetRotationEuler().z };
+			float show_rot[3] = { trans_cmp->GetRotationEuler().x, trans_cmp->GetRotationEuler().y, trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 		
 			if (ImGui::DragFloat3("Position", show_pos, 0.2f))

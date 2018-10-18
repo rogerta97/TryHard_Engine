@@ -7,6 +7,7 @@ ComponentTransform::ComponentTransform()
 	transform.position = float3(0.0f, 0.0f, 0.0f);
 	transform.rotation = Quat::identity; 
 	transform.scale = float3(1.0f, 1.0f, 1.0f);
+	transform.euler_angles = float3::zero; 
 
 	CalculateViewMatrix(); 
 
@@ -75,7 +76,7 @@ float4x4 ComponentTransform::GetViewMatrix()
 
 float3 ComponentTransform::GetRotationEuler() const
 {
-	return transform.rotation.ToEulerXYZ();
+	return transform.euler_angles;
 }
 
 void ComponentTransform::SetRotationEuler(float3 new_rot)
@@ -87,6 +88,8 @@ void ComponentTransform::SetRotationEuler(float3 new_rot)
 	new_quat = new_quat * new_quat.RotateZ(DEGTORAD*new_rot.z);
 
 	transform.rotation = new_quat;
+	transform.euler_angles = new_rot; 
+
 	CalculateViewMatrix();
 }
 
@@ -99,6 +102,7 @@ void ComponentTransform::SetPosition(float3 new_pos)
 void ComponentTransform::SetRotation(Quat new_rot)
 {
 	transform.rotation = new_rot; 
+	transform.euler_angles = new_rot.ToEulerXYZ(); 
 	CalculateViewMatrix();
 }
 

@@ -11,5 +11,7 @@ public:
 	float3 position; 
 	Quat rotation; 
 	float3 scale; 	
+
+	float3 euler_angles; 
 };
 
