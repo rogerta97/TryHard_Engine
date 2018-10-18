@@ -15,10 +15,9 @@ void Transform::DrawAxis()
 	LineSegment curr_line;
 
 	glBegin(GL_LINES);
-	glDisable(GL_DEPTH_TEST);
+	App->renderer3D->UseDebugRenderSettings();
 
-	App->renderer3D->UseUIRenderSettings();
-	glLineWidth(3.0f);
+	glLineWidth(8.0f);
 
 	//X
 	curr_line.a = position; 

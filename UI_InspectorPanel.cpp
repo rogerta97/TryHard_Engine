@@ -220,6 +220,8 @@ void UI_InspectorPanel::PrintTransformProperties()
 			if(ImGui::DragFloat3("Scale", show_scale, 0.2f))
 				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
+			CONSOLE_LOG("%f, %f, %f", trans_cmp->transform.position[0], trans_cmp->transform.position[1], trans_cmp->transform.position[2]);
+
 			ImGui::Spacing(); 
 		}
 	}

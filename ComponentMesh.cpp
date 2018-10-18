@@ -33,14 +33,18 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
-	App->renderer3D->UseCurrentRenderSettings();
-	DrawMesh();
-
+	if (wireframe == false)
+	{
+		App->renderer3D->UseCurrentRenderSettings();
+		DrawMesh();
+	}
+	
 	//if the mesh is selected we draw it again in wireframe mode
 	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
 	{
 		wireframe = true;
 		App->renderer3D->UseDebugRenderSettings();
+		glLineWidth(3.0f); 
 		DrawMesh();
 		App->renderer3D->UseCurrentRenderSettings();
 		wireframe = false;
@@ -72,25 +76,6 @@ bool ComponentMesh::CleanUp()
 void ComponentMesh::SetMesh(Mesh * new_mesh)
 {
 	mesh = new_mesh;
-}
-
-void ComponentMesh::SetDrawSettings()
-{
-	//Make needed render changes just in case is needed, if not the engine will render as default 
-
-	if (wireframe)
-	{
-		glLineWidth(3.0f);
-		glColor3f(DEFAULT_WIREFRAME_COLOR);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	
-	else
-	{
-		glLineWidth(2.0f);
-		glColor3f(DEFAULT_GEOMETRY_COLOR);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		
-	}
 }
 
 void ComponentMesh::DrawNormals()
@@ -165,6 +150,7 @@ void ComponentMesh::DrawMesh()
 	
 	if (trans)
 	{
+		trans->transform.DrawAxis(); 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
@@ -212,12 +198,10 @@ Mesh * ComponentMesh::GetMesh() const
 }
 
 bool ComponentMesh::CreateEnclosedMeshAABB()
-{
-	
+{	
 	bounding_box.SetNegativeInfinity();
 	bounding_box = bounding_box.MinimalEnclosingAABB(GetMesh()->vertices, GetMesh()->num_vertices);
-	return true;
-	
+	return true;	
 }
 
 void ComponentMesh::DrawBoundingBox()
@@ -229,13 +213,22 @@ void ComponentMesh::DrawBoundingBox()
 
 		glBegin(GL_LINES);		
 		App->renderer3D->UseDebugRenderSettings(); 
+		glColor3f(1.0f, 0.0f, 0.0f);
+
+		ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
 
 		for (int i = 0; i < 12; i++)
 		{
 			curr_line = bounding_box.Edge(i);
 
+			curr_line.a += trans->transform.position;
 			glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+
+			curr_line.b += trans->transform.position;
 			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+
+			CONSOLE_LOG("A: %f, %f, %f", curr_line.a.x, curr_line.a.y, curr_line.a.z);
+			CONSOLE_LOG("B: %f, %f, %f", curr_line.b.x, curr_line.b.y, curr_line.b.z);
 		}
 
 		glEnd();

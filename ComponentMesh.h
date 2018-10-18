@@ -21,7 +21,6 @@ public:
 	void DrawNormals();
 
 	void SetMesh(Mesh* new_mesh);
-	void SetDrawSettings(); 
 	void SetDefaultSettings();
 
 	void PrintRenderSettings(); 

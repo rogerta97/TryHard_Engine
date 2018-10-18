@@ -31,13 +31,13 @@ public:
 	void SetRotation(Quat new_pos);
 	void SetScale(float3 new_pos);
 
+	Transform transform;
+
 private: 
 
 	void CalculateViewMatrix();
 
-private:
-
-	Transform transform; 
+private: 
 	float4x4 ViewMatrix; 
 };
 

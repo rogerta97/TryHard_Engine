@@ -31,12 +31,6 @@ bool ComponentTransform::Start()
 
 bool ComponentTransform::Update()
 {
-	transform.DrawAxis(); 
-
-	CONSOLE_LOG("X: %f, %f, %f", transform.X.x, transform.X.y, transform.X.z); 
-	CONSOLE_LOG("Y: %f, %f, %f", transform.Y.x, transform.Y.y, transform.Y.z);
-	CONSOLE_LOG("Z: %f, %f, %f", transform.Z.x, transform.Z.y, transform.Z.z);
-
 	return true; 
 }
 
@@ -60,7 +54,7 @@ void ComponentTransform::CalculateViewMatrix()
 	float4x4 new_mat = float4x4::identity;
 	new_mat = new_mat * transform.rotation; 
 	new_mat = new_mat * new_mat.Scale(transform.scale); 
-	new_mat.SetTranslatePart(transform.position); 
+	new_mat.SetTranslatePart(transform.position);
 
 	ViewMatrix = new_mat;
 }
