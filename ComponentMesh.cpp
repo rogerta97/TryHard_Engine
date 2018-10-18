@@ -215,11 +215,7 @@ void ComponentMesh::DrawBoundingBox()
 		App->renderer3D->UseDebugRenderSettings(); 
 		glColor3f(1.0f, 0.0f, 0.0f);
 
-		ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
-
-		bounding_box.SetNegativeInfinity();
-		bounding_box = bounding_box.MinimalEnclosingAABB(mesh->vertices, mesh->num_vertices);
-		bounding_box.TransformAsAABB(trans->GetGlobalViewMatrix());
+		UpdateBoundingBox(); 
 
 		for (int i = 0; i < 12; i++)
 		{
@@ -227,13 +223,23 @@ void ComponentMesh::DrawBoundingBox()
 
 			glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
 			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
-
-			CONSOLE_LOG("A: %f, %f, %f", curr_line.a.x, curr_line.a.y, curr_line.a.z);
-			CONSOLE_LOG("B: %f, %f, %f", curr_line.b.x, curr_line.b.y, curr_line.b.z);
 		}
 
 		glEnd();
 	}
+}
+
+void ComponentMesh::UpdateBoundingBox()
+{
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+
+	if (trans)
+	{
+		bounding_box.SetNegativeInfinity();
+		bounding_box = bounding_box.MinimalEnclosingAABB(mesh->vertices, mesh->num_vertices);
+		bounding_box.TransformAsAABB(trans->GetGlobalViewMatrix());
+	}
+
 }
 
 void ComponentMesh::SetBBColor(float r, float g, float b)

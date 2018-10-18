@@ -37,6 +37,7 @@ public:
 	AABB bounding_box; 
 	bool CreateEnclosedMeshAABB();
 	void DrawBoundingBox(); 
+	void UpdateBoundingBox(); 
 	void SetBBColor(float r, float g, float b); 
 
 	bool draw_bounding_box;

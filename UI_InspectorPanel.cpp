@@ -213,7 +213,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 		
 			if (ImGui::DragFloat3("Position", show_pos, 0.2f))
 				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
-
+			
 			if(ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f , 180.0f))
 				trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
