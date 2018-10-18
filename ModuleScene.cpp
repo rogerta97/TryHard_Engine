@@ -177,8 +177,11 @@ update_status ModuleScene::Update(float dt)
 {
 	pPlane p(0, 1, 0, 500);
 	p.axis = true;
-	p.color = {0.15f, 0.15f, 0.15f};  
+	p.color = {0.0f, 0.0f, 0.0f };
+
+	glDisable(GL_TEXTURE_2D); 
 	p.Render();
+	glEnable(GL_TEXTURE_2D);
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{

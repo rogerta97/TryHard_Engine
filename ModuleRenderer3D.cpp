@@ -228,15 +228,6 @@ char * ModuleRenderer3D::GetGraphicsVendor() const
 
 void ModuleRenderer3D::UpdateRenderSettings()
 {
-	GLfloat LightModelAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-
-	GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
-
-	GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
-
 	if (render_settings.depth_test)
 		glEnable(GL_DEPTH_TEST);
 	else  glDisable(GL_DEPTH_TEST);
