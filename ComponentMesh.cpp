@@ -217,14 +217,15 @@ void ComponentMesh::DrawBoundingBox()
 
 		ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
 
+		bounding_box.SetNegativeInfinity();
+		bounding_box = bounding_box.MinimalEnclosingAABB(mesh->vertices, mesh->num_vertices);
+		bounding_box.TransformAsAABB(trans->GetGlobalViewMatrix());
+
 		for (int i = 0; i < 12; i++)
 		{
 			curr_line = bounding_box.Edge(i);
 
-			curr_line.a += trans->transform.position;
 			glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
-
-			curr_line.b += trans->transform.position;
 			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
 
 			CONSOLE_LOG("A: %f, %f, %f", curr_line.a.x, curr_line.a.y, curr_line.a.z);

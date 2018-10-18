@@ -38,6 +38,7 @@ private:
 	void CalculateViewMatrix();
 
 private: 
-	float4x4 ViewMatrix; 
+	float4x4 ViewMatrix;
+	bool dirty; 
 };
 
