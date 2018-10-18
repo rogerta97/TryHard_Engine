@@ -131,7 +131,7 @@ void ComponentMesh::DrawMesh()
 		view_mat.Set((float*)matrix);
 
 		glMatrixMode(GL_MODELVIEW); 
-		glLoadMatrixf((GLfloat*)(trans->GetViewMatrix().Transposed() * view_mat).v);
+		glLoadMatrixf((GLfloat*)(trans->GetGlobalViewMatrix().Transposed() * view_mat).v);
 	}
 
 	if (material)

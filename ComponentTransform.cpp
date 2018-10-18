@@ -1,5 +1,6 @@
 #include "ComponentTransform.h"
 #include "Globals.h"
+#include "GameObject.h"
 
 
 ComponentTransform::ComponentTransform()
@@ -77,6 +78,17 @@ float4x4 ComponentTransform::GetViewMatrix()
 float4x4 ComponentTransform::GetGlobalViewMatrix()
 {
 	float4x4 to_ret_mat = float4x4::identity; 
+
+	GameObject* current_go = gameobject; 
+
+	do
+	{
+		ComponentTransform* trans = (ComponentTransform*)current_go->GetComponent(CMP_TRANSFORM); 
+
+		to_ret_mat = to_ret_mat * trans->GetViewMatrix(); 
+		current_go = current_go->GetParent();
+			
+	} while (current_go != nullptr);
 
 	return to_ret_mat;
 }
