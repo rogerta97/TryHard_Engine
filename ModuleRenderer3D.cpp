@@ -124,7 +124,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 
-		UpdateRenderSettings();
+		UseCurrentRenderSettings();
 	}
 
 	// Projection matrix for
@@ -198,7 +198,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::SetUIPrintSettings()
+void ModuleRenderer3D::UseUIRenderSettings()
 {
 	GLfloat LightModelAmbient[] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
@@ -216,6 +216,15 @@ void ModuleRenderer3D::SetUIPrintSettings()
 	glShadeModel(GL_SMOOTH);
 }
 
+void ModuleRenderer3D::UseDebugRenderSettings()
+{
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glLineWidth(2.0f); 
+	glColor3f(DEFAULT_WIREFRAME_COLOR);
+}
+
 char* ModuleRenderer3D::GetGraphicsModel() const
 {
 	return (char*)glGetString(GL_RENDERER);
@@ -226,31 +235,44 @@ char * ModuleRenderer3D::GetGraphicsVendor() const
 	return (char*)glGetString(GL_VENDOR);;
 }
 
-void ModuleRenderer3D::UpdateRenderSettings()
+void ModuleRenderer3D::UseCurrentRenderSettings()
 {
 	if (render_settings.depth_test)
 		glEnable(GL_DEPTH_TEST);
-	else  glDisable(GL_DEPTH_TEST);
+	else 
+		glDisable(GL_DEPTH_TEST);
 
 	if (render_settings.cull_face)
 		glEnable(GL_CULL_FACE);
-	else  glDisable(GL_CULL_FACE);
+	else  
+		glDisable(GL_CULL_FACE);
 
 	if (render_settings.color_material)
 		glEnable(GL_COLOR_MATERIAL);
-	else  glDisable(GL_COLOR_MATERIAL);
+	else 
+		glDisable(GL_COLOR_MATERIAL);
 
 	if (render_settings.texture)
 		glEnable(GL_TEXTURE_2D);
-	else  glDisable(GL_TEXTURE_2D);
+	else 
+		glDisable(GL_TEXTURE_2D);
 
 	if (render_settings.light)
 		glEnable(GL_LIGHTING);
-	else  glDisable(GL_LIGHTING);
+	else  
+		glDisable(GL_LIGHTING);
 
 	if (render_settings.wireframe)
+	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(DEFAULT_WIREFRAME_COLOR);
+	}		
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(DEFAULT_GEOMETRY_COLOR);
+	}
+		
 }
 
 RenderSettings ModuleRenderer3D::GetDefaultRenderSettings() const
@@ -276,22 +298,19 @@ void ModuleRenderer3D::PrintConfigData()
 		//Draw info
 		bool go = false; 
 
-		if (ImGui::Checkbox("Depth Test", &render_settings.depth_test)) go = true; ImGui::SameLine(); 
-			
-		if (ImGui::Checkbox("Cull Face", &render_settings.cull_face)) go = true;
+		ImGui::Checkbox("Depth Test", &render_settings.depth_test); 
+		
+		ImGui::Checkbox("Cull Face", &render_settings.cull_face);
 
-		if (ImGui::Checkbox("Lightning", &render_settings.light)) go = true;
+		ImGui::Checkbox("Lightning", &render_settings.light);
 	
-		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true; ImGui::SameLine();
+		ImGui::Checkbox("Wireframe", &render_settings.wireframe);
 
-		if (ImGui::Checkbox("Color Material", &render_settings.color_material)) go = true;
+		ImGui::Checkbox("Color Material", &render_settings.color_material);
 
-		if (ImGui::Checkbox("2D Texture", &render_settings.texture)) go = true; ImGui::SameLine();
+		ImGui::Checkbox("2D Texture", &render_settings.texture);
 
-		if (ImGui::Checkbox("Wireframe Selected", &render_settings.wireframe_selected)) go = true;
-
-		if (go)
-			UpdateRenderSettings(); 
+		ImGui::Checkbox("Wireframe Selected", &render_settings.wireframe_selected);
 	
 	}
 }

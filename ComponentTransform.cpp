@@ -74,6 +74,13 @@ float4x4 ComponentTransform::GetViewMatrix()
 	return ViewMatrix;
 }
 
+float4x4 ComponentTransform::GetGlobalViewMatrix()
+{
+	float4x4 to_ret_mat = float4x4::identity; 
+
+	return to_ret_mat;
+}
+
 float3 ComponentTransform::GetRotationEuler() const
 {
 	return transform.euler_angles;

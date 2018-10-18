@@ -42,8 +42,9 @@ void SkyBox::Draw()
 {
 	glColor3f(1.0f, 1.0f, 1.0f); 
 
-	glEnable(GL_TEXTURE_2D); 
 	glDisable(GL_LIGHTING); 
+	glEnable(GL_TEXTURE_2D); 
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -70,8 +71,7 @@ void SkyBox::Draw()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
-	App->renderer3D->UpdateRenderSettings(); 
-
+	App->renderer3D->UseCurrentRenderSettings(); 
 }
 
 void SkyBox::CleanUpSkyBox()

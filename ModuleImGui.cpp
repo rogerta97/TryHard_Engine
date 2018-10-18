@@ -108,10 +108,10 @@ update_status ModuleImGui::Update(float dt)
 	if (DrawTopBar() != update_status::UPDATE_CONTINUE)
 		return update_status::UPDATE_STOP;
 
-	App->renderer3D->SetUIPrintSettings();
+	App->renderer3D->UseUIRenderSettings();
 	DrawDocking();
 	ImGui::Render();
-	App->renderer3D->UpdateRenderSettings();
+	App->renderer3D->UseCurrentRenderSettings();
 	
 	return update_status::UPDATE_CONTINUE;
 }

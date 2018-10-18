@@ -33,19 +33,24 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
-	SetDrawSettings();
+	App->renderer3D->UseCurrentRenderSettings();
 	DrawMesh();
 
 	//if the mesh is selected we draw it again in wireframe mode
 	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
 	{
 		wireframe = true;
-		SetDrawSettings();
+		App->renderer3D->UseDebugRenderSettings();
 		DrawMesh();
+		App->renderer3D->UseCurrentRenderSettings();
 		wireframe = false;
 	}
 
-	
+	if (draw_normals)
+		DrawNormals();
+
+	if (draw_bounding_box)
+		DrawBoundingBox();
 
 	return true;	
 }
@@ -117,34 +122,6 @@ void ComponentMesh::DrawMesh()
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	if (material)
-	{		
-		glEnable(GL_TEXTURE_2D); 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
-
-		if (material->diffuse != nullptr)
-			material->diffuse->Bind();
-		else
-			glColor3f(1.0f, 1.0f, 1.0f); 
-
-		if (mesh->GetType() == MESH_FBX)
-			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		else
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-			
-		if (mesh->num_normals != 0)
-		{
-			glEnableClientState(GL_NORMAL_ARRAY);
-
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id); 
-			glNormalPointer(GL_FLOAT, 0, NULL);
-		}	
-	}
-	else
-		glColor3f(0.8f, 0.8f, 0.8f);
-
 	float4x4 view_mat = float4x4::identity;
 
 	if (trans)
@@ -157,21 +134,35 @@ void ComponentMesh::DrawMesh()
 		glLoadMatrixf((GLfloat*)(trans->GetViewMatrix().Transposed() * view_mat).v);
 	}
 
+	if (material)
+	{
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
+
+		if (material->diffuse != nullptr)
+			material->diffuse->Bind();
+		
+		if (mesh->GetType() == MESH_FBX)
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+
+		else
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+		if (mesh->num_normals != 0)
+		{
+			glEnableClientState(GL_NORMAL_ARRAY);
+
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id);
+			glNormalPointer(GL_FLOAT, 0, NULL);
+		}
+	}
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-	if (draw_normals)
-		DrawNormals(); 
-
-	if (draw_bounding_box)
-		DrawBoundingBox();
-
 	if (material)
-	{
 		material->diffuse->UnBind();
-		glDisable(GL_TEXTURE_2D);
-	}
-
+	
 	if (trans)
 	{
 		glMatrixMode(GL_MODELVIEW);
@@ -236,8 +227,8 @@ void ComponentMesh::DrawBoundingBox()
 	{
 		LineSegment curr_line;
 
-		glBegin(GL_LINES);
-		glColor3f(0, 1, 0);
+		glBegin(GL_LINES);		
+		App->renderer3D->UseDebugRenderSettings(); 
 
 		for (int i = 0; i < 12; i++)
 		{

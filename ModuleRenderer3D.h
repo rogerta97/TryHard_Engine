@@ -31,12 +31,15 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
-	void SetUIPrintSettings(); 
+
+	void UseCurrentRenderSettings();
+	void UseUIRenderSettings(); 
+	void UseDebugRenderSettings(); 
 
 	char* GetGraphicsModel() const;
 	char* GetGraphicsVendor() const;
 
-	void UpdateRenderSettings(); 
+
 	RenderSettings GetDefaultRenderSettings() const; 
 
 	void SetRenderCamera(ComponentCamera* cam); 

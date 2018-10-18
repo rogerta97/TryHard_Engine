@@ -22,6 +22,7 @@ public:
 	float3 GetScale() const;
 
 	float4x4 GetViewMatrix(); 
+	float4x4 GetGlobalViewMatrix(); 
 
 	float3 GetRotationEuler() const; 
 	void SetRotationEuler(float3 new_rot);
