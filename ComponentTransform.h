@@ -32,6 +32,7 @@ public:
 	void SetScale(float3 new_pos);
 
 	Transform transform;
+	void DrawAxis();
 
 private: 
 

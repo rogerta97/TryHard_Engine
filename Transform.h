@@ -15,7 +15,5 @@ public:
 	float3 euler_angles; 
 
 	float3 X, Y, Z; //Axis
-
-	void DrawAxis(); 
 };
 

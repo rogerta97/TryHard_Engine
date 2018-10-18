@@ -1,7 +1,7 @@
 #include "ComponentTransform.h"
 #include "Globals.h"
 #include "GameObject.h"
-
+#include "OpenGL.h"
 
 ComponentTransform::ComponentTransform()
 {
@@ -131,6 +131,8 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	CalculateViewMatrix(); 
 }
 
+
+
 void ComponentTransform::SetRotation(Quat new_rot)
 {
 	transform.rotation = new_rot; 
@@ -142,5 +144,44 @@ void ComponentTransform::SetScale(float3 new_esc)
 {
 	transform.scale = new_esc;
 	CalculateViewMatrix();
+}
+
+void ComponentTransform::DrawAxis()
+{
+	//LineSegment curr_line;
+
+	//glBegin(GL_LINES);
+	//App->renderer3D->UseDebugRenderSettings();
+
+	//glLineWidth(8.0f);
+
+	////X
+	//curr_line.a = { 0,0,0 };
+	//curr_line.b = (0, 0, 0) + X;
+
+	//glColor3f(1.0f, 0.0f, 0.0f);
+	//glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+	//glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+
+	////Y
+	//curr_line.a = { 0,0,0 };
+	//curr_line.b = float3(0, 0, 0) + Y;
+
+	//glColor3f(0.0f, 1.0f, 0.0f);
+	//glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+	//glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+
+	////Z
+	//curr_line.a = { 0,0,0 };
+	//curr_line.b = float3(0, 0, 0) + Z;
+
+	//glColor3f(0.0f, 0.0f, 1.0f);
+	//glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+	//glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+
+	//glEnable(GL_DEPTH_TEST);
+	//glEnd();
+
+	//App->renderer3D->UseCurrentRenderSettings();
 }
 

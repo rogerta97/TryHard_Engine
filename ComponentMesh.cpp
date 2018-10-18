@@ -83,11 +83,16 @@ void ComponentMesh::DrawNormals()
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f);
 
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+
 	for (int i = 0; i < mesh->num_normals; i++)
 	{
 		LineSegment curr_line; 
+
 		curr_line.a = mesh->vertices[i]; 
 		curr_line.b = mesh->vertices[i] + (mesh->normal_cords[i]*0.5f);
+
+		curr_line.Transform(trans->GetGlobalViewMatrix());
 
 		glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
 		glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);			
@@ -150,7 +155,7 @@ void ComponentMesh::DrawMesh()
 	
 	if (trans)
 	{
-		trans->transform.DrawAxis(); 
+		trans->DrawAxis(); 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
