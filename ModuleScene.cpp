@@ -190,12 +190,6 @@ update_status ModuleScene::Update(float dt)
 		}
 	}
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
 	if (go_to_delete.size() != 0)
 		DeleteGameObjectsNow(); 
 	 

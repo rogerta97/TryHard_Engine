@@ -58,8 +58,12 @@ void SkyBox::Draw()
 		}
 	
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sky_cube[i].indices_id);
-		glDrawElements(GL_TRIANGLES, sky_cube[i].num_indices, GL_UNSIGNED_INT, NULL);	
+		glDrawElements(GL_TRIANGLES, sky_cube[i].num_indices, GL_UNSIGNED_INT, NULL);
 	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
