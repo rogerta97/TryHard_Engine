@@ -44,7 +44,7 @@ bool ModuleCamera3D::Start()
 	cam->SetProjection(PROJ_PERSP); 
 	cam->SetAspect(ASP_EDITOR);
 
-	App->renderer3D->SetRenderCamera(cam); 
+	App->renderer3D->AddRenderCamera(cam); 
 
 	start_time = performance_timer.Read();
 	return ret;

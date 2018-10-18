@@ -31,7 +31,6 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
-	rendering_camera = nullptr; 
 
 	if(context == NULL)
 	{
@@ -146,16 +145,20 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	if (rendering_camera->GetProjection() == PROJ_ORTH)
+	for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
 	{
-		mat4x4 ort = ortho(1, 1, 1, 1, 0.2, 20);
-		glLoadMatrixf(ort.M);
+		if ((*it)->GetProjection() == PROJ_ORTH)
+		{
+			mat4x4 ort = ortho(1, 1, 1, 1, 0.2, 20);
+			glLoadMatrixf(ort.M);
+		}
+		else if ((*it)->GetProjection() == PROJ_PERSP)
+		{
+			mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
+			glLoadMatrixf(&ProjectionMatrix);
+		}
 	}
-	else if (rendering_camera->GetProjection() == PROJ_PERSP)
-	{
-		mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
-		glLoadMatrixf(&ProjectionMatrix);
-	}
+
 
 	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
 
@@ -279,16 +282,21 @@ RenderSettings ModuleRenderer3D::GetDefaultRenderSettings() const
 	return render_settings;
 }
 
-void ModuleRenderer3D::SetRenderCamera(ComponentCamera * cam)
+void ModuleRenderer3D::AddRenderCamera(ComponentCamera * cam)
 {
-	if(cam != nullptr)
-		rendering_camera = cam; 
+	rendering_cameras.push_back(cam); 
 }
 
-ComponentCamera * ModuleRenderer3D::GetRenderCamera() const
-{
-	return rendering_camera;
-}
+//void ModuleRenderer3D::SetRenderCamera(ComponentCamera * cam)
+//{
+//	if(cam != nullptr)
+//		rendering_camera = cam; 
+//}
+//
+//ComponentCamera * ModuleRenderer3D::GetRenderCamera() const
+//{
+//	return rendering_camera;
+//}
 
 void ModuleRenderer3D::PrintConfigData()
 {

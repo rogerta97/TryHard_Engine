@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "glmath.h"
 #include "Light.h"
+#include <list>
 
 #define MAX_LIGHTS 8
 
@@ -42,8 +43,9 @@ public:
 
 	RenderSettings GetDefaultRenderSettings() const; 
 
-	void SetRenderCamera(ComponentCamera* cam); 
-	ComponentCamera* GetRenderCamera() const;
+	void AddRenderCamera(ComponentCamera* cam);
+	//void SetRenderCamera(ComponentCamera* cam); 
+	//ComponentCamera* GetRenderCamera() const;
 
 	void PrintConfigData(); 
 
@@ -55,5 +57,5 @@ public:
 	/*mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;*/
 
-	ComponentCamera* rendering_camera; 
+	std::list<ComponentCamera*> rendering_cameras; 
 };
