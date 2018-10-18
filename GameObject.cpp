@@ -219,11 +219,11 @@ void GameObject::DeleteRecursive()
 
 void GameObject::DeleteAllComponents()
 {
-	for (auto it = component_list.begin(); it != component_list.end();)
+	for (auto it = component_list.begin(); it != component_list.end();it++)
 	{
 		(*it)->CleanUp();
 		delete (*it);
-		it = component_list.erase(it);
+		
 	}
 
 	component_list.clear(); 

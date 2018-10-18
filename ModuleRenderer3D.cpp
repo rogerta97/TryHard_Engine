@@ -228,6 +228,15 @@ char * ModuleRenderer3D::GetGraphicsVendor() const
 
 void ModuleRenderer3D::UpdateRenderSettings()
 {
+	GLfloat LightModelAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+
+	GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+
+	GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
+
 	if (render_settings.depth_test)
 		glEnable(GL_DEPTH_TEST);
 	else  glDisable(GL_DEPTH_TEST);
@@ -243,6 +252,10 @@ void ModuleRenderer3D::UpdateRenderSettings()
 	if (render_settings.texture)
 		glEnable(GL_TEXTURE_2D);
 	else  glDisable(GL_TEXTURE_2D);
+
+	if (render_settings.light)
+		glEnable(GL_LIGHTING);
+	else  glDisable(GL_LIGHTING);
 
 	if (render_settings.wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -275,6 +288,8 @@ void ModuleRenderer3D::PrintConfigData()
 		if (ImGui::Checkbox("Depth Test", &render_settings.depth_test)) go = true; ImGui::SameLine(); 
 			
 		if (ImGui::Checkbox("Cull Face", &render_settings.cull_face)) go = true;
+
+		if (ImGui::Checkbox("Lightning", &render_settings.light)) go = true;
 	
 		if (ImGui::Checkbox("Wireframe", &render_settings.wireframe)) go = true; ImGui::SameLine();
 

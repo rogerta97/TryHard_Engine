@@ -177,10 +177,8 @@ update_status ModuleScene::Update(float dt)
 {
 	pPlane p(0, 1, 0, 500);
 	p.axis = true;
-	//p.Scale(0.01f, 0.01f, 0.01f);
 	p.color = {0.15f, 0.15f, 0.15f};  
 	p.Render();
-
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{

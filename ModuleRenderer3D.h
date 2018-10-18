@@ -16,6 +16,7 @@ struct RenderSettings
 	bool color_material = true;
 	bool texture = true; 
 	bool wireframe_selected = true; 
+	bool light = true;
 };
 
 class ModuleRenderer3D : public Module

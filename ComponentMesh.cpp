@@ -45,6 +45,8 @@ bool ComponentMesh::Update()
 		wireframe = false;
 	}
 
+	
+
 	return true;	
 }
 
@@ -98,9 +100,7 @@ void ComponentMesh::DrawNormals()
 		curr_line.b = mesh->vertices[i] + (mesh->normal_cords[i]*0.5f);
 
 		glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
-		glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);	
-
-		
+		glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);			
 	}
 
 	glEnd();
@@ -143,7 +143,7 @@ void ComponentMesh::DrawMesh()
 		}	
 	}
 	else
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glColor3f(0.8f, 0.8f, 0.8f);
 
 	float4x4 view_mat = float4x4::identity;
 

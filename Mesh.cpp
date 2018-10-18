@@ -124,6 +124,14 @@ bool Mesh::SetCubeData()
 	indices[34] = 6;
 	indices[35] = 7;
 
+	normal_cords = new float3[num_vertices];
+	num_normals = num_vertices; 
+
+	normal_cords[0] = vertices[0]; normal_cords[1] = vertices[1];
+	normal_cords[2] = vertices[2]; normal_cords[3] = vertices[3];
+	normal_cords[4] = vertices[4]; normal_cords[5] = vertices[5];
+	normal_cords[6] = vertices[6]; normal_cords[7] = vertices[7];
+
 	////Create UV's
 	uvs_id = CreateBuffer();
 
@@ -376,7 +384,7 @@ void Mesh::LoadToMemory()
 	{
 		glGenBuffers(1, &normals_id);
 		glBindBuffer(GL_ARRAY_BUFFER, normals_id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_normals * 3, normal_cords, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_normals, normal_cords, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		CONSOLE_DEBUG("Normals from '%s' Loaded To Memory with ID: %d", name.c_str(), normals_id);

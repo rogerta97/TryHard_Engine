@@ -564,9 +564,6 @@
     <ClInclude Include="ModuleScene.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Sources\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="mmgr\mmgr.h">
       <Filter>Sources\3rd Partys\mmgr</Filter>
     </ClInclude>
@@ -575,6 +572,9 @@
     </ClInclude>
     <ClInclude Include="ComponentCamera.h">
       <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
