@@ -1,7 +1,6 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "glmath.h"
 #include "Timer.h"
 #include "SkyBox.h"
 
@@ -32,5 +31,7 @@ public:
 private:
 
 	GameObject* ecam_go; 
+
+	float3 Rotate(const float3 &u, float angle, const float3 &v);
 	//ComponentCamera* game_camera; 
 };

@@ -2,7 +2,6 @@
 
 #include "Globals.h"
 #include "Component.h"
-#include "glmath.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "Timer.h"
 
@@ -30,8 +29,8 @@ struct CameraInterpolation
 	LineSegment line;
 
 	//Rotation
-	vec3 source_vec;
-	vec3 dst_vec;
+	float3 source_vec;
+	float3 dst_vec;
 
 	vec center;
 
@@ -57,9 +56,9 @@ public:
 	bool CleanUp(); 
 
 	//Movement
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec3 &Spot);
-	void Move(const vec3 &Movement);
+	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
+	void LookAt(const float3 &Spot);
+	void Move(const float3 &Movement);
 	float* GetViewMatrix();
 
 	//Interpolation
@@ -70,6 +69,12 @@ public:
 	//Setters & Getters
 	void SetSpeed(float new_speed);
 	float GetSpeed() const;
+
+	void SetWidth();
+	float GetWidth() const;
+	void SetHeight();
+	float GetHeight() const;
+	
 
 	void SetMouseSensitivity(float new_sensitivity);
 	float GetMouseSensitivity() const;
@@ -95,18 +100,23 @@ public:
 	bool AreFloat3Same(float3 a, float3 b, float epsilon);
 public: 
 
-	vec3 X, Y, Z, Position, Reference;
+	float3 X, Y, Z, Position, Reference;
 	CameraInterpolation interpolation; 
 	float wheel_zoom_speed = 5.0f;
 	float speed_multiplier;
-	float mouse_sensitivity = 5.0f;
+	float mouse_sensitivity;
 
-private: 
+private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	float4x4 ViewMatrix, ViewMatrixInverse;
 
 	Projection_Type projection; 
 	Camera_Aspect aspect; 
+
+	vec fov;
+	vec size;
+
+	float aspect_ratio;
 
 	TextureMSAA* viewport_texture;
 	float speed = 0.1f;

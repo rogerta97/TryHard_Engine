@@ -9,18 +9,6 @@
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
-	//name = "Camera";
-
-	//CalculateViewMatrix();
-
-	//X = vec3(1.0f, 0.0f, 0.0f);
-	//Y = vec3(0.0f, 1.0f, 0.0f);
-	//Z = vec3(0.0f, 0.0f, 1.0f);
-
-	//Position = vec3(3.0f, 3.0f, 8.0f);
-	//Reference = vec3(0.0f, 0.0f, 0.0f);
-
-	//orbit = true;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -122,6 +110,11 @@ ComponentCamera * ModuleCamera3D::GetEditorCamera()
 		return nullptr; 	
 }
 
+float3 ModuleCamera3D::Rotate(const float3 & u, float angle, const float3 & v)
+{
+	return *(float3*)&(float4x4::RotateAxisAngle(v, angle) * float4(u, 1.0f));
+}
+
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
@@ -136,13 +129,13 @@ update_status ModuleCamera3D::Update(float dt)
 	if (ecam_go != nullptr && cam != nullptr)
 	{
 		//Editor Camera Movement
-		vec3 point_look = { 0, 0, 0 };
+		float3 point_look = { 0, 0, 0 };
 		int scale_value = 3;
 		bool moved = false;
 		cam->speed_multiplier = 1;
 
 		//Camera WASD & ER input
-		vec3 increment = { 0.0f ,0.0f ,0.0f };
+		float3 increment = { 0.0f ,0.0f ,0.0f };
 
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
 			cam->speed_multiplier = 2;
@@ -228,9 +221,9 @@ update_status ModuleCamera3D::Update(float dt)
 				{
 					float DeltaX = (float)dx * cam->mouse_sensitivity;
 
-					cam->X = rotate(cam->X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-					cam->Y = rotate(cam->Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-					cam->Z = rotate(cam->Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+					cam->X = Rotate(cam->X, DeltaX, float3(0.0f, 1.0f, 0.0f));
+					cam->Y = Rotate(cam->Y, DeltaX, float3(0.0f, 1.0f, 0.0f));
+					cam->Z = Rotate(cam->Z, DeltaX, float3(0.0f, 1.0f, 0.0f));
 				}
 
 
@@ -239,18 +232,18 @@ update_status ModuleCamera3D::Update(float dt)
 				{
 					float DeltaY = (float)dy * cam->mouse_sensitivity;
 
-					cam->Y = rotate(cam->Y, DeltaY, cam->X);
-					cam->Z = rotate(cam->Z, DeltaY, cam->X);
+					cam->Y = Rotate(cam->Y, DeltaY, cam->X);
+					cam->Z = Rotate(cam->Z, DeltaY, cam->X);
 
 					if (cam->Y.y < 0.0f)
 					{
-						cam->Z = vec3(0.0f, cam->Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-						cam->Y = cross(cam->Z, cam->X);
+						cam->Z = float3(0.0f, cam->Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+						cam->Y = Cross(cam->Z, cam->X);
 					}
 				}
 
 				if (App->input->GetKey(SDL_SCANCODE_LALT))
-					cam->Position = cam->Reference + cam->Z * length(cam->Position);
+					cam->Position = cam->Reference + cam->Z * Length(cam->Position);
 			}
 		}
 

@@ -17,10 +17,10 @@ public:
 	void SetTextureID();
 	unsigned int GetTextureID() const;
 
-	void SetWidth();
+	void SetWidth(uint width);
 	unsigned int GetWidth() const;
 
-	void SetHeight();
+	void SetHeight(uint height);
 	unsigned int GetHeight() const;
 
 	void LoadToMemory();

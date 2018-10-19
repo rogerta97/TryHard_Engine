@@ -107,8 +107,9 @@ unsigned int TextureMSAA::GetTextureID() const
 	return texture_id;
 }
 
-void TextureMSAA::SetWidth()
+void TextureMSAA::SetWidth(uint width)
 {
+	this->width = width;
 }
 
 unsigned int TextureMSAA::GetWidth() const
@@ -116,8 +117,9 @@ unsigned int TextureMSAA::GetWidth() const
 	return width;
 }
 
-void TextureMSAA::SetHeight()
+void TextureMSAA::SetHeight(uint height)
 {
+	this->height = height;
 }
 
 unsigned int TextureMSAA::GetHeight() const

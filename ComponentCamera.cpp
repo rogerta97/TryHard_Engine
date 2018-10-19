@@ -12,16 +12,21 @@ ComponentCamera::ComponentCamera()
 
 	CalculateViewMatrix();
 
-	X = vec3(1.0f, 0.0f, 0.0f);
-	Y = vec3(0.0f, 1.0f, 0.0f);
-	Z = vec3(0.0f, 0.0f, 1.0f);
+	X = float3(1.0f, 0.0f, 0.0f);
+	Y = float3(0.0f, 1.0f, 0.0f);
+	Z = float3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(3.0f, 3.0f, 8.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
+	Position = float3(3.0f, 3.0f, 8.0f);
+	Reference = float3(0.0f, 0.0f, 0.0f);
 
 	projection = PROJ_PERSP;
 
+	size.x = 1000;
+	size.y = 1000;
+
 	orbit = true;
+
+	mouse_sensitivity = 0.01f;
 }
 
 ComponentCamera::~ComponentCamera()
@@ -35,11 +40,16 @@ bool ComponentCamera::Start()
 	LOG("Setting up the camera");
 	bool ret = true;
 
+	
+
 	viewport_texture = new TextureMSAA();
-	viewport_texture->Create(App->window->screen_surface->w, App->window->screen_surface->h, 2);
+	viewport_texture->Create(1000, 1000, 2);
+
+	//viewport_texture->SetHeight(size.y);
+	//viewport_texture->SetWidth(size.x);
 
 	SetSpeed(3);
-	SetMouseSensitivity(0.25f);
+	SetMouseSensitivity(0.01f);
 
 
 	interpolation.Init();
@@ -67,14 +77,14 @@ bool ComponentCamera::Update()
 }
 
 // -----------------------------------------------------------------
-void ComponentCamera::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
+void ComponentCamera::Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference)
 {
 	this->Position = Position;
 	this->Reference = Reference;
 
-	Z = normalize(Position - Reference);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);
+	Z = (Position - Reference).Normalized();
+	X = (Cross(float3(0.0f, 1.0f, 0.0f), Z)).Normalized();
+	Y = Cross(Z, X);
 
 	if (!RotateAroundReference)
 	{
@@ -86,20 +96,20 @@ void ComponentCamera::Look(const vec3 &Position, const vec3 &Reference, bool Rot
 }
 
 // -----------------------------------------------------------------
-void ComponentCamera::LookAt(const vec3 &Spot)
+void ComponentCamera::LookAt(const float3 &Spot)
 {
 	Reference = Spot;
 
-	Z = normalize(Position - Reference);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);
+	Z = (Position - Reference).Normalized();
+	X = (Cross(float3(0.0f, 1.0f, 0.0f), Z)).Normalized();
+	Y = Cross(Z, X);
 
 	CalculateViewMatrix();
 }
 
 
 // -----------------------------------------------------------------
-void ComponentCamera::Move(const vec3 &Movement)
+void ComponentCamera::Move(const float3 &Movement)
 {
 	Position += Movement;
 	Reference += Movement;
@@ -110,7 +120,7 @@ void ComponentCamera::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float* ComponentCamera::GetViewMatrix()
 {
-	return &ViewMatrix;
+	return &ViewMatrix[0][0];
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(vec center, float distance) const
@@ -142,14 +152,14 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 		{
 			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 1;
 
-			vec3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
+			float3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
 
 			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
 			
 			interpolation.line.a = dst_point;
 			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 
-			interpolation.dst_vec = -normalize(Position - center);
+			interpolation.dst_vec = -(Position - center).Normalized();
 			interpolation.source_vec = -Z;
 
 			interpolation.center = cmp_mesh->bounding_box.CenterPoint();
@@ -184,7 +194,7 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 			interpolation.line.a = dst_point;
 			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 		
-			interpolation.dst_vec = -normalize(Position - vec3(center.x, center.y, center.z));
+			interpolation.dst_vec = -(Position - float3(center.x, center.y, center.z)).Normalized();
 			interpolation.source_vec = -Z;
 		}
 	}
@@ -192,9 +202,9 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 bool ComponentCamera::InterpolateCamera(float time)
 {
-	vec3 look_point = { 0,0,0 };
+	float3 look_point = { 0,0,0 };
 
-	vec3 center = { interpolation.center.x, interpolation.center.y, interpolation.center.z };
+	float3 center = { interpolation.center.x, interpolation.center.y, interpolation.center.z };
 
 	float3 src_vector = { interpolation.source_vec.x,  interpolation.source_vec.y , interpolation.source_vec.z };
 	float3 dst_vector = { interpolation.dst_vec.x,  interpolation.dst_vec.y , interpolation.dst_vec.z };
@@ -280,6 +290,24 @@ float ComponentCamera::GetSpeed() const
 	return speed;
 }
 
+void ComponentCamera::SetWidth()
+{
+}
+
+float ComponentCamera::GetWidth() const
+{
+	return size.x;
+}
+
+void ComponentCamera::SetHeight()
+{
+}
+
+float ComponentCamera::GetHeight() const
+{
+	return size.y;
+}
+
 TextureMSAA * ComponentCamera::GetViewportTexture()
 {
 	return viewport_texture; 
@@ -321,6 +349,7 @@ bool ComponentCamera::IsLocked() const
 // -----------------------------------------------------------------
 void ComponentCamera::CalculateViewMatrix()
 {
-	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
-	ViewMatrixInverse = inverse(ViewMatrix);
+	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -Dot(X, Position), -Dot(Y, Position), -Dot(Z, Position), 1.0f);
+	ViewMatrixInverse = ViewMatrix;
+	ViewMatrixInverse.Inverse();
 }

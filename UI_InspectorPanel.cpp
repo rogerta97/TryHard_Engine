@@ -359,10 +359,17 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
 	int selected_proj = camera->GetProjection(); 
 	std::string label = "Projection##" + camera->GetGameObject()->GetName();
 
+
+
 	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
 	{
 		camera->SetProjection((Projection_Type)selected_proj); 
 	}
+
+	float show_size[2] = { camera->GetWidth(),camera->GetHeight() };
+
+	if (ImGui::DragFloat3("Size", show_size, 0.2f))
+		CONSOLE_LOG("size changed");
 
 }
 

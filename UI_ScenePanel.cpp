@@ -57,6 +57,7 @@ bool UI_ScenePanel::Update()
 			}
 
 
+
 			ImGui::Image((void*)App->camera->GetEditorCamera()->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
 			//App->camera->GetViewportTexture()->Unbind();
