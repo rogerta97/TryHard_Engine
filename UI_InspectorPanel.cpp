@@ -364,22 +364,30 @@ void UI_InspectorPanel::PrintMaterialProperties()
 	}		
 }
 
-void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
+void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 {
-	int selected_proj = camera->GetProjection(); 
-	std::string label = "Projection##" + camera->GetGameObject()->GetName();
-
-
+	int selected_proj = camera_cmp->camera->projection;
+	std::string label = "Projection##" + camera_cmp->GetGameObject()->GetName();
 
 	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
 	{
-		camera->SetProjection((Projection_Type)selected_proj); 
+		camera_cmp->camera->projection = (Projection_Type)selected_proj;
 	}
 
-	float show_size[2] = { camera->GetWidth(),camera->GetHeight() };
+	if (ImGui::InputFloat("Near Plane", &camera_cmp->camera->frustum.nearPlaneDistance, 0.1f))
+	{
 
-	if (ImGui::DragFloat3("Size", show_size, 0.2f))
-		CONSOLE_LOG("size changed");
+	}
+
+	if (ImGui::InputFloat("Far Plane", &camera_cmp->camera->frustum.farPlaneDistance, 0.1f))
+	{
+
+	}
+
+	if (ImGui::Checkbox("Frustum Culling", &camera_cmp->camera->frustum_culling))
+	{
+
+	}
 }
 
 

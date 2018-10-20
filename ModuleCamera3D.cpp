@@ -30,8 +30,8 @@ bool ModuleCamera3D::Start()
 	ecam_go = new GameObject("EditorCamera"); 
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
-	cam->SetProjection(PROJ_PERSP); 
-	cam->SetAspect(ASP_EDITOR);
+	cam->camera->projection = PROJ_PERSP; 
+	cam->camera->aspect = ASP_EDITOR;
 
 	App->renderer3D->AddRenderCamera(cam); 
 
@@ -81,6 +81,8 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::SliderFloat("Zoom Spped", &editor_camera->wheel_zoom_speed, 0.01f, 10.0f, "%.2f");
 
 		ImGui::SliderInt("Interpolation Speed", (int*)&editor_camera->interpolation.interpolation_ms, 50, 2000);
+
+		SEPARATE_WITH_SPACE
 	
 		App->imgui->inspector_panel->PrintCameraProperties(App->camera->GetEditorCamera());
 

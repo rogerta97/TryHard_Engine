@@ -555,6 +555,9 @@
     <ClInclude Include="MathGeoLib\MathGeoLib.h">
       <Filter>Sources\3rd Partys\MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Sources\GameObject\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -790,6 +793,9 @@
     </ClCompile>
     <ClCompile Include="MathGeoLib\Geometry\TriangleMesh.cpp">
       <Filter>Sources\3rd Partys\MathGeoLib\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Sources\GameObject\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

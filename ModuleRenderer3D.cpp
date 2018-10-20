@@ -143,7 +143,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
 
 	glMatrixMode(GL_PROJECTION);
-	Frustum camerafrustum = App->camera->GetEditorCamera()->frustum;
+	Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
 	ProjectionMatrix = camerafrustum.ProjectionMatrix();
 
 	glLoadMatrixf(&ProjectionMatrix[0][0]);
@@ -204,10 +204,9 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 
 
-
 	if (App->camera->GetEditorCamera()) {
 
-		ProjectionMatrix = App->camera->GetEditorCamera()->frustum.ProjectionMatrix();
+		ProjectionMatrix = App->camera->GetEditorCamera()->camera->frustum.ProjectionMatrix();
 
 		glLoadMatrixf(&ProjectionMatrix[0][0]);
 	}

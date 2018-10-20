@@ -19,19 +19,8 @@ ComponentCamera::ComponentCamera()
 	Position = float3(3.0f, 3.0f, 8.0f);
 	Reference = float3(0.0f, 0.0f, 0.0f);
 
-
-	horizontal_fov = 90;
-
-	//frustum.horizontalFov = fov_x;
-	frustum.horizontalFov = DegToRad(90);
-	frustum.verticalFov = DegToRad(60);
-	frustum.nearPlaneDistance = 0.5;
-	frustum.farPlaneDistance = 512;
-	//frustum.orthographicWidth = 1000;
-	//frustum.orthographicHeight = 800;
-	frustum.type = FrustumType::PerspectiveFrustum;
-
-	frustum.SetWorldMatrix(float3x4::identity);
+	camera = new Camera(); 
+	camera->InitCamera(); 
 
 	size.x = 1500;
 	size.y = 1000;
@@ -80,7 +69,7 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
-	frustum.pos = Position;
+	camera->frustum.pos = Position;
 
 	return UPDATE_CONTINUE;
 }
@@ -271,25 +260,7 @@ float ComponentCamera::GetMouseSensitivity() const
 	return mouse_sensitivity;
 }
 
-Projection_Type ComponentCamera::GetProjection() const
-{
-	return projection;
-}
 
-void ComponentCamera::SetProjection(Projection_Type type)
-{
-	projection = type; 
-}
-
-Camera_Aspect ComponentCamera::GetAspect() const
-{
-	return aspect;
-}
-
-void ComponentCamera::SetAspect(Camera_Aspect type)
-{
-	aspect = type; 
-}
 
 float ComponentCamera::GetSpeed() const
 {

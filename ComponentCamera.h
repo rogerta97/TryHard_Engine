@@ -4,19 +4,7 @@
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "Timer.h"
-
-enum Projection_Type 
-{ 
-	PROJ_PERSP,
-	PROJ_ORTH,	
-}; 
-
-enum Camera_Aspect
-{
-	ASP_EDITOR,
-	ASP_MAIN,
-	ASP_NONE,
-};
+#include "Camera.h"
 
 class TextureMSAA;
 
@@ -75,15 +63,8 @@ public:
 	void SetHeight();
 	float GetHeight() const;
 	
-
 	void SetMouseSensitivity(float new_sensitivity);
 	float GetMouseSensitivity() const;
-
-	Projection_Type GetProjection() const;
-	void SetProjection(Projection_Type type); 
-
-	Camera_Aspect GetAspect() const;
-	void SetAspect(Camera_Aspect type);
 
 	//Utility
 	void LockCamera();
@@ -101,23 +82,16 @@ public:
 public: 
 
 	float3 X, Y, Z, Position, Reference;
-	Frustum frustum;
 	CameraInterpolation interpolation; 
 	float wheel_zoom_speed = 5.0f;
 	float speed_multiplier;
 	float mouse_sensitivity;
+	Camera* camera;
 
 private:
 
-	float4x4 ViewMatrix, ViewMatrixInverse;
-
-	Projection_Type projection; 
-	Camera_Aspect aspect; 
-
-	float horizontal_fov;
+	float4x4 ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
 	float2 size;
-
-	float aspect_ratio;
 
 	TextureMSAA* viewport_texture;
 	float speed = 0.1f;
