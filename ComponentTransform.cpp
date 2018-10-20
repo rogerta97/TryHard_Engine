@@ -45,6 +45,7 @@ void ComponentTransform::ResetTransform()
 	transform.position = { 0,0,0 }; 
 	transform.rotation = Quat::identity; 
 	transform.scale = float3(1.0f, 1.0f, 1.0f); 
+	transform.euler_angles = float3::zero; 
 
 	CalculateViewMatrix(); 
 }
@@ -111,18 +112,17 @@ float3 ComponentTransform::GetRotationEuler() const
 	return transform.euler_angles;
 }
 
-void ComponentTransform::SetRotationEuler(float3 new_rot)
+void ComponentTransform::SetRotationEuler(float3 new_rot, const char* axis)
 {
 	Quat new_quat = Quat::identity; 
-
-	new_quat = new_quat * new_quat.RotateX(DEGTORAD*new_rot.x);
+	
 	new_quat = new_quat * new_quat.RotateY(DEGTORAD*new_rot.y);
-	new_quat = new_quat * new_quat.RotateZ(DEGTORAD*new_rot.z);
-
-	transform.rotation = new_quat;
-	transform.euler_angles = new_rot; 
-
+	new_quat = new_quat * new_quat.RotateX(DEGTORAD*new_rot.x); 
+	new_quat = new_quat * new_quat.RotateZ(DEGTORAD*new_rot.z); 
+	
+	transform.rotation = new_quat; 
 	CalculateViewMatrix();
+	transform.euler_angles = new_rot;
 }
 
 void ComponentTransform::SetPosition(float3 new_pos)

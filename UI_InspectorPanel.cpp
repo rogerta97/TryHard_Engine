@@ -211,11 +211,21 @@ void UI_InspectorPanel::PrintTransformProperties()
 			float show_rot[3] = { trans_cmp->GetRotationEuler().x, trans_cmp->GetRotationEuler().y, trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 		
-			if (ImGui::DragFloat3("Position", show_pos, 0.2f))
+			if (ImGui::DragFloat3("Position", show_pos, 0.2f))		
 				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
-			
-			if(ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f , 180.0f))
-				trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+						
+			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f))
+			{
+				if(trans_cmp->GetRotationEuler().x != show_rot[0])
+					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "X");
+
+				if (trans_cmp->GetRotationEuler().y != show_rot[1])
+					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Y");
+
+				if (trans_cmp->GetRotationEuler().z != show_rot[2])
+					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Z");
+			}
+				
 
 			if(ImGui::DragFloat3("Scale", show_scale, 0.2f))
 				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
