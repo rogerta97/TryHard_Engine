@@ -366,12 +366,23 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 {
-	int selected_proj = camera_cmp->camera->projection;
+	
+	int selected_proj = camera_cmp->camera->frustum.type;
 	std::string label = "Projection##" + camera_cmp->GetGameObject()->GetName();
 
 	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
 	{
-		camera_cmp->camera->projection = (Projection_Type)selected_proj;
+		switch (selected_proj)
+		{
+		case 0:
+			camera_cmp->camera->frustum.type = PerspectiveFrustum;
+			break; 
+
+		case 1:
+			camera_cmp->camera->frustum.type = OrthographicFrustum;
+			break; 
+		}
+		
 	}
 
 	if (ImGui::InputFloat("Near Plane", &camera_cmp->camera->frustum.nearPlaneDistance, 0.1f))

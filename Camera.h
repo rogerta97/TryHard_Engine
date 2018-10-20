@@ -2,12 +2,6 @@
 #include "Resource.h"
 #include "MathGeoLib\MathGeoLib.h"
 
-enum Projection_Type
-{
-	PROJ_PERSP,
-	PROJ_ORTH,
-};
-
 enum Camera_Aspect
 {
 	ASP_EDITOR,
@@ -31,7 +25,6 @@ public:
 
 	bool frustum_culling;
 
-	Projection_Type projection; 
 	Camera_Aspect aspect; 
 
 	float2 size;

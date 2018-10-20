@@ -148,7 +148,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glLoadMatrixf(&ProjectionMatrix[0][0]);
 
-
 	//mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
 	//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
 	//glLoadMatrixf(&ProjectionMatrix);
@@ -202,7 +201,6 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-
 
 	if (App->camera->GetEditorCamera()) {
 

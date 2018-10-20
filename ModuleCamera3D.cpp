@@ -30,7 +30,6 @@ bool ModuleCamera3D::Start()
 	ecam_go = new GameObject("EditorCamera"); 
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
-	cam->camera->projection = PROJ_PERSP; 
 	cam->camera->aspect = ASP_EDITOR;
 
 	App->renderer3D->AddRenderCamera(cam); 
