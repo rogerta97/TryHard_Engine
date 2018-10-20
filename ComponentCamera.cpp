@@ -52,8 +52,6 @@ bool ComponentCamera::Start()
 	LOG("Setting up the camera");
 	bool ret = true;
 
-	
-
 	viewport_texture = new TextureMSAA();
 	viewport_texture->Create(size.x, size.y, 2);
 
@@ -62,7 +60,6 @@ bool ComponentCamera::Start()
 
 	SetSpeed(3);
 	SetMouseSensitivity(0.01f);
-
 
 	interpolation.Init();
 
@@ -73,8 +70,6 @@ bool ComponentCamera::Start()
 bool ComponentCamera::CleanUp()
 {
 	LOG("Cleaning camera");
-
-
 
 	return true;
 }
@@ -137,20 +132,19 @@ float* ComponentCamera::GetViewMatrix()
 	return &ViewMatrix[0][0];
 }
 
-float3 ComponentCamera::GetCamPointFromDistance(float2 center, float distance) const
+float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const
 {
-	//float3 cam_pos(Position.x, Position.y, Position.z);
+	float3 cam_pos(Position.x, Position.y, Position.z);
 
-	//LineSegment line;
+	LineSegment line;
 
-	//line.a = center;
-	//line.b = cam_pos;
+	line.a = center;
+	line.b = cam_pos;
 
-	//float equivalence = distance / line.Length();
-	//float3 dst_point = line.GetPoint(equivalence);
+	float equivalence = distance / line.Length();
+	float3 dst_point = line.GetPoint(equivalence);
 
-	//return dst_point;
-	return { 0,0,0 };
+	return dst_point;
 }
 
 void ComponentCamera::FillInterpolationSegmentAndRot()
@@ -167,103 +161,99 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 		{
 			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 1;
 
-			float3 center(cmp_mesh->bounding_box.CenterPoint().x, cmp_mesh->bounding_box.CenterPoint().y, cmp_mesh->bounding_box.CenterPoint().z);
+			float3 center = cmp_mesh->bounding_box.CenterPoint();
 
-			//float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
-			//
-			//interpolation.line.a = dst_point;
-			//interpolation.line.b = float3({ Position.x, Position.y, Position.z });
-
-			//interpolation.dst_vec = -(Position - center).Normalized();
-			//interpolation.source_vec = -Z;
-
-			//interpolation.center = cmp_mesh->bounding_box.CenterPoint();
+			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
 			
-			
+			interpolation.line.a = dst_point;
+			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 
+			interpolation.dst_vec = -(Position - center).Normalized();
+			interpolation.source_vec = -Z;
+
+			interpolation.center = cmp_mesh->bounding_box.CenterPoint();
+			
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
-			//ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_RENDERER);
+			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_RENDERER);
 
-			//float3 min, max, position;
-			//float distance; 
+			float3 min, max, position;
+			float distance; 
 
-			//min = max = position = { 0,0,0 };
+			min = max = position = { 0,0,0 };
 
-			//selected_go->GetEnclosedAABB(min, max);
-			//selected_go->SetCenterCamDataRecursive(position, distance);
+			selected_go->GetEnclosedAABB(min, max);
+			selected_go->SetCenterCamDataRecursive(position, distance);
 
-			//AABB new_bb; 
-			//new_bb.minPoint = min; 
-			//new_bb.maxPoint = max; 
-			//distance = new_bb.Diagonal().Length() + 1; 
+			AABB new_bb; 
+			new_bb.minPoint = min; 
+			new_bb.maxPoint = max; 
+			distance = new_bb.Diagonal().Length() + 1; 
 
-			//float3 tmpcenter = position / App->scene->GetGameObjectsAmmount();
-			//float2 center(tmpcenter.x, tmpcenter.y, tmpcenter.z);
+			float3 center = position / App->scene->GetGameObjectsAmmount();
 
-			//float3 dst_point = GetCamPointFromDistance(center, distance);
+			float3 dst_point = GetCamPointFromDistance(center, distance);
 
-			//interpolation.center = center;
-			//
-			//interpolation.line.a = dst_point;
-			//interpolation.line.b = float3({ Position.x, Position.y, Position.z });
+			interpolation.center = center;
+			
+			interpolation.line.a = dst_point;
+			interpolation.line.b = Position;
 		
-			//interpolation.dst_vec = -(Position - float3(center.x, center.y, center.z)).Normalized();
-			//interpolation.source_vec = -Z;
+			interpolation.dst_vec = -(Position - center).Normalized();
+			interpolation.source_vec = -Z;
 		}
 	}
 }
 
 bool ComponentCamera::InterpolateCamera(float time)
 {
-	//float3 look_point = { 0,0,0 };
+	float3 look_point = { 0,0,0 };
 
-	//float3 center = { interpolation.center.x, interpolation.center.y, interpolation.center.z };
+	float3 center = { interpolation.center.x, interpolation.center.y, interpolation.center.z };
 
-	//float3 src_vector = { interpolation.source_vec.x,  interpolation.source_vec.y , interpolation.source_vec.z };
-	//float3 dst_vector = { interpolation.dst_vec.x,  interpolation.dst_vec.y , interpolation.dst_vec.z };
-	//float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, 1);
+	float3 src_vector = { interpolation.source_vec.x,  interpolation.source_vec.y , interpolation.source_vec.z };
+	float3 dst_vector = { interpolation.dst_vec.x,  interpolation.dst_vec.y , interpolation.dst_vec.z };
+	float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, 1);
 
-	//bool end = false;
+	bool end = false;
 
-	//if (Reference.x == center.x && Reference.y == center.y && Reference.z == center.z) {
-	//	end = true;
-	//	if (!AreFloat3Same(src_vector, dst_vector, 0.001f))
-	//		end = false;
-	//}
+	if (Reference.x == center.x && Reference.y == center.y && Reference.z == center.z) {
+		end = true;
+		if (!AreFloat3Same(src_vector, dst_vector, 0.001f))
+			end = false;
+	}
 
-	//if (end) {
-	//	interpolation.interpolate = false;
-	//	return true;
-	//}
+	if (end) {
+		interpolation.interpolate = false;
+		return true;
+	}
 
-	//if (interpolation.interpolation_timer.Read() <= time)
-	//{
-	//	float percentage = (float)interpolation.interpolation_timer.Read() / time;
+	if (interpolation.interpolation_timer.Read() <= time)
+	{
+		float percentage = (float)interpolation.interpolation_timer.Read() / time;
 
-	//	//Interpolate Position
-	//	Position = { interpolation.line.GetPoint(1 - percentage).x, interpolation.line.GetPoint(1 - percentage).y, interpolation.line.GetPoint(1 - percentage).z };
+		//Interpolate Position
+		Position = { interpolation.line.GetPoint(1 - percentage).x, interpolation.line.GetPoint(1 - percentage).y, interpolation.line.GetPoint(1 - percentage).z };
 
-	//	//Interpolate Rotation
-	//	float3 src_vector = { interpolation.source_vec.x,  interpolation.source_vec.y , interpolation.source_vec.z };
-	//	float3 dst_vector = { interpolation.dst_vec.x,  interpolation.dst_vec.y , interpolation.dst_vec.z };
+		//Interpolate Rotation
+		float3 src_vector = { interpolation.source_vec.x,  interpolation.source_vec.y , interpolation.source_vec.z };
+		float3 dst_vector = { interpolation.dst_vec.x,  interpolation.dst_vec.y , interpolation.dst_vec.z };
 
-	//	float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, percentage);
+		float3 curr_rot = Quat::SlerpVector(src_vector, dst_vector, percentage);
 
-	//	look_point = { curr_rot.x, curr_rot.y, curr_rot.z };
+		look_point = { curr_rot.x, curr_rot.y, curr_rot.z };
 
-	//	LookAt(Position + look_point);
+		LookAt(Position + look_point);
 
-	//	return false;
-	//}
-	//else
-	//{
-	//	interpolation.interpolate = false;
-	//	LookAt(center);
-	//	return true;
-	//}
-	return false;
+		return false;
+	}
+	else
+	{
+		interpolation.interpolate = false;
+		LookAt(center);
+		return true;
+	}
 }
 
 void ComponentCamera::SetSpeed(float new_speed)

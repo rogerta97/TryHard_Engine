@@ -32,7 +32,7 @@ struct CameraInterpolation
 	float3 source_vec;
 	float3 dst_vec;
 
-	float2 center;
+	float3 center;
 
 	bool interpolate;
 
@@ -64,7 +64,7 @@ public:
 	//Interpolation
 	void FillInterpolationSegmentAndRot();
 	bool InterpolateCamera(float time);
-	float3 GetCamPointFromDistance(float2 center, float distance) const;
+	float3 GetCamPointFromDistance(float3 center, float distance) const;
 
 	//Setters & Getters
 	void SetSpeed(float new_speed);

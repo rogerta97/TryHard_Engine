@@ -129,6 +129,7 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
+
 	if (ecam_go != nullptr && cam != nullptr)
 	{
 		//Editor Camera Movement
