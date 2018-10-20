@@ -124,28 +124,42 @@ void ComponentMesh::DrawMesh()
 		glLoadMatrixf((GLfloat*)(trans->GetGlobalViewMatrix().Transposed() * view_mat).v);
 	}
 
+	bool valid_mat = false; 
 	if (material)
 	{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
-
 		if (material->diffuse != nullptr)
-			material->diffuse->Bind();
-		
-		if (mesh->GetType() == MESH_FBX)
-			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		else
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-		if (mesh->num_normals != 0)
 		{
-			glEnableClientState(GL_NORMAL_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
 
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id);
-			glNormalPointer(GL_FLOAT, 0, NULL);
-		}
+			material->diffuse->Bind();
+
+			if (mesh->GetType() == MESH_FBX)
+				glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+
+			else
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+			valid_mat = true; 
+
+			if (mesh->num_normals != 0)
+			{
+				glEnableClientState(GL_NORMAL_ARRAY);
+
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id);
+				glNormalPointer(GL_FLOAT, 0, NULL);
+			}
+		}		
 	}
+	
+	if(!valid_mat)
+	{
+		glDisable(GL_TEXTURE_2D); 
+		glColor3f(0.5f, 0.5f, 1.0f);
+	}
+
+	if(wireframe)
+		glColor3f(DEFAULT_WIREFRAME_COLOR);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);

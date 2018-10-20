@@ -24,7 +24,7 @@ void console_error(const char file[], int line, const char* format, ...);
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 #define HAVE_M_PI
-#define DEFAULT_GEOMETRY_COLOR 0.7f, 0.7f, 0.7f
+#define DEFAULT_GEOMETRY_COLOR 0.7f, 0.7f, 1.0f
 #define DEFAULT_WIREFRAME_COLOR 0.0f, 0.0f, 1.0f
 
 typedef unsigned int uint;

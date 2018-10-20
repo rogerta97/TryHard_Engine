@@ -380,7 +380,6 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera)
 
 	if (ImGui::DragFloat3("Size", show_size, 0.2f))
 		CONSOLE_LOG("size changed");
-
 }
 
 
