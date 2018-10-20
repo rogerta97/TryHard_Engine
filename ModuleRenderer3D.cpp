@@ -169,7 +169,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	//	}
 	//}
 
-
 	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
