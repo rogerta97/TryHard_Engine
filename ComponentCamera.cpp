@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "DebugDraw.h"
 #include "GameObject.h"
+#include "ModuleRenderer3D.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
@@ -75,7 +76,14 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
-	camera->frustum.pos = Position;
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
+
+	float4x4 mat_to_apply = trans->GetGlobalViewMatrix(); 
+	mat_to_apply.Scale(1.0f, 1.0f, 1.0f); 
+
+	camera->frustum.Transform(trans->GetGlobalViewMatrix());
+
+	//camera->frustum.pos = Position;
 
 	if (draw_frustum)
 		DrawFrustum(); 
@@ -339,9 +347,13 @@ bool ComponentCamera::IsLocked() const
 
 void ComponentCamera::DrawFrustum()
 {
+	App->renderer3D->UseDebugRenderSettings();
+
 	float3 vertices[8]; 
 	camera->frustum.GetCornerPoints(vertices);
-	DebugDrawBox(vertices, Color(1.0f, 1.0f, 1.0f));
+	DebugDrawBox(vertices, Color(0.0f, 1.0f, 1.0f));
+
+	App->renderer3D->UseCurrentRenderSettings();
 }
 
 // -----------------------------------------------------------------
