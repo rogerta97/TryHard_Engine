@@ -9,6 +9,7 @@
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
+	ecam_go = nullptr;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -102,6 +103,8 @@ void ModuleCamera3D::PrintConfigData()
 
 ComponentCamera * ModuleCamera3D::GetEditorCamera()
 {
+	if (!ecam_go)
+		return nullptr;
 	ComponentCamera* cam = (ComponentCamera * )ecam_go->GetComponent(CMP_CAMERA);
 
 	if(cam) 

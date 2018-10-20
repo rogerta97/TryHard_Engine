@@ -32,7 +32,7 @@ struct CameraInterpolation
 	float3 source_vec;
 	float3 dst_vec;
 
-	vec center;
+	float2 center;
 
 	bool interpolate;
 
@@ -64,7 +64,7 @@ public:
 	//Interpolation
 	void FillInterpolationSegmentAndRot();
 	bool InterpolateCamera(float time);
-	float3 GetCamPointFromDistance(vec center, float distance) const;
+	float3 GetCamPointFromDistance(float2 center, float distance) const;
 
 	//Setters & Getters
 	void SetSpeed(float new_speed);
@@ -101,6 +101,7 @@ public:
 public: 
 
 	float3 X, Y, Z, Position, Reference;
+	Frustum frustum;
 	CameraInterpolation interpolation; 
 	float wheel_zoom_speed = 5.0f;
 	float speed_multiplier;
@@ -113,8 +114,8 @@ private:
 	Projection_Type projection; 
 	Camera_Aspect aspect; 
 
-	vec fov;
-	vec size;
+	float horizontal_fov;
+	float2 size;
 
 	float aspect_ratio;
 
