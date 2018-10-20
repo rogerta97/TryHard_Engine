@@ -62,6 +62,7 @@ public:
 	float GetWidth() const;
 	void SetHeight();
 	float GetHeight() const;
+	Frustum GetFrustum() const; 
 	
 	void SetMouseSensitivity(float new_sensitivity);
 	float GetMouseSensitivity() const;
@@ -70,6 +71,7 @@ public:
 	void LockCamera();
 	void UnlockCamera();
 	bool IsLocked() const;
+	void DrawFrustum(); 
 
 	void CalculateViewMatrix();
 
@@ -79,6 +81,7 @@ public:
 	bool AreSame(float a, float b, float epsilon);
 
 	bool AreFloat3Same(float3 a, float3 b, float epsilon);
+
 public: 
 
 	float3 X, Y, Z, Position, Reference;
@@ -86,6 +89,7 @@ public:
 	float wheel_zoom_speed = 5.0f;
 	float speed_multiplier;
 	float mouse_sensitivity;
+	bool draw_frustum; 
 	Camera* camera;
 
 private:

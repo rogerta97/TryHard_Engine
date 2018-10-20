@@ -31,6 +31,7 @@ bool ModuleCamera3D::Start()
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
+	cam->draw_frustum = false; 
 
 	App->renderer3D->AddRenderCamera(cam); 
 

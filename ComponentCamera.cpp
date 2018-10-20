@@ -1,8 +1,10 @@
 #include "ComponentCamera.h"
 #include "TextureMSAA.h"
 #include "Application.h"
+#include "DebugDraw.h"
 
 #include "ComponentMesh.h"
+
 
 ComponentCamera::ComponentCamera()
 {
@@ -21,6 +23,7 @@ ComponentCamera::ComponentCamera()
 
 	camera = new Camera(); 
 	camera->InitCamera(); 
+	draw_frustum = true; 
 
 	size.x = 1500;
 	size.y = 1000;
@@ -70,6 +73,9 @@ bool ComponentCamera::Update()
 		return update_status::UPDATE_CONTINUE;
 
 	camera->frustum.pos = Position;
+
+	if (draw_frustum)
+		DrawFrustum(); 
 
 	return UPDATE_CONTINUE;
 }
@@ -285,6 +291,11 @@ float ComponentCamera::GetHeight() const
 	return size.y;
 }
 
+Frustum ComponentCamera::GetFrustum() const
+{
+	return camera->frustum;
+}
+
 TextureMSAA * ComponentCamera::GetViewportTexture()
 {
 	return viewport_texture; 
@@ -321,6 +332,13 @@ void ComponentCamera::UnlockCamera()
 bool ComponentCamera::IsLocked() const
 {
 	return locked;
+}
+
+void ComponentCamera::DrawFrustum()
+{
+	float3 vertices[8]; 
+	camera->frustum.GetCornerPoints(vertices);
+	DebugDrawBox(vertices, Color(1.0f, 1.0f, 1.0f));
 }
 
 // -----------------------------------------------------------------

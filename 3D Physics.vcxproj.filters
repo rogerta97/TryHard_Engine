@@ -558,6 +558,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Sources\GameObject\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="DebugDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -796,6 +797,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Sources\GameObject\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
