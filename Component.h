@@ -6,7 +6,8 @@ class GameObject;
 
 class Component {
 public:
-	Component();
+	Component(GameObject* parent);
+	Component(); 
 	~Component();
 
 	virtual bool Start(); 

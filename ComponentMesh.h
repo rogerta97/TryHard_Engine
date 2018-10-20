@@ -9,7 +9,7 @@ class ComponentMaterial;
 class ComponentMesh : public Component
 {
 public:
-	ComponentMesh();
+	ComponentMesh(GameObject* parent);
 	~ComponentMesh();
 
 	bool Update();

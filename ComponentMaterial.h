@@ -5,7 +5,7 @@
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial();
+	ComponentMaterial(GameObject* parent);
 	~ComponentMaterial();
 
 	bool Update();

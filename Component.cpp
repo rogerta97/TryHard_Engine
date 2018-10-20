@@ -1,6 +1,10 @@
 #include "Component.h"
 #include "GameObject.h"
 
+Component::Component(GameObject* parent)
+{
+}
+
 Component::Component()
 {
 }

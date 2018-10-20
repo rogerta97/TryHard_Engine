@@ -3,8 +3,9 @@
 #include "GameObject.h"
 #include "Application.h"
 
-ComponentMaterial::ComponentMaterial()
+ComponentMaterial::ComponentMaterial(GameObject* parent)
 {
+	SetGameObject(parent);
 	component_type = CMP_MATERIAL;
 	active = true; 
 	diffuse = nullptr; 

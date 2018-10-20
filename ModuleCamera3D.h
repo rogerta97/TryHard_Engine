@@ -22,7 +22,6 @@ public:
 	void PrintConfigData();
 
 	ComponentCamera* GetEditorCamera(); 
-	//ComponentCamera* GetGameCamera();
 
 public:
 		
@@ -33,5 +32,4 @@ private:
 	GameObject* ecam_go; 
 
 	float3 Rotate(const float3 &u, float angle, const float3 &v);
-	//ComponentCamera* game_camera; 
 };

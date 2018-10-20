@@ -27,10 +27,12 @@ bool ModuleCamera3D::Start()
 	skybox->InitSkyBox("", 300.0f);
 
 	//Create Editor Camera
-	ecam_go = new GameObject("EditorCamera"); 
+	ecam_go = new GameObject("EditorCamera");
+	ecam_go->AddComponent(CMP_TRANSFORM);
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
+	cam->camera->frustum.farPlaneDistance = 500; 
 	cam->draw_frustum = false; 
 
 	App->renderer3D->AddRenderCamera(cam); 

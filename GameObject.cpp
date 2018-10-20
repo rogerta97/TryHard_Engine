@@ -133,23 +133,19 @@ Component* GameObject::AddComponent(CompType new_type)
 		switch (new_type)
 		{
 			case CMP_TRANSFORM:
-				new_cmp = new ComponentTransform();
-				new_cmp->SetGameObject(this);
+				new_cmp = new ComponentTransform(this);
 				break;
 
 			case CMP_RENDERER:
-				new_cmp = new ComponentMesh();
-				new_cmp->SetGameObject(this);
+				new_cmp = new ComponentMesh(this);
 				break;
 
 			case CMP_MATERIAL:
-				new_cmp = new ComponentMaterial();
-				new_cmp->SetGameObject(this);
+				new_cmp = new ComponentMaterial(this);
 				break;
 
 			case CMP_CAMERA:
-				new_cmp = new ComponentCamera();
-				new_cmp->SetGameObject(this);
+				new_cmp = new ComponentCamera(this);
 				break;
 		}
 

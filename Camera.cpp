@@ -18,7 +18,7 @@ void Camera::InitCamera()
 	frustum.horizontalFov = DegToRad(90);
 	frustum.verticalFov = DegToRad(60);
 	frustum.nearPlaneDistance = 0.5;
-	frustum.farPlaneDistance = 500;
+	frustum.farPlaneDistance = 25;
 
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.SetWorldMatrix(float3x4::identity);

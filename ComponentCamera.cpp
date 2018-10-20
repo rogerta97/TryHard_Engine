@@ -2,14 +2,15 @@
 #include "TextureMSAA.h"
 #include "Application.h"
 #include "DebugDraw.h"
+#include "GameObject.h"
 
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 
-ComponentCamera::ComponentCamera()
+ComponentCamera::ComponentCamera(GameObject* parent)
 {
-	//name = "Camera";
-
+	SetGameObject(parent);
 	component_type = CMP_CAMERA; 
 
 	CalculateViewMatrix();
@@ -18,7 +19,9 @@ ComponentCamera::ComponentCamera()
 	Y = float3(0.0f, 1.0f, 0.0f);
 	Z = float3(0.0f, 0.0f, 1.0f);
 
-	Position = float3(3.0f, 3.0f, 8.0f);
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
+
+	Position = trans->transform.position;
 	Reference = float3(0.0f, 0.0f, 0.0f);
 
 	camera = new Camera(); 

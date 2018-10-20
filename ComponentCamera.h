@@ -36,7 +36,7 @@ struct CameraInterpolation
 class ComponentCamera : public Component
 {
 public:
-	ComponentCamera();
+	ComponentCamera(GameObject* parent);
 	~ComponentCamera();
 
 	bool Start(); 

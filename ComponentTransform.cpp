@@ -3,8 +3,9 @@
 #include "GameObject.h"
 #include "OpenGL.h"
 
-ComponentTransform::ComponentTransform()
+ComponentTransform::ComponentTransform(GameObject* parent)
 {
+	SetGameObject(parent); 
 	transform.position = float3(0.0f, 0.0f, 0.0f);
 	transform.rotation = Quat::identity; 
 	transform.scale = float3(1.0f, 1.0f, 1.0f);

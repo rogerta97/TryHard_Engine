@@ -3,13 +3,15 @@
 #include "ComponentTransform.h"
 
 #include "Application.h"
+#include "GameObject.h"
 
 #include "imgui.h"
 #include "OpenGL.h"
 
 
-ComponentMesh::ComponentMesh()
+ComponentMesh::ComponentMesh(GameObject* parent)
 {
+	SetGameObject(parent);
 	component_type = CMP_RENDERER; 
 
 	material = nullptr;
