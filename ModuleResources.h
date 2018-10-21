@@ -5,8 +5,6 @@
 #include <map>
 #include "Importer.h"
 
-#include "Resource.h"
-
 #include "MeshImporter.h"
 #include "TextureImporter.h"
 

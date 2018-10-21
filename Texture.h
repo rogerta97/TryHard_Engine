@@ -4,6 +4,8 @@
 #include "OpenGL.h"
 #include <string>
 
+class Resource;
+
 class Texture
 {
 public:

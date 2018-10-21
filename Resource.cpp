@@ -8,12 +8,8 @@ Resource::~Resource()
 {
 }
 
-bool Resource::Load()
+bool Resource::SaveAsBinary()
 {
-	return true;
+	return false;
 }
 
-bool Resource::Save()
-{
-	return true;
-}

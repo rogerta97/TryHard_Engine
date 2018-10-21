@@ -1,5 +1,7 @@
 #include "ModuleFileSystem.h"
 #include "Application.h"
+#include "Shlwapi.h"
+#include <direct.h>
 
 #include <fstream>
 #include <string>
@@ -23,7 +25,12 @@ bool ModuleFileSystem::Start()
 
 	game_path = buf + std::string("\\"); 
 
-	library_path = game_path + std::string("Library\\"); 
+	library_path = game_path + std::string("Library\\");		
+	CreateDirectory(library_path.c_str(), NULL);
+
+	mesh_library_path = library_path.c_str() + std::string("Meshes\\");
+	CreateDirectory(mesh_library_path.c_str(), NULL);
+		 
 	models_path = game_path + string("Assets\\3DModels\\");
 	textures_path = game_path + string("Assets\\Textures\\");
 	skybox_path = game_path + string("Assets\\Textures\\SkyBox\\");
@@ -100,6 +107,15 @@ std::string ModuleFileSystem::GetLibraryPath() const
 string ModuleFileSystem::GetSkyBoxPath() const
 {
 	return skybox_path;
+}
+
+void ModuleFileSystem::CreateLibraryFolders()
+{
+	string lib_folder = game_path + "Library"; 
+	mkdir(lib_folder.c_str());
+
+	string mesh_folder = lib_folder + "Meshes";
+	mkdir(lib_folder.c_str());
 }
 
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)

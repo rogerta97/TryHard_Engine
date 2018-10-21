@@ -31,12 +31,15 @@ public:
 	string GetLibraryPath() const;
 	string GetSkyBoxPath() const;
 
+	void CreateLibraryFolders(); 
+
 	std::vector<string> GetFilesInDirectory(const char* directory); 
 	bool IsFileInDirectory(const char* directory, const char* filename);
 
 private:
 
 	string library_path; 
+	string mesh_library_path; 
 	string game_path; 
 	string models_path; 
 	string skybox_path;

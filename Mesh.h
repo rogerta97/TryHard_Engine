@@ -4,6 +4,7 @@
 #include "Globals.h"
 
 enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX, MESH_SPHERE };
+class Resource; 
 
 class Mesh
 {

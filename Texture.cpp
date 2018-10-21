@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "OpenGL.h"
-
+#include "Resource.h"
 
 Texture::Texture()
 {
