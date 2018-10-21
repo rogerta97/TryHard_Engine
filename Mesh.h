@@ -2,15 +2,14 @@
 
 #include "MathGeoLib\MathGeoLib.h"
 #include "Globals.h"
+#include "Resource.h"
 
 enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX, MESH_SPHERE };
-class Resource; 
 
-class Mesh
+class Mesh : public Resource
 {
 public:
 	Mesh();
-	Mesh(Mesh* new_mesh);
 	~Mesh();
 
 	uint CreateBuffer();

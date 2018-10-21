@@ -32,7 +32,7 @@ public:
 	void CreateTopPlane(const char* plane_tex_path);
 	void CreateDownPlane(const char* plane_tex_path);
 
-	Mesh sky_cube[6]; 
+	Mesh* sky_cube[6]; 
 	Texture* sky_textures[6];
 	float size; 
 

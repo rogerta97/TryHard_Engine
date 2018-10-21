@@ -10,6 +10,6 @@ Resource::~Resource()
 
 bool Resource::SaveAsBinary()
 {
-	return false;
+	return true;
 }
 

@@ -3,10 +3,9 @@
 #include "Globals.h"
 #include "OpenGL.h"
 #include <string>
+#include "Resource.h"
 
-class Resource;
-
-class Texture
+class Texture : public Resource
 {
 public:
 	Texture();

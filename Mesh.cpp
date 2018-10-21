@@ -10,29 +10,29 @@ Mesh::Mesh()
 
 	num_normals = num_vertices = num_indices = num_uvs = 0; 
 }
-
-Mesh::Mesh(Mesh * new_mesh)
-{
-	name = new_mesh->name;
-	color =new_mesh->color;
-	
-	vertices = new_mesh->vertices;
-	indices = new_mesh->indices;
-	uvs_cords = new_mesh->uvs_cords;
-	normal_cords = new_mesh->normal_cords;
-	
-	num_vertices = new_mesh->num_vertices;
-	num_indices = new_mesh->num_indices;
-	num_uvs = new_mesh->num_uvs;
-	num_normals = new_mesh->num_normals;
-
-	vertices_id =new_mesh->vertices_id;
-	indices_id =new_mesh->indices_id;
-	uvs_id = new_mesh->uvs_id;
-	normals_id =new_mesh->normals_id;
-	
-	type = new_mesh->type;
-}
+//
+//Mesh::Mesh(Mesh * new_mesh)
+//{
+//	name = new_mesh->name;
+//	color =new_mesh->color;
+//	
+//	vertices = new_mesh->vertices;
+//	indices = new_mesh->indices;
+//	uvs_cords = new_mesh->uvs_cords;
+//	normal_cords = new_mesh->normal_cords;
+//	
+//	num_vertices = new_mesh->num_vertices;
+//	num_indices = new_mesh->num_indices;
+//	num_uvs = new_mesh->num_uvs;
+//	num_normals = new_mesh->num_normals;
+//
+//	vertices_id =new_mesh->vertices_id;
+//	indices_id =new_mesh->indices_id;
+//	uvs_id = new_mesh->uvs_id;
+//	normals_id =new_mesh->normals_id;
+//	
+//	type = new_mesh->type;
+//}
 
 
 Mesh::~Mesh()
