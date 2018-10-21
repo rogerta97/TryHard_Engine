@@ -2,6 +2,10 @@
 #include "OpenGL.h"
 #include "Resource.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include <iostream>
+#include <fstream>
+
+#include "Application.h"
 
 Mesh::Mesh()
 {
@@ -10,30 +14,6 @@ Mesh::Mesh()
 
 	num_normals = num_vertices = num_indices = num_uvs = 0; 
 }
-//
-//Mesh::Mesh(Mesh * new_mesh)
-//{
-//	name = new_mesh->name;
-//	color =new_mesh->color;
-//	
-//	vertices = new_mesh->vertices;
-//	indices = new_mesh->indices;
-//	uvs_cords = new_mesh->uvs_cords;
-//	normal_cords = new_mesh->normal_cords;
-//	
-//	num_vertices = new_mesh->num_vertices;
-//	num_indices = new_mesh->num_indices;
-//	num_uvs = new_mesh->num_uvs;
-//	num_normals = new_mesh->num_normals;
-//
-//	vertices_id =new_mesh->vertices_id;
-//	indices_id =new_mesh->indices_id;
-//	uvs_id = new_mesh->uvs_id;
-//	normals_id =new_mesh->normals_id;
-//	
-//	type = new_mesh->type;
-//}
-
 
 Mesh::~Mesh()
 {
@@ -391,6 +371,55 @@ void Mesh::LoadToMemory()
 		CONSOLE_DEBUG("Normals from '%s' Loaded To Memory with ID: %d", name.c_str(), normals_id);
 	}
 	
+}
+
+bool Mesh::SaveAsBinary()
+{
+	string save_path = App->file_system->GetLibraryPath() + "Meshes\\" + name + ".mesh"; 
+
+	if (num_vertices == 0)
+		return false; 
+
+	//Create a new file or open it 
+	std::ofstream stream; 
+	stream.open(save_path, std::fstream::binary | std::fstream::out);
+	stream.clear(); 
+
+	//Create the buffer and allocate the space. Data will be stored Ranges - Vertices - Indices - UVS - Normals
+	uint size_of_data = (sizeof(uint) * 4) + (sizeof(float)*num_vertices * 3) + (sizeof(uint)*num_indices) + (sizeof(float)*num_uvs * 3) + (sizeof(float)*num_normals * 3);
+	GLubyte* buffer = new GLubyte[size_of_data];
+	GLubyte* cursor = buffer;
+
+	//Allocate Ranges
+	uint ranges[4] = { num_vertices , num_indices , num_uvs , num_normals };
+	uint bytes = sizeof(ranges);
+	memcpy(cursor, ranges, bytes);
+
+	//Allocate Vertices 
+	cursor += bytes; 
+	bytes = sizeof(float)*num_vertices * 3; 
+	memcpy(cursor, vertices, bytes); 
+
+	//Allocate Indices
+	cursor += bytes;
+	bytes = sizeof(uint)*num_indices;
+	memcpy(cursor, indices, bytes);
+
+	//Allocate UVS
+	cursor += bytes;
+	bytes = sizeof(float)*num_uvs * 3;
+	memcpy(cursor, uvs_cords, bytes);
+
+	//Allocate Normals
+	cursor += bytes;
+	bytes = sizeof(float)*num_normals * 3;
+	memcpy(cursor, normal_cords, bytes);
+
+	//Save data to the file
+	stream.write((const char*)buffer, size_of_data);
+	stream.close();
+
+	return true;
 }
 
 void Mesh::UnbindBuffer()

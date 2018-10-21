@@ -36,6 +36,7 @@ bool ModuleScene::Start()
 
 	App->renderer3D->OnResize(1000, 1000);
 
+
 	////Load House FBX
 	//string path = App->file_system->GetModelsPath() + "BakerHouse.fbx"; 
 	//App->resources->mesh_importer->CreateFBXMesh(path.c_str());

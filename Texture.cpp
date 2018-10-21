@@ -122,3 +122,8 @@ void Texture::Clear()
 {
 	glDeleteTextures(1, &texture_id); 
 }
+
+bool Texture::SaveAsBinary()
+{
+	return false;
+}

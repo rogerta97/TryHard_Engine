@@ -6,7 +6,7 @@
 
 enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX, MESH_SPHERE };
 
-class Mesh : public Resource
+class Mesh
 {
 public:
 	Mesh();
@@ -22,6 +22,8 @@ public:
 	BasicMeshType GetType() const;
 
 	void LoadToMemory(); 
+
+	bool SaveAsBinary(); 
 
 
 public: 

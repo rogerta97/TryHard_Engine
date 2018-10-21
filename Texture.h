@@ -5,7 +5,7 @@
 #include <string>
 #include "Resource.h"
 
-class Texture : public Resource
+class Texture
 {
 public:
 	Texture();
@@ -36,6 +36,8 @@ public:
 	uint CreateBuffer(); 
 
 	void Clear(); 
+
+	bool SaveAsBinary(); 
 
 private:
 

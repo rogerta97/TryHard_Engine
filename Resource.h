@@ -6,5 +6,5 @@ public:
 	Resource(); 
 	~Resource();
 
-	bool SaveAsBinary();
+	virtual bool SaveAsBinary();
 };
