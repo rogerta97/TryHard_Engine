@@ -394,6 +394,36 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	{
 
 	}
+	
+	float temp_h_fov_in_degrees = camera_cmp->camera->frustum.horizontalFov * RADTODEG;
+
+	if (ImGui::InputFloat("Horizontal fov", &temp_h_fov_in_degrees, 0.1f))
+	{
+		camera_cmp->camera->frustum.horizontalFov = temp_h_fov_in_degrees * DEGTORAD;
+
+		float tan = math::Tan(camera_cmp->camera->frustum.horizontalFov / 2);
+
+		camera_cmp->camera->frustum.verticalFov = 2 * math::Atan(tan * (1/camera_cmp->camera->frustum.AspectRatio()));
+	}
+
+	float temp_v_fov_in_degrees = camera_cmp->camera->frustum.verticalFov * RADTODEG;
+
+	if (ImGui::InputFloat("Horizontal fov", &temp_v_fov_in_degrees, 0.1f))
+	{
+		camera_cmp->camera->frustum.verticalFov = temp_v_fov_in_degrees * DEGTORAD;
+	}
+
+	float temp_ar = camera_cmp->camera->frustum.AspectRatio();
+
+	if (ImGui::InputFloat("Aspect ratio", &temp_ar, 0.1f))
+	{
+	}
+
+	float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;
+
+	if (ImGui::InputFloat("Focal Lenght", &focal_lenght, 0.1f))
+	{
+	}
 
 	ImGui::Checkbox("Frustum Culling", &camera_cmp->camera->frustum_culling); ImGui::SameLine(); 
 	ImGui::Checkbox("Draw Frustum", &camera_cmp->draw_frustum);
