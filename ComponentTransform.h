@@ -2,7 +2,7 @@
 
 #include "Transform.h"
 #include "Component.h"
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 
 class ComponentTransform : public Component
 {

@@ -2,7 +2,7 @@
 #define __DEBUGDRAW_H__
 
 #include "Math.h"
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 #include "Color.h"
 
 void BeginDebugDraw();

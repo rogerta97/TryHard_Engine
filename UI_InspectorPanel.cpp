@@ -367,67 +367,68 @@ void UI_InspectorPanel::PrintMaterialProperties()
 void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 {
 	
-	int selected_proj = camera_cmp->camera->frustum.type;
-	std::string label = "Projection##" + camera_cmp->GetGameObject()->GetName();
+	//int selected_proj = camera_cmp->camera->frustum.Type();
+	//std::string label = "Projection##" + camera_cmp->GetGameObject()->GetName();
 
-	if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
+	//if (ImGui::Combo(label.c_str(), &selected_proj, "Perspective\0Orthogonal"))
+	//{
+	//	//switch (selected_proj)
+	//	//{
+	//	//case 0:
+	//	//	camera_cmp->camera->frustum.Type = PerspectiveFrustum;
+	//	//	break; 
+
+	//	//case 1:
+	//	//	camera_cmp->camera->frustum.Type = OrthographicFrustum;
+	//	//	break; 
+	//	//}
+	//	//
+	//}
+
+	float tmp_near_plane = camera_cmp->camera->frustum.NearPlaneDistance();
+	if (ImGui::SliderFloat("Near Plane", &tmp_near_plane, 0.1f, camera_cmp->camera->frustum.FarPlaneDistance()))
 	{
-		switch (selected_proj)
-		{
-		case 0:
-			camera_cmp->camera->frustum.type = PerspectiveFrustum;
-			break; 
-
-		case 1:
-			camera_cmp->camera->frustum.type = OrthographicFrustum;
-			break; 
-		}
-		
+		camera_cmp->camera->frustum.SetViewPlaneDistances(tmp_near_plane, camera_cmp->camera->frustum.FarPlaneDistance());
 	}
 
-	if (ImGui::InputFloat("Near Plane", &camera_cmp->camera->frustum.nearPlaneDistance, 0.1f))
+	float far_flane = camera_cmp->camera->frustum.FarPlaneDistance();
+	if (ImGui::SliderFloat("Far Plane", &far_flane, camera_cmp->camera->frustum.NearPlaneDistance(),1000.0f))
 	{
-
+		camera_cmp->camera->frustum.SetViewPlaneDistances(camera_cmp->camera->frustum.NearPlaneDistance() , far_flane);
 	}
-
-	if (ImGui::InputFloat("Far Plane", &camera_cmp->camera->frustum.farPlaneDistance, 0.1f))
-	{
-
-	}
+	//
+	float temp_h_fov_in_degrees = camera_cmp->camera->frustum.HorizontalFov() * RADTODEG;
+	float tmp_aspect_ratio = camera_cmp->camera->frustum.AspectRatio();
 	
-	float temp_h_fov_in_degrees = camera_cmp->camera->frustum.horizontalFov * RADTODEG;
+	ImGui::Text(std::to_string(tmp_aspect_ratio).c_str());
 
-	if (ImGui::InputFloat("Horizontal fov", &temp_h_fov_in_degrees, 0.1f))
+	if (ImGui::SliderFloat("Horizontal fov", &temp_h_fov_in_degrees,0.1f,180))
 	{
-		camera_cmp->camera->frustum.horizontalFov = temp_h_fov_in_degrees * DEGTORAD;
-
-		float tan = math::Tan(camera_cmp->camera->frustum.horizontalFov / 2);
-
-		camera_cmp->camera->frustum.verticalFov = 2 * math::Atan(tan * (1/camera_cmp->camera->frustum.AspectRatio()));
+		camera_cmp->camera->frustum.SetHorizontalFovAndAspectRatio(temp_h_fov_in_degrees * DEGTORAD, tmp_aspect_ratio);
 	}
 
-	float temp_v_fov_in_degrees = camera_cmp->camera->frustum.verticalFov * RADTODEG;
+	//float temp_v_fov_in_degrees = camera_cmp->camera->frustum.verticalFov * RADTODEG;
 
-	if (ImGui::InputFloat("Horizontal fov", &temp_v_fov_in_degrees, 0.1f))
-	{
-		camera_cmp->camera->frustum.verticalFov = temp_v_fov_in_degrees * DEGTORAD;
-	}
+	//if (ImGui::InputFloat("Horizontal fov", &temp_v_fov_in_degrees, 0.1f))
+	//{
+	//	camera_cmp->camera->frustum.verticalFov = temp_v_fov_in_degrees * DEGTORAD;
+	//}
 
-	float temp_ar = camera_cmp->camera->frustum.AspectRatio();
+	//float temp_ar = camera_cmp->camera->frustum.AspectRatio();
 
-	if (ImGui::InputFloat("Aspect ratio", &temp_ar, 0.1f))
-	{
-	}
+	//if (ImGui::InputFloat("Aspect ratio", &temp_ar, 0.1f))
+	//{
+	//}
 
-	float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;
+	////float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;
 
-	if (ImGui::InputFloat("Focal Lenght", &focal_lenght, 0.1f))
-	{
-	}
+	//if (ImGui::InputFloat("Focal Lenght", &focal_lenght, 0.1f))
+	//{
+	//}
 
 	ImGui::Checkbox("Frustum Culling", &camera_cmp->camera->frustum_culling); ImGui::SameLine(); 
 	ImGui::Checkbox("Draw Frustum", &camera_cmp->draw_frustum);
-	
+	//
 }
 
 

@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "OpenGL.h"
 #include "Resource.h"
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 #include <iostream>
 #include <fstream>
 

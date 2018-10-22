@@ -197,20 +197,20 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	glViewport(0, 0, width, height);
+	//glViewport(0, 0, width, height);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
 
-	if (App->camera->GetEditorCamera()) {
+	//if (App->camera->GetEditorCamera()) {
 
-		ProjectionMatrix = App->camera->GetEditorCamera()->camera->frustum.ProjectionMatrix();
+	//	ProjectionMatrix = App->camera->GetEditorCamera()->camera->frustum.ProjectionMatrix();
 
-		glLoadMatrixf(&ProjectionMatrix[0][0]);
-	}
+	//	glLoadMatrixf(&ProjectionMatrix[0][0]);
+	//}
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
 }
 
 void ModuleRenderer3D::UseUIRenderSettings()

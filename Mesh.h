@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 #include "Globals.h"
 #include "Resource.h"
 

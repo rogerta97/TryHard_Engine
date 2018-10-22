@@ -2,7 +2,7 @@
 
 #include "Globals.h"
 #include "Component.h"
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 #include "Timer.h"
 #include "Camera.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Resource.h"
-#include "MathGeoLib\MathGeoLib.h"
+#include "MathGeoLib\src\MathGeoLib.h"
 
 enum Camera_Aspect
 {
