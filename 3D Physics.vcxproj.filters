@@ -132,9 +132,6 @@
     <ClInclude Include="UI_ScenePanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
-    <ClInclude Include="TextureImporter.h">
-      <Filter>Sources\Modules\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleResources.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -559,6 +556,12 @@
       <Filter>Sources\GameObject\Resources</Filter>
     </ClInclude>
     <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="MaterialImporter.h">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Sources\GameObject\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -605,9 +608,6 @@
     </ClCompile>
     <ClCompile Include="UI_ScenePanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureImporter.cpp">
-      <Filter>Sources\Modules\Importers</Filter>
     </ClCompile>
     <ClCompile Include="ModuleResources.cpp">
       <Filter>Sources\Modules</Filter>
@@ -800,6 +800,12 @@
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialImporter.cpp">
+      <Filter>Sources\Modules\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Sources\GameObject\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

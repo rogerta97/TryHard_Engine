@@ -103,9 +103,9 @@ bool GameObject::IsUsingTexture(int id, bool& used)
 
 	ComponentMaterial* mat = (ComponentMaterial*)GetComponent(CMP_MATERIAL);
 
-	if (mat != nullptr && mat->diffuse != nullptr)
+	if (mat != nullptr && mat->GetMaterial()->GetDiffuseTexture() != nullptr)
 	{
-		if (mat->diffuse->GetTextureID() == id)
+		if (mat->GetMaterial()->GetDiffuseTexture()->GetTextureID() == id)
 			return true;
 		else
 			return false;

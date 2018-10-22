@@ -8,7 +8,9 @@ ComponentMaterial::ComponentMaterial(GameObject* parent)
 	SetGameObject(parent);
 	component_type = CMP_MATERIAL;
 	active = true; 
-	diffuse = nullptr; 
+
+	material = new Material();
+	material->SetDiffuseTexture(nullptr); 	
 }
 
 
@@ -23,18 +25,31 @@ bool ComponentMaterial::Update()
 
 bool ComponentMaterial::CleanUp()
 {
-	if (diffuse != nullptr)
+	if (material->GetDiffuseTexture() != nullptr)
 	{
-		if (!App->scene->IsTextureUsed(diffuse->GetTextureID(), gameobject))
+		if (!App->scene->IsTextureUsed(material->GetDiffuseTexture()->GetTextureID(), gameobject))
 		{
-			diffuse->Clear();
-			App->resources->texture_importer->DeleteTextureFromList(diffuse);
+			material->GetDiffuseTexture()->Clear();
+			App->resources->material_importer->DeleteTextureFromList(material->GetDiffuseTexture());
 		}
 	 
-		diffuse = nullptr;
-		delete (diffuse);
+		material->SetDiffuseTexture(nullptr);
+		delete (material->GetDiffuseTexture());
 	}
 
 	return true;
+}
+
+Material * ComponentMaterial::GetMaterial() const
+{
+	return material;
+}
+
+void ComponentMaterial::SetMaterial(Material * new_mat)
+{
+	if (new_mat != nullptr)
+		material = new_mat;
+	else
+		CONSOLE_ERROR("You are trying to assign a NULL material"); 
 }
 

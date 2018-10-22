@@ -145,6 +145,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="JSON\parson.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MathGeoLib\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB.h" />
     <ClInclude Include="MathGeoLib\Geometry\AABB2D.h" />
@@ -223,7 +224,7 @@
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="TextureImporter.h" />
+    <ClInclude Include="MaterialImporter.h" />
     <ClInclude Include="TextureMSAA.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="MathGeoLib\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\AABB.cpp" />
     <ClCompile Include="MathGeoLib\Geometry\Capsule.cpp" />
@@ -306,7 +308,7 @@
     <ClCompile Include="Resource.h" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureImporter.cpp" />
+    <ClCompile Include="MaterialImporter.cpp" />
     <ClCompile Include="TextureMSAA.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />

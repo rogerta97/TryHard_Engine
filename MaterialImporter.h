@@ -15,10 +15,10 @@
 #pragma comment(lib, "DevIL Windows SDK/libx86/ILUT.lib")
 
 
-class TextureImporter : public Importer
+class MaterialImporter : public Importer
 {
 public:
-	TextureImporter();
+	MaterialImporter();
 
 	bool Start();
 	bool Update();
@@ -39,7 +39,9 @@ public:
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 
 
-	~TextureImporter();
+	bool SaveAsBinary(Texture* tex_to_save, const char* tex_name); 
+
+	~MaterialImporter();
 
 private:
 

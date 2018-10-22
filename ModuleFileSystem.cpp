@@ -30,6 +30,9 @@ bool ModuleFileSystem::Start()
 
 	mesh_library_path = library_path.c_str() + std::string("Meshes\\");
 	CreateDirectory(mesh_library_path.c_str(), NULL);
+
+	mesh_library_path = library_path.c_str() + std::string("Materials\\");
+	CreateDirectory(mesh_library_path.c_str(), NULL);
 		 
 	models_path = game_path + string("Assets\\3DModels\\");
 	textures_path = game_path + string("Assets\\Textures\\");
@@ -116,6 +119,9 @@ void ModuleFileSystem::CreateLibraryFolders()
 
 	string mesh_folder = lib_folder + "Meshes";
 	mkdir(lib_folder.c_str());
+
+	string mat_folder = lib_folder + "Materials";
+	mkdir(mat_folder.c_str());
 }
 
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)

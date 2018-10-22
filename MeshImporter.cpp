@@ -309,7 +309,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 					//Create the texture
 					Texture* new_texture = new Texture(); 
-					new_texture = App->resources->texture_importer->LoadTexture(path.c_str());
+					new_texture = App->resources->material_importer->LoadTexture(path.c_str());
 
 					if (new_texture != nullptr)
 					{
@@ -318,7 +318,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 					//Create The Component
 					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-					cmp_mat->diffuse = new_texture;
+					cmp_mat->GetMaterial()->SetDiffuseTexture(new_texture);
 
 					//Add it to the parent GO
 					

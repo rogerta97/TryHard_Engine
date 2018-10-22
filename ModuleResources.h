@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Module.h"
-#include "TextureImporter.h"
+#include "MaterialImporter.h"
 #include <map>
 #include "Importer.h"
 
 #include "MeshImporter.h"
-#include "TextureImporter.h"
 
 class ModuleResources : public Module
 {
@@ -23,7 +22,7 @@ public:
 	void LoadImporters();
 
 	MeshImporter* mesh_importer; 
-	TextureImporter* texture_importer; 
+	MaterialImporter* material_importer; 
 
 private: 
 	

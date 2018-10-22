@@ -49,7 +49,7 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing();
 
-		Texture* go_image = App->resources->texture_importer->GetTexture("GameObjectIcon"); 
+		Texture* go_image = App->resources->material_importer->GetTexture("GameObjectIcon");
 
 		if(go_image != nullptr)
 			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
@@ -317,8 +317,8 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
-		if(mat_cmp->diffuse != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->diffuse->GetName().c_str()); 
+		if(mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetName().c_str());
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))
@@ -326,40 +326,40 @@ void UI_InspectorPanel::PrintMaterialProperties()
 			ImGui::OpenPopup("select_texture");
 		}
 
-		App->resources->texture_importer->DrawTextureList();
+		App->resources->material_importer->DrawTextureList();
 
 		ImGui::SameLine(); 
 
-		ImGui::ImageButton((ImTextureID)App->resources->texture_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15), ImVec2(0, 1), ImVec2(1, 0), 1);
+		ImGui::ImageButton((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15), ImVec2(0, 1), ImVec2(1, 0), 1);
 
 		if (ImGui::IsItemClicked())
 		{
-			Texture* check_tex = App->resources->texture_importer->GetCheckerTexture();
-			mat_cmp->diffuse = check_tex;
+			Texture* check_tex = App->resources->material_importer->GetCheckerTexture();
+			mat_cmp->GetMaterial()->SetDiffuseTexture(check_tex);
 		}
 
 		
 		ImGui::Spacing();
 		
-		if (mat_cmp->diffuse != nullptr)
+		if (mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 		{
-			ImGui::Image((ImTextureID)mat_cmp->diffuse->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
 
 			ImGui::SameLine();
 
 			ImGui::Spacing();
 
 			ImGui::TextWrapped("Path: "); ImGui::SameLine();
-			ImGui::TextWrapped(/*ImVec4(1,1,0,1),*/ "%s", mat_cmp->diffuse->GetPath());
+			ImGui::TextWrapped(/*ImVec4(1,1,0,1),*/ "%s", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetPath());
 
 			ImGui::Text("Texture ID: "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetTextureID());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID());
 
 			ImGui::Text("Width:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetWidth());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetWidth());
 
 			ImGui::Text("Height:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->diffuse->GetHeight());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetHeight());
 		}
 	}		
 }

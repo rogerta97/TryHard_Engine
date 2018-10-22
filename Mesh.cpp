@@ -461,8 +461,7 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 		num_uvs = ranges[2];
 		num_normals = ranges[3];
 
-		//Get Vertices 
-		
+		//Get Vertices 		
 		bytes = sizeof(float)*num_vertices * 3;
 		vertices = new float3[num_vertices]; 
 		memcpy(vertices, cursor, bytes);
@@ -473,8 +472,7 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 		indices = new int[num_indices];
 		memcpy(indices, cursor, bytes);
 
-		////Get UVS
-		
+		//Get UVS		
 		if (num_uvs != 0)
 		{
 			cursor += bytes;

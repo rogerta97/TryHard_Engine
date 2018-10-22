@@ -129,12 +129,12 @@ void ComponentMesh::DrawMesh()
 	bool valid_mat = false; 
 	if (material)
 	{
-		if (material->diffuse != nullptr)
+		if (material->GetMaterial()->GetDiffuseTexture() != nullptr)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
 
-			material->diffuse->Bind();
+			material->GetMaterial()->GetDiffuseTexture()->Bind();
 
 			if (mesh->GetType() == MESH_FBX)
 				glTexCoordPointer(3, GL_FLOAT, 0, NULL);
@@ -167,7 +167,7 @@ void ComponentMesh::DrawMesh()
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
 	if (material)
-		material->diffuse->UnBind();
+		material->GetMaterial()->GetDiffuseTexture()->UnBind();
 	
 	if (trans)
 	{

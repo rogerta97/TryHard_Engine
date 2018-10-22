@@ -1,18 +1,19 @@
-#include "TextureImporter.h"
+#include "MaterialImporter.h"
 #include "Application.h"
 
 #include <iostream>
+#include <fstream>
 #include <filesystem>
 
 #include "ComponentMaterial.h"
 
 
-TextureImporter::TextureImporter()
+MaterialImporter::MaterialImporter()
 {
 
 }
 
-bool TextureImporter::Start()
+bool MaterialImporter::Start()
 {
 	ilInit();
 	iluInit();
@@ -28,17 +29,17 @@ bool TextureImporter::Start()
 	return true;
 }
 
-bool TextureImporter::Update()
+bool MaterialImporter::Update()
 {
 	return true;
 }
 
-bool TextureImporter::CleanUp()
+bool MaterialImporter::CleanUp()
 {
 	return true;
 }
 
-Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
+Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 {
 	Texture* tex = nullptr;
 
@@ -105,7 +106,7 @@ Texture* TextureImporter::LoadTexture(const char * path, bool not_flip)
 	return tex;
 }
 
-bool TextureImporter::SaveTexturesAsDDS()
+bool MaterialImporter::SaveTexturesAsDDS()
 {
 	//for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 	//{
@@ -115,7 +116,7 @@ bool TextureImporter::SaveTexturesAsDDS()
 	return true;
 }
 
-bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
+bool MaterialImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 {
 	//Textures will be saved into DDS for the moment
 	string textures_dir = App->file_system->GetLibraryPath() + "Textures\\";
@@ -142,7 +143,6 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 
 						//Copy data
 						GLubyte* data = new GLubyte[size];
-
 
 						(*it)->Bind();
 						data = ilGetData();
@@ -176,7 +176,7 @@ bool TextureImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 	return true;
 }
 
-void TextureImporter::DeleteTextureFromList(Texture * to_del)
+void MaterialImporter::DeleteTextureFromList(Texture * to_del)
 {
 	for (auto it = textures_list.begin(); it != textures_list.end();)
 	{
@@ -190,7 +190,7 @@ void TextureImporter::DeleteTextureFromList(Texture * to_del)
 	}
 }
 
-bool TextureImporter::DrawTextureList()
+bool MaterialImporter::DrawTextureList()
 {
 	static bool show_browser = false;
 
@@ -213,7 +213,7 @@ bool TextureImporter::DrawTextureList()
 					if (mat != nullptr)
 					{
 						string file_path = App->file_system->GetTexturesPath() + (*it);
-						mat->diffuse = LoadTexture(file_path.c_str());
+						mat->GetMaterial()->SetDiffuseTexture(LoadTexture(file_path.c_str()));
 					}
 				}
 			}
@@ -225,7 +225,7 @@ bool TextureImporter::DrawTextureList()
 }
 
 
-Texture * TextureImporter::GetTexture(const char* name)
+Texture * MaterialImporter::GetTexture(const char* name)
 {
 	Texture* to_ret = new Texture(); 
 
@@ -238,16 +238,47 @@ Texture * TextureImporter::GetTexture(const char* name)
 	return to_ret;
 }
 
-void TextureImporter::GenerateCheckerTexture()
+void MaterialImporter::GenerateCheckerTexture()
 {
 	checker_texture->FillCheckerTextureData();
 }
 
-Texture * TextureImporter::GetCheckerTexture() const
+Texture * MaterialImporter::GetCheckerTexture() const
 {
 	return checker_texture;
 }
 
-TextureImporter::~TextureImporter()
+bool MaterialImporter::SaveAsBinary(Texture * tex_to_save, const char * tex_name)
+{
+	//Get the path to save 
+	string path_to_save = App->file_system->GetLibraryPath() + "Materials\\" + tex_name + ".mat"; 
+
+	if (tex_to_save != nullptr)
+	{
+		//Create or open the file
+		ofstream stream;
+		stream.open(path_to_save, ofstream::binary);
+		
+		ILuint size;
+		ILubyte *data;
+		ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); // To pick a specific DXT compression use
+
+		size = ilSaveL(IL_DDS, NULL, 0); // Get the size of the data buffer
+
+		if (size > 0) {
+
+			data = new ILubyte[size]; // allocate data buffer
+
+			if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
+			{
+
+			}
+		}
+	}	
+
+	return false;
+}
+
+MaterialImporter::~MaterialImporter()
 {
 }

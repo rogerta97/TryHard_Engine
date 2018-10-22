@@ -152,7 +152,7 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_FRONT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_FRONT] = App->resources->texture_importer->LoadTexture(front_image_path);
+	sky_textures[SKYBOX_FRONT] = App->resources->material_importer->LoadTexture(front_image_path);
 
 	// ---------------------
 
@@ -236,7 +236,7 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_RIGHT]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_RIGHT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_RIGHT] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+	sky_textures[SKYBOX_RIGHT] = App->resources->material_importer->LoadTexture(plane_tex_path);
 
 	// ---------------------
 
@@ -318,7 +318,7 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_LEFT]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_LEFT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_LEFT] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+	sky_textures[SKYBOX_LEFT] = App->resources->material_importer->LoadTexture(plane_tex_path);
 
 	// ---------------------
 
@@ -400,7 +400,7 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_BACK]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_BACK]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_BACK] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+	sky_textures[SKYBOX_BACK] = App->resources->material_importer->LoadTexture(plane_tex_path);
 
 	// ---------------------
 
@@ -482,7 +482,7 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_TOP]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_TOP]->uvs_cords[7] = 1.0f;
 
-	sky_textures[SKYBOX_TOP] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+	sky_textures[SKYBOX_TOP] = App->resources->material_importer->LoadTexture(plane_tex_path);
 
 	// ---------------------
 
@@ -564,7 +564,7 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_DOWN]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_DOWN]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_DOWN] = App->resources->texture_importer->LoadTexture(plane_tex_path);
+	sky_textures[SKYBOX_DOWN] = App->resources->material_importer->LoadTexture(plane_tex_path);
 
 	// ---------------------
 

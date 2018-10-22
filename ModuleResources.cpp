@@ -34,8 +34,8 @@ void ModuleResources::LoadImporters()
 	mesh_importer = new MeshImporter();
 	mesh_importer->Start(); 
 
-	texture_importer = new TextureImporter();
-	texture_importer->Start();
+	material_importer = new MaterialImporter();
+	material_importer->Start();
 }
 
 update_status ModuleResources::Update()
@@ -45,7 +45,7 @@ update_status ModuleResources::Update()
 
 bool ModuleResources::CleanUp()
 {
-	texture_importer->SaveTexturesAsDDS(); 
+	material_importer->SaveTexturesAsDDS();
 
 	return false;
 }

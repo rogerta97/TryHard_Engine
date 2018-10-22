@@ -180,7 +180,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 				if (current_go != nullptr)
 				{
-					Texture* text = App->resources->texture_importer->LoadTexture(file_droped.c_str());
+					Texture* text = App->resources->material_importer->LoadTexture(file_droped.c_str());
 
 					ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
 
@@ -190,7 +190,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					}
 					else
 					{
-						mat->diffuse = text;
+						mat->GetMaterial()->SetDiffuseTexture(text);
 					}
 				}
 				else

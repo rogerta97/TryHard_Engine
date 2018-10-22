@@ -11,12 +11,7 @@ public:
 	Texture();
 	~Texture();
 
-	void SetWidth(float width);
-	unsigned int GetWidth() const;
-
-	void SetHeight(float height);
-	unsigned int GetHeight() const;
-
+	//Utility
 	void SetTextureSettings(); 
 	void FillCheckerTextureData();
 
@@ -24,6 +19,7 @@ public:
 	void Bind();
 	void UnBind();
 
+	//Setters & Getters 
 	const char* GetPath() const; 
 	void SetPath(const char* path); 
 
@@ -33,11 +29,15 @@ public:
 	uint GetTextureID() const; 
 	void SetTextureID(uint id); 
 
+	void SetWidth(float width);
+	unsigned int GetWidth() const;
+
+	void SetHeight(float height);
+	unsigned int GetHeight() const;
+
+	//Buffers
 	uint CreateBuffer(); 
-
 	void Clear(); 
-
-	bool SaveAsBinary(); 
 
 private:
 
