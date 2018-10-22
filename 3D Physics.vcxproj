@@ -230,6 +230,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
+    <ClInclude Include="UI_ExplorerPanel.h" />
     <ClInclude Include="UI_HierarchyPanel.h" />
     <ClInclude Include="UI_InspectorPanel.h" />
     <ClInclude Include="UI_Panel.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />
+    <ClCompile Include="UI_ExplorerPanel.cpp" />
     <ClCompile Include="UI_HierarchyPanel.cpp" />
     <ClCompile Include="UI_InspectorPanel.cpp" />
     <ClCompile Include="UI_PerformancePanel.cpp" />

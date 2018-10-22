@@ -1,7 +1,8 @@
 #include "ModuleFileSystem.h"
 #include "Application.h"
 #include "Shlwapi.h"
-#include <direct.h>
+#include <sys\stat.h>
+#include <cstdio>
 
 #include <fstream>
 #include <string>
@@ -18,7 +19,7 @@ ModuleFileSystem::~ModuleFileSystem()
 {
 }
 
-bool ModuleFileSystem::Start()
+bool ModuleFileSystem::Init(JSON_Object* config)
 {
 	char* buf = new char[256];
 	GetCurrentDirectoryA(256, buf);
@@ -34,9 +35,10 @@ bool ModuleFileSystem::Start()
 	mesh_library_path = library_path.c_str() + std::string("Materials\\");
 	CreateDirectory(mesh_library_path.c_str(), NULL);
 		 
-	models_path = game_path + string("Assets\\3DModels\\");
-	textures_path = game_path + string("Assets\\Textures\\");
-	skybox_path = game_path + string("Assets\\Textures\\SkyBox\\");
+	assets_path = game_path + string("Assets\\");
+	models_path = assets_path + string("3DModels\\");
+	textures_path = assets_path + string("Textures\\");
+	skybox_path = assets_path + string("Textures\\SkyBox\\");
 
 	return true;
 }
@@ -90,7 +92,20 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	return result_string;
 }
 
+bool ModuleFileSystem::IsFolder(const char * directory)
+{
+	vector<string> files = App->file_system->GetFilesInDirectory(directory);
 
+	for (auto it = files.begin(); it != files.end(); it++)
+	{
+		if ((*it) != "." && (*it) != "..")
+		{
+			return true; 
+		}
+	}
+
+	return false; 
+}
 
 std::string ModuleFileSystem::GetModelsPath() const
 {
@@ -112,32 +127,29 @@ string ModuleFileSystem::GetSkyBoxPath() const
 	return skybox_path;
 }
 
-void ModuleFileSystem::CreateLibraryFolders()
+string ModuleFileSystem::GetAssetsPath() const
 {
-	string lib_folder = game_path + "Library"; 
-	mkdir(lib_folder.c_str());
-
-	string mesh_folder = lib_folder + "Meshes";
-	mkdir(lib_folder.c_str());
-
-	string mat_folder = lib_folder + "Materials";
-	mkdir(mat_folder.c_str());
+	return assets_path;
 }
+
 
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)
 {
 	std::vector<string> files_to_ret; 
 
 	std::string path(directory);
-	path.append("*");
+	path.append("\\*");
 
 	WIN32_FIND_DATA data;
 	HANDLE hFind;
 
 	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
 	{
-		do {
+		do 
+		{
+			//if(std::string(data.cFileName) != std::string(".")  && std::string(data.cFileName) != std::string(".."))
 			files_to_ret.push_back(data.cFileName);
+
 		} while (FindNextFile(hFind, &data) != 0);
 		FindClose(hFind);
 	}

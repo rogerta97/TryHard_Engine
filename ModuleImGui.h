@@ -10,10 +10,11 @@ class UI_ScenePanel;
 class UI_ConsolePanel;
 class UI_RandomNumberPanel; 
 class UI_InspectorPanel; 
+class UI_ExplorerPanel; 
 class UI_Panel;
 class UI_HierarchyPanel; 
 
-enum Panel_Types { NULL_PANEL_TYPE, CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL, RANDOM_PANEL, INSPECTOR_PANEL, PERFORMANCE_PANEL, HIERARCHY_PANEL };
+enum Panel_Types { NULL_PANEL_TYPE, CONFIGURATION_PANEL, SCENE_PANEL, CONSOLE_PANEL, RANDOM_PANEL, INSPECTOR_PANEL, PERFORMANCE_PANEL, HIERARCHY_PANEL, EXPLORER_PANEL};
 
 class ModuleImGui : public Module
 {
@@ -64,6 +65,7 @@ private:
 
 	UI_ConfigurationPanel* config_panel = nullptr; 
 	UI_ScenePanel* scene_panel = nullptr;
+	UI_ExplorerPanel* explorer_panel = nullptr; 
 	UI_ConsolePanel* console_panel = nullptr;
 	UI_RandomNumberPanel* random_panel = nullptr;
 	UI_PerformancePanel* performance_panel = nullptr;

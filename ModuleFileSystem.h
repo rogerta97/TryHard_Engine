@@ -18,20 +18,20 @@ public:
 	ModuleFileSystem(bool start_enabled = true);
 	~ModuleFileSystem();
 
-	bool Start();
+	bool Init(JSON_Object* config);
 	update_status Update(float dt);
 	bool CleanUp();
 
 	file_extension GetFileExtension(string full_path);
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
+	bool IsFolder(const char* directory); 
 
 	string GetModelsPath() const; 
 	string GetTexturesPath() const;
 	string GetLibraryPath() const;
 	string GetSkyBoxPath() const;
-
-	void CreateLibraryFolders(); 
+	string GetAssetsPath() const; 
 
 	std::vector<string> GetFilesInDirectory(const char* directory); 
 	bool IsFileInDirectory(const char* directory, const char* filename);
@@ -41,6 +41,7 @@ private:
 	string library_path; 
 	string mesh_library_path; 
 	string game_path; 
+	string assets_path; 
 	string models_path; 
 	string skybox_path;
 	string textures_path;

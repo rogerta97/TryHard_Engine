@@ -562,6 +562,9 @@
     <ClInclude Include="Material.h">
       <Filter>Sources\GameObject\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="UI_ExplorerPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -806,6 +809,9 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Sources\GameObject\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ExplorerPanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

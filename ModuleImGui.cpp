@@ -14,6 +14,7 @@
 #include "UI_ConsolePanel.h"
 #include "UI_RandomNumberPanel.h"
 #include "UI_InspectorPanel.h"
+#include "UI_ExplorerPanel.h"
 #include "UI_PerformancePanel.h"
 #include "UI_HierarchyPanel.h"
 
@@ -45,6 +46,7 @@ bool ModuleImGui::Init(JSON_Object* config)
 	inspector_panel = (UI_InspectorPanel*)AddPanel(INSPECTOR_PANEL);
 	performance_panel = (UI_PerformancePanel*)AddPanel(PERFORMANCE_PANEL);
 	hierarchy_panel = (UI_HierarchyPanel*)AddPanel(HIERARCHY_PANEL);
+	explorer_panel = (UI_ExplorerPanel*)AddPanel(EXPLORER_PANEL); 
 
 	std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
@@ -438,6 +440,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case HIERARCHY_PANEL:
 		panel = new UI_HierarchyPanel();
+		break;
+	case EXPLORER_PANEL:
+		panel = new UI_ExplorerPanel();
 		break;
 	default:
 		break;
