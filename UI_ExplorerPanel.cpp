@@ -14,23 +14,33 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 {
 	string item_name; 
 
-	//if (App->file_system->IsFolder(folder.c_str()))
-	//{
-	//	item_name = App->file_system->GetLastPathItem(folder.c_str(), false);
-	//	string next_path = folder + item_name; 
+	if (App->file_system->IsFolder(folder.c_str()))
+	{
+		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 
-	//	ImGui::TreeNodeEx(item_name.c_str());
-	//	DrawExplorerRecursive(next_path);
+		if (ImGui::TreeNodeEx(item_name.c_str()))
+		{
+			//If it has childs we call them recursively
+			vector<string> child_files = App->file_system->GetFilesInDirectory(folder.c_str());
 
-	//	//If it has childs we call them recursively
-	//}
-	//else
-	//{
-	//	item_name = App->file_system->GetLastPathItem(folder.c_str(), false);
-	//	ImGui::TreeNodeEx(item_name.c_str(), ImGuiTreeNodeFlags_Bullet);
-	//}
-
-	
+			for (auto it = child_files.begin(); it != child_files.end(); it++)
+			{
+				if ((*it) != "." && (*it) != "..")
+				{
+					string next_file = folder + '\\' + (*it);
+					DrawExplorerRecursive(next_file);
+				}
+					
+			}
+				
+			ImGui::TreePop();
+		}
+	}
+	else
+	{
+		item_name = App->file_system->GetLastPathItem(folder.c_str());
+		ImGui::TreeNodeEx(item_name.c_str(), ImGuiTreeNodeFlags_Bullet);
+	}
 
 	return; 
 }
