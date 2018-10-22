@@ -373,9 +373,11 @@ void Mesh::LoadToMemory()
 	
 }
 
-bool Mesh::SaveAsBinary()
+bool Mesh::SaveAsBinary(const char* save_name)
 {
-	string save_path = App->file_system->GetLibraryPath() + "Meshes\\" + name + ".mesh"; 
+	CONSOLE_LOG("Mesh '%s' was not found in library. Saving to binary....", save_name);
+
+	string save_path = App->file_system->GetLibraryPath() + "Meshes\\" + save_name + ".mesh";
 
 	if (num_vertices == 0)
 		return false; 
@@ -419,11 +421,16 @@ bool Mesh::SaveAsBinary()
 	stream.write((const char*)buffer, size_of_data);
 	stream.close();
 
+
 	return true;
 }
 
 bool Mesh::LoadFromBinary(const char* mesh_name)
 {
+	bool ret = false; 
+
+	CONSOLE_LOG("Mesh '%s' has been FOUND in library. Loading mesh...", mesh_name);
+
 	string mesh_path = App->file_system->GetLibraryPath() + "Meshes\\" + mesh_name;
 
 	//Open the file for reading
@@ -432,6 +439,7 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 
 	if (stream)
 	{
+		ret = true; 
 		// Get length of file:
 		stream.seekg(0, stream.end);
 		int length = stream.tellg();
@@ -442,10 +450,11 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 		stream.read(buffer, sizeof(char) * length);
 		char* cursor = buffer;
 		
-		//Get Ranges
+		////Get Ranges
 		uint ranges[4]; 
 		uint bytes = sizeof(uint) * 4; 
 		memcpy(ranges, cursor, bytes); 
+		cursor += bytes;
 
 		num_vertices = ranges[0];
 		num_indices = ranges[1];
@@ -453,41 +462,41 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 		num_normals = ranges[3];
 
 		//Get Vertices 
-		cursor += bytes;
+		
 		bytes = sizeof(float)*num_vertices * 3;
 		vertices = new float3[num_vertices]; 
 		memcpy(vertices, cursor, bytes);
-
-		//Get Indices
 		cursor += bytes;
+
+		//Get Indices	
 		bytes = sizeof(uint)*num_indices;
 		indices = new int[num_indices];
 		memcpy(indices, cursor, bytes);
 
-		//Get UVS
-		cursor += bytes;
-		if (num_uvs)
+		////Get UVS
+		
+		if (num_uvs != 0)
 		{
-			bytes = sizeof(float)*num_uvs * 3;
-			uvs_cords = new float[num_uvs];
-			memcpy(uvs_cords, cursor, bytes);
 			cursor += bytes;
+			bytes = sizeof(float)*num_uvs * 3;
+			uvs_cords = new float[num_uvs * 3];
+			memcpy(uvs_cords, cursor, bytes);		
 		}
-
 
 		//Get Normals
 		if (num_normals)
 		{
+			cursor += bytes;
 			bytes = sizeof(float)*num_normals * 3;
 			normal_cords = new float3[num_normals];
 			memcpy(normal_cords, cursor, bytes);
 		}
 	}	
 
-	//Close the file
+	//Close the file	
 	stream.close();
 
-	return true;
+	return ret;
 }
 
 void Mesh::UnbindBuffer()

@@ -157,8 +157,12 @@ update_status ModuleInput::PreUpdate(float dt)
 			if (file_dropped_extension == file_extension::FX_FBX)
 			{
 				App->scene->CleanScene();
+				Timer test;
+				test.Start();
 
 				GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+
+				CONSOLE_ERROR("Loaded in %d ms", test.Read()); 
 
 				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
 				App->scene->SetSelectedGameObject(parent);

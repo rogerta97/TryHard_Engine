@@ -23,7 +23,7 @@ public:
 
 	void LoadToMemory(); 
 
-	bool SaveAsBinary(); 
+	bool SaveAsBinary(const char* save_mesh); 
 	bool LoadFromBinary(const char* mesh_name); 
 
 public: 

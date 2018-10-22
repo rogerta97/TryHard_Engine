@@ -119,6 +119,8 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 		to_ret->parent = nullptr;
 
 		App->scene->SetSelectedGameObject(to_ret);
+
+		aiReleaseImport(scene);
 	}
 	else
 	{
@@ -126,7 +128,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 	}
 
 	//Release Scene
-	aiReleaseImport(scene);
+	
 
 	return to_ret;
 
@@ -197,13 +199,12 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 			//If the mesh already exist, we load it directly from library
 			string mesh_lib_path = App->file_system->GetLibraryPath() + "Meshes"; 
-			string file_name = new_mesh->name + ".mesh"; 
+			string file_name = game_object->name + ".mesh";
 
 			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
-			{
-				new_mesh->LoadFromBinary(file_name.c_str());
-				new_mesh->LoadToMemory(); 
-				CONSOLE_DEBUG("Mesh '%s' loaded from library", new_mesh->name.c_str()); 
+			{			
+				if(new_mesh->LoadFromBinary(file_name.c_str()))
+					new_mesh->LoadToMemory(); 		
 			}
 			else
 			{
@@ -213,7 +214,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
 				glGenBuffers(1, &new_mesh->vertices_id);
-				CONSOLE_LOG("Array buffer for vertices with ID %d created", new_mesh->vertices_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -239,7 +239,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					glGenBuffers(1, &new_mesh->indices_id);
-					CONSOLE_LOG("Array buffer for indices with ID %d created", new_mesh->indices_id);
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -259,9 +258,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
 					glGenBuffers(1, &new_mesh->uvs_id);
-
-					CONSOLE_LOG("Array buffer for textures with ID %d created", new_mesh->uvs_id);
-
 					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
 					glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -277,9 +273,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
 
 					glGenBuffers(1, &new_mesh->normals_id);
-
-					CONSOLE_LOG("Array buffer for normals with ID %d created", new_mesh->normals_id);
-
 					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
 					glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -287,7 +280,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 				}
 
-				new_mesh->SaveAsBinary(); 
+				new_mesh->SaveAsBinary(game_object->name.c_str()); 		
 			}
 				
 			//Add Mesh to GameObject
@@ -303,7 +296,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				//Load Texture Image
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
-				CONSOLE_LOG("MAT INDEX: %d", curr_mesh->mMaterialIndex);
 
 				//Get the path
 				aiString texture_name;
