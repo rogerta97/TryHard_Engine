@@ -18,22 +18,22 @@ void SkyBox::InitSkyBox(const char * folder_name, float size)
 
 	this->size = size;
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_front.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_front.png";
 	CreateFrontPlane(curr_path.c_str());
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_right.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_right.png";
 	CreateRightPlane(curr_path.c_str());
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_left.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_left.png";
 	CreateLeftPlane(curr_path.c_str());
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_back.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_back.png";
 	CreateBackPlane(curr_path.c_str());
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_up.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_up.png";
 	CreateTopPlane(curr_path.c_str());
 
-	curr_path = App->file_system->GetSkyBoxPath() + "miramar_down.png";
+	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_down.png";
 	CreateDownPlane(curr_path.c_str());
 
 	

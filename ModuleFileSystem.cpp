@@ -24,21 +24,21 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	char* buf = new char[256];
 	GetCurrentDirectoryA(256, buf);
 
-	game_path = buf + std::string("\\"); 
+	game_path = buf;
 
-	library_path = game_path + std::string("Library\\");		
+	library_path = game_path + std::string("Library");		
 	CreateDirectory(library_path.c_str(), NULL);
 
-	mesh_library_path = library_path.c_str() + std::string("Meshes\\");
+	mesh_library_path = library_path.c_str() + string("\\") + std::string("Meshes");
 	CreateDirectory(mesh_library_path.c_str(), NULL);
 
-	mesh_library_path = library_path.c_str() + std::string("Materials\\");
+	mesh_library_path = library_path.c_str() + string("\\") + std::string("Materials");
 	CreateDirectory(mesh_library_path.c_str(), NULL);
 		 
-	assets_path = game_path + string("Assets\\");
-	models_path = assets_path + string("3DModels\\");
-	textures_path = assets_path + string("Textures\\");
-	skybox_path = assets_path + string("Textures\\SkyBox\\");
+	assets_path = game_path + string("\\") + string("Assets");
+	models_path = assets_path + string("\\") + string("3DModels");
+	textures_path = assets_path + string("\\") + string("Textures");
+	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
 
 	return true;
 }

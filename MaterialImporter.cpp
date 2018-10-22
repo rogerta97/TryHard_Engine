@@ -20,7 +20,7 @@ bool MaterialImporter::Start()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	string go_symbol_path = string(App->file_system->GetTexturesPath() + "GameObjectIcon.png");
+	string go_symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "GameObjectIcon.png");
 	LoadTexture(go_symbol_path.c_str(), true);
 
 	checker_texture = new Texture();
@@ -212,7 +212,7 @@ bool MaterialImporter::DrawTextureList()
 
 					if (mat != nullptr)
 					{
-						string file_path = App->file_system->GetTexturesPath() + (*it);
+						string file_path = App->file_system->GetTexturesPath() + string("\\") + (*it);
 						mat->GetMaterial()->SetDiffuseTexture(LoadTexture(file_path.c_str()));
 					}
 				}

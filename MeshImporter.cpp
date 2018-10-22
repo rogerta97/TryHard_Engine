@@ -200,7 +200,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			new_mesh->name = curr_mesh->mName.C_Str(); 
 
 			//If the mesh already exist, we load it directly from library
-			string mesh_lib_path = App->file_system->GetLibraryPath() + "Meshes"; 
+			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
 			string file_name = game_object->name + ".mesh";
 
 			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
@@ -322,7 +322,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					{
 						CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
 
-						std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
+						std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
 
 						//Create the texture
 						Texture* new_texture = new Texture();
