@@ -431,7 +431,7 @@ bool Mesh::LoadFromBinary(const char* mesh_name)
 
 	CONSOLE_LOG("Mesh '%s' has been FOUND in library. Loading mesh...", mesh_name);
 
-	string mesh_path = App->file_system->GetLibraryPath() + "Meshes\\" + mesh_name;
+	string mesh_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + mesh_name;
 
 	//Open the file for reading
 	std::ifstream stream; 

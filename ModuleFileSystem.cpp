@@ -26,7 +26,7 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 
 	game_path = buf;
 
-	library_path = game_path + std::string("Library");		
+	library_path = game_path + string("\\") + std::string("Library");
 	CreateDirectory(library_path.c_str(), NULL);
 
 	mesh_library_path = library_path.c_str() + string("\\") + std::string("Meshes");

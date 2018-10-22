@@ -285,7 +285,7 @@ bool MaterialImporter::SaveAsBinary(Material * mat_to_save, const char * tex_nam
 
 		stream.close(); 
 
-		CONSOLE_DEBUG("Material '%s' saved to library");
+		CONSOLE_DEBUG("Material '%s' saved to library", tex_name);
 	}	
 
 	return ret;

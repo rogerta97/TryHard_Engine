@@ -38,8 +38,12 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 	}
 	else
 	{
-		item_name = App->file_system->GetLastPathItem(folder.c_str());
-		ImGui::TreeNodeEx(item_name.c_str(), ImGuiTreeNodeFlags_Bullet);
+		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
+
+		if (ImGui::TreeNodeEx(item_name.c_str(), ImGuiTreeNodeFlags_Bullet))
+		{
+
+		}
 	}
 
 	return; 
