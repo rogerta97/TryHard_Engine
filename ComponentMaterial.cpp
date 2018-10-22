@@ -10,7 +10,6 @@ ComponentMaterial::ComponentMaterial(GameObject* parent)
 	active = true; 
 
 	material = new Material();
-	material->SetDiffuseTexture(nullptr); 	
 }
 
 

@@ -14,6 +14,7 @@
 #pragma comment(lib, "DevIL Windows SDK/libx86/ILU.lib")
 #pragma comment(lib, "DevIL Windows SDK/libx86/ILUT.lib")
 
+class Material; 
 
 class MaterialImporter : public Importer
 {
@@ -39,7 +40,8 @@ public:
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 
 
-	bool SaveAsBinary(Texture* tex_to_save, const char* tex_name); 
+	bool SaveAsBinary(Material* mat_to_save, const char* tex_name); 
+	Material* LoadFromBinary(const char* tex_name);
 
 	~MaterialImporter();
 

@@ -4,6 +4,7 @@
 
 Material::Material()
 {
+	diffuse = nullptr;
 }
 
 

@@ -13,6 +13,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
+#include <string>
+
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 void LogAssimpLogs(const char * str, char * userData);
@@ -297,36 +299,51 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
+				Material* new_mat = new Material(); 
+
 				//Get the path
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
 
-				if (string(texture_name.C_Str()) != string(""))
+				string folder_to_check = App->file_system->GetLibraryPath() + "Materials"; 
+				string item_name = texture_name.C_Str();
+
+				string item_lib_name = item_name;
+				item_lib_name = item_lib_name.substr(0, item_name.size() - 4);
+				item_lib_name += ".dds";
+
+				if(string(texture_name.C_Str()) != string(""))
 				{
-					CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
-
-					std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
-
-					//Create the texture
-					Texture* new_texture = new Texture(); 
-					new_texture = App->resources->material_importer->LoadTexture(path.c_str());
-
-					if (new_texture != nullptr)
+					if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
 					{
-						CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+						new_mat = App->resources->material_importer->LoadFromBinary(item_lib_name.c_str());
+					}
+					else
+					{
+						CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
+
+						std::string path = App->file_system->GetTexturesPath() + texture_name.C_Str();
+
+						//Create the texture
+						Texture* new_texture = new Texture();
+						new_texture = App->resources->material_importer->LoadTexture(path.c_str());
+
+						if (new_texture != nullptr)
+						{
+							CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+						}
+
+						new_mat->SetDiffuseTexture(new_texture);
+						App->resources->material_importer->SaveAsBinary(new_mat, item_lib_name.c_str());
 					}
 
 					//Create The Component
 					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-					cmp_mat->GetMaterial()->SetDiffuseTexture(new_texture);
-
-					//Add it to the parent GO
-					
+					cmp_mat->SetMaterial(new_mat);
 				}
 				else
 				{
 					CONSOLE_ERROR("Texture not bounded correctly to '%s' Mesh, Texture won't be applied", game_object->name.c_str());
-					return; 
 				}
 
 				App->scene->AddGameObjectToScene(game_object);

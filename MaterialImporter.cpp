@@ -248,17 +248,22 @@ Texture * MaterialImporter::GetCheckerTexture() const
 	return checker_texture;
 }
 
-bool MaterialImporter::SaveAsBinary(Texture * tex_to_save, const char * tex_name)
+bool MaterialImporter::SaveAsBinary(Material * mat_to_save, const char * tex_name)
 {
-	//Get the path to save 
-	string path_to_save = App->file_system->GetLibraryPath() + "Materials\\" + tex_name + ".mat"; 
+	bool ret = false; 
 
-	if (tex_to_save != nullptr)
+	//Get the path to save 
+	string path_to_save = App->file_system->GetLibraryPath() + "Materials\\" + tex_name; 
+
+	if (mat_to_save != nullptr)
 	{
 		//Create or open the file
 		ofstream stream;
 		stream.open(path_to_save, ofstream::binary);
-		
+		stream.clear(); 
+
+		//Check the state of the Material to know what we should write (tex channels)
+		//Save the diffuse channel 
 		ILuint size;
 		ILubyte *data;
 		ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); // To pick a specific DXT compression use
@@ -269,14 +274,35 @@ bool MaterialImporter::SaveAsBinary(Texture * tex_to_save, const char * tex_name
 
 			data = new ILubyte[size]; // allocate data buffer
 
+			mat_to_save->GetDiffuseTexture()->Bind();
+
 			if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
 			{
-
+				ret = true; 
+				stream.write((const char*)data, size); 
 			}
 		}
+
+		stream.close(); 
+
+		CONSOLE_DEBUG("Material '%s' saved to library");
 	}	
 
-	return false;
+	return ret;
+}
+
+Material * MaterialImporter::LoadFromBinary(const char * tex_name)
+{
+	Material* new_mat = new Material(); 
+
+	string tex_path = App->file_system->GetLibraryPath() + "Materials\\" + tex_name; 
+
+	Texture* new_tex = LoadTexture(tex_path.c_str(), true);
+	new_mat->SetDiffuseTexture(new_tex); 
+
+	CONSOLE_DEBUG("Material '%s' loaded correctly from libary"); 
+
+	return new_mat;
 }
 
 MaterialImporter::~MaterialImporter()
