@@ -152,7 +152,7 @@ bool ModuleFileSystem::IsFileInDirectory(const char * directory, const char * fi
 	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
 	{
 		do {
-			if (data.cFileName == filename)
+			if (std::string(data.cFileName) == std::string(filename))
 				return true; 
 
 		} while (FindNextFile(hFind, &data) != 0);

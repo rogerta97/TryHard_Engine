@@ -113,9 +113,6 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 
 		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go);
 
-		//Release Scene
-		aiReleaseImport(scene);
-
 		to_ret = tmp_go->GetChild(0);
 
 		delete(tmp_go);
@@ -128,6 +125,8 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 		CONSOLE_ERROR("FBX could not be loaded"); 
 	}
 
+	//Release Scene
+	aiReleaseImport(scene);
 
 	return to_ret;
 
@@ -196,91 +195,104 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			game_object->name = node->mName.C_Str(); 
 			new_mesh->name = curr_mesh->mName.C_Str(); 
 
-			//Load Vertices
-			new_mesh->num_vertices = curr_mesh->mNumVertices;
-			new_mesh->vertices = new float3[new_mesh->num_vertices];
-			memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
+			//If the mesh already exist, we load it directly from library
+			string mesh_lib_path = App->file_system->GetLibraryPath() + "Meshes"; 
+			string file_name = new_mesh->name + ".mesh"; 
 
-			glGenBuffers(1, &new_mesh->vertices_id);
-			CONSOLE_LOG("Array buffer for vertices with ID %d created", new_mesh->vertices_id);
-			glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(),  new_mesh->num_vertices);
-
-			//Load Indices
-			if (curr_mesh->HasFaces())
+			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{
-				new_mesh->num_indices = curr_mesh->mNumFaces * 3;
-				new_mesh->indices = new int[new_mesh->num_indices];
+				new_mesh->LoadFromBinary(file_name.c_str());
+				new_mesh->LoadToMemory(); 
+				CONSOLE_DEBUG("Mesh '%s' loaded from library", new_mesh->name.c_str()); 
+			}
+			else
+			{
+				//Load Vertices
+				new_mesh->num_vertices = curr_mesh->mNumVertices;
+				new_mesh->vertices = new float3[new_mesh->num_vertices];
+				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
-				for (int j = 0; j < curr_mesh->mNumFaces; j++)
+				glGenBuffers(1, &new_mesh->vertices_id);
+				CONSOLE_LOG("Array buffer for vertices with ID %d created", new_mesh->vertices_id);
+				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+				CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(), new_mesh->num_vertices);
+
+				//Load Indices
+				if (curr_mesh->HasFaces())
 				{
-					aiFace curr_face = curr_mesh->mFaces[j];
+					new_mesh->num_indices = curr_mesh->mNumFaces * 3;
+					new_mesh->indices = new int[new_mesh->num_indices];
 
-					if (curr_face.mNumIndices != 3)
+					for (int j = 0; j < curr_mesh->mNumFaces; j++)
 					{
-						CONSOLE_ERROR("Geometry index in face %d is != 3", j);
+						aiFace curr_face = curr_mesh->mFaces[j];
+
+						if (curr_face.mNumIndices != 3)
+						{
+							CONSOLE_ERROR("Geometry index in face %d is != 3", j);
+						}
+						else
+							memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
 					}
-					else
-						memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
+
+					glGenBuffers(1, &new_mesh->indices_id);
+					CONSOLE_LOG("Array buffer for indices with ID %d created", new_mesh->indices_id);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+					CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
 				}
 
-				glGenBuffers(1, &new_mesh->indices_id);
-				CONSOLE_LOG("Array buffer for indices with ID %d created", new_mesh->indices_id);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				//Load UV Coords
+				if (curr_mesh->HasTextureCoords(0))
+				{
+					//Load the UV's
+					new_mesh->num_uvs = curr_mesh->mNumVertices;
+					new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];
 
-				CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
+					if (new_mesh->uvs_cords != nullptr)
+						glTexCoordPointer(2, GL_FLOAT_R_NV, 0, &new_mesh->uvs_cords);
+					memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
+
+					glGenBuffers(1, &new_mesh->uvs_id);
+
+					CONSOLE_LOG("Array buffer for textures with ID %d created", new_mesh->uvs_id);
+
+					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
+				}
+
+				//Load Normals
+				if (curr_mesh->HasNormals())
+				{
+					new_mesh->num_normals = new_mesh->num_vertices;
+					new_mesh->normal_cords = new float3[new_mesh->num_normals];
+					memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
+
+					glGenBuffers(1, &new_mesh->normals_id);
+
+					CONSOLE_LOG("Array buffer for normals with ID %d created", new_mesh->normals_id);
+
+					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
+					glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
+				}
+
+				new_mesh->SaveAsBinary(); 
 			}
-
-			//Load UV Coords
-			if (curr_mesh->HasTextureCoords(0))
-			{
-				//Load the UV's
-				new_mesh->num_uvs = curr_mesh->mNumVertices;
-				new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];	
-
-				if (new_mesh->uvs_cords != nullptr)
-					glTexCoordPointer(2, GL_FLOAT_R_NV, 0, &new_mesh->uvs_cords);
-				memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
-
-				glGenBuffers(1, &new_mesh->uvs_id);
-
-				CONSOLE_LOG("Array buffer for textures with ID %d created", new_mesh->uvs_id);
-
-				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-				CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
-			}
-
-			//Load Normals
-			if (curr_mesh->HasNormals())
-			{
-				new_mesh->num_normals = new_mesh->num_vertices;
-				new_mesh->normal_cords = new float3[new_mesh->num_normals];
-				memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
-
-				glGenBuffers(1, &new_mesh->normals_id);
-
-				CONSOLE_LOG("Array buffer for normals with ID %d created", new_mesh->normals_id);
-
-				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-				CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
-			}
-
+				
 			//Add Mesh to GameObject
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_RENDERER);
 			cmp_mesh->SetMesh(new_mesh);
-			new_mesh->SaveAsBinary(); 
-
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->draw_bounding_box = false;
 
@@ -291,6 +303,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				//Load Texture Image
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
+				CONSOLE_LOG("MAT INDEX: %d", curr_mesh->mMaterialIndex);
 
 				//Get the path
 				aiString texture_name;

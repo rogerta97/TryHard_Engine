@@ -422,6 +422,74 @@ bool Mesh::SaveAsBinary()
 	return true;
 }
 
+bool Mesh::LoadFromBinary(const char* mesh_name)
+{
+	string mesh_path = App->file_system->GetLibraryPath() + "Meshes\\" + mesh_name;
+
+	//Open the file for reading
+	std::ifstream stream; 
+	stream.open(mesh_path, std::fstream::binary);
+
+	if (stream)
+	{
+		// Get length of file:
+		stream.seekg(0, stream.end);
+		int length = stream.tellg();
+		stream.seekg(0, stream.beg);
+
+		// Create the buffer where the data is going to be stored
+		char* buffer = new char[length];
+		stream.read(buffer, sizeof(char) * length);
+		char* cursor = buffer;
+		
+		//Get Ranges
+		uint ranges[4]; 
+		uint bytes = sizeof(uint) * 4; 
+		memcpy(ranges, cursor, bytes); 
+
+		num_vertices = ranges[0];
+		num_indices = ranges[1];
+		num_uvs = ranges[2];
+		num_normals = ranges[3];
+
+		//Get Vertices 
+		cursor += bytes;
+		bytes = sizeof(float)*num_vertices * 3;
+		vertices = new float3[num_vertices]; 
+		memcpy(vertices, cursor, bytes);
+
+		//Get Indices
+		cursor += bytes;
+		bytes = sizeof(uint)*num_indices;
+		indices = new int[num_indices];
+		memcpy(indices, cursor, bytes);
+
+		//Get UVS
+		cursor += bytes;
+		if (num_uvs)
+		{
+			bytes = sizeof(float)*num_uvs * 3;
+			uvs_cords = new float[num_uvs];
+			memcpy(uvs_cords, cursor, bytes);
+			cursor += bytes;
+		}
+
+
+		//Get Normals
+		if (num_normals)
+		{
+			bytes = sizeof(float)*num_normals * 3;
+			normal_cords = new float3[num_normals];
+			memcpy(normal_cords, cursor, bytes);
+		}
+	}	
+
+	//Close the file
+	stream.close();
+
+	return true;
+}
+
 void Mesh::UnbindBuffer()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
