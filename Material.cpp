@@ -1,5 +1,5 @@
 #include "Material.h"
-
+#include "Texture.h"
 
 
 Material::Material()
@@ -10,6 +10,11 @@ Material::Material()
 
 Material::~Material()
 {
+}
+
+void Material::CleanUp()
+{
+	diffuse->Clear();
 }
 
 Texture * Material::GetDiffuseTexture()
