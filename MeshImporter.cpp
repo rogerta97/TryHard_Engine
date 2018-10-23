@@ -299,13 +299,13 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
-				Material* new_mat = new Material(); 
+				Material* new_mat = nullptr;
 
 				//Get the path
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
 
-				string folder_to_check = App->file_system->GetLibraryPath() + "Materials"; 
+				string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
 				string item_name = texture_name.C_Str();
 
 				string item_lib_name = item_name;
@@ -320,6 +320,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 					else
 					{
+						new_mat = new Material(); 
 						CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
 
 						std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();

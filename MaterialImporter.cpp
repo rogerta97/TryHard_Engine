@@ -253,7 +253,7 @@ bool MaterialImporter::SaveAsBinary(Material * mat_to_save, const char * tex_nam
 	bool ret = false; 
 
 	//Get the path to save 
-	string path_to_save = App->file_system->GetLibraryPath() + "Materials\\" + tex_name; 
+	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name; 
 
 	if (mat_to_save != nullptr)
 	{
@@ -295,12 +295,12 @@ Material * MaterialImporter::LoadFromBinary(const char * tex_name)
 {
 	Material* new_mat = new Material(); 
 
-	string tex_path = App->file_system->GetLibraryPath() + "Materials\\" + tex_name; 
+	string tex_path = App->file_system->GetLibraryPath() + std::string("\\") + "Materials\\" + tex_name; 
 
 	Texture* new_tex = LoadTexture(tex_path.c_str(), true);
 	new_mat->SetDiffuseTexture(new_tex); 
 
-	CONSOLE_DEBUG("Material '%s' loaded correctly from libary"); 
+	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", tex_name); 
 
 	return new_mat;
 }

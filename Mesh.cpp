@@ -377,7 +377,7 @@ bool Mesh::SaveAsBinary(const char* save_name)
 {
 	CONSOLE_LOG("Mesh '%s' was not found in library. Saving to binary....", save_name);
 
-	string save_path = App->file_system->GetLibraryPath() + "Meshes\\" + save_name + ".mesh";
+	string save_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + save_name + ".mesh";
 
 	if (num_vertices == 0)
 		return false; 
@@ -420,7 +420,6 @@ bool Mesh::SaveAsBinary(const char* save_name)
 	//Save data to the file
 	stream.write((const char*)buffer, size_of_data);
 	stream.close();
-
 
 	return true;
 }
