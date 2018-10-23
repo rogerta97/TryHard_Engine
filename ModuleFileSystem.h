@@ -14,6 +14,14 @@ enum file_extension
 	FX_ERR
 };
 
+enum file_type
+{
+	FT_3DMODEL,
+	FT_IMAGE,
+	FT_FONT,
+	FT_UNDEFINED,
+};
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -25,6 +33,7 @@ public:
 	bool CleanUp();
 
 	file_extension GetFileExtension(string full_path);
+	file_type GetFileType(string full_path);
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 	string DeleteLastPathItem(const char* path);

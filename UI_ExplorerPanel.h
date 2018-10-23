@@ -24,6 +24,7 @@ private:
 	Texture* folder_texture; 
 	Texture* image_texture; 
 	Texture* mesh_texture; 
+	Texture* font_texture; 
 
 };
 

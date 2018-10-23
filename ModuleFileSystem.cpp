@@ -79,6 +79,22 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 	
 }
 
+file_type ModuleFileSystem::GetFileType(string full_path)
+{
+	file_extension curr_extension = GetFileExtension(full_path);
+
+	if (curr_extension == FX_FBX)
+		return file_type::FT_3DMODEL;
+
+	else if (curr_extension == FX_PNG || curr_extension == FX_JPG || curr_extension == FX_JPG)
+		return file_type::FT_IMAGE; 
+
+	else if (curr_extension == FX_TTF || curr_extension == FX_OTF)
+		return file_type::FT_FONT;
+
+	return file_type::FT_UNDEFINED; 
+}
+
 std::string ModuleFileSystem::GetWorkingDirectory() const
 {
 	return game_path;
