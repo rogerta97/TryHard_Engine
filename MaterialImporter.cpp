@@ -37,6 +37,10 @@ bool MaterialImporter::Start()
 	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "ImageIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
+	//Create Font Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "FontIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
 

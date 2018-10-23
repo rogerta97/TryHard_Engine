@@ -23,9 +23,6 @@ public:
 
 	void LoadToMemory(); 
 
-	bool SaveAsBinary(const char* save_mesh); 
-	bool LoadFromBinary(const char* mesh_name); 
-
 public: 
 
 	std::string name = ""; 

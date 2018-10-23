@@ -9,6 +9,8 @@ enum file_extension
 	FX_FBX,
 	FX_JPG,
 	FX_DDS,
+	FX_TTF,
+	FX_OTF,
 	FX_ERR
 };
 

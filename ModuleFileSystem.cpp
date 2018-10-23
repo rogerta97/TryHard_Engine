@@ -69,6 +69,12 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".jpg" || term == ".JPG")
 			return FX_JPG;
 
+		else if (term == ".ttf" || term == ".TTF")
+			return FX_TTF;
+
+		else if (term == ".otf" || term == ".OTF")
+			return FX_OTF;
+
 		return FX_ERR;
 	
 }
