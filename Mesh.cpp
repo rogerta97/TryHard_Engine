@@ -297,29 +297,29 @@ bool Mesh::SetCubeData()
 
 void Mesh::CleanMeshData()
 {	
-	if (num_vertices != 0)
-	{
-		glDeleteBuffers(1, &vertices_id);
-		//delete(vertices);
-	}
+	//if (num_vertices != 0)
+	//{
+	//	glDeleteBuffers(1, &vertices_id);
+	//	//delete(vertices);
+	//}
 
-	if (num_indices != 0)
-	{
-		glDeleteBuffers(1, &indices_id);
-		//delete(indices);
-	}
+	//if (num_indices != 0)
+	//{
+	//	glDeleteBuffers(1, &indices_id);
+	//	//delete(indices);
+	//}
 
-	if (num_uvs != 0)
-	{
-		glDeleteBuffers(1, &uvs_id);
-		//delete(uvs_cords);
-	}
+	//if (num_uvs != 0)
+	//{
+	//	glDeleteBuffers(1, &uvs_id);
+	//	//delete(uvs_cords);
+	//}
 
-	if (num_normals != 0)
-	{
-		glDeleteBuffers(1, &normals_id);
-		//delete(normal_cords);
-	}
+	//if (num_normals != 0)
+	//{
+	//	glDeleteBuffers(1, &normals_id);
+	//	//delete(normal_cords);
+	//}
 }
 
 

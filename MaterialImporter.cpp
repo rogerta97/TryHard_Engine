@@ -296,13 +296,16 @@ bool MaterialImporter::SaveAsBinary(Material * mat_to_save, const char * tex_nam
 
 			data = new ILubyte[size]; // allocate data buffer
 
-			mat_to_save->GetDiffuseTexture()->Bind();
-
-			if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
+			if (mat_to_save->GetDiffuseTexture() != nullptr)
 			{
-				ret = true; 
-				stream.write((const char*)data, size); 
-			}
+				mat_to_save->GetDiffuseTexture()->Bind();
+
+				if (ilSaveL(IL_DDS, data, size) > 0) // Save to buffer with the ilSaveIL function
+				{
+					ret = true;
+					stream.write((const char*)data, size);
+				}
+			}	
 		}
 
 		stream.close(); 
