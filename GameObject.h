@@ -42,6 +42,9 @@ public:
 	void SetParent(GameObject* new_parent); 
 	void SetActive(bool activated);
 
+	void SetStatic(bool set_static);
+	bool GetIsStatic();
+
 	std::string GetName() const; 
 	void SetName(const char* name);
 
@@ -62,5 +65,6 @@ public:
 private:
 	std::list<GameObject*> child_list; 
 	bool active; 
+	bool is_static;
 };
 

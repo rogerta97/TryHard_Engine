@@ -21,6 +21,7 @@ GameObject::GameObject()
 GameObject::GameObject(const char * name)
 {
 	this->name = name;
+	is_static = false;
 	parent = nullptr; 
 	selected = false; 
 }
@@ -81,6 +82,16 @@ void GameObject::SetParent(GameObject * new_parent)
 void GameObject::SetActive(bool activated)
 {
 	active = activated; 
+}
+
+void GameObject::SetStatic(bool set_static)
+{
+	is_static = set_static;
+}
+
+bool GameObject::GetIsStatic()
+{
+	return is_static;
 }
 
 std::string GameObject::GetName() const

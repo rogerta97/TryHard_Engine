@@ -54,8 +54,6 @@ bool UI_InspectorPanel::Update()
 		if(go_image != nullptr)
 			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
 
-		if (ImGui::Checkbox(" ", &is_active))
-			gameobject->SetActive(is_active);
 
 		ImGui::SameLine(); 
 
@@ -69,6 +67,18 @@ bool UI_InspectorPanel::Update()
 			ImGui::End();
 			return false; 
 		}
+
+		if (ImGui::Checkbox("Active", &is_active))
+			gameobject->SetActive(is_active);
+
+		ImGui::SameLine();
+
+		bool tmp_is_static = gameobject->GetIsStatic();
+		if (ImGui::Checkbox("Static", &tmp_is_static)) {
+			gameobject->SetStatic(tmp_is_static);
+		}
+
+
 
 		ImGui::Spacing(); 
 
