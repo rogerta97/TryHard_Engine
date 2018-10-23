@@ -48,6 +48,11 @@ bool ModuleImGui::Init(JSON_Object* config)
 	hierarchy_panel = (UI_HierarchyPanel*)AddPanel(HIERARCHY_PANEL);
 	explorer_panel = (UI_ExplorerPanel*)AddPanel(EXPLORER_PANEL); 
 
+	return true;
+}
+
+bool ModuleImGui::Start()
+{
 	std::list<UI_Panel*>::iterator panel = panels_list.begin();
 
 	while (panel != panels_list.end())
@@ -56,11 +61,6 @@ bool ModuleImGui::Init(JSON_Object* config)
 		panel++;
 	}
 
-	return true;
-}
-
-bool ModuleImGui::Start()
-{
 	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/orkney-regular.otf", 14.0f);
 	pFont->DisplayOffset = { 0,1 };
 	pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Quicksand-Regular.otf", 14.0f);

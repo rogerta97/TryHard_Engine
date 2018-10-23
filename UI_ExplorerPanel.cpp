@@ -19,7 +19,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 	{
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 
-		ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15)); ImGui::SameLine();
+		ImGui::Image((ImTextureID)folder_texture->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
 
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
@@ -41,9 +41,26 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 	else
 	{
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
+		file_extension ext = App->file_system->GetFileExtension(folder.c_str());
 
-		ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15)); ImGui::SameLine(); 
+		if (ext == file_extension::FX_PNG || ext == file_extension::FX_DDS || ext == file_extension::FX_JPG)
+		{
+			ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
+			ImGui::SameLine();
+		}
+			
+		else if (ext == file_extension::FX_FBX)
+		{
+			ImGui::Image((ImTextureID)mesh_texture->GetTextureID(), ImVec2(18, 18));
+			ImGui::SameLine();
+		}
 
+		else
+		{
+			ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15));
+			ImGui::SameLine();
+		}
+					
 		ImGui::MenuItem(item_name.c_str());
 
 		if (ImGui::IsItemClicked(1))
@@ -60,14 +77,22 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		{
 			if (ImGui::MenuItem("Load Item"))
 			{
+				if(App->file_system->GetFileExtension(folder.c_str()) == FX_FBX)
+					App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
+
+				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
+					App->resources->material_importer->LoadTexture(folder.c_str());
 			}
 
 			if (ImGui::MenuItem("Delete Resource")) 
 			{
+				
 			}
 
 			if (ImGui::MenuItem("Open In Explorer"))
 			{
+				const char* parent_folder = App->file_system->DeleteLastPathItem(folder.c_str()).c_str(); 
+				ShellExecute(NULL, "open", parent_folder, NULL, NULL, SW_SHOWMINIMIZED);
 			}
 			
 			ImGui::EndPopup();
@@ -82,6 +107,10 @@ bool UI_ExplorerPanel::Start()
 	show = true; 
 	root_folder = App->file_system->GetAssetsPath(); 
 	item_selected = ""; 
+
+	folder_texture = App->resources->material_importer->GetTexture("FolderIcon");
+	image_texture = App->resources->material_importer->GetTexture("ImageIcon");
+	mesh_texture = App->resources->material_importer->GetTexture("MeshIcon");
 
 	return true;
 }

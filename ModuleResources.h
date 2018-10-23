@@ -15,6 +15,7 @@ public:
 
 	void AddTextureToList(Texture* new_texture); 
 
+	bool Init(JSON_Object* config);
 	bool Start(); 	
 	update_status Update();
 	bool CleanUp(); 

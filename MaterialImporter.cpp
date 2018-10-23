@@ -20,8 +20,22 @@ bool MaterialImporter::Start()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	string go_symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "GameObjectIcon.png");
-	LoadTexture(go_symbol_path.c_str(), true);
+	//Create GO Icon
+	string symbol_path = ""; 
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "GameObjectIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
+	//Create Folder Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "FolderIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
+	//Create Mesh Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "MeshIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
+	//Create Image Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "ImageIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
 
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();

@@ -92,6 +92,14 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	return result_string;
 }
 
+string ModuleFileSystem::DeleteLastPathItem(const char * path)
+{
+	string result_string(path);
+	int pos = result_string.find_last_of('\\');
+	result_string = result_string.substr(0, pos); 
+	return result_string;
+}
+
 bool ModuleFileSystem::IsFolder(const char * directory)
 {
 	vector<string> files = App->file_system->GetFilesInDirectory(directory);

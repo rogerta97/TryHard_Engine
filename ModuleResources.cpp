@@ -18,13 +18,16 @@ void ModuleResources::AddTextureToList(Texture* new_texture)
 	
 }
 
+bool ModuleResources::Init(JSON_Object* config)
+{
+	return true; 
+}
+
 bool ModuleResources::Start()
 {
 	//Initiallize importers
 	bool ret = true; 
-	
 	LoadImporters();
-
 	return ret;
 }
 
