@@ -51,7 +51,10 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				break; 
 
 			case file_type::FT_IMAGE:
-				ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
+				if(App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
+				else
+					ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
