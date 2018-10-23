@@ -16,6 +16,8 @@ public:
 
 private:
 
+	bool show_item_options; 
+	std::string item_selected; 
 	std::string root_folder; 
 };
 
