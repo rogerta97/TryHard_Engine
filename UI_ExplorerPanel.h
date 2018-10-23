@@ -25,6 +25,6 @@ private:
 	Texture* image_texture; 
 	Texture* mesh_texture; 
 	Texture* font_texture; 
-
+	Texture* DDS_texture;
 };
 

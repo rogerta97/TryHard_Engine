@@ -117,6 +117,7 @@ bool UI_ExplorerPanel::Start()
 	image_texture = App->resources->material_importer->GetTexture("ImageIcon");
 	mesh_texture = App->resources->material_importer->GetTexture("MeshIcon");
 	font_texture = App->resources->material_importer->GetTexture("FontIcon");
+	DDS_texture = App->resources->material_importer->GetTexture("DDSIcon");
 
 	return true;
 }
