@@ -69,8 +69,30 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".jpg" || term == ".JPG")
 			return FX_JPG;
 
+		else if (term == ".ttf" || term == ".TTF")
+			return FX_TTF;
+
+		else if (term == ".otf" || term == ".OTF")
+			return FX_OTF;
+
 		return FX_ERR;
 	
+}
+
+file_type ModuleFileSystem::GetFileType(string full_path)
+{
+	file_extension curr_extension = GetFileExtension(full_path);
+
+	if (curr_extension == FX_FBX)
+		return file_type::FT_3DMODEL;
+
+	else if (curr_extension == FX_PNG || curr_extension == FX_JPG || curr_extension == FX_JPG)
+		return file_type::FT_IMAGE; 
+
+	else if (curr_extension == FX_TTF || curr_extension == FX_OTF)
+		return file_type::FT_FONT;
+
+	return file_type::FT_UNDEFINED; 
 }
 
 std::string ModuleFileSystem::GetWorkingDirectory() const

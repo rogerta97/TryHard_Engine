@@ -9,6 +9,7 @@
 class GameObject; 
 class aiScene; 
 class aiNode; 
+class Mesh; 
 
 class MeshImporter : public Importer
 {
@@ -31,6 +32,9 @@ public:
 	void LoadFBXMesh(const char* path, aiNode* node, aiScene* scene, GameObject* gameobject_in);
 
 	Mesh* GetMeshByType(BasicMeshType type); 
+
+	bool SaveAsBinary(Mesh* saving_mesh, const char* mesh_name);
+	Mesh* LoadFromBinary(const char* mesh_name);
 
 private: 
 

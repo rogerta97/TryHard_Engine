@@ -43,24 +43,32 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 		file_extension ext = App->file_system->GetFileExtension(folder.c_str());
 
-		if (ext == file_extension::FX_PNG || ext == file_extension::FX_DDS || ext == file_extension::FX_JPG)
+		switch (App->file_system->GetFileType(folder.c_str()))
 		{
-			ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
-			ImGui::SameLine();
+			case file_type::FT_3DMODEL:
+				ImGui::Image((ImTextureID)mesh_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break; 
+
+			case file_type::FT_IMAGE:
+				if(App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
+				else
+					ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break;
+
+			case file_type::FT_FONT:
+				ImGui::Image((ImTextureID)font_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break;
+				
+			default: 
+				ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+			
 		}
 			
-		else if (ext == file_extension::FX_FBX)
-		{
-			ImGui::Image((ImTextureID)mesh_texture->GetTextureID(), ImVec2(18, 18));
-			ImGui::SameLine();
-		}
-
-		else
-		{
-			ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15));
-			ImGui::SameLine();
-		}
-					
 		ImGui::MenuItem(item_name.c_str());
 
 		if (ImGui::IsItemClicked(1))
@@ -111,6 +119,8 @@ bool UI_ExplorerPanel::Start()
 	folder_texture = App->resources->material_importer->GetTexture("FolderIcon");
 	image_texture = App->resources->material_importer->GetTexture("ImageIcon");
 	mesh_texture = App->resources->material_importer->GetTexture("MeshIcon");
+	font_texture = App->resources->material_importer->GetTexture("FontIcon");
+	DDS_texture = App->resources->material_importer->GetTexture("DDSIcon");
 
 	return true;
 }

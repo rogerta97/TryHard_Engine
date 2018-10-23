@@ -14,6 +14,7 @@
 #include "ComponentMaterial.h"
 
 #include <string>
+#include <fstream>
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -205,8 +206,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{			
-				if(new_mesh->LoadFromBinary(file_name.c_str()))
-					new_mesh->LoadToMemory(); 		
+				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
+				new_mesh->name = curr_mesh->mName.C_Str();
+				new_mesh->type = MESH_FBX;
+				new_mesh->LoadToMemory(); 		
 			}
 			else
 			{
@@ -282,7 +285,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 				}
 
-				new_mesh->SaveAsBinary(game_object->name.c_str()); 		
+				App->resources->mesh_importer->SaveAsBinary(new_mesh, game_object->name.c_str());
 			}
 				
 			//Add Mesh to GameObject
@@ -381,6 +384,128 @@ Mesh* MeshImporter::GetMeshByType(BasicMeshType type)
 	}
 
 	return new_ret_mesh;
+}
+
+bool MeshImporter::SaveAsBinary(Mesh * saving_mesh, const char * mesh_name)
+{
+	CONSOLE_DEBUG("Mesh '%s' was not found in library. Saving to binary....", mesh_name);
+
+	string save_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + mesh_name + ".mesh";
+
+	if (saving_mesh->num_vertices == 0)
+		return false;
+
+	//Create a new file or open it 
+	std::ofstream stream;
+	stream.open(save_path, std::fstream::binary | std::fstream::out);
+	stream.clear();
+
+	//Create the buffer and allocate the space. Data will be stored Ranges - Vertices - Indices - UVS - Normals
+	uint size_of_data = (sizeof(uint) * 4) + (sizeof(float)*saving_mesh->num_vertices * 3) + (sizeof(uint)*saving_mesh->num_indices) + (sizeof(float)*saving_mesh->num_uvs * 3) + (sizeof(float)*saving_mesh->num_normals * 3);
+	GLubyte* buffer = new GLubyte[size_of_data];
+	GLubyte* cursor = buffer;
+
+	//Allocate Ranges
+	uint ranges[4] = { saving_mesh->num_vertices , saving_mesh->num_indices , saving_mesh->num_uvs , saving_mesh->num_normals };
+	uint bytes = sizeof(ranges);
+	memcpy(cursor, ranges, bytes);
+
+	//Allocate Vertices 
+	cursor += bytes;
+	bytes = sizeof(float)*saving_mesh->num_vertices * 3;
+	memcpy(cursor, saving_mesh->vertices, bytes);
+
+	//Allocate Indices
+	cursor += bytes;
+	bytes = sizeof(uint)*saving_mesh->num_indices;
+	memcpy(cursor, saving_mesh->indices, bytes);
+
+	//Allocate UVS
+	cursor += bytes;
+	bytes = sizeof(float)*saving_mesh->num_uvs * 3;
+	memcpy(cursor, saving_mesh->uvs_cords, bytes);
+
+	//Allocate Normals
+	cursor += bytes;
+	bytes = sizeof(float)*saving_mesh->num_normals * 3;
+	memcpy(cursor, saving_mesh->normal_cords, bytes);
+
+	//Save data to the file
+	stream.write((const char*)buffer, size_of_data);
+	stream.close();
+
+	return true;
+}
+
+Mesh * MeshImporter::LoadFromBinary(const char * mesh_name)
+{
+	Mesh* mesh_to_ret = new Mesh(); 
+
+	CONSOLE_DEBUG("Mesh '%s' has been FOUND in library. Loading mesh...", mesh_name);
+
+	string mesh_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + mesh_name;
+
+	//Open the file for reading
+	std::ifstream stream;
+	stream.open(mesh_path, std::fstream::binary);
+
+	if (stream)
+	{
+		// Get length of file:
+		stream.seekg(0, stream.end);
+		int length = stream.tellg();
+		stream.seekg(0, stream.beg);
+
+		// Create the buffer where the data is going to be stored
+		char* buffer = new char[length];
+		stream.read(buffer, sizeof(char) * length);
+		char* cursor = buffer;
+
+		////Get Ranges
+		uint ranges[4];
+		uint bytes = sizeof(uint) * 4;
+		memcpy(ranges, cursor, bytes);
+		cursor += bytes;
+
+		mesh_to_ret->num_vertices = ranges[0];
+		mesh_to_ret->num_indices = ranges[1];
+		mesh_to_ret->num_uvs = ranges[2];
+		mesh_to_ret->num_normals = ranges[3];
+
+		//Get Vertices 		
+		bytes = sizeof(float)*mesh_to_ret->num_vertices * 3;
+		mesh_to_ret->vertices = new float3[mesh_to_ret->num_vertices];
+		memcpy(mesh_to_ret->vertices, cursor, bytes);
+		cursor += bytes;
+
+		//Get Indices	
+		bytes = sizeof(uint)*mesh_to_ret->num_indices;
+		mesh_to_ret->indices = new int[mesh_to_ret->num_indices];
+		memcpy(mesh_to_ret->indices, cursor, bytes);
+
+		//Get UVS		
+		if (mesh_to_ret->num_uvs != 0)
+		{
+			cursor += bytes;
+			bytes = sizeof(float)*mesh_to_ret->num_uvs * 3;
+			mesh_to_ret->uvs_cords = new float[mesh_to_ret->num_uvs * 3];
+			memcpy(mesh_to_ret->uvs_cords, cursor, bytes);
+		}
+
+		//Get Normals
+		if (mesh_to_ret->num_normals)
+		{
+			cursor += bytes;
+			bytes = sizeof(float)*mesh_to_ret->num_normals * 3;
+			mesh_to_ret->normal_cords = new float3[mesh_to_ret->num_normals];
+			memcpy(mesh_to_ret->normal_cords, cursor, bytes);
+		}
+	}
+
+	//Close the file	
+	stream.close();
+
+	return mesh_to_ret;
 }
 
 void LogAssimpLogs(const char * str, char * userData)
