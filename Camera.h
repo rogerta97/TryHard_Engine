@@ -15,6 +15,8 @@ public:
 	Camera();
 	~Camera();
 
+	float* GetProjectionMatrix();
+
 	void InitCamera(); 
 
 	Frustum frustum; 
@@ -22,6 +24,8 @@ public:
 	float horizontal_fov;
 	float vertical_fov; 
 	float aspect_ratio;
+
+	bool projection_changed;
 
 	bool frustum_culling;
 

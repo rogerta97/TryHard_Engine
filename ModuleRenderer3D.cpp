@@ -136,17 +136,29 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+
+
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
 
-	glMatrixMode(GL_PROJECTION);
-	Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
-	ProjectionMatrix = camerafrustum.ProjectionMatrix();
+	App->camera->GetEditorCamera()->camera->projection_changed = true;
 
-	glLoadMatrixf(&ProjectionMatrix[0][0]);
+	if (App->camera->GetEditorCamera()->camera->projection_changed == true)
+	{
+		UpdateProjectionMatrix();
+		App->camera->GetEditorCamera()->camera->projection_changed = false;
+	}
+
+	//glMatrixMode(GL_PROJECTION);
+	//Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
+	//ProjectionMatrix = camerafrustum.ProjectionMatrix();
+
+	//glLoadMatrixf(&ProjectionMatrix[0][0]);
 
 	//mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
 	//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
@@ -197,20 +209,38 @@ bool ModuleRenderer3D::CleanUp()
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	glViewport(0, 0, width, height);
+	//glViewport(0, 0, width, height);
+
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+
+	//if (App->camera->GetEditorCamera()) {
+
+	//	ProjectionMatrix = App->camera->GetEditorCamera()->camera->frustum.ProjectionMatrix();
+
+	//	glLoadMatrixf(&ProjectionMatrix[0][0]);
+	//}
+
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+}
+
+void ModuleRenderer3D::UpdateProjectionMatrix()
+{
+	//Camera* cam = App->camera->GetEditorCamera()->camera;
+
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//glLoadMatrixf((GLfloat*)cam->GetProjectionMatrix());
 
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
+	ProjectionMatrix = camerafrustum.ProjectionMatrix();
 
-	if (App->camera->GetEditorCamera()) {
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
 
-		ProjectionMatrix = App->camera->GetEditorCamera()->camera->frustum.ProjectionMatrix();
-
-		glLoadMatrixf(&ProjectionMatrix[0][0]);
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glLoadMatrixf(&ProjectionMatrix[0][0]);
 }
 
 void ModuleRenderer3D::UseUIRenderSettings()

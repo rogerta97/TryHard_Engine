@@ -32,6 +32,7 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
+	void UpdateProjectionMatrix();
 
 	void UseCurrentRenderSettings();
 	void UseUIRenderSettings(); 

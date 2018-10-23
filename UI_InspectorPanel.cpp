@@ -405,22 +405,21 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 
 	}
 	
-	float temp_h_fov_in_degrees = camera_cmp->camera->frustum.horizontalFov * RADTODEG;
+	//float temp_h_fov_in_degrees = camera_cmp->camera->frustum.horizontalFov * RADTODEG;
 
-	if (ImGui::InputFloat("Horizontal fov", &temp_h_fov_in_degrees, 0.1f))
-	{
-		camera_cmp->camera->frustum.horizontalFov = temp_h_fov_in_degrees * DEGTORAD;
+	//if (ImGui::SliderFloat("Horizontal fov", &camera_cmp->camera->frustum.horizontalFov, 0.1f, 5.0f))
+	//{
+	//	float ar = 1.5f;
 
-		float tan = math::Tan(camera_cmp->camera->frustum.horizontalFov / 2);
-
-		camera_cmp->camera->frustum.verticalFov = 2 * math::Atan(tan * (1/camera_cmp->camera->frustum.AspectRatio()));
-	}
+	//	camera_cmp->camera->frustum.verticalFov =  2.0f * Atan(Tan(camera_cmp->camera->frustum.horizontalFov*0.5f) / ar);
+	//}
 
 	float temp_v_fov_in_degrees = camera_cmp->camera->frustum.verticalFov * RADTODEG;
 
-	if (ImGui::InputFloat("Horizontal fov", &temp_v_fov_in_degrees, 0.1f))
+	if (ImGui::InputFloat("Vertical fov", &temp_v_fov_in_degrees, 0.1f))
 	{
 		camera_cmp->camera->frustum.verticalFov = temp_v_fov_in_degrees * DEGTORAD;
+		camera_cmp->camera->frustum.horizontalFov = 2.f * atanf(tanf(camera_cmp->camera->frustum.verticalFov * 0.5f) * 1.5);
 	}
 
 	float temp_ar = camera_cmp->camera->frustum.AspectRatio();
