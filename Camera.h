@@ -19,10 +19,14 @@ public:
 
 	void InitCamera(); 
 
+	void SetFOV(float new_fov_v); 
+	void SetAspectRatio(float new_ar);
+
 	Frustum frustum; 
 
 	float horizontal_fov;
-	float vertical_fov; 
+	float vertical_fov;
+
 	float aspect_ratio;
 
 	bool projection_changed;

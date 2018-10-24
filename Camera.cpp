@@ -28,8 +28,9 @@ void Camera::InitCamera()
 
 	horizontal_fov = 90;
 
-	frustum.horizontalFov = DegToRad(90);
-	frustum.verticalFov = DegToRad(60);
+	aspect_ratio = 1.5f;
+	SetFOV(DegToRad(60));
+		
 	frustum.nearPlaneDistance = 0.5;
 	frustum.farPlaneDistance = 25;
 
@@ -37,4 +38,16 @@ void Camera::InitCamera()
 	frustum.SetWorldMatrix(float3x4::identity);
 
 	frustum_culling = false;
+}
+
+void Camera::SetFOV(float new_v_fov)
+{
+	frustum.verticalFov = new_v_fov;
+	frustum.horizontalFov = math::Atan(aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
+}
+
+void Camera::SetAspectRatio(float new_ar)
+{
+	aspect_ratio = new_ar;
+	frustum.horizontalFov = math::Atan(aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
 }

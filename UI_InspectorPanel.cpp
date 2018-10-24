@@ -404,28 +404,17 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	{
 
 	}
-	
-	//float temp_h_fov_in_degrees = camera_cmp->camera->frustum.horizontalFov * RADTODEG;
-
-	//if (ImGui::SliderFloat("Horizontal fov", &camera_cmp->camera->frustum.horizontalFov, 0.1f, 5.0f))
-	//{
-	//	float ar = 1.5f;
-
-	//	camera_cmp->camera->frustum.verticalFov =  2.0f * Atan(Tan(camera_cmp->camera->frustum.horizontalFov*0.5f) / ar);
-	//}
 
 	float temp_v_fov_in_degrees = camera_cmp->camera->frustum.verticalFov * RADTODEG;
 
-	if (ImGui::InputFloat("Vertical fov", &temp_v_fov_in_degrees, 0.1f))
+	if (ImGui::SliderFloat("Field Of View", &temp_v_fov_in_degrees, 1.0f, 180.0f))
 	{
-		camera_cmp->camera->frustum.verticalFov = temp_v_fov_in_degrees * DEGTORAD;
-		camera_cmp->camera->frustum.horizontalFov = 2.f * atanf(tanf(camera_cmp->camera->frustum.verticalFov * 0.5f) * 1.5);
+		camera_cmp->camera->SetFOV(temp_v_fov_in_degrees * DEGTORAD);
 	}
 
-	float temp_ar = camera_cmp->camera->frustum.AspectRatio();
-
-	if (ImGui::InputFloat("Aspect ratio", &temp_ar, 0.1f))
+	if (ImGui::SliderFloat("Aspect Ratio", &camera_cmp->camera->aspect_ratio, 1.0f, 2.0f))
 	{
+		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio); 
 	}
 
 	float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;
