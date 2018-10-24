@@ -412,10 +412,14 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 		camera_cmp->camera->SetFOV(temp_v_fov_in_degrees * DEGTORAD);
 	}
 
+	ImGui::Text(std::to_string(camera_cmp->camera->frustum.horizontalFov).c_str());
+
 	if (ImGui::SliderFloat("Aspect Ratio", &camera_cmp->camera->aspect_ratio, 1.0f, 2.0f))
 	{
 		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio); 
 	}
+
+
 
 	float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;
 

@@ -67,6 +67,8 @@ public:
 	void SetMouseSensitivity(float new_sensitivity);
 	float GetMouseSensitivity() const;
 
+	void SetViewportTextureSize(uint x, uint y);
+
 	//Utility
 	void LockCamera();
 	void UnlockCamera();

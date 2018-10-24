@@ -277,6 +277,12 @@ float ComponentCamera::GetMouseSensitivity() const
 	return mouse_sensitivity;
 }
 
+void ComponentCamera::SetViewportTextureSize(uint x, uint y)
+{
+	viewport_texture->SetWidth(x);
+	viewport_texture->SetHeight(y);
+}
+
 
 
 float ComponentCamera::GetSpeed() const
