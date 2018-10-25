@@ -2,6 +2,8 @@
 #include "Resource.h"
 #include "MathGeoLib\MathGeoLib.h"
 
+enum Frustum_Collision { INSIDE_FRUSTUM, OUTSIDE_FRUSTUM, INTERSECTS_FRUSTUM };
+
 enum Camera_Aspect
 {
 	ASP_EDITOR,
@@ -21,6 +23,8 @@ public:
 
 	void SetFOV(float new_fov_v); 
 	void SetAspectRatio(float new_ar);
+
+	Frustum_Collision IsAABBInside(const AABB &box);
 
 	Frustum frustum; 
 
