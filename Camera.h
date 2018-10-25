@@ -35,8 +35,6 @@ public:
 
 	bool projection_changed;
 
-	bool frustum_culling;
-
 	Camera_Aspect aspect; 
 
 	float2 size;

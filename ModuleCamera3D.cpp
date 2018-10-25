@@ -11,6 +11,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";
 	ecam_go = nullptr;
+	frustum_culling = true;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -95,7 +96,10 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::Separator();
 		ImGui::Spacing();
 		ImGui::Text("GameObject Bounded:"); ImGui::SameLine(); 
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*"); ImGui::SameLine(); 
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*");
+
+		ImGui::Checkbox("Frustum Culling", &frustum_culling);
+
 
 		if(ImGui::SmallButton("+##Camera"))
 		{

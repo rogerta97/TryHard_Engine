@@ -31,17 +31,12 @@ ComponentMesh::~ComponentMesh()
 
 bool ComponentMesh::Update()
 {
+	if (App->camera->frustum_culling)
+		frustum_col_type = App->camera->GetEditorCamera()->camera->IsAABBInside(bounding_box);
+	else
+		frustum_col_type = INSIDE_FRUSTUM;
 
-	if (App->camera->GetEditorCamera()->camera->IsAABBInside(bounding_box) == 0)
-		CONSOLE_LOG("INSIIIIIIIDE");
-
-	if (App->camera->GetEditorCamera()->camera->IsAABBInside(bounding_box) == 1)
-		CONSOLE_LOG("OUTSIIIIDE");
-
-	if (App->camera->GetEditorCamera()->camera->IsAABBInside(bounding_box) == 2)
-		CONSOLE_LOG("INTERSEEEECTSSSSS");
-
-
+	
 	
 	//
 	if (draw_mesh == false || mesh == nullptr)
@@ -118,6 +113,8 @@ void ComponentMesh::DrawNormals()
 
 void ComponentMesh::DrawMesh()
 {
+	if (frustum_col_type == OUTSIDE_FRUSTUM)
+		return;
 	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
 	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 

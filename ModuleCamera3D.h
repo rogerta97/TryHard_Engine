@@ -26,10 +26,13 @@ public:
 public:
 		
 	SkyBox* skybox = nullptr; 
+
+	bool frustum_culling;
 	
 private:
 
 	GameObject* ecam_go; 
+
 
 	float3 Rotate(const float3 &u, float angle, const float3 &v);
 };

@@ -36,8 +36,6 @@ void Camera::InitCamera()
 
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.SetWorldMatrix(float3x4::identity);
-
-	frustum_culling = false;
 }
 
 void Camera::SetFOV(float new_v_fov)

@@ -5,6 +5,7 @@
 #include "Mesh.h"
 
 class ComponentMaterial; 
+enum Frustum_Collision;
 
 class ComponentMesh : public Component
 {
@@ -46,6 +47,8 @@ private:
 
 	Mesh *					mesh;
 	ComponentMaterial*		material; 
+
+	Frustum_Collision		frustum_col_type;
 	
 	bool					draw_mesh;
 	bool					draw_normals;

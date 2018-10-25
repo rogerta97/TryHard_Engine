@@ -427,7 +427,6 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	{
 	}
 
-	ImGui::Checkbox("Frustum Culling", &camera_cmp->camera->frustum_culling); ImGui::SameLine(); 
 	ImGui::Checkbox("Draw Frustum", &camera_cmp->draw_frustum);
 	
 }
