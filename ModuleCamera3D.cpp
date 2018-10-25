@@ -6,6 +6,7 @@
 #include "UI_InspectorPanel.h"
 
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
@@ -30,7 +31,9 @@ bool ModuleCamera3D::Start()
 
 	//Create Editor Camera
 	ecam_go = new GameObject("EditorCamera");
-	ecam_go->AddComponent(CMP_TRANSFORM);
+	ComponentTransform* cam_trans = (ComponentTransform*)ecam_go->AddComponent(CMP_TRANSFORM);
+
+	cam_trans->SetPosition({ 4, 4, 8 });
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
@@ -156,6 +159,10 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_W))
 		{
 			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
+			ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
+			float3 camera_pos = camera_trans->GetPosition();
+			camera_pos.x += 1;
+			camera_trans->SetPosition(camera_pos);
 			moved = true;
 		}
 

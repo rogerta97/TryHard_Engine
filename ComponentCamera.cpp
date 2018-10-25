@@ -76,14 +76,7 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
-	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
-
-	float4x4 mat_to_apply = trans->GetGlobalViewMatrix(); 
-	mat_to_apply.Scale(1.0f, 1.0f, 1.0f); 
-
-	camera->frustum.Transform(trans->GetGlobalViewMatrix());
-
-	//camera->frustum.pos = Position;
+	UpdateFrustumPositionAndRotation();
 
 	if (draw_frustum)
 		DrawFrustum(); 
@@ -283,7 +276,22 @@ void ComponentCamera::SetViewportTextureSize(uint x, uint y)
 	viewport_texture->SetHeight(y);
 }
 
+void ComponentCamera::UpdateFrustumPositionAndRotation()
+{
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
+	camera->frustum.pos = trans->GetPosition();
+
+	float3 eul = trans->GetRotationEuler();
+	camera->frustum.front = App->camera->Rotate({ 0,0,-1 }, eul.x * DEGTORAD, { 1,0,0 });
+	camera->frustum.up = App->camera->Rotate({ 0,1,0 }, eul.x * DEGTORAD, { 1,0,0 });
+
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, { 0,1,0 });
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, { 0,1,0 });
+
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, { 0,0,1 });
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, { 0,0,1 });
+}
 
 float ComponentCamera::GetSpeed() const
 {

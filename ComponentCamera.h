@@ -69,6 +69,8 @@ public:
 
 	void SetViewportTextureSize(uint x, uint y);
 
+	void UpdateFrustumPositionAndRotation();
+
 	//Utility
 	void LockCamera();
 	void UnlockCamera();
