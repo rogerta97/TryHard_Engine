@@ -76,7 +76,7 @@ float3 ComponentTransform::GetScale() const
 	return transform.scale;
 }
 
-float4x4 ComponentTransform::GetViewMatrix()
+float4x4 ComponentTransform::GetViewMatrix() //If wanted for OpenGL, will need transposing.
 {
 	return ViewMatrix;
 }

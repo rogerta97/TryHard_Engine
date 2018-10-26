@@ -33,7 +33,7 @@ bool ModuleCamera3D::Start()
 	ecam_go = new GameObject("EditorCamera");
 	ComponentTransform* cam_trans = (ComponentTransform*)ecam_go->AddComponent(CMP_TRANSFORM);
 
-	cam_trans->SetPosition({ 4, 4, 8 });
+	cam_trans->SetPosition({ 0, -4, -17 });
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
@@ -44,6 +44,27 @@ bool ModuleCamera3D::Start()
 
 	start_time = performance_timer.Read();
 	return ret;
+}
+
+// -----------------------------------------------------------------
+update_status ModuleCamera3D::Update(float dt)
+{
+
+	//SkyBox
+	if (skybox != nullptr)
+	{
+		skybox->Draw();
+	}
+
+	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
+
+	//ManageMovementOldStyle(cam);
+
+	if (!ecam_go || !cam)
+		return UPDATE_ERROR;
+
+
+	return UPDATE_CONTINUE;
 }
 
 // -----------------------------------------------------------------
@@ -65,16 +86,52 @@ void ModuleCamera3D::PrintConfigData()
 	{
 		//Get the editor camera 
 		ComponentCamera* editor_camera = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA); 
+		ComponentTransform* ecam_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
 
 		ImGui::Spacing();
 		ImGui::Text("Editor Camera:");
+		ImGui::Spacing();
+
+		if (ecam_trans)
+		{
+			ImGui::Spacing();
+
+			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine();
+
+			if (ImGui::SmallButton("Reset"))
+			{
+				ecam_trans->ResetTransform();
+			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
+			float show_pos[3] = { ecam_trans->GetPosition().x, ecam_trans->GetPosition().y, ecam_trans->GetPosition().z };
+			float show_rot[3] = { ecam_trans->GetRotationEuler().x, ecam_trans->GetRotationEuler().y, ecam_trans->GetRotationEuler().z };
+			float show_scale[3] = { ecam_trans->GetScale().x, ecam_trans->GetScale().y, ecam_trans->GetScale().z };
+
+			if (ImGui::DragFloat3("Position", show_pos, 0.2f))
+				ecam_trans->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
+
+			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f))
+			{
+				if (ecam_trans->GetRotationEuler().x != show_rot[0])
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "X");
+
+				if (ecam_trans->GetRotationEuler().y != show_rot[1])
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Y");
+
+				if (ecam_trans->GetRotationEuler().z != show_rot[2])
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Z");
+			}
+
+			ImGui::Spacing();
+		}
+
+
 		ImGui::Separator();
 		ImGui::Spacing(); 
-
-		float show_pos[3] = { editor_camera->Position.x,  editor_camera->Position.y,  editor_camera->Position.z };
-	 
-		ImGui::InputFloat3("Position", show_pos, 2);
-		//ImGui::InputFloat3("Rotation", show_rot, 2);
 
 		float tmp_speed = editor_camera->GetSpeed();
 		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
@@ -130,18 +187,13 @@ float3 ModuleCamera3D::Rotate(const float3 & u, float angle, const float3 & v)
 	return *(float3*)&(float4x4::RotateAxisAngle(v, angle) * float4(u, 1.0f));
 }
 
-// -----------------------------------------------------------------
-update_status ModuleCamera3D::Update(float dt)
+GameObject * ModuleCamera3D::GetCameraGO() const
 {
+	return ecam_go;
+}
 
-	//SkyBox
-	if (skybox != nullptr)
-	{
-		skybox->Draw();
-	}
-
-	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
-
+void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
+{
 	if (ecam_go != nullptr && cam != nullptr)
 	{
 		//Editor Camera Movement
@@ -153,16 +205,14 @@ update_status ModuleCamera3D::Update(float dt)
 		//Camera WASD & ER input
 		float3 increment = { 0.0f ,0.0f ,0.0f };
 
+		ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
+
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
 			cam->speed_multiplier = 2;
 
 		if (App->input->GetKey(SDL_SCANCODE_W))
 		{
 			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
-			ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
-			float3 camera_pos = camera_trans->GetPosition();
-			camera_pos.x += 1;
-			camera_trans->SetPosition(camera_pos);
 			moved = true;
 		}
 
@@ -221,8 +271,11 @@ update_status ModuleCamera3D::Update(float dt)
 			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
 		}
 
-		if (moved)
+		if (moved) {
 			cam->Move(increment);
+			camera_trans->SetPosition(cam->Position);
+		}
+
 
 		//// Mouse motion ----------------
 
@@ -267,14 +320,12 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 		}
 
+
 		cam->CalculateViewMatrix();
 
 		//For now we will update editor camera directly 
-		
-		ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA); 
-		cam->Update(); 
-	}
 
-	
-	return UPDATE_CONTINUE;
+		ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
+		cam->Update();
+	}
 }

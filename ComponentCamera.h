@@ -98,7 +98,7 @@ public:
 
 private:
 
-	float4x4 ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
+	//float4x4 ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
 	float2 size;
 
 	TextureMSAA* viewport_texture;

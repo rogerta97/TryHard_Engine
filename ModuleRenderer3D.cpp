@@ -9,6 +9,7 @@
 #include <gl/GLU.h>
 
 #include "ComponentCamera.h"
+#include "ComponentTransform.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -144,7 +145,16 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
+
+	ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
+
+	float4x4 ecam_trans_mat = ecam_trans->GetViewMatrix();
+	ecam_trans_mat.Transpose();
+
+	float4x4* view_mat = (float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
+
+	//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
+	glLoadMatrixf(&ecam_trans_mat[0][0]);
 
 	App->camera->GetEditorCamera()->camera->projection_changed = true;
 

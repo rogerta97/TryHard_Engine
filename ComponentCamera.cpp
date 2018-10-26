@@ -128,7 +128,8 @@ void ComponentCamera::Move(const float3 &Movement)
 // -----------------------------------------------------------------
 float* ComponentCamera::GetViewMatrix()
 {
-	return &ViewMatrix[0][0];
+	//return &ViewMatrix[0][0];
+	return nullptr;
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const
@@ -362,7 +363,6 @@ bool ComponentCamera::IsLocked() const
 void ComponentCamera::DrawFrustum()
 {
 	App->renderer3D->UseDebugRenderSettings();
-
 	float3 vertices[8]; 
 	camera->frustum.GetCornerPoints(vertices);
 	DebugDrawBox(vertices, Color(0.0f, 1.0f, 1.0f));
@@ -373,10 +373,11 @@ void ComponentCamera::DrawFrustum()
 // -----------------------------------------------------------------
 void ComponentCamera::CalculateViewMatrix()
 {
-	ViewMatrix = float4x4(X.x, Y.x, Z.x, 0.0f,
-		X.y, Y.y, Z.y, 0.0f,
-		X.z, Y.z, Z.z, 0.0f,
-		-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
+	//ViewMatrix = float4x4(
+	//	X.x, Y.x, Z.x, 0.0f,
+	//	X.y, Y.y, Z.y, 0.0f,
+	//	X.z, Y.z, Z.z, 0.0f,
+	//	-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
 
-	ViewMatrixInverse = ViewMatrix.Inverted();
+	//ViewMatrixInverse = ViewMatrix.Inverted();
 }

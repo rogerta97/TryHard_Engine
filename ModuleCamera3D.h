@@ -23,6 +23,8 @@ public:
 
 	ComponentCamera* GetEditorCamera(); 
 
+	void ManageMovementOldStyle(ComponentCamera* cam);
+
 public:
 		
 	SkyBox* skybox = nullptr; 
@@ -30,6 +32,7 @@ public:
 	bool frustum_culling;
 
 	float3 Rotate(const float3 &u, float angle, const float3 &v);
+	GameObject* GetCameraGO() const;
 	
 private:
 
