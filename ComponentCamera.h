@@ -101,6 +101,8 @@ private:
 	//float4x4 ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
 	float2 size;
 
+	bool show_preview_panel;
+
 	TextureMSAA* viewport_texture;
 	float speed = 0.1f;
 

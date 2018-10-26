@@ -29,6 +29,8 @@ ComponentCamera::ComponentCamera(GameObject* parent)
 	camera->InitCamera(); 
 	draw_frustum = true; 
 
+	show_preview_panel = true;
+
 	size.x = 1500;
 	size.y = 1000;
 
@@ -80,6 +82,52 @@ bool ComponentCamera::Update()
 
 	if (draw_frustum)
 		DrawFrustum(); 
+
+	if (ImGui::Begin("test", &show_preview_panel))
+	{
+		//Render the texture
+		glEnable(GL_TEXTURE_2D);
+		if (GetViewportTexture() != nullptr)
+		{
+			GetViewportTexture()->Bind();
+
+			ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glLoadIdentity();
+
+			glMatrixMode(GL_MODELVIEW);
+
+			glLoadMatrixf(&trans->GetViewMatrix()[0][0]);
+
+			App->camera->GetEditorCamera()->camera->projection_changed = true;
+
+			glMatrixMode(GL_PROJECTION);
+			Frustum camerafrustum = camera->frustum;
+			float4x4 ProjectionMatrix = camerafrustum.ProjectionMatrix();
+
+			glLoadMatrixf(&ProjectionMatrix[0][0]);
+
+
+			ImVec2 region_size = ImGui::GetContentRegionAvail();
+			const float region_ratio = region_size.y / region_size.x;
+
+			//Camera* camera = App->camera->GetEditorCamera()->camera;
+
+			camera->SetAspectRatio(1 / region_ratio);
+
+			ImGui::Image((void*)GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
+
+			//App->camera->GetViewportTexture()->Unbind();
+		}
+		glDisable(GL_TEXTURE_2D);
+
+	}
+	ImGui::End();
+
+	App->camera->GetEditorCamera()->GetViewportTexture()->Render();
+	App->camera->GetEditorCamera()->GetViewportTexture()->Unbind();
 
 	return UPDATE_CONTINUE;
 }
