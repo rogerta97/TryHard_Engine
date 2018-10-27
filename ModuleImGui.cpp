@@ -112,6 +112,9 @@ update_status ModuleImGui::Update(float dt)
 	if (DrawTopBar() != update_status::UPDATE_CONTINUE)
 		return update_status::UPDATE_STOP;
 
+	is_mouse_in_scene = scene_panel->is_mouse_in;
+
+
 	App->renderer3D->UseUIRenderSettings();
 	DrawDocking();
 	ImGui::Render();

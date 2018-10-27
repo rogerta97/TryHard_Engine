@@ -17,6 +17,7 @@ UI_ScenePanel::~UI_ScenePanel()
 bool UI_ScenePanel::Start()
 {
 	show = true;
+	is_mouse_in = false;
 	return true;
 }
 
@@ -41,6 +42,9 @@ bool UI_ScenePanel::Update()
 			//App->camera->GetViewportTexture()->Unbind();
 		}
 		glDisable(GL_TEXTURE_2D);
+
+		is_mouse_in = ImGui::IsWindowHovered();
+
 	
 	}
 	ImGui::End();

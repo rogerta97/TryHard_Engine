@@ -260,16 +260,6 @@ void ModuleCamera3D::ManageMovementFromTrans(ComponentCamera * cam)
 			}
 		}
 
-		if (App->input->GetMouseWheel() < 0) {
-			increment -= cam->Z * -cam->GetSpeed()*App->GetDt() *cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-			moved = true;
-		}
-
-		if (App->input->GetMouseWheel() > 0) {
-			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-			moved = true;
-		}
-
 		if (cam->interpolation.interpolate)
 		{
 			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
@@ -405,15 +395,19 @@ void ModuleCamera3D::ManageMovement()
 			}
 		}
 
-		if (App->input->GetMouseWheel() < 0) {
-			increment -= cam->Z * -cam->GetSpeed()*App->GetDt() *cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-			moved = true;
+		if (App->imgui->is_mouse_in_scene) {
+
+			if (App->input->GetMouseWheel() < 0) {
+				increment -= cam->Z * -cam->GetSpeed()*App->GetDt() *cam->speed_multiplier * cam->wheel_zoom_speed * 30;
+				moved = true;
+			}
+
+			if (App->input->GetMouseWheel() > 0) {
+				increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier * cam->wheel_zoom_speed * 30;
+				moved = true;
+			}
 		}
 
-		if (App->input->GetMouseWheel() > 0) {
-			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-			moved = true;
-		}
 
 		if (cam->interpolation.interpolate)
 		{

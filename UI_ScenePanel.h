@@ -12,6 +12,7 @@ public:
 	bool Start();
 	bool Update();
 
+	bool is_mouse_in;
 	bool show = true;
 };
 

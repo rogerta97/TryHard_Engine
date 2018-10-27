@@ -61,8 +61,11 @@ public:
 
 	bool is_initial_position = true;
 
+	bool is_mouse_in_scene = false;
+
 	UI_InspectorPanel* inspector_panel = nullptr;
 	UI_HierarchyPanel* hierarchy_panel = nullptr;
+	UI_ScenePanel* scene_panel = nullptr;
 
 private: 
 
@@ -77,7 +80,7 @@ private:
 	std::list<UI_Panel*> panels_list;
 
 	UI_ConfigurationPanel* config_panel = nullptr; 
-	UI_ScenePanel* scene_panel = nullptr;
+
 	UI_ExplorerPanel* explorer_panel = nullptr; 
 	UI_OctreePanel* octree_panel = nullptr; 
 	UI_ConsolePanel* console_panel = nullptr;
