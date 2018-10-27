@@ -28,7 +28,10 @@ void Camera::InitCamera()
 
 	horizontal_fov = 90;
 
-	aspect_ratio = 1.5f;
+	dock_aspect_ratio = 1.0f;
+	aspect_ratio = 0.5f;
+
+
 	SetFOV(DegToRad(60));
 
 	frustum.nearPlaneDistance = 0.5;
@@ -41,13 +44,13 @@ void Camera::InitCamera()
 void Camera::SetFOV(float new_v_fov)
 {
 	frustum.verticalFov = new_v_fov;
-	frustum.horizontalFov = math::Atan(aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
+	frustum.horizontalFov = math::Atan(dock_aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
 }
 
 void Camera::SetAspectRatio(float new_ar)
 {
-	aspect_ratio = new_ar;
-	frustum.horizontalFov = math::Atan(aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
+	dock_aspect_ratio = new_ar;
+	frustum.horizontalFov = math::Atan(dock_aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
 }
 
 Frustum_Collision Camera::IsAABBInside(const AABB &box)

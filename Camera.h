@@ -31,6 +31,7 @@ public:
 	float horizontal_fov;
 	float vertical_fov;
 
+	float dock_aspect_ratio;
 	float aspect_ratio;
 
 	bool projection_changed;
