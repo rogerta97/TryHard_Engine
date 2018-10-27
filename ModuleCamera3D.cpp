@@ -33,7 +33,7 @@ bool ModuleCamera3D::Start()
 	ecam_go = new GameObject("EditorCamera");
 	ComponentTransform* cam_trans = (ComponentTransform*)ecam_go->AddComponent(CMP_TRANSFORM);
 
-	cam_trans->SetPosition({ 0, -4, -17 });
+	cam_trans->SetPosition({ 4, 4, 8 });
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
@@ -58,7 +58,8 @@ update_status ModuleCamera3D::Update(float dt)
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
-	ManageMovementOldStyle(cam);
+	ManageMovementFromTrans(cam);
+	ManageMovement();
 
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;
@@ -192,7 +193,7 @@ GameObject * ModuleCamera3D::GetCameraGO() const
 	return ecam_go;
 }
 
-void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
+void ModuleCamera3D::ManageMovementFromTrans(ComponentCamera * cam)
 {
 	if (ecam_go != nullptr && cam != nullptr)
 	{
@@ -326,6 +327,146 @@ void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
 		}
 
 		camera_trans->CalculateViewMatrix();
+
+		//For now we will update editor camera directly 
+
+		ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
+		cam->Update();
+	}
+}
+
+void ModuleCamera3D::ManageMovement()
+{
+	//SkyBox
+	if (skybox != nullptr)
+	{
+		skybox->Draw();
+	}
+
+	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
+
+	if (ecam_go != nullptr && cam != nullptr)
+	{
+		//Editor Camera Movement
+		float3 point_look = { 0, 0, 0 };
+		int scale_value = 3;
+		bool moved = false;
+		cam->speed_multiplier = 1;
+
+		//Camera WASD & ER input
+		float3 increment = { 0.0f ,0.0f ,0.0f };
+
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
+			cam->speed_multiplier = 2;
+
+		if (App->input->GetKey(SDL_SCANCODE_W))
+		{
+			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S))
+		{
+			increment += cam->Z * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_A))
+		{
+			increment += cam->X * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D))
+		{
+			increment += cam->X * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_E))
+		{
+			increment += cam->Y * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_R))
+		{
+			increment += cam->Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			moved = true;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
+			if (App->scene->GetSelectedGameObject() != nullptr)
+			{
+				cam->interpolation.interpolate = true;
+				cam->interpolation.interpolation_timer.Start();
+				cam->FillInterpolationSegmentAndRot();
+			}
+		}
+
+		if (App->input->GetMouseWheel() < 0) {
+			increment -= cam->Z * -cam->GetSpeed()*App->GetDt() *cam->speed_multiplier * cam->wheel_zoom_speed * 30;
+			moved = true;
+		}
+
+		if (App->input->GetMouseWheel() > 0) {
+			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier * cam->wheel_zoom_speed * 30;
+			moved = true;
+		}
+
+		if (cam->interpolation.interpolate)
+		{
+			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
+		}
+
+		if (moved)
+			cam->Move(increment);
+
+		//// Mouse motion ----------------
+
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			if (dy != 0 || dx != 0) {
+
+				if (App->input->GetKey(SDL_SCANCODE_LALT))
+					cam->Position -= cam->Reference;
+
+				if (dx != 0)
+				{
+					float DeltaX = (float)dx * cam->mouse_sensitivity;
+
+					cam->X = Rotate(cam->X, DeltaX, float3(0.0f, 1.0f, 0.0f));
+					cam->Y = Rotate(cam->Y, DeltaX, float3(0.0f, 1.0f, 0.0f));
+					cam->Z = Rotate(cam->Z, DeltaX, float3(0.0f, 1.0f, 0.0f));
+				}
+
+
+
+				if (dy != 0)
+				{
+					float DeltaY = (float)dy * cam->mouse_sensitivity;
+
+					cam->Y = Rotate(cam->Y, DeltaY, cam->X);
+					cam->Z = Rotate(cam->Z, DeltaY, cam->X);
+
+					if (cam->Y.y < 0.0f)
+					{
+						cam->Z = float3(0.0f, cam->Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+						cam->Y = Cross(cam->Z, cam->X);
+					}
+				}
+
+				if (App->input->GetKey(SDL_SCANCODE_LALT))
+					cam->Position = cam->Reference + cam->Z * Length(cam->Position);
+			}
+		}
+
+		cam->CalculateViewMatrix();
 
 		//For now we will update editor camera directly 
 

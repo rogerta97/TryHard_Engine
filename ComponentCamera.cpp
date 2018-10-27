@@ -137,8 +137,8 @@ void ComponentCamera::Move(const float3 &Movement)
 // -----------------------------------------------------------------
 float* ComponentCamera::GetViewMatrix()
 {
-	//return &ViewMatrix[0][0];
-	return nullptr;
+	return &ViewMatrix[0][0];
+	//return nullptr;
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const
@@ -436,11 +436,11 @@ void ComponentCamera::PrintPreview()
 // -----------------------------------------------------------------
 void ComponentCamera::CalculateViewMatrix()
 {
-	//ViewMatrix = float4x4(
-	//	X.x, Y.x, Z.x, 0.0f,
-	//	X.y, Y.y, Z.y, 0.0f,
-	//	X.z, Y.z, Z.z, 0.0f,
-	//	-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
+	ViewMatrix = float4x4(
+		X.x, Y.x, Z.x, 0.0f,
+		X.y, Y.y, Z.y, 0.0f,
+		X.z, Y.z, Z.z, 0.0f,
+		-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
 
-	//ViewMatrixInverse = ViewMatrix.Inverted();
+	ViewMatrixInverse = ViewMatrix.Inverted();
 }

@@ -153,8 +153,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	float4x4* view_mat = (float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
 
-	//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
-	glLoadMatrixf(&ecam_trans_mat[0][0]);
+	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
+	//glLoadMatrixf(&ecam_trans_mat[0][0]);
 
 	App->camera->GetEditorCamera()->camera->projection_changed = true;
 

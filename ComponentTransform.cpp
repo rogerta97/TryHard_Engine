@@ -54,9 +54,10 @@ void ComponentTransform::ResetTransform()
 void ComponentTransform::CalculateViewMatrix()
 {
 	float4x4 new_mat = float4x4::identity;
+	new_mat.SetTranslatePart(transform.position);
 	new_mat = new_mat * transform.rotation; 
 	new_mat = new_mat * new_mat.Scale(transform.scale); 
-	new_mat.SetTranslatePart(transform.position);
+
 
 	ViewMatrix = new_mat;
 }

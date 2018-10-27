@@ -23,7 +23,9 @@ public:
 
 	ComponentCamera* GetEditorCamera(); 
 
-	void ManageMovementOldStyle(ComponentCamera* cam);
+	void ManageMovementFromTrans(ComponentCamera* cam);
+
+	void ManageMovement();
 
 public:
 		

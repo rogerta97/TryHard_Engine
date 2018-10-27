@@ -26,6 +26,8 @@ bool ModuleScene::Start()
 			
 	start_time = performance_timer.Read();
 
+
+
 	selected_go = nullptr;
 
 	App->renderer3D->OnResize(1000, 1000);
