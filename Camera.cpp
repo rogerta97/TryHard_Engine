@@ -29,7 +29,7 @@ void Camera::InitCamera()
 	horizontal_fov = 90;
 
 	dock_aspect_ratio = 1.0f;
-	aspect_ratio = 0.5f;
+	aspect_ratio = 0.992f;
 
 
 	SetFOV(DegToRad(60));

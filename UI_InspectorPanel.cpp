@@ -413,7 +413,7 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	}
 
 	
-	if (ImGui::SliderFloat("Aspect Ratio modifier", &camera_cmp->camera->aspect_ratio, -1.0f, 20.0f))
+	if (ImGui::SliderFloat("Aspect Ratio modifier", &camera_cmp->camera->aspect_ratio, 0.1, 10.0f))
 	{
 		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio); 
 	}

@@ -34,7 +34,7 @@ bool UI_ScenePanel::Update()
 			Camera* camera = App->camera->GetEditorCamera()->camera;
 
 
-			camera->SetAspectRatio(1/region_ratio + camera->aspect_ratio);
+			camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
 
 			ImGui::Image((void*)App->camera->GetEditorCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
 
