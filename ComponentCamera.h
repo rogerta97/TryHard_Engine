@@ -77,6 +77,8 @@ public:
 	bool IsLocked() const;
 	void DrawFrustum(); 
 
+	void PrintPreview();
+
 	void CalculateViewMatrix();
 
 	//Docking Texture
