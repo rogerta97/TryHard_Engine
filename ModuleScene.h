@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "imgui.h"
 #include "GameObject.h"
+#include "Octree.h"
 
 #define MAX_SNAKE 2
 
@@ -21,6 +22,9 @@ public:
 	void DeleteGameObjectsNow(); 
 	void CleanScene(); 
 	void AddGameObjectToDeleteList(GameObject* to_del); 
+	
+	void AddGOToStaticList(GameObject* go); 
+	void DeleteGOFromStaticList(GameObject* go); 
 
 	GameObject* CreateGameObject();
 	GameObject* CreateGameObject(const char* name);
@@ -39,7 +43,10 @@ public:
 public:
 
 	std::list<GameObject*> scene_gameobjects; 
+	std::list<GameObject*> static_gameobjects;
 	std::list<GameObject*> go_to_delete; 
 	GameObject* selected_go; 
+
+	Octree* octree; 
 
 };

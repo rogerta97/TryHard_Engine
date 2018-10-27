@@ -31,7 +31,6 @@ void Camera::InitCamera()
 	dock_aspect_ratio = 1.0f;
 	aspect_ratio = 0.5f;
 
-
 	SetFOV(DegToRad(60));
 
 	frustum.nearPlaneDistance = 0.5;
