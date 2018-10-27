@@ -19,6 +19,8 @@ float* Camera::GetProjectionMatrix()
 	m = frustum.ProjectionMatrix();
 	m.Transpose();
 
+	SetFOV(DegToRad(60));
+
 	return (float*)m.v;
 }
 
@@ -30,8 +32,8 @@ void Camera::InitCamera()
 
 	dock_aspect_ratio = 1.0f;
 	aspect_ratio = 0.992f;
-
 	SetFOV(DegToRad(60));
+
 
 	frustum.nearPlaneDistance = 0.5;
 	frustum.farPlaneDistance = 25;
@@ -44,6 +46,11 @@ void Camera::SetFOV(float new_v_fov)
 {
 	frustum.verticalFov = new_v_fov;
 	frustum.horizontalFov = math::Atan(dock_aspect_ratio * math::Tan(frustum.verticalFov / 2)) * 2;
+}
+
+float Camera::GetFov() const
+{
+	return frustum.verticalFov;
 }
 
 void Camera::SetAspectRatio(float new_ar)

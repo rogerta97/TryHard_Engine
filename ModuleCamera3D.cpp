@@ -260,6 +260,22 @@ void ModuleCamera3D::ManageMovementFromTrans(ComponentCamera * cam)
 			}
 		}
 
+		if (App->imgui->is_mouse_in_scene) {
+
+			if (App->input->GetMouseWheel() < 0) {
+				float new_fov = cam->camera->GetFov() - (1 * cam->wheel_zoom_speed) * DEGTORAD;
+				if (new_fov > 0.01f)
+					cam->camera->SetFOV(new_fov);
+			}
+
+			if (App->input->GetMouseWheel() > 0) {
+				float new_fov = cam->camera->GetFov() + (1 * cam->wheel_zoom_speed) * DEGTORAD;
+				if (new_fov  < 179.0f * DEGTORAD)
+					cam->camera->SetFOV(cam->camera->GetFov() + (1 * cam->wheel_zoom_speed) * DEGTORAD);
+			}
+		}
+
+
 		if (cam->interpolation.interpolate)
 		{
 			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
@@ -398,13 +414,15 @@ void ModuleCamera3D::ManageMovement()
 		if (App->imgui->is_mouse_in_scene) {
 
 			if (App->input->GetMouseWheel() < 0) {
-				increment -= cam->Z * -cam->GetSpeed()*App->GetDt() *cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-				moved = true;
+				float new_fov = cam->camera->GetFov() - (1 * cam->wheel_zoom_speed) * DEGTORAD;
+				if (new_fov > 0.01f)
+					cam->camera->SetFOV(new_fov);
 			}
 
 			if (App->input->GetMouseWheel() > 0) {
-				increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier * cam->wheel_zoom_speed * 30;
-				moved = true;
+				float new_fov = cam->camera->GetFov() + (1 * cam->wheel_zoom_speed) * DEGTORAD;
+				if (new_fov  < 179.0f * DEGTORAD)
+					cam->camera->SetFOV(cam->camera->GetFov() + (1 * cam->wheel_zoom_speed) * DEGTORAD);
 			}
 		}
 

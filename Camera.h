@@ -22,6 +22,7 @@ public:
 	void InitCamera(); 
 
 	void SetFOV(float new_fov_v); 
+	float GetFov() const;
 	void SetAspectRatio(float new_ar);
 
 	Frustum_Collision IsAABBInside(const AABB &box);

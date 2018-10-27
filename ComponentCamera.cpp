@@ -293,6 +293,7 @@ void ComponentCamera::UpdateFrustumPositionAndRotation()
 	camera->frustum.pos = trans->GetPosition();
 
 	float3 eul = trans->GetRotationEuler();
+
 	camera->frustum.front = App->camera->Rotate(trans->transform.Z, eul.x * DEGTORAD, trans->transform.X);
 	trans->transform.Z = camera->frustum.front; 
 
@@ -305,7 +306,7 @@ void ComponentCamera::UpdateFrustumPositionAndRotation()
 	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, trans->transform.Z);
 	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, trans->transform.Z);
 
-	trans->transform.X = trans->transform.Z.Cross(trans->transform.Y);
+	trans->transform.X = trans->transform.Z.Cross(trans->transform.Y).Normalized();
 }
 
 float ComponentCamera::GetSpeed() const
