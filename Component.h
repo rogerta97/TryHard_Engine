@@ -1,6 +1,6 @@
 #pragma once
 
-enum CompType {CMP_TRANSFORM = 0, CMP_RENDERER, CMP_MATERIAL, CMP_CAMERA};
+enum CompType {CMP_TRANSFORM = 0, CMP_MESH, CMP_MATERIAL, CMP_CAMERA};
 
 class GameObject; 
 

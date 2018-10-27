@@ -3,6 +3,10 @@
 #include <list>
 #include "MathGeoLib\MathGeoLib.h"
 
+#define LIMIT_OCTREE_BUCKET 2
+
+class GameObject; 
+
 class OctreeNode
 {
 public:
@@ -10,14 +14,17 @@ public:
 	~OctreeNode();
 
 	void Draw();
+	void Insert(GameObject* new_go); 
 	void Split();
 
-private:
+public:
 
 	AABB box;
 	OctreeNode * parent;
-	OctreeNode * childs[4];
+	OctreeNode * childs[8];
 	bool leaf;
+
+	std::list<GameObject*> objects_in_node;
 };
 
 class Octree
@@ -27,6 +34,7 @@ public:
 	~Octree();
 	
 	void Create(AABB limits);
+	void Insert(GameObject* new_go); 
 	OctreeNode* GetRoot();
 	void Draw(); 
 

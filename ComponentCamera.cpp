@@ -164,7 +164,7 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 	if (selected_go != nullptr)
 	{
-		ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_RENDERER);
+		ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MESH);
 
 		if (selected_go->GetNumChilds() == 0)
 		{
@@ -185,7 +185,7 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
-			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_RENDERER);
+			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
 
 			float3 min, max, position;
 			float distance; 

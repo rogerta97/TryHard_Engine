@@ -257,7 +257,7 @@ update_status ModuleImGui::DrawTopBar()
 			new_go->name = "Cube"; 
 
 			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_RENDERER);
+			ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_MESH);
 			Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE); 
 
 			new_mesh->name = "CubeMesh"; 

@@ -153,7 +153,7 @@ Component* GameObject::AddComponent(CompType new_type)
 				new_cmp = new ComponentTransform(this);
 				break;
 
-			case CMP_RENDERER:
+			case CMP_MESH:
 				new_cmp = new ComponentMesh(this);
 				break;
 
@@ -168,7 +168,7 @@ Component* GameObject::AddComponent(CompType new_type)
 
 		if (new_cmp->GetType() == CMP_MATERIAL)
 		{
-			ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+			ComponentMesh* mesh = (ComponentMesh*)GetComponent(CMP_MESH);
 
 			if (new_cmp->GetType() == CMP_MATERIAL)
 			{
@@ -358,7 +358,7 @@ void GameObject::GetEnclosedAABB(float3& min, float3& max)
 		}
 	}
 
-	ComponentMesh* curr_mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+	ComponentMesh* curr_mesh = (ComponentMesh*)GetComponent(CMP_MESH);
 
 	if (curr_mesh)
 	{
@@ -369,7 +369,7 @@ void GameObject::GetEnclosedAABB(float3& min, float3& max)
 
 void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
 {
-	ComponentMesh* cmp_mesh = (ComponentMesh*)GetComponent(CMP_RENDERER);
+	ComponentMesh* cmp_mesh = (ComponentMesh*)GetComponent(CMP_MESH);
 
 	if (cmp_mesh != nullptr)
 	{

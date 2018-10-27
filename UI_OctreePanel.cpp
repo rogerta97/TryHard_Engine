@@ -32,6 +32,11 @@ bool UI_OctreePanel::Update()
 			App->scene->octree->Create(octree_root);
 		}
 
+		if (ImGui::Button("ADD"))
+		{
+			App->scene->octree->Insert(App->scene->GetSelectedGameObject());
+		}
+
 		ImGui::End(); 
 
 	}

@@ -12,7 +12,7 @@
 ComponentMesh::ComponentMesh(GameObject* parent)
 {
 	SetGameObject(parent);
-	component_type = CMP_RENDERER; 
+	component_type = CMP_MESH; 
 
 	material = nullptr;
 	mesh = nullptr; 

@@ -120,7 +120,7 @@ bool UI_InspectorPanel::Update()
 
 				case 1:
 				{
-					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_RENDERER);					
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_MESH);					
 					break;
 				}
 
@@ -179,7 +179,7 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		PrintTransformProperties();
 		break;
 
-	case CMP_RENDERER:
+	case CMP_MESH:
 		PrintMeshProperties();
 		break;
 
@@ -250,7 +250,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 {
 	if (ImGui::CollapsingHeader("Component Mesh Renderer"))
 	{
-		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_RENDERER);
+		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_MESH);
 
 		ImGui::Spacing();
 		ImGui::Checkbox("Active##1", &mesh_cmp->active);

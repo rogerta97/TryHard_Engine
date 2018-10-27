@@ -289,7 +289,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			}
 				
 			//Add Mesh to GameObject
-			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_RENDERER);
+			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_MESH);
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->draw_bounding_box = false;
