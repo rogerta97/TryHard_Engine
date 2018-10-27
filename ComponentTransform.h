@@ -34,9 +34,11 @@ public:
 	Transform transform;
 	void DrawAxis();
 
+	void CalculateViewMatrix();
+
 private: 
 
-	void CalculateViewMatrix();
+	
 
 private: 
 	float4x4 ViewMatrix;

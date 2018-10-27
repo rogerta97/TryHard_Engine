@@ -58,7 +58,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
-	//ManageMovementOldStyle(cam);
+	ManageMovementOldStyle(cam);
 
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;
@@ -207,43 +207,46 @@ void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
 
 		ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
 
+		if (camera_trans == nullptr)
+			return;
+
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
 			cam->speed_multiplier = 2;
 
 		if (App->input->GetKey(SDL_SCANCODE_W))
 		{
-			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.Z * cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_S))
 		{
-			increment += cam->Z * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.Z * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A))
 		{
-			increment += cam->X * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.X * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_D))
 		{
-			increment += cam->X * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.X * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_E))
 		{
-			increment += cam->Y * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.Y * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_R))
 		{
-			increment += cam->Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
+			increment = camera_trans->transform.Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+			camera_trans->SetPosition(camera_trans->GetPosition() + increment);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
@@ -271,10 +274,10 @@ void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
 			cam->InterpolateCamera(cam->interpolation.interpolation_ms);
 		}
 
-		if (moved) {
+	/*	if (moved) {
 			cam->Move(increment);
 			camera_trans->SetPosition(cam->Position);
-		}
+		}*/
 
 
 		//// Mouse motion ----------------
@@ -286,6 +289,8 @@ void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
 			int dy = -App->input->GetMouseYMotion();
 
 			if (dy != 0 || dx != 0) {
+
+				float3 tmp_z = cam->Z;
 
 				if (App->input->GetKey(SDL_SCANCODE_LALT))
 					cam->Position -= cam->Reference;
@@ -320,8 +325,7 @@ void ModuleCamera3D::ManageMovementOldStyle(ComponentCamera * cam)
 			}
 		}
 
-
-		cam->CalculateViewMatrix();
+		camera_trans->CalculateViewMatrix();
 
 		//For now we will update editor camera directly 
 

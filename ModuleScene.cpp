@@ -23,12 +23,6 @@ bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
-	if (App->camera->GetEditorCamera())
-	{
-		App->camera->GetEditorCamera()->Position = { 4,4,8 }; 
-		App->camera->GetEditorCamera()->LookAt(float3(0, 0, 0));
-	}
 			
 	start_time = performance_timer.Read();
 

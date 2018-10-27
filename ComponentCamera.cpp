@@ -110,13 +110,18 @@ void ComponentCamera::Look(const float3 &Position, const float3 &Reference, bool
 // -----------------------------------------------------------------
 void ComponentCamera::LookAt(const float3 &Spot)
 {
-	Reference = Spot;
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM); 
 
-	Z = (Position - Reference).Normalized();
-	X = (Cross(float3(0.0f, 1.0f, 0.0f), Z)).Normalized();
-	Y = Cross(Z, X);
+	if (trans != nullptr)
+	{
+		Reference = Spot;
+		
+		Z = (Position - Reference).Normalized();
+		X = (Cross(float3(0.0f, 1.0f, 0.0f), Z)).Normalized();
+		Y = Cross(Z, X);
 
-	CalculateViewMatrix();
+		CalculateViewMatrix();
+	}
 }
 
 
@@ -288,14 +293,19 @@ void ComponentCamera::UpdateFrustumPositionAndRotation()
 	camera->frustum.pos = trans->GetPosition();
 
 	float3 eul = trans->GetRotationEuler();
-	camera->frustum.front = App->camera->Rotate({ 0,0,-1 }, eul.x * DEGTORAD, { 1,0,0 });
-	camera->frustum.up = App->camera->Rotate({ 0,1,0 }, eul.x * DEGTORAD, { 1,0,0 });
+	camera->frustum.front = App->camera->Rotate(trans->transform.Z, eul.x * DEGTORAD, trans->transform.X);
+	trans->transform.Z = camera->frustum.front; 
 
-	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, { 0,1,0 });
-	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, { 0,1,0 });
+	camera->frustum.up = App->camera->Rotate(trans->transform.Y, eul.x * DEGTORAD, trans->transform.X);
+	trans->transform.Y = camera->frustum.up;
 
-	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, { 0,0,1 });
-	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, { 0,0,1 });
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, trans->transform.Y);
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, trans->transform.Y);
+
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, trans->transform.Z);
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, trans->transform.Z);
+
+	trans->transform.X = trans->transform.Z.Cross(trans->transform.Y);
 }
 
 float ComponentCamera::GetSpeed() const
