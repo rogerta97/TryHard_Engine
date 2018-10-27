@@ -568,6 +568,9 @@
     <ClInclude Include="UI_OctreePanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -818,6 +821,9 @@
     </ClCompile>
     <ClCompile Include="UI_OctreePanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

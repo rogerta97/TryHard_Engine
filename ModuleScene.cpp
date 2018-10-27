@@ -31,11 +31,7 @@ bool ModuleScene::Start()
 	selected_go = nullptr;
 
 	App->renderer3D->OnResize(1000, 1000);
-
-
-	////Load House FBX
-	//string path = App->file_system->GetModelsPath() + "BakerHouse.fbx"; 
-	//App->resources->mesh_importer->CreateFBXMesh(path.c_str());
+	octree = new Octree(1);
 
 	return ret;
 }
@@ -79,6 +75,23 @@ void ModuleScene::CleanScene()
 void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)
 {
 	go_to_delete.push_back(to_del); 
+}
+
+void ModuleScene::AddGOToStaticList(GameObject * go)
+{
+	static_gameobjects.push_back(go);
+}
+
+void ModuleScene::DeleteGOFromStaticList(GameObject * go)
+{
+	for (auto it = static_gameobjects.begin(); it != static_gameobjects.end(); it++)
+	{
+		if ((*it) == go)
+		{
+			static_gameobjects.erase(it); 
+			return; 
+		}
+	}
 }
 
 GameObject * ModuleScene::CreateGameObject()
@@ -189,6 +202,9 @@ update_status ModuleScene::Update(float dt)
 			(*it)->Update(); 
 		}
 	}
+
+	if (octree->GetRoot() != nullptr)
+		octree->Draw(); 
 
 	if (go_to_delete.size() != 0)
 		DeleteGameObjectsNow(); 

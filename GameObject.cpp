@@ -86,6 +86,12 @@ void GameObject::SetActive(bool activated)
 
 void GameObject::SetStatic(bool set_static)
 {
+	if (set_static)
+		App->scene->AddGOToStaticList(this); 
+
+	else
+		App->scene->DeleteGOFromStaticList(this);
+	
 	is_static = set_static;
 }
 
