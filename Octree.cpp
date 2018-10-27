@@ -134,7 +134,7 @@ void OctreeNode::Split()
 		{
 			if (childs[i]->box.Intersects(object_mesh->bounding_box))
 			{
-				if (objects_in_node.size() >= LIMIT_OCTREE_BUCKET)
+				if (childs[i]->objects_in_node.size() >= LIMIT_OCTREE_BUCKET)
 					childs[i]->Split(); 
 
 				else
