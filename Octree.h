@@ -20,7 +20,7 @@ public:
 	~OctreeNode();
 
 	void Draw();
-	bool Insert(GameObject* new_go); 
+	void Insert(GameObject* new_go, int& obj_num); 
 	void GetObjectIntersections(std::list<GameObject*> inter_list, AABB new_go);
 	void CleanUp(); 
 	void Split();

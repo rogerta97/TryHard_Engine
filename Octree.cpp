@@ -46,9 +46,7 @@ void Octree::Insert(GameObject * new_go)
 	if (root_node->box.Intersects(mesh->bounding_box))
 	{
 		//Add it to the root node, which will look for the best node recursively
-		if (root_node->Insert(new_go))
-			obj_ammount++; 
-
+		root_node->Insert(new_go, obj_ammount);
 		CONSOLE_LOG("GameObject '%s' added to octree.", new_go->GetName().c_str()); 
 		
 	}
@@ -115,14 +113,12 @@ void OctreeNode::Draw()
 			childs[i]->Draw(); 
 }
 
-bool OctreeNode::Insert(GameObject* new_go)
+void OctreeNode::Insert(GameObject* new_go, int& num_obj)
 {
-	bool ret = false; 
-
 	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH); 
 
 	if (mesh == nullptr)
-		return false; 
+		return; 
 
 	//First we check if it's inside the node
 	if (box.Intersects(mesh->bounding_box))
@@ -131,14 +127,14 @@ bool OctreeNode::Insert(GameObject* new_go)
 		if (leaf == false)
 		{
 			for (int i = 0; i < 8; i++)
-				childs[i]->Insert(new_go);				
+				childs[i]->Insert(new_go, num_obj);
 		}		
 		else
 		{
-			ret = true; 
 
 			//We Add the GO normally
 			objects_in_node.push_back(new_go);
+			num_obj++; 
 
 			//If it's leaf, first we check if adding the gameobject would cause a partition
 			if (objects_in_node.size() > LIMIT_OCTREE_BUCKET)
@@ -148,8 +144,6 @@ bool OctreeNode::Insert(GameObject* new_go)
 			}
 		}		
 	}
-
-	return ret; 
 }
 
 void OctreeNode::GetObjectIntersections(std::list<GameObject*> inter_list, AABB new_go_bb)
@@ -187,19 +181,31 @@ void OctreeNode::CleanUp()
 void OctreeNode::Split()
 {
 	//Get the size of the new nodes
-	float new_box_size = box.Edge(0).Length();
+	float new_box_size = box.Edge(0).Length() / 2;
 
-	//Create the new nodes 
+	// Create the new nodes 
+	// 4 Top nodes
 	for (int i = 0; i < 8; i++)
 	{
 		//New AABB
 		AABB new_node_box;
-		new_node_box.minPoint = box.CenterPoint(); 
-		new_node_box.maxPoint = box.CornerPoint(i); 
+		float3 pa = box.CenterPoint();
+		float3 pb = box.CornerPoint(i);
+
+		new_node_box.maxPoint = pa;
+		new_node_box.minPoint = pb;
+
+		if (pa.y + new_box_size != pb.y)
+		{
+			float3 tmp = new_node_box.maxPoint; 
+			new_node_box.maxPoint = new_node_box.minPoint; 
+			new_node_box.minPoint = tmp; 
+		}
 
 		//New Node
 		childs[i] = new OctreeNode(new_node_box, this);
 	}
+
 
 	//Now reasign the objects to their new corresponding node (GO's can not lay on a not leaf node)
 	for (auto it = objects_in_node.begin(); it != objects_in_node.end(); it++)
