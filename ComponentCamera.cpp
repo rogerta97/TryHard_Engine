@@ -141,7 +141,6 @@ void ComponentCamera::Move(const float3 &Movement)
 float* ComponentCamera::GetViewMatrix()
 {
 	return &ViewMatrix[0][0];
-	//return nullptr;
 }
 
 float * ComponentCamera::GetViewOpenGLViewMatrix()
@@ -178,6 +177,7 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 	if (selected_go != nullptr)
 	{
 		ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MESH);
+		ComponentTransform* cmp_trans = (ComponentTransform*)App->scene->GetSelectedGameObject()->GetComponent(CMP_TRANSFORM);
 
 		if (selected_go->GetNumChilds() == 0)
 		{
@@ -185,7 +185,7 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 			float3 center = cmp_mesh->bounding_box.CenterPoint();
 
-			float3 dst_point = GetCamPointFromDistance(cmp_mesh->bounding_box.CenterPoint(), distance);
+			float3 dst_point = GetCamPointFromDistance(center, distance);
 			
 			interpolation.line.a = dst_point;
 			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
@@ -193,12 +193,13 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 			interpolation.dst_vec = -(Position - center).Normalized();
 			interpolation.source_vec = -Z;
 
-			interpolation.center = cmp_mesh->bounding_box.CenterPoint();
+			interpolation.center = center;
 			
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
 			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
+			ComponentTransform* cmp_trans = (ComponentTransform*)App->scene->GetSelectedGameObject()->GetComponent(CMP_TRANSFORM);
 
 			float3 min, max, position;
 			float distance; 
