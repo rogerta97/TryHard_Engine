@@ -138,7 +138,6 @@ void ComponentCamera::Move(const float3 &Movement)
 float* ComponentCamera::GetViewMatrix()
 {
 	return &ViewMatrix[0][0];
-	//return nullptr;
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const

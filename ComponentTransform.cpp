@@ -106,6 +106,7 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 	transform.Z = to_ret_mat.MulDir(transform.Z);
 
 	return to_ret_mat;
+;
 }
 
 void ComponentTransform::SetViewMatrix(float4x4 new_mat)
@@ -161,7 +162,7 @@ void ComponentTransform::SetPosition(float3 new_pos)
 void ComponentTransform::SetRotation(Quat new_rot)
 {
 	transform.rotation = new_rot; 
-	transform.euler_angles = new_rot.ToEulerXYZ(); 
+	transform.euler_angles = new_rot.ToEulerXYZ() * RADTODEG; 
 	CalculateViewMatrix();
 }
 

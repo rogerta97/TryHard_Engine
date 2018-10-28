@@ -37,8 +37,6 @@ bool ComponentMesh::Update()
 		frustum_col_type = INSIDE_FRUSTUM;
 
 	
-	
-	//
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
@@ -115,6 +113,7 @@ void ComponentMesh::DrawMesh()
 {
 	if (frustum_col_type == OUTSIDE_FRUSTUM)
 		return;
+
 	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
 	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
