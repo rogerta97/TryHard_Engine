@@ -15,6 +15,7 @@ bool UI_OctreePanel::Start()
 {
 	show = true; 
 	octree = App->scene->octree; 
+	size = 20.0f; 
 	
 
 	return true;
@@ -28,10 +29,24 @@ bool UI_OctreePanel::Update()
 
 		SEPARATE_WITH_SPACE
 
-		static float size = 20.0f; 
-		ImGui::InputFloat("Box Size", &size, 0.1f);
-
 		ImGui::Checkbox("Adaptative", &octree->adaptative);
+
+		SEPARATE_WITH_SPACE
+
+		if (octree->adaptative == false)
+		{
+			ImGui::InputFloat("Box Size", &size, 0.1f);
+
+			if (size < 1)
+				size = 1;
+		}
+
+		static int max_in_box = 1;
+		ImGui::InputInt("Max in Box", &max_in_box);
+
+		if (max_in_box < 1)
+			max_in_box = 1; 
+
 
 		ImGui::Spacing(); 
 		ImGui::Text("Objects: %d", octree->GetNumObjects()); 
@@ -41,10 +56,13 @@ bool UI_OctreePanel::Update()
 		if (ImGui::Button("Create"))
 		{
 			AABB octree_root;
-			octree_root.minPoint = { -size, -size, -size };
-			octree_root.maxPoint = { size, size, size };
 
-			App->scene->octree->Create(octree_root, octree->adaptative);
+			octree_root.minPoint = { -size, -size, -size };
+			octree_root.maxPoint = { size, size, size};
+
+			App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
+			size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
+
 		} ImGui::SameLine(); 
 
 		if (ImGui::Button("Delete"))

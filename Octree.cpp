@@ -2,9 +2,11 @@
 #include "DebugDraw.h"
 #include "Application.h"
 #include "GameObject.h"
-#include "ComponentMesh.h"
 
-Octree::Octree(int obj_limit)
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
+
+Octree::Octree()
 {
 	root_node = nullptr; 
 	obj_ammount = 0;
@@ -14,10 +16,11 @@ Octree::~Octree()
 {
 }
 
-void Octree::Create(AABB limits, bool adaptative)
+void Octree::Create(AABB limits, bool adaptative, int obj_limit)
 {
-	if (root_node != nullptr)
-		CleanUp(); 
+	limit_go = obj_limit; 
+
+	CleanUp(); //In case we are redoing the octree
 
 	root_node = new OctreeNode(limits, nullptr);
 	this->adaptative = adaptative; 
@@ -31,7 +34,8 @@ void Octree::Create(AABB limits, bool adaptative)
 void Octree::Insert(GameObject * new_go)
 {
 	//First we check if it's inside the root node
-	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH); 
+	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH);
+	ComponentTransform* trans = (ComponentTransform*)new_go->GetComponent(CMP_TRANSFORM); 
 
 	if (mesh == nullptr)
 		return; 
@@ -52,7 +56,29 @@ void Octree::Insert(GameObject * new_go)
 	}
 	else if (adaptative)
 	{
-		
+		//We need to redo the octree taking into account the new GO 
+		int obj_lim = limit_go; 
+
+		CleanUp();
+
+		//The size of the new box is the greatest value from x, y, or z (this is because AABB should be a cube)
+		float3 new_size = trans->GetPosition().Abs();
+
+		float higher_distance = 0;
+
+		if (new_size.x > higher_distance) higher_distance = new_size.x; 
+		if (new_size.y > higher_distance) higher_distance = new_size.y;
+		if (new_size.z > higher_distance) higher_distance = new_size.z;
+
+		//Create the new adapted AABB
+		float3 max_point = float3(higher_distance, higher_distance, higher_distance);
+		float3 min_point = -float3(higher_distance, higher_distance, higher_distance);
+
+		AABB new_bb(min_point, max_point);
+
+		//Create a new Octree
+		Create(new_bb, adaptative, obj_lim);
+
 	}
 	else
 	{
@@ -68,10 +94,13 @@ void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * ne
 
 void Octree::CleanUp()
 {
-	root_node->CleanUp(); 
-	obj_ammount = 0; 
-	delete(root_node);
-	root_node = nullptr; 
+	if (root_node != nullptr)
+	{
+		root_node->CleanUp();
+		obj_ammount = 0;
+		delete(root_node);
+		root_node = nullptr;
+	}
 }
 
 OctreeNode * Octree::GetRoot()
@@ -184,7 +213,6 @@ void OctreeNode::Split()
 	float3 new_size = box.HalfSize();
 
 	// Create the new nodes 
-
 	int children_count = 0; 
 	for (int x = 0; x < 2; x++)
 	{
@@ -201,23 +229,6 @@ void OctreeNode::Split()
 			}
 		}
 	}
-
-	//AABB base_box;
-	//base_box.maxPoint = box.CenterPoint();
-	//base_box.minPoint = base_box.maxPoint - float3({ new_box_size, new_box_size, -new_box_size });
-
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	//New AABB
-	//	AABB new_node_box;
-	//
-	//	new_node_box.minPoint = base_box.CornerPoint(i);
-	//	new_node_box.maxPoint = new_node_box.minPoint + float3(base_box.Edge(0).Length(), base_box.Edge(0).Length(), -base_box.Edge(0).Length());
-
-	//	//New Node
-	//	
-	//}
-
 
 	//Now reasign the objects to their new corresponding node (GO's can not lay on a not leaf node)
 	for (auto it = objects_in_node.begin(); it != objects_in_node.end(); it++)

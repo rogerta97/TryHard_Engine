@@ -14,5 +14,6 @@ public:
 	bool CleanUp();
 
 	Octree* octree; 
+	float size; 
 };
 

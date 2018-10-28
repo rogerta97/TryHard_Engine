@@ -38,10 +38,10 @@ public:
 class Octree
 {
 public:
-	Octree(int obj_limit);
+	Octree();
 	~Octree();
 	
-	void Create(AABB limits, bool adaptative);
+	void Create(AABB limits, bool adaptative, int obj_limit);
 	void CleanUp();
 
 	void Insert(GameObject* new_go); 

@@ -28,7 +28,7 @@ bool ModuleScene::Start()
 	selected_go = nullptr;
 
 	App->renderer3D->OnResize(1000, 1000);
-	octree = new Octree(LIMIT_OCTREE_BUCKET);
+	octree = new Octree();
 
 	return ret;
 }

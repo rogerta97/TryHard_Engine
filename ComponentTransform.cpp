@@ -58,7 +58,6 @@ void ComponentTransform::CalculateViewMatrix()
 	new_mat = new_mat * transform.rotation; 
 	new_mat = new_mat * new_mat.Scale(transform.scale); 
 
-
 	ViewMatrix = new_mat;
 }
 
@@ -117,11 +116,8 @@ void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 
 	float4x4 rotmat = rot.ToFloat4x4();
 
-
-	
 	new_mat.Transpose();
 	new_mat.Inverse();
-
 	new_mat.Decompose(pos, rotmat, scale);
 
 	float3 eulrotmat = rotmat.ToEulerXYZ();
