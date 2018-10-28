@@ -181,30 +181,42 @@ void OctreeNode::CleanUp()
 void OctreeNode::Split()
 {
 	//Get the size of the new nodes
-	float new_box_size = box.Edge(0).Length() / 2;
+	float3 new_size = box.HalfSize();
 
 	// Create the new nodes 
-	// 4 Top nodes
-	for (int i = 0; i < 8; i++)
+
+	int children_count = 0; 
+	for (int x = 0; x < 2; x++)
 	{
-		//New AABB
-		AABB new_node_box;
-		float3 pa = box.CenterPoint();
-		float3 pb = box.CornerPoint(i);
-
-		new_node_box.maxPoint = pa;
-		new_node_box.minPoint = pb;
-
-		if (pa.y + new_box_size != pb.y)
+		for (int y = 0; y < 2; y++)
 		{
-			float3 tmp = new_node_box.maxPoint; 
-			new_node_box.maxPoint = new_node_box.minPoint; 
-			new_node_box.minPoint = tmp; 
-		}
+			for (int z = 0; z < 2; z++)
+			{
+				float3 min_point(box.minPoint.x + z * new_size.x, box.minPoint.y + y * new_size.y, box.minPoint.z + x * new_size.z);
+				float3 max_point(min_point.x + new_size.x, min_point.y + new_size.y, min_point.z + new_size.z);
 
-		//New Node
-		childs[i] = new OctreeNode(new_node_box, this);
+				AABB new_box(min_point, max_point);
+
+				childs[children_count++] = new OctreeNode(new_box, this);
+			}
+		}
 	}
+
+	//AABB base_box;
+	//base_box.maxPoint = box.CenterPoint();
+	//base_box.minPoint = base_box.maxPoint - float3({ new_box_size, new_box_size, -new_box_size });
+
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	//New AABB
+	//	AABB new_node_box;
+	//
+	//	new_node_box.minPoint = base_box.CornerPoint(i);
+	//	new_node_box.maxPoint = new_node_box.minPoint + float3(base_box.Edge(0).Length(), base_box.Edge(0).Length(), -base_box.Edge(0).Length());
+
+	//	//New Node
+	//	
+	//}
 
 
 	//Now reasign the objects to their new corresponding node (GO's can not lay on a not leaf node)
