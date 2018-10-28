@@ -118,13 +118,13 @@ void ModuleCamera3D::PrintConfigData()
 			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f))
 			{
 				if (ecam_trans->GetRotationEuler().x != show_rot[0])
-					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "X");
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
 				if (ecam_trans->GetRotationEuler().y != show_rot[1])
-					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Y");
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
 				if (ecam_trans->GetRotationEuler().z != show_rot[2])
-					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] }, "Z");
+					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 			}
 
 			ImGui::Spacing();
@@ -479,6 +479,12 @@ void ModuleCamera3D::ManageMovement()
 		}
 
 		cam->CalculateViewMatrix();
+
+		ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
+
+		float4x4* mat = (float4x4*)cam->GetViewMatrix();
+
+		camera_trans->SetViewMatrix(*mat);
 
 		//For now we will update editor camera directly 
 

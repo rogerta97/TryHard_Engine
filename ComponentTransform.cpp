@@ -109,12 +109,39 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 	return to_ret_mat;
 }
 
+void ComponentTransform::SetViewMatrix(float4x4 new_mat)
+{
+	float3 pos = { 0,0,0 };
+	Quat rot = { 0,0,0,0 };
+	float3 scale = { 0,0,0 };
+
+	float4x4 rotmat = rot.ToFloat4x4();
+
+
+	
+	new_mat.Transpose();
+	new_mat.Inverse();
+
+	new_mat.Decompose(pos, rotmat, scale);
+
+	float3 eulrotmat = rotmat.ToEulerXYZ();
+
+	rot = rot.FromEulerXYZ(eulrotmat.x, eulrotmat.y, eulrotmat.z);
+
+
+	transform.position = pos;
+	SetRotationEuler(eulrotmat);
+
+	
+	//ViewMatrix = new_mat;
+}
+
 float3 ComponentTransform::GetRotationEuler() const
 {
 	return transform.euler_angles;
 }
 
-void ComponentTransform::SetRotationEuler(float3 new_rot, const char* axis)
+void ComponentTransform::SetRotationEuler(float3 new_rot)
 {
 	Quat new_quat = Quat::identity; 
 	
@@ -186,4 +213,3 @@ void ComponentTransform::DrawAxis()
 
 	//App->renderer3D->UseCurrentRenderSettings();
 }
-
