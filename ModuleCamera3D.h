@@ -27,6 +27,12 @@ public:
 
 	void ManageMovement();
 
+	void MoveRotateECamFrustum(float dt);
+
+	void RotateFrustum(float dx, float dy);
+
+	void MoveFrustum(float dt);
+
 public:
 		
 	SkyBox* skybox = nullptr; 

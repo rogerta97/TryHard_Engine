@@ -137,23 +137,20 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-
-
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
 
-	glMatrixMode(GL_MODELVIEW);
 
 	ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
 
 	float4x4 ecam_trans_mat = ecam_trans->GetViewMatrix();
 	ecam_trans_mat.Transpose();
 
-	float4x4* view_mat = (float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
+	float4x4 view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewOpenGLViewMatrix();
 
-	glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(&view_gl_mat[0][0]);
 	//glLoadMatrixf(&ecam_trans_mat[0][0]);
 
 	App->camera->GetEditorCamera()->camera->projection_changed = true;
@@ -163,32 +160,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 		UpdateProjectionMatrix();
 		App->camera->GetEditorCamera()->camera->projection_changed = false;
 	}
-
-	//glMatrixMode(GL_PROJECTION);
-	//Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
-	//ProjectionMatrix = camerafrustum.ProjectionMatrix();
-
-	//glLoadMatrixf(&ProjectionMatrix[0][0]);
-
-	//mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
-	//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
-	//glLoadMatrixf(&ProjectionMatrix);
-
-
-	//for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
-	//{
-	//	if ((*it)->GetProjection() == PROJ_ORTH)
-	//	{
-	//		mat4x4 ort = ortho(1, 1, 1, 1, 0.2, 20);
-	//		glLoadMatrixf(ort.M);
-	//	}
-	//	else if ((*it)->GetProjection() == PROJ_PERSP)
-	//	{
-			//mat4x4 ProjectionMatrix = perspective(60.0f, (float)App->window->GetWidth() / (float)App->window->GetHeight(), 0.125f, 512.0f);
-			////glLoadMatrixf(&ProjectionMatrix);
-			//glLoadMatrixf(App->camera->GetEditorCamera()->GetViewMatrix());
-	//	}
-	//}
 
 	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
 

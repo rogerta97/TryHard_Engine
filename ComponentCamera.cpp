@@ -31,12 +31,16 @@ ComponentCamera::ComponentCamera(GameObject* parent)
 
 	show_preview_panel = true;
 
+	speed_multiplier = 6;
+
 	size.x = 1500;
 	size.y = 1000;
 
 	orbit = true;
 
 	mouse_sensitivity = 0.01f;
+
+	is_editor_camera = false;
 }
 
 ComponentCamera::~ComponentCamera()
@@ -78,12 +82,11 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
+	if (!is_editor_camera)
 	UpdateFrustumPositionAndRotation();
 
 	if (draw_frustum)
 		DrawFrustum(); 
-
-
 
 	return UPDATE_CONTINUE;
 }
@@ -139,6 +142,16 @@ float* ComponentCamera::GetViewMatrix()
 {
 	return &ViewMatrix[0][0];
 	//return nullptr;
+}
+
+float * ComponentCamera::GetViewOpenGLViewMatrix()
+{
+	float4x4 m;
+
+	m = camera->frustum.ViewMatrix();
+	m.Transpose();
+
+	return (float*)m.v;
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const
@@ -294,19 +307,28 @@ void ComponentCamera::UpdateFrustumPositionAndRotation()
 
 	float3 eul = trans->GetRotationEuler();
 
-	camera->frustum.front = App->camera->Rotate(trans->transform.Z, eul.x * DEGTORAD, trans->transform.X);
-	trans->transform.Z = camera->frustum.front; 
+	//camera->frustum.front = App->camera->Rotate(trans->transform.Z, eul.x * DEGTORAD, trans->transform.X);
+	//trans->transform.Z = camera->frustum.front; 
 
-	camera->frustum.up = App->camera->Rotate(trans->transform.Y, eul.x * DEGTORAD, trans->transform.X);
-	trans->transform.Y = camera->frustum.up;
+	//camera->frustum.up = App->camera->Rotate(trans->transform.Y, eul.x * DEGTORAD, trans->transform.X);
+	//trans->transform.Y = camera->frustum.up;
 
-	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, trans->transform.Y);
-	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, trans->transform.Y);
+	//camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, trans->transform.Y);
+	//camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, trans->transform.Y);
 
-	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, trans->transform.Z);
-	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, trans->transform.Z);
+	//camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, trans->transform.Z);
+	//camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, trans->transform.Z);
 
-	trans->transform.X = trans->transform.Z.Cross(trans->transform.Y).Normalized();
+	//trans->transform.X = trans->transform.Z.Cross(trans->transform.Y).Normalized();
+
+	camera->frustum.front = App->camera->Rotate({ 0,0,-1 }, eul.x * DEGTORAD, { 1,0,0 });
+	camera->frustum.up = App->camera->Rotate({ 0,1,0 }, eul.x * DEGTORAD, { 1,0,0 });
+
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.y * DEGTORAD, { 0,1,0 });
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.y * DEGTORAD, { 0,1,0 });
+
+	camera->frustum.front = App->camera->Rotate(camera->frustum.front, eul.z * DEGTORAD, { 0,0,1 });
+	camera->frustum.up = App->camera->Rotate(camera->frustum.up, eul.z * DEGTORAD, { 0,0,1 });
 }
 
 float ComponentCamera::GetSpeed() const
@@ -444,4 +466,26 @@ void ComponentCamera::CalculateViewMatrix()
 		-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
 
 	ViewMatrixInverse = ViewMatrix.Inverted();
+
+
+	//
+
+	float3 pos = { 0,0,0 };
+	float3 scale = { 0,0,0 };
+	float4x4 rotmat;
+
+	ViewMatrix.Decompose(pos, rotmat, scale);
+
+	float3 eulrotvec = rotmat.ToEulerXYZ();
+
+	eulrotvec.x = RadToDeg(eulrotvec.x);
+	eulrotvec.y = RadToDeg(eulrotvec.y);
 }
+
+void ComponentCamera::SetEditorCamera()
+{
+	is_editor_camera = true;
+}
+
+
+
