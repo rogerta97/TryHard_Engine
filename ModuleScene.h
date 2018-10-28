@@ -7,7 +7,6 @@
 
 #define MAX_SNAKE 2
 
-
 class ModuleScene : public Module
 {
 public:

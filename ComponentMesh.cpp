@@ -60,6 +60,8 @@ bool ComponentMesh::Update()
 	if (draw_normals)
 		DrawNormals();
 
+	UpdateBoundingBox();
+
 	if (draw_bounding_box)
 		DrawBoundingBox();
 
@@ -245,8 +247,6 @@ void ComponentMesh::DrawBoundingBox()
 		glBegin(GL_LINES);		
 		App->renderer3D->UseDebugRenderSettings(); 
 		glColor3f(1.0f, 0.0f, 0.0f);
-
-		UpdateBoundingBox(); 
 
 		for (int i = 0; i < 12; i++)
 		{
