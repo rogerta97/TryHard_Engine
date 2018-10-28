@@ -7,15 +7,25 @@
 Octree::Octree(int obj_limit)
 {
 	root_node = nullptr; 
+	obj_ammount = 0;
 }
 
 Octree::~Octree()
 {
 }
 
-void Octree::Create(AABB limits)
+void Octree::Create(AABB limits, bool adaptative)
 {
+	if (root_node != nullptr)
+		CleanUp(); 
+
 	root_node = new OctreeNode(limits, nullptr);
+	this->adaptative = adaptative; 
+
+	for (auto it = App->scene->static_gameobjects.begin(); it != App->scene->static_gameobjects.end(); it++)
+	{
+		Insert((*it)); 
+	}
 }
 
 void Octree::Insert(GameObject * new_go)
@@ -26,22 +36,54 @@ void Octree::Insert(GameObject * new_go)
 	if (mesh == nullptr)
 		return; 
 
+	if (root_node == nullptr)
+	{
+		CONSOLE_ERROR("Object cant be added before creating the octree.", new_go->GetName().c_str());
+		return; 
+	}
+
 	//If it intersects we do the following:
 	if (root_node->box.Intersects(mesh->bounding_box))
 	{
 		//Add it to the root node, which will look for the best node recursively
-		root_node->Insert(new_go); 
+		if (root_node->Insert(new_go))
+			obj_ammount++; 
+
+		CONSOLE_LOG("GameObject '%s' added to octree.", new_go->GetName().c_str()); 
+		
+	}
+	else if (adaptative)
+	{
 		
 	}
 	else
 	{
-		CONSOLE_ERROR("Object '%s' is outside Octree limits.", new_go->GetName().c_str()); 
+		CONSOLE_ERROR("Object '%s' is outside Octree limits.", new_go->GetName().c_str());
 	}
+}
+
+void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * new_go)
+{
+	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH); 
+	root_node->GetObjectIntersections(inter_list, mesh->bounding_box);
+}
+
+void Octree::CleanUp()
+{
+	root_node->CleanUp(); 
+	obj_ammount = 0; 
+	delete(root_node);
+	root_node = nullptr; 
 }
 
 OctreeNode * Octree::GetRoot()
 {
 	return root_node;
+}
+
+int Octree::GetNumObjects()
+{
+	return obj_ammount;
 }
 
 void Octree::Draw()
@@ -55,7 +97,7 @@ OctreeNode::OctreeNode(AABB box, OctreeNode* parent_node)
 {
 	this->box = box; 
 	leaf = true; 
-	parent = parent_node; 	
+	parent = parent_node;
 }
 
 OctreeNode::~OctreeNode()
@@ -73,12 +115,14 @@ void OctreeNode::Draw()
 			childs[i]->Draw(); 
 }
 
-void OctreeNode::Insert(GameObject* new_go)
+bool OctreeNode::Insert(GameObject* new_go)
 {
+	bool ret = false; 
+
 	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH); 
 
 	if (mesh == nullptr)
-		return; 
+		return false; 
 
 	//First we check if it's inside the node
 	if (box.Intersects(mesh->bounding_box))
@@ -87,25 +131,57 @@ void OctreeNode::Insert(GameObject* new_go)
 		if (leaf == false)
 		{
 			for (int i = 0; i < 8; i++)
-			{
-				childs[i]->Insert(new_go);
-			}		
+				childs[i]->Insert(new_go);				
 		}		
 		else
 		{
+			ret = true; 
+
+			//We Add the GO normally
+			objects_in_node.push_back(new_go);
+
 			//If it's leaf, first we check if adding the gameobject would cause a partition
-			if (objects_in_node.size() >= LIMIT_OCTREE_BUCKET)
+			if (objects_in_node.size() > LIMIT_OCTREE_BUCKET)
 			{
 				//We need to split and reasign the gameobjects 
 				Split();
 			}
-			else
-			{
-				//We Add the GO normally
-				objects_in_node.push_back(new_go);
-			}
 		}		
 	}
+
+	return ret; 
+}
+
+void OctreeNode::GetObjectIntersections(std::list<GameObject*> inter_list, AABB new_go_bb)
+{
+	if (box.Intersects(new_go_bb))
+	{
+		for (std::list<GameObject*>::const_iterator it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
+		{
+			if ((*it)->bounding_box->Intersects(new_go_bb))
+				inter_list.push_back(*it);
+
+		}
+
+		for (int i = 0; i < 8; i++)
+		{
+			childs[i]->GetObjectIntersections(inter_list, new_go_bb);
+		}
+	}
+}
+
+void OctreeNode::CleanUp()
+{
+	if (!leaf)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			childs[i]->CleanUp();
+			delete(childs[i]); 
+		}
+	}
+
+	objects_in_node.clear();
 }
 
 void OctreeNode::Split()

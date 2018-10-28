@@ -25,13 +25,10 @@ bool ModuleScene::Start()
 	bool ret = true;
 			
 	start_time = performance_timer.Read();
-
-
-
 	selected_go = nullptr;
 
 	App->renderer3D->OnResize(1000, 1000);
-	octree = new Octree(2);
+	octree = new Octree(LIMIT_OCTREE_BUCKET);
 
 	return ret;
 }

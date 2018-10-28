@@ -56,7 +56,8 @@ public:
 
 	std::list<Component*> component_list;
 
-	bool selected; 
+	bool selected;
+	AABB* bounding_box; 
 	
 public:
 	std::string name;

@@ -251,9 +251,9 @@ update_status ModuleImGui::DrawTopBar()
 
 		if (ImGui::MenuItem("Cube"))
 		{
-			App->scene->CleanScene();
-
 			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->SetParent(nullptr); 
+
 			new_go->name = "Cube"; 
 
 			//Add Mesh

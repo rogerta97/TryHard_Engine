@@ -58,7 +58,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
-	ManageMovementFromTrans(cam);
+	//ManageMovementFromTrans(cam);
 	ManageMovement();
 
 	if (!ecam_go || !cam)

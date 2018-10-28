@@ -367,6 +367,7 @@ void GameObject::GetEnclosedAABB(float3& min, float3& max)
 
 }
 
+
 void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distance_amm)
 {
 	ComponentMesh* cmp_mesh = (ComponentMesh*)GetComponent(CMP_MESH);

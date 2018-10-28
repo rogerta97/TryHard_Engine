@@ -231,6 +231,8 @@ bool ComponentMesh::CreateEnclosedMeshAABB()
 {	
 	bounding_box.SetNegativeInfinity();
 	bounding_box = bounding_box.MinimalEnclosingAABB(GetMesh()->vertices, GetMesh()->num_vertices);
+	gameobject->bounding_box = &bounding_box; 
+
 	return true;	
 }
 

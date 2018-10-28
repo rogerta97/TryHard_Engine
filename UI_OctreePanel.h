@@ -1,5 +1,8 @@
 #pragma once
 #include "UI_Panel.h"
+
+class Octree; 
+
 class UI_OctreePanel : public UI_Panel
 {
 public:
@@ -9,5 +12,7 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+
+	Octree* octree; 
 };
 
