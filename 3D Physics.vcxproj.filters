@@ -549,7 +549,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Sources\GameObject\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="MaterialImporter.h">
       <Filter>Sources\Modules\Importers</Filter>
     </ClInclude>
@@ -563,6 +562,9 @@
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDraw.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>

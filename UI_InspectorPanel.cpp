@@ -220,11 +220,16 @@ void UI_InspectorPanel::PrintTransformProperties()
 			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
 			float show_rot[3] = { trans_cmp->GetRotationEuler().x, trans_cmp->GetRotationEuler().y, trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
+
+			if (gameobject->GetIsStatic() == true)
+			{
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Transforms are disabled while GameObject is Static."); 
+			}
 		
-			if (ImGui::DragFloat3("Position", show_pos, 0.2f))		
+			if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)		
 				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
 						
-			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f))
+			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
 			{
 				if(trans_cmp->GetRotationEuler().x != show_rot[0])
 					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
@@ -237,7 +242,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 			}
 				
 
-			if(ImGui::DragFloat3("Scale", show_scale, 0.2f))
+			if(ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
 			ImGui::Spacing(); 
@@ -417,7 +422,6 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	{
 		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio); 
 	}
-
 
 
 	float focal_lenght = camera_cmp->camera->frustum.farPlaneDistance - camera_cmp->camera->frustum.nearPlaneDistance;

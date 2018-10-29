@@ -152,6 +152,8 @@ void ModuleCamera3D::PrintConfigData()
 
 		ImGui::SliderInt("Interpolation Speed", (int*)&editor_camera->interpolation.interpolation_ms, 50, 2000);
 
+		ImGui::Checkbox("Frustum Culling", &frustum_culling);
+
 		SEPARATE_WITH_SPACE
 
 			App->imgui->inspector_panel->PrintCameraProperties(App->camera->GetEditorCamera());
@@ -162,10 +164,7 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::Separator();
 		ImGui::Spacing();
 		ImGui::Text("GameObject Bounded:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*");
-
-		ImGui::Checkbox("Frustum Culling", &frustum_culling);
-
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*"); ImGui::SameLine();
 
 		if (ImGui::SmallButton("+##Camera"))
 		{
