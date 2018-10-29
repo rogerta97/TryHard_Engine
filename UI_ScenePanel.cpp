@@ -12,6 +12,7 @@ UI_ScenePanel::UI_ScenePanel()
 
 UI_ScenePanel::~UI_ScenePanel()
 {
+	name = "Scene";
 }
 
 bool UI_ScenePanel::Start()

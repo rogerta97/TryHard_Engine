@@ -4,6 +4,7 @@
 UI_ExplorerPanel::UI_ExplorerPanel()
 {
 	show_item_options = false; 
+	name = "Explorer";
 }
 
 

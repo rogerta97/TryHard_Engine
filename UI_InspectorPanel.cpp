@@ -10,6 +10,7 @@
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
+	name = "Inspector";
 }
 
 
