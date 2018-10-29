@@ -1,7 +1,13 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "glmath.h"
+#include "Timer.h"
+#include "SkyBox.h"
+
+#include "ComponentCamera.h"
+#include "GameObject.h"
+
+class TextureMSAA; 
 
 class ModuleCamera3D : public Module
 {
@@ -13,20 +19,30 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec3 &Spot);
-	void Move(const vec3 &Movement);
-	float* GetViewMatrix();
+	void PrintConfigData();
 
-private:
+	ComponentCamera* GetEditorCamera(); 
 
-	void CalculateViewMatrix();
+	void ManageMovementFromTrans(ComponentCamera* cam);
+
+	void ManageMovement();
+
+	void MoveRotateECamFrustum(float dt);
+
+	void RotateFrustum(float dx, float dy);
+
+	void MoveFrustum(float dt);
 
 public:
-	
-	vec3 X, Y, Z, Position, Reference;
+		
+	SkyBox* skybox = nullptr; 
 
+	bool frustum_culling;
+
+	float3 Rotate(const float3 &u, float angle, const float3 &v);
+	GameObject* GetCameraGO() const;
+	
 private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	GameObject* ecam_go; 
 };

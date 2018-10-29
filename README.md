@@ -12,6 +12,7 @@ Roger Tello: https://github.com/rogerta97
 
 ## Innovations:
 
+- Interpolation when centering camera with 'F'
 - A Skybox
 - Possibility of changing the engine font
 - Slightly advanced performance tools
@@ -44,6 +45,10 @@ Roger Tello: https://github.com/rogerta97
 - Mouse wheel: zoom in and out.
 - Right Click: look in de direction of mouse movement.	
 - Import .FBX files: Drag and drop into the scene.
+
+## Warning
+
+This Release has a big size due to the size of the textures of the skybox and the t-rex.
 
 ## License
 

@@ -19,7 +19,7 @@ public:
 	ModuleInput(bool start_enabled = true);
 	~ModuleInput();
 
-	bool Init();
+	bool Init(JSON_Object* config);
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 
@@ -58,12 +58,23 @@ public:
 		return mouse_y_motion;
 	}
 
+	int GetMouseWheel() const
+	{
+		return mouse_wheel;
+	}
+
+	void PrintConfigData(); 
+
+	std::string GetFileDroped(); 
+
 private:
+	std::string file_droped; 
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
 	int mouse_y;
 	int mouse_z;
+	int mouse_wheel; 
 	int mouse_x_motion;
 	int mouse_y_motion;
 	//int mouse_z_motion;
