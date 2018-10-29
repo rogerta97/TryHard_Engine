@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Globals.h"
+#include "JSON\parson.h"
 
 enum CompType {CMP_TRANSFORM = 0, CMP_MESH, CMP_MATERIAL, CMP_CAMERA};
 
@@ -22,6 +23,9 @@ public:
 
 	GameObject* GetGameObject() const;
 	void SetGameObject(GameObject* new_type);
+
+	void Save(JSON_Object* scene_obj);
+	void Load(JSON_Object* scene_obj);
 
 	bool active;
 	UID unique_id; 

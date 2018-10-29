@@ -2,6 +2,7 @@
 #include "imgui_dock.h"
 #include "imgui.h"
 #include "Application.h"
+#include "JSON\parson.h"
 
 #include "UI_InspectorPanel.h"
 #include "UI_HierarchyPanel.h"
@@ -316,6 +317,17 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	
 	}
 	return ret; 
+}
+
+void GameObject::Save(JSON_Object* scene_obj)
+{
+	json_object_dotset_string(scene_obj, "GameObject.name", name.c_str());
+	json_object_dotset_number(scene_obj, "GameObject.UID", unique_id);
+
+}
+
+void GameObject::Load(JSON_Object* scene_obj)
+{
 }
 
 bool GameObject::HasComponents()  

@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Globals.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include "JSON\parson.h"
 
 class GameObject
 {
@@ -24,8 +25,11 @@ public:
 	bool DeleteComponent(CompType cmp); 
 
 	void SetSelectedRecursive(bool selected); 
-
 	bool PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
+
+	//Save & Load
+	void Save(JSON_Object* scene_obj);
+	void Load(JSON_Object* scene_obj);
 
 	//Utility
 	bool HasComponents() ; 

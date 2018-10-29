@@ -209,18 +209,15 @@ void ModuleScene::SaveScene(const char* scene_name)
 		std::ofstream stream;
 		stream.open(new_scene_path, std::fstream::binary | std::fstream::out);
 
-		//Fill it with the scene info
 		string file = scene_name + std::string(".json"); 
 
-		JSON_Value* scene = json_parse_file(file.c_str());
+		JSON_Value* scene_v = json_value_init_object();
 
-		JSON_Value* new_obj = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
 
-		JSON_Object* app_config_object = json_object(new_obj);
+		App->camera->GetCameraGO()->Save(scene_obj);
 
-		json_object_set_number(app_config_object, "UID", 3424242); 
-
-		json_serialize_to_file(scene, scene_name);
+		json_serialize_to_file(scene_v, new_scene_path.c_str());
 
 		stream.close();
 	}

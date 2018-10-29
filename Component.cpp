@@ -47,3 +47,12 @@ void Component::SetGameObject(GameObject * new_go)
 {
 	gameobject = new_go; 
 }
+
+void Component::Save(JSON_Object * scene_obj)
+{
+
+}
+
+void Component::Load(JSON_Object * scene_obj)
+{
+}
