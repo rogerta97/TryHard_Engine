@@ -17,6 +17,8 @@ ComponentTransform::ComponentTransform(GameObject* parent)
 	transform.Y = { 0.0f, 1.0f, 0.0f };
 	transform.Z = { 0.0f, 0.0f, 1.0f };
 
+	has_transformed = true;
+
 	component_type = CMP_TRANSFORM; 
 	active = true;
 }
@@ -57,6 +59,8 @@ void ComponentTransform::CalculateViewMatrix()
 	new_mat = new_mat * new_mat.Scale(transform.scale);
 	new_mat = new_mat * transform.rotation; 	
 	new_mat.SetTranslatePart(transform.position);
+
+	has_transformed = true;
 
 	ViewMatrix = new_mat;
 }
@@ -131,7 +135,7 @@ void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 
 	rot = rot.FromEulerXYZ(eulrotmat.x, eulrotmat.y, eulrotmat.z);
 
-
+	has_transformed = true;
 	transform.position = pos;
 	SetRotationEuler(eulrotmat);
 
@@ -213,4 +217,14 @@ void ComponentTransform::DrawAxis()
 	//glEnd();
 
 	//App->renderer3D->UseCurrentRenderSettings();
+}
+
+bool ComponentTransform::HasTransformed()
+{
+	return has_transformed;
+}
+
+void ComponentTransform::SetHasTransformed(bool value)
+{
+	has_transformed = value;
 }
