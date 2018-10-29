@@ -46,6 +46,9 @@ bool UI_ConsolePanel::Update()
 		ImGui::SameLine(); 
 
 		//CONSOLE_LOG Button
+
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.5f, 0.0f, 0.4f));
+
 		btn_name = "Log(" + std::to_string(App->imgui->console.GetLogCount()) + ")";
 		if (ImGui::Button(btn_name.c_str()))
 		{
@@ -53,7 +56,12 @@ bool UI_ConsolePanel::Update()
 		}
 		ImGui::SameLine();
 
+		ImGui::PopStyleColor();
+
 		//Errors Button
+
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(7.0f, 0.6f, 0.6f));
+
 		btn_name = "Error(" + std::to_string(App->imgui->console.GetErrorCount()) + ")";
 		if (ImGui::Button(btn_name.c_str()))
 		{
@@ -61,6 +69,8 @@ bool UI_ConsolePanel::Update()
 		}
 
 		ImGui::SameLine();
+
+		ImGui::PopStyleColor();
 
 		if (ImGui::Button("Clear"))
 		{
