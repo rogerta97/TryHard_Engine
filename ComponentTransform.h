@@ -36,9 +36,13 @@ public:
 	Transform transform;
 	void DrawAxis();
 
+	bool HasTransformed();
+	void SetHasTransformed(bool value);
+
 	void CalculateViewMatrix();
 
 private: 
+	bool has_transformed;
 
 	
 

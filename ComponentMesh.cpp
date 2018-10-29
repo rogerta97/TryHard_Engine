@@ -40,10 +40,12 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
+	ComponentTransform* trans =  (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+
 	if (wireframe == false)
 	{
 		App->renderer3D->UseCurrentRenderSettings();
-		DrawMesh();
+		 DrawMesh();
 	}
 	
 	//if the mesh is selected we draw it again in wireframe mode
@@ -60,7 +62,10 @@ bool ComponentMesh::Update()
 	if (draw_normals)
 		DrawNormals();
 
-	UpdateBoundingBox();
+	if (trans->HasTransformed()) {
+		UpdateBoundingBox();
+		trans->SetHasTransformed(false);
+	}
 
 	if (draw_bounding_box)
 		DrawBoundingBox();

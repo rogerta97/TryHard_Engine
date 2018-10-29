@@ -143,14 +143,10 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
 
-	float4x4 ecam_trans_mat = ecam_trans->GetViewMatrix();
-	ecam_trans_mat.Transpose();
-
 	float4x4 view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewOpenGLViewMatrix();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&view_gl_mat[0][0]);
-	//glLoadMatrixf(&ecam_trans_mat[0][0]);
 
 	App->camera->GetEditorCamera()->camera->projection_changed = true;
 
