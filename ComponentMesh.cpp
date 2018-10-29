@@ -270,7 +270,6 @@ void ComponentMesh::UpdateBoundingBox()
 		bounding_box = bounding_box.MinimalEnclosingAABB(mesh->vertices, mesh->num_vertices);
 		bounding_box.TransformAsAABB(trans->GetGlobalViewMatrix());
 	}
-
 }
 
 void ComponentMesh::SetBBColor(float r, float g, float b)

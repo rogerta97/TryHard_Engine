@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 
+#include <fstream>
+
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
@@ -30,7 +32,8 @@ bool ModuleScene::Start()
 	App->renderer3D->OnResize(1000, 1000);
 	octree = new Octree();
 
-	
+	SetDefaultScene(); 
+	SaveScene("Test"); 
 
 	return ret;
 }
@@ -181,6 +184,41 @@ void ModuleScene::SetSelectedGameObject(GameObject * selected)
 GameObject* ModuleScene::GetSelectedGameObject() const
 {
 	return selected_go;
+}
+
+void ModuleScene::SetDefaultScene()
+{
+	//Create Empty GO with a camera
+	GameObject* main_cam = CreateGameObject("Main Camera");
+
+	main_cam->AddComponent(CMP_TRANSFORM);
+	main_cam->AddComponent(CMP_CAMERA);
+}
+
+void ModuleScene::SaveScene(const char* scene_name)
+{
+	string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name) + std::string(".json");
+
+	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
+	{
+		CONSOLE_DEBUG("Scene '%s' already exist. Overwritting..."); 
+	}
+	else
+	{
+		//Create the new json file 
+		std::ofstream stream;
+		stream.open(new_scene_path, std::fstream::binary | std::fstream::out);
+
+
+		//Fill it with the scene info 
+		JSON_Value* scene = json_parse_file(scene_name);
+
+		JSON_Value* new_obj = json_value_init_object();
+
+		JSON_Object* app_config_object = json_object(new_obj);
+
+		json_serialize_to_file(scene, scene_name);
+	}
 }
 
 // Update

@@ -37,6 +37,7 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 		 
 	assets_path = game_path + string("\\") + string("Assets");
 	models_path = assets_path + string("\\") + string("3DModels");
+	scenes_path = assets_path + string("\\") + string("Scenes");
 	textures_path = assets_path + string("\\") + string("Textures");
 	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
 
@@ -160,6 +161,11 @@ string ModuleFileSystem::GetSkyBoxPath() const
 string ModuleFileSystem::GetAssetsPath() const
 {
 	return assets_path;
+}
+
+string ModuleFileSystem::GetScenesPath() const
+{
+	return scenes_path;
 }
 
 

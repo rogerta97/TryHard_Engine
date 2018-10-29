@@ -133,9 +133,6 @@ void Application::FinishUpdate()
 	if (ms_buffer.size() > HISTOGRAM_MS_LENGHT)
 		ms_buffer.erase(ms_buffer.begin());
 
-
-
-
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&memInfo);
 	DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;

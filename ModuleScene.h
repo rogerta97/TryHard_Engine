@@ -38,6 +38,11 @@ public:
 	void SetSelectedGameObject(GameObject* selected); 
 	GameObject* GetSelectedGameObject() const;
 
+	void SetDefaultScene(); 
+
+	//Load & Save
+	void SaveScene(const char* scene_name); 
+
 public:
 
 	std::list<GameObject*> scene_gameobjects; 
