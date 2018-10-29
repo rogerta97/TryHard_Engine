@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Globals.h"
+
 enum CompType {CMP_TRANSFORM = 0, CMP_MESH, CMP_MATERIAL, CMP_CAMERA};
 
 class GameObject; 
@@ -22,6 +24,7 @@ public:
 	void SetGameObject(GameObject* new_type);
 
 	bool active;
+	UID unique_id; 
 
 protected:
 

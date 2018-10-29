@@ -18,6 +18,7 @@ GameObject::GameObject()
 	parent = nullptr; 
 	is_static = false; 
 	active = true; 
+	unique_id = App->file_system->GenerateUID(); 
 }
 
 GameObject::GameObject(const char * name)
@@ -26,6 +27,7 @@ GameObject::GameObject(const char * name)
 	is_static = false;
 	parent = nullptr; 
 	selected = false; 
+	unique_id = App->file_system->GenerateUID();
 }
 
 

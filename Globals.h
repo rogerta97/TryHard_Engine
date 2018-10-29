@@ -32,6 +32,7 @@ void console_error(const char file[], int line, const char* format, ...);
 #define DEFAULT_WIREFRAME_COLOR 0.0f, 0.0f, 1.0f
 
 typedef unsigned int uint;
+typedef long long UID; 
 
 enum update_status
 {

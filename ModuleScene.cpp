@@ -209,15 +209,20 @@ void ModuleScene::SaveScene(const char* scene_name)
 		std::ofstream stream;
 		stream.open(new_scene_path, std::fstream::binary | std::fstream::out);
 
+		//Fill it with the scene info
+		string file = scene_name + std::string(".json"); 
 
-		//Fill it with the scene info 
-		JSON_Value* scene = json_parse_file(scene_name);
+		JSON_Value* scene = json_parse_file(file.c_str());
 
 		JSON_Value* new_obj = json_value_init_object();
 
 		JSON_Object* app_config_object = json_object(new_obj);
 
+		json_object_set_number(app_config_object, "UID", 3424242); 
+
 		json_serialize_to_file(scene, scene_name);
+
+		stream.close();
 	}
 }
 

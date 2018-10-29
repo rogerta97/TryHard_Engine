@@ -249,6 +249,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="DeviceId\DeviceId.cpp" />
+    <ClCompile Include="Functions.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui.cpp" />

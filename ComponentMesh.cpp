@@ -131,10 +131,10 @@ void ComponentMesh::DrawMesh()
 		GLfloat matrix[16];
 		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
 		view_mat.Set((float*)matrix);
-
+		
 		glMatrixMode(GL_MODELVIEW); 
 		float4x4 center_translation = float4x4::identity; 
-		center_translation = center_translation.Translate(trans->transform.center);
+		//center_translation = center_translation.Translate(trans->transform.center);
 		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix() * center_translation).Transposed() * view_mat).v);
 	}
 

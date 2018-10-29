@@ -46,6 +46,8 @@ public:
 	string GetAssetsPath() const; 
 	string GetScenesPath() const; 
 
+	UID GenerateUID(); 
+
 	std::vector<string> GetFilesInDirectory(const char* directory); 
 	bool IsFileInDirectory(const char* directory, const char* filename);
 

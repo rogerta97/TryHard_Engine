@@ -1,6 +1,7 @@
 #include "ModuleFileSystem.h"
 #include "Application.h"
 #include "Shlwapi.h"
+#include "Functions.h"
 #include <sys\stat.h>
 #include <cstdio>
 
@@ -168,6 +169,11 @@ string ModuleFileSystem::GetScenesPath() const
 	return scenes_path;
 }
 
+UID ModuleFileSystem::GenerateUID()
+{
+	UID ret_id = GetPCGRandomNumberInt(0,999999999); 
+	return ret_id;
+}
 
 std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)
 {

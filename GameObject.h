@@ -2,6 +2,7 @@
 
 #include <list>
 #include "Component.h"
+#include "Globals.h"
 #include "MathGeoLib\MathGeoLib.h"
 
 class GameObject
@@ -62,6 +63,7 @@ public:
 public:
 	std::string name;
 	GameObject* parent;
+	UID unique_id; 
 
 private:
 	std::list<GameObject*> child_list; 

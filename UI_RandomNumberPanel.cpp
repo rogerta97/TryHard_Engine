@@ -8,7 +8,6 @@ UI_RandomNumberPanel::UI_RandomNumberPanel()
 	name = "Random Generator";
 }
 
-
 UI_RandomNumberPanel::~UI_RandomNumberPanel()
 {
 }

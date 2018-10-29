@@ -821,6 +821,9 @@
     <ClCompile Include="Octree.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>Sources\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">
