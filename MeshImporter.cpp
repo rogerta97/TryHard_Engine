@@ -141,6 +141,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 {
 	//This node contains mesh information (vertices, indices...)
 
+	bool invalid_mesh = false; 
 	GameObject* game_object = new GameObject();
 
 	if (node->mParent != nullptr)
@@ -241,7 +242,9 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						if (curr_face.mNumIndices != 3)
 						{
-							CONSOLE_ERROR("Geometry index in face %d is != 3", j);
+							CONSOLE_ERROR("Geometry index in face %d is != 3. Mesh won't be loaded.", j);
+							invalid_mesh = true; 
+							return; 
 						}
 						else
 							memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
