@@ -10,6 +10,7 @@
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
+	name = "Inspector";
 }
 
 
@@ -53,7 +54,6 @@ bool UI_InspectorPanel::Update()
 
 		if(go_image != nullptr)
 			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
-
 
 		ImGui::SameLine(); 
 

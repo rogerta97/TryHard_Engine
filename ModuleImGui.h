@@ -67,6 +67,8 @@ public:
 	UI_HierarchyPanel* hierarchy_panel = nullptr;
 	UI_ScenePanel* scene_panel = nullptr;
 
+	std::list<UI_Panel*> panels_list;
+
 private: 
 
 	int x_motion, y_motion, last_x, last_y;
@@ -77,7 +79,7 @@ private:
 
 	bool close_on_next_update = false;
 
-	std::list<UI_Panel*> panels_list;
+
 
 	UI_ConfigurationPanel* config_panel = nullptr; 
 

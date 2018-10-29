@@ -5,6 +5,7 @@
 UI_ConfigurationPanel::UI_ConfigurationPanel()
 {
 	type = Panel_Types::CONFIGURATION_PANEL;
+	name = "Configuration";
 }
 
 UI_ConfigurationPanel::~UI_ConfigurationPanel()
@@ -23,7 +24,7 @@ bool UI_ConfigurationPanel::Update()
 	if (show == false)
 		return false; 
 
-	if (ImGui::Begin("Configuration", &show ,NULL))
+	if (ImGui::Begin(name, &show ,NULL))
 	{
 		App->DisplayConfigData();
 

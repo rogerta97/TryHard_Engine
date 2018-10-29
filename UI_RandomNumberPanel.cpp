@@ -5,6 +5,7 @@
 
 UI_RandomNumberPanel::UI_RandomNumberPanel()
 {
+	name = "Random Generator";
 }
 
 

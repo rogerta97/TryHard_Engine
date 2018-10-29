@@ -5,6 +5,7 @@
 
 UI_PerformancePanel::UI_PerformancePanel()
 {
+	name = "Performance";
 }
 
 
@@ -80,6 +81,32 @@ bool UI_PerformancePanel::Update()
 		PrintPreUpdatePlots();
 		PrintUpdatePlots();
 		PrintPostUpdatePlots();
+
+		if (ImGui::CollapsingHeader("UI Panels data:"))
+		{
+			auto panel_iterator = App->imgui->panels_list.begin();
+
+			std::vector<float>	runtimes_buffer;
+
+
+			ImGui::Columns(2, "", false);
+			while (panel_iterator != App->imgui->panels_list.end())
+			{
+				if (!(*panel_iterator)->update_ms_buffer.empty() && (*panel_iterator)->show) {
+
+					ImGui::PlotLines("", &(*panel_iterator)->update_ms_buffer[0], (*panel_iterator)->update_ms_buffer.size(), 0, (*panel_iterator)->name, 0.0f, 20.0f, ImVec2(size.x, 100));
+					ImGui::NextColumn();
+
+					runtimes_buffer.push_back((*panel_iterator)->update_ms_buffer[0]);
+				}
+				panel_iterator++;
+			}
+
+			ImGui::Columns(1);
+			ImGui::NewLine();
+			ImGui::PlotHistogram("##Framerate", &runtimes_buffer[0], runtimes_buffer.size(), 0, "Runtimes of all panels in order", 0.0f, 10.0f, ImVec2(size.x * 2, 200));
+			runtimes_buffer.clear();
+		}
 
 	}
 	ImGui::End();

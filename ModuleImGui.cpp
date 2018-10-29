@@ -410,7 +410,20 @@ update_status ModuleImGui::DrawDocking()
 		}
 
 		for (auto panel = panels_list.begin(); panel != panels_list.end(); panel++)
-			if ((*panel)->show) (*panel)->Update();
+		{
+
+			if ((*panel)->show) 
+			{
+				(*panel)->performance_timer.Start();
+
+				(*panel)->Update();
+
+				if ((*panel)->update_ms_buffer.size() > 50)
+					(*panel)->update_ms_buffer.erase((*panel)->update_ms_buffer.begin());
+
+				(*panel)->update_ms_buffer.push_back((*panel)->performance_timer.Read());
+			}
+		}
 
 	}
 

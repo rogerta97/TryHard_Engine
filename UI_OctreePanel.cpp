@@ -4,6 +4,7 @@
 
 UI_OctreePanel::UI_OctreePanel()
 {
+	name = "Octree";
 }
 
 

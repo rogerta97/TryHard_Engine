@@ -8,6 +8,7 @@
 
 UI_ConsolePanel::UI_ConsolePanel()
 {
+	name = "Console";
 }
 
 
@@ -33,7 +34,7 @@ bool UI_ConsolePanel::Start()
 
 bool UI_ConsolePanel::Update()
 {	
-	if (ImGui::Begin("Console", &show,NULL))
+	if (ImGui::Begin(name, &show,NULL))
 	{
 		std::string btn_name;
 

@@ -16,7 +16,7 @@ public:
 	void UnbindBuffer();
 
 	bool SetCubeData(); 
-
+	float3 CenterVertices(float3* center, int num);
 	void CleanMeshData(); 
 
 	BasicMeshType GetType() const;

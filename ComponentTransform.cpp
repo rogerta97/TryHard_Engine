@@ -54,9 +54,9 @@ void ComponentTransform::ResetTransform()
 void ComponentTransform::CalculateViewMatrix()
 {
 	float4x4 new_mat = float4x4::identity;
+	new_mat = new_mat * new_mat.Scale(transform.scale);
+	new_mat = new_mat * transform.rotation; 	
 	new_mat.SetTranslatePart(transform.position);
-	new_mat = new_mat * transform.rotation; 
-	new_mat = new_mat * new_mat.Scale(transform.scale); 
 
 	ViewMatrix = new_mat;
 }
@@ -93,6 +93,12 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 
 		to_ret_mat = to_ret_mat * trans->GetViewMatrix(); 
 		current_go = current_go->GetParent();
+
+	/*	if (!gameobject->HasChilds()) 
+		{*/
+			to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
+			to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
+	//	}
 			
 	} while (current_go != nullptr);
 

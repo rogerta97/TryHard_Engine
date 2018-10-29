@@ -14,6 +14,8 @@ public:
 
 	float3 euler_angles; 
 
+	float3 center; 
+
 	float3 X, Y, Z; //Axis
 };
 

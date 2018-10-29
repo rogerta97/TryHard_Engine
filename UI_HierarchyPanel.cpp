@@ -5,6 +5,7 @@
 
 UI_HierarchyPanel::UI_HierarchyPanel()
 {
+	name = "Hierarchy";
 }
 
 

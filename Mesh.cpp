@@ -156,6 +156,27 @@ bool Mesh::SetCubeData()
 	return true;
 }
 
+float3 Mesh::CenterVertices(float3* vertices, int num)
+{
+	float3 min = float3::inf;
+	float3 max = -float3::inf;
+	for (int i = 0; i < num; i++)
+	{
+		if (vertices[i].x > max.x) max.x = vertices[i].x;
+		if (vertices[i].y > max.y) max.y = vertices[i].y;
+		if (vertices[i].z > max.z) max.z = vertices[i].z;
+
+		if (vertices[i].x < min.x) min.x = vertices[i].x;
+		if (vertices[i].y < min.y) min.y = vertices[i].y;
+		if (vertices[i].z < min.z) min.z = vertices[i].z;
+	}
+
+	for (int i = 0; i < num; i++)
+		vertices[i] -= (max + min) / 2;
+	
+	return(max + min) / 2;
+}
+
 //bool Mesh::SetPlaneData()
 //{
 //	//Create the buffers

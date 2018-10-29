@@ -20,8 +20,12 @@ public:
 		return true;
 	}
 
+	const char* name = "";
+
 	Panel_Types type;
 
+	Timer performance_timer;
+	std::vector<float> update_ms_buffer;
 	bool show;
 };
 

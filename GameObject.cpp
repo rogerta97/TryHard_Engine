@@ -16,6 +16,8 @@ GameObject::GameObject()
 {
 	name = ""; 
 	parent = nullptr; 
+	is_static = false; 
+	active = true; 
 }
 
 GameObject::GameObject(const char * name)
