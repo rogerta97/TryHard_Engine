@@ -3,6 +3,8 @@
 #include "Mesh.h"
 #include "Texture.h"
 
+class ComponentCamera; 
+class GameObject; 
 
 enum SkyBox_Side
 {
@@ -22,6 +24,7 @@ public:
 	~SkyBox();
 	
 	void InitSkyBox(const char* folder_name, float size); 
+	void AttachTo(GameObject* go); 
 	void Draw();
 	void CleanUpSkyBox(); 
 
@@ -34,6 +37,8 @@ public:
 
 	Mesh* sky_cube[6]; 
 	Texture* sky_textures[6];
+	GameObject* camera_attached; 
+
 	float size; 
 
 };

@@ -157,8 +157,6 @@ void ComponentTransform::SetPosition(float3 new_pos)
 	CalculateViewMatrix(); 
 }
 
-
-
 void ComponentTransform::SetRotation(Quat new_rot)
 {
 	transform.rotation = new_rot; 

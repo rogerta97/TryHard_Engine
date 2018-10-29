@@ -27,7 +27,7 @@ bool ModuleCamera3D::Start()
 	bool ret = true;
 
 	skybox = new SkyBox();
-	skybox->InitSkyBox("", 300.0f);
+	skybox->InitSkyBox("", 50.0f);
 
 	//Create Editor Camera
 	ecam_go = new GameObject("EditorCamera");
@@ -43,6 +43,7 @@ bool ModuleCamera3D::Start()
 	cam->camera->frustum.pos = { 4,4,8 };
 
 	App->renderer3D->AddRenderCamera(cam);
+	skybox->AttachTo(ecam_go); 
 
 	start_time = performance_timer.Read();
 	return ret;
@@ -51,12 +52,6 @@ bool ModuleCamera3D::Start()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-
-	//SkyBox
-	if (skybox != nullptr)
-	{
-		skybox->Draw();
-	}
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
@@ -69,6 +64,11 @@ update_status ModuleCamera3D::Update(float dt)
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;
 
+	//SkyBox
+	if (skybox != nullptr)
+	{
+		skybox->Draw();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -435,7 +435,7 @@ void ModuleCamera3D::ManageMovement()
 		if (moved)
 			cam->Move(increment);
 
-		//// Mouse motion ----------------
+		// Mouse motion ----------------
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{

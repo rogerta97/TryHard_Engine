@@ -141,7 +141,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glLoadIdentity();
 
-
 	ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
 
 	float4x4 ecam_trans_mat = ecam_trans->GetViewMatrix();

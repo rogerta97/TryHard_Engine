@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "Mesh.h"
 
+#include "ComponentCamera.h"
+#include "ComponentTransform.h"
+
 SkyBox::SkyBox()
 {
 }
@@ -36,7 +39,13 @@ void SkyBox::InitSkyBox(const char * folder_name, float size)
 	curr_path = App->file_system->GetSkyBoxPath() + string("\\") + "miramar_down.png";
 	CreateDownPlane(curr_path.c_str());
 
-	
+	camera_attached = nullptr;
+}
+
+void SkyBox::AttachTo(GameObject * go)
+{
+	if (go != nullptr)
+		camera_attached = go;
 }
 
 void SkyBox::Draw()
@@ -44,16 +53,37 @@ void SkyBox::Draw()
 	glColor3f(1.0f, 1.0f, 1.0f); 
 
 	glDisable(GL_LIGHTING); 
+	glDisable(GL_DEPTH_TEST); 
 	glEnable(GL_TEXTURE_2D); 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
+	float4x4 view_mat = float4x4::identity;
+
+	if (camera_attached != nullptr)
+	{
+		GLfloat matrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+		view_mat.Set((float*)matrix);
+
+		ComponentCamera* cam = (ComponentCamera*)camera_attached->GetComponent(CMP_CAMERA);
+		
+		float4x4 new_mat = float4x4::identity;
+		new_mat = new_mat.Translate(cam->GetFrustum().pos);
+		new_mat.Transpose();
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)(new_mat * view_mat).v);
+	}
+
 	for (int i = 0; i < 6; i++)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i]->vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		
 
 		if (sky_textures[i] != nullptr)
 		{
@@ -71,6 +101,12 @@ void SkyBox::Draw()
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	if (camera_attached != nullptr)
+	{
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
+	}
 
 	App->renderer3D->UseCurrentRenderSettings(); 
 }
@@ -94,20 +130,20 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT]->num_vertices = 4;
 	sky_cube[SKYBOX_FRONT]->vertices = new float3[4];
 						  
-	sky_cube[SKYBOX_FRONT]->vertices[0].x = size + 1.0f;
-	sky_cube[SKYBOX_FRONT]->vertices[0].y = size + 1.0f;
+	sky_cube[SKYBOX_FRONT]->vertices[0].x = size + 0.01f;
+	sky_cube[SKYBOX_FRONT]->vertices[0].y = size + 0.01f;
 	sky_cube[SKYBOX_FRONT]->vertices[0].z = size;
 						  
-	sky_cube[SKYBOX_FRONT]->vertices[1].x = -(size + 1.0f);
-	sky_cube[SKYBOX_FRONT]->vertices[1].y = (size + 1.0f);
+	sky_cube[SKYBOX_FRONT]->vertices[1].x = -(size + 0.01f);
+	sky_cube[SKYBOX_FRONT]->vertices[1].y = (size + 0.01f);
 	sky_cube[SKYBOX_FRONT]->vertices[1].z = size;
 						  
-	sky_cube[SKYBOX_FRONT]->vertices[2].x = (size + 1.0f);
-	sky_cube[SKYBOX_FRONT]->vertices[2].y = -(size + 1.0f);
+	sky_cube[SKYBOX_FRONT]->vertices[2].x = (size + 0.01f);
+	sky_cube[SKYBOX_FRONT]->vertices[2].y = -(size + 0.01f);
 	sky_cube[SKYBOX_FRONT]->vertices[2].z = size;
 						  
-	sky_cube[SKYBOX_FRONT]->vertices[3].x = -(size + 1.0f);
-	sky_cube[SKYBOX_FRONT]->vertices[3].y = -(size + 1.0f);
+	sky_cube[SKYBOX_FRONT]->vertices[3].x = -(size + 0.01f);
+	sky_cube[SKYBOX_FRONT]->vertices[3].y = -(size + 0.01f);
 	sky_cube[SKYBOX_FRONT]->vertices[3].z = size;
 
 	// ---------------------
@@ -177,20 +213,20 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_RIGHT]->vertices = new float3[4];
 						  
 	sky_cube[SKYBOX_RIGHT]->vertices[0].x = -size;
-	sky_cube[SKYBOX_RIGHT]->vertices[0].y = (size + 1.0f);
-	sky_cube[SKYBOX_RIGHT]->vertices[0].z = (size + 1.0f);
+	sky_cube[SKYBOX_RIGHT]->vertices[0].y = (size + 0.01f);
+	sky_cube[SKYBOX_RIGHT]->vertices[0].z = (size + 0.01f);
 						  
 	sky_cube[SKYBOX_RIGHT]->vertices[1].x = -size;
-	sky_cube[SKYBOX_RIGHT]->vertices[1].y = (size + 1.0f);
-	sky_cube[SKYBOX_RIGHT]->vertices[1].z = -(size + 1.0f);
+	sky_cube[SKYBOX_RIGHT]->vertices[1].y = (size + 0.01f);
+	sky_cube[SKYBOX_RIGHT]->vertices[1].z = -(size + 0.01f);
 						  
 	sky_cube[SKYBOX_RIGHT]->vertices[2].x = -size;
-	sky_cube[SKYBOX_RIGHT]->vertices[2].y = -(size + 1.0f);
-	sky_cube[SKYBOX_RIGHT]->vertices[2].z = (size + 1.0f); 
+	sky_cube[SKYBOX_RIGHT]->vertices[2].y = -(size + 0.01f);
+	sky_cube[SKYBOX_RIGHT]->vertices[2].z = (size + 0.01f);
 						  
 	sky_cube[SKYBOX_RIGHT]->vertices[3].x = -size;
-	sky_cube[SKYBOX_RIGHT]->vertices[3].y = -(size + 1.0f);
-	sky_cube[SKYBOX_RIGHT]->vertices[3].z = -(size + 1.0f);
+	sky_cube[SKYBOX_RIGHT]->vertices[3].y = -(size + 0.01f);
+	sky_cube[SKYBOX_RIGHT]->vertices[3].z = -(size + 0.01f);
 
 	// ---------------------
 
@@ -259,20 +295,20 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_LEFT]->vertices = new float3[4];
 						 
 	sky_cube[SKYBOX_LEFT]->vertices[0].x = size;
-	sky_cube[SKYBOX_LEFT]->vertices[0].y = (size + 1.0f);
-	sky_cube[SKYBOX_LEFT]->vertices[0].z = (size + 1.0f);
+	sky_cube[SKYBOX_LEFT]->vertices[0].y = (size + 0.01f);
+	sky_cube[SKYBOX_LEFT]->vertices[0].z = (size + 0.01f);
 						 
 	sky_cube[SKYBOX_LEFT]->vertices[1].x = size;
-	sky_cube[SKYBOX_LEFT]->vertices[1].y = (size + 1.0f);
-	sky_cube[SKYBOX_LEFT]->vertices[1].z = -(size + 1.0f);
+	sky_cube[SKYBOX_LEFT]->vertices[1].y = (size + 0.01f);
+	sky_cube[SKYBOX_LEFT]->vertices[1].z = -(size + 0.01f);
 						
 	sky_cube[SKYBOX_LEFT]->vertices[2].x = size;
-	sky_cube[SKYBOX_LEFT]->vertices[2].y = -(size + 1.0f);
-	sky_cube[SKYBOX_LEFT]->vertices[2].z = (size + 1.0f);
+	sky_cube[SKYBOX_LEFT]->vertices[2].y = -(size + 0.01f);
+	sky_cube[SKYBOX_LEFT]->vertices[2].z = (size + 0.01f);
 						
 	sky_cube[SKYBOX_LEFT]->vertices[3].x = size;
-	sky_cube[SKYBOX_LEFT]->vertices[3].y = -(size + 1.0f);
-	sky_cube[SKYBOX_LEFT]->vertices[3].z = -(size + 1.0f);
+	sky_cube[SKYBOX_LEFT]->vertices[3].y = -(size + 0.01f);
+	sky_cube[SKYBOX_LEFT]->vertices[3].z = -(size + 0.01f);
 
 	// ---------------------
 
@@ -340,20 +376,20 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_BACK]->num_vertices = 4;
 	sky_cube[SKYBOX_BACK]->vertices = new float3[4];
 						 
-	sky_cube[SKYBOX_BACK]->vertices[0].x = (size + 1.0f);
-	sky_cube[SKYBOX_BACK]->vertices[0].y = (size + 1.0f);
+	sky_cube[SKYBOX_BACK]->vertices[0].x = (size + 0.01f);
+	sky_cube[SKYBOX_BACK]->vertices[0].y = (size + 0.01f);
 	sky_cube[SKYBOX_BACK]->vertices[0].z = -size;
 						 
-	sky_cube[SKYBOX_BACK]->vertices[1].x = -(size + 1.0f);
+	sky_cube[SKYBOX_BACK]->vertices[1].x = -(size + 0.01f);
 	sky_cube[SKYBOX_BACK]->vertices[1].y = size;
-	sky_cube[SKYBOX_BACK]->vertices[1].z = -(size + 1.0f);
+	sky_cube[SKYBOX_BACK]->vertices[1].z = -(size + 0.01f);
 						 
-	sky_cube[SKYBOX_BACK]->vertices[2].x = (size + 1.0f);
-	sky_cube[SKYBOX_BACK]->vertices[2].y = -(size + 1.0f);
+	sky_cube[SKYBOX_BACK]->vertices[2].x = (size + 0.01f);
+	sky_cube[SKYBOX_BACK]->vertices[2].y = -(size + 0.01f);
 	sky_cube[SKYBOX_BACK]->vertices[2].z = -size;
 						 
-	sky_cube[SKYBOX_BACK]->vertices[3].x = -(size + 1.0f);
-	sky_cube[SKYBOX_BACK]->vertices[3].y = -(size + 1.0f);
+	sky_cube[SKYBOX_BACK]->vertices[3].x = -(size + 0.01f);
+	sky_cube[SKYBOX_BACK]->vertices[3].y = -(size + 0.01f);
 	sky_cube[SKYBOX_BACK]->vertices[3].z = -size;
 
 	// ---------------------
@@ -422,21 +458,21 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_TOP]->num_vertices = 4;
 	sky_cube[SKYBOX_TOP]->vertices = new float3[4];
 			 			
-	sky_cube[SKYBOX_TOP]->vertices[0].x = (size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[0].x = (size + 0.01f);
 	sky_cube[SKYBOX_TOP]->vertices[0].y = size;
-	sky_cube[SKYBOX_TOP]->vertices[0].z = (size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[0].z = (size + 0.01f);
 			 			
-	sky_cube[SKYBOX_TOP]->vertices[1].x = -(size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[1].x = -(size + 0.01f);
 	sky_cube[SKYBOX_TOP]->vertices[1].y = size;
-	sky_cube[SKYBOX_TOP]->vertices[1].z = (size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[1].z = (size + 0.01f);
 			 			
-	sky_cube[SKYBOX_TOP]->vertices[2].x = (size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[2].x = (size + 0.01f);
 	sky_cube[SKYBOX_TOP]->vertices[2].y = size;
-	sky_cube[SKYBOX_TOP]->vertices[2].z = -(size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[2].z = -(size + 0.01f);
 			 			
-	sky_cube[SKYBOX_TOP]->vertices[3].x = -(size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[3].x = -(size + 0.01f);
 	sky_cube[SKYBOX_TOP]->vertices[3].y = size;
-	sky_cube[SKYBOX_TOP]->vertices[3].z = -(size + 1.0f);
+	sky_cube[SKYBOX_TOP]->vertices[3].z = -(size + 0.01f);
 
 	// ---------------------
 
@@ -504,21 +540,21 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_DOWN]->num_vertices = 4;
 	sky_cube[SKYBOX_DOWN]->vertices = new float3[4];
 						
-	sky_cube[SKYBOX_DOWN]->vertices[0].x = (size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[0].x = (size + 0.01f);
 	sky_cube[SKYBOX_DOWN]->vertices[0].y = -size;
-	sky_cube[SKYBOX_DOWN]->vertices[0].z = (size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[0].z = (size + 0.01f);
 			 			 
-	sky_cube[SKYBOX_DOWN]->vertices[1].x = -(size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[1].x = -(size + 0.01f);
 	sky_cube[SKYBOX_DOWN]->vertices[1].y = -size;
-	sky_cube[SKYBOX_DOWN]->vertices[1].z = (size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[1].z = (size + 0.01f);
 			 			 
-	sky_cube[SKYBOX_DOWN]->vertices[2].x = (size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[2].x = (size + 0.01f);
 	sky_cube[SKYBOX_DOWN]->vertices[2].y = -size;
-	sky_cube[SKYBOX_DOWN]->vertices[2].z = -(size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[2].z = -(size + 0.01f);
 			 			
-	sky_cube[SKYBOX_DOWN]->vertices[3].x = -(size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[3].x = -(size + 0.01f);
 	sky_cube[SKYBOX_DOWN]->vertices[3].y = -size;
-	sky_cube[SKYBOX_DOWN]->vertices[3].z = -(size + 1.0f);
+	sky_cube[SKYBOX_DOWN]->vertices[3].z = -(size + 0.01f);
 
 	// ---------------------
 
