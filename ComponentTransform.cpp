@@ -96,9 +96,8 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 
 	/*	if (!gameobject->HasChilds()) 
 		{*/
-		to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
-		to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
-			
+			to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
+			to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
 	//	}
 			
 	} while (current_go != nullptr);
