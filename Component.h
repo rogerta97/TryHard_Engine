@@ -24,8 +24,8 @@ public:
 	GameObject* GetGameObject() const;
 	void SetGameObject(GameObject* new_type);
 
-	void Save(JSON_Object* scene_obj);
-	void Load(JSON_Object* scene_obj);
+	virtual void Save(JSON_Object* scene_obj);
+	virtual void Load(JSON_Object* scene_obj);
 
 	bool active;
 	UID unique_id; 

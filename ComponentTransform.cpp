@@ -183,6 +183,25 @@ void ComponentTransform::SetScale(float3 new_esc)
 	CalculateViewMatrix();
 }
 
+void ComponentTransform::Load(JSON_Object * json_obj)
+{
+}
+
+void ComponentTransform::Save(JSON_Object * json_obj)
+{
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionX", GetPosition().x);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionY", GetPosition().y);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionZ", GetPosition().z);
+
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationX", GetRotationEuler().x);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationY", GetRotationEuler().y);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationZ", GetRotationEuler().z);
+
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleX", GetScale().x);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleY", GetScale().y);
+	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleZ", GetScale().z);
+}
+
 void ComponentTransform::DrawAxis()
 {
 	//LineSegment curr_line;

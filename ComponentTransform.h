@@ -33,6 +33,10 @@ public:
 	void SetRotation(Quat new_pos);
 	void SetScale(float3 new_pos);
 
+	//Load & Save
+	void Load(JSON_Object* json_obj);
+	void Save(JSON_Object* json_obj);
+
 	Transform transform;
 	void DrawAxis();
 

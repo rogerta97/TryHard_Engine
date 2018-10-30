@@ -310,3 +310,15 @@ void ComponentMesh::CheckAABBPoints(float3 & min_point, float3 & max_point)
 	if (bounding_box.maxPoint.Distance({ 0,0,0 }) >= max_point.Distance({ 0,0,0 }))
 		max_point = bounding_box.maxPoint;	
 }
+
+void ComponentMesh::Load(JSON_Object * root_obj)
+{
+}
+
+void ComponentMesh::Save(JSON_Object * root_obj)
+{
+	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_vertices", mesh->num_vertices);
+	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_indices", mesh->num_indices);
+	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_normals", mesh->num_normals);
+	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_uvs", mesh->num_uvs);	
+}
