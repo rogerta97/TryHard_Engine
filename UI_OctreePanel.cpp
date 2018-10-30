@@ -16,7 +16,7 @@ bool UI_OctreePanel::Start()
 {
 	show = true; 
 	octree = App->scene->octree; 
-	size = 20.0f; 
+	size = 5.0f; 
 	
 
 	return true;
@@ -56,13 +56,21 @@ bool UI_OctreePanel::Update()
 
 		if (ImGui::Button("Create"))
 		{
-			AABB octree_root;
+			if(App->scene->static_gameobjects.empty())
+			{
+				CONSOLE_ERROR("Octree can not be created with any static GO in the scene."); 
+			}
+			else
+			{
+				AABB octree_root;
 
-			octree_root.minPoint = { -size, -size, -size };
-			octree_root.maxPoint = { size, size, size};
+				octree_root.minPoint = { -size, -size, -size };
+				octree_root.maxPoint = { size, size, size };
 
-			App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
-			size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
+				App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
+				size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
+			}
+		
 
 		} ImGui::SameLine(); 
 
