@@ -30,7 +30,7 @@ public:
 	bool PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
 
 	//Save & Load
-	void Save(JSON_Object* scene_obj);
+	void Save(JSON_Object* scene_obj, int index);
 	void Load(JSON_Object* scene_obj);
 
 	//Utility

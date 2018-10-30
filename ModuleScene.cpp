@@ -33,7 +33,6 @@ bool ModuleScene::Start()
 	octree = new Octree();
 
 	SetDefaultScene(); 
-	SaveScene("Test"); 
 
 	return ret;
 }
@@ -196,6 +195,7 @@ void ModuleScene::SetDefaultScene()
 
 void ModuleScene::SaveScene(const char* scene_name)
 {
+	//Create the path were the scene is going to be saved
 	string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name) + std::string(".json");
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
@@ -206,18 +206,20 @@ void ModuleScene::SaveScene(const char* scene_name)
 	{
 		//Create the new json file 
 		std::ofstream stream;
-		stream.open(new_scene_path, std::fstream::binary | std::fstream::out);
-
-		string file = scene_name + std::string(".json"); 
+		stream.open(new_scene_path, std::fstream::out);
 
 		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = nullptr;
 
-		JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-		App->camera->GetCameraGO()->Save(scene_obj);
+		int index = 0; 
+		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+		{
+			scene_obj = json_value_get_object(scene_v);
+			(*it)->Save(scene_obj, index++);
+		}
 
 		json_serialize_to_file(scene_v, new_scene_path.c_str());
-
+	
 		stream.close();
 	}
 }

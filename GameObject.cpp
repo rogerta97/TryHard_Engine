@@ -331,14 +331,27 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	return ret; 
 }
 
-void GameObject::Save(JSON_Object* scene_obj)
+void GameObject::Save(JSON_Object* scene_obj, int index)
 {
-	json_object_dotset_string(scene_obj, "GameObject.name", name.c_str());
-	json_object_dotset_number(scene_obj, "GameObject.UID", unique_id);
+	string node_name = "GameObject_" + to_string(index);
+	string item_name = ""; 
+
+	item_name = node_name + ".Name"; 
+	json_object_dotset_string(scene_obj, item_name.c_str(), name.c_str());
+
+	item_name = node_name + ".UID";
+	json_object_dotset_number(scene_obj, item_name.c_str(), unique_id);
+
+	item_name = node_name + ".Parent";
+
+	if(GetParent() == nullptr)
+		json_object_dotset_number(scene_obj, item_name.c_str(), 0);
+	else
+		json_object_dotset_number(scene_obj, item_name.c_str(), GetParent()->unique_id);
 
 	for(auto it = component_list.begin(); it != component_list.end(); it++)
 	{
-		(*it)->Save(scene_obj);
+		(*it)->Save(scene_obj, node_name.c_str());
 	}
 }
 

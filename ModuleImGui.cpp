@@ -186,9 +186,15 @@ update_status ModuleImGui::DrawTopBar()
 			show_save_popup = true;
 		}
 
-		if (ImGui::MenuItem("Save"))
+		if (ImGui::MenuItem("Save Settings"))
 		{
 			App->SaveConfigAfterUpdate();
+		}
+
+		if (ImGui::MenuItem("Save Scene"))
+		{
+			const char* scene_name = "Pepo_Dame_Palote"; 
+			App->scene->SaveScene(scene_name); 
 		}
 
 		ImGui::EndMenu();

@@ -24,7 +24,7 @@ public:
 	GameObject* GetGameObject() const;
 	void SetGameObject(GameObject* new_type);
 
-	virtual void Save(JSON_Object* scene_obj);
+	virtual void Save(JSON_Object* scene_obj, const char* root);
 	virtual void Load(JSON_Object* scene_obj);
 
 	bool active;

@@ -35,7 +35,7 @@ public:
 
 	//Load & Save
 	void Load(JSON_Object* json_obj);
-	void Save(JSON_Object* json_obj);
+	void Save(JSON_Object* json_obj, const char* root);
 
 	Transform transform;
 	void DrawAxis();

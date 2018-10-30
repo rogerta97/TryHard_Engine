@@ -52,10 +52,14 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				break; 
 
 			case file_type::FT_IMAGE:
-				if(App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+			/*	if(App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
 					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
-				else
-					ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
+				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_TGA)
+				{
+					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
+				}
+				else*/
+				ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
@@ -122,6 +126,7 @@ bool UI_ExplorerPanel::Start()
 	mesh_texture = App->resources->material_importer->GetTexture("MeshIcon");
 	font_texture = App->resources->material_importer->GetTexture("FontIcon");
 	DDS_texture = App->resources->material_importer->GetTexture("DDSIcon");
+	TGA_texture = App->resources->material_importer->GetTexture("TGAIcon");
 
 	return true;
 }

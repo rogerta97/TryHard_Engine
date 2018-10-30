@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "GameObject.h"
 #include "OpenGL.h"
+#include <string>
 
 ComponentTransform::ComponentTransform(GameObject* parent)
 {
@@ -187,19 +188,38 @@ void ComponentTransform::Load(JSON_Object * json_obj)
 {
 }
 
-void ComponentTransform::Save(JSON_Object * json_obj)
+void ComponentTransform::Save(JSON_Object * json_obj, const char* root)
 {
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionX", GetPosition().x);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionY", GetPosition().y);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.PositionZ", GetPosition().z);
+	std::string node_name = root;
+	std::string item_name = "";
 
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationX", GetRotationEuler().x);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationY", GetRotationEuler().y);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.RotationZ", GetRotationEuler().z);
+	item_name = node_name + ".Components.ComponentTransform.PositionX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().x);
 
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleX", GetScale().x);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleY", GetScale().y);
-	json_object_dotset_number(json_obj, "GameObject.ComponentTransform.ScaleZ", GetScale().z);
+	item_name = node_name + ".Components.ComponentTransform.PositionY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().y);
+
+	item_name = node_name + ".Components.ComponentTransform.PositionZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().z);
+
+	item_name = node_name + ".Components.ComponentTransform.RotationX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().x);
+
+	item_name = node_name + ".Components.ComponentTransform.RotationY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().y);
+
+	item_name = node_name + ".Components.ComponentTransform.RotationZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().z);
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().x);
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().y);
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().z);
+
 }
 
 void ComponentTransform::DrawAxis()

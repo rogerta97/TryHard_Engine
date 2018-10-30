@@ -45,6 +45,10 @@ bool MaterialImporter::Start()
 	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\DDSIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
+	//Create TGA Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\TGAIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
 
@@ -254,10 +258,14 @@ Texture * MaterialImporter::GetTexture(const char* name)
 	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
 	{
 		if ((*it)->GetName() == string(name))
-			memcpy(to_ret,(*it), sizeof(Texture));
+		{
+			memcpy(to_ret, (*it), sizeof(Texture));
+			return to_ret;
+		}
+			
 	}
 
-	return to_ret;
+	return nullptr;
 }
 
 void MaterialImporter::GenerateCheckerTexture()

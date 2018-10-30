@@ -315,10 +315,11 @@ void ComponentMesh::Load(JSON_Object * root_obj)
 {
 }
 
-void ComponentMesh::Save(JSON_Object * root_obj)
+void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 {
-	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_vertices", mesh->num_vertices);
-	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_indices", mesh->num_indices);
-	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_normals", mesh->num_normals);
-	json_object_dotset_number(root_obj, "GameObject.ComponentMesh.num_uvs", mesh->num_uvs);	
+	std::string node_name = root;
+	std::string item_name = "";
+
+	item_name = node_name + ".Components.ComponentMesh.Name";
+	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
 }

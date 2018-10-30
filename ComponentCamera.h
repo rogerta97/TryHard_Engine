@@ -57,7 +57,7 @@ public:
 
 	//Save & Load
 	void Load(JSON_Object* root_obj); 
-	void Save(JSON_Object* root_obj);
+	void Save(JSON_Object* root_obj, const char* root);
 
 	//Setters & Getters
 	void SetSpeed(float new_speed);

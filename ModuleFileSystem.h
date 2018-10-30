@@ -11,6 +11,7 @@ enum file_extension
 	FX_DDS,
 	FX_TTF,
 	FX_OTF,
+	FX_TGA, 
 	FX_ERR
 };
 

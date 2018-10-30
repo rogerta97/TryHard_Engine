@@ -172,9 +172,22 @@ void ComponentCamera::Load(JSON_Object * root_obj)
 {
 }
 
-void ComponentCamera::Save(JSON_Object * root_obj)
+void ComponentCamera::Save(JSON_Object * root_obj, const char* root)
 {
-	json_object_dotset_number(root_obj, "GameObject.ComponentCamera.FOV", camera->GetFov());
+	string node_name = root;
+	string item_name = "";
+
+	item_name = node_name + ".Components.ComponentCamera.Projection";
+	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.type);
+
+	item_name = node_name + ".Components.ComponentCamera.FOV";
+	json_object_dotset_number(root_obj, item_name.c_str(), camera->GetFov());
+
+	item_name = node_name + ".Components.ComponentCamera.NearPlane";
+	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.nearPlaneDistance);
+
+	item_name = node_name + ".Components.ComponentCamera.FarPlane";
+	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.farPlaneDistance);
 }
 
 void ComponentCamera::FillInterpolationSegmentAndRot()
