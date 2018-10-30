@@ -19,7 +19,11 @@ GameObject::GameObject()
 	parent = nullptr; 
 	is_static = false; 
 	active = true; 
-	unique_id = App->file_system->GenerateUID(); 
+	unique_id = App->file_system->GenerateUID();
+
+	Component* new_cmp = new ComponentTransform(this);
+	component_list.push_back(new_cmp);
+	ComponentTransform* trans = (ComponentTransform*)new_cmp;
 }
 
 GameObject::GameObject(const char * name)
@@ -29,6 +33,9 @@ GameObject::GameObject(const char * name)
 	parent = nullptr; 
 	selected = false; 
 	unique_id = App->file_system->GenerateUID();
+	Component* new_cmp = new ComponentTransform(this);
+	component_list.push_back(new_cmp);
+	ComponentTransform* trans = (ComponentTransform*)new_cmp;
 }
 
 
@@ -103,6 +110,11 @@ void GameObject::SetStatic(bool set_static)
 bool GameObject::GetIsStatic()
 {
 	return is_static;
+}
+
+std::list<GameObject*>* GameObject::GetChildList()
+{
+	return &child_list;
 }
 
 std::string GameObject::GetName() const

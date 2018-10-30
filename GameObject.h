@@ -6,6 +6,8 @@
 #include "MathGeoLib\MathGeoLib.h"
 #include "JSON\parson.h"
 
+class ComponentTransform;
+
 class GameObject
 {
 public:
@@ -50,6 +52,8 @@ public:
 	void SetStatic(bool set_static);
 	bool GetIsStatic();
 
+	std::list<GameObject*>* GetChildList();
+
 	std::string GetName() const; 
 	void SetName(const char* name);
 
@@ -67,7 +71,8 @@ public:
 public:
 	std::string name;
 	GameObject* parent;
-	UID unique_id; 
+	UID unique_id;
+	ComponentTransform* transform;
 
 private:
 	std::list<GameObject*> child_list; 

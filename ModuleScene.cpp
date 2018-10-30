@@ -100,7 +100,7 @@ GameObject * ModuleScene::CreateGameObject()
 {
 	GameObject* new_go = new GameObject(""); 
 
-	ComponentTransform* trans = (ComponentTransform*)new_go->AddComponent(CMP_TRANSFORM);
+
 	//Here we will add the component transform, every GO should have it.
 
 	AddGameObjectToScene(new_go);
@@ -191,7 +191,6 @@ void ModuleScene::SetDefaultScene()
 	//Create Empty GO with a camera
 	GameObject* main_cam = CreateGameObject("Main Camera");
 
-	main_cam->AddComponent(CMP_TRANSFORM);
 	main_cam->AddComponent(CMP_CAMERA);
 }
 

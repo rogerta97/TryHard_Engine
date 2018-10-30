@@ -18,6 +18,7 @@ ComponentTransform::ComponentTransform(GameObject* parent)
 	transform.Z = { 0.0f, 0.0f, 1.0f };
 
 	has_transformed = true;
+	GlobalMatrix = float4x4::identity;
 
 	component_type = CMP_TRANSFORM; 
 	active = true;
@@ -60,9 +61,9 @@ void ComponentTransform::CalculateViewMatrix()
 	new_mat = new_mat * transform.rotation; 	
 	new_mat.SetTranslatePart(transform.position);
 
-	has_transformed = true;
-
 	ViewMatrix = new_mat;
+
+	CalculateGlobalViewMatrix();
 }
 
 float3 ComponentTransform::GetPosition() const
@@ -87,37 +88,39 @@ float4x4 ComponentTransform::GetViewMatrix() //If wanted for OpenGL, will need t
 
 float4x4 ComponentTransform::GetGlobalViewMatrix()
 {
-	float4x4 to_ret_mat = float4x4::identity; 
-
-	GameObject* current_go = gameobject; 
-
-	do
-	{
-		ComponentTransform* trans = (ComponentTransform*)current_go->GetComponent(CMP_TRANSFORM); 
-
-		to_ret_mat = to_ret_mat * trans->GetViewMatrix(); 
-		current_go = current_go->GetParent();
-
-	/*	if (gameobject->HasChilds()) 
-		{*/
-			to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
-			to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
-	//	}
-			
-	} while (current_go != nullptr);
-
-	transform.X = { 1.0f, 0.0f, 0.0f }; 
-	transform.X = to_ret_mat.MulDir(transform.X);
-
-	transform.Y = { 0.0f, 1.0f, 0.0f };
-	transform.Y = to_ret_mat.MulDir(transform.Y);
-
-	transform.Z = { 0.0f, 0.0f, 1.0f };
-	transform.Z = to_ret_mat.MulDir(transform.Z);
-
-	return to_ret_mat;
-;
+	return GlobalMatrix;
 }
+//	float4x4 to_ret_mat = float4x4::identity; 
+//
+//	GameObject* current_go = gameobject; 
+//
+//	do
+//	{
+//		ComponentTransform* trans = (ComponentTransform*)current_go->GetComponent(CMP_TRANSFORM); 
+//
+//		to_ret_mat = to_ret_mat * trans->GetViewMatrix(); 
+//		current_go = current_go->GetParent();
+//
+//	/*	if (gameobject->HasChilds()) 
+//		{*/
+//			to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
+//			to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
+//	//	}
+//			
+//	} while (current_go != nullptr);
+//
+//	transform.X = { 1.0f, 0.0f, 0.0f }; 
+//	transform.X = to_ret_mat.MulDir(transform.X);
+//
+//	transform.Y = { 0.0f, 1.0f, 0.0f };
+//	transform.Y = to_ret_mat.MulDir(transform.Y);
+//
+//	transform.Z = { 0.0f, 0.0f, 1.0f };
+//	transform.Z = to_ret_mat.MulDir(transform.Z);
+//
+//	return to_ret_mat;
+//;
+
 
 void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 {
@@ -227,4 +230,37 @@ bool ComponentTransform::HasTransformed()
 void ComponentTransform::SetHasTransformed(bool value)
 {
 	has_transformed = value;
+}
+
+void ComponentTransform::CalculateGlobalViewMatrix()
+{
+	GlobalMatrix = float4x4::identity;
+	GameObject* parent = gameobject->parent;
+
+	if (parent) {
+		ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+		GlobalMatrix = trans->GlobalMatrix * ViewMatrix;
+	}
+	else
+	{
+		GlobalMatrix = ViewMatrix;
+	}
+
+	
+	auto child = gameobject->GetChildList()->begin();
+	while (child != gameobject->GetChildList()->end())
+	{
+			ComponentTransform* child_trans = (ComponentTransform*)(*child)->GetComponent(CMP_TRANSFORM);
+			child_trans->CalculateGlobalViewMatrix();
+			child++;
+	}
+	
+	has_transformed = true;
+	//do {
+	//	ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+	//	GlobalMatrix = trans->GlobalMatrix * ViewMatrix;
+
+	//	parent = gameobject->GetParent();
+	//	
+	//} while (parent);
 }

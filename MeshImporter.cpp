@@ -167,7 +167,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	if(node->mTransformation[0] != nullptr)
 	{
 		//Create the transformation. For now it will lay here. But coordinates need to be loaded from the fbx
-		trans_cmp = (ComponentTransform*)game_object->AddComponent(CMP_TRANSFORM);
 
 		aiVector3D translation;
 		aiVector3D scaling;
@@ -178,6 +177,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 		float3 pos(translation.x, translation.y, translation.z);
 		Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 		float3 esc(scaling.x, scaling.y, scaling.z);
+
+		ComponentTransform* trans_cmp = (ComponentTransform*)game_object->GetComponent(CMP_TRANSFORM);
 
 		trans_cmp->SetPosition(pos);
 		trans_cmp->SetRotation(rot); 
@@ -219,8 +220,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->num_vertices = curr_mesh->mNumVertices;
 				new_mesh->vertices = new float3[new_mesh->num_vertices];
 				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
-
-				trans_cmp->transform.center = new_mesh->CenterVertices(new_mesh->vertices, new_mesh->num_vertices);
 
 				glGenBuffers(1, &new_mesh->vertices_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);

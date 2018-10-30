@@ -38,6 +38,7 @@ public:
 
 	bool HasTransformed();
 	void SetHasTransformed(bool value);
+	void CalculateGlobalViewMatrix();
 
 	void CalculateViewMatrix();
 
@@ -48,6 +49,7 @@ private:
 
 private: 
 	float4x4 ViewMatrix;
+	float4x4 GlobalMatrix;
 	bool dirty; 
 };
 

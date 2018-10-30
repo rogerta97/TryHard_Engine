@@ -31,9 +31,9 @@ bool ModuleCamera3D::Start()
 
 	//Create Editor Camera
 	ecam_go = new GameObject("EditorCamera");
-	ComponentTransform* cam_trans = (ComponentTransform*)ecam_go->AddComponent(CMP_TRANSFORM);
 
-	cam_trans->SetPosition({ 4, 4, 8 });
+	ComponentTransform* ecam_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
+	ecam_trans->SetPosition({ 4, 4, 8 });
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;

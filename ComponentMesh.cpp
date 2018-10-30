@@ -138,9 +138,7 @@ void ComponentMesh::DrawMesh()
 		view_mat.Set((float*)matrix);
 		
 		glMatrixMode(GL_MODELVIEW); 
-		float4x4 center_translation = float4x4::identity; 
-		//center_translation = center_translation.Translate(trans->transform.center);
-		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix() * center_translation).Transposed() * view_mat).v);
+		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
 	}
 
 	bool valid_mat = false; 
