@@ -55,6 +55,10 @@ public:
 	bool InterpolateCamera(float time);
 	float3 GetCamPointFromDistance(float3 center, float distance) const;
 
+	//Save & Load
+	void Load(JSON_Object* root_obj); 
+	void Save(JSON_Object* root_obj);
+
 	//Setters & Getters
 	void SetSpeed(float new_speed);
 	float GetSpeed() const;

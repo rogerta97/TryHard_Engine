@@ -168,6 +168,15 @@ float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) c
 	return dst_point;
 }
 
+void ComponentCamera::Load(JSON_Object * root_obj)
+{
+}
+
+void ComponentCamera::Save(JSON_Object * root_obj)
+{
+	json_object_dotset_number(root_obj, "GameObject.ComponentCamera.FOV", camera->GetFov());
+}
+
 void ComponentCamera::FillInterpolationSegmentAndRot()
 {
 	//If it does not have childs just look at the AABB

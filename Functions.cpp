@@ -7,7 +7,7 @@
 #include <string.h>
 #include <math.h>
 
-int GetPCGRandomNumberInt(int max_value, int min_value)
+int GetPCGRandomNumberInt(int min_value, int max_value)
 {
 	int num_generated = 0;
 	int margin = max_value - min_value;
@@ -18,8 +18,6 @@ int GetPCGRandomNumberInt(int max_value, int min_value)
 	num_generated = pcg32_boundedrand_r(&rng, margin);
 
 	num_generated += min_value;
-
-	CONSOLE_LOG("ENTERED");
 
 	return num_generated;
 }

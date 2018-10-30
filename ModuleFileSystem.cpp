@@ -171,7 +171,7 @@ string ModuleFileSystem::GetScenesPath() const
 
 UID ModuleFileSystem::GenerateUID()
 {
-	UID ret_id = GetPCGRandomNumberInt(0,999999999); 
+	UID	ret_id = GetPCGRandomNumberInt(0, 9999999);	
 	return ret_id;
 }
 

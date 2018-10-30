@@ -324,6 +324,10 @@ void GameObject::Save(JSON_Object* scene_obj)
 	json_object_dotset_string(scene_obj, "GameObject.name", name.c_str());
 	json_object_dotset_number(scene_obj, "GameObject.UID", unique_id);
 
+	for(auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		(*it)->Save(scene_obj);
+	}
 }
 
 void GameObject::Load(JSON_Object* scene_obj)
