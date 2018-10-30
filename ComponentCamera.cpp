@@ -150,7 +150,7 @@ float * ComponentCamera::GetViewOpenGLViewMatrix()
 	m = camera->frustum.ViewMatrix();
 	m.Transpose();
 
-	return (float*)m.v;
+	return &m[0][0];
 }
 
 float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) const

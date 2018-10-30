@@ -22,16 +22,10 @@ public:
 	void PrintConfigData();
 
 	ComponentCamera* GetEditorCamera(); 
-
-	void ManageMovementFromTrans(ComponentCamera* cam);
+	bool IsGhostCamera() const;
+	void SetGhostCamera(bool value);
 
 	void ManageMovement();
-
-	void MoveRotateECamFrustum(float dt);
-
-	void RotateFrustum(float dx, float dy);
-
-	void MoveFrustum(float dt);
 
 public:
 		
@@ -45,4 +39,6 @@ public:
 private:
 
 	GameObject* ecam_go; 
+
+	bool is_ghost_camera;
 };
