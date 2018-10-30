@@ -141,9 +141,12 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 	glLoadIdentity();
 
-	ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
+	//ComponentTransform* ecam_trans = (ComponentTransform*)App->camera->GetCameraGO()->GetComponent(CMP_TRANSFORM);
 
 	float4x4 view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewOpenGLViewMatrix();
+
+	if (App->camera->IsGhostCamera())
+		view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&view_gl_mat[0][0]);
