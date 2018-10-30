@@ -63,9 +63,9 @@ bool ModuleImGui::Start()
 		panel++;
 	}
 
-	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/orkney-regular.otf", 14.0f);
+	ImFont* pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Fonts/orkney-regular.otf", 14.0f);
 	pFont->DisplayOffset = { 0,1 };
-	pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Quicksand-Regular.otf", 14.0f);
+	pFont = ImGui::GetIO().Fonts->AddFontFromFileTTF("Assets/Fonts/Quicksand-Regular.otf", 14.0f);
 
 	show_demo_window = false;
 	show_style_editor = false;

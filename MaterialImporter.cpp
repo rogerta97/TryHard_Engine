@@ -22,27 +22,27 @@ bool MaterialImporter::Start()
 
 	//Create GO Icon
 	string symbol_path = ""; 
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "GameObjectIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\GameObjectIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	//Create Folder Icon
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "FolderIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\FolderIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	//Create Mesh Icon
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "MeshIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\MeshIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	//Create Image Icon
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "ImageIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\ImageIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	//Create Font Icon
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "FontIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\FontIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	//Create DDS Icon
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "DDSIcon.png");
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\DDSIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
 	checker_texture = new Texture();
