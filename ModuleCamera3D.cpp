@@ -56,8 +56,8 @@ update_status ModuleCamera3D::Update(float dt)
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
 	//ManageMovementFromTrans(cam);
-	//ManageMovement();
-	MoveRotateECamFrustum(dt);
+	ManageMovement();
+	//MoveRotateECamFrustum(dt);
 
 	cam->CalculateViewMatrix();
 
@@ -435,7 +435,6 @@ void ModuleCamera3D::ManageMovement()
 			cam->Move(increment);
 
 		// Mouse motion ----------------
-
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
 
@@ -455,8 +454,6 @@ void ModuleCamera3D::ManageMovement()
 					cam->Y = Rotate(cam->Y, DeltaX, float3(0.0f, 1.0f, 0.0f));
 					cam->Z = Rotate(cam->Z, DeltaX, float3(0.0f, 1.0f, 0.0f));
 				}
-
-
 
 				if (dy != 0)
 				{
@@ -478,14 +475,13 @@ void ModuleCamera3D::ManageMovement()
 		}
 
 		cam->CalculateViewMatrix();
-
 		ComponentTransform* camera_trans = (ComponentTransform*)ecam_go->GetComponent(CMP_TRANSFORM);
 
 		float4x4* mat = (float4x4*)cam->GetViewMatrix();
-
 		camera_trans->SetViewMatrix(*mat);
 
-		//For now we will update editor camera directly 
+		cam->GetFrustum()->SetWorldMatrix(mat->Float3x4Part()); 
+		cam->GetFrustum()->Translate(cam->Position);
 	}
 }
 
@@ -494,8 +490,6 @@ void ModuleCamera3D::MoveRotateECamFrustum(float dt)
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
 	MoveFrustum(dt);
-
-	
 
 	//Mouse motion
 	float motion_x = App->input->GetMouseXMotion();
@@ -580,8 +574,8 @@ void ModuleCamera3D::MoveFrustum(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) movement -= forward;
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) movement -= right;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) movement += right;
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement += float3::unitY;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) movement -= float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) movement += float3::unitY;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) movement -= float3::unitY;
 
 	frustum->Translate(movement * (adjusted_speed * dt));
 }

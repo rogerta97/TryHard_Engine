@@ -71,7 +71,7 @@ void SkyBox::Draw()
 		ComponentCamera* cam = (ComponentCamera*)camera_attached->GetComponent(CMP_CAMERA);
 		
 		float4x4 new_mat = float4x4::identity;
-		new_mat = new_mat.Translate(cam->GetFrustum().pos);
+		new_mat = new_mat.Translate(cam->GetFrustum()->pos);
 		new_mat.Transpose();
 
 		glMatrixMode(GL_MODELVIEW);

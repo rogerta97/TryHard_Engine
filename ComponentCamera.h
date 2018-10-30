@@ -63,7 +63,7 @@ public:
 	float GetWidth() const;
 	void SetHeight();
 	float GetHeight() const;
-	Frustum GetFrustum() const; 
+	Frustum* GetFrustum() const; 
 	
 	void SetMouseSensitivity(float new_sensitivity);
 	float GetMouseSensitivity() const;

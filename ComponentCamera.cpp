@@ -355,9 +355,9 @@ float ComponentCamera::GetHeight() const
 	return size.y;
 }
 
-Frustum ComponentCamera::GetFrustum() const
+Frustum* ComponentCamera::GetFrustum() const
 {
-	return camera->frustum;
+	return &camera->frustum;
 }
 
 TextureMSAA * ComponentCamera::GetViewportTexture()
@@ -467,9 +467,6 @@ void ComponentCamera::CalculateViewMatrix()
 		-X.Dot(Position), -Y.Dot(Position), -Z.Dot(Position), 1.0f);
 
 	ViewMatrixInverse = ViewMatrix.Inverted();
-
-
-	//
 
 	float3 pos = { 0,0,0 };
 	float3 scale = { 0,0,0 };
