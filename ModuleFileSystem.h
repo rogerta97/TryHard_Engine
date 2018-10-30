@@ -12,6 +12,7 @@ enum file_extension
 	FX_TTF,
 	FX_OTF,
 	FX_TGA, 
+	FX_JSON, 
 	FX_ERR
 };
 
@@ -20,6 +21,7 @@ enum file_type
 	FT_3DMODEL,
 	FT_IMAGE,
 	FT_FONT,
+	FT_SCENE, 
 	FT_UNDEFINED,
 };
 

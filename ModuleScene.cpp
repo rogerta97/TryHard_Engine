@@ -33,6 +33,9 @@ bool ModuleScene::Start()
 	octree = new Octree();
 
 	SetDefaultScene(); 
+	string path = App->file_system->GetScenesPath();
+	path += "Pepo_Dame_Palote"; 
+	LoadScene("Pepo_Dame_Palote");
 
 	return ret;
 }
@@ -221,6 +224,34 @@ void ModuleScene::SaveScene(const char* scene_name)
 		json_serialize_to_file(scene_v, new_scene_path.c_str());
 	
 		stream.close();
+	}
+}
+
+void ModuleScene::LoadScene(const char * scene_path)
+{
+	string name_w_termination = scene_path; 
+	name_w_termination += ".json";
+
+	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
+	{
+		string path = App->file_system->GetScenesPath() + std::string("\\") + name_w_termination;
+		std::ifstream stream;
+		stream.open(path.c_str(), std::fstream::in);
+
+		JSON_Value* root = json_parse_file(path.c_str()); 
+		JSON_Array* root_array = json_value_get_array(root);
+		JSON_Object* root_obj = nullptr; 
+
+		int obj_num = json_array_get_count(root_array);
+
+		for (int i = 0; i < obj_num; i++)
+		{
+			root_obj = json_array_get_object(root_array, i); 
+			int num = json_object_dotget_number(root_obj, "GameObject_0.UID");
+		}
+
+
+
 	}
 }
 

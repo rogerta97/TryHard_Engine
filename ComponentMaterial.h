@@ -12,6 +12,10 @@ public:
 	bool Update();
 	bool CleanUp(); 
 
+	//Load & Save
+	void Load(JSON_Object* root_obj);
+	void Save(JSON_Object* root_obj, const char* root);
+
 	Material* GetMaterial() const; 
 	void SetMaterial(Material* new_mat); 
 

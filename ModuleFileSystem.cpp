@@ -80,6 +80,9 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".tga" || term == ".TGA")
 			return FX_TGA;
 
+		else if (term == ".json" || term == ".JSON")
+			return FX_JSON;
+
 		return FX_ERR;
 	
 }
@@ -96,6 +99,9 @@ file_type ModuleFileSystem::GetFileType(string full_path)
 
 	else if (curr_extension == FX_TTF || curr_extension == FX_OTF)
 		return file_type::FT_FONT;
+
+	else if (curr_extension == FX_JSON)
+		return file_type::FT_SCENE;
 
 	return file_type::FT_UNDEFINED; 
 }

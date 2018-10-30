@@ -58,3 +58,20 @@ void ComponentMaterial::SetMaterial(Material * new_mat)
 		CONSOLE_ERROR("You are trying to assign a NULL material"); 
 }
 
+void ComponentMaterial::Load(JSON_Object * root_obj)
+{
+
+}
+
+void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
+{
+	std::string node_name = root;
+	std::string item_name = "";
+
+	item_name = node_name + ".Components.ComponentMaterial.DiffuseName";
+	if(material->GetDiffuseTexture() == nullptr)
+		json_object_dotset_string(root_obj, item_name.c_str(), "NONE");
+	else
+		json_object_dotset_string(root_obj, item_name.c_str(), material->GetDiffuseTexture()->GetName().c_str());
+}
+

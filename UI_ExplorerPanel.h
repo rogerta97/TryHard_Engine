@@ -27,5 +27,6 @@ private:
 	Texture* font_texture; 
 	Texture* DDS_texture;
 	Texture* TGA_texture;
+	Texture* scene_texture;
 };
 

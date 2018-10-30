@@ -34,7 +34,7 @@ public:
 	void SetScale(float3 new_pos);
 
 	//Load & Save
-	void Load(JSON_Object* json_obj);
+	void Load(JSON_Object* json_obj, const char* root);
 	void Save(JSON_Object* json_obj, const char* root);
 
 	Transform transform;

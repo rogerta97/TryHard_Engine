@@ -67,6 +67,11 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				ImGui::Image((ImTextureID)font_texture->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
+
+			case file_type::FT_SCENE:
+				ImGui::Image((ImTextureID)scene_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break;
 				
 			default: 
 				ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(18, 18));
@@ -95,6 +100,10 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
 					App->resources->material_importer->LoadTexture(folder.c_str());
+
+				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
+					App->scene->LoadScene(folder.c_str());
+			
 			}
 
 			if (ImGui::MenuItem("Delete Resource")) 
@@ -127,6 +136,7 @@ bool UI_ExplorerPanel::Start()
 	font_texture = App->resources->material_importer->GetTexture("FontIcon");
 	DDS_texture = App->resources->material_importer->GetTexture("DDSIcon");
 	TGA_texture = App->resources->material_importer->GetTexture("TGAIcon");
+	scene_texture = App->resources->material_importer->GetTexture("SceneIcon");
 
 	return true;
 }

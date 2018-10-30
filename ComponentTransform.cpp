@@ -184,8 +184,39 @@ void ComponentTransform::SetScale(float3 new_esc)
 	CalculateViewMatrix();
 }
 
-void ComponentTransform::Load(JSON_Object * json_obj)
+void ComponentTransform::Load(JSON_Object * json_obj, const char* root)
 {
+	std::string node_name = root;
+	std::string item_name = "";
+
+	Transform new_trans; 
+
+	item_name = node_name + ".Components.ComponentTransform.PositionX";
+	new_trans.position.x = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.PositionY";
+	new_trans.position.y = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.PositionZ";
+	new_trans.position.z = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.RotationX";
+	new_trans.rotation.x = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.RotationY";
+	new_trans.rotation.y = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.RotationZ";
+	new_trans.rotation.z = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleX";
+	new_trans.scale.x = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleY";
+	new_trans.scale.y = json_object_dotget_number(json_obj, item_name.c_str());
+
+	item_name = node_name + ".Components.ComponentTransform.ScaleZ";
+	new_trans.scale.z = json_object_dotget_number(json_obj, item_name.c_str());
 }
 
 void ComponentTransform::Save(JSON_Object * json_obj, const char* root)

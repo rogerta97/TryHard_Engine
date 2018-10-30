@@ -49,6 +49,10 @@ bool MaterialImporter::Start()
 	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\TGAIcon.png");
 	LoadTexture(symbol_path.c_str(), true);
 
+	//Create Scene Icon
+	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\SceneIcon.png");
+	LoadTexture(symbol_path.c_str(), true);
+
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
 

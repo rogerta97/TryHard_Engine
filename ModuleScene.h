@@ -42,6 +42,7 @@ public:
 
 	//Load & Save
 	void SaveScene(const char* scene_name); 
+	void LoadScene(const char* scene_path);
 
 public:
 
