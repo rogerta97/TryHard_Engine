@@ -13,7 +13,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 	name = "Camera";
 	ecam_go = nullptr;
 	frustum_culling = false;
-	is_ghost_camera = true;
+	is_ghost_camera = false;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
