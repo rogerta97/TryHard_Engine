@@ -159,7 +159,8 @@ Component* GameObject::AddComponent(CompType new_type)
 
 	if (new_cmp != nullptr)
 	{
-		CONSOLE_ERROR("GameObject '%s' already has this component assigned", name.c_str()); 
+		CONSOLE_ERROR("GameObject '%s' already has this component assigned", name.c_str());
+		return GetComponent(new_type);
 	}
 	else
 	{
@@ -213,6 +214,37 @@ Component* GameObject::AddComponent(CompType new_type)
 	component_list.push_back(new_cmp);
 	new_cmp->Start(); 
 	return new_cmp; 
+}
+
+void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_name)
+{
+	if (string(cmp_name) == string("ComponentTransform"))
+	{
+		ComponentTransform* new_transform = (ComponentTransform*)AddComponent(CMP_TRANSFORM);
+		new_transform->Load(cmp_obj);		
+		return;
+	}
+
+	if (string(cmp_name) == string("ComponentMesh"))
+	{
+		ComponentMesh* new_mesh = (ComponentMesh*)AddComponent(CMP_MESH);
+		new_mesh->Load(cmp_obj);
+		return;
+	}
+
+	if (string(cmp_name) == string("ComponentMaterial"))
+	{
+		ComponentMaterial* new_mat = (ComponentMaterial*)AddComponent(CMP_MATERIAL);
+		new_mat->Load(cmp_obj);
+		return;
+	}
+
+	if (string(cmp_name) == string("ComponentCamera"))
+	{
+		ComponentCamera* new_cam = (ComponentCamera*)AddComponent(CMP_CAMERA);
+		new_cam->Load(cmp_obj);
+		return;
+	}
 }
 
 bool GameObject::AddChild(GameObject * child)
@@ -355,8 +387,35 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	}
 }
 
-void GameObject::Load(JSON_Object* scene_obj)
+bool GameObject::Load(JSON_Object* scene_obj, int index)
 {
+	//Load basic GO info
+	string node_name = "GameObject_" + to_string(index);
+
+	//Check if the GO exist (to know if we end up loading)
+	if (json_object_get_value(scene_obj, node_name.c_str()) == nullptr) return false;
+		
+	scene_obj = json_object_get_object(scene_obj, node_name.c_str()); 
+	
+	//If it exist load it's base properties
+	name = json_object_dotget_string(scene_obj, "Name");
+	unique_id = json_object_dotget_number(scene_obj, "UID");
+	UID parent_id = json_object_dotget_number(scene_obj, "Parent");
+
+	if (parent_id != 0)	SetParent(App->scene->GetGameObjectByID(parent_id)); 
+
+	//Load Components, if it has any
+	if (json_object_get_value(scene_obj, "Components") == nullptr) return true;
+			
+	scene_obj = json_object_get_object(scene_obj, "Components");
+	for (int i = 0; i < json_object_get_count(scene_obj); i++)
+	{
+		string cmp_name = json_object_get_name(scene_obj, i);
+		JSON_Object* curr_cmp_obj = json_object_get_object(scene_obj, cmp_name.c_str());
+		AddComponentFromJSON(scene_obj, cmp_name.c_str());
+	}
+	
+	return true; 
 }
 
 bool GameObject::HasComponents()  

@@ -91,37 +91,6 @@ float4x4 ComponentTransform::GetGlobalViewMatrix()
 {
 	return GlobalMatrix;
 }
-//	float4x4 to_ret_mat = float4x4::identity; 
-//
-//	GameObject* current_go = gameobject; 
-//
-//	do
-//	{
-//		ComponentTransform* trans = (ComponentTransform*)current_go->GetComponent(CMP_TRANSFORM); 
-//
-//		to_ret_mat = to_ret_mat * trans->GetViewMatrix(); 
-//		current_go = current_go->GetParent();
-//
-//	/*	if (gameobject->HasChilds()) 
-//		{*/
-//			to_ret_mat.SetTranslatePart(to_ret_mat.RotatePart() * transform.position);
-//			to_ret_mat = transform.rotation.Inverted() * to_ret_mat;
-//	//	}
-//			
-//	} while (current_go != nullptr);
-//
-//	transform.X = { 1.0f, 0.0f, 0.0f }; 
-//	transform.X = to_ret_mat.MulDir(transform.X);
-//
-//	transform.Y = { 0.0f, 1.0f, 0.0f };
-//	transform.Y = to_ret_mat.MulDir(transform.Y);
-//
-//	transform.Z = { 0.0f, 0.0f, 1.0f };
-//	transform.Z = to_ret_mat.MulDir(transform.Z);
-//
-//	return to_ret_mat;
-//;
-
 
 void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 {
@@ -184,39 +153,24 @@ void ComponentTransform::SetScale(float3 new_esc)
 	CalculateViewMatrix();
 }
 
-void ComponentTransform::Load(JSON_Object * json_obj, const char* root)
+void ComponentTransform::Load(JSON_Object * json_obj)
 {
-	std::string node_name = root;
-	std::string item_name = "";
+	transform.position.x = json_object_dotget_number(json_obj, "PositionX");
+	transform.position.y = json_object_dotget_number(json_obj, "PositionY");
+	transform.position.z = json_object_dotget_number(json_obj, "PositionZ");
 
-	Transform new_trans; 
+	transform.euler_angles.x = json_object_dotget_number(json_obj, "RotationX");
+	transform.euler_angles.y = json_object_dotget_number(json_obj, "RotationY");
+	transform.euler_angles.z = json_object_dotget_number(json_obj, "RotationZ");
 
-	item_name = node_name + ".Components.ComponentTransform.PositionX";
-	new_trans.position.x = json_object_dotget_number(json_obj, item_name.c_str());
+	transform.rotation = Quat::FromEulerXYZ(transform.euler_angles.x, transform.euler_angles.y, transform.euler_angles.z);
 
-	item_name = node_name + ".Components.ComponentTransform.PositionY";
-	new_trans.position.y = json_object_dotget_number(json_obj, item_name.c_str());
+	transform.scale.x = json_object_dotget_number(json_obj, "ScaleX");
+	transform.scale.y = json_object_dotget_number(json_obj, "ScaleY");
+	transform.scale.z = json_object_dotget_number(json_obj, "ScaleZ");
 
-	item_name = node_name + ".Components.ComponentTransform.PositionZ";
-	new_trans.position.z = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.RotationX";
-	new_trans.rotation.x = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.RotationY";
-	new_trans.rotation.y = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.RotationZ";
-	new_trans.rotation.z = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.ScaleX";
-	new_trans.scale.x = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.ScaleY";
-	new_trans.scale.y = json_object_dotget_number(json_obj, item_name.c_str());
-
-	item_name = node_name + ".Components.ComponentTransform.ScaleZ";
-	new_trans.scale.z = json_object_dotget_number(json_obj, item_name.c_str());
+	CalculateViewMatrix(); 
+	CalculateGlobalViewMatrix(); 
 }
 
 void ComponentTransform::Save(JSON_Object * json_obj, const char* root)

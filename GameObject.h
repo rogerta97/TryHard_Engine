@@ -19,6 +19,7 @@ public:
 	void Update(); 
 
 	Component* AddComponent(CompType new_cmp);
+	void AddComponentFromJSON(JSON_Object* cmp_obj, const char* cmp_type);
 	bool AddChild(GameObject* child); 
 
 	void DeleteGameObject(); 
@@ -31,7 +32,7 @@ public:
 
 	//Save & Load
 	void Save(JSON_Object* scene_obj, int index);
-	void Load(JSON_Object* scene_obj);
+	bool Load(JSON_Object* scene_obj, int index);
 
 	//Utility
 	bool HasComponents() ; 

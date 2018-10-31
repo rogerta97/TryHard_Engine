@@ -111,6 +111,17 @@ GameObject * ModuleScene::CreateGameObject()
 	return new_go; 
 }
 
+GameObject * ModuleScene::GetGameObjectByID(UID uid)
+{
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->unique_id == uid)
+			return (*it);
+	}
+
+	return nullptr; 
+}
+
 GameObject * ModuleScene::CreateGameObject(const char* name)
 {
 	GameObject* new_go = new GameObject(name);
@@ -239,19 +250,23 @@ void ModuleScene::LoadScene(const char * scene_path)
 		stream.open(path.c_str(), std::fstream::in);
 
 		JSON_Value* root = json_parse_file(path.c_str()); 
-		JSON_Array* root_array = json_value_get_array(root);
-		JSON_Object* root_obj = nullptr; 
+		JSON_Object* root_obj = json_value_get_object(root);		
 
-		int obj_num = json_array_get_count(root_array);
-
-		for (int i = 0; i < obj_num; i++)
+		int i = 0; 
+		while(true)
 		{
-			root_obj = json_array_get_object(root_array, i); 
-			int num = json_object_dotget_number(root_obj, "GameObject_0.UID");
+			string item_to_get = "GameObject_" + to_string(i); 
+			GameObject* new_go = new GameObject(); 
+
+			if (new_go->Load(root_obj, i))
+				AddGameObjectToScene(new_go);
+			else
+				break; 
+
+			i++; 
 		}
 
-
-
+		stream.close(); 
 	}
 }
 

@@ -25,6 +25,7 @@ public:
 	void DeleteGOFromStaticList(GameObject* go); 
 
 	GameObject* CreateGameObject();
+	GameObject* GetGameObjectByID(UID uid);
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 	int GetGameObjectsAmmount(); 
