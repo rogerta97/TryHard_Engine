@@ -57,8 +57,8 @@ bool UI_HierarchyPanel::Update()
 		ImGui::PopStyleVar();
 	}
 
-	if (ImGui::IsMouseHoveringWindow() && ImGui::IsMouseClicked(1))
-		App->imgui->hierarchy_panel->show_click_menu = true;
+	//if (ImGui::IsMouseHoveringWindow() && ImGui::IsMouseClicked(1))
+	//	App->imgui->hierarchy_panel->show_click_menu = true;
 
 
 	if (App->imgui->hierarchy_panel->show_click_menu)
