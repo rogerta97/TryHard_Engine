@@ -161,11 +161,9 @@ update_status ModuleInput::PreUpdate(float dt)
 				test.Start();
 
 				GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
+				App->scene->SetSelectedGameObject(parent);
 
 				CONSOLE_ERROR("Loaded in %d ms", test.Read()); 
-
-				string name = App->file_system->GetLastPathItem(file_droped.c_str(), false);
-				App->scene->SetSelectedGameObject(parent);
 
 				App->camera->GetEditorCamera()->interpolation.interpolate = true;
 				App->camera->GetEditorCamera()->interpolation.interpolation_timer.Start();

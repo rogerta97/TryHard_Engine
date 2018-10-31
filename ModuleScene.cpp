@@ -33,9 +33,6 @@ bool ModuleScene::Start()
 	octree = new Octree();
 
 	SetDefaultScene(); 
-	string path = App->file_system->GetScenesPath();
-	path += "Pepo_Dame_Palote"; 
-	LoadScene("Pepo_Dame_Palote");
 
 	return ret;
 }
@@ -241,7 +238,6 @@ void ModuleScene::SaveScene(const char* scene_name)
 void ModuleScene::LoadScene(const char * scene_path)
 {
 	string name_w_termination = scene_path; 
-	name_w_termination += ".json";
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
 	{

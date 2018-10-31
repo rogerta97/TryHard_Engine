@@ -121,7 +121,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 		delete(tmp_go);
 		to_ret->parent = nullptr;
 
-		App->scene->SetSelectedGameObject(to_ret);
+
 
 		aiReleaseImport(scene);
 	}
@@ -296,6 +296,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->draw_bounding_box = false;
+			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name; 
 
 			if (scene->HasMaterials())
 			{

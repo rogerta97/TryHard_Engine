@@ -95,14 +95,17 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		{
 			if (ImGui::MenuItem("Load Item"))
 			{
-				if(App->file_system->GetFileExtension(folder.c_str()) == FX_FBX)
-					App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
-
+				if (App->file_system->GetFileExtension(folder.c_str()) == FX_FBX)
+				{
+					GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
+					App->scene->SetSelectedGameObject(parent);
+				}
+					
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
 					App->resources->material_importer->LoadTexture(folder.c_str());
 
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
-					App->scene->LoadScene(folder.c_str());
+					App->scene->LoadScene(item_name.c_str());
 			
 			}
 

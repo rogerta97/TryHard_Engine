@@ -45,6 +45,7 @@ public:
 	void SetBBColor(float r, float g, float b); 
 
 	bool draw_bounding_box;
+	std::string container_fbx; 
 
 private:
 

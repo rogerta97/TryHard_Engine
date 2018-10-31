@@ -80,7 +80,7 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".tga" || term == ".TGA")
 			return FX_TGA;
 
-		else if (term == ".json" || term == ".JSON")
+		else if (term == "json" || term == "JSON")
 			return FX_JSON;
 
 		return FX_ERR;

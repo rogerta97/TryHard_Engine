@@ -21,6 +21,8 @@ ComponentMesh::ComponentMesh(GameObject* parent)
 	draw_mesh = true;
 	draw_normals = false;
 
+	container_fbx = ""; 
+
 	active = true;
 }
 
@@ -313,6 +315,23 @@ void ComponentMesh::CheckAABBPoints(float3 & min_point, float3 & max_point)
 
 void ComponentMesh::Load(JSON_Object * root_obj)
 {
+	string mesh_name = json_object_get_string(root_obj, "Name");
+
+	///Save somehow from what FBX the mesh is comming, if the Mesh don't exist in the library, 
+	///load the FBX (not adding it to the scene) and unload it in order to create the library mesh. 
+	///Then you can go on
+	
+	//Check if it's in library
+	if (!App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Meshes").c_str(), mesh_name.c_str()))
+	{
+		//Load the containing FBX && Unload It
+		GameObject* new_go = App->resources->mesh_importer->CreateFBXMesh(string(App->file_system->GetModelsPath() + string("\\") + mesh_name).c_str());
+		new_go->DeleteRecursive(); 	
+	}
+	
+	//Load Library Resource
+
+
 }
 
 void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
@@ -322,4 +341,7 @@ void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 
 	item_name = node_name + ".Components.ComponentMesh.Name";
 	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
+
+	item_name = node_name + ".Components.ComponentMesh.FBXName";
+	json_object_dotset_string(root_obj, item_name.c_str(), container_fbx.c_str());
 }

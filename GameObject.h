@@ -46,6 +46,7 @@ public:
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
+	GameObject* GetRootParent(); 
 
 	void SetParent(GameObject* new_parent); 
 	void SetActive(bool activated);

@@ -83,6 +83,16 @@ GameObject * GameObject::GetParent() const
 	return parent;
 }
 
+GameObject * GameObject::GetRootParent() 
+{
+	GameObject* to_ret = this; 
+
+	while (to_ret->GetParent() != nullptr)
+		to_ret = to_ret->GetParent(); 
+
+	return to_ret; 
+}
+
 void GameObject::SetParent(GameObject * new_parent)
 {
 	parent = new_parent; 
@@ -393,7 +403,8 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	string node_name = "GameObject_" + to_string(index);
 
 	//Check if the GO exist (to know if we end up loading)
-	if (json_object_get_value(scene_obj, node_name.c_str()) == nullptr) return false;
+	if (json_object_get_value(scene_obj, node_name.c_str()) == nullptr) 
+		return false;
 		
 	scene_obj = json_object_get_object(scene_obj, node_name.c_str()); 
 	
@@ -405,7 +416,8 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	if (parent_id != 0)	SetParent(App->scene->GetGameObjectByID(parent_id)); 
 
 	//Load Components, if it has any
-	if (json_object_get_value(scene_obj, "Components") == nullptr) return true;
+	if (json_object_get_value(scene_obj, "Components") == nullptr) 
+		return true;
 			
 	scene_obj = json_object_get_object(scene_obj, "Components");
 	for (int i = 0; i < json_object_get_count(scene_obj); i++)
