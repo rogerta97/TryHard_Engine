@@ -241,6 +241,9 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
 	{
+		//First clean the current scene
+		CleanScene(); 
+
 		string path = App->file_system->GetScenesPath() + std::string("\\") + name_w_termination;
 		std::ifstream stream;
 		stream.open(path.c_str(), std::fstream::in);

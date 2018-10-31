@@ -33,6 +33,7 @@ GameObject::GameObject(const char * name)
 	parent = nullptr; 
 	selected = false; 
 	unique_id = App->file_system->GenerateUID();
+
 	Component* new_cmp = new ComponentTransform(this);
 	component_list.push_back(new_cmp);
 	ComponentTransform* trans = (ComponentTransform*)new_cmp;
@@ -169,7 +170,7 @@ Component* GameObject::AddComponent(CompType new_type)
 
 	if (new_cmp != nullptr)
 	{
-		CONSOLE_ERROR("GameObject '%s' already has this component assigned", name.c_str());
+		CONSOLE_DEBUG("GameObject '%s' already has this component assigned. Returning this component", name.c_str());
 		return GetComponent(new_type);
 	}
 	else
@@ -424,7 +425,7 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	{
 		string cmp_name = json_object_get_name(scene_obj, i);
 		JSON_Object* curr_cmp_obj = json_object_get_object(scene_obj, cmp_name.c_str());
-		AddComponentFromJSON(scene_obj, cmp_name.c_str());
+		AddComponentFromJSON(curr_cmp_obj, cmp_name.c_str());
 	}
 	
 	return true; 

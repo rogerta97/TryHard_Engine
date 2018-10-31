@@ -155,22 +155,27 @@ void ComponentTransform::SetScale(float3 new_esc)
 
 void ComponentTransform::Load(JSON_Object * json_obj)
 {
-	transform.position.x = json_object_dotget_number(json_obj, "PositionX");
-	transform.position.y = json_object_dotget_number(json_obj, "PositionY");
-	transform.position.z = json_object_dotget_number(json_obj, "PositionZ");
+	float3 pos = float3::zero; 
+	float3 rot = float3::zero;
+	float3 scale = float3::zero;
+	
+	pos.x = json_object_dotget_number(json_obj, "PositionX");
+	pos.y = json_object_dotget_number(json_obj, "PositionY");
+	pos.z = json_object_dotget_number(json_obj, "PositionZ");
 
-	transform.euler_angles.x = json_object_dotget_number(json_obj, "RotationX");
-	transform.euler_angles.y = json_object_dotget_number(json_obj, "RotationY");
-	transform.euler_angles.z = json_object_dotget_number(json_obj, "RotationZ");
+	rot.x = json_object_dotget_number(json_obj, "RotationX");
+	rot.y = json_object_dotget_number(json_obj, "RotationY");
+	rot.z = json_object_dotget_number(json_obj, "RotationZ");
 
-	transform.rotation = Quat::FromEulerXYZ(transform.euler_angles.x, transform.euler_angles.y, transform.euler_angles.z);
+	scale.x = json_object_dotget_number(json_obj, "ScaleX");
+	scale.y = json_object_dotget_number(json_obj, "ScaleY");
+	scale.z = json_object_dotget_number(json_obj, "ScaleZ");
 
-	transform.scale.x = json_object_dotget_number(json_obj, "ScaleX");
-	transform.scale.y = json_object_dotget_number(json_obj, "ScaleY");
-	transform.scale.z = json_object_dotget_number(json_obj, "ScaleZ");
+	SetPosition(pos); 
+	SetRotationEuler(rot); 
+	SetScale(scale); 
 
-	CalculateViewMatrix(); 
-	CalculateGlobalViewMatrix(); 
+	//CalculateGlobalViewMatrix(); 
 }
 
 void ComponentTransform::Save(JSON_Object * json_obj, const char* root)
