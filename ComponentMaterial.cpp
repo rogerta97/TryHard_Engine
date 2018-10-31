@@ -60,7 +60,12 @@ void ComponentMaterial::SetMaterial(Material * new_mat)
 
 void ComponentMaterial::Load(JSON_Object * root_obj)
 {
+	string diffuse_name = json_object_dotget_string(root_obj, "DiffuseName");
 
+	string diffuse_path = App->file_system->GetTexturesPath() +  string("\\") + diffuse_name;
+	diffuse_path += ".dds"; 
+
+	material->SetDiffuseTexture(App->resources->material_importer->LoadTexture(diffuse_path.c_str()));
 }
 
 void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
