@@ -4,6 +4,9 @@
 #include "ModuleCamera3D.h"
 #include "GameObject.h"
 #include "UI_InspectorPanel.h"
+#include "UI_ScenePanel.h"
+
+#include "DebugDraw.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
@@ -55,22 +58,43 @@ bool ModuleCamera3D::Start()
 update_status ModuleCamera3D::Update(float dt)
 {
 
+	//SkyBox
+	if (skybox != nullptr)
+	{
+		skybox->Draw();
+	}
+
+
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
-	//ManageMovementFromTrans(cam);
 	ManageMovement();
-	//MoveRotateECamFrustum(dt);
+
+	// Mouse Picking ----------------
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		ImVec2 mouse_pos_norm = App->imgui->scene_panel->GetMousePosInDockNormalized();
+
+		if (mouse_pos_norm.x > -1 && mouse_pos_norm.x < 1)
+			if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
+				mouse_picking.picking = cam->GetFrustum()->UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y);
+
+	}
+
+	App->renderer3D->UseDebugRenderSettings();
+
+	DebugDraw(mouse_picking.picking, Color(1.0f, 0.0f, 1.0f), false);
+
+	App->renderer3D->UseCurrentRenderSettings();
+
+	//
 
 	cam->CalculateViewMatrix();
 
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;
 
-	//SkyBox
-	if (skybox != nullptr)
-	{
-		skybox->Draw();
-	}
+
+
 
 	return UPDATE_CONTINUE;
 }

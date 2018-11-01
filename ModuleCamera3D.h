@@ -9,6 +9,10 @@
 
 class TextureMSAA; 
 
+struct MousePicking {
+	LineSegment picking;
+};
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -41,4 +45,6 @@ private:
 	GameObject* ecam_go; 
 
 	bool is_ghost_camera;
+
+	MousePicking mouse_picking;
 };
