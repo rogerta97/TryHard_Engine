@@ -38,6 +38,7 @@ public:
 	bool HasComponents() ; 
 	bool HasChilds() const; 
 	GameObject* GetChild(int index) const; 
+	GameObject* GetChild(const char* name) const; 
 	void DeleteChildFromList(GameObject* child_to_delete);
 	void GetEnclosedAABB(float3& min, float3& max); 
 
