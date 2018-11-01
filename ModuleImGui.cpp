@@ -201,6 +201,15 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SaveScene(scene_name.c_str());
 		}
 
+		if (ImGui::MenuItem("Load Scene"))
+		{
+			char const * lFilterPatterns[2] = { "*.json" };
+			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
+			string scene_name = App->file_system->GetLastPathItem(path, true);
+
+			App->scene->LoadScene(scene_name.c_str());
+		}
+
 		ImGui::EndMenu();
 	}
 
