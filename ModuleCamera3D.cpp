@@ -51,6 +51,10 @@ bool ModuleCamera3D::Start()
 	skybox->AttachTo(ecam_go); 
 
 	start_time = performance_timer.Read();
+
+	mouse_picking.picking.a = { 0,0,0 };
+	mouse_picking.picking.b = { 0,0,0 };
+
 	return ret;
 }
 
@@ -69,8 +73,10 @@ update_status ModuleCamera3D::Update(float dt)
 	cam->Update();
 	ManageMovement();
 
+
+
 	// Mouse Picking ----------------
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene)
 	{
 		ImVec2 mouse_pos_norm = App->imgui->scene_panel->GetMousePosInDockNormalized();
 
@@ -78,11 +84,15 @@ update_status ModuleCamera3D::Update(float dt)
 			if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
 				mouse_picking.picking = cam->GetFrustum()->UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y);
 
+		if (mouse_picking.picking.Length() != 0)
+			App->scene->TestLineAgainstGOs(mouse_picking.picking);
+
 	}
+
 
 	App->renderer3D->UseDebugRenderSettings();
 
-	DebugDraw(mouse_picking.picking, Color(1.0f, 0.0f, 1.0f), false);
+	DebugDraw(mouse_picking.picking, Color(1.0f, 0.0f, 1.0f), false, float4x4::identity, 3.0f);
 
 	App->renderer3D->UseCurrentRenderSettings();
 

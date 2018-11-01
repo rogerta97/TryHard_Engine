@@ -284,6 +284,56 @@ void ComponentMesh::SetBBColor(float r, float g, float b)
 	glColor3f(r,g,b); 
 }
 
+bool ComponentMesh::GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance)
+{
+	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+	Triangle tri;
+	float current_distance;
+	float closest_distance = 10000; //Hmm maybe there is a better way to do this
+	float3 hit_point;
+	bool ret = false;
+
+	if (!mesh)
+		return false;
+
+	int num_tris = mesh->num_indices / 3;
+
+	float4x4 gm = trans->GetGlobalViewMatrix();
+
+	line.Transform(gm.Inverted());
+
+	for (int i = 0; i < mesh->num_indices; i+=3)
+	{
+		float3 vertex_a = mesh->vertices[mesh->indices[i]];
+		float3 vertex_b = mesh->vertices[mesh->indices[i + 1]];
+		float3 vertex_c = mesh->vertices[mesh->indices[i + 2]];
+
+		tri.a = vertex_a;
+		tri.b = vertex_b;
+		tri.c = vertex_c;
+
+		bool hit = line.Intersects(tri, &current_distance, &hit_point);
+
+		if (hit) 
+		{
+			current_distance = line.a.Distance(hit_point);
+			if (current_distance < closest_distance)
+			{
+				closest_point = hit_point;
+				closest_distance = current_distance;
+				ret = true;
+			}
+		}
+	}
+
+	closest_point += gm.TranslatePart();
+	distance = closest_distance;
+
+	if (ret)
+		CONSOLE_LOG("x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	return ret;
+}
+
 
 
 ComponentMaterial * ComponentMesh::GetMaterial() const

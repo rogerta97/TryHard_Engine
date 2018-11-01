@@ -36,6 +36,10 @@ public:
 
 	bool IsTextureUsed(int id, GameObject* skip); 
 
+	void TestLineAgainstGOs(LineSegment line);
+
+	GameObject* GetClosestGO(LineSegment line, std::list<GameObject*> go_list);
+
 	void SetSelectedGameObject(GameObject* selected); 
 	GameObject* GetSelectedGameObject() const;
 

@@ -4,9 +4,11 @@
 #include "UI_InspectorPanel.h"
 #include "Primitive.h"
 #include "OpenGL.h"
+#include "DebugDraw.h"
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 
 #include <fstream>
 
@@ -180,6 +182,75 @@ bool ModuleScene::IsTextureUsed(int id, GameObject* skip)
 	}
 	
 	return false; 
+}
+
+void ModuleScene::TestLineAgainstGOs(LineSegment line)
+{
+	list<GameObject*> intersected_list;
+
+	auto go_iterator = scene_gameobjects.begin();
+
+	while (go_iterator != scene_gameobjects.end()) {
+		GameObject* go = (*go_iterator);
+
+		if (!go->bounding_box)
+		{
+			go_iterator++;
+			continue;
+		}
+
+		bool hit = line.Intersects(*go->bounding_box);
+
+		if (hit)
+		{
+			intersected_list.push_back(go);
+		}
+
+		go_iterator++;
+	}
+
+	GameObject* closestGo = GetClosestGO(line, intersected_list);
+
+	if (closestGo)
+		SetSelectedGameObject(closestGo);
+
+}
+
+GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)
+{
+	float3 closest_point;
+	float closest_distance = 100000;
+	GameObject* closest_go = nullptr;
+	float distance;
+
+	auto go_iterator = scene_gameobjects.begin();
+
+	while (go_iterator != scene_gameobjects.end()) {
+		GameObject* go = (*go_iterator);
+
+		ComponentMesh* mesh = (ComponentMesh*)go->GetComponent(CMP_MESH);
+
+		if (mesh)
+		{
+			float3 point = { 0,0,0 };
+
+			if (mesh->GetClosestIntersectionPoint(line, point, distance))
+			{
+
+				if (distance < closest_distance)
+				{
+					closest_distance = distance;
+					closest_point = point;
+					closest_go = go;
+				}
+			}
+		}
+		go_iterator++;
+	}
+
+
+	CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	return closest_go;
 }
 
 void ModuleScene::SetSelectedGameObject(GameObject * selected)

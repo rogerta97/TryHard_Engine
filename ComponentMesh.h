@@ -44,6 +44,8 @@ public:
 	void UpdateBoundingBox(); 
 	void SetBBColor(float r, float g, float b); 
 
+	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance);
+
 	bool draw_bounding_box;
 	std::string container_fbx; 
 
