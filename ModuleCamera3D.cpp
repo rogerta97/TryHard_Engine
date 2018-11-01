@@ -90,8 +90,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 	App->renderer3D->UseCurrentRenderSettings();
 
-	//
-
 	cam->CalculateViewMatrix();
 
 	if (!ecam_go || !cam)
@@ -207,6 +205,13 @@ void ModuleCamera3D::PrintConfigData()
 			ImGui::OpenPopup("select_camera");
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::SmallButton("X##Camera"))
+		{
+			gcam_go = nullptr; 
+		}
+
 		if(ImGui::BeginPopup("select_camera"))
 		{
 			ImGui::Text("GO with Camera:");
@@ -274,6 +279,11 @@ ComponentCamera * ModuleCamera3D::GetGameCamera()
 		return cam;
 	else
 		return nullptr;
+}
+
+void ModuleCamera3D::SetGameCamera(GameObject * new_cam)
+{
+	gcam_go = new_cam; 
 }
 
 bool ModuleCamera3D::IsGhostCamera() const

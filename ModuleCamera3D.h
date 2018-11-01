@@ -27,6 +27,7 @@ public:
 
 	ComponentCamera* GetEditorCamera(); 
 	ComponentCamera* GetGameCamera();
+	void SetGameCamera(GameObject* new_cam);
 
 	bool IsGhostCamera() const;
 	void SetGhostCamera(bool value);

@@ -39,6 +39,7 @@ public:
 	GameObject* GetSelectedGameObject() const;
 
 	GameObject* GetGameObjectByID(UID uid);
+	GameObject* GetGameObject(const char* name);
 
 	std::list<GameObject*> GetAllGameObjectsWith(CompType type);
 

@@ -10,5 +10,8 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+
+	ImVec2 pos;
+	ImVec2 region_size;
 };
 
