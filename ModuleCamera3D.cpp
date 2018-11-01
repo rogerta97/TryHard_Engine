@@ -72,12 +72,9 @@ update_status ModuleCamera3D::Update(float dt)
 		skybox->Draw();
 	}
 
-
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
 	ManageMovement();
-
-
 
 	// Mouse Picking ----------------
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene)

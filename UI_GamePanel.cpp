@@ -8,6 +8,7 @@
 
 UI_GamePanel::UI_GamePanel()
 {
+	name = "GamePanel"; 
 }
 
 
@@ -32,19 +33,13 @@ bool UI_GamePanel::Update()
 		const float region_ratio = region_size.y / region_size.x;
 
 		if (App->camera->GetGameCamera() != nullptr)
-		{
-			if (App->camera->GetGameCamera()->GetViewportTexture() != nullptr)
-			{
-				Camera* camera = App->camera->GetGameCamera()->camera;
+		{			
+			Camera* camera = App->camera->GetGameCamera()->camera;
+			pos = ImGui::GetWindowPos();
+			camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
 
-				pos = ImGui::GetWindowPos();
+			ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
 
-				camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
-
-				ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
-
-				//App->camera->GetViewportTexture()->Unbind();
-			}
 			App->camera->GetGameCamera()->GetViewportTexture()->Render();
 			App->camera->GetGameCamera()->GetViewportTexture()->Unbind();
 		}

@@ -434,7 +434,7 @@ update_status ModuleImGui::DrawDocking()
 		for (auto panel = panels_list.begin(); panel != panels_list.end(); panel++)
 		{
 
-			if ((*panel)->show) 
+			if ((*panel)->show)
 			{
 				(*panel)->performance_timer.Start();
 

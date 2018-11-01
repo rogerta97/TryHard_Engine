@@ -139,31 +139,60 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
+	{
+	glLoadIdentity();
+	float4x4 view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewOpenGLViewMatrix();
+
+	if (App->camera->IsGhostCamera())
+		view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(&view_gl_mat[0][0]);
+
+	App->camera->GetEditorCamera()->camera->projection_changed = true;
+
+	if (App->camera->GetEditorCamera()->camera->projection_changed == true)
+	{
+		UpdateProjectionMatrix();
+		App->camera->GetEditorCamera()->camera->projection_changed = false;
+	}
+
+	lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
+
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
+		lights[i].Render();
+
+
+}
 	//{
-		glLoadIdentity();
-		float4x4 view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewOpenGLViewMatrix();
+	//glLoadIdentity();
+	//float4x4 view_gl_mat = *(float4x4*)App->camera->GetGameCamera()->GetViewOpenGLViewMatrix();
 
-		if (App->camera->IsGhostCamera())
-			view_gl_mat = *(float4x4*)App->camera->GetEditorCamera()->GetViewMatrix();
+	//if (App->camera->IsGhostCamera())
+	//	float4x4 view_gl_mat = *(float4x4*)App->camera->GetGameCamera()->GetViewMatrix();
 
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(&view_gl_mat[0][0]);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadMatrixf(&view_gl_mat[0][0]);
 
-		App->camera->GetEditorCamera()->camera->projection_changed = true;
+	//App->camera->GetGameCamera()->camera->projection_changed = true;
 
-		if (App->camera->GetEditorCamera()->camera->projection_changed == true)
-		{
-			UpdateProjectionMatrix();
-			App->camera->GetEditorCamera()->camera->projection_changed = false;
-		}
+	//if (App->camera->GetGameCamera()->camera->projection_changed == true)
+	//{
+	//	UpdateProjectionMatrix();
+	//	App->camera->GetGameCamera()->camera->projection_changed = false;
+	//}
 
-		lights[0].SetPos(App->camera->GetEditorCamera()->Position.x, App->camera->GetEditorCamera()->Position.y, App->camera->GetEditorCamera()->Position.z);
+	//lights[0].SetPos(App->camera->GetGameCamera()->Position.x, App->camera->GetGameCamera()->Position.y, App->camera->GetGameCamera()->Position.z);
 
-		for (uint i = 0; i < MAX_LIGHTS; ++i)
-			lights[i].Render();
+	//for (uint i = 0; i < MAX_LIGHTS; ++i)
+	//	lights[i].Render();
+
+
+
+	//
 	//}
 	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -173,7 +202,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	SDL_GL_SwapWindow(App->window->window);
 
 	App->camera->GetEditorCamera()->GetViewportTexture()->Bind();
-
+	App->camera->GetGameCamera()->GetViewportTexture()->Bind();
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//glLoadIdentity();

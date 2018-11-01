@@ -58,6 +58,8 @@ public:
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
+	int cam_cicles = 0; 
+
 
 	std::list<ComponentCamera*> rendering_cameras; 
 };

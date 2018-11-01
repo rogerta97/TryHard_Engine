@@ -73,6 +73,7 @@ public:
 	float GetMouseSensitivity() const;
 
 	void SetViewportTextureSize(uint x, uint y);
+	void SetViewportTexture(TextureMSAA* new_tex); 
 
 	void UpdateFrustumPositionAndRotation();
 

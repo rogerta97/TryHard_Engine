@@ -12,7 +12,7 @@ UI_ScenePanel::UI_ScenePanel()
 
 UI_ScenePanel::~UI_ScenePanel()
 {
-	name = "Scene";
+	name = "ScenePanel";
 }
 
 bool UI_ScenePanel::Start()
@@ -28,21 +28,18 @@ bool UI_ScenePanel::Update()
 	{
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
-		if(App->camera->GetEditorCamera()->GetViewportTexture() != nullptr)
-		{
-			region_size = ImGui::GetContentRegionAvail();
-			const float region_ratio = region_size.y / region_size.x;
+		
+		region_size = ImGui::GetContentRegionAvail();
+		const float region_ratio = region_size.y / region_size.x;
 
-			Camera* camera = App->camera->GetEditorCamera()->camera;
+		Camera* camera = App->camera->GetEditorCamera()->camera;
 
-			pos = ImGui::GetWindowPos();
+		pos = ImGui::GetWindowPos();
 
-			camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
+		camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
 
-			ImGui::Image((void*)App->camera->GetEditorCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
-
-			//App->camera->GetViewportTexture()->Unbind();
-		}
+		ImGui::Image((void*)App->camera->GetEditorCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
+		
 		glDisable(GL_TEXTURE_2D);
 
 		is_mouse_in = ImGui::IsWindowHovered();

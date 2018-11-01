@@ -68,6 +68,7 @@ public:
 	UI_InspectorPanel* inspector_panel = nullptr;
 	UI_HierarchyPanel* hierarchy_panel = nullptr;
 	UI_ScenePanel* scene_panel = nullptr;
+	UI_GamePanel* game_panel = nullptr;
 
 	std::list<UI_Panel*> panels_list;
 
@@ -88,7 +89,6 @@ private:
 	UI_ExplorerPanel* explorer_panel = nullptr; 
 	UI_OctreePanel* octree_panel = nullptr; 
 	UI_ConsolePanel* console_panel = nullptr;
-	UI_GamePanel* game_panel = nullptr; 
 	UI_RandomNumberPanel* random_panel = nullptr;
 	UI_PerformancePanel* performance_panel = nullptr;
 };

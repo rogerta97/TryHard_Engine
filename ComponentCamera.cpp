@@ -322,6 +322,11 @@ void ComponentCamera::SetViewportTextureSize(uint x, uint y)
 	viewport_texture->SetHeight(y);
 }
 
+void ComponentCamera::SetViewportTexture(TextureMSAA * new_tex)
+{
+	viewport_texture = new_tex; 
+}
+
 void ComponentCamera::UpdateFrustumPositionAndRotation()
 {
 	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
