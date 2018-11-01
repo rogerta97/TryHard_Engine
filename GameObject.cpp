@@ -343,9 +343,11 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{
 			node_clicked = id;
-			App->scene->SetSelectedGameObject(this); 	
-			App->imgui->hierarchy_panel->show_click_menu = true;
+			App->scene->SetSelectedGameObject(this); 
 		}
+
+		if (ImGui::IsItemClicked(1))
+			App->imgui->hierarchy_panel->show_click_menu = true;
 
 		if(opened)
 		{
@@ -369,8 +371,11 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this);
-			App->imgui->hierarchy_panel->show_click_menu = true;
+			
 		}
+
+		if (ImGui::IsItemClicked(1))
+			App->imgui->hierarchy_panel->show_click_menu = true;
 	
 	}
 	return ret; 

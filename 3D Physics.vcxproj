@@ -226,6 +226,7 @@
     <ClInclude Include="MaterialImporter.h" />
     <ClInclude Include="TextureMSAA.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TinyFileDialog.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="MaterialImporter.cpp" />
     <ClCompile Include="TextureMSAA.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TinyFileDialog.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />

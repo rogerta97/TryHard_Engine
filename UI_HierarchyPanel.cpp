@@ -60,7 +60,7 @@ bool UI_HierarchyPanel::Update()
 	//if (ImGui::IsMouseHoveringWindow() && ImGui::IsMouseClicked(1))
 	//	App->imgui->hierarchy_panel->show_click_menu = true;
 
-
+	
 	if (App->imgui->hierarchy_panel->show_click_menu)
 	{
 		ImGui::OpenPopup("Options");

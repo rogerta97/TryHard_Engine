@@ -24,6 +24,7 @@
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
+#include "TinyFileDialog.h"
 
 
 
@@ -193,8 +194,11 @@ update_status ModuleImGui::DrawTopBar()
 
 		if (ImGui::MenuItem("Save Scene"))
 		{
-			const char* scene_name = "Pepo_Dame_Palote"; 
-			App->scene->SaveScene(scene_name); 
+			char const * lFilterPatterns[1] = { "*.json" };
+			const char* path = tinyfd_saveFileDialog("Save Scene...", "UntitledScene", 1, lFilterPatterns, NULL);
+			string scene_name = App->file_system->GetLastPathItem(path, true); 
+
+			App->scene->SaveScene(scene_name.c_str());
 		}
 
 		ImGui::EndMenu();

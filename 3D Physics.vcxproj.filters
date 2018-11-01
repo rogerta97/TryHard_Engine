@@ -567,6 +567,9 @@
     <ClInclude Include="DebugDraw.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="TinyFileDialog.h">
+      <Filter>Sources\3rd Partys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -823,6 +826,9 @@
     </ClCompile>
     <ClCompile Include="Functions.cpp">
       <Filter>Sources\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyFileDialog.cpp">
+      <Filter>Sources\3rd Partys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
