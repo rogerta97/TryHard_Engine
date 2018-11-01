@@ -120,6 +120,19 @@ GameObject * ModuleScene::GetGameObjectByID(UID uid)
 	return nullptr; 
 }
 
+std::list<GameObject*> ModuleScene::GetAllGameObjectsWith(CompType type)
+{
+	std::list<GameObject*> to_ret;
+
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->GetComponent(type) != nullptr)
+			to_ret.push_back((*it)); 
+	}
+
+	return to_ret; 
+}
+
 GameObject * ModuleScene::CreateGameObject(const char* name)
 {
 	GameObject* new_go = new GameObject(name);

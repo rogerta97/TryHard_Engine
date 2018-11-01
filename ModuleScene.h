@@ -25,21 +25,22 @@ public:
 	void DeleteGOFromStaticList(GameObject* go); 
 
 	GameObject* CreateGameObject();
-	GameObject* GetGameObjectByID(UID uid);
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 	int GetGameObjectsAmmount(); 
 
 	void DeleteGameObjectFromList(GameObject* go);
-
 	void AddGameObjectToScene(GameObject* go); 
-
 	bool IsTextureUsed(int id, GameObject* skip); 
+	void SetDefaultScene(); 
 
-	void SetSelectedGameObject(GameObject* selected); 
+	//Setters & Getters
+	void SetSelectedGameObject(GameObject* selected);
 	GameObject* GetSelectedGameObject() const;
 
-	void SetDefaultScene(); 
+	GameObject* GetGameObjectByID(UID uid);
+
+	std::list<GameObject*> GetAllGameObjectsWith(CompType type);
 
 	//Load & Save
 	void SaveScene(const char* scene_name); 

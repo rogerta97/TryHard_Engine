@@ -353,7 +353,6 @@ void UI_InspectorPanel::PrintMaterialProperties()
 			mat_cmp->GetMaterial()->SetDiffuseTexture(check_tex);
 		}
 
-		
 		ImGui::Spacing();
 		
 		if (mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)

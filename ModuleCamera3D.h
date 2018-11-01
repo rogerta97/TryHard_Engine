@@ -26,6 +26,8 @@ public:
 	void PrintConfigData();
 
 	ComponentCamera* GetEditorCamera(); 
+	ComponentCamera* GetGameCamera();
+
 	bool IsGhostCamera() const;
 	void SetGhostCamera(bool value);
 
@@ -43,6 +45,7 @@ public:
 private:
 
 	GameObject* ecam_go; 
+	GameObject* gcam_go; 
 
 	bool is_ghost_camera;
 

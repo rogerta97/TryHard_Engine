@@ -14,6 +14,7 @@ class UI_ExplorerPanel;
 class UI_Panel;
 class UI_HierarchyPanel; 
 class UI_OctreePanel; 
+class UI_GamePanel; 
 
 enum Panel_Types 
 { 
@@ -26,6 +27,7 @@ enum Panel_Types
 	PERFORMANCE_PANEL, 
 	HIERARCHY_PANEL, 
 	EXPLORER_PANEL, 
+	GAME_PANEL,
 	OCTREE_PANEL
 };
 
@@ -86,6 +88,7 @@ private:
 	UI_ExplorerPanel* explorer_panel = nullptr; 
 	UI_OctreePanel* octree_panel = nullptr; 
 	UI_ConsolePanel* console_panel = nullptr;
+	UI_GamePanel* game_panel = nullptr; 
 	UI_RandomNumberPanel* random_panel = nullptr;
 	UI_PerformancePanel* performance_panel = nullptr;
 };
