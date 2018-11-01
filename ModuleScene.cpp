@@ -33,6 +33,7 @@ bool ModuleScene::Start()
 	octree = new Octree();
 
 	SetDefaultScene(); 
+	scene_name = "Untitled"; 
 
 	return ret;
 }
@@ -239,6 +240,8 @@ void ModuleScene::LoadScene(const char * scene_path)
 {
 	string name_w_termination = scene_path; 
 
+	SetSceneName(name_w_termination.c_str()); 
+
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
 	{
 		//First clean the current scene
@@ -267,6 +270,29 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 		stream.close(); 
 	}
+}
+
+const char * ModuleScene::GetSceneName() const
+{
+	return scene_name.c_str();
+}
+
+void ModuleScene::SetSceneName(const char * new_name)
+{
+	//If it has termination we delete it 
+	string name(new_name); 
+
+	int pos = name.find_last_of('.');
+
+	if (pos != 0)
+	{
+		int to_copy = name.length() - pos;
+		name = name.substr(0, pos);
+		scene_name = name;
+		return;
+	}
+
+	scene_name = new_name; 
 }
 
 // Update

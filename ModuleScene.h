@@ -45,13 +45,16 @@ public:
 	void SaveScene(const char* scene_name); 
 	void LoadScene(const char* scene_path);
 
+	const char* GetSceneName() const;
+	void SetSceneName(const char* new_name);
+
 public:
 
 	std::list<GameObject*> scene_gameobjects; 
 	std::list<GameObject*> static_gameobjects;
 	std::list<GameObject*> go_to_delete; 
 	GameObject* selected_go; 
-
+	std::string scene_name; 
 	Octree* octree; 
 
 };
