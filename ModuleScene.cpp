@@ -37,6 +37,9 @@ bool ModuleScene::Start()
 	SetDefaultScene(); 
 	scene_name = "Untitled"; 
 
+	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
+	App->renderer3D->AddRenderCamera(App->camera->GetGameCamera()); 
+
 	return ret;
 }
 
@@ -120,6 +123,30 @@ GameObject * ModuleScene::GetGameObjectByID(UID uid)
 	}
 
 	return nullptr; 
+}
+
+GameObject * ModuleScene::GetGameObject(const char * name)
+{
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if (string((*it)->GetName()) == string(name))
+			return (*it);
+	}
+
+	return nullptr;
+}
+
+std::list<GameObject*> ModuleScene::GetAllGameObjectsWith(CompType type)
+{
+	std::list<GameObject*> to_ret;
+
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->GetComponent(type) != nullptr)
+			to_ret.push_back((*it)); 
+	}
+
+	return to_ret; 
 }
 
 GameObject * ModuleScene::CreateGameObject(const char* name)

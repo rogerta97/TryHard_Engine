@@ -97,11 +97,17 @@ GameObject * GameObject::GetRootParent()
 }
 
 void GameObject::SetParent(GameObject * new_parent)
-{
-	parent = new_parent; 
+{	
+	if (parent == new_parent)
+		return; 
 
-	if(new_parent != nullptr)
-		new_parent->child_list.push_back(this); 
+	if (parent)
+		parent->DeleteChildFromList(this);
+	
+	parent = new_parent;
+
+	if (new_parent != nullptr)
+		new_parent->child_list.push_back(this);
 }
 
 void GameObject::SetActive(bool activated)
@@ -346,7 +352,11 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this); 
+			App->imgui->hierarchy_panel->want_to_drag = true;
+			App->imgui->hierarchy_panel->source_in_drag = this;
 		}
+
+		App->imgui->hierarchy_panel->ManageDragAndDrop(this);
 
 		if (ImGui::IsItemClicked(1))
 			App->imgui->hierarchy_panel->show_click_menu = true;
@@ -368,17 +378,19 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 
 		ImGui::TreeNodeEx(name.c_str(), node_flags);
 		
-		
 		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{
 			node_clicked = id;
 			App->scene->SetSelectedGameObject(this);
-			
+			App->imgui->hierarchy_panel->want_to_drag = true; 
+			App->imgui->hierarchy_panel->source_in_drag = this; 
 		}
+
+		App->imgui->hierarchy_panel->ManageDragAndDrop(this); 
 
 		if (ImGui::IsItemClicked(1))
 			App->imgui->hierarchy_panel->show_click_menu = true;
-	
+			
 	}
 	return ret; 
 }
@@ -460,6 +472,18 @@ GameObject * GameObject::GetChild(int index) const
 	}
 
 	return nullptr; 
+}
+
+GameObject * GameObject::GetChild(const char * name) const
+{
+	int i = 0;
+	for (auto it = child_list.begin(); it != child_list.end(); it++, i++)
+	{
+		if (string(name) == string((*it)->GetName()))
+			return (*it);
+	}
+
+	return nullptr;
 }
 
 void GameObject::DeleteChildFromList(GameObject * child_to_delete)

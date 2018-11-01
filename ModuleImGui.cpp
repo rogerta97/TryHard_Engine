@@ -12,10 +12,12 @@
 #include "UI_ConfigurationPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_ConsolePanel.h"
+#include "UI_GamePanel.h"
 #include "UI_RandomNumberPanel.h"
 #include "UI_InspectorPanel.h"
 #include "UI_ExplorerPanel.h"
 #include "UI_OctreePanel.h"
+#include "UI_GamePanel.h"
 #include "UI_PerformancePanel.h"
 #include "UI_HierarchyPanel.h"
 
@@ -50,6 +52,7 @@ bool ModuleImGui::Init(JSON_Object* config)
 	hierarchy_panel = (UI_HierarchyPanel*)AddPanel(HIERARCHY_PANEL);
 	explorer_panel = (UI_ExplorerPanel*)AddPanel(EXPLORER_PANEL); 
 	octree_panel = (UI_OctreePanel*)AddPanel(OCTREE_PANEL); 
+	game_panel = (UI_GamePanel*)AddPanel(GAME_PANEL); 
 
 	return true;
 }
@@ -491,6 +494,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case OCTREE_PANEL:
 		panel = new UI_OctreePanel();
+		break;
+	case GAME_PANEL:
+		panel = new UI_GamePanel();
 		break;
 	default:
 		break;

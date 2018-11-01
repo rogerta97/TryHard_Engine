@@ -9,6 +9,7 @@
 #include "DebugDraw.h"
 
 #include "ComponentMesh.h"
+#include "ComponentCamera.h"
 #include "ComponentTransform.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
@@ -49,6 +50,9 @@ bool ModuleCamera3D::Start()
 
 	App->renderer3D->AddRenderCamera(cam);
 	skybox->AttachTo(ecam_go); 
+
+	//Create Game Camera
+	gcam_go = nullptr; 
 
 	start_time = performance_timer.Read();
 
@@ -96,8 +100,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 	App->renderer3D->UseCurrentRenderSettings();
 
-	//
-
 	cam->CalculateViewMatrix();
 
 	if (!ecam_go || !cam)
@@ -132,7 +134,6 @@ void ModuleCamera3D::PrintConfigData()
 
 		ImGui::Spacing();
 		ImGui::Text("Editor Camera:");
-		ImGui::Spacing();
 
 		if (ecam_trans)
 		{
@@ -167,10 +168,7 @@ void ModuleCamera3D::PrintConfigData()
 				if (ecam_trans->GetRotationEuler().z != show_rot[2])
 					ecam_trans->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 			}
-
-			ImGui::Spacing();
 		}
-
 
 		ImGui::Separator();
 		ImGui::Spacing();
@@ -192,24 +190,70 @@ void ModuleCamera3D::PrintConfigData()
 
 		ImGui::Checkbox("Ghost Camera", &is_ghost_camera);
 
-		SEPARATE_WITH_SPACE
-
+		if(ImGui::TreeNode("Editor Camera Settings"))
+		{	
 			App->imgui->inspector_panel->PrintCameraProperties(App->camera->GetEditorCamera());
 
-		ImGui::Spacing();
+			ImGui::TreePop(); 
+		}
+		
+		SEPARATE_WITH_SPACE
 
 		ImGui::Text("Main Camera:");
-		ImGui::Separator();
-		ImGui::Spacing();
-		ImGui::Text("GameObject Bounded:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*"); ImGui::SameLine();
+	
+		ImGui::SameLine();
+
+		if(gcam_go == nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "NONE");
+		else
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", gcam_go->GetName().c_str());
+
+		ImGui::SameLine();
 
 		if (ImGui::SmallButton("+##Camera"))
 		{
-
+			ImGui::OpenPopup("select_camera");
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::SmallButton("X##Camera"))
+		{
+			gcam_go = nullptr; 
+		}
+
+		if(ImGui::BeginPopup("select_camera"))
+		{
+			ImGui::Text("GO with Camera:");
+			ImGui::Separator();
+			int i = 0;
+
+			std::list<GameObject*> go_with_cam = App->scene->GetAllGameObjectsWith(CMP_CAMERA);
+
+			for (auto it = go_with_cam.begin(); it != go_with_cam.end(); it++) 
+			{			
+				if (ImGui::Selectable((*it)->GetName().c_str()))
+				{
+					gcam_go = (*it); 
+					break;
+				}
+				
+			}
+			ImGui::EndPopup();
+		}
 		ImGui::Spacing();
+
+		if (gcam_go != nullptr)
+		{
+			if (ImGui::TreeNode("Main Camera Settings"))
+			{
+				ComponentCamera* cam = (ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA);
+				App->imgui->inspector_panel->PrintCameraProperties(cam);
+
+				ImGui::TreePop();
+			}
+		}
+	
 	}
 }
 
@@ -233,6 +277,23 @@ float3 ModuleCamera3D::Rotate(const float3 & u, float angle, const float3 & v)
 GameObject * ModuleCamera3D::GetCameraGO() const
 {
 	return ecam_go;
+}
+
+ComponentCamera * ModuleCamera3D::GetGameCamera()
+{
+	if (!gcam_go)
+		return nullptr;
+	ComponentCamera* cam = (ComponentCamera *)gcam_go->GetComponent(CMP_CAMERA);
+
+	if (cam)
+		return cam;
+	else
+		return nullptr;
+}
+
+void ModuleCamera3D::SetGameCamera(GameObject * new_cam)
+{
+	gcam_go = new_cam; 
 }
 
 bool ModuleCamera3D::IsGhostCamera() const
