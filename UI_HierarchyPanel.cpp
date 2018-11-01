@@ -24,15 +24,19 @@ bool UI_HierarchyPanel::Start()
 }
 
 bool UI_HierarchyPanel::Update()
-{
-	string hier_string = "Hierarchy "; 
-	hier_string += "("; hier_string += App->scene->GetSceneName(); hier_string += ")"; 
-
-	if (ImGui::Begin(hier_string.c_str(), &show, NULL))
+{	
+	if (ImGui::Begin("Hierarchy", &show, NULL))
 	{
+	
+		ImGui::Text(App->scene->GetSceneName()); 
+	
 		static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
 		static int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
 		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 2); // Increase spacing to differentiate leaves from expanded contents.
+
+		ImGui::Separator();
+		ImGui::BeginChild("");
+		
 
 		int id = -1; 
 		for (auto it = App->scene->scene_gameobjects.begin(); it != App->scene->scene_gameobjects.end(); it++)
@@ -77,6 +81,7 @@ bool UI_HierarchyPanel::Update()
 		}
 	}
 
+	ImGui::EndChild();
 	ImGui::End(); 
 
 	return true;
