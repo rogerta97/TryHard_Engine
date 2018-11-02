@@ -1,4 +1,5 @@
 #include "UI_InspectorPanel.h"
+#include "UI_TagPanel.h"
 
 #include "Application.h"
 #include "imgui_dock.h"
@@ -78,7 +79,15 @@ bool UI_InspectorPanel::Update()
 			gameobject->SetStatic(tmp_is_static);
 		}
 
+		ImGui::SameLine();
 
+		string but_tex = gameobject->GetTag().c_str();
+		ImGui::Button(but_tex.c_str()); ImGui::SameLine();
+
+		if (ImGui::Button("+##TagButton"))
+		{
+			App->imgui->tag_panel->show = true; 
+		}
 
 		ImGui::Spacing(); 
 

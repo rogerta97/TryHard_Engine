@@ -239,6 +239,7 @@
     <ClInclude Include="UI_PerformancePanel.h" />
     <ClInclude Include="UI_RandomNumberPanel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
+    <ClInclude Include="UI_TagPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -328,6 +329,7 @@
     <ClCompile Include="UI_PerformancePanel.cpp" />
     <ClCompile Include="UI_RandomNumberPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
+    <ClCompile Include="UI_TagPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\color4.inl" />

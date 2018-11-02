@@ -6,6 +6,7 @@
 
 #include "UI_InspectorPanel.h"
 #include "UI_HierarchyPanel.h"
+#include "UI_TagPanel.h"
 
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -20,6 +21,7 @@ GameObject::GameObject()
 	bounding_box = nullptr;
 	is_static = false; 
 	active = true; 
+
 	unique_id = App->file_system->GenerateUID();
 
 	Component* new_cmp = new ComponentTransform(this);
@@ -34,6 +36,7 @@ GameObject::GameObject(const char * name)
 	bounding_box = nullptr;
 	parent = nullptr; 
 	selected = false; 
+
 	unique_id = App->file_system->GenerateUID();
 
 	Component* new_cmp = new ComponentTransform(this);
@@ -49,6 +52,7 @@ GameObject::~GameObject()
 
 void GameObject::Start()
 {
+	tag = App->imgui->tag_panel->GetTagByIndex(0);
 }
 
 void GameObject::Update()

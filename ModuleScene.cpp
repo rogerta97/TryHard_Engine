@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "UI_InspectorPanel.h"
+#include "UI_TagPanel.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 #include "DebugDraw.h"
@@ -34,6 +35,7 @@ bool ModuleScene::Start()
 	App->renderer3D->OnResize(1000, 1000);
 	octree = new Octree();
 
+	App->imgui->tag_panel->AddTag("Untagged");
 	SetDefaultScene(); 
 	scene_name = "Untitled"; 
 
@@ -166,6 +168,8 @@ GameObject * ModuleScene::GetGameObject(const char * name)
 	return nullptr;
 }
 
+
+
 std::list<GameObject*> ModuleScene::GetAllGameObjectsWith(CompType type)
 {
 	std::list<GameObject*> to_ret;
@@ -225,6 +229,7 @@ void ModuleScene::DeleteGameObjectFromList(GameObject* go)
 void ModuleScene::AddGameObjectToScene(GameObject* go)
 {
 	scene_gameobjects.push_back(go); 
+	go->Start();
 }
 
 bool ModuleScene::IsTextureUsed(int id, GameObject* skip)
@@ -332,6 +337,7 @@ void ModuleScene::SetDefaultScene()
 
 	ComponentCamera* cam = (ComponentCamera*)main_cam->AddComponent(CMP_CAMERA);
 	cam->is_editor = false; 
+
 }
 
 void ModuleScene::SaveScene(const char* scene_name)

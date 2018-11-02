@@ -14,7 +14,8 @@ class UI_ExplorerPanel;
 class UI_Panel;
 class UI_HierarchyPanel; 
 class UI_OctreePanel; 
-class UI_GamePanel; 
+class UI_TagPanel; 
+class UI_GamePanel;
 
 enum Panel_Types 
 { 
@@ -28,7 +29,8 @@ enum Panel_Types
 	HIERARCHY_PANEL, 
 	EXPLORER_PANEL, 
 	GAME_PANEL,
-	OCTREE_PANEL
+	OCTREE_PANEL,
+	TAG_PANEL,
 };
 
 class ModuleImGui : public Module
@@ -69,6 +71,7 @@ public:
 	UI_HierarchyPanel* hierarchy_panel = nullptr;
 	UI_ScenePanel* scene_panel = nullptr;
 	UI_GamePanel* game_panel = nullptr;
+	UI_TagPanel* tag_panel;
 
 	std::list<UI_Panel*> panels_list;
 
@@ -85,7 +88,6 @@ private:
 
 
 	UI_ConfigurationPanel* config_panel = nullptr; 
-
 	UI_ExplorerPanel* explorer_panel = nullptr; 
 	UI_OctreePanel* octree_panel = nullptr; 
 	UI_ConsolePanel* console_panel = nullptr;

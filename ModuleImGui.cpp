@@ -14,6 +14,7 @@
 #include "UI_ConsolePanel.h"
 #include "UI_GamePanel.h"
 #include "UI_RandomNumberPanel.h"
+#include "UI_TagPanel.h"
 #include "UI_InspectorPanel.h"
 #include "UI_ExplorerPanel.h"
 #include "UI_OctreePanel.h"
@@ -53,6 +54,7 @@ bool ModuleImGui::Init(JSON_Object* config)
 	explorer_panel = (UI_ExplorerPanel*)AddPanel(EXPLORER_PANEL); 
 	octree_panel = (UI_OctreePanel*)AddPanel(OCTREE_PANEL); 
 	game_panel = (UI_GamePanel*)AddPanel(GAME_PANEL); 
+	tag_panel = (UI_TagPanel*)AddPanel(TAG_PANEL);
 
 	return true;
 }
@@ -256,6 +258,14 @@ update_status ModuleImGui::DrawTopBar()
 		if (ImGui::MenuItem("Octree"))
 		{
 			octree_panel->show = !octree_panel->show;
+		}
+		if (ImGui::MenuItem("Game"))
+		{
+			game_panel->show = !game_panel->show;
+		}
+		if (ImGui::MenuItem("Tags"))
+		{
+			tag_panel->show = !tag_panel->show;
 		}
 
 		ImGui::EndMenu();
@@ -497,6 +507,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case GAME_PANEL:
 		panel = new UI_GamePanel();
+		break;
+	case TAG_PANEL:
+		panel = new UI_TagPanel();
 		break;
 	default:
 		break;

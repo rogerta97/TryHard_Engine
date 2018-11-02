@@ -85,7 +85,7 @@ bool UI_HierarchyPanel::Update()
 		}
 	}
 
-	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered())
+	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
 	{
 		App->imgui->hierarchy_panel->show_create_menu = true; 
 	}

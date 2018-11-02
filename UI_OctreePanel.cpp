@@ -14,7 +14,7 @@ UI_OctreePanel::~UI_OctreePanel()
 
 bool UI_OctreePanel::Start()
 {
-	show = true; 
+	show = false; 
 	octree = App->scene->octree; 
 	size = 5.0f; 
 	

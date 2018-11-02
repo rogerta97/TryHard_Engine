@@ -573,6 +573,9 @@
     <ClInclude Include="UI_GamePanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
+    <ClInclude Include="UI_TagPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -834,6 +837,9 @@
       <Filter>Sources\3rd Partys</Filter>
     </ClCompile>
     <ClCompile Include="UI_GamePanel.cpp">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TagPanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
   </ItemGroup>
