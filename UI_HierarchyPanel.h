@@ -17,6 +17,7 @@ public:
 	void ManageDragAndDrop(GameObject* current); 
 
 	bool show_click_menu; 
+	bool show_create_menu; 
 	bool want_to_drag; 
 
 	GameObject* source_in_drag; 

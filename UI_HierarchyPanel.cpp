@@ -1,4 +1,5 @@
 #include "UI_HierarchyPanel.h"
+#include "ComponentMesh.h"
 
 #include "imgui_dock.h"
 #include "Application.h"
@@ -19,6 +20,7 @@ bool UI_HierarchyPanel::Start()
 {
 	show = true;
 	show_click_menu = false;
+	show_create_menu = false; 
 	want_to_drag = false;
 
 	source_in_drag = nullptr;
@@ -77,6 +79,50 @@ bool UI_HierarchyPanel::Update()
 				App->scene->GetSelectedGameObject()->DeleteRecursive();
 				App->scene->SetSelectedGameObject(nullptr);
 				delete App->scene->GetSelectedGameObject();
+			}
+
+			ImGui::EndPopup();
+		}
+	}
+
+	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered())
+	{
+		App->imgui->hierarchy_panel->show_create_menu = true; 
+	}
+
+	if (App->imgui->hierarchy_panel->show_create_menu)
+	{
+		ImGui::OpenPopup("CreateOptions");
+		if (ImGui::BeginPopup("CreateOptions"))
+		{
+			if (ImGui::MenuItem("Empty"))
+			{
+				App->imgui->hierarchy_panel->show_create_menu = false;
+
+				GameObject* new_go = App->scene->CreateGameObject();
+				new_go->name = "Empty";
+				App->scene->SetSelectedGameObject(new_go);
+			}
+
+			if (ImGui::MenuItem("Cube"))
+			{
+				App->imgui->hierarchy_panel->show_create_menu = false;
+
+				GameObject* new_go = App->scene->CreateGameObject();
+				new_go->SetParent(nullptr);
+
+				new_go->name = "Cube";
+
+				//Add Mesh
+				ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_MESH);
+				Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE);
+
+				new_mesh->name = "CubeMesh";
+				new_mesh->LoadToMemory();
+				cmp->SetMesh(new_mesh);
+				cmp->CreateEnclosedMeshAABB();
+
+				App->scene->SetSelectedGameObject(new_go);
 			}
 
 			ImGui::EndPopup();

@@ -330,7 +330,8 @@ void ModuleScene::SetDefaultScene()
 	//Create Empty GO with a camera
 	GameObject* main_cam = CreateGameObject("Main Camera");
 
-	main_cam->AddComponent(CMP_CAMERA);
+	ComponentCamera* cam = (ComponentCamera*)main_cam->AddComponent(CMP_CAMERA);
+	cam->is_editor = false; 
 }
 
 void ModuleScene::SaveScene(const char* scene_name)
@@ -426,14 +427,6 @@ void ModuleScene::SetSceneName(const char * new_name)
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	/*pPlane p(0, 1, 0, 500);
-	p.axis = true;
-	p.color = {0.0f, 0.0f, 0.0f };
-
-	glDisable(GL_TEXTURE_2D); 
-	p.Render();
-	glEnable(GL_TEXTURE_2D);
-*/
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
 		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
@@ -445,8 +438,8 @@ update_status ModuleScene::Update(float dt)
 	//if (octree->GetRoot() != nullptr)
 	//	octree->Draw(); 
 
-	//if (go_to_delete.size() != 0)
-	//	DeleteGameObjectsNow(); 
+	if (go_to_delete.size() != 0)
+		DeleteGameObjectsNow(); 
 	 
 	return UPDATE_CONTINUE;
 }
