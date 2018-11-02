@@ -38,39 +38,15 @@ bool ComponentMesh::Update()
 	else
 		frustum_col_type = INSIDE_FRUSTUM;
 
-	
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
 	ComponentTransform* trans =  (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
-	if (wireframe == false)
-	{
-		App->renderer3D->UseCurrentRenderSettings();
-		 DrawMesh();
-	}
-	
-	//if the mesh is selected we draw it again in wireframe mode
-	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true)
-	{
-		wireframe = true;
-		App->renderer3D->UseDebugRenderSettings();
-		glLineWidth(3.0f); 
-		DrawMesh();
-		App->renderer3D->UseCurrentRenderSettings();
-		wireframe = false;
-	}
-
-	if (draw_normals)
-		DrawNormals();
-
 	if (trans->HasTransformed()) {
 		UpdateBoundingBox();
 		trans->SetHasTransformed(false);
 	}
-
-	if (draw_bounding_box)
-		DrawBoundingBox();
 
 	return true;	
 }
@@ -88,6 +64,8 @@ bool ComponentMesh::CleanUp()
 		
 	return false;
 }
+
+
 
 void ComponentMesh::SetMesh(Mesh * new_mesh)
 {
@@ -199,6 +177,32 @@ void ComponentMesh::DrawMesh()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
+}
+
+void ComponentMesh::Draw(bool is_editor)
+{
+	if (wireframe == false)
+	{
+		App->renderer3D->UseCurrentRenderSettings();
+		DrawMesh();
+	}
+
+	//if the mesh is selected we draw it again in wireframe mode
+	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true && is_editor == true)
+	{
+		wireframe = true;
+		App->renderer3D->UseDebugRenderSettings();
+		glLineWidth(3.0f);
+		DrawMesh();
+		App->renderer3D->UseCurrentRenderSettings();
+		wireframe = false;
+	}
+
+	if (draw_normals)
+		DrawNormals();
+
+	if (draw_bounding_box)
+		DrawBoundingBox();
 }
 
 void ComponentMesh::SetDefaultSettings()

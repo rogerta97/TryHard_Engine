@@ -51,6 +51,36 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
+void ModuleScene::DrawSceneGameObjects(GameObject* camera)
+{
+	bool editor_cam = false; 
+
+	if (App->camera->skybox)
+	{
+		App->camera->skybox->AttachTo(camera); 
+		App->camera->skybox->Draw();
+	}
+		
+	ComponentCamera* cam = (ComponentCamera*)camera->GetComponent(CMP_CAMERA); 
+
+	if (cam == App->camera->GetEditorCamera())
+	{
+		pPlane p(0, 1, 0, 500);
+		p.axis = true;
+		p.color = { 0.0f, 0.0f, 0.0f };
+
+		App->renderer3D->UseDebugRenderSettings();
+		p.Render();
+		App->renderer3D->GetDefaultRenderSettings();
+		editor_cam = true; 
+	}
+
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		(*it)->Draw(editor_cam); 
+	}
+}
+
 void ModuleScene::DeleteGameObjectsNow()
 {
 	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
@@ -396,14 +426,14 @@ void ModuleScene::SetSceneName(const char * new_name)
 // Update
 update_status ModuleScene::Update(float dt)
 {
-	pPlane p(0, 1, 0, 500);
+	/*pPlane p(0, 1, 0, 500);
 	p.axis = true;
 	p.color = {0.0f, 0.0f, 0.0f };
 
 	glDisable(GL_TEXTURE_2D); 
 	p.Render();
 	glEnable(GL_TEXTURE_2D);
-
+*/
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
 		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
@@ -412,11 +442,11 @@ update_status ModuleScene::Update(float dt)
 		}
 	}
 
-	if (octree->GetRoot() != nullptr)
-		octree->Draw(); 
+	//if (octree->GetRoot() != nullptr)
+	//	octree->Draw(); 
 
-	if (go_to_delete.size() != 0)
-		DeleteGameObjectsNow(); 
+	//if (go_to_delete.size() != 0)
+	//	DeleteGameObjectsNow(); 
 	 
 	return UPDATE_CONTINUE;
 }

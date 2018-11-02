@@ -28,6 +28,10 @@ bool Component::CleanUp()
 	return false;
 }
 
+void Component::Draw(bool is_editor)
+{
+}
+
 CompType Component::GetType() const
 {
 	return component_type;

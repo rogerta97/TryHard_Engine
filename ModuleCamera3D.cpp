@@ -66,12 +66,6 @@ bool ModuleCamera3D::Start()
 update_status ModuleCamera3D::Update(float dt)
 {
 
-	//SkyBox
-	if (skybox != nullptr)
-	{
-		skybox->Draw();
-	}
-
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
 	ManageMovement();
@@ -101,9 +95,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;
-
-
-
 
 	return UPDATE_CONTINUE;
 }
@@ -217,6 +208,7 @@ void ModuleCamera3D::PrintConfigData()
 		if (ImGui::SmallButton("X##Camera"))
 		{
 			gcam_go = nullptr; 
+			App->renderer3D->rendering_cameras.pop_back();
 		}
 
 		if(ImGui::BeginPopup("select_camera"))
@@ -232,6 +224,7 @@ void ModuleCamera3D::PrintConfigData()
 				if (ImGui::Selectable((*it)->GetName().c_str()))
 				{
 					gcam_go = (*it); 
+					App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));
 					break;
 				}
 				

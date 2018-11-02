@@ -76,6 +76,12 @@ bool ComponentCamera::CleanUp()
 	return true;
 }
 
+void ComponentCamera::Draw(bool is_editor)
+{
+	if (draw_frustum)
+		DrawFrustum();
+}
+
 // -----------------------------------------------------------------
 bool ComponentCamera::Update()
 {
@@ -84,9 +90,6 @@ bool ComponentCamera::Update()
 
 	if (!is_editor_camera)
 	UpdateFrustumPositionAndRotation();
-
-	if (draw_frustum)
-		DrawFrustum(); 
 
 	return UPDATE_CONTINUE;
 }

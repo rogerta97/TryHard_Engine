@@ -17,6 +17,7 @@ public:
 
 	void Start(); 
 	void Update(); 
+	void Draw(bool is_editor); 
 
 	Component* AddComponent(CompType new_cmp);
 	void AddComponentFromJSON(JSON_Object* cmp_obj, const char* cmp_type);

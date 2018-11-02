@@ -17,6 +17,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void DrawSceneGameObjects(GameObject* camera); 
 	void DeleteGameObjectsNow(); 
 	void CleanScene(); 
 	void AddGameObjectToDeleteList(GameObject* to_del); 

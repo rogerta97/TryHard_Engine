@@ -42,6 +42,7 @@ public:
 	bool Start(); 
 	bool Update(); 
 	bool CleanUp(); 
+	void Draw(bool is_editor); 
 
 	//Movement
 	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);

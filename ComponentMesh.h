@@ -15,10 +15,11 @@ public:
 
 	bool Update();
 	bool CleanUp(); 
+	void DrawMesh();
+	void Draw(bool is_editor); 
 
 public: 
 
-	void DrawMesh(); 
 	void DrawNormals();
 
 	void SetMesh(Mesh* new_mesh);

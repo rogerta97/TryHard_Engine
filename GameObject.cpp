@@ -70,6 +70,17 @@ void GameObject::Update()
 	}
 }
 
+void GameObject::Draw(bool is_editor)
+{
+	if (!active)
+		return; 
+
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		(*it)->Draw(is_editor);
+	}
+}
+
 Component * GameObject::GetComponent(CompType cmp_type) const
 {
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
