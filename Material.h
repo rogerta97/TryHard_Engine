@@ -1,4 +1,5 @@
 #pragma once
+#include "Color.h"
 
 class Texture; 
 
@@ -13,8 +14,12 @@ public:
 	Texture* GetDiffuseTexture(); 
 	void SetDiffuseTexture(Texture* new_tex); 
 
+
+	Color color;
+
 private:
 
 	Texture * diffuse; 
+
 };
 
