@@ -476,9 +476,7 @@ void ComponentCamera::PrintPreview()
 			ImVec2 region_size = ImGui::GetContentRegionAvail();
 			const float region_ratio = region_size.y / region_size.x;
 
-			//Camera* camera = App->camera->GetEditorCamera()->camera;
-
-			camera->SetAspectRatio(1 / region_ratio);
+			camera->SetAspectRatio(1);
 
 			ImGui::Image((void*)GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
 

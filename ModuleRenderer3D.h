@@ -8,6 +8,7 @@
 #define MAX_LIGHTS 8
 
 class ComponentCamera; 
+class Camera;
 
 struct RenderSettings
 {
@@ -32,7 +33,7 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
-	void UpdateProjectionMatrix();
+	void UpdateProjectionMatrix(Camera* cam);
 
 	void UseCurrentRenderSettings();
 	void UseUIRenderSettings(); 

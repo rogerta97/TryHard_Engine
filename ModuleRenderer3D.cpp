@@ -155,7 +155,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 		if ((*it)->camera->projection_changed == true)
 		{
-			UpdateProjectionMatrix();
+			UpdateProjectionMatrix((*it)->camera);
 			(*it)->camera->projection_changed = false;
 		}
 
@@ -266,10 +266,10 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	//glLoadIdentity();
 }
 
-void ModuleRenderer3D::UpdateProjectionMatrix()
+void ModuleRenderer3D::UpdateProjectionMatrix(Camera* cam)
 {
 	glMatrixMode(GL_PROJECTION);
-	Frustum camerafrustum = App->camera->GetEditorCamera()->camera->frustum;
+	Frustum camerafrustum = cam->frustum;
 	ProjectionMatrix = camerafrustum.ProjectionMatrix();
 
 	glLoadMatrixf(&ProjectionMatrix[0][0]);
