@@ -16,7 +16,7 @@ public:
 	virtual bool Start(); 
 	virtual bool Update(); 
 	virtual bool CleanUp(); 
-	virtual void Draw(bool is_editor); 
+	virtual void Draw(bool is_editor);
 
 	//Setters & Getters
 	CompType GetType() const;

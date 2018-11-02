@@ -107,6 +107,16 @@ GameObject * GameObject::GetRootParent()
 	return to_ret; 
 }
 
+string GameObject::GetTag() const
+{
+	return tag;
+}
+
+void GameObject::SetTag(string new_tag)
+{
+	tag = new_tag; 
+}
+
 void GameObject::SetParent(GameObject * new_parent)
 {	
 	if (parent == new_parent)

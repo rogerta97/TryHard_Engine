@@ -42,7 +42,7 @@ public:
 	bool Start(); 
 	bool Update(); 
 	bool CleanUp(); 
-	void Draw(bool is_editor); 
+	void Draw(bool is_editor);
 
 	//Movement
 	void Look(const float3 &Position, const float3 &Reference, bool RotateAroundReference = false);
@@ -105,6 +105,7 @@ public:
 	float mouse_sensitivity;
 	bool draw_frustum; 
 	Camera* camera;
+	bool is_editor; 
 
 private:
 

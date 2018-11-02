@@ -47,6 +47,7 @@ bool ModuleCamera3D::Start()
 	cam->draw_frustum = false;
 	cam->camera->frustum.pos = { 10, 4, 10 };
 	cam->LookAt({ 0,0,0 });
+	cam->is_editor = true; 
 
 	App->renderer3D->AddRenderCamera(cam);
 	skybox->AttachTo(ecam_go); 

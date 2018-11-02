@@ -73,13 +73,19 @@ bool ComponentCamera::CleanUp()
 {
 	LOG("Cleaning camera");
 
+	if (!is_editor)
+		App->renderer3D->rendering_cameras.pop_back();
+
 	return true;
 }
 
 void ComponentCamera::Draw(bool is_editor)
 {
-	if (draw_frustum)
-		DrawFrustum();
+	if (is_editor)
+	{
+		if (draw_frustum)
+			DrawFrustum();
+	}
 }
 
 // -----------------------------------------------------------------
