@@ -1,11 +1,12 @@
 #include "Material.h"
 #include "Texture.h"
+#include "OpenGL.h"
 
 
 Material::Material()
 {
-	diffuse = new Texture(); 
 	diffuse = nullptr;
+	color = { 1.0f,1.0f,1.0f };
 }
 
 

@@ -168,10 +168,14 @@ void ComponentMesh::DrawMesh()
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id);
 				glNormalPointer(GL_FLOAT, 0, NULL);
 			}
-		}		
+		}
+		else {
+			glDisable(GL_TEXTURE_2D);
+			Color color = material->GetMaterial()->color;
+			glColor3f(color.r, color.g, color.b);
+		}
 	}
-	
-	if(!valid_mat)
+	else if(!valid_mat)
 	{
 		glDisable(GL_TEXTURE_2D); 
 		glColor3f(0.5f, 0.5f, 1.0f);
