@@ -304,6 +304,9 @@ bool ComponentMesh::GetClosestIntersectionPoint(LineSegment line, float3 &closes
 	if (!mesh)
 		return false;
 
+	if (!mesh->vertices)
+		return false;
+
 	int num_tris = mesh->num_indices / 3;
 
 	float4x4 gm = trans->GetGlobalViewMatrix();
@@ -337,8 +340,8 @@ bool ComponentMesh::GetClosestIntersectionPoint(LineSegment line, float3 &closes
 	closest_point += gm.TranslatePart();
 	distance = closest_distance;
 
-	if (ret)
-		CONSOLE_LOG("x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	//if (ret)
+	//	CONSOLE_LOG("x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
 	return ret;
 }
 

@@ -273,8 +273,7 @@ void ModuleScene::TestLineAgainstGOs(LineSegment line)
 
 	GameObject* closestGo = GetClosestGO(line, intersected_list);
 
-	if (closestGo)
-		SetSelectedGameObject(closestGo);
+	SetSelectedGameObject(closestGo);
 
 }
 
@@ -284,6 +283,7 @@ GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> 
 	float closest_distance = 100000;
 	GameObject* closest_go = nullptr;
 	float distance;
+	bool something_intersected = false;
 
 	auto go_iterator = scene_gameobjects.begin();
 
@@ -298,7 +298,7 @@ GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> 
 
 			if (mesh->GetClosestIntersectionPoint(line, point, distance))
 			{
-
+				something_intersected = true;
 				if (distance < closest_distance)
 				{
 					closest_distance = distance;
@@ -310,8 +310,8 @@ GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> 
 		go_iterator++;
 	}
 
-
-	CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	//if (something_intersected)
+	//CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
 	return closest_go;
 }
 
