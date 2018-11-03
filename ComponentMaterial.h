@@ -18,6 +18,7 @@ public:
 
 	Material* GetMaterial() const; 
 	void SetMaterial(Material* new_mat); 
+	void SetColor(Color color);
 
 private:
 

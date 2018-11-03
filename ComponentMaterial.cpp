@@ -58,6 +58,11 @@ void ComponentMaterial::SetMaterial(Material * new_mat)
 		CONSOLE_ERROR("You are trying to assign a NULL material"); 
 }
 
+void ComponentMaterial::SetColor(Color color)
+{
+	material->color = color;
+}
+
 void ComponentMaterial::Load(JSON_Object * root_obj)
 {
 	string diffuse_name = json_object_dotget_string(root_obj, "DiffuseName");

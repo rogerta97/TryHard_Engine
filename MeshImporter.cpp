@@ -349,15 +349,16 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				}
 				else
 				{
-					CONSOLE_ERROR("Texture not bounded correctly to '%s' Mesh, Texture won't be applied", game_object->name.c_str());
-					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-					if (curr_mesh->GetNumColorChannels() > 0)
-						for (int i = 0; i < curr_mesh->GetNumColorChannels(); i++)
-						{
-							CONSOLE_LOG("%f", curr_mesh->mColors[i]->r);
-						}
-				
-					
+					aiColor3D mat_color(1.0f, 1.0f, 1.0f);
+					if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, mat_color) == aiReturn_SUCCESS)
+					{
+						ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
+						cmp_mat->SetColor({ mat_color.r,mat_color.g,mat_color.b });
+						CONSOLE_DEBUG("'%s' Has no texture but a component material will be created for the color", game_object->name.c_str());
+					}
+					else 
+						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
+
 				}
 
 				App->scene->AddGameObjectToScene(game_object);
