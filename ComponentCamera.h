@@ -98,28 +98,29 @@ public:
 
 public: 
 
-	float3 X, Y, Z, Position, Reference;
-	CameraInterpolation interpolation; 
-	float wheel_zoom_speed = 5.0f;
-	float speed_multiplier;
-	float mouse_sensitivity;
-	bool draw_frustum; 
-	Camera* camera;
-	bool is_editor; 
+	float3					X, Y, Z, Position, Reference;
+	CameraInterpolation		interpolation; 
+	float					wheel_zoom_speed = 5.0f;
+	float					speed_multiplier;
+	float					mouse_sensitivity;
+	bool					draw_frustum; 
+	Camera*					camera;
+	bool					is_editor; 
+	bool					center_next_frame; 
 
 private:
 
-	float4x4 ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
-	float2 size;
+	float4x4				ViewMatrix, ViewMatrixInverse; //It should follow gameobject transform and not having another ViewMatrix	 
+	float2					size;
 
-	bool show_preview_panel;
+	bool					show_preview_panel;
 
-	TextureMSAA* viewport_texture;
-	float speed = 0.1f;
+	TextureMSAA*			viewport_texture;
+	float					speed = 0.1f;
 
-	bool locked;
-	bool orbit = true;
+	bool					locked;
+	bool					orbit = true;
 
-	bool is_editor_camera;
+	bool					is_editor_camera;
 };
 

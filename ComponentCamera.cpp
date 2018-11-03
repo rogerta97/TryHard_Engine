@@ -41,6 +41,7 @@ ComponentCamera::ComponentCamera(GameObject* parent)
 	mouse_sensitivity = 0.01f;
 
 	is_editor_camera = false;
+	center_next_frame = false;
 }
 
 ComponentCamera::~ComponentCamera()

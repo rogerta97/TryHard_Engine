@@ -31,13 +31,13 @@ bool UI_TagPanel::Update()
 				int count = 1;
 				for (auto it = tag_list.begin(); it != tag_list.end(); it++)
 				{
-					string str = to_string(count) + ". ";
+					string str = "Tag " + to_string(count) + ": ";
 					str += (*it).c_str();
 
 					if (ImGui::Selectable(str.c_str()))
 					{
 						//Delete the number 
-						str = str.substr(3, str.size() - 3); 
+						str = str.substr(7, str.size() - 7); 
 						App->scene->GetSelectedGameObject()->SetTag(str.c_str());
 						show = false;
 						break;
@@ -55,9 +55,9 @@ bool UI_TagPanel::Update()
 			ImGui::Text("*No tags*");
 		}
 
-	//	SEPARATE_WITH_SPACE
+		SEPARATE_WITH_SPACE
 
-		ImGui::InputText("", (char*)tag_to_add.c_str(), tag_to_add.size()); 
+		ImGui::InputText("##TagInput", (char*)tag_to_add.c_str(), tag_to_add.size() + 1); 
 		ImGui::SameLine();
 
 		if (ImGui::Button("Add Tag"))

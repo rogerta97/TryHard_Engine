@@ -358,10 +358,16 @@ void ModuleCamera3D::ManageMovement()
 		{
 			if (App->scene->GetSelectedGameObject() != nullptr)
 			{
-				cam->interpolation.interpolate = true;
-				cam->interpolation.interpolation_timer.Start();
-				cam->FillInterpolationSegmentAndRot();
+				cam->center_next_frame = true; 
 			}
+		}
+
+		if (cam->center_next_frame == true)
+		{
+			cam->interpolation.interpolate = true;
+			cam->interpolation.interpolation_timer.Start();
+			cam->FillInterpolationSegmentAndRot();
+			cam->center_next_frame = false; 
 		}
 
 		if (App->imgui->is_mouse_in_scene) {

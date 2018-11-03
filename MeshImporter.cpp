@@ -293,6 +293,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_MESH);
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
+			cmp_mesh->UpdateBoundingBox();
 			cmp_mesh->draw_bounding_box = false;
 			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name; 
 

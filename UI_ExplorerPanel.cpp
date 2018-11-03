@@ -99,6 +99,8 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				{
 					GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
 					App->scene->SetSelectedGameObject(parent);
+
+					App->camera->GetEditorCamera()->center_next_frame = true; 
 				}
 					
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
