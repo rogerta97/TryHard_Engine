@@ -16,7 +16,7 @@ enum OctreeBehaviour
 class OctreeNode
 {
 public:
-	OctreeNode(AABB box, OctreeNode* parent_node);
+	OctreeNode(AABB box, OctreeNode* parent_node, bool root);
 	~OctreeNode();
 
 	void Draw();
@@ -31,6 +31,9 @@ public:
 	OctreeNode * parent;
 	OctreeNode * childs[8];
 	bool leaf;
+	bool is_root; 
+
+	int division_lvl;
 
 	std::list<GameObject*> objects_in_node;
 };
@@ -44,7 +47,8 @@ public:
 	void Create(AABB limits, bool adaptative, int obj_limit);
 	void CleanUp();
 
-	void Insert(GameObject* new_go); 
+	bool Insert(GameObject* new_go); 
+	bool IsNull();
 	void GetIntersections(std::list<GameObject*> inter_list, GameObject* new_go);
 	
 	OctreeNode* GetRoot();
@@ -58,6 +62,7 @@ private:
 	OctreeNode* root_node;	
 	int limit_go; 
 	int obj_ammount; 
+	int sub_limit;  
 };
 
 

@@ -6,10 +6,13 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 
+#define OCTREE_DIV_LIMIT 4
+
 Octree::Octree()
 {
 	root_node = nullptr; 
 	obj_ammount = 0;
+	sub_limit = OCTREE_DIV_LIMIT;
 }
 
 Octree::~Octree()
@@ -22,32 +25,39 @@ void Octree::Create(AABB limits, bool adaptative, int obj_limit)
 
 	CleanUp(); //In case we are redoing the octree
 
-	root_node = new OctreeNode(limits, nullptr);
+	CONSOLE_LOG("newoctree creatred"); 
+
+	root_node = new OctreeNode(limits, nullptr, true);
 	this->adaptative = adaptative; 
+
+	obj_ammount = 0; 
 
 	for (auto it = App->scene->static_gameobjects.begin(); it != App->scene->static_gameobjects.end(); it++)
 	{
-		Insert((*it)); 
+		if (Insert((*it)))
+			break; 
 	}
 }
 
-void Octree::Insert(GameObject * new_go)
+bool Octree::Insert(GameObject * new_go)
 {
+	bool ret = false;
+
 	//First we check if it's inside the root node
 	ComponentMesh* mesh = (ComponentMesh*)new_go->GetComponent(CMP_MESH);
 	ComponentTransform* trans = (ComponentTransform*)new_go->GetComponent(CMP_TRANSFORM); 
 
 	if (mesh == nullptr)
-		return; 
+		return false; 
 
 	if (root_node == nullptr)
 	{
 		CONSOLE_ERROR("Object cant be added before creating the octree.", new_go->GetName().c_str());
-		return; 
+		return false; 
 	}
 
 	//If it intersects we do the following:
-	if (root_node->box.Intersects(mesh->bounding_box))
+	if (root_node->box.Contains(mesh->bounding_box))
 	{
 		//Add it to the root node, which will look for the best node recursively
 		root_node->Insert(new_go, obj_ammount);
@@ -62,13 +72,16 @@ void Octree::Insert(GameObject * new_go)
 		CleanUp();
 
 		//The size of the new box is the greatest value from x, y, or z (this is because AABB should be a cube)
-		float3 new_size = trans->GetPosition().Abs();
+		float3 new_size = mesh->bounding_box.minPoint;
+
+		if (mesh->bounding_box.minPoint.Distance({ 0,0,0 }) < mesh->bounding_box.maxPoint.Distance({ 0,0,0 }))
+			new_size = mesh->bounding_box.maxPoint;
 
 		float higher_distance = 0;
 
-		if (new_size.x > higher_distance) higher_distance = new_size.x; 
-		if (new_size.y > higher_distance) higher_distance = new_size.y;
-		if (new_size.z > higher_distance) higher_distance = new_size.z;
+		if (new_size.Abs().x > higher_distance) higher_distance = new_size.Abs().x;
+		if (new_size.Abs().y  > higher_distance) higher_distance = new_size.Abs().y;
+		if (new_size.Abs().z  > higher_distance) higher_distance = new_size.Abs().z;
 
 		//Create the new adapted AABB
 		float3 max_point = float3(higher_distance, higher_distance, higher_distance);
@@ -77,6 +90,8 @@ void Octree::Insert(GameObject * new_go)
 		AABB new_bb(min_point, max_point);
 
 		//Create a new Octree
+		ret = true; 
+
 		Create(new_bb, adaptative, obj_lim);
 
 	}
@@ -84,6 +99,16 @@ void Octree::Insert(GameObject * new_go)
 	{
 		CONSOLE_ERROR("Object '%s' is outside Octree limits.", new_go->GetName().c_str());
 	}
+
+	return ret; 
+}
+
+bool Octree::IsNull()
+{
+	if(root_node != nullptr)
+		return false;
+
+	return true; 
 }
 
 void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * new_go)
@@ -120,11 +145,17 @@ void Octree::Draw()
 	App->renderer3D->UseCurrentRenderSettings(); 
 }
 
-OctreeNode::OctreeNode(AABB box, OctreeNode* parent_node)
+OctreeNode::OctreeNode(AABB box, OctreeNode* parent_node, bool root)
 {
 	this->box = box; 
 	leaf = true; 
 	parent = parent_node;
+	is_root = root; 
+		
+	if (parent != nullptr)
+		division_lvl = parent->division_lvl + 1;
+	else
+		division_lvl = 0;
 }
 
 OctreeNode::~OctreeNode()
@@ -133,6 +164,9 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::Draw()
 {
+	if (App->scene->octree->IsNull())
+		return; 
+
 	float3 corners[8]; 
 	box.GetCornerPoints(corners);
 	DebugDrawBox(corners, Color(1.0f, 0.6f, 0.0f));
@@ -160,17 +194,19 @@ void OctreeNode::Insert(GameObject* new_go, int& num_obj)
 		}		
 		else
 		{
-
-			//We Add the GO normally
-			objects_in_node.push_back(new_go);
-			num_obj++; 
-
-			//If it's leaf, first we check if adding the gameobject would cause a partition
-			if (objects_in_node.size() > LIMIT_OCTREE_BUCKET)
+			if (division_lvl < OCTREE_DIV_LIMIT)
 			{
-				//We need to split and reasign the gameobjects 
-				Split();
-			}
+				//We Add the GO normally
+				objects_in_node.push_back(new_go);
+				num_obj++;
+
+				//If it's leaf, first we check if adding the gameobject would cause a partition
+				if (objects_in_node.size() > LIMIT_OCTREE_BUCKET)
+				{
+					//We need to split and reasign the gameobjects 
+					Split();
+				}
+			}		
 		}		
 	}
 }
@@ -225,7 +261,7 @@ void OctreeNode::Split()
 
 				AABB new_box(min_point, max_point);
 
-				childs[children_count++] = new OctreeNode(new_box, this);
+				childs[children_count++] = new OctreeNode(new_box, this, false);
 			}
 		}
 	}

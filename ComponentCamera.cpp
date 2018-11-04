@@ -86,6 +86,10 @@ void ComponentCamera::Draw(bool is_editor)
 	{
 		if (draw_frustum)
 			DrawFrustum();
+
+		if(App->scene->octree != nullptr)
+			App->scene->octree->Draw();
+
 	}
 }
 
