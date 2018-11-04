@@ -81,11 +81,13 @@ bool UI_HierarchyPanel::Update()
 				delete App->scene->GetSelectedGameObject();
 			}
 
+
+			if (ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
+				App->imgui->hierarchy_panel->show_click_menu = false;
+
 			ImGui::EndPopup();
 		}
 
-		if (ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
-			App->imgui->hierarchy_panel->show_click_menu = false;
 	}
 
 	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
