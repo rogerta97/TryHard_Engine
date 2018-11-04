@@ -143,12 +143,24 @@ void GameObject::SetActive(bool activated)
 void GameObject::SetStatic(bool set_static)
 {
 	if (set_static)
-		App->scene->AddGOToStaticList(this); 
+	{	if (!is_static)
+		App->scene->AddGOToStaticList(this);
+	}
 
 	else
+	{
+		if (is_static)
 		App->scene->DeleteGOFromStaticList(this);
+	}
 	
 	is_static = set_static;
+
+	auto child = GetChildList()->begin();
+	while (child != GetChildList()->end())
+	{
+		(*child)->SetStatic(set_static);
+		child++;
+	}
 }
 
 bool GameObject::GetIsStatic()
