@@ -300,6 +300,20 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SetSelectedGameObject(new_go);
 		}
 
+
+		if (ImGui::MenuItem("Camera"))
+		{
+			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->SetParent(nullptr);
+
+			new_go->name = "Camera";
+
+			//Add Mesh
+			ComponentCamera* cmp = (ComponentCamera*)new_go->AddComponent(CMP_CAMERA);
+
+			App->scene->SetSelectedGameObject(new_go);
+		}
+
 		ImGui::EndMenu();
 	}
 
