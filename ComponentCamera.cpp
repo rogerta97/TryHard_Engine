@@ -208,17 +208,28 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 	if (selected_go != nullptr)
 	{
-		ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MESH);
-		ComponentTransform* cmp_trans = (ComponentTransform*)App->scene->GetSelectedGameObject()->GetComponent(CMP_TRANSFORM);
+		ComponentMesh* cmp_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
+		ComponentTransform* cmp_trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
+
+		float distance = 0.0f;
+		float3 center = { 0,0,0 }; 
+		float3 dst_point = { 0,0,0 }; 
 
 		if (selected_go->GetNumChilds() == 0)
 		{
-			float distance = cmp_mesh->bounding_box.Diagonal().Length() + 1;
-
-			float3 center = cmp_mesh->bounding_box.CenterPoint();
-
-			float3 dst_point = GetCamPointFromDistance(center, distance);
-			
+			if (cmp_mesh != nullptr)
+			{
+				distance = cmp_mesh->bounding_box.Diagonal().Length() + 1;
+				center = cmp_mesh->bounding_box.CenterPoint();
+				dst_point = GetCamPointFromDistance(center, distance);
+			}
+			else
+			{
+				distance = 5.0f; 
+				center = cmp_trans->transform.position; 
+				dst_point = GetCamPointFromDistance(center, distance);
+			}
+		  		
 			interpolation.line.a = dst_point;
 			interpolation.line.b = float3({ Position.x, Position.y, Position.z });
 
@@ -230,15 +241,16 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 		}
 		else //if not find the middle point between the object and look at it. 
 		{
-			ComponentMesh* parent_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
-			ComponentTransform* cmp_trans = (ComponentTransform*)App->scene->GetSelectedGameObject()->GetComponent(CMP_TRANSFORM);
 
 			float3 min, max, position;
 			float distance; 
 
 			min = max = position = { 0,0,0 };
 
+			//Get AABB that contains all meshes AABB
 			selected_go->GetEnclosedAABB(min, max);
+
+			//Add any other object withouth mesh (they also have to be centered, not just GO with mesh)
 			selected_go->SetCenterCamDataRecursive(position, distance);
 
 			AABB new_bb; 

@@ -551,6 +551,16 @@ void GameObject::GetEnclosedAABB(float3& min, float3& max)
 	{
 		curr_mesh->CheckAABBPoints(min, max);
 	}
+	else
+	{
+		ComponentTransform* trans = (ComponentTransform*)GetComponent(CMP_TRANSFORM);
+
+		if (trans->GetPosition().Distance({ 0,0,0 }) >= max.Distance({ 0,0,0 }))
+			max = trans->GetPosition(); 
+
+		else if (trans->GetPosition().Distance({ 0,0,0 }) >= min.Distance({ 0,0,0 }))
+			min = trans->GetPosition();
+	}
 
 }
 

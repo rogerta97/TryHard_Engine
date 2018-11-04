@@ -83,6 +83,9 @@ bool UI_HierarchyPanel::Update()
 
 			ImGui::EndPopup();
 		}
+
+		if (ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
+			App->imgui->hierarchy_panel->show_click_menu = false;
 	}
 
 	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
@@ -124,6 +127,9 @@ bool UI_HierarchyPanel::Update()
 
 				App->scene->SetSelectedGameObject(new_go);
 			}
+
+			if(ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
+				App->imgui->hierarchy_panel->show_create_menu = false;
 
 			ImGui::EndPopup();
 		}
