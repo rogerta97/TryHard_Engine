@@ -30,6 +30,9 @@ public:
 
 	void ManageMovement();
 
+	void DrawMouseRay() const;
+
+
 public:
 		
 	SkyBox* skybox = nullptr; 
@@ -45,6 +48,8 @@ private:
 	GameObject* gcam_go; 
 
 	bool is_ghost_camera;
+
+	bool draw_mouse_picking_ray;
 
 	LineSegment mouse_picking_ray;
 };

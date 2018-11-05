@@ -82,8 +82,10 @@ void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 		(*it)->Draw(editor_cam); 
 	}
 
-	if (editor_cam)
+	if (editor_cam) {
 		cam->Draw(editor_cam);
+		App->camera->DrawMouseRay();
+	}
 
 
 

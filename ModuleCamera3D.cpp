@@ -47,7 +47,9 @@ bool ModuleCamera3D::Start()
 	cam->draw_frustum = false;
 	cam->camera->frustum.pos = { 10, 4, 10 };
 	cam->LookAt({ 0,0,0 });
-	cam->is_editor = true; 
+	cam->is_editor = true;
+
+	draw_mouse_picking_ray = false;
 
 	App->renderer3D->AddRenderCamera(cam);
 	skybox->AttachTo(ecam_go); 
@@ -84,13 +86,6 @@ update_status ModuleCamera3D::Update(float dt)
 			App->scene->TestLineAgainstGOs(mouse_picking_ray);
 
 	}
-
-
-	App->renderer3D->UseDebugRenderSettings();
-
-	DebugDraw(mouse_picking_ray, Color(1.0f, 0.0f, 1.0f), false, float4x4::identity, 3.0f);
-
-	App->renderer3D->UseCurrentRenderSettings();
 
 	////
 	cam->CalculateViewMatrix();
@@ -180,6 +175,8 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::Checkbox("Frustum Culling", &frustum_culling);
 
 		ImGui::Checkbox("Ghost Camera", &is_ghost_camera);
+
+		ImGui::Checkbox("Draw mouse ray", &draw_mouse_picking_ray);
 
 		if(ImGui::TreeNode("Editor Camera Settings"))
 		{	
@@ -446,5 +443,17 @@ void ModuleCamera3D::ManageMovement()
 			cam->GetFrustum()->Translate(cam->Position);
 		}
 	}
+}
+
+void ModuleCamera3D::DrawMouseRay() const
+{
+	if (!draw_mouse_picking_ray)
+		return;
+
+	App->renderer3D->UseDebugRenderSettings();
+
+	DebugDraw(mouse_picking_ray, Color(1.0f, 0.0f, 1.0f), false, float4x4::identity, 3.0f);
+
+	App->renderer3D->UseCurrentRenderSettings();
 }
 
