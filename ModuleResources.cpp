@@ -1,4 +1,7 @@
 #include "ModuleResources.h"
+#include "ModuleFileSystem.h"
+#include "Application.h"
+
 #include "Resource.h"
 
 #include "Functions.h"
@@ -32,7 +35,7 @@ Resource * ModuleResources::Get(resource_type type, const char * resource_name)
 {
 	for (auto it = resources.begin(); it != resources.end(); it++)
 	{
-		if ((*it).second->GetType() == type && (*it).second->name == resource_name)
+		if ((*it).second->GetType() == type && App->file_system->DeleteFileExtension((*it).second->name.c_str()) == resource_name)
 			return (*it).second;
 	}
 }

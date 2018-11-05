@@ -37,7 +37,8 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
 			//If it has childs we call them recursively
-			vector<string> child_files = App->file_system->GetFilesInDirectory(folder.c_str());
+			vector<string> child_files;
+			App->file_system->GetFilesInDirectory(folder.c_str(), child_files, false);
 
 			for (auto it = child_files.begin(); it != child_files.end(); it++)
 			{
