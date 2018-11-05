@@ -140,6 +140,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	//This node contains mesh information (vertices, indices...)
 
 	GameObject* game_object = new GameObject();
+	bool load_succes = true;
 
 	if (node->mParent != nullptr)
 		game_object->SetParent(parent_gameobject);
@@ -239,17 +240,27 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						if (curr_face.mNumIndices != 3)
 						{
 							CONSOLE_ERROR("Geometry index in face %d is != 3", j);
+							load_succes = false;
 						}
 						else
 							memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
 					}
 
-					glGenBuffers(1, &new_mesh->indices_id);
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+					if (load_succes) {
+						glGenBuffers(1, &new_mesh->indices_id);
+						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
+						glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
+						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-					CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
+						CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
+					}
+					else
+					{
+						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
+						new_mesh->~Mesh();
+						App->scene->AddGameObjectToScene(game_object);
+						continue;
+					}
 				}
 
 				//Load UV Coords
@@ -291,14 +302,16 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				res_mesh = new_mesh; 
 				App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());
 			}
-				
+
+
 			//Add Mesh to GameObject
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_MESH);
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->UpdateBoundingBox();
 			cmp_mesh->draw_bounding_box = false;
-			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name; 
+			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name;
+
 
 			if (scene->HasMaterials())
 			{
@@ -374,7 +387,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	{
 		App->scene->AddGameObjectToScene(game_object);
 	}
-
 
 	if (node->mNumChildren > 0)
 	{

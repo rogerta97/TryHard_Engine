@@ -312,7 +312,7 @@ bool GameObject::AddChild(GameObject * child)
 
 void GameObject::DeleteGameObject()
 {
-
+	this->~GameObject();
 }
 
 void GameObject::DeleteRecursive()
