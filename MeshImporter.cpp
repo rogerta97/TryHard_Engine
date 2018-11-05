@@ -325,17 +325,18 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
 
 				string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
-				string item_name = texture_name.C_Str();
-
-				string item_lib_name = item_name;
-				item_lib_name = item_lib_name.substr(0, item_name.size() - 4);
-				item_lib_name += ".dds";
+				string item_lib_name = App->file_system->DeleteFileExtension(texture_name.C_Str()) + ".dds";
 
 				if(string(texture_name.C_Str()) != string(""))
 				{
 					if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
 					{
-						new_mat = App->resources->material_importer->LoadFromBinary(item_lib_name.c_str());
+						string path = folder_to_check + string("\\") + item_lib_name;
+						new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
+						new_mat->name = curr_mesh->mName.C_Str();
+						new_mat->path = curr_mesh->mName.C_Str();
+						new_mat->SetType(resource_type::RES_MATERIAL); 
+						new_mesh->LoadToMemory();
 					}
 					else
 					{

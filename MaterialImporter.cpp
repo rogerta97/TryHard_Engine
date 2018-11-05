@@ -234,10 +234,10 @@ Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 
 	//string tex_path = App->file_system->GetLibraryPath() + std::string("\\") + "Materials\\" + tex_name; 
 
-	Texture* new_tex = LoadTexture(tex_path, true);
+	Texture* new_tex = LoadTexture(tex_path);
 	new_mat->SetDiffuseTexture(new_tex); 
 
-	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", tex_path);
+	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", App->file_system->GetLastPathItem(tex_path, true).c_str());
 
 	return new_mat;
 }

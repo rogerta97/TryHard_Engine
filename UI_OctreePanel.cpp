@@ -14,7 +14,7 @@ UI_OctreePanel::~UI_OctreePanel()
 
 bool UI_OctreePanel::Start()
 {
-	show = true; 
+	show = false; 
 	octree = App->scene->octree; 
 	size = 5.0f; 
 	
@@ -28,7 +28,6 @@ bool UI_OctreePanel::Update()
 		ImGui::TextWrapped("Octree is an space partitioning tool for optimizing frustum culling and intersection test. Creating an octree will take in account every static gameobject laying on the current scene"); 
 
 		SEPARATE_WITH_SPACE
-
 
 		ImGui::Checkbox("Adaptative", &octree->adaptative);
 
