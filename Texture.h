@@ -23,9 +23,6 @@ public:
 	const char* GetPath() const; 
 	void SetPath(const char* path); 
 
-	std::string GetName() const; 
-	void SetName(const char* new_name); 
-
 	uint GetTextureID() const; 
 	void SetTextureID(uint id); 
 
@@ -46,6 +43,5 @@ private:
 	uint height;
 
 	std::string path;
-	std::string name; 
 };
 

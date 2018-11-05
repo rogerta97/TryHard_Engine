@@ -20,6 +20,7 @@ public:
 	bool CleanUp();
 	
 	Resource* Get(UID uid);
+	Resource* Get(resource_type type, const char* resource_name);
 	Resource* CreateNewResource(resource_type type, UID force_id = 0);
 	void AddTextureToList(Texture* new_texture); 
 	UID GenerateUID();

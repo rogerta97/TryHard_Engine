@@ -5,6 +5,7 @@
 
 #include "MeshImporter.h"
 #include "MaterialImporter.h"
+#include "Material.h"
 
 
 ModuleResources::ModuleResources()
@@ -27,6 +28,15 @@ Resource * ModuleResources::Get(UID uid)
 	return nullptr; 
 }
 
+Resource * ModuleResources::Get(resource_type type, const char * resource_name)
+{
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if ((*it).second->GetType() == type && (*it).second->name == resource_name)
+			return (*it).second;
+	}
+}
+
 Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 {
 	Resource* to_ret = nullptr; 
@@ -40,6 +50,10 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 	case RES_TEXTURE:
 		to_ret = new Texture();		
 		break; 
+
+	case RES_MATERIAL:
+		to_ret = new Material();
+		break;
 	}
 
 	if (to_ret)
