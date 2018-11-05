@@ -282,7 +282,7 @@ Texture * MaterialImporter::GetCheckerTexture() const
 	return checker_texture;
 }
 
-bool MaterialImporter::SaveAsBinary(Material * mat_to_save, const char * tex_name)
+bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 {
 	bool ret = false; 
 

@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Application.h"
 
+#include "MaterialImporter.h"
+
 ComponentMaterial::ComponentMaterial(GameObject* parent)
 {
 	SetGameObject(parent);

@@ -1,6 +1,10 @@
 #include "ModuleResources.h"
+#include "Resource.h"
+
+#include "Functions.h"
 
 #include "MeshImporter.h"
+#include "MaterialImporter.h"
 
 
 ModuleResources::ModuleResources()
@@ -8,14 +12,55 @@ ModuleResources::ModuleResources()
 	name = "Resources";
 }
 
-
 ModuleResources::~ModuleResources()
 {
+}
+
+Resource * ModuleResources::Get(UID uid)
+{
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if ((*it).first == uid)
+			return (*it).second;
+	}
+
+	return nullptr; 
+}
+
+Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
+{
+	Resource* to_ret = nullptr; 
+
+	switch (type)
+	{
+	case RES_MESH:
+		to_ret = new Mesh();
+		break;
+
+	case RES_TEXTURE:
+		to_ret = new Texture();		
+		break; 
+	}
+
+	if (to_ret)
+	{
+		to_ret->SetType(type);
+		to_ret->SetUID(GenerateUID());
+		resources[to_ret->GetUID()] = to_ret;
+	}
+		
+	return to_ret; 
 }
 
 void ModuleResources::AddTextureToList(Texture* new_texture)
 {
 	
+}
+
+UID ModuleResources::GenerateUID()
+{
+	UID	ret_id = GetPCGRandomNumberInt(0, 9999999);
+	return ret_id;
 }
 
 bool ModuleResources::Init(JSON_Object* config)

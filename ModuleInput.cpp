@@ -7,6 +7,9 @@
 
 #include "ComponentMaterial.h"
 
+#include "MeshImporter.h"
+#include "MaterialImporter.h"
+
 
 #define MAX_KEYS 300
 

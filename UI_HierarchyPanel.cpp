@@ -1,6 +1,8 @@
 #include "UI_HierarchyPanel.h"
 #include "ComponentMesh.h"
 
+#include "MeshImporter.h"
+
 #include "imgui_dock.h"
 #include "Application.h"
 #include "GameObject.h"

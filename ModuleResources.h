@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Module.h"
-#include "MaterialImporter.h"
 #include <map>
-#include "Importer.h"
+#include "Resource.h"
 
-#include "MeshImporter.h"
+class MeshImporter; 
+class MaterialImporter; 
+class Texture; 
 
 class ModuleResources : public Module
 {
@@ -13,12 +14,15 @@ public:
 	ModuleResources();
 	~ModuleResources();
 
-	void AddTextureToList(Texture* new_texture); 
-
 	bool Init(JSON_Object* config);
-	bool Start(); 	
+	bool Start();
 	update_status Update();
-	bool CleanUp(); 
+	bool CleanUp();
+	
+	Resource* Get(UID uid);
+	Resource* CreateNewResource(resource_type type, UID force_id = 0);
+	void AddTextureToList(Texture* new_texture); 
+	UID GenerateUID();
 
 	void LoadImporters();
 
@@ -27,7 +31,7 @@ public:
 
 private: 
 	
-	std::list<Resource*> resource_list;
+	std::map<UID, Resource*> resources;
 
 
 };

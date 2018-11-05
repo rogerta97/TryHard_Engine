@@ -6,7 +6,7 @@
 
 enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX, MESH_SPHERE };
 
-class Mesh
+class Mesh : public Resource
 {
 public:
 	Mesh();

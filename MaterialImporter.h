@@ -16,7 +16,7 @@
 
 class Material; 
 
-class MaterialImporter : public Importer
+class MaterialImporter
 {
 public:
 	MaterialImporter();
@@ -40,7 +40,7 @@ public:
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 
 
-	bool SaveAsBinary(Material* mat_to_save, const char* tex_name); 
+	bool Import(Material* mat_to_save, const char* tex_name); 
 	Material* LoadFromBinary(const char* tex_name);
 
 	~MaterialImporter();

@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "GameObject.h"
 
+#include "MeshImporter.h"
+
 #include "imgui.h"
 #include "OpenGL.h"
 

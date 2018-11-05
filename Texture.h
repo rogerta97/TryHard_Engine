@@ -5,7 +5,7 @@
 #include <string>
 #include "Resource.h"
 
-class Texture
+class Texture : public Resource
 {
 public:
 	Texture();

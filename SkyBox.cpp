@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Mesh.h"
 
+#include "MaterialImporter.h"
+
 #include "ComponentCamera.h"
 #include "ComponentTransform.h"
 

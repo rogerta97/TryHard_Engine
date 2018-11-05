@@ -9,6 +9,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 
+#include "MaterialImporter.h"
+
 UI_InspectorPanel::UI_InspectorPanel()
 {
 	name = "Inspector";

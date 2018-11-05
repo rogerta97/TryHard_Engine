@@ -13,6 +13,8 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 
+#include "MaterialImporter.h"
+
 #include <string>
 #include <fstream>
 
@@ -38,8 +40,6 @@ bool MeshImporter::Start()
 
 	CreatePlaneMesh();
 	CreateCubeMesh();
-
-	imp_type = IMP_MESH;
 
 	return true;
 }
@@ -286,7 +286,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 				}
 
-				App->resources->mesh_importer->SaveAsBinary(new_mesh, game_object->name.c_str());
+				//Create the mesh resource
+				Resource* res_mesh = App->resources->CreateNewResource(RES_MESH);
+				res_mesh = new_mesh; 
+				App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());
 			}
 				
 			//Add Mesh to GameObject
@@ -341,7 +344,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						}
 
 						new_mat->SetDiffuseTexture(new_texture);
-						App->resources->material_importer->SaveAsBinary(new_mat, item_lib_name.c_str());
+						Resource* res_mat = App->resources->CreateNewResource(RES_TEXTURE);
+						App->resources->material_importer->Import((Material*)new_mat, item_lib_name.c_str());
 					}
 
 					//Create The Component
@@ -398,7 +402,7 @@ Mesh* MeshImporter::GetMeshByType(BasicMeshType type)
 	return new_ret_mesh;
 }
 
-bool MeshImporter::SaveAsBinary(Mesh * saving_mesh, const char * mesh_name)
+bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name)
 {
 	CONSOLE_DEBUG("Mesh '%s' was not found in library. Saving to binary....", mesh_name);
 

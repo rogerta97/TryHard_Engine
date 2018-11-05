@@ -1,6 +1,9 @@
 #include "UI_ExplorerPanel.h"
 #include "Application.h"
 
+#include "MaterialImporter.h"
+#include "MeshImporter.h"
+
 UI_ExplorerPanel::UI_ExplorerPanel()
 {
 	show_item_options = false; 

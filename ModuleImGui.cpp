@@ -22,6 +22,9 @@
 #include "UI_PerformancePanel.h"
 #include "UI_HierarchyPanel.h"
 
+#include "MaterialImporter.h"
+#include "MeshImporter.h"
+
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 

@@ -5,6 +5,8 @@
 #include "OpenGL.h"
 #include "imgui_dock.h"
 
+#include "MaterialImporter.h"
+
 
 UI_GamePanel::UI_GamePanel()
 {

@@ -11,7 +11,7 @@ class aiScene;
 class aiNode; 
 class Mesh; 
 
-class MeshImporter : public Importer
+class MeshImporter
 {
 public:
 	MeshImporter();
@@ -33,7 +33,7 @@ public:
 
 	Mesh* GetMeshByType(BasicMeshType type); 
 
-	bool SaveAsBinary(Mesh* saving_mesh, const char* mesh_name);
+	bool Import(Mesh* saving_mesh, const char* mesh_name);
 	Mesh* LoadFromBinary(const char* mesh_name);
 
 private: 
