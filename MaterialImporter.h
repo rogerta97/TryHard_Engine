@@ -27,8 +27,7 @@ public:
 
 	Texture* LoadTexture(const char* path, bool not_flip = false); 
 
-	void ImportAllFilesInAssets();
-
+	void ImportAllFilesFromAssets();
 
 	bool DrawTextureList(); 
 

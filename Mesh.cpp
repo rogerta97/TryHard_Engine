@@ -358,8 +358,6 @@ void Mesh::LoadToMemory()
 		glBindBuffer(GL_ARRAY_BUFFER, vertices_id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_vertices * 3, vertices, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		CONSOLE_DEBUG("Vertices from '%s' Loaded To Memory with ID: %d", name.c_str(), vertices_id);
 	}
 
 	if (num_indices != 0)
@@ -368,8 +366,6 @@ void Mesh::LoadToMemory()
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_id);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int)*num_indices, indices, GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		CONSOLE_DEBUG("Indices from '%s' Loaded To Memory with ID: %d", name.c_str(), indices_id);
 	}
 
 	if (num_uvs != 0)
@@ -378,8 +374,6 @@ void Mesh::LoadToMemory()
 		glBindBuffer(GL_ARRAY_BUFFER, uvs_id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*num_uvs * 3, uvs_cords, GL_STATIC_DRAW); 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		CONSOLE_DEBUG("UVs from '%s' Loaded To Memory with ID: %d", name.c_str(), uvs_id);
 	}
 
 	if (num_normals != 0)
@@ -388,8 +382,6 @@ void Mesh::LoadToMemory()
 		glBindBuffer(GL_ARRAY_BUFFER, normals_id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*num_normals, normal_cords, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		CONSOLE_DEBUG("Normals from '%s' Loaded To Memory with ID: %d", name.c_str(), normals_id);
 	}
 	
 }

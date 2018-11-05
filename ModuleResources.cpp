@@ -96,11 +96,11 @@ bool ModuleResources::Start()
 void ModuleResources::LoadImporters()
 {
 	//Initiallize importers
-	mesh_importer = new MeshImporter();
-	mesh_importer->Start(); 
-
 	material_importer = new MaterialImporter();
 	material_importer->Start();
+
+	mesh_importer = new MeshImporter();
+	mesh_importer->Start();
 }
 
 update_status ModuleResources::Update()

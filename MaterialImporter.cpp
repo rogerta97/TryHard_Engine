@@ -24,7 +24,7 @@ bool MaterialImporter::Start()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	ImportAllFilesInAssets();
+	ImportAllFilesFromAssets();
 
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
@@ -94,7 +94,7 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 }
 
 
-void MaterialImporter::ImportAllFilesInAssets()
+void MaterialImporter::ImportAllFilesFromAssets()
 {
 	std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), true); 
 
@@ -120,21 +120,18 @@ void MaterialImporter::ImportAllFilesInAssets()
 			new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);	
 			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
 
+			new_mat->path = (*it).c_str();
+			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+
 			if (tex)
 				new_mat->SetDiffuseTexture(tex);
 
 			App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
 
-			new_mat->path = (*it).c_str();
-			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
-		}
-
-
-	
+		
+		}	
 	}
 }
-
-
 
 bool MaterialImporter::DrawTextureList()
 {

@@ -41,6 +41,8 @@ bool MeshImporter::Start()
 	CreatePlaneMesh();
 	CreateCubeMesh();
 
+	//ImportAllFilesFromAssets(); 
+
 	return true;
 }
 
@@ -77,6 +79,17 @@ Mesh * MeshImporter::CreateSphereMesh()
 	//mesh->SetSphereData();
 
 	return mesh;
+}
+
+void MeshImporter::ImportAllFilesFromAssets()
+{
+	vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetModelsPath().c_str(), true);
+
+	for (auto it = files.begin(); it != files.end(); it++)
+	{
+		GameObject* es_locura = CreateFBXMesh((*it).c_str());
+		es_locura->DeleteRecursive();
+	}
 }
 
 void MeshImporter::DrawMeshList()
@@ -254,8 +267,9 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					else
 					{
 						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
+						game_object->DeleteRecursive();
 						new_mesh->~Mesh();
-						App->scene->AddGameObjectToScene(game_object);
+						//App->scene->AddGameObjectToScene(game_object);
 						continue;
 					}
 				}

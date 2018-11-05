@@ -26,6 +26,8 @@ public:
 	Mesh* CreatePlaneMesh();
 	Mesh* CreateSphereMesh();
 
+	void ImportAllFilesFromAssets();
+
 	void DrawMeshList();
 
 	GameObject* CreateFBXMesh(const char* path); //Returns the set of meshes that form the file
