@@ -27,17 +27,10 @@ public:
 
 	Texture* LoadTexture(const char* path, bool not_flip = false); 
 
-	bool SaveTexturesAsDDS();
-
-	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
-
 	void ImportAllFilesInAssets();
 
-	void DeleteTextureFromList(Texture* to_del);
 
 	bool DrawTextureList(); 
-
-	Texture* GetTexture(const char* name); 
 
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 

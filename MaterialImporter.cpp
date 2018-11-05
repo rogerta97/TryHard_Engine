@@ -87,84 +87,12 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 			tex->SetTextureSettings();
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->GetWidth(), tex->GetHeight(), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
 			tex->UnBind();
-
-			//Create the texture resource			
-
 		}
 	}
 
 	return tex;
 }
 
-bool MaterialImporter::SaveTexturesAsDDS()
-{
-	//for (auto it = textures_list.begin(); it != textures_list.end(); it++)
-	//{
-	//	SaveTexture((*it), IL_DDS); 
-	//}
-
-	return true;
-}
-
-bool MaterialImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
-{
-	////Textures will be saved into DDS for the moment
-	//string textures_dir = App->file_system->GetLibraryPath() + "Textures\\";
-
-	////First, we should check if the texture has been already saved in DDS format. (TODO: resource manager) For now we will always save a new one. 
-	//if (tex_to_save != nullptr)
-	//{
-	//	switch (format_type)
-	//	{
-	//	case IL_DDS:
-	//	{
-	//		//Save The texture
-	//		{
-	//			for (auto it = textures_list.begin(); it != textures_list.end(); it++)
-	//			{
-	//				//If the texture already exist in library, skip the saving process. 
-	//				if (App->file_system->IsFileInDirectory(textures_dir.c_str(), (*it)->GetName().c_str()))
-	//					continue;
-
-	//				//If not, save it
-	//				int size = ilSaveL(IL_DDS, NULL, 0);
-	//				if (size > 0)
-	//				{
-
-	//					//Copy data
-	//					GLubyte* data = new GLubyte[size];
-
-	//					(*it)->Bind();
-	//					data = ilGetData();
-
-	//					if (ilSaveL(IL_DDS, data, size))
-	//					{
-	//						//Create the file 
-	//						FILE* new_file;
-	//						string save_dir = textures_dir + (*it)->GetName() + ".dds";
-	//						new_file = fopen(save_dir.c_str(), "w");
-
-	//						//Save the info 
-	//						if (new_file != nullptr)
-	//						{
-	//							int result = fwrite(data, sizeof(ILubyte), sizeof(data), new_file);
-	//						}
-
-	//						fclose(new_file);
-	//					}
-
-
-	//				}
-	//			}
-	//		}
-	//		break;
-	//	}
-	//	}
-	//}
-
-
-	return true;
-}
 
 void MaterialImporter::ImportAllFilesInAssets()
 {
@@ -172,31 +100,41 @@ void MaterialImporter::ImportAllFilesInAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{	
-		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-		new_mat_res->path = (*it).c_str(); 
-		new_mat_res->name = App->file_system->GetLastPathItem((*it).c_str(), true);
-		Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true); 
+		string lib_path = App->file_system->GetLibraryPath() + string("\\Materials"); 
+		string name = App->file_system->GetLastPathItem((*it).c_str(), false);
+		name += ".dds";
 
-		if(tex)
-			new_mat_res->SetDiffuseTexture(tex);
+		Material* new_mat = nullptr; 
 
-		App->resources->material_importer->Import(new_mat_res, new_mat_res->name.c_str());
+		if (App->file_system->IsFileInDirectory(lib_path.c_str(), name.c_str()))
+		{
+			string path_to_load = lib_path + string("\\") + name;
+			new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
+
+			new_mat->path = (*it).c_str();
+			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+			
+		}
+		else
+		{
+			new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);	
+			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
+
+			if (tex)
+				new_mat->SetDiffuseTexture(tex);
+
+			App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
+
+			new_mat->path = (*it).c_str();
+			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+		}
+
+
+	
 	}
 }
 
-void MaterialImporter::DeleteTextureFromList(Texture * to_del)
-{
-	/*for (auto it = textures_list.begin(); it != textures_list.end();)
-	{
-		if ((*it) == to_del)
-		{
-			it = textures_list.erase(it);
-			continue; 
-		}
 
-		it++;
-	}*/
-}
 
 bool MaterialImporter::DrawTextureList()
 {
@@ -233,23 +171,6 @@ bool MaterialImporter::DrawTextureList()
 }
 
 
-//Texture * MaterialImporter::GetTexture(const char* name)
-//{
-//	Texture* to_ret = new Texture(); 
-//
-//	for (auto it = textures_list.begin(); it != textures_list.end(); it++)
-//	{
-//		if ((*it)->GetName() == string(name))
-//		{
-//			memcpy(to_ret, (*it), sizeof(Texture));
-//			return to_ret;
-//		}
-//			
-//	}
-//
-//	return nullptr;
-//}
-
 void MaterialImporter::GenerateCheckerTexture()
 {
 	checker_texture->FillCheckerTextureData();
@@ -265,7 +186,8 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	bool ret = false; 
 
 	//Get the path to save 
-	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name + ".dds"; 
+	string tex_name_alone = App->file_system->GetLastPathItem(tex_name, false); 
+	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name_alone + ".dds";
 
 	if (mat_to_save != nullptr)
 	{
@@ -306,16 +228,16 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	return ret;
 }
 
-Material * MaterialImporter::LoadFromBinary(const char * tex_name)
+Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 {
-	Material* new_mat = new Material(); 
+	Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 
-	string tex_path = App->file_system->GetLibraryPath() + std::string("\\") + "Materials\\" + tex_name; 
+	//string tex_path = App->file_system->GetLibraryPath() + std::string("\\") + "Materials\\" + tex_name; 
 
-	Texture* new_tex = LoadTexture(tex_path.c_str(), true);
+	Texture* new_tex = LoadTexture(tex_path, true);
 	new_mat->SetDiffuseTexture(new_tex); 
 
-	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", tex_name); 
+	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", tex_path);
 
 	return new_mat;
 }

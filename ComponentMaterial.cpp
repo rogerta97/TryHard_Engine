@@ -35,7 +35,7 @@ bool ComponentMaterial::CleanUp()
 			if (!App->scene->IsTextureUsed(curr_tex->GetTextureID(), gameobject))
 			{
 				curr_tex->Clear();
-				App->resources->material_importer->DeleteTextureFromList(curr_tex);
+				//App->resources->material_importer->DeleteTextureFromList(curr_tex);
 				delete (material->GetDiffuseTexture());
 			}
 

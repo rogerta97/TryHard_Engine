@@ -110,7 +110,7 @@ update_status ModuleResources::Update()
 
 bool ModuleResources::CleanUp()
 {
-	material_importer->SaveTexturesAsDDS();
+//	material_importer->SaveTexturesAsDDS();
 
 	return false;
 }
