@@ -84,6 +84,6 @@ void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
 	if(material->GetDiffuseTexture() == nullptr)
 		json_object_dotset_string(root_obj, item_name.c_str(), "NONE");
 	else
-		json_object_dotset_string(root_obj, item_name.c_str(), material->GetDiffuseTexture()->GetName().c_str());
+		json_object_dotset_string(root_obj, item_name.c_str(), material->GetDiffuseTexture()->name.c_str());
 }
 

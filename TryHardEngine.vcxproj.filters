@@ -564,9 +564,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Sources\Resources\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Sources\Resources\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Sources\Resources\Utils</Filter>
     </ClInclude>
@@ -574,6 +571,9 @@
       <Filter>Sources\Resources\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>Sources\Resources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>Sources\Resources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -825,9 +825,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Sources\Resources\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Sources\Resources\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Sources\Resources\Utils</Filter>
     </ClCompile>
@@ -841,6 +838,9 @@
       <Filter>Sources\Resources\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>Sources\Resources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Sources\Resources\Resources</Filter>
     </ClCompile>
   </ItemGroup>

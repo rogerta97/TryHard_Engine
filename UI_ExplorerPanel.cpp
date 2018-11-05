@@ -4,12 +4,21 @@
 #include "MaterialImporter.h"
 #include "MeshImporter.h"
 
+#include "Material.h"
+
 UI_ExplorerPanel::UI_ExplorerPanel()
 {
 	show_item_options = false; 
 	name = "Explorer";
-}
 
+	folder_mat = nullptr;
+	image_mat = nullptr;
+	mesh_mat = nullptr;
+	font_mat = nullptr;
+	DDS_mat = nullptr;
+	TGA_mat = nullptr;
+	scene_mat = nullptr;
+}
 
 UI_ExplorerPanel::~UI_ExplorerPanel()
 {
@@ -23,7 +32,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 	{
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 
-		ImGui::Image((ImTextureID)folder_texture->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
+		ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
 
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
@@ -50,7 +59,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		switch (App->file_system->GetFileType(folder.c_str()))
 		{
 			case file_type::FT_3DMODEL:
-				ImGui::Image((ImTextureID)mesh_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)mesh_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break; 
 
@@ -62,17 +71,17 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
 				}
 				else*/
-				ImGui::Image((ImTextureID)image_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
 			case file_type::FT_FONT:
-				ImGui::Image((ImTextureID)font_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)font_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
 			case file_type::FT_SCENE:
-				ImGui::Image((ImTextureID)scene_texture->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 				
@@ -138,13 +147,13 @@ bool UI_ExplorerPanel::Start()
 	root_folder = App->file_system->GetAssetsPath(); 
 	item_selected = ""; 
 
-	folder_texture = App->resources->material_importer->GetTexture("FolderIcon");
-	image_texture = App->resources->material_importer->GetTexture("ImageIcon");
-	mesh_texture = App->resources->material_importer->GetTexture("MeshIcon");
-	font_texture = App->resources->material_importer->GetTexture("FontIcon");
-	DDS_texture = App->resources->material_importer->GetTexture("DDSIcon");
-	TGA_texture = App->resources->material_importer->GetTexture("TGAIcon");
-	scene_texture = App->resources->material_importer->GetTexture("SceneIcon");
+	folder_mat = (Material*)App->resources->Get(RES_MATERIAL, "FolderIcon");
+	image_mat = (Material*)App->resources->Get(RES_MATERIAL, "ImageIcon");
+	mesh_mat = (Material*)App->resources->Get(RES_MATERIAL, "MeshIcon");
+	font_mat = (Material*)App->resources->Get(RES_MATERIAL, "FontIcon");
+	DDS_mat = (Material*)App->resources->Get(RES_MATERIAL, "DDSIcon");
+	TGA_mat = (Material*)App->resources->Get(RES_MATERIAL, "TGAIcon");
+	scene_mat = (Material*)App->resources->Get(RES_MATERIAL, "SceneIcon");
 
 	return true;
 }

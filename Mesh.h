@@ -25,7 +25,6 @@ public:
 
 public: 
 
-	std::string name = ""; 
 	float3 color = {0,0,0};
 
 	float3* vertices = nullptr; 

@@ -1,9 +1,10 @@
 #pragma once
 #include "Color.h"
+#include "Resource.h"
 
 class Texture; 
 
-class Material
+class Material : public Resource
 {
 public:
 	Material();
@@ -13,7 +14,6 @@ public:
 
 	Texture* GetDiffuseTexture(); 
 	void SetDiffuseTexture(Texture* new_tex); 
-
 
 	Color color;
 

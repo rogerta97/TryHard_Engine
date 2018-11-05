@@ -59,7 +59,6 @@ Mesh * MeshImporter::CreateCubeMesh()
 {
 	Mesh* mesh = new Mesh();
 	mesh->SetCubeData();
-	mesh_list.push_back(mesh);
 
 	return mesh;
 }
@@ -68,7 +67,6 @@ Mesh * MeshImporter::CreatePlaneMesh()
 {
 	Mesh* mesh = new Mesh();
 	//mesh->SetPlaneData();
-	mesh_list.push_back(mesh);
 
 	return mesh;
 }
@@ -77,7 +75,6 @@ Mesh * MeshImporter::CreateSphereMesh()
 {
 	Mesh* mesh = new Mesh();
 	//mesh->SetSphereData();
-	mesh_list.push_back(mesh);
 
 	return mesh;
 }
@@ -385,21 +382,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	}
 
 	parent_gameobject = game_object;
-}
-
-Mesh* MeshImporter::GetMeshByType(BasicMeshType type)
-{
-	Mesh* new_ret_mesh = new Mesh(); 
-
-	for (auto it = mesh_list.begin(); it != mesh_list.end(); it++)
-	{
-		if (type == (*it)->GetType())
-		{
-			memcpy(new_ret_mesh, (*it), sizeof(Mesh)); 
-		}
-	}
-
-	return new_ret_mesh;
 }
 
 bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name)

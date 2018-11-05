@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Globals.h"
+#include <string>
 
 enum resource_type
 {
 	RES_MESH,
 	RES_TEXTURE,
+	RES_MATERIAL, 
 	RES_NULL,
 };
 
@@ -14,6 +16,8 @@ class Resource
 public:
 	Resource() {}
 	~Resource() {}
+
+	std::string name = "";
 
 	//Setters & Getters
 	UID GetUID() const

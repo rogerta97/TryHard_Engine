@@ -3,6 +3,8 @@
 #include "Texture.h"
 #include <string>
 
+class Material; 
+
 class UI_ExplorerPanel : public UI_Panel
 {
 public:
@@ -21,12 +23,12 @@ private:
 	std::string item_selected; 
 	std::string root_folder; 
 	
-	Texture* folder_texture; 
-	Texture* image_texture; 
-	Texture* mesh_texture; 
-	Texture* font_texture; 
-	Texture* DDS_texture;
-	Texture* TGA_texture;
-	Texture* scene_texture;
+	Material* folder_mat; 
+	Material* image_mat;
+	Material* mesh_mat;
+	Material* font_mat;
+	Material* DDS_mat;
+	Material* TGA_mat;
+	Material* scene_mat;
 };
 

@@ -90,16 +90,6 @@ void Texture::SetPath(const char * path)
 	this->path = path; 
 }
 
-std::string Texture::GetName() const
-{
-	return name;
-}
-
-void Texture::SetName(const char * new_name)
-{
-	name = new_name; 
-}
-
 uint Texture::GetTextureID() const
 {
 	return texture_id;

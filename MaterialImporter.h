@@ -47,7 +47,6 @@ public:
 
 private:
 
-	std::list<Texture*> textures_list; 
 	Texture* checker_texture = nullptr; 
 
 };

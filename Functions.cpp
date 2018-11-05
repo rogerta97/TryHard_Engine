@@ -11,11 +11,8 @@ int GetPCGRandomNumberInt(int min_value, int max_value)
 {
 	int num_generated = 0;
 	int margin = max_value - min_value;
-
-	pcg32_random_t rng;
-
-	pcg32_srandom_r(&rng, time(NULL) ^ (intptr_t)&printf, (intptr_t)&rng);
-	num_generated = pcg32_boundedrand_r(&rng, margin);
+	
+	num_generated = pcg32_boundedrand(margin);
 
 	num_generated += min_value;
 
@@ -30,9 +27,7 @@ float GetPCGRandomNumberFloat(float max_value, float min_value)
 	margin_flt *= 100;
 	int margin = (int)margin_flt;
 
-	pcg32_random_t rng;
-	pcg32_srandom_r(&rng, time(NULL) ^ (intptr_t)&printf, (intptr_t)&rng);
-	num_generated = pcg32_boundedrand_r(&rng, margin);
+	num_generated = pcg32_boundedrand(margin);
 
 	float inc = (float)num_generated / 100;
 
