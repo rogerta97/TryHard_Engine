@@ -31,6 +31,8 @@ public:
 
 	bool SaveTexture(Texture* tex_to_save, ILenum format_type); 
 
+	void ImportAllFilesInAssets();
+
 	void DeleteTextureFromList(Texture* to_del);
 
 	bool DrawTextureList(); 

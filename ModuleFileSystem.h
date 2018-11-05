@@ -40,6 +40,7 @@ public:
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 	string DeleteLastPathItem(const char* path);
+	string DeleteFileExtension(const char* path);
 	bool IsFolder(const char* directory); 
 
 	string GetModelsPath() const; 
@@ -51,7 +52,9 @@ public:
 
 	UID GenerateUID(); 
 
-	std::vector<string> GetFilesInDirectory(const char* directory); 
+	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path);
+	std::vector<string> GetAllFilesInDirectory(const char* directory, bool include_path);
+	string GetFileInAllDirectory(const char* directory);
 	bool IsFileInDirectory(const char* directory, const char* filename);
 
 private:

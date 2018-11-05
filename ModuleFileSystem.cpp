@@ -133,9 +133,21 @@ string ModuleFileSystem::DeleteLastPathItem(const char * path)
 	return result_string;
 }
 
+string ModuleFileSystem::DeleteFileExtension(const char * path_char)
+{
+	string path(path_char);
+
+	int pos = path.find_last_of(".");
+	int to_del = path.size() - pos; 
+	path = path.substr(0, path.size() - to_del);
+
+	return path;
+}
+
 bool ModuleFileSystem::IsFolder(const char * directory)
 {
-	vector<string> files = App->file_system->GetFilesInDirectory(directory);
+	vector<string> files;
+	App->file_system->GetFilesInDirectory(directory, files, false);
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
@@ -184,10 +196,9 @@ UID ModuleFileSystem::GenerateUID()
 	return ret_id;
 }
 
-std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory)
-{
-	std::vector<string> files_to_ret; 
 
+void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<string>& list, bool include_path = false)
+{
 	std::string path(directory);
 	path.append("\\*");
 
@@ -196,16 +207,64 @@ std::vector<string> ModuleFileSystem::GetFilesInDirectory(const char * directory
 
 	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
 	{
-		do 
+		do
 		{
-			//if(std::string(data.cFileName) != std::string(".")  && std::string(data.cFileName) != std::string(".."))
-			files_to_ret.push_back(data.cFileName);
+			if (std::string(data.cFileName) != std::string(".") && std::string(data.cFileName) != std::string(".."))
+			{
+				if (include_path)
+				{
+					string new_str = directory + string("\\") + string(data.cFileName);
+					list.push_back(new_str);
+				}					
+				else
+					list.push_back(data.cFileName);
+			}
+				
 
 		} while (FindNextFile(hFind, &data) != 0);
 		FindClose(hFind);
 	}
 
-	return files_to_ret; 
+	return;
+}
+
+std::vector<string> ModuleFileSystem::GetAllFilesInDirectory(const char * directory, bool include_path = false)
+{
+	vector<string> file_names;
+	GetFilesInDirectory(directory, file_names, include_path);
+
+	vector<string> files_to_add; 
+
+	for (auto it = file_names.begin(); it != file_names.end();)
+	{
+		string new_dir = directory + string("\\") + GetLastPathItem((*it).c_str(), true);
+
+		if (App->file_system->IsFolder(new_dir.c_str()))
+		{
+			it = file_names.erase(it); 
+			GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);
+		}
+		else
+			it++;
+	}
+
+	for (auto it = files_to_add.begin(); it != files_to_add.end(); it++)
+		file_names.push_back((*it));
+	
+	return file_names;
+}
+
+string ModuleFileSystem::GetFileInAllDirectory(const char * directory)
+{
+	vector<string> files = GetAllFilesInDirectory(directory); 
+
+	for (auto it = files.begin(); it != files.end(); it++)
+	{
+
+	}
+
+	return nullptr;
+
 }
 
 bool ModuleFileSystem::IsFileInDirectory(const char * directory, const char * filename)

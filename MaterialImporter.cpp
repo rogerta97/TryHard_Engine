@@ -1,11 +1,15 @@
 #include "MaterialImporter.h"
 #include "Application.h"
 
+#include "ModuleResources.h"
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 
 #include "ComponentMaterial.h"
+
+#include "ModuleFileSystem.h"
 
 
 MaterialImporter::MaterialImporter()
@@ -20,39 +24,7 @@ bool MaterialImporter::Start()
 	ilutInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	string symbol_path = "";
-
-	//Create GO Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\GameObjectIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create Folder Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\FolderIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create Mesh Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\MeshIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create Image Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\ImageIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create Font Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\FontIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create DDS Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\DDSIcon.jpg");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create TGA Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\TGAIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
-
-	//Create Scene Icon Resource
-	symbol_path = string(App->file_system->GetTexturesPath() + string("\\") + "EngineTextures\\SceneIcon.png");
-	LoadTexture(symbol_path.c_str(), true);
+	ImportAllFilesInAssets();
 
 	checker_texture = new Texture();
 	checker_texture->FillCheckerTextureData();
@@ -83,11 +55,6 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 
 	//Check if the texture existed before based on the name on its path
 	string new_name = App->file_system->GetLastPathItem(path).c_str();
-
-	Resource* new_res = App->resources->Get(RES_MATERIAL, new_name.c_str()); 
-
-	if (new_res)
-		return (Texture*)new_res; 
 	
 	//If we already have it, no need to load
 	if (tex != nullptr)
@@ -122,11 +89,7 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 			tex->UnBind();
 
 			//Create the texture resource			
-			Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-			new_mat_res->SetDiffuseTexture(tex);
-			new_mat_res->name = new_name.c_str();
 
-			App->resources->material_importer->Import(new_mat_res, new_mat_res->name.c_str());
 		}
 	}
 
@@ -201,6 +164,24 @@ bool MaterialImporter::SaveTexture(Texture * tex_to_save, ILenum format_type)
 
 
 	return true;
+}
+
+void MaterialImporter::ImportAllFilesInAssets()
+{
+	std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), true); 
+
+	for (auto it = files.begin(); it != files.end(); it++)
+	{	
+		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+		new_mat_res->path = (*it).c_str(); 
+		new_mat_res->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+		Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true); 
+
+		if(tex)
+			new_mat_res->SetDiffuseTexture(tex);
+
+		App->resources->material_importer->Import(new_mat_res, new_mat_res->name.c_str());
+	}
 }
 
 void MaterialImporter::DeleteTextureFromList(Texture * to_del)
@@ -284,7 +265,7 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	bool ret = false; 
 
 	//Get the path to save 
-	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name; 
+	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name + ".dds"; 
 
 	if (mat_to_save != nullptr)
 	{

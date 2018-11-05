@@ -18,6 +18,7 @@ public:
 	~Resource() {}
 
 	std::string name = "";
+	std::string path = "";
 
 	//Setters & Getters
 	UID GetUID() const
@@ -44,4 +45,5 @@ private:
 
 	UID uid; 
 	resource_type res_type; 
+	
 };

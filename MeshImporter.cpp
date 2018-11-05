@@ -81,7 +81,7 @@ Mesh * MeshImporter::CreateSphereMesh()
 
 void MeshImporter::DrawMeshList()
 {
-	std::vector<string> models_files = App->file_system->GetFilesInDirectory(App->file_system->GetModelsPath().c_str());
+	std::vector<string> models_files = App->file_system->GetAllFilesInDirectory(App->file_system->GetModelsPath().c_str(), false);
 
 	if (ImGui::BeginPopup("select_mesh"))
 	{
@@ -350,12 +350,9 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						if (new_texture != nullptr)
 						{
+							new_mat->SetDiffuseTexture(new_texture); 
 							CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
-						}
-
-						new_mat->SetDiffuseTexture(new_texture);
-						Resource* res_mat = App->resources->CreateNewResource(RES_TEXTURE);
-						App->resources->material_importer->Import((Material*)new_mat, item_lib_name.c_str());
+						}			
 					}
 
 					//Create The Component
