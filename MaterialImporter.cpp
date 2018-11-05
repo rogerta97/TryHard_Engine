@@ -135,7 +135,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 bool MaterialImporter::DrawTextureList()
 {
-	/*static bool show_browser = false;
+	static bool show_browser = false;
 
 	ImGui::SameLine();
 	if (ImGui::BeginPopup("select_texture"))
@@ -144,7 +144,7 @@ bool MaterialImporter::DrawTextureList()
 		ImGui::Separator();
 		int i = 0;
 
-		std::vector<string> textures_on_folder = App->file_system->GetFilesInDirectory(App->file_system->GetTexturesPath().c_str());
+		vector<string> textures_on_folder = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), false);
 
 		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
 			if ((*it) != "." && (*it) != "..")
@@ -162,7 +162,7 @@ bool MaterialImporter::DrawTextureList()
 			}
 		}
 		ImGui::EndPopup();
-	}*/
+	}
 
 	return false;
 }
