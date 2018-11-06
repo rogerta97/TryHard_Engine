@@ -13,6 +13,7 @@ enum file_extension
 	FX_OTF,
 	FX_TGA, 
 	FX_JSON, 
+	FX_JPREFAB,  
 	FX_ERR
 };
 
@@ -22,6 +23,7 @@ enum file_type
 	FT_IMAGE,
 	FT_FONT,
 	FT_SCENE, 
+	FT_PREFAB, 
 	FT_UNDEFINED,
 };
 
@@ -45,6 +47,7 @@ public:
 
 	string GetModelsPath() const; 
 	string GetTexturesPath() const;
+	string GetPrefabPath() const;
 	string GetLibraryPath() const;
 	string GetSkyBoxPath() const;
 	string GetAssetsPath() const; 
@@ -64,6 +67,7 @@ private:
 	string game_path; 
 	string assets_path; 
 	string scenes_path; 
+	string prefabs_path; 
 	string models_path; 
 	string skybox_path;
 	string textures_path;

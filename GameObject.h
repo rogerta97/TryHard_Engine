@@ -46,6 +46,9 @@ public:
 	void Save(JSON_Object* scene_obj, int index);
 	bool Load(JSON_Object* scene_obj, int index);
 
+	void SaveAsPrefab(); 
+	void LoadPrefab(const char* prefab_name); 
+
 	//Utility
 	void GetEnclosedAABB(float3& min, float3& max); 
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 

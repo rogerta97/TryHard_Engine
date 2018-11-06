@@ -24,6 +24,7 @@ private:
 	std::string root_folder; 
 	
 	Material* folder_mat; 
+	Material* obj_mat; 
 	Material* image_mat;
 	Material* mesh_mat;
 	Material* font_mat;

@@ -14,6 +14,8 @@
 
 #include "ComponentMaterial.h"
 
+#include <fstream>
+
 GameObject::GameObject()
 {
 	name = ""; 
@@ -487,6 +489,36 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	}
 	
 	return true; 
+}
+
+void GameObject::SaveAsPrefab()
+{
+	string dest_str = App->file_system->GetPrefabPath() + string("\\") + name + ".jprefab"; 
+
+	std::ofstream stream;
+	stream.open(dest_str, std::fstream::out);
+
+	JSON_Value* scene_v = json_value_init_object();
+	JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+	Save(scene_obj, 0); 
+
+	stream.close(); 
+}
+
+void GameObject::LoadPrefab(const char* prefab_name)
+{
+	string dest_str = App->file_system->GetPrefabPath() + string("\\") + prefab_name + ".jprefab";
+
+	std::ifstream stream;
+	stream.open(dest_str);
+
+	JSON_Value* scene_v = json_value_init_object();
+	JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+	Load(scene_obj, 0);
+
+	stream.close();
 }
 
 bool GameObject::HasComponents()  

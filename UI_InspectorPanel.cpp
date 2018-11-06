@@ -53,11 +53,10 @@ bool UI_InspectorPanel::Update()
 
 		ImGui::Spacing();
 
-		Texture* go_image = (Texture*)App->resources->Get(RES_TEXTURE, "GameObjectIcon");
+		Material* go_image = (Material*)App->resources->Get(RES_MATERIAL, "GameObjectIcon");
 	
-
 		if(go_image != nullptr)
-			ImGui::Image((ImTextureID)go_image->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
+			ImGui::Image((ImTextureID)go_image->GetDiffuseTexture()->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
 
 		ImGui::SameLine(); 
 

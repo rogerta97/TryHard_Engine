@@ -818,7 +818,6 @@
     <ClCompile Include="UI_TagPanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Importer.cpp" />
     <ClCompile Include="TextureMSAA.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>

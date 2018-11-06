@@ -85,6 +85,11 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
+
+			case file_type::FT_PREFAB:
+				ImGui::Image((ImTextureID)obj_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break;
 				
 			default: 
 				ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(18, 18));
@@ -121,6 +126,15 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
 					App->scene->LoadScene(item_name.c_str());
+
+				else if (App->file_system->GetFileType(folder.c_str()) == FT_PREFAB)
+				{
+					string obj_name = App->file_system->GetLastPathItem(folder.c_str()); 
+
+					GameObject* new_go = App->scene->CreateGameObject(obj_name.c_str());
+					new_go->LoadPrefab(obj_name.c_str());
+				}
+					
 			
 			}
 
@@ -149,6 +163,7 @@ bool UI_ExplorerPanel::Start()
 	item_selected = ""; 
 
 	folder_mat = (Material*)App->resources->Get(RES_MATERIAL, "FolderIcon");
+	obj_mat = (Material*)App->resources->Get(RES_MATERIAL, "GameObjectIcon");
 	image_mat = (Material*)App->resources->Get(RES_MATERIAL, "ImageIcon");
 	mesh_mat = (Material*)App->resources->Get(RES_MATERIAL, "MeshIcon");
 	font_mat = (Material*)App->resources->Get(RES_MATERIAL, "FontIcon");

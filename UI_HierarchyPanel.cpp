@@ -70,6 +70,14 @@ bool UI_HierarchyPanel::Update()
 		ImGui::PopStyleVar();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_UP)
+	{
+		App->imgui->hierarchy_panel->show_click_menu = false;
+		App->scene->GetSelectedGameObject()->DeleteRecursive();
+		App->scene->SetSelectedGameObject(nullptr);
+		delete App->scene->GetSelectedGameObject();
+	}
+
 	if (App->imgui->hierarchy_panel->show_click_menu)
 	{
 		ImGui::OpenPopup("Options");
@@ -83,6 +91,11 @@ bool UI_HierarchyPanel::Update()
 				delete App->scene->GetSelectedGameObject();
 			}
 
+			if (ImGui::MenuItem("Create Prefab"))
+			{
+				App->imgui->hierarchy_panel->show_click_menu = false;
+				App->scene->GetSelectedGameObject()->SaveAsPrefab(); 				
+			}
 
 			if (ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
 				App->imgui->hierarchy_panel->show_click_menu = false;

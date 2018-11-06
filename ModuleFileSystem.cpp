@@ -40,6 +40,7 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	models_path = assets_path + string("\\") + string("3DModels");
 	scenes_path = assets_path + string("\\") + string("Scenes");
 	textures_path = assets_path + string("\\") + string("Textures");
+	prefabs_path = assets_path + string("\\") + string("Prefabs");
 	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
 
 	return true;
@@ -57,7 +58,8 @@ bool ModuleFileSystem::CleanUp()
 
 file_extension ModuleFileSystem::GetFileExtension(std::string full_path) 
 {
-		std::string term = full_path.substr(full_path.length() - 4);
+		int pos = full_path.find_last_of(".");
+		string term = full_path.substr(pos, full_path.length() - pos);
 
 		if (term == ".FBX" || term == ".fbx")
 			return FX_FBX;
@@ -80,8 +82,11 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".tga" || term == ".TGA")
 			return FX_TGA;
 
-		else if (term == "json" || term == "JSON")
+		else if (term == ".json" || term == ".JSON")
 			return FX_JSON;
+
+		else if (term == ".jprefab")
+			return FX_JPREFAB;
 
 		return FX_ERR;
 	
@@ -102,6 +107,9 @@ file_type ModuleFileSystem::GetFileType(string full_path)
 
 	else if (curr_extension == FX_JSON)
 		return file_type::FT_SCENE;
+
+	else if (curr_extension == FX_JPREFAB)
+		return file_type::FT_PREFAB;
 
 	return file_type::FT_UNDEFINED; 
 }
@@ -168,6 +176,11 @@ std::string ModuleFileSystem::GetModelsPath() const
 std::string ModuleFileSystem::GetTexturesPath() const
 {
 	return textures_path;
+}
+
+string ModuleFileSystem::GetPrefabPath() const
+{
+	return prefabs_path;
 }
 
 std::string ModuleFileSystem::GetLibraryPath() const
