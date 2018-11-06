@@ -5,6 +5,8 @@
 #include "OpenGL.h"
 #include "imgui_dock.h"
 
+#include "Material.h"
+
 UI_ScenePanel::UI_ScenePanel()
 {
 	type = Panel_Types::SCENE_PANEL;
@@ -19,6 +21,11 @@ bool UI_ScenePanel::Start()
 {
 	show = true;
 	is_mouse_in = false;
+
+	play_icon = (Material*)App->resources->Get(RES_MATERIAL, "PlayIcon");
+	pause_icon = (Material*)App->resources->Get(RES_MATERIAL, "PauseIcon");
+	stop_icon = (Material*)App->resources->Get(RES_MATERIAL, "StopIcon");
+
 	return true;
 }
 
@@ -26,10 +33,42 @@ bool UI_ScenePanel::Update()
 {
 	if (ImGui::Begin("Scene", &show))
 	{
+		region_size = ImGui::GetContentRegionAvail();
+
+		ImGui::SetCursorPosX(region_size.x / 2 - 30);
+
+		ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0,0), ImVec2(1,1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		} 
+		
+		ImGui::SameLine();
+
+		ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		} 
+
+		ImGui::SameLine();
+
+		ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		}
+
+		ImGui::BeginChild("SceneView"); 
+
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
 		
 		region_size = ImGui::GetContentRegionAvail();
+
 		const float region_ratio = region_size.y / region_size.x;
 
 		Camera* camera = App->camera->GetEditorCamera()->camera;
@@ -46,6 +85,8 @@ bool UI_ScenePanel::Update()
 
 	
 	}
+
+	ImGui::EndChild();
 	ImGui::End();
 
 	App->camera->GetEditorCamera()->GetViewportTexture()->Render();

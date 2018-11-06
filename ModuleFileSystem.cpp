@@ -128,8 +128,11 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	result_string = result_string.substr(pos + 1, to_copy);
 
 	if (termination == false)
-		result_string = result_string.substr(0, result_string.size() - 4); 
-
+	{
+		int pos = result_string.find_last_of('.');
+		result_string = result_string.substr(0, pos);
+	}
+		
 	return result_string;
 }
 
