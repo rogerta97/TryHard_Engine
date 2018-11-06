@@ -361,7 +361,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						//Create the texture
 						Texture* new_texture = new Texture();
-						new_texture = App->resources->material_importer->LoadTexture(path.c_str());
+						new_texture = App->resources->material_importer->LoadTexture(path.c_str(), true);
 
 						if (new_texture != nullptr)
 						{
