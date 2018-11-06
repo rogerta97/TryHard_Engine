@@ -7,6 +7,14 @@
 
 #define MAX_SNAKE 2
 
+enum OPERATION
+{
+	TRANSLATE,
+	ROTATE,
+	SCALE,
+	BOUNDS,
+};
+
 class ModuleScene : public Module
 {
 public:
@@ -17,23 +25,23 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void DrawSceneGameObjects(GameObject* camera); 
-	void DeleteGameObjectsNow(); 
-	void CleanScene(); 
-	void AddGameObjectToDeleteList(GameObject* to_del); 
-	
-	void AddGOToStaticList(GameObject* go); 
-	void DeleteGOFromStaticList(GameObject* go); 
+	void DrawSceneGameObjects(GameObject* camera);
+	void DeleteGameObjectsNow();
+	void CleanScene();
+	void AddGameObjectToDeleteList(GameObject* to_del);
+
+	void AddGOToStaticList(GameObject* go);
+	void DeleteGOFromStaticList(GameObject* go);
 
 	GameObject* CreateGameObject();
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
-	int GetGameObjectsAmmount(); 
+	int GetGameObjectsAmmount();
 
 	void DeleteGameObjectFromList(GameObject* go);
-	void AddGameObjectToScene(GameObject* go); 
-	bool IsTextureUsed(int id, GameObject* skip); 
-	void SetDefaultScene(); 
+	void AddGameObjectToScene(GameObject* go);
+	bool IsTextureUsed(int id, GameObject* skip);
+	void SetDefaultScene();
 
 	void TestLineAgainstGOs(LineSegment line);
 
@@ -50,7 +58,7 @@ public:
 	std::list<GameObject*> GetAllGameObjectsWith(CompType type);
 
 	//Load & Save
-	void SaveScene(const char* scene_name); 
+	void SaveScene(const char* scene_name);
 	void LoadScene(const char* scene_path);
 
 	const char* GetSceneName() const;
@@ -58,11 +66,13 @@ public:
 
 public:
 
-	std::list<GameObject*> scene_gameobjects; 
+	std::list<GameObject*> scene_gameobjects;
 	std::list<GameObject*> static_gameobjects;
-	std::list<GameObject*> go_to_delete; 
-	GameObject* selected_go; 
-	std::string scene_name; 
-	Octree* octree; 
+	std::list<GameObject*> go_to_delete;
+	GameObject* selected_go;
+	std::string scene_name;
+	Octree* octree;
+
+	OPERATION guizmo_mode;
 
 };
