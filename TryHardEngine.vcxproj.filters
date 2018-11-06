@@ -576,6 +576,9 @@
     <ClInclude Include="Texture.h">
       <Filter>Sources\Resources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleTime.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -841,6 +844,9 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Sources\Resources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTime.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
