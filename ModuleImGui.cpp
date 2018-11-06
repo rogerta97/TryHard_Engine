@@ -32,7 +32,7 @@
 #include "imgui_impl_sdl.h"
 #include "TinyFileDialog.h"
 
-
+#include "ImGuizmo/ImGuizmo.h"
 
 
 
@@ -108,6 +108,7 @@ void ModuleImGui::SendInput(SDL_Event * e) const
 update_status ModuleImGui::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL2_NewFrame(App->window->window);
+	ImGuizmo::BeginFrame();
 
 	x_motion = -App->input->GetMouseXMotion();
 	y_motion = -App->input->GetMouseYMotion();

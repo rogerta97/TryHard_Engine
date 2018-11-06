@@ -130,5 +130,15 @@ ImVec2 UI_ScenePanel::GetMousePosInDockNormalized() //between -1 and 1
 	return mouse_normalized;
 }
 
+ImVec2 UI_ScenePanel::GetPos() const
+{
+	return pos;
+}
+
+ImVec2 UI_ScenePanel::GetSize() const
+{
+	return region_size;
+}
+
 
 

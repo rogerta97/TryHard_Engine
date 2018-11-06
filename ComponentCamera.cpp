@@ -157,6 +157,11 @@ float* ComponentCamera::GetViewMatrix()
 	return &ViewMatrix[0][0];
 }
 
+float4x4 ComponentCamera::GetRawViewMatrix() const
+{
+	return ViewMatrix;
+}
+
 float * ComponentCamera::GetViewOpenGLViewMatrix()
 {
 	float4x4 m;

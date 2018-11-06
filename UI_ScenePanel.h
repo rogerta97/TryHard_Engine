@@ -16,6 +16,8 @@ public:
 
 	ImVec2 GetMousePosInDock();
 	ImVec2 GetMousePosInDockNormalized();
+	ImVec2 GetPos() const;
+	ImVec2 GetSize() const;
 
 	bool is_mouse_in;
 

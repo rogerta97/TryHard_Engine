@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleScene.h"
 #include "UI_InspectorPanel.h"
+#include "UI_ScenePanel.h"
 #include "UI_TagPanel.h"
 #include "Primitive.h"
 #include "OpenGL.h"
@@ -10,6 +11,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ImGuizmo/ImGuizmo.h"
 
 #include <fstream>
 
@@ -85,6 +87,41 @@ void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 	if (editor_cam) {
 		cam->Draw(editor_cam);
 		App->camera->DrawMouseRay();
+
+		if (selected_go) //Draw guizmos
+		{
+			ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
+			ImVec2 scene_size = App->imgui->scene_panel->GetSize();
+			ImGuizmo::SetRect(scene_pos.x, scene_pos.y, scene_size.x, scene_size.y);
+
+			ComponentTransform* trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
+			float3 object_pos = trans->GetPosition();
+			float objectMatrix[16] =
+			{ 1.f, 0.f, 0.f, 0.f,
+				0.f, 1.f, 0.f, 0.f,
+				0.f, 0.f, 1.f, 0.f,
+				0.f, 0.f, 0.f, 1.f };
+			float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+
+			matrixTranslation[0] = object_pos.x;
+			matrixTranslation[1] = object_pos.y;
+			matrixTranslation[2] = object_pos.z;
+
+			matrixRotation[0] = 0;
+			matrixRotation[1] = 0;
+			matrixRotation[2] = 0;
+
+			matrixScale[0] = 1;
+			matrixScale[1] = 1;
+			matrixScale[2] = 1;
+
+			float4x4 vmat = cam->GetRawViewMatrix();
+
+			ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, objectMatrix);
+
+			ImGuizmo::DrawCube(&vmat[0][0], cam->camera->GetProjectionMatrix(), objectMatrix);
+			ImGuizmo::Manipulate(&vmat[0][0], cam->camera->GetProjectionMatrix(), ImGuizmo::TRANSLATE, ImGuizmo::WORLD, objectMatrix);
+		}
 	}
 
 
