@@ -54,11 +54,7 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 	ilBindImage(imageID);
 
 	//Check if the texture existed before based on the name on its path
-	string new_name = App->file_system->GetLastPathItem(path).c_str();
-	
-	//If we already have it, no need to load
-	if (tex != nullptr)
-		return tex;
+	string new_name = App->file_system->GetLastPathItem(path, true).c_str();
 
 	success = ilLoadImage(path);
 
@@ -78,10 +74,14 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 
 		if (success)
 		{
+			CONSOLE_LOG("TEXTURE CREATED"); 
+
 			tex->CreateBuffer();
 			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
+
 			tex->SetPath(path);
+			tex->name = new_name;
 
 			tex->Bind();
 			tex->SetTextureSettings();
@@ -101,34 +101,39 @@ void MaterialImporter::ImportAllFilesFromAssets()
 	for (auto it = files.begin(); it != files.end(); it++)
 	{	
 		string lib_path = App->file_system->GetLibraryPath() + string("\\Materials"); 
-		string name = App->file_system->GetLastPathItem((*it).c_str(), false);
-		name += ".dds";
+
+		string ass_tex_name = App->file_system->GetLastPathItem((*it).c_str(), true); 
+		string lib_tex_name = App->file_system->GetLastPathItem((*it).c_str(), false) + ".dds";
 
 		Material* new_mat = nullptr; 
 
-		if (App->file_system->IsFileInDirectory(lib_path.c_str(), name.c_str()))
+		if (App->file_system->IsFileInDirectory(lib_path.c_str(), lib_tex_name.c_str()))
 		{
-			string path_to_load = lib_path + string("\\") + name;
-			new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
+			string path_to_load = lib_path + string("\\") + lib_tex_name;
 
-			new_mat->path = (*it).c_str();
-			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+			Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+
+			Texture* new_tex = LoadTexture(path_to_load.c_str(), true);
+			new_mat->SetDiffuseTexture(new_tex);
+
+			new_mat->path = path_to_load;
+			new_mat->name = lib_tex_name;
 			
 		}
 		else
 		{
 			new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);	
-			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
 
-			new_mat->path = (*it).c_str();
-			new_mat->name = App->file_system->GetLastPathItem((*it).c_str(), true);
+			new_mat->path = lib_path;
+			new_mat->name = ass_tex_name;
+
+			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str());
 
 			if (tex)
 				new_mat->SetDiffuseTexture(tex);
 
 			App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
 
-		
 		}	
 	}
 }
@@ -183,10 +188,34 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	bool ret = false; 
 
 	//Get the path to save 
-	string tex_name_alone = App->file_system->GetLastPathItem(tex_name, false); 
+	file_extension ext = App->file_system->GetFileExtension(tex_name);
+	string tex_name_alone = App->file_system->GetLastPathItem(tex_name, false);
+
+	string path_dst = App->file_system->GetAssetsPath() + '\\' + "Textures\\" + tex_name; 
 	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name_alone + ".dds";
 
-	if (mat_to_save != nullptr)
+	if (ext == FX_DDS && mat_to_save != nullptr) //if the texture is already in dds we don't need to get the data and save it in dds format, we just copy the file
+	{
+		std::ifstream in; 
+		in.open(path_dst.c_str(), ifstream::binary);
+
+		std::ofstream out;            
+		out.open(path_to_save.c_str(), ifstream::binary);
+										  
+		char buf[4096];
+
+		do {
+			in.read(&buf[0], 4096);    
+			out.write(&buf[0], in.gcount()); 
+		} while (in.gcount() > 0);         
+											
+		in.close();
+		out.close();
+
+		return true;
+	}
+	
+	else if (mat_to_save != nullptr)
 	{
 		//Create or open the file
 		ofstream stream;
@@ -227,13 +256,15 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 
 Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 {
-	Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+	string name = App->file_system->GetLastPathItem(tex_path);
+	Material* new_mat = (Material*)App->resources->Get(RES_MATERIAL, name.c_str());
 
-	//string tex_path = App->file_system->GetLibraryPath() + std::string("\\") + "Materials\\" + tex_name; 
-
-	Texture* new_tex = LoadTexture(tex_path);
-	new_mat->SetDiffuseTexture(new_tex); 
-
+	//if(new_mat)
+	//{
+	//	Texture* new_tex = LoadTexture(tex_path);
+	//	new_mat->SetDiffuseTexture(new_tex);
+	//}
+	
 	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", App->file_system->GetLastPathItem(tex_path, true).c_str());
 
 	return new_mat;

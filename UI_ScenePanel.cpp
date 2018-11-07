@@ -37,7 +37,8 @@ bool UI_ScenePanel::Update()
 
 		ImGui::SetCursorPosX(region_size.x / 2 - 30);
 
-		ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0,0), ImVec2(1,1), 3);
+		if(play_icon)
+			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0,0), ImVec2(1,1), 3);
 
 		if (ImGui::IsItemClicked())
 		{
@@ -46,7 +47,8 @@ bool UI_ScenePanel::Update()
 		
 		ImGui::SameLine();
 
-		ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+		if(stop_icon)
+			ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
 
 		if (ImGui::IsItemClicked())
 		{
@@ -55,7 +57,8 @@ bool UI_ScenePanel::Update()
 
 		ImGui::SameLine();
 
-		ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+		if(pause_icon)
+			ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
 
 		if (ImGui::IsItemClicked())
 		{

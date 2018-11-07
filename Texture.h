@@ -41,7 +41,5 @@ private:
 	uint texture_id;
 	uint width;
 	uint height;
-
-	std::string path;
 };
 

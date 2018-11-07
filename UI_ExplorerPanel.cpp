@@ -32,7 +32,11 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 	{
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 
-		ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
+		if (folder_mat)
+		{
+			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
+		}
+			
 
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
@@ -60,6 +64,9 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		switch (App->file_system->GetFileType(folder.c_str()))
 		{
 			case file_type::FT_3DMODEL:
+				if (mesh_mat == nullptr)
+					break; 
+
 				ImGui::Image((ImTextureID)mesh_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break; 
@@ -72,21 +79,36 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
 				}
 				else*/
+				if (image_mat == nullptr)
+					break;
+
 				ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
 			case file_type::FT_FONT:
+
+				if (font_mat == nullptr)
+					break;
+
 				ImGui::Image((ImTextureID)font_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
 			case file_type::FT_SCENE:
+
+				if (scene_mat == nullptr)
+					break;
+
 				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
 
 			case file_type::FT_PREFAB:
+
+				if (obj_mat == nullptr)
+					break;
+
 				ImGui::Image((ImTextureID)obj_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 				ImGui::SameLine();
 				break;
@@ -122,8 +144,11 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				}
 					
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
-					App->resources->material_importer->LoadTexture(folder.c_str());
-
+				{
+					string lib_item = App->file_system->GetLastPathItem(string(folder.c_str() + string(".dds")).c_str()); 
+					Material* new_mat = App->resources->material_importer->LoadFromBinary(lib_item.c_str());
+				}
+					
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
 					App->scene->LoadScene(item_name.c_str());
 

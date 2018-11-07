@@ -176,7 +176,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			else if (file_dropped_extension == file_extension::FX_PNG || file_dropped_extension == file_extension::FX_DDS || file_dropped_extension == file_extension::FX_JPG)
 			{
-				GameObject* current_go = nullptr;
+			/*	GameObject* current_go = nullptr;
 				current_go = App->scene->GetSelectedGameObject();
 
 				if (current_go != nullptr)
@@ -195,7 +195,7 @@ update_status ModuleInput::PreUpdate(float dt)
 					}
 				}
 				else
-					CONSOLE_ERROR("Could not load texture as there is no Game Object");
+					CONSOLE_ERROR("Could not load texture as there is no Game Object");*/
 			}
 		}
 

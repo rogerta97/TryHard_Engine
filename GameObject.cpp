@@ -528,7 +528,7 @@ bool GameObject::HasComponents()
 
 bool GameObject::HasChilds() const
 {
-	return !child_list.empty();;
+	return !child_list.empty();
 }
 
 GameObject * GameObject::GetChild(int index) const

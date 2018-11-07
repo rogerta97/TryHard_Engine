@@ -100,7 +100,7 @@ void ComponentMesh::DrawNormals()
 
 void ComponentMesh::DrawMesh()
 {
-	if (frustum_col_type == OUTSIDE_FRUSTUM)
+	if (frustum_col_type == OUTSIDE_FRUSTUM || mesh == nullptr)
 		return;
 
 	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
@@ -149,7 +149,8 @@ void ComponentMesh::DrawMesh()
 				glNormalPointer(GL_FLOAT, 0, NULL);
 			}
 		}
-		else {
+		else 
+		{
 			glDisable(GL_TEXTURE_2D);
 			Color color = material->GetMaterial()->color;
 			glColor3f(color.r, color.g, color.b);

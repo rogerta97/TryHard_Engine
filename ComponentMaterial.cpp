@@ -69,8 +69,9 @@ void ComponentMaterial::Load(JSON_Object * root_obj)
 {
 	string diffuse_name = json_object_dotget_string(root_obj, "DiffuseName");
 
-	string diffuse_path = App->file_system->GetTexturesPath() +  string("\\") + diffuse_name;
-	diffuse_path += ".dds"; 
+	diffuse_name = App->file_system->DeleteFileExtension(diffuse_name.c_str()) + string(".dds");
+
+	string diffuse_path = App->file_system->GetLibraryPath() +  string("\\Materials\\") + diffuse_name;
 
 	material->SetDiffuseTexture(App->resources->material_importer->LoadTexture(diffuse_path.c_str()));
 }
@@ -81,6 +82,7 @@ void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
 	std::string item_name = "";
 
 	item_name = node_name + ".Components.ComponentMaterial.DiffuseName";
+
 	if(material->GetDiffuseTexture() == nullptr)
 		json_object_dotset_string(root_obj, item_name.c_str(), "NONE");
 	else

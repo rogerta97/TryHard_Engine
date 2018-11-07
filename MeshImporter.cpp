@@ -219,7 +219,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{			
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
-				new_mesh->name = curr_mesh->mName.C_Str();
+				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
 				new_mesh->LoadToMemory(); 	
 			}
@@ -251,6 +251,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						{
 							CONSOLE_ERROR("Geometry index in face %d is != 3", j);
 							load_succes = false;
+							break;
 						}
 						else
 							memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
@@ -267,51 +268,55 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					else
 					{
 						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
-						game_object->DeleteRecursive();
+						game_object->DeleteRecursive();						
 						new_mesh->~Mesh();
-						//App->scene->AddGameObjectToScene(game_object);
-						continue;
+						break;
 					}
 				}
 
-				//Load UV Coords
-				if (curr_mesh->HasTextureCoords(0))
+				if (load_succes)
 				{
-					//Load the UV's
-					new_mesh->num_uvs = curr_mesh->mNumVertices;
-					new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];
+					//Load UV Coords
+					if (curr_mesh->HasTextureCoords(0))
+					{
+						//Load the UV's
+						new_mesh->num_uvs = curr_mesh->mNumVertices;
+						new_mesh->uvs_cords = new float[new_mesh->num_uvs * 3];
 
-					if (new_mesh->uvs_cords != nullptr)
-						glTexCoordPointer(2, GL_FLOAT_R_NV, 0, &new_mesh->uvs_cords);
-					memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
+						if (new_mesh->uvs_cords != nullptr)
+							glTexCoordPointer(3, GL_FLOAT_R_NV, 0, &new_mesh->uvs_cords);
 
-					glGenBuffers(1, &new_mesh->uvs_id);
-					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
-					glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
+						memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
-					CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
+						glGenBuffers(1, &new_mesh->uvs_id);
+						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
+						glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
+						glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+						CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
+					}
+
+					//Load Normals
+					if (curr_mesh->HasNormals())
+					{
+						new_mesh->num_normals = new_mesh->num_vertices;
+						new_mesh->normal_cords = new float3[new_mesh->num_normals];
+						memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
+
+						glGenBuffers(1, &new_mesh->normals_id);
+						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
+						glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
+						glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+						CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
+					}
+
+					//Create the mesh resource
+					Resource* res_mesh = App->resources->CreateNewResource(RES_MESH);
+					res_mesh = new_mesh;
+					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());
 				}
-
-				//Load Normals
-				if (curr_mesh->HasNormals())
-				{
-					new_mesh->num_normals = new_mesh->num_vertices;
-					new_mesh->normal_cords = new float3[new_mesh->num_normals];
-					memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
-
-					glGenBuffers(1, &new_mesh->normals_id);
-					glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
-					glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-					CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
-				}
-
-				//Create the mesh resource
-				Resource* res_mesh = App->resources->CreateNewResource(RES_MESH);
-				res_mesh = new_mesh; 
-				App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());
+				
 			}
 
 
@@ -332,42 +337,55 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
-				Material* new_mat = nullptr;
 
 				//Get the path
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
 
 				string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
-				string item_lib_name = App->file_system->DeleteFileExtension(texture_name.C_Str()) + ".dds";
+
+				string item_ass_name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
+				string item_lib_name = App->file_system->GetLastPathItem(texture_name.C_Str()) + ".dds";
 
 				if(string(texture_name.C_Str()) != string(""))
 				{
+					Material* new_mat = nullptr; 
+
 					if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
 					{
 						string path = folder_to_check + string("\\") + item_lib_name;
+
 						new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
-						new_mat->name = curr_mesh->mName.C_Str();
-						new_mat->path = curr_mesh->mName.C_Str();
-						new_mat->SetType(resource_type::RES_MATERIAL); 
-						new_mesh->LoadToMemory();
+
+						new_mat->SetType(resource_type::RES_MATERIAL);
 					}
 					else
 					{
-						new_mat = new Material(); 
-						CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
 
-						std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
+						//The program will never enter here, every texture dragged or in folder will be generated as resource.
 
-						//Create the texture
-						Texture* new_texture = new Texture();
-						new_texture = App->resources->material_importer->LoadTexture(path.c_str(), true);
+						//new_mat = new Material(); 
+						//CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
 
-						if (new_texture != nullptr)
-						{
-							new_mat->SetDiffuseTexture(new_texture); 
-							CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
-						}			
+						//std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
+
+						////Create the texture
+						//Texture* new_texture = new Texture();
+						//new_texture = App->resources->material_importer->LoadTexture(path.c_str());
+
+						//if (new_texture != nullptr)
+						//{
+						//	new_mat->SetDiffuseTexture(new_texture); 
+						//	CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+						//}		
+
+						//Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+						//new_mat_res->SetDiffuseTexture(new_texture);
+
+						//new_mat_res->path = path.c_str();
+						//new_mat_res->name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
+
+						//App->resources->material_importer->Import(new_mat_res, texture_name.C_Str());
 					}
 
 					//Create The Component
@@ -385,7 +403,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 					else 
 						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
-
 				}
 
 				App->scene->AddGameObjectToScene(game_object);

@@ -364,7 +364,11 @@ void ModuleScene::SaveScene(const char* scene_name)
 		stream.open(new_scene_path, std::fstream::out);
 
 		JSON_Value* scene_v = json_value_init_object();
-		JSON_Object* scene_obj = nullptr;
+		JSON_Object* scene_obj = json_value_get_object(scene_v);;
+
+		//Save Scene Info
+		json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 
+		json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
 
 		int index = 0; 
 		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
@@ -395,20 +399,20 @@ void ModuleScene::LoadScene(const char * scene_path)
 		stream.open(path.c_str(), std::fstream::in);
 
 		JSON_Value* root = json_parse_file(path.c_str()); 
-		JSON_Object* root_obj = json_value_get_object(root);		
+		JSON_Object* root_obj = json_value_get_object(root);
+
+		int obj_ammount = json_object_dotget_number(root_obj, "Scene.obj_num");
 
 		int i = 0; 
-		while(true)
+		while(i < obj_ammount)
 		{
 			string item_to_get = "GameObject_" + to_string(i); 
 			GameObject* new_go = new GameObject(); 
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);
-			else
-				break; 
 
-			i++; 
+			i++;
 		}
 
 		stream.close(); 

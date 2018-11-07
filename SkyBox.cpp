@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Mesh.h"
 
+#include "Material.h"
+
 #include "MaterialImporter.h"
 
 #include "ComponentCamera.h"
@@ -127,6 +129,8 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
 
+	string name_from_path = App->file_system->GetLastPathItem(front_image_path); 
+
 	// Create vertices ------------------------------------
 
 	sky_cube[SKYBOX_FRONT]->num_vertices = 4;
@@ -190,7 +194,8 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_FRONT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_FRONT] = App->resources->material_importer->LoadTexture(front_image_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+	sky_textures[SKYBOX_FRONT] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
@@ -208,6 +213,8 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 
 	sky_cube[SKYBOX_RIGHT] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
+
+	string name_from_path = App->file_system->GetLastPathItem(plane_tex_path);
 
 	// Create vertices ------------------------------------
 
@@ -274,7 +281,10 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_RIGHT]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_RIGHT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_RIGHT] = App->resources->material_importer->LoadTexture(plane_tex_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+
+	if(curr_mat != nullptr)
+		sky_textures[SKYBOX_RIGHT] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
@@ -290,6 +300,8 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 
 	sky_cube[SKYBOX_LEFT] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
+
+	string name_from_path = App->file_system->GetLastPathItem(plane_tex_path);
 
 	// Create vertices ------------------------------------
 
@@ -356,7 +368,10 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_LEFT]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_LEFT]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_LEFT] = App->resources->material_importer->LoadTexture(plane_tex_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+
+	if(curr_mat != nullptr)
+		sky_textures[SKYBOX_LEFT] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
@@ -372,6 +387,8 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 
 	sky_cube[SKYBOX_BACK] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
+
+	string name_from_path = App->file_system->GetLastPathItem(plane_tex_path);
 
 	// Create vertices ------------------------------------
 
@@ -438,7 +455,10 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_BACK]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_BACK]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_BACK] = App->resources->material_importer->LoadTexture(plane_tex_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+
+	if(curr_mat != nullptr)
+		sky_textures[SKYBOX_BACK] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
@@ -454,6 +474,8 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 
 	sky_cube[SKYBOX_TOP] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
+
+	string name_from_path = App->file_system->GetLastPathItem(plane_tex_path);
 
 	// Create vertices ------------------------------------
 
@@ -520,7 +542,10 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_TOP]->uvs_cords[6] = 0.0f;
 	sky_cube[SKYBOX_TOP]->uvs_cords[7] = 1.0f;
 
-	sky_textures[SKYBOX_TOP] = App->resources->material_importer->LoadTexture(plane_tex_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+
+	if(curr_mat != nullptr)
+		sky_textures[SKYBOX_TOP] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
@@ -536,6 +561,8 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 
 	sky_cube[SKYBOX_DOWN] = new Mesh();
 	int type = BasicMeshType::MESH_PLANE;
+
+	string name_from_path = App->file_system->GetLastPathItem(plane_tex_path);
 
 	// Create vertices ------------------------------------
 
@@ -602,7 +629,10 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 	sky_cube[SKYBOX_DOWN]->uvs_cords[6] = 1.0f;
 	sky_cube[SKYBOX_DOWN]->uvs_cords[7] = 0.0f;
 
-	sky_textures[SKYBOX_DOWN] = App->resources->material_importer->LoadTexture(plane_tex_path);
+	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
+
+	if(curr_mat != nullptr)
+		sky_textures[SKYBOX_DOWN] = curr_mat->GetDiffuseTexture();
 
 	// ---------------------
 
