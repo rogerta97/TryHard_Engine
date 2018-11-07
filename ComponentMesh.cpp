@@ -142,7 +142,6 @@ void ComponentMesh::DrawMesh()
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 			
-
 			if (mesh->num_normals != 0)
 			{
 				glEnableClientState(GL_NORMAL_ARRAY);
