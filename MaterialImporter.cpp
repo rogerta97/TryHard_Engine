@@ -67,12 +67,10 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 		ILinfo image_info;
 		iluGetImageInfo(&image_info);
 
-		if (flip == false)
-		{
+		if(flip == true)
 			if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
 				iluFlipImage();
-		}
-		
+				
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 		if (success)
@@ -117,7 +115,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			new_mat->path = path_to_load;
 			new_mat->name = lib_tex_name;
 
-			Texture* new_tex = LoadTexture(path_to_load.c_str(), true);
+			Texture* new_tex = LoadTexture(path_to_load.c_str());
 			new_mat->SetDiffuseTexture(new_tex);		
 		}
 		else
@@ -130,7 +128,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			Texture* tex = nullptr; 
 	
-			tex = App->resources->material_importer->LoadTexture((*it).c_str());
+			tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
 		
 
 			if (tex)
@@ -198,28 +196,28 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	string path_dst = App->file_system->GetAssetsPath() + '\\' + "Textures\\" + tex_name; 
 	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name_alone + ".dds";
 
-	if (ext == FX_DDS && mat_to_save != nullptr) //if the texture is already in dds we don't need to get the data and save it in dds format, we just copy the file
-	{
-		std::ifstream in; 
-		in.open(path_dst.c_str(), ifstream::binary);
+	//if (ext == FX_DDS && mat_to_save != nullptr) //if the texture is already in dds we don't need to get the data and save it in dds format, we just copy the file
+	//{
+	//	std::ifstream in; 
+	//	in.open(path_dst.c_str(), ifstream::binary);
 
-		std::ofstream out;            
-		out.open(path_to_save.c_str(), ifstream::binary);
-										  
-		char buf[4096];
+	//	std::ofstream out;            
+	//	out.open(path_to_save.c_str(), ifstream::binary);
+	//									  
+	//	char buf[4096];
 
-		do {
-			in.read(&buf[0], 4096);    
-			out.write(&buf[0], in.gcount()); 
-		} while (in.gcount() > 0);         
-											
-		in.close();
-		out.close();
+	//	do {
+	//		in.read(&buf[0], 4096);    
+	//		out.write(&buf[0], in.gcount()); 
+	//	} while (in.gcount() > 0);         
+	//										
+	//	in.close();
+	//	out.close();
 
-		return true;
-	}
+	//	return true;
+	//}
 	
-	else if (mat_to_save != nullptr)
+	if (mat_to_save != nullptr)
 	{
 		//Create or open the file
 		ofstream stream;
@@ -262,12 +260,6 @@ Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 {
 	string name = App->file_system->GetLastPathItem(tex_path);
 	Material* new_mat = (Material*)App->resources->Get(RES_MATERIAL, name.c_str());
-
-	//if(new_mat)
-	//{
-	//	Texture* new_tex = LoadTexture(tex_path);
-	//	new_mat->SetDiffuseTexture(new_tex);
-	//}
 	
 	CONSOLE_DEBUG("Material '%s' loaded correctly from libary", App->file_system->GetLastPathItem(tex_path, true).c_str());
 

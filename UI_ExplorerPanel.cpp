@@ -75,7 +75,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 			case file_type::FT_IMAGE:
 
-				if (App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+				/*if (App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
 				{
 					if (DDS_mat == nullptr)
 						break;
@@ -91,15 +91,15 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					ImGui::Image((ImTextureID)TGA_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 					ImGui::SameLine();
 				}
-
-				else
-				{
+*/
+				//else
+				//{
 					if (image_mat == nullptr)
 						break;
 
 					ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
 					ImGui::SameLine();
-				}
+				//}
 	
 				break;
 
