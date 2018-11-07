@@ -34,7 +34,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 		if (folder_mat)
 		{
-			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15));
 			ImGui::SameLine();
 		}
 			

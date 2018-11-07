@@ -189,6 +189,16 @@ float3 ComponentCamera::GetCamPointFromDistance(float3 center, float distance) c
 
 void ComponentCamera::Load(JSON_Object * root_obj)
 {
+	int type = json_object_dotget_number(root_obj, "Projection");
+
+	if(type == 0)
+		camera->frustum.type = FrustumType::PerspectiveFrustum;
+	else if (type == 1)
+		camera->frustum.type = FrustumType::OrthographicFrustum;
+
+	camera->frustum.horizontalFov = json_object_dotget_number(root_obj, "FOV");
+	camera->frustum.nearPlaneDistance = json_object_dotget_number(root_obj, "NearPlane");
+	camera->frustum.farPlaneDistance = json_object_dotget_number(root_obj, "FarPlane");
 }
 
 void ComponentCamera::Save(JSON_Object * root_obj, const char* root)
@@ -196,8 +206,13 @@ void ComponentCamera::Save(JSON_Object * root_obj, const char* root)
 	string node_name = root;
 	string item_name = "";
 
+
 	item_name = node_name + ".Components.ComponentCamera.Projection";
-	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.type);
+
+	if(camera->frustum.type == FrustumType::PerspectiveFrustum)
+		json_object_dotset_number(root_obj, item_name.c_str(), 0);
+	else if (camera->frustum.type == FrustumType::PerspectiveFrustum)
+		json_object_dotset_number(root_obj, item_name.c_str(), 1);
 
 	item_name = node_name + ".Components.ComponentCamera.FOV";
 	json_object_dotset_number(root_obj, item_name.c_str(), camera->GetFov());

@@ -67,7 +67,7 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 		ILinfo image_info;
 		iluGetImageInfo(&image_info);
 
-		if(flip == true)
+	//	if(flip == true)
 			if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
 				iluFlipImage();
 				
@@ -106,7 +106,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 		Material* new_mat = nullptr; 
 
-		if (App->file_system->IsFileInDirectory(lib_path.c_str(), lib_tex_name.c_str()))
+		/*if (App->file_system->IsFileInDirectory(lib_path.c_str(), lib_tex_name.c_str()))
 		{
 			string path_to_load = lib_path + string("\\") + lib_tex_name;
 
@@ -119,7 +119,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			new_mat->SetDiffuseTexture(new_tex);		
 		}
 		else
-		{
+		{*/
 			new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);	
 
 			new_mat->path = lib_path;
@@ -136,7 +136,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
 
-		}	
+		//}	
 	}
 }
 
@@ -196,26 +196,26 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 	string path_dst = App->file_system->GetAssetsPath() + '\\' + "Textures\\" + tex_name; 
 	string path_to_save = App->file_system->GetLibraryPath() + '\\' + "Materials\\" + tex_name_alone + ".dds";
 
-	//if (ext == FX_DDS && mat_to_save != nullptr) //if the texture is already in dds we don't need to get the data and save it in dds format, we just copy the file
-	//{
-	//	std::ifstream in; 
-	//	in.open(path_dst.c_str(), ifstream::binary);
+	if (ext == FX_DDS && mat_to_save != nullptr) //if the texture is already in dds we don't need to get the data and save it in dds format, we just copy the file
+	{
+		std::ifstream in; 
+		in.open(path_dst.c_str(), ifstream::binary);
 
-	//	std::ofstream out;            
-	//	out.open(path_to_save.c_str(), ifstream::binary);
-	//									  
-	//	char buf[4096];
+		std::ofstream out;            
+		out.open(path_to_save.c_str(), ifstream::binary);
+										  
+		char buf[4096];
 
-	//	do {
-	//		in.read(&buf[0], 4096);    
-	//		out.write(&buf[0], in.gcount()); 
-	//	} while (in.gcount() > 0);         
-	//										
-	//	in.close();
-	//	out.close();
+		do {
+			in.read(&buf[0], 4096);    
+			out.write(&buf[0], in.gcount()); 
+		} while (in.gcount() > 0);         
+											
+		in.close();
+		out.close();
 
-	//	return true;
-	//}
+		return true;
+	}
 	
 	if (mat_to_save != nullptr)
 	{
