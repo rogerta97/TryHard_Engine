@@ -533,7 +533,11 @@ void GameObject::SaveAsPrefab()
 	JSON_Value* scene_v = json_value_init_object();
 	JSON_Object* scene_obj = json_value_get_object(scene_v);
 
-	SaveRecursive(scene_obj, 0); 
+	int index = 0;
+	SaveRecursive(scene_obj, index); 
+
+	index++;
+	json_object_dotset_number(scene_obj, "Info.obj_num", index);
 
 	json_serialize_to_file(scene_v, dest_str.c_str());
 
@@ -542,17 +546,7 @@ void GameObject::SaveAsPrefab()
 
 void GameObject::LoadPrefab(const char* prefab_name)
 {
-	string dest_str = App->file_system->GetPrefabPath() + string("\\") + prefab_name + ".jprefab";
-
-	std::ifstream stream;
-	stream.open(dest_str);
-
-	JSON_Value* scene_v = json_value_init_object();
-	JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-	Load(scene_obj, 0);
-
-	stream.close();
+	
 }
 
 bool GameObject::HasComponents()  

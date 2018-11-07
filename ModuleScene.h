@@ -33,6 +33,8 @@ public:
 	void AddGOToStaticList(GameObject* go);
 	void DeleteGOFromStaticList(GameObject* go);
 
+	GameObject* LoadPrefab(const char* prf_name); 
+
 	GameObject* CreateGameObject();
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);

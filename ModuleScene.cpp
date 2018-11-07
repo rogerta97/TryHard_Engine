@@ -148,10 +148,40 @@ void ModuleScene::DeleteGOFromStaticList(GameObject * go)
 	}
 }
 
+GameObject * ModuleScene::LoadPrefab(const char * prf_name)
+{
+	GameObject* root_go = new GameObject(prf_name); 
+
+	string dest_str = App->file_system->GetPrefabPath() + string("\\") + prf_name + ".jprefab";
+
+	std::ifstream stream;
+	stream.open(dest_str);
+
+	JSON_Value* scene_v = json_parse_file(dest_str.c_str());
+	JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+	int obj_ammount = json_object_dotget_number(scene_obj, "Info.obj_num");
+
+	list<GameObject*> obj_list;
+
+	for (int i = 0; i < obj_ammount; i++)
+	{
+		GameObject* new_go = new GameObject();
+		new_go->Load(scene_obj, i);
+		obj_list.push_back(new_go);
+	}
+
+	auto it = obj_list.begin();
+	root_go = (*it);
+
+	stream.close();
+
+	return root_go; 
+}
+
 GameObject * ModuleScene::CreateGameObject()
 {
 	GameObject* new_go = new GameObject(""); 
-
 
 	//Here we will add the component transform, every GO should have it.
 
