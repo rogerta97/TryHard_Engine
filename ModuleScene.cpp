@@ -89,62 +89,6 @@ void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 	if (editor_cam) {
 		cam->Draw(editor_cam);
 		App->camera->DrawMouseRay();
-
-		if (selected_go) //Draw guizmos
-		{
-			ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
-			ImVec2 scene_size = App->imgui->scene_panel->GetSize();
-			ImGuizmo::SetRect(scene_pos.x, scene_pos.y, scene_size.x, scene_size.y);
-
-			ComponentTransform* trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
-			float3 object_pos = trans->GetPosition();
-			float3 object_scale = trans->GetScale();
-			float3 object_rot_rad = trans->GetRotationEuler();
-			float objectMatrix[16] =
-			{ 1.f, 0.f, 0.f, 0.f,
-				0.f, 1.f, 0.f, 0.f,
-				0.f, 0.f, 1.f, 0.f,
-				0.f, 0.f, 0.f, 1.f };
-			float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-
-			matrixTranslation[0] = object_pos.x;
-			matrixTranslation[1] = object_pos.y;
-			matrixTranslation[2] = object_pos.z;
-
-			matrixRotation[0] = object_rot_rad.x;
-			matrixRotation[1] = object_rot_rad.y;
-			matrixRotation[2] = object_rot_rad.z;
-
-			matrixScale[0] = object_scale.x;
-			matrixScale[1] = object_scale.y;
-			matrixScale[2] = object_scale.z;
-
-			float4x4 vmat = cam->GetRawViewMatrix();
-
-			ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, objectMatrix);
-
-			ImGuizmo::Manipulate(&vmat[0][0], cam->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::WORLD, objectMatrix);
-
-			ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
-
-			switch (guizmo_mode)
-			{
-			case TRANSLATE:
-				trans->SetPosition({ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
-				break;
-			case ROTATE:
-				trans->SetRotationEuler({ matrixRotation[0],matrixRotation[1],matrixRotation[2] });
-				break;
-			case SCALE:
-				trans->SetScale({ matrixScale[0],matrixScale[1],matrixScale[2] });
-				break;
-			case BOUNDS:
-				break;
-			default:
-				break;
-			}
-
-		}
 	}
 
 
@@ -343,6 +287,64 @@ void ModuleScene::TestLineAgainstGOs(LineSegment line)
 
 	SetSelectedGameObject(closestGo);
 
+}
+
+void ModuleScene::DrawGuizmo()
+{
+	if (selected_go) //Draw guizmos
+	{
+		ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
+		ImVec2 scene_size = App->imgui->scene_panel->GetSize();
+		ImGuizmo::SetRect(scene_pos.x, scene_pos.y, scene_size.x, scene_size.y);
+
+		ComponentTransform* trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
+		float3 object_pos = trans->GetPosition();
+		float3 object_scale = trans->GetScale();
+		float3 object_rot_rad = trans->GetRotationEuler();
+		float objectMatrix[16] =
+		{ 1.f, 0.f, 0.f, 0.f,
+			0.f, 1.f, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			0.f, 0.f, 0.f, 1.f };
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+
+		matrixTranslation[0] = object_pos.x;
+		matrixTranslation[1] = object_pos.y;
+		matrixTranslation[2] = object_pos.z;
+
+		matrixRotation[0] = object_rot_rad.x;
+		matrixRotation[1] = object_rot_rad.y;
+		matrixRotation[2] = object_rot_rad.z;
+
+		matrixScale[0] = object_scale.x;
+		matrixScale[1] = object_scale.y;
+		matrixScale[2] = object_scale.z;
+
+		float4x4 vmat = App->camera->GetEditorCamera()->GetRawViewMatrix();
+
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, objectMatrix);
+		ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::LOCAL, objectMatrix);
+
+		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
+
+		switch (guizmo_mode)
+		{
+		case TRANSLATE:
+			trans->SetPosition({ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
+			break;
+		case ROTATE:
+			trans->SetRotationEuler({ matrixRotation[0],matrixRotation[1],matrixRotation[2] });
+			break;
+		case SCALE:
+			trans->SetScale({ matrixScale[0],matrixScale[1],matrixScale[2] });
+			break;
+		case BOUNDS:
+			break;
+		default:
+			break;
+		}
+
+	}
 }
 
 GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)

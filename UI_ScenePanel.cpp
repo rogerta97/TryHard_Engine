@@ -83,7 +83,7 @@ bool UI_ScenePanel::Update()
 
 		is_mouse_in = ImGui::IsWindowHovered();
 
-	
+		App->scene->DrawGuizmo();
 	}
 
 	ImGui::EndChild();
@@ -91,7 +91,6 @@ bool UI_ScenePanel::Update()
 
 	App->camera->GetEditorCamera()->GetViewportTexture()->Render();
 	App->camera->GetEditorCamera()->GetViewportTexture()->Unbind();
-
 
 	return true;
 }

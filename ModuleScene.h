@@ -45,6 +45,8 @@ public:
 
 	void TestLineAgainstGOs(LineSegment line);
 
+	void DrawGuizmo();
+
 	GameObject* GetClosestGO(LineSegment line, std::list<GameObject*> go_list);
 
 	//Setters & Getters
