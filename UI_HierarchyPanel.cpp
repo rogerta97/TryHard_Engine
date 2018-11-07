@@ -35,7 +35,12 @@ bool UI_HierarchyPanel::Update()
 {
 	if (ImGui::Begin("Hierarchy", &show, NULL))
 	{
-		ImGui::Text(App->scene->GetSceneName());
+		ImGui::Text(App->scene->GetSceneName()); ImGui::SameLine(); 
+		
+		if (ImGui::SmallButton("Clean"))
+		{
+			App->scene->CleanScene(); 
+		}
 
 		static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
 		static int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.

@@ -222,6 +222,13 @@ void UI_InspectorPanel::PrintTransformProperties()
 
 			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); 
 
+			if (ImGui::SmallButton("Reset"))
+			{
+				trans_cmp->ResetTransform();
+			}
+
+			SEPARATE_WITH_SPACE
+
 			if (ImGui::RadioButton("Translate", App->scene->guizmo_mode == ImGuizmo::TRANSLATE))
 				App->scene->guizmo_mode = (OPERATION)ImGuizmo::TRANSLATE;
 			ImGui::SameLine();
@@ -231,15 +238,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 			if (ImGui::RadioButton("Scale", App->scene->guizmo_mode == ImGuizmo::SCALE))
 				App->scene->guizmo_mode = (OPERATION)ImGuizmo::SCALE;
 
-
-			if(ImGui::SmallButton("Reset"))
-			{
-				trans_cmp->ResetTransform(); 
-			}
-
-			ImGui::Spacing();
-			ImGui::Separator();
-			ImGui::Spacing();
+			SEPARATE_WITH_SPACE
 
 			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
 			float show_rot[3] = { trans_cmp->GetRotationEuler().x, trans_cmp->GetRotationEuler().y, trans_cmp->GetRotationEuler().z };

@@ -387,13 +387,17 @@ void ComponentMesh::Load(JSON_Object * root_obj)
 	///Then you can go on
 	
 	//Check if it's in library
-	if (!App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Meshes").c_str(), gameobject->name.c_str()))
+	mesh_name += ".mesh"; 
+	if (!App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Meshes").c_str(), mesh_name.c_str()))
 	{
 		//Load the containing FBX && Unload It
 		GameObject* new_go = App->resources->mesh_importer->CreateFBXMesh(string(App->file_system->GetModelsPath() + string("\\") + container_fbx + ".fbx").c_str());
 
-		if(new_go) 
+		if (new_go)
+		{
 			new_go->DeleteRecursive();
+			App->scene->DeleteGameObjectsNow();
+		}			
 		else
 		{
 			CONSOLE_ERROR("Object '%s' could not be found in Assets folder. The '%s'.fbx resource has been deleted or renamed", gameobject->name.c_str(), container_fbx.c_str());
@@ -402,10 +406,7 @@ void ComponentMesh::Load(JSON_Object * root_obj)
 	}
 		
 	//Load Library Resource
-	string obj_name = gameobject->name; 
-	obj_name += ".mesh"; 
-
-	SetMesh(App->resources->mesh_importer->LoadFromBinary(obj_name.c_str()));
+	SetMesh(App->resources->mesh_importer->LoadFromBinary(mesh_name.c_str()));
 	mesh->name = mesh_name.c_str();
 	mesh->type = MESH_FBX;
 	mesh->LoadToMemory();
@@ -418,7 +419,7 @@ void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 	std::string item_name = "";
 
 	item_name = node_name + ".Components.ComponentMesh.MeshName";
-	json_object_dotset_string(root_obj, item_name.c_str(), mesh->name.c_str());
+	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
 
 	item_name = node_name + ".Components.ComponentMesh.FBXName";
 	json_object_dotset_string(root_obj, item_name.c_str(), container_fbx.c_str());

@@ -382,10 +382,13 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	
 	id++;
 
+	string node_name = name + "##" + to_string(unique_id);
+
 	if (HasChilds())
 	{
 		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((mask & (1 << id)) ? ImGuiTreeNodeFlags_Selected : 0);
-		bool opened = ImGui::TreeNodeEx(name.c_str(), node_flags); 
+	
+		bool opened = ImGui::TreeNodeEx(node_name.c_str(), node_flags);
 
 		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{
@@ -415,7 +418,7 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 	{
 		ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | ((mask & (1 << id)) ? ImGuiTreeNodeFlags_Selected : 0); // ImGuiTreeNodeFlags_Bullet;
 
-		ImGui::TreeNodeEx(name.c_str(), node_flags);
+		ImGui::TreeNodeEx(node_name.c_str(), node_flags);
 		
 		if (ImGui::IsItemClicked() || ImGui::IsItemClicked(1))
 		{

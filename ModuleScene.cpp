@@ -114,13 +114,17 @@ void ModuleScene::DeleteGameObjectsNow()
 
 void ModuleScene::CleanScene()
 {
-	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	if (!scene_gameobjects.empty())
 	{
-		if ((*it)->GetParent() == nullptr)
-			(*it)->DeleteRecursive(); 
+		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+		{
+			if ((*it)->GetParent() == nullptr)
+				(*it)->DeleteRecursive();
+		}
+
+	//	App->scene->DeleteGameObjectsNow();
 	}
 
-	App->scene->DeleteGameObjectsNow(); 
 }
 
 void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)
