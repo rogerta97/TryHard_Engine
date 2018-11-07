@@ -67,17 +67,13 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 		ILinfo image_info;
 		iluGetImageInfo(&image_info);
 
-		//if(flip)
-		//	iluFlipImage();*/	
+		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
+			iluFlipImage();
 
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 		if (success)
 		{
-
-			if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
-				iluFlipImage();
-
 			tex->CreateBuffer();
 			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));

@@ -461,6 +461,35 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	}
 }
 
+void GameObject::SaveRecursive(JSON_Object* scene_obj, int index)
+{
+	string node_name = "GameObject_" + to_string(index);
+	string item_name = "";
+
+	item_name = node_name + ".Name";
+	json_object_dotset_string(scene_obj, item_name.c_str(), name.c_str());
+
+	item_name = node_name + ".UID";
+	json_object_dotset_number(scene_obj, item_name.c_str(), unique_id);
+
+	item_name = node_name + ".Parent";
+
+	if (GetParent() == nullptr)
+		json_object_dotset_number(scene_obj, item_name.c_str(), 0);
+	else
+		json_object_dotset_number(scene_obj, item_name.c_str(), GetParent()->unique_id);
+
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		(*it)->Save(scene_obj, node_name.c_str());
+	}
+
+	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	{
+		(*it)->SaveRecursive(scene_obj, ++index);
+	}
+}
+
 bool GameObject::Load(JSON_Object* scene_obj, int index)
 {
 	//Load basic GO info
@@ -504,7 +533,9 @@ void GameObject::SaveAsPrefab()
 	JSON_Value* scene_v = json_value_init_object();
 	JSON_Object* scene_obj = json_value_get_object(scene_v);
 
-	Save(scene_obj, 0); 
+	SaveRecursive(scene_obj, 0); 
+
+	json_serialize_to_file(scene_v, dest_str.c_str());
 
 	stream.close(); 
 }

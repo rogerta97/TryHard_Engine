@@ -337,7 +337,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				aiMaterial* mat = nullptr;
 				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
-
 				//Get the path
 				aiString texture_name;
 				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
