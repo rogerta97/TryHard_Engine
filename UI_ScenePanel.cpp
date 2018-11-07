@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "OpenGL.h"
 #include "imgui_dock.h"
+#include "ImGuizmo\ImGuizmo.h"
 
 #include "Material.h"
 
@@ -31,7 +32,10 @@ bool UI_ScenePanel::Start()
 
 bool UI_ScenePanel::Update()
 {
-	if (ImGui::Begin("Scene", &show))
+	ImGuiWindowFlags flags = NULL;
+	if (ImGuizmo::IsOver())
+		flags = flags | ImGuiWindowFlags_NoMove;
+	if (ImGui::Begin("Scene", &show, flags))
 	{
 		region_size = ImGui::GetContentRegionAvail();
 
