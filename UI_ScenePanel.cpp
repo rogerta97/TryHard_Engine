@@ -86,7 +86,7 @@ bool UI_ScenePanel::Update()
 
 		is_mouse_in = ImGui::IsWindowHovered();
 
-	
+		App->scene->DrawGuizmo();
 	}
 
 	ImGui::EndChild();
@@ -94,7 +94,6 @@ bool UI_ScenePanel::Update()
 
 	App->camera->GetEditorCamera()->GetViewportTexture()->Render();
 	App->camera->GetEditorCamera()->GetViewportTexture()->Unbind();
-
 
 	return true;
 }
@@ -131,6 +130,16 @@ ImVec2 UI_ScenePanel::GetMousePosInDockNormalized() //between -1 and 1
 
 	//CONSOLE_LOG("x:%f, y:%f, w:%f, h:%f", mouse_normalized.x, mouse_normalized.y, region_size.x, region_size.y);
 	return mouse_normalized;
+}
+
+ImVec2 UI_ScenePanel::GetPos() const
+{
+	return pos;
+}
+
+ImVec2 UI_ScenePanel::GetSize() const
+{
+	return region_size;
 }
 
 

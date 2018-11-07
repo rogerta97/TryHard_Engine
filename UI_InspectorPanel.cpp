@@ -10,6 +10,9 @@
 #include "ComponentCamera.h"
 
 #include "MaterialImporter.h"
+#include "ModuleScene.h"
+
+#include "ImGuizmo/ImGuizmo.h"
 
 UI_InspectorPanel::UI_InspectorPanel()
 {
@@ -218,7 +221,17 @@ void UI_InspectorPanel::PrintTransformProperties()
 			ImGui::Spacing();
 
 			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); 
-			
+
+			if (ImGui::RadioButton("Translate", App->scene->guizmo_mode == ImGuizmo::TRANSLATE))
+				App->scene->guizmo_mode = (OPERATION)ImGuizmo::TRANSLATE;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Rotate", App->scene->guizmo_mode == ImGuizmo::ROTATE))
+				App->scene->guizmo_mode = (OPERATION)ImGuizmo::ROTATE;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Scale", App->scene->guizmo_mode == ImGuizmo::SCALE))
+				App->scene->guizmo_mode = (OPERATION)ImGuizmo::SCALE;
+
+
 			if(ImGui::SmallButton("Reset"))
 			{
 				trans_cmp->ResetTransform(); 

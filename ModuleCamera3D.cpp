@@ -12,6 +12,8 @@
 #include "ComponentCamera.h"
 #include "ComponentTransform.h"
 
+#include "ImGuizmo/ImGuizmo.h"
+
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";
@@ -74,7 +76,7 @@ update_status ModuleCamera3D::Update(float dt)
 	ManageMovement();
 
 	// Mouse Picking ----------------
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene && !ImGuizmo::IsOver())
 	{
 		ImVec2 mouse_pos_norm = App->imgui->scene_panel->GetMousePosInDockNormalized();
 
@@ -87,7 +89,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 	}
 
-	////
 	cam->CalculateViewMatrix();
 
 
