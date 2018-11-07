@@ -224,8 +224,10 @@ void ModuleCamera3D::PrintConfigData()
 			{			
 				if (ImGui::Selectable((*it)->GetName().c_str()))
 				{
-					gcam_go = (*it); 
-					App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));
+
+					SetGameCamera((*it));
+					/*gcam_go = ; 
+					App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));*/
 					break;
 				}
 				
@@ -272,19 +274,26 @@ GameObject * ModuleCamera3D::GetCameraGO() const
 
 ComponentCamera * ModuleCamera3D::GetGameCamera()
 {
-	if (!gcam_go)
+	if (gcam_go == nullptr)
 		return nullptr;
+
 	ComponentCamera* cam = (ComponentCamera *)gcam_go->GetComponent(CMP_CAMERA);
 
-	if (cam)
+	if (cam != nullptr)
 		return cam;
 	else
 		return nullptr;
 }
 
+GameObject * ModuleCamera3D::GetGameCameraObject()
+{
+	return gcam_go;
+}
+
 void ModuleCamera3D::SetGameCamera(GameObject * new_cam)
 {
 	gcam_go = new_cam; 
+	App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));
 }
 
 bool ModuleCamera3D::IsGhostCamera() const

@@ -121,7 +121,5 @@ private:
 
 	bool					locked;
 	bool					orbit = true;
-
-	bool					is_editor_camera;
 };
 

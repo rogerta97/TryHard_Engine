@@ -217,6 +217,7 @@ update_status ModuleImGui::DrawTopBar()
 			string scene_name = App->file_system->GetLastPathItem(path, true);
 
 			App->scene->LoadScene(scene_name.c_str());
+
 		}
 
 		ImGui::EndMenu();
