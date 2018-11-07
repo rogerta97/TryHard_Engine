@@ -326,7 +326,7 @@ void ModuleScene::DrawGuizmo()
 		float4x4 vmat = App->camera->GetEditorCamera()->GetRawViewMatrix();
 
 		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, objectMatrix);
-		ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::LOCAL, objectMatrix);
+		ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::WORLD, objectMatrix);
 
 		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
 

@@ -1860,6 +1860,8 @@ namespace ImGuizmo
    void Manipulate(const float *view, const float *projection, OPERATION operation, MODE mode, float *matrix, float *deltaMatrix, float *snap, float *localBounds, float *boundsSnap)
    {
       ComputeContext(view, projection, matrix, mode);
+	  gContext.mDrawList = ImGui::GetWindowDrawList();
+
 
       // set delta to identity
       if (deltaMatrix)
