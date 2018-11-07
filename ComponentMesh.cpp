@@ -124,8 +124,10 @@ void ComponentMesh::DrawMesh()
 	}
 
 	bool valid_mat = false; 
-	if (material)
+	if (material && material->GetMaterial())
 	{
+		valid_mat = true;
+
 		if (material->GetMaterial()->GetDiffuseTexture() != nullptr)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -139,7 +141,7 @@ void ComponentMesh::DrawMesh()
 			else
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-			valid_mat = true; 
+			
 
 			if (mesh->num_normals != 0)
 			{
@@ -168,7 +170,7 @@ void ComponentMesh::DrawMesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-	if (material)
+	if (valid_mat)
 		material->GetMaterial()->GetDiffuseTexture()->UnBind();
 	
 	if (trans)

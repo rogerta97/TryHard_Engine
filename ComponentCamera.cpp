@@ -500,7 +500,7 @@ void ComponentCamera::PrintPreview()
 
 			camera->SetAspectRatio(1);
 
-			ImGui::Image((void*)GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image((void*)GetViewportTexture()->GetTextureID(), region_size);
 
 			//App->camera->GetViewportTexture()->Unbind();
 		}

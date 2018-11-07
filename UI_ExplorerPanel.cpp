@@ -34,7 +34,8 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 		if (folder_mat)
 		{
-			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15)); ImGui::SameLine();
+			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::SameLine();
 		}
 			
 
@@ -64,6 +65,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 		switch (App->file_system->GetFileType(folder.c_str()))
 		{
 			case file_type::FT_3DMODEL:
+
 				if (mesh_mat == nullptr)
 					break; 
 
@@ -72,18 +74,33 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				break; 
 
 			case file_type::FT_IMAGE:
-			/*	if(App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
-					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
+
+				if (App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+				{
+					if (DDS_mat == nullptr)
+						break;
+
+					ImGui::Image((ImTextureID)DDS_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+					ImGui::SameLine();
+				}
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_TGA)
 				{
-					ImGui::Image((ImTextureID)DDS_texture->GetTextureID(), ImVec2(18, 18));
-				}
-				else*/
-				if (image_mat == nullptr)
-					break;
+					if (TGA_mat == nullptr)
+						break;
 
-				ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
-				ImGui::SameLine();
+					ImGui::Image((ImTextureID)TGA_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+					ImGui::SameLine();
+				}
+
+				else
+				{
+					if (image_mat == nullptr)
+						break;
+
+					ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+					ImGui::SameLine();
+				}
+	
 				break;
 
 			case file_type::FT_FONT:

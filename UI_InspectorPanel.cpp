@@ -368,7 +368,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::SameLine(); 
 
-		ImGui::ImageButton((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15), ImVec2(0, 1), ImVec2(1, 0), 1);
+		ImGui::ImageButton((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15));
 
 		if (ImGui::IsItemClicked())
 		{
@@ -380,7 +380,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		
 		if (mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 		{
-			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150));
 
 			ImGui::SameLine();
 

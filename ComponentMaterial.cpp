@@ -67,14 +67,20 @@ void ComponentMaterial::SetColor(Color color)
 }
 
 void ComponentMaterial::Load(JSON_Object * root_obj)
-{
+{	
 	string diffuse_name = json_object_dotget_string(root_obj, "DiffuseName");
 
-	diffuse_name = App->file_system->DeleteFileExtension(diffuse_name.c_str()) + string(".dds");
-
-	string diffuse_path = App->file_system->GetLibraryPath() +  string("\\Materials\\") + diffuse_name;
-
-	material->SetDiffuseTexture(App->resources->material_importer->LoadTexture(diffuse_path.c_str()));
+	if (diffuse_name != "NONE" && diffuse_name != "")
+	{
+		string lib_name = App->file_system->DeleteFileExtension(diffuse_name.c_str());
+		material = (Material*)App->resources->Get(RES_MATERIAL, lib_name.c_str());
+	}
+	else
+	{
+		material = new Material(); 
+		float3 rgb = { (float)json_object_dotget_number(root_obj, "Color.R"), (float)json_object_dotget_number(root_obj, "Color.G"), (float)json_object_dotget_number(root_obj, "Color.B") };
+		material->color.Set(rgb.x, rgb.y, rgb.z);
+	}
 }
 
 void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
@@ -88,5 +94,14 @@ void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
 		json_object_dotset_string(root_obj, item_name.c_str(), "NONE");
 	else
 		json_object_dotset_string(root_obj, item_name.c_str(), material->GetDiffuseTexture()->name.c_str());
+
+	item_name = node_name + ".Components.ComponentMaterial.Color.R";
+	json_object_dotset_number(root_obj, item_name.c_str(), material->color.r); 
+
+	item_name = node_name + ".Components.ComponentMaterial.Color.G";
+	json_object_dotset_number(root_obj, item_name.c_str(), material->color.g);
+
+	item_name = node_name + ".Components.ComponentMaterial.Color.B";
+	json_object_dotset_number(root_obj, item_name.c_str(), material->color.b);
 }
 

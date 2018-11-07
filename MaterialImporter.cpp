@@ -67,9 +67,11 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 		ILinfo image_info;
 		iluGetImageInfo(&image_info);
 
-		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT && flip == true)
-			iluFlipImage();
-
+	
+		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT)
+				iluFlipImage();
+		
+	
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 		if (success)
@@ -111,12 +113,11 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 
-			Texture* new_tex = LoadTexture(path_to_load.c_str());
-			new_mat->SetDiffuseTexture(new_tex);
-
 			new_mat->path = path_to_load;
 			new_mat->name = lib_tex_name;
-			
+
+			Texture* new_tex = LoadTexture(path_to_load.c_str());
+			new_mat->SetDiffuseTexture(new_tex);		
 		}
 		else
 		{
@@ -124,8 +125,12 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			new_mat->path = lib_path;
 			new_mat->name = ass_tex_name;
+			file_extension ext = App->file_system->GetFileExtension(ass_tex_name); 
 
-			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
+			Texture* tex = nullptr; 
+	
+			tex = App->resources->material_importer->LoadTexture((*it).c_str());
+		
 
 			if (tex)
 				new_mat->SetDiffuseTexture(tex);
