@@ -42,7 +42,6 @@ bool ModuleScene::Start()
 	scene_name = "Untitled"; 
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
-	App->renderer3D->AddRenderCamera(App->camera->GetGameCamera()); 
 
 	guizmo_mode = TRANSLATE;
 
@@ -122,7 +121,7 @@ void ModuleScene::CleanScene()
 				(*it)->DeleteRecursive();
 		}
 
-	//	App->scene->DeleteGameObjectsNow();
+		App->scene->DeleteGameObjectsNow();
 	}
 
 }
@@ -436,6 +435,11 @@ void ModuleScene::SaveScene(const char* scene_name)
 		json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 
 		json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
 
+		if(App->camera->GetGameCameraObject() != nullptr)
+			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
+		else
+			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
+
 		int index = 0; 
 		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 		{
@@ -468,6 +472,7 @@ void ModuleScene::LoadScene(const char * scene_path)
 		JSON_Object* root_obj = json_value_get_object(root);
 
 		int obj_ammount = json_object_dotget_number(root_obj, "Scene.obj_num");
+		UID main_cam_uid = json_object_dotget_number(root_obj, "Scene.main_camera_uid");
 
 		int i = 0; 
 		while(i < obj_ammount)
@@ -480,6 +485,9 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 			i++;
 		}
+
+		if(main_cam_uid != 0)
+			App->camera->SetGameCamera(App->scene->GetGameObjectByID(main_cam_uid));
 
 		stream.close(); 
 	}

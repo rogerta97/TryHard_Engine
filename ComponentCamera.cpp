@@ -40,7 +40,7 @@ ComponentCamera::ComponentCamera(GameObject* parent)
 
 	mouse_sensitivity = 0.01f;
 
-	is_editor_camera = false;
+	is_editor = false;
 	center_next_frame = false;
 }
 
@@ -74,7 +74,7 @@ bool ComponentCamera::CleanUp()
 {
 	LOG("Cleaning camera");
 
-	if (!is_editor)
+	//if (!is_editor)
 		App->renderer3D->rendering_cameras.pop_back();
 
 	return true;
@@ -99,8 +99,8 @@ bool ComponentCamera::Update()
 	if (locked == true)
 		return update_status::UPDATE_CONTINUE;
 
-	if (!is_editor_camera)
-	UpdateFrustumPositionAndRotation();
+	if (!is_editor)
+		UpdateFrustumPositionAndRotation();
 
 	return UPDATE_CONTINUE;
 }
@@ -538,7 +538,7 @@ void ComponentCamera::CalculateViewMatrix()
 
 void ComponentCamera::SetEditorCamera()
 {
-	is_editor_camera = true;
+	is_editor = true;
 }
 
 
