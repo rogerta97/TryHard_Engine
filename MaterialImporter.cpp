@@ -42,7 +42,7 @@ bool MaterialImporter::CleanUp()
 	return true;
 }
 
-Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
+Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 {
 	Texture* tex = nullptr;
 
@@ -67,15 +67,13 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool not_flip)
 		ILinfo image_info;
 		iluGetImageInfo(&image_info);
 
-		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT && not_flip == false)
+		if (image_info.Origin == IL_ORIGIN_UPPER_LEFT && flip == true)
 			iluFlipImage();
 
 		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 		if (success)
 		{
-			CONSOLE_LOG("TEXTURE CREATED"); 
-
 			tex->CreateBuffer();
 			tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
@@ -113,7 +111,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 
-			Texture* new_tex = LoadTexture(path_to_load.c_str(), true);
+			Texture* new_tex = LoadTexture(path_to_load.c_str());
 			new_mat->SetDiffuseTexture(new_tex);
 
 			new_mat->path = path_to_load;
@@ -127,7 +125,7 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			new_mat->path = lib_path;
 			new_mat->name = ass_tex_name;
 
-			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str());
+			Texture* tex = App->resources->material_importer->LoadTexture((*it).c_str(), true);
 
 			if (tex)
 				new_mat->SetDiffuseTexture(tex);
@@ -149,7 +147,7 @@ bool MaterialImporter::DrawTextureList()
 		ImGui::Separator();
 		int i = 0;
 
-		vector<string> textures_on_folder = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), false);
+		vector<string> textures_on_folder = App->file_system->GetAllFilesInDirectory(string(App->file_system->GetLibraryPath() + "\\Materials").c_str(), false);
 
 		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
 			if ((*it) != "." && (*it) != "..")
@@ -160,8 +158,8 @@ bool MaterialImporter::DrawTextureList()
 
 					if (mat != nullptr)
 					{
-						string file_path = App->file_system->GetTexturesPath() + string("\\") + (*it);
-						mat->GetMaterial()->SetDiffuseTexture(LoadTexture(file_path.c_str()));
+						Material* new_mat = (Material*)App->resources->Get(RES_MATERIAL, App->file_system->DeleteFileExtension((*it).c_str()).c_str());
+						mat->SetMaterial(new_mat);
 					}
 				}
 			}

@@ -32,14 +32,15 @@ bool ComponentMaterial::CleanUp()
 
 		if (curr_tex != nullptr)
 		{
-			if (!App->scene->IsTextureUsed(curr_tex->GetTextureID(), gameobject))
-			{
-				curr_tex->Clear();
-				//App->resources->material_importer->DeleteTextureFromList(curr_tex);
-				delete (material->GetDiffuseTexture());
-			}
+			//if (!App->scene->IsTextureUsed(curr_tex->GetTextureID(), gameobject))
+			//{
+			//	curr_tex->Clear();
+			//	//App->resources->material_importer->DeleteTextureFromList(curr_tex);
+			//	delete (material->GetDiffuseTexture());
+			//}
 
-			material->SetDiffuseTexture(nullptr);
+			//material->SetDiffuseTexture(nullptr);
+
 			material = nullptr;
 		}
 	}
