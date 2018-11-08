@@ -35,39 +35,12 @@ bool UI_ScenePanel::Update()
 	ImGuiWindowFlags flags = NULL;
 	if (ImGuizmo::IsOver())
 		flags = flags | ImGuiWindowFlags_NoMove;
+
 	if (ImGui::Begin("Scene", &show, flags))
 	{
+
 		region_size = ImGui::GetContentRegionAvail();
 
-		ImGui::SetCursorPosX(region_size.x / 2 - 30);
-
-		if(play_icon)
-			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0,0), ImVec2(1,1), 3);
-
-		if (ImGui::IsItemClicked())
-		{
-
-		} 
-		
-		ImGui::SameLine();
-
-		if(stop_icon)
-			ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
-
-		if (ImGui::IsItemClicked())
-		{
-
-		} 
-
-		ImGui::SameLine();
-
-		if(pause_icon)
-			ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
-
-		if (ImGui::IsItemClicked())
-		{
-
-		}
 
 		ImGui::BeginChild("SceneView"); 
 
@@ -91,6 +64,37 @@ bool UI_ScenePanel::Update()
 		is_mouse_in = ImGui::IsWindowHovered();
 
 		App->scene->DrawGuizmo();
+
+		//Buttons
+		ImGui::SetCursorPos({ region_size.x / 2 - 30,5 });
+		if (play_icon)
+			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		}
+
+		ImGui::SameLine();
+
+		if (stop_icon)
+			ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		}
+
+		ImGui::SameLine();
+
+		if (pause_icon)
+			ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		if (ImGui::IsItemClicked())
+		{
+
+		}
+		ImGui::SetCursorPos({ 0,0 });
 	}
 
 	ImGui::EndChild();
@@ -107,10 +111,12 @@ ImVec2 UI_ScenePanel::GetMousePosInDock()
 	ImVec2 mouse_pos, mouse_in_dock_pos;
 	mouse_pos = ImGui::GetMousePos();
 
-	int offset_x = 8; //the small margin between the begining of the dock and the begining of the image
-	int offset_y = 28;
+	int offset_x = 0; //the small margin between the begining of the dock and the begining of the image
+	int offset_y = 0;
 	mouse_in_dock_pos.x = mouse_pos.x - pos.x - offset_x;
 	mouse_in_dock_pos.y = mouse_pos.y - pos.y - offset_y;
+
+	//CONSOLE_LOG("x:%f, y:%f, w:%f, h:%f", mouse_in_dock_pos.x, mouse_in_dock_pos.y, region_size.x, region_size.y);
 
 	return mouse_in_dock_pos;
 }
@@ -132,7 +138,7 @@ ImVec2 UI_ScenePanel::GetMousePosInDockNormalized() //between -1 and 1
 
 	mouse_normalized.y *= -1;
 
-	//CONSOLE_LOG("x:%f, y:%f, w:%f, h:%f", mouse_normalized.x, mouse_normalized.y, region_size.x, region_size.y);
+
 	return mouse_normalized;
 }
 
