@@ -215,14 +215,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
 			string file_name = tmp_name + ".mesh";
 
-			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
-			if (new_mesh != nullptr)
-			{
-				new_mesh->name = game_object->name;
-				new_mesh->type = MESH_FBX;
-				new_mesh->reference_counting++; 
-			}
-			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
+			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{						
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
 				new_mesh->name = game_object->name;
