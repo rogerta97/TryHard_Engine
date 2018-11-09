@@ -12,6 +12,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleFileSystem.h"
+#include "ModuleTime.h"
 
 #include <list>
 #include <string>
@@ -48,6 +49,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleFileSystem* file_system; 
+	ModuleTime* time_manager;
 
 private:
 	

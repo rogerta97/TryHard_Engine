@@ -15,16 +15,14 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D();
 	camera = new ModuleCamera3D();
 	file_system = new ModuleFileSystem();
-
-	//physics = new ModulePhysics3D(this);
-	//player = new ModulePlayer(this);
-	//AddModule(physics);
+	time_manager = new ModuleTime();
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
 	// Main Modules
+	AddModule(time_manager);
 	AddModule(window);
 	AddModule(input);
 	AddModule(file_system);

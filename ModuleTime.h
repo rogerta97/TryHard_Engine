@@ -6,5 +6,10 @@ class ModuleTime :
 public:
 	ModuleTime();
 	~ModuleTime();
+
+	Timer real_timer;
+	Timer game_timer;
+
+	update_status Update(float dt) override;
 };
 
