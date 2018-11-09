@@ -14,7 +14,7 @@ enum resource_type
 class Resource
 {
 public:
-	Resource() {}
+	Resource() { reference_counting = 0; }
 	~Resource() {}
 
 	std::string name = "";

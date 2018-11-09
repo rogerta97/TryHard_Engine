@@ -12,7 +12,7 @@ Mesh::Mesh()
 	name = ""; 
 	color = { DEFAULT_GEOMETRY_COLOR };
 
-	num_normals = num_vertices = num_indices = num_uvs = vertices_id, indices_id, uvs_id, normals_id =  0; 
+	num_normals = num_vertices = num_indices = num_uvs =  0; 
 
 	reference_counting = 0;
 }

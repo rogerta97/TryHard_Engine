@@ -134,14 +134,9 @@ void ComponentMesh::DrawMesh()
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->uvs_id);
 
 			material->GetMaterial()->GetDiffuseTexture()->Bind();
-
-			if (mesh->GetType() == MESH_FBX)
-				glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-			else
-				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-			
+	
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+		
 			if (mesh->num_normals != 0)
 			{
 				glEnableClientState(GL_NORMAL_ARRAY);

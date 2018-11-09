@@ -212,7 +212,9 @@ void ModuleResources::PrintConfigData()
 				if ((*it).second->GetType() == resource_type::RES_MESH)
 				{
 					Mesh* mesh = (Mesh*)Get(RES_MESH, (*it).second->name.c_str()); 
+
 					ImGui::Text("%d. ", i++); ImGui::SameLine();
+
 					if (ImGui::TreeNode((*it).second->name.c_str()))
 					{
 						ImGui::Text("Reference Counting: %d", mesh->reference_counting); 

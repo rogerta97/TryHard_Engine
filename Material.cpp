@@ -7,6 +7,7 @@ Material::Material()
 {
 	diffuse = nullptr;
 	color = { 1.0f,1.0f,1.0f };
+	reference_counting = 0; 
 }
 
 
@@ -16,7 +17,7 @@ Material::~Material()
 
 void Material::CleanUp()
 {
-	diffuse->Clear();
+	//diffuse->Clear();
 }
 
 Texture * Material::GetDiffuseTexture()

@@ -221,6 +221,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
 				new_mesh->reference_counting++;
+				App->scene->AddGameObjectToScene(game_object);
 				//new_mesh->LoadToMemory();
 			}
 			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
@@ -413,10 +414,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 					else 
 						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
-				}
-
-				App->scene->AddGameObjectToScene(game_object);
+				}		
 			}
+
+			
 		}
 	}
 	else //The node contains other type of information (transform, light?)
