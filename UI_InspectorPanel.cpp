@@ -293,12 +293,20 @@ void UI_InspectorPanel::PrintMeshProperties()
 
 		ImGui::Spacing();
 
-		ImGui::Text("Current Mesh:"); ImGui::SameLine();
+		ImGui::Text("Current Mesh:"); 
 
 		if (mesh_cmp->GetMesh() != nullptr)
 		{
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
 
+			if (ImGui::TreeNode("UID"))
+			{
+				ImGui::SameLine();
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "'%d'", mesh_cmp->GetMesh()->GetUID());
+				ImGui::TreePop();
+			}
+			
 			ImGui::Spacing();
 
 			ImGui::Separator();
