@@ -73,9 +73,9 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 		to_ret = new Mesh();
 		break;
 
-	case RES_TEXTURE:
-		to_ret = new Texture();		
-		break; 
+	//case RES_TEXTURE:
+	//	to_ret = new Texture();		
+	//	break; 
 
 	case RES_MATERIAL:
 		to_ret = new Material();
@@ -89,7 +89,7 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 		resources[to_ret->GetUID()] = to_ret;
 	}
 		
-	return to_ret; 
+	return resources[to_ret->GetUID()];
 }
 
 void ModuleResources::AddTextureToList(Texture* new_texture)

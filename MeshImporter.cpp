@@ -87,8 +87,8 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		GameObject* es_locura = CreateFBXMesh((*it).c_str());
-		es_locura->DeleteRecursive();
+		GameObject* curr_go = CreateFBXMesh((*it).c_str());
+		curr_go->DeleteRecursive();
 	}
 }
 

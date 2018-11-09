@@ -25,7 +25,7 @@ public:
 	bool Update();
 	bool CleanUp();
 
-	Texture* LoadTexture(const char* path, bool not_flip = false); 
+	Texture* LoadTexture(const char* path, bool not_flip = false);
 
 	void ImportAllFilesFromAssets();
 

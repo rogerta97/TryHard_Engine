@@ -13,6 +13,7 @@ Mesh::Mesh()
 	color = { DEFAULT_GEOMETRY_COLOR };
 
 	num_normals = num_vertices = num_indices = num_uvs =  0; 
+	vertices_id = normals_id = indices_id = uvs_id = 0;
 
 	reference_counting = 0;
 }
