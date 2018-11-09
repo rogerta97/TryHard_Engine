@@ -546,6 +546,14 @@ void ModuleScene::SetSceneName(const char * new_name)
 	scene_name = new_name; 
 }
 
+void ModuleScene::RecieveEvent(const Event & event)
+{
+	if (event.type == event.PLAY)
+	{
+		CONSOLE_LOG("START BUTTON PRESSED");
+	}
+}
+
 // Update
 update_status ModuleScene::Update(float dt)
 {

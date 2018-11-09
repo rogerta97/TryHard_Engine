@@ -68,6 +68,9 @@ public:
 	const char* GetSceneName() const;
 	void SetSceneName(const char* new_name);
 
+	//Evetts
+	void RecieveEvent(const Event& event) override;
+
 public:
 
 	std::list<GameObject*> scene_gameobjects;

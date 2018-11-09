@@ -43,10 +43,9 @@ bool UI_ScenePanel::Update()
 
 		if(play_icon)
 			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0,0), ImVec2(1,1), 3);
-
 		if (ImGui::IsItemClicked())
 		{
-
+			App->BroadCastEvent(Event(Event::EventType::PLAY));
 		} 
 		
 		ImGui::SameLine();

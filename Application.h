@@ -30,6 +30,13 @@ struct Vsync
 	void SetLevel(uint lvl) { vsync_lvl = lvl; };
 };
 
+struct Event {
+	enum EventType { PLAY } type;
+	const char* ptr;
+
+	Event(EventType type) :type(type) {};
+};
+
 class Application
 {
 public:
@@ -77,6 +84,8 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	void BroadCastEvent(const Event& event);
 
 	Module* GetModuleAt(int id);
 	void DisplayConfigData();

@@ -11,7 +11,8 @@
 
 class Application;
 //struct JSON_Object;
-struct PhysBody3D;
+
+struct Event;
 
 enum UpdateType { TYPE_PREUPDATE, TYPE_UPDATE, TYPE_POSTUPDATE };
 
@@ -64,7 +65,7 @@ public:
 	virtual void PrintConfigData() 
 	{}
 
-	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	virtual void RecieveEvent(const Event& event)
 	{}
 
 	virtual void SaveConfigData(JSON_Object* config) {}

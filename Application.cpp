@@ -357,6 +357,14 @@ bool Application::CleanUp()
 	return ret;
 }
 
+void Application::BroadCastEvent(const Event & event)
+{
+	for (auto item = list_modules.begin(); item != list_modules.end(); item++)
+	{
+		(*item)->RecieveEvent(event);
+	}
+}
+
 Module * Application::GetModuleAt(int id)
 {
 	int i = 0;
