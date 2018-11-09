@@ -17,7 +17,13 @@ public:
 	bool Init(JSON_Object* config);
 	bool Start();
 	update_status Update();
+	update_status PostUpdate(float dt); 
 	bool CleanUp();
+
+	void AddResourceToDelete(UID to_del_id); 
+	void DeleteResourcesNow();
+	bool WantToDelete();
+	void DeleteFromList(UID to_del_id);
 	
 	Resource* Get(UID uid);
 	Resource* Get(resource_type type, const char* resource_name);
@@ -27,12 +33,15 @@ public:
 
 	void LoadImporters();
 
+	void PrintConfigData();
+
 	MeshImporter* mesh_importer; 
 	MaterialImporter* material_importer; 
 
 private: 
 	
 	std::map<UID, Resource*> resources;
+	std::vector<UID> to_del_list; 
 
 
 };

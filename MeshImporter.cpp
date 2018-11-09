@@ -38,10 +38,10 @@ bool MeshImporter::Start()
 	logs.callback = LogAssimpLogs;
 	aiAttachLogStream(&logs);
 
-	CreatePlaneMesh();
-	CreateCubeMesh();
+	//CreatePlaneMesh();
+	//CreateCubeMesh();
 
-	//ImportAllFilesFromAssets(); 
+	ImportAllFilesFromAssets(); 
 
 	return true;
 }
@@ -202,29 +202,34 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 		for (int i = 0; i < num_meshes; i++)
 		{			
-
 			CONSOLE_LOG("Creating Game Object Mesh..."); 
 			//Create the mesh where the data will be stored 
 			aiMesh* curr_mesh = scene->mMeshes[node->mMeshes[i]];
-			Mesh* new_mesh = new Mesh();
-			new_mesh->type = MESH_FBX;
+			Mesh* new_mesh = nullptr;
+		//	new_mesh->type = MESH_FBX;
 
-			game_object->name = node->mName.C_Str(); 
-			new_mesh->name = curr_mesh->mName.C_Str(); 
+			string tmp_name = node->mName.C_Str(); 
+			game_object->name = tmp_name;
 
 			//If the mesh already exist, we load it directly from library
 			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
-			string file_name = game_object->name + ".mesh";
+			string file_name = tmp_name + ".mesh";
 
 			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
-			{			
+			{						
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
-				new_mesh->LoadToMemory(); 	
+				new_mesh->LoadToMemory();
 			}
 			else
 			{
+				//Create the resource 
+				new_mesh = (Mesh*)App->resources->CreateNewResource(RES_MESH); 
+
+				new_mesh->name = game_object->name + ".mesh";
+				new_mesh->path = mesh_lib_path + "\\" + game_object->name;
+
 				//Load Vertices
 				new_mesh->num_vertices = curr_mesh->mNumVertices;
 				new_mesh->vertices = new float3[new_mesh->num_vertices];
@@ -268,7 +273,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					else
 					{
 						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
-						game_object->DeleteRecursive();						
+						game_object->DeleteRecursive();		
+						App->resources->AddResourceToDelete(new_mesh->GetUID()); 
 						new_mesh->~Mesh();
 						break;
 					}
@@ -312,9 +318,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					//Create the mesh resource
-					Resource* res_mesh = App->resources->CreateNewResource(RES_MESH);
-					res_mesh = new_mesh;
-					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());
+					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());					
 				}
 				
 			}
@@ -477,7 +481,7 @@ bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name)
 
 Mesh * MeshImporter::LoadFromBinary(const char * mesh_name)
 {
-	Mesh* mesh_to_ret = new Mesh(); 
+	Mesh* mesh_to_ret = (Mesh*)App->resources->CreateNewResource(RES_MESH);;
 
 	CONSOLE_DEBUG("Mesh '%s' has been FOUND in library. Loading mesh...", mesh_name);
 

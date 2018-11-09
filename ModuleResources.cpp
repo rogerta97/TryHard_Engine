@@ -32,7 +32,14 @@ Resource * ModuleResources::Get(UID uid)
 }
 
 Resource * ModuleResources::Get(resource_type type, const char * resource_name)
-{
+{ 
+	string res_name(resource_name); 
+	int pos = res_name.find_last_of(".");
+	if (pos != -1)
+	{
+		res_name = App->file_system->DeleteFileExtension(res_name.c_str());
+	}
+
 	for (auto it = resources.begin(); it != resources.end(); it++)
 	{
 		if ((*it).second->GetType() == type && App->file_system->DeleteFileExtension((*it).second->name.c_str()) == resource_name)
@@ -108,11 +115,96 @@ update_status ModuleResources::Update()
 	return update_status::UPDATE_CONTINUE;
 }
 
+update_status ModuleResources::PostUpdate(float dt)
+{
+	if (WantToDelete())
+		DeleteResourcesNow(); 
+
+	return update_status::UPDATE_CONTINUE;
+}
+
+
 bool ModuleResources::CleanUp()
 {
 //	material_importer->SaveTexturesAsDDS();
 
 	return false;
+}
+
+void ModuleResources::AddResourceToDelete(UID to_del_id)
+{
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if ((*it).second->GetUID() == to_del_id)
+			to_del_list.push_back((*it).second->GetUID()); 
+	}
+}
+
+void ModuleResources::DeleteResourcesNow()
+{
+	for (auto it = to_del_list.begin(); it != to_del_list.end();it++)
+	{
+		//Should do the CleanUp	
+		Resource* to_del = Get((*it)); 
+		DeleteFromList((*it)); 
+		delete(to_del);
+	}
+
+	to_del_list.clear();
+}
+
+bool ModuleResources::WantToDelete()
+{
+	return !to_del_list.empty(); 
+}
+
+void ModuleResources::DeleteFromList(UID to_del_id)
+{
+	for (auto it = resources.begin(); it != resources.end();)
+	{		
+		if ((*it).first == to_del_id)
+		{
+			resources.erase(to_del_id);
+			break;
+		}			
+		else
+			it++;
+	}
+}
+
+void ModuleResources::PrintConfigData()
+{
+	if (ImGui::CollapsingHeader("Resources"))
+	{
+		if (ImGui::TreeNode("Meshes"))
+		{
+			ImGui::Text("Mesh Resources Num: %d", resources.size()); 
+
+			int i = 0; 
+			for (auto it = resources.begin(); it != resources.end(); it++)
+			{
+				if ((*it).second->GetType() == resource_type::RES_MESH)
+				{
+					Mesh* mesh = (Mesh*)Get(RES_MESH, (*it).second->name.c_str()); 
+					ImGui::Selectable((*it).second->name.c_str());
+					ImGui::SameLine(); 
+					ImGui::Text("%d", i++);
+				}
+			
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Materials"))
+		{
+			for (auto it = resources.begin(); it != resources.end(); it++)
+			{
+				if ((*it).second->GetType() == resource_type::RES_MATERIAL)
+					ImGui::Text("%s", (*it).second->name.c_str());
+			}
+			ImGui::TreePop();
+		}
+	}
 }
 
 
