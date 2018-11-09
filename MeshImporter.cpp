@@ -215,12 +215,20 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
 			string file_name = tmp_name + ".mesh";
 
-			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
+			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
+			if (new_mesh != nullptr)
+			{
+				new_mesh->name = game_object->name;
+				new_mesh->type = MESH_FBX;
+				new_mesh->reference_counting++;
+				//new_mesh->LoadToMemory();
+			}
+			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{						
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
-				new_mesh->LoadToMemory();
+				//new_mesh->LoadToMemory();
 			}
 			else
 			{
@@ -235,10 +243,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->vertices = new float3[new_mesh->num_vertices];
 				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
-				glGenBuffers(1, &new_mesh->vertices_id);
+			/*	glGenBuffers(1, &new_mesh->vertices_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
 				CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(), new_mesh->num_vertices);
 
@@ -263,10 +271,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					if (load_succes) {
-						glGenBuffers(1, &new_mesh->indices_id);
+				/*		glGenBuffers(1, &new_mesh->indices_id);
 						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
 						glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 
 						CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
 					}
@@ -294,11 +302,11 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
-						glGenBuffers(1, &new_mesh->uvs_id);
+					/*	glGenBuffers(1, &new_mesh->uvs_id);
 						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
 						glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 						glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+*/
 						CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
 					}
 
@@ -309,10 +317,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						new_mesh->normal_cords = new float3[new_mesh->num_normals];
 						memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
 
-						glGenBuffers(1, &new_mesh->normals_id);
-						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
-						glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
-						glBindBuffer(GL_ARRAY_BUFFER, 0);
+						//glGenBuffers(1, &new_mesh->normals_id);
+						//glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
+						//glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
+						//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 						CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 					}
@@ -323,15 +331,14 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				
 			}
 
-
 			//Add Mesh to GameObject
+			new_mesh->LoadToMemory();
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_MESH);
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
 			cmp_mesh->UpdateBoundingBox();
 			cmp_mesh->draw_bounding_box = false;
 			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name;
-
 
 			if (scene->HasMaterials())
 			{

@@ -41,6 +41,8 @@ public:
 		res_type = new_type;
 	}
 
+	int reference_counting = 0; 
+
 private:
 
 	UID uid; 
