@@ -92,7 +92,7 @@ bool UI_ScenePanel::Update()
 
 		if (ImGui::IsItemClicked())
 		{
-
+			App->BroadCastEvent(Event(Event::PAUSE));
 		}
 		ImGui::SetCursorPos({ 0,0 });
 	}

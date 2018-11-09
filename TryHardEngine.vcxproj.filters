@@ -585,6 +585,7 @@
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="UI_ClocksPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -857,6 +858,7 @@
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Clocks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">

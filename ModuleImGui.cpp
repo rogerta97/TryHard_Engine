@@ -21,6 +21,7 @@
 #include "UI_GamePanel.h"
 #include "UI_PerformancePanel.h"
 #include "UI_HierarchyPanel.h"
+#include "UI_ClocksPanel.h"
 
 #include "MaterialImporter.h"
 #include "MeshImporter.h"
@@ -58,6 +59,7 @@ bool ModuleImGui::Init(JSON_Object* config)
 	octree_panel = (UI_OctreePanel*)AddPanel(OCTREE_PANEL); 
 	game_panel = (UI_GamePanel*)AddPanel(GAME_PANEL); 
 	tag_panel = (UI_TagPanel*)AddPanel(TAG_PANEL);
+	clocks_panel = (UI_ClocksPanel*)AddPanel(CLOCKS_PANEL);
 
 	return true;
 }
@@ -529,6 +531,9 @@ UI_Panel * ModuleImGui::AddPanel(Panel_Types type)
 		break;
 	case TAG_PANEL:
 		panel = new UI_TagPanel();
+		break;
+	case CLOCKS_PANEL:
+		panel = new UI_ClocksPanel();
 		break;
 	default:
 		break;

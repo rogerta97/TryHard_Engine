@@ -32,7 +32,7 @@ struct Vsync
 };
 
 struct Event {
-	enum EventType { PLAY } type;
+	enum EventType { PLAY, PAUSE, STOP } type;
 	const char* ptr;
 
 	Event(EventType type) :type(type) {};
@@ -78,6 +78,7 @@ private:
 	
 	std::list<Module*> list_modules;
 
+
 public:
 
 	Application();
@@ -105,6 +106,9 @@ public:
 
 	float getHighest(std::vector<float>	buffer);
 	float getAverage(std::vector<float>	buffer);
+
+	bool game_running;
+	bool game_paused;
 
 
 private:

@@ -1,23 +1,47 @@
-#include "UI_Clocks.h"
+#include "UI_ClocksPanel.h"
+#include "ModuleTime.h"
+#include "Application.h"
 
 
-
-UI_Clocks::UI_Clocks()
+UI_ClocksPanel::UI_ClocksPanel()
 {
 	name = "ScenePanel"; 
 }
 
 
-UI_Clocks::~UI_Clocks()
+UI_ClocksPanel::~UI_ClocksPanel()
 {
 }
 
-bool UI_Clocks::Start()
+bool UI_ClocksPanel::Start()
 {
-	return false;
+	return true;
 }
 
-bool UI_Clocks::Update()
+bool UI_ClocksPanel::Update()
 {
-	return false;
+	ImGuiWindowFlags flags = NULL;
+
+	float real_time, game_time;
+
+	Timer& game_timer = App->time_manager->game_timer;
+
+	Timer& real_timer = App->time_manager->real_timer;
+	
+	real_time = real_timer.Read();
+
+	game_time = game_timer.Read();
+
+	//Transform to seconds
+	real_time /= 1000;
+
+	if (ImGui::Begin("Clocks", &show, flags))
+	{
+		ImGui::Text("Real time %.2f", real_time);
+
+		ImGui::Text("Real time %.2f", game_time);
+	}
+
+	ImGui::End();
+	return true;
 }

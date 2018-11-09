@@ -16,6 +16,7 @@ class UI_HierarchyPanel;
 class UI_OctreePanel; 
 class UI_TagPanel; 
 class UI_GamePanel;
+class UI_ClocksPanel;
 
 enum Panel_Types 
 { 
@@ -31,6 +32,7 @@ enum Panel_Types
 	GAME_PANEL,
 	OCTREE_PANEL,
 	TAG_PANEL,
+	CLOCKS_PANEL,
 };
 
 class ModuleImGui : public Module
@@ -93,4 +95,5 @@ private:
 	UI_ConsolePanel* console_panel = nullptr;
 	UI_RandomNumberPanel* random_panel = nullptr;
 	UI_PerformancePanel* performance_panel = nullptr;
+	UI_ClocksPanel* clocks_panel = nullptr;
 };

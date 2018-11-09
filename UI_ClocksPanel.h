@@ -1,11 +1,11 @@
 #pragma once
 #include "UI_Panel.h"
-class UI_Clocks :
+class UI_ClocksPanel :
 	public UI_Panel
 {
 public:
-	UI_Clocks();
-	~UI_Clocks();
+	UI_ClocksPanel();
+	~UI_ClocksPanel();
 
 	bool Start();
 	bool Update();
