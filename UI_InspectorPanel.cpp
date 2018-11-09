@@ -293,12 +293,20 @@ void UI_InspectorPanel::PrintMeshProperties()
 
 		ImGui::Spacing();
 
-		ImGui::Text("Current Mesh:"); ImGui::SameLine();
+		ImGui::Text("Current Mesh:"); 
 
 		if (mesh_cmp->GetMesh() != nullptr)
 		{
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
 
+			if (ImGui::TreeNode("UID"))
+			{
+				ImGui::SameLine();
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "'%d'", mesh_cmp->GetMesh()->GetUID());
+				ImGui::TreePop();
+			}
+			
 			ImGui::Spacing();
 
 			ImGui::Separator();
@@ -356,7 +364,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
 		if(mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->GetDiffuseTexture()->name.c_str());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str());
 
 		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("Explore..."))

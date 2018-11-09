@@ -17,9 +17,11 @@ public:
 
 	Color color;
 
+	Texture * diffuse;
+
 private:
 
-	Texture * diffuse; 
+	
 
 };
 

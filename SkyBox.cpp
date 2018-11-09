@@ -87,8 +87,6 @@ void SkyBox::Draw()
 		glBindBuffer(GL_ARRAY_BUFFER, sky_cube[i]->vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		
-
 		if (sky_textures[i] != nullptr)
 		{
 			glBindTexture(GL_TEXTURE_2D, sky_textures[i]->GetTextureID());

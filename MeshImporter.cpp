@@ -87,8 +87,8 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		GameObject* es_locura = CreateFBXMesh((*it).c_str());
-		es_locura->DeleteRecursive();
+		GameObject* curr_go = CreateFBXMesh((*it).c_str());
+		curr_go->DeleteRecursive();
 	}
 }
 
@@ -215,7 +215,15 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
 			string file_name = tmp_name + ".mesh";
 
-			if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
+			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
+			if (new_mesh != nullptr)
+			{
+				new_mesh->name = game_object->name;
+				new_mesh->type = MESH_FBX;
+				new_mesh->reference_counting++;
+				App->scene->AddGameObjectToScene(game_object);
+			}
+			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{						
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
 				new_mesh->name = game_object->name;
@@ -235,10 +243,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->vertices = new float3[new_mesh->num_vertices];
 				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
-				glGenBuffers(1, &new_mesh->vertices_id);
+			/*	glGenBuffers(1, &new_mesh->vertices_id);
 				glBindBuffer(GL_ARRAY_BUFFER, new_mesh->vertices_id);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_vertices, new_mesh->vertices, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
 				CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(), new_mesh->num_vertices);
 
@@ -263,10 +271,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					if (load_succes) {
-						glGenBuffers(1, &new_mesh->indices_id);
+				/*		glGenBuffers(1, &new_mesh->indices_id);
 						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, new_mesh->indices_id);
 						glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)*new_mesh->num_indices, new_mesh->indices, GL_STATIC_DRAW);
-						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+						glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 
 						CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
 					}
@@ -294,11 +302,11 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
-						glGenBuffers(1, &new_mesh->uvs_id);
+					/*	glGenBuffers(1, &new_mesh->uvs_id);
 						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->uvs_id);
 						glBufferData(GL_ARRAY_BUFFER, sizeof(float)*new_mesh->num_uvs * 3, new_mesh->uvs_cords, GL_STATIC_DRAW);
 						glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+*/
 						CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
 					}
 
@@ -309,22 +317,23 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						new_mesh->normal_cords = new float3[new_mesh->num_normals];
 						memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
 
-						glGenBuffers(1, &new_mesh->normals_id);
-						glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
-						glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
-						glBindBuffer(GL_ARRAY_BUFFER, 0);
+						//glGenBuffers(1, &new_mesh->normals_id);
+						//glBindBuffer(GL_ARRAY_BUFFER, new_mesh->normals_id);
+						//glBufferData(GL_ARRAY_BUFFER, sizeof(float3)*new_mesh->num_normals, new_mesh->normal_cords, GL_STATIC_DRAW);
+						//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 						CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
 					}
 
 					//Create the mesh resource
+					new_mesh->LoadToMemory();
 					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());					
 				}
 				
 			}
 
-
 			//Add Mesh to GameObject
+			//new_mesh->LoadToMemory();
 			ComponentMesh* cmp_mesh = (ComponentMesh*)game_object->AddComponent(CMP_MESH);
 			cmp_mesh->SetMesh(new_mesh);
 			cmp_mesh->CreateEnclosedMeshAABB();
@@ -332,84 +341,83 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			cmp_mesh->draw_bounding_box = false;
 			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name;
 
+			//if (scene->HasMaterials())
+			//{
+			//	CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
+			//
+			//	//Load Texture Image
+			//	aiMaterial* mat = nullptr;
+			//	mat = scene->mMaterials[curr_mesh->mMaterialIndex];
 
-			if (scene->HasMaterials())
-			{
-				CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
+			//	//Get the path
+			//	aiString texture_name;
+			//	mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
+
+			//	string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
+
+			//	string item_ass_name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
+			//	string item_lib_name = App->file_system->GetLastPathItem(texture_name.C_Str()) + ".dds";
+
+			//	if(string(texture_name.C_Str()) != string(""))
+			//	{
+			//		Material* new_mat = nullptr; 
+
+			//		if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
+			//		{
+			//			string path = folder_to_check + string("\\") + item_lib_name;
+
+			//			new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
+
+			//			new_mat->SetType(resource_type::RES_MATERIAL);
+			//		}
+			//		else
+			//		{
+
+			//			//The program will never enter here, every texture dragged or in folder will be generated as resource.
+
+			//			//new_mat = new Material(); 
+			//			//CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
+
+			//			//std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
+
+			//			////Create the texture
+			//			//Texture* new_texture = new Texture();
+			//			//new_texture = App->resources->material_importer->LoadTexture(path.c_str());
+
+			//			//if (new_texture != nullptr)
+			//			//{
+			//			//	new_mat->SetDiffuseTexture(new_texture); 
+			//			//	CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
+			//			//}		
+
+			//			//Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+			//			//new_mat_res->SetDiffuseTexture(new_texture);
+
+			//			//new_mat_res->path = path.c_str();
+			//			//new_mat_res->name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
+
+			//			//App->resources->material_importer->Import(new_mat_res, texture_name.C_Str());
+			//		}
+
+			//		//Create The Component
+			//		ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
+			//		cmp_mat->SetMaterial(new_mat);
+			//	}
+			//	else
+			//	{
+			//		aiColor3D mat_color(1.0f, 1.0f, 1.0f);
+			//		if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, mat_color) == aiReturn_SUCCESS)
+			//		{
+			//			ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
+			//			cmp_mat->SetColor({ mat_color.r,mat_color.g,mat_color.b });
+			//			CONSOLE_DEBUG("'%s' Has no texture but a component material will be created for the color", game_object->name.c_str());
+			//		}
+			//		else 
+			//			CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
+			//	}		
+			//}
+
 			
-				//Load Texture Image
-				aiMaterial* mat = nullptr;
-				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
-
-				//Get the path
-				aiString texture_name;
-				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
-
-				string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
-
-				string item_ass_name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
-				string item_lib_name = App->file_system->GetLastPathItem(texture_name.C_Str()) + ".dds";
-
-				if(string(texture_name.C_Str()) != string(""))
-				{
-					Material* new_mat = nullptr; 
-
-					if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
-					{
-						string path = folder_to_check + string("\\") + item_lib_name;
-
-						new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
-
-						new_mat->SetType(resource_type::RES_MATERIAL);
-					}
-					else
-					{
-
-						//The program will never enter here, every texture dragged or in folder will be generated as resource.
-
-						//new_mat = new Material(); 
-						//CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
-
-						//std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
-
-						////Create the texture
-						//Texture* new_texture = new Texture();
-						//new_texture = App->resources->material_importer->LoadTexture(path.c_str());
-
-						//if (new_texture != nullptr)
-						//{
-						//	new_mat->SetDiffuseTexture(new_texture); 
-						//	CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
-						//}		
-
-						//Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-						//new_mat_res->SetDiffuseTexture(new_texture);
-
-						//new_mat_res->path = path.c_str();
-						//new_mat_res->name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
-
-						//App->resources->material_importer->Import(new_mat_res, texture_name.C_Str());
-					}
-
-					//Create The Component
-					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-					cmp_mat->SetMaterial(new_mat);
-				}
-				else
-				{
-					aiColor3D mat_color(1.0f, 1.0f, 1.0f);
-					if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, mat_color) == aiReturn_SUCCESS)
-					{
-						ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-						cmp_mat->SetColor({ mat_color.r,mat_color.g,mat_color.b });
-						CONSOLE_DEBUG("'%s' Has no texture but a component material will be created for the color", game_object->name.c_str());
-					}
-					else 
-						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
-				}
-
-				App->scene->AddGameObjectToScene(game_object);
-			}
 		}
 	}
 	else //The node contains other type of information (transform, light?)

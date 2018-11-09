@@ -5,7 +5,7 @@
 #include <string>
 #include "Resource.h"
 
-class Texture : public Resource
+class Texture
 {
 public:
 	Texture();
@@ -36,10 +36,15 @@ public:
 	uint CreateBuffer(); 
 	void Clear(); 
 
+	std::string name = "";
+
 private:
 
 	uint texture_id;
 	uint width;
 	uint height;
+
+	std::string path = ""; 
+	
 };
 
