@@ -24,6 +24,8 @@ public:
 	void DeleteResourcesNow();
 	bool WantToDelete();
 	void DeleteFromList(UID to_del_id);
+
+	int GetResourcesLoadedAmmount(resource_type type = resource_type::RES_NULL);
 	
 	Resource* Get(UID uid);
 	Resource* Get(resource_type type, const char* resource_name);

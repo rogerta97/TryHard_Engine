@@ -14,7 +14,7 @@ enum resource_type
 class Resource
 {
 public:
-	Resource() {}
+	Resource() { reference_counting = 0; }
 	~Resource() {}
 
 	std::string name = "";
@@ -41,9 +41,10 @@ public:
 		res_type = new_type;
 	}
 
+	int reference_counting;
+
 private:
 
 	UID uid; 
-	resource_type res_type; 
-	
+	resource_type res_type; 	
 };

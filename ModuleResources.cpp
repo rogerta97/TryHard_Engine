@@ -45,6 +45,8 @@ Resource * ModuleResources::Get(resource_type type, const char * resource_name)
 		if ((*it).second->GetType() == type && App->file_system->DeleteFileExtension((*it).second->name.c_str()) == resource_name)
 			return (*it).second;
 	}
+
+	return nullptr; 
 }
 
 Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
@@ -172,35 +174,79 @@ void ModuleResources::DeleteFromList(UID to_del_id)
 	}
 }
 
+int ModuleResources::GetResourcesLoadedAmmount(resource_type type)
+{
+	int ret_ammount = 0; 
+
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if ((*it).second->GetType() == type)
+			ret_ammount++; 
+	}
+
+	return ret_ammount; 
+	
+}
+
 void ModuleResources::PrintConfigData()
 {
 	if (ImGui::CollapsingHeader("Resources"))
 	{
+		ImGui::Spacing(); 
+
+		ImGui::Text("Total Resources Loaded: %d", resources.size());
+		ImGui::Text("Total Resources Used: %d", resources.size());
+
+		SEPARATE_WITH_SPACE
+
 		if (ImGui::TreeNode("Meshes"))
 		{
-			ImGui::Text("Mesh Resources Num: %d", resources.size()); 
+			SEPARATE_WITH_SPACE
 
-			int i = 0; 
+			ImGui::Text("Mesh Resources Loaded: %d", GetResourcesLoadedAmmount(RES_MESH));
+			//ImGui::Text("Mesh Resources Used: %d", resources.size());
+
+			SEPARATE_WITH_SPACE
+
+			int i = 1; 
 			for (auto it = resources.begin(); it != resources.end(); it++)
 			{
 				if ((*it).second->GetType() == resource_type::RES_MESH)
 				{
 					Mesh* mesh = (Mesh*)Get(RES_MESH, (*it).second->name.c_str()); 
-					ImGui::Selectable((*it).second->name.c_str());
-					ImGui::SameLine(); 
-					ImGui::Text("%d", i++);
+					ImGui::Text("%d. ", i++); ImGui::SameLine();
+
+					if (ImGui::TreeNode((*it).second->name.c_str()))
+					{
+						ImGui::Text("Reference Counting: %d", mesh->reference_counting); 
+						ImGui::TreePop();
+					}
 				}
 			
 			}
 			ImGui::TreePop();
 		}
 
+		SEPARATE_WITH_SPACE
+
 		if (ImGui::TreeNode("Materials"))
 		{
+			SEPARATE_WITH_SPACE
+
+			ImGui::Text("Material Resources Loaded: %d", GetResourcesLoadedAmmount(RES_MATERIAL));
+			//ImGui::Text("Material Resources Used: %d", resources.size());
+
+			SEPARATE_WITH_SPACE
+
+			int i = 1; 
 			for (auto it = resources.begin(); it != resources.end(); it++)
 			{
 				if ((*it).second->GetType() == resource_type::RES_MATERIAL)
-					ImGui::Text("%s", (*it).second->name.c_str());
+				{
+					Mesh* mesh = (Mesh*)Get(RES_MESH, (*it).second->name.c_str());
+					ImGui::Text("%d. ", i++); ImGui::SameLine();
+					ImGui::Selectable((*it).second->name.c_str());
+				}
 			}
 			ImGui::TreePop();
 		}
