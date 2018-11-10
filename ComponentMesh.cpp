@@ -36,7 +36,7 @@ ComponentMesh::~ComponentMesh()
 bool ComponentMesh::Update()
 {
 	if (App->camera->frustum_culling)
-		frustum_col_type = App->camera->GetEditorCamera()->camera->IsAABBInside(bounding_box);
+		frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(bounding_box);
 	else
 		frustum_col_type = INSIDE_FRUSTUM;
 
