@@ -22,6 +22,8 @@
 #define HISTOGRAM_MS_LENGHT 50
 #define MAX_MEMORY_LOGGED	50
 
+enum GameState {RUNNING, PAUSED, STOPPED};
+
 struct Vsync
 {
 	bool	is_active = false;
@@ -50,6 +52,8 @@ public:
 	ModuleCamera3D* camera;
 	ModuleFileSystem* file_system; 
 	ModuleTime* time_manager;
+
+	GameState current_game_state = STOPPED;
 
 private:
 	

@@ -11,6 +11,8 @@
 UI_ScenePanel::UI_ScenePanel()
 {
 	type = Panel_Types::SCENE_PANEL;
+	play = false;
+	pause = false;
 }
 
 UI_ScenePanel::~UI_ScenePanel()
@@ -72,8 +74,12 @@ bool UI_ScenePanel::Update()
 
 		if (ImGui::IsItemClicked())
 		{
+			play = !play;
 			App->BroadCastEvent(Event(Event::PLAY));
 		}
+
+		//if (play)
+		//	ImGui::set
 
 		ImGui::SameLine();
 

@@ -10,6 +10,10 @@ public:
 	Timer real_timer;
 	Timer game_timer;
 
+	void Pause();
+	void Play();
+	void Stop();
+
 	update_status Update(float dt) override;
 
 	//Events

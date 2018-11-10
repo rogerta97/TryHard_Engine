@@ -9,6 +9,7 @@
 Timer::Timer()
 {
 	Start();
+	stopped_at = 0;
 }
 
 // ---------------------------------------------
@@ -23,6 +24,16 @@ void Timer::Stop()
 {
 	running = false;
 	stopped_at = SDL_GetTicks();
+}
+
+void Timer::Resume()
+{
+	running = true;
+
+	//Time it was paused
+	Uint32 stopped_time = stopped_at - SDL_GetTicks();
+
+	started_at -= stopped_time;
 }
 
 // ---------------------------------------------

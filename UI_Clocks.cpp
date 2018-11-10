@@ -34,12 +34,13 @@ bool UI_ClocksPanel::Update()
 
 	//Transform to seconds
 	real_time /= 1000;
+	game_time /= 1000;
 
 	if (ImGui::Begin("Clocks", &show, flags))
 	{
 		ImGui::Text("Real time %.2f", real_time);
 
-		ImGui::Text("Real time %.2f", game_time);
+		ImGui::Text("Game time %.2f", game_time);
 	}
 
 	ImGui::End();

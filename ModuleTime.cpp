@@ -14,6 +14,60 @@ ModuleTime::~ModuleTime()
 {
 }
 
+void ModuleTime::Pause()
+{
+	GameState& current_state = App->current_game_state;
+	switch (current_state)
+	{
+	case RUNNING:
+		current_state = PAUSED;
+		game_timer.Stop();
+		break;
+
+	case STOPPED:
+		break;
+
+	case PAUSED:
+		current_state = RUNNING;
+		game_timer.Resume();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void ModuleTime::Play()
+{
+	GameState& current_state = App->current_game_state;
+	switch (current_state)
+	{
+	case RUNNING:
+		current_state = STOPPED;
+		game_timer.Start();
+		game_timer.Stop();
+		break;
+
+	case STOPPED:
+		game_timer.Start();
+		current_state = RUNNING;
+		break;
+
+	case PAUSED:
+		current_state = STOPPED;
+		game_timer.Start();
+		game_timer.Stop();
+		break;
+
+	default:
+		break;
+	}
+}
+
+void ModuleTime::Stop()
+{
+}
+
 update_status ModuleTime::Update(float dt)
 {
 	return update_status::UPDATE_CONTINUE;
@@ -21,13 +75,14 @@ update_status ModuleTime::Update(float dt)
 
 void ModuleTime::RecieveEvent(const Event & event)
 {
+
 	switch (event.type)
 	{
 	case Event::PLAY:
-		game_timer.Start();
+		Play();
 		break;
 	case Event::PAUSE:
-		game_timer.Stop();
+		Pause();
 		break;
 	default:
 		break;
