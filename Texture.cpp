@@ -31,6 +31,7 @@ unsigned int Texture::GetHeight() const
 	return height;
 }
 
+
 void Texture::SetTextureSettings()
 {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

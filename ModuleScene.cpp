@@ -60,11 +60,11 @@ void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 {
 	bool editor_cam = false; 
 
-	/*if (App->camera->skybox)
+	if (App->camera->skybox)
 	{
 		App->camera->skybox->AttachTo(camera); 
 		App->camera->skybox->Draw();
-	}*/
+	}
 		
 	ComponentCamera* cam = (ComponentCamera*)camera->GetComponent(CMP_CAMERA); 
 

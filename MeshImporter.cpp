@@ -341,83 +341,58 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			cmp_mesh->draw_bounding_box = false;
 			cmp_mesh->container_fbx = game_object->GetRootParent()->GetChild(0)->name;
 
-			//if (scene->HasMaterials())
-			//{
-			//	CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
-			//
-			//	//Load Texture Image
-			//	aiMaterial* mat = nullptr;
-			//	mat = scene->mMaterials[curr_mesh->mMaterialIndex];
-
-			//	//Get the path
-			//	aiString texture_name;
-			//	mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
-
-			//	string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
-
-			//	string item_ass_name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
-			//	string item_lib_name = App->file_system->GetLastPathItem(texture_name.C_Str()) + ".dds";
-
-			//	if(string(texture_name.C_Str()) != string(""))
-			//	{
-			//		Material* new_mat = nullptr; 
-
-			//		if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str()))
-			//		{
-			//			string path = folder_to_check + string("\\") + item_lib_name;
-
-			//			new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
-
-			//			new_mat->SetType(resource_type::RES_MATERIAL);
-			//		}
-			//		else
-			//		{
-
-			//			//The program will never enter here, every texture dragged or in folder will be generated as resource.
-
-			//			//new_mat = new Material(); 
-			//			//CONSOLE_LOG("Texture attached: %s", texture_name.C_Str());
-
-			//			//std::string path = App->file_system->GetTexturesPath() + string("\\") + texture_name.C_Str();
-
-			//			////Create the texture
-			//			//Texture* new_texture = new Texture();
-			//			//new_texture = App->resources->material_importer->LoadTexture(path.c_str());
-
-			//			//if (new_texture != nullptr)
-			//			//{
-			//			//	new_mat->SetDiffuseTexture(new_texture); 
-			//			//	CONSOLE_LOG("Texture Loaded Succesfully from: %s", path.c_str());
-			//			//}		
-
-			//			//Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-			//			//new_mat_res->SetDiffuseTexture(new_texture);
-
-			//			//new_mat_res->path = path.c_str();
-			//			//new_mat_res->name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
-
-			//			//App->resources->material_importer->Import(new_mat_res, texture_name.C_Str());
-			//		}
-
-			//		//Create The Component
-			//		ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-			//		cmp_mat->SetMaterial(new_mat);
-			//	}
-			//	else
-			//	{
-			//		aiColor3D mat_color(1.0f, 1.0f, 1.0f);
-			//		if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, mat_color) == aiReturn_SUCCESS)
-			//		{
-			//			ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
-			//			cmp_mat->SetColor({ mat_color.r,mat_color.g,mat_color.b });
-			//			CONSOLE_DEBUG("'%s' Has no texture but a component material will be created for the color", game_object->name.c_str());
-			//		}
-			//		else 
-			//			CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
-			//	}		
-			//}
-
+			if (scene->HasMaterials())
+			{
+				CONSOLE_LOG("Loading Texture attached to %s", new_mesh->name.c_str());
 			
+				//Load Texture Image
+				aiMaterial* mat = nullptr;
+				mat = scene->mMaterials[curr_mesh->mMaterialIndex];
+
+				//Get the path
+				aiString texture_name;
+				mat->GetTexture(aiTextureType_DIFFUSE, 0, &texture_name);
+
+				string folder_to_check = App->file_system->GetLibraryPath() + std::string("\\") + "Materials"; 
+
+				string item_ass_name = App->file_system->GetLastPathItem(texture_name.C_Str(), true);
+				string item_lib_name = App->file_system->GetLastPathItem(texture_name.C_Str()) + ".dds";
+
+				if(string(texture_name.C_Str()) != string(""))
+				{
+					Material* new_mat = nullptr; 
+					new_mat = (Material*)App->resources->Get(RES_MATERIAL, App->file_system->DeleteFileExtension(item_ass_name.c_str()).c_str());
+
+					if (new_mat)  //If the texture resource exist we get it
+					{
+						new_mat->reference_counting++; 
+						CONSOLE_LOG("Texture resource found, loading..."); 
+					}
+					else if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str())) // if not we load the binary and create the resource
+					{
+						string path = folder_to_check + string("\\") + item_lib_name;
+
+						new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
+
+						new_mat->SetType(resource_type::RES_MATERIAL);
+					}
+			
+					ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
+					cmp_mat->SetMaterial(new_mat);
+				}
+				else
+				{
+					aiColor3D mat_color(1.0f, 1.0f, 1.0f);
+					if (mat->Get(AI_MATKEY_COLOR_DIFFUSE, mat_color) == aiReturn_SUCCESS)
+					{
+						ComponentMaterial* cmp_mat = (ComponentMaterial*)game_object->AddComponent(CMP_MATERIAL);
+						cmp_mat->SetColor({ mat_color.r,mat_color.g,mat_color.b });
+						CONSOLE_DEBUG("'%s' Has no texture but a component material will be created for the color", game_object->name.c_str());
+					}
+					else 
+						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
+				}		
+			}			
 		}
 	}
 	else //The node contains other type of information (transform, light?)

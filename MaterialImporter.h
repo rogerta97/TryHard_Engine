@@ -26,6 +26,7 @@ public:
 	bool CleanUp();
 
 	Texture* LoadTexture(const char* path, bool not_flip = false);
+	void FlipTexture(Texture* tex); 
 
 	void ImportAllFilesFromAssets();
 
