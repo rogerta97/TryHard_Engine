@@ -22,6 +22,7 @@ public:
 	void Draw();
 	void Insert(GameObject* new_go, int& obj_num); 
 	void GetObjectIntersections(std::list<GameObject*> inter_list, AABB new_go);
+	void GetFrustumIntersctions(std::list<GameObject*> inter_list, Frustum frustum);;
 	void CleanUp(); 
 	void Split();
 
@@ -50,6 +51,7 @@ public:
 	bool Insert(GameObject* new_go); 
 	bool IsNull();
 	void GetIntersections(std::list<GameObject*> inter_list, GameObject* new_go);
+	void GetIntersections(std::list<GameObject*> inter_list, Frustum new_frustum);
 	
 	OctreeNode* GetRoot();
 	int GetNumObjects(); 

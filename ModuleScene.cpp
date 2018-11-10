@@ -600,8 +600,48 @@ update_status ModuleScene::Update(float dt)
 		}
 	}
 
+	std::list<GameObject*> intersections_list;
+
+
+
 	//if (octree->GetRoot() != nullptr)
 	//	octree->Draw(); 
+
+
+	if (octree->GetRoot() != nullptr)
+	{
+
+		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
+
+		for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)
+		{
+			ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+
+			if (!mesh)
+				continue;
+
+			if (App->camera->frustum_culling)
+				mesh->frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(mesh->bounding_box);
+			else
+				mesh->frustum_col_type = INSIDE_FRUSTUM;
+		}
+	}
+	else
+	{
+		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+		{
+			ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+
+			if (!mesh)
+				continue;
+
+			if (App->camera->frustum_culling)
+				mesh->frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(mesh->bounding_box);
+			else
+				mesh->frustum_col_type = INSIDE_FRUSTUM;
+		}
+	}
+
 
 	if (go_to_delete.size() != 0)
 		DeleteGameObjectsNow(); 

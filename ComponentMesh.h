@@ -50,12 +50,14 @@ public:
 	bool draw_bounding_box;
 	std::string container_fbx; 
 
+	Frustum_Collision		frustum_col_type;
+
 private:
 
 	Mesh *					mesh;
 	ComponentMaterial*		material; 
 
-	Frustum_Collision		frustum_col_type;
+
 	
 	bool					draw_mesh;
 	bool					draw_normals;
