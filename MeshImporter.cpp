@@ -206,7 +206,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			//Create the mesh where the data will be stored 
 			aiMesh* curr_mesh = scene->mMeshes[node->mMeshes[i]];
 			Mesh* new_mesh = nullptr;
-		//	new_mesh->type = MESH_FBX;
+			bool loaded_from_resources = false; 
 
 			string tmp_name = node->mName.C_Str(); 
 			game_object->name = tmp_name;
@@ -225,6 +225,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					new_mesh->LoadToMemory(); 
 
 				new_mesh->reference_counting++;
+				loaded_from_resources = true; 
 				App->scene->AddGameObjectToScene(game_object);
 			}
 			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
@@ -349,7 +350,13 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 					if (new_mat)  //If the texture resource exist we get it
 					{
-						new_mat->reference_counting++; 
+						if (loaded_from_resources)
+						{
+							if (new_mat->reference_counting == 0)
+								new_mat->LoadToMemory();
+						}
+							 
+
 						CONSOLE_LOG("Texture resource found, loading..."); 
 					}
 					else if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str())) // if not we load the binary and create the resource

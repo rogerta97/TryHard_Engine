@@ -17,6 +17,8 @@ public:
 
 	bool IsLoadedToMemory(); 
 
+	void LoadToMemory(); 
+
 	Color color;
 
 	Texture * diffuse;

@@ -39,4 +39,9 @@ bool Material::IsLoadedToMemory()
 	return false;
 }
 
+void Material::LoadToMemory()
+{
+	diffuse->Bind();
+}
+
 

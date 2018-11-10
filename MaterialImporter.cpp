@@ -145,6 +145,8 @@ void MaterialImporter::ImportAllFilesFromAssets()
 	}
 }
 
+
+
 bool MaterialImporter::DrawTextureList()
 {
 	static bool show_browser = false;

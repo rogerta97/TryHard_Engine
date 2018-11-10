@@ -272,7 +272,7 @@ void ModuleResources::PrintConfigData()
 					{
 						ImGui::Text("  ---- Reference Counting: %d", mat->reference_counting);
 
-						ImGui::Text("  ---- Loaded To Memory: "); 
+						ImGui::Text("  ---- Loaded To Memory: "); ImGui::SameLine();
 
 						if (mat->IsLoadedToMemory())
 							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
