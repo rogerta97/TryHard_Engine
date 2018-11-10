@@ -63,6 +63,19 @@ int ModuleResources::GetResourcesLoadedAmmount(resource_type type)
 
 }
 
+int ModuleResources::GetResourcesUsedAmmount(resource_type type)
+{
+	int ret_ammount = 0;
+
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if (((*it).second->GetType() == type || type == RES_NULL) && (*it).second->reference_counting > 0)
+			ret_ammount++;
+	}
+
+	return ret_ammount;
+}
+
 Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 {
 	Resource* to_ret = nullptr; 
@@ -72,10 +85,6 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 	case RES_MESH:
 		to_ret = new Mesh();
 		break;
-
-	//case RES_TEXTURE:
-	//	to_ret = new Texture();		
-	//	break; 
 
 	case RES_MATERIAL:
 		to_ret = new Material();
@@ -194,15 +203,24 @@ void ModuleResources::PrintConfigData()
 	{
 		ImGui::Spacing(); 
 
-		ImGui::Text("Total Resources in Assets: %d", resources.size());
+		ImGui::Text("Total Resources in Assets: "); ImGui::SameLine(); 
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", resources.size()); 
+
+		ImGui::Text("Total Resources Used: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesUsedAmmount());
 
 		SEPARATE_WITH_SPACE
 
 		if (ImGui::TreeNode("Meshes"))
 		{
+
 			SEPARATE_WITH_SPACE
 
-			ImGui::Text("Mesh Resources in Assets: %d", GetResourcesLoadedAmmount(RES_MESH));
+			ImGui::Text("Mesh Resources in Assets: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesLoadedAmmount(RES_MESH));
+
+			ImGui::Text("Mesh Resources Used: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesUsedAmmount(RES_MESH));
 
 			SEPARATE_WITH_SPACE
 
@@ -217,7 +235,14 @@ void ModuleResources::PrintConfigData()
 
 					if (ImGui::TreeNode((*it).second->name.c_str()))
 					{
-						ImGui::Text("Reference Counting: %d", mesh->reference_counting); 
+						ImGui::Text("  ---- Reference Counting: %d", mesh->reference_counting); 
+
+						ImGui::Text("  ---- Loaded To Memory: "); ImGui::SameLine();
+
+						if(mesh->IsLoadedToMemory())
+							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
+						else
+							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0, 1.0f), "NO");
 
 						ImGui::TreePop();
 					}
@@ -227,15 +252,13 @@ void ModuleResources::PrintConfigData()
 			ImGui::TreePop();
 		}
 
-		SEPARATE_WITH_SPACE
-
 		if (ImGui::TreeNode("Materials"))
 		{
-			SEPARATE_WITH_SPACE
+			ImGui::Text("Material Resources in Assets: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesLoadedAmmount(RES_MATERIAL));
 
-			ImGui::Text("Material Resources in Assets: %d", GetResourcesLoadedAmmount(RES_MATERIAL));
-
-			SEPARATE_WITH_SPACE
+			ImGui::Text("Material Resources Used: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesUsedAmmount(RES_MATERIAL));
 
 			int i = 0;
 			for (auto it = resources.begin(); it != resources.end(); it++)
@@ -247,7 +270,14 @@ void ModuleResources::PrintConfigData()
 
 					if (ImGui::TreeNode((*it).second->name.c_str()))
 					{
-						ImGui::Text("Reference Counting: %d", mat->reference_counting);
+						ImGui::Text("  ---- Reference Counting: %d", mat->reference_counting);
+
+						ImGui::Text("  ---- Loaded To Memory: "); 
+
+						if (mat->IsLoadedToMemory())
+							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
+						else
+							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0, 1.0f), "NO");
 
 						ImGui::TreePop();
 					}

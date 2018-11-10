@@ -353,6 +353,14 @@ BasicMeshType Mesh::GetType() const
 	return type;
 }
 
+bool Mesh::IsLoadedToMemory() const
+{
+	if(vertices_id != 0 && indices_id != 0)
+		return true;
+
+	return false; 
+}
+
 void Mesh::LoadToMemory()
 {
 	if (num_vertices != 0)

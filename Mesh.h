@@ -21,7 +21,9 @@ public:
 
 	BasicMeshType GetType() const;
 
-	void LoadToMemory(); 
+	bool IsLoadedToMemory() const; 
+
+	void LoadToMemory();
 
 public: 
 
