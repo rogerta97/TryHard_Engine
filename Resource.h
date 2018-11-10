@@ -41,6 +41,9 @@ public:
 		res_type = new_type;
 	}
 
+	virtual bool IsLoadedToMemory() { return false;  }
+	virtual void LoadToMemory() {}
+
 	int reference_counting = 0; 
 
 private:

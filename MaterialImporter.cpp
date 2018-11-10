@@ -109,57 +109,6 @@ void MaterialImporter::FlipTexture(Texture * tex)
 
 void MaterialImporter::ImportAllFilesFromAssets()
 {
-	//std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), false);
-
-	//string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
-
-	//for (auto it = files.begin(); it != files.end(); it++)
-	//{
-	//	string curr_name = App->file_system->DeleteFileExtension((*it).c_str()) + ".dds"; 
-	//	string item_loc_path = string(lib_path + "\\" + curr_name);
-
-	//	Material* new_mat = nullptr; 
-	//	Texture* tex = nullptr; 
-
-	//	if (App->file_system->IsFileInDirectory(lib_path.c_str(), curr_name.c_str()))
-	//	{
-	//		new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-	//		new_mat->diffuse = LoadTexture(item_loc_path.c_str());
-
-	//		new_mat->path = item_loc_path;
-	//		new_mat->name = curr_name;		
-	//	}
-
-	//	else
-	//	{
-	//		new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-
-	//		file_extension ext = App->file_system->GetFileExtension((*it)); 
-
-	//		Texture* tex = nullptr; 
-	//	
-	//		tex = App->resources->material_importer->LoadTexture((*it).c_str());
-
-	//		new_mat->name = (*it);
-	//		new_mat->path = item_loc_path;
-	//	
-	//		if (tex)
-	//			new_mat->SetDiffuseTexture(tex);
-
-	//		App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
-
-	//		//item_loc_path = App->file_system->GetTexturesPath() + "\\" + (*it);
-
-	//		//new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-	//		//new_mat->diffuse = LoadTexture(item_loc_path.c_str());
-
-	//		//new_mat->path = item_loc_path;
-	//		//new_mat->name = (*it);
-
-	//		//App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
-	//	}
-	//}
-
 	std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), true); 
 
 	for (auto it = files.begin(); it != files.end(); it++)
@@ -188,13 +137,11 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 			new_mat_res = new_mat; 
 
-			App->resources->material_importer->FlipTexture(new_mat_res->diffuse);
-	
+			App->resources->material_importer->FlipTexture(new_mat->diffuse);
 		}
 
 		string path_to_load = lib_path + string("\\") + lib_tex_name;
 		new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
-
 	}
 }
 

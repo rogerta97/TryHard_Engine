@@ -31,4 +31,12 @@ void Material::SetDiffuseTexture(Texture * new_tex)
 		diffuse = new_tex; 
 }
 
+bool Material::IsLoadedToMemory()
+{
+	if (diffuse->GetTextureID() != 0)
+		return true; 
+
+	return false;
+}
+
 

@@ -15,6 +15,8 @@ public:
 	Texture* GetDiffuseTexture(); 
 	void SetDiffuseTexture(Texture* new_tex); 
 
+	bool IsLoadedToMemory(); 
+
 	Color color;
 
 	Texture * diffuse;
