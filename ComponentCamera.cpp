@@ -61,7 +61,7 @@ bool ComponentCamera::Start()
 	//viewport_texture->SetHeight(size.y);
 	//viewport_texture->SetWidth(size.x);
 
-	SetSpeed(3);
+	SetSpeed(20);
 	SetMouseSensitivity(0.01f);
 
 	interpolation.Init();

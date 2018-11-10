@@ -161,7 +161,7 @@ void ModuleCamera3D::PrintConfigData()
 		ImGui::Spacing();
 
 		float tmp_speed = editor_camera->GetSpeed();
-		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 20.0f, "%.2f");
+		ImGui::SliderFloat("Speed", &tmp_speed, 0.1f, 50.0f, "%.2f");
 		editor_camera->SetSpeed(tmp_speed);
 
 		float tmp_sensitivity = editor_camera->GetMouseSensitivity();

@@ -43,14 +43,14 @@ void ModuleTime::Play()
 	switch (current_state)
 	{
 	case RUNNING:
-		current_state = STOPPED;
+
 		game_timer.Start();
 		game_timer.Stop();
 		break;
 
 	case STOPPED:
 		game_timer.Start();
-		current_state = RUNNING;
+
 		break;
 
 	case PAUSED:
@@ -62,10 +62,6 @@ void ModuleTime::Play()
 	default:
 		break;
 	}
-}
-
-void ModuleTime::Stop()
-{
 }
 
 update_status ModuleTime::Update(float dt)

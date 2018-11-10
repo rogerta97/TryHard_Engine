@@ -12,7 +12,6 @@ public:
 
 	void Pause();
 	void Play();
-	void Stop();
 
 	update_status Update(float dt) override;
 

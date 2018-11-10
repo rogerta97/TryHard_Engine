@@ -548,9 +548,44 @@ void ModuleScene::SetSceneName(const char * new_name)
 
 void ModuleScene::RecieveEvent(const Event & event)
 {
-	if (event.type == event.PLAY)
+	switch (event.type)
 	{
-		CONSOLE_LOG("START BUTTON PRESSED");
+	case Event::PLAY:
+		Play();
+		break;
+	case Event::PAUSE:
+		Pause();
+		break;
+	default:
+		break;
+	}
+}
+
+void ModuleScene::Pause()
+{
+}
+
+void ModuleScene::Play()
+{
+	GameState& current_state = App->current_game_state;
+	switch (current_state)
+	{
+	case RUNNING:
+		App->scene->LoadScene("temp_scene.json");
+		current_state = STOPPED;
+		break;
+
+	case STOPPED:
+		SaveScene("temp_scene");
+		current_state = RUNNING;
+		break;
+
+	case PAUSED:
+
+		break;
+
+	default:
+		break;
 	}
 }
 

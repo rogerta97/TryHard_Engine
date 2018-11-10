@@ -68,8 +68,10 @@ public:
 	const char* GetSceneName() const;
 	void SetSceneName(const char* new_name);
 
-	//Evetts
+	//Events
 	void RecieveEvent(const Event& event) override;
+	void Pause();
+	void Play();
 
 public:
 
