@@ -30,3 +30,5 @@ void Material::SetDiffuseTexture(Texture * new_tex)
 	if(new_tex != nullptr)
 		diffuse = new_tex; 
 }
+
+

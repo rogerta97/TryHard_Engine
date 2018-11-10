@@ -34,7 +34,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 		if (folder_mat)
 		{
-			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15));
+			ImGui::Image((ImTextureID)folder_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 15), ImVec2(0, 1), ImVec2(1, 0));
 			ImGui::SameLine();
 		}
 			
@@ -69,7 +69,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				if (mesh_mat == nullptr)
 					break; 
 
-				ImGui::Image((ImTextureID)mesh_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)mesh_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::SameLine();
 				break; 
 
@@ -97,7 +97,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					if (image_mat == nullptr)
 						break;
 
-					ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+					ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 					ImGui::SameLine();
 				//}
 	
@@ -108,7 +108,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				if (font_mat == nullptr)
 					break;
 
-				ImGui::Image((ImTextureID)font_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)font_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::SameLine();
 				break;
 
@@ -117,7 +117,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				if (scene_mat == nullptr)
 					break;
 
-				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::SameLine();
 				break;
 
@@ -126,12 +126,12 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				if (obj_mat == nullptr)
 					break;
 
-				ImGui::Image((ImTextureID)obj_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)obj_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::SameLine();
 				break;
 				
 			default: 
-				ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::Image((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 				ImGui::SameLine();
 			
 		}
