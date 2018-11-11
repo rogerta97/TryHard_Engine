@@ -38,7 +38,6 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 			ImGui::SameLine();
 		}
 			
-
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
 			//If it has childs we call them recursively

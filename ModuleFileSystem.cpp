@@ -43,11 +43,17 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	prefabs_path = assets_path + string("\\") + string("Prefabs");
 	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
 
+	//Start monitor directory
+	monitor_directory = new MonitorDirectory(); 
+	monitor_directory->StartMonitoring(assets_path);
+
 	return true;
 }
 
 update_status ModuleFileSystem::Update(float dt)
 {
+	monitor_directory->Update(); 
+
 	return UPDATE_CONTINUE;
 }
 
@@ -212,6 +218,11 @@ UID ModuleFileSystem::GenerateUID()
 	return ret_id;
 }
 
+vector<string> ModuleFileSystem::GetNewFiles() const
+{
+	return vector<string>();
+}
+
 
 void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<string>& list, bool include_path = false)
 {
@@ -268,6 +279,53 @@ std::vector<string> ModuleFileSystem::GetAllFilesInDirectory(const char * direct
 		file_names.push_back((*it));
 	
 	return file_names;
+}
+
+std::vector<string> ModuleFileSystem::GetAllFoldersInDirectory(const char * directory, bool include_path)
+{
+	vector<string> file_names;
+	GetFilesInDirectory(directory, file_names, include_path);
+
+	vector<string> files_to_add;
+	vector<string> folder_files; 
+
+	for (auto it = file_names.begin(); it != file_names.end();it++)
+	{
+		string new_dir = directory + string("\\") + GetLastPathItem((*it).c_str(), true);
+
+		if (App->file_system->IsFolder(new_dir.c_str()))
+		{
+			folder_files.push_back(new_dir.c_str());
+			GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);		
+		}	
+	}
+
+	for (auto it = files_to_add.begin(); it != files_to_add.end(); it++)
+	{
+		if (App->file_system->IsFolder((*it).c_str()))
+			folder_files.push_back((*it).c_str());		
+	}
+
+	return folder_files;
+}
+
+std::vector<string> ModuleFileSystem::GetAllItemsInDirectory(const char * directory, bool include_path)
+{
+	std::vector<string> files = GetAllFilesInDirectory(directory, include_path);
+	std::vector<string> folders = GetAllFoldersInDirectory(directory, include_path);;
+	std::vector<string> res_str; 
+
+	for (auto it = files.begin(); it != files.end(); it++)
+	{
+		res_str.push_back((*it)); 
+	}
+
+	for (auto it = folders.begin(); it != folders.end(); it++)
+	{
+		res_str.push_back((*it));
+	}
+
+	return res_str; 
 }
 
 string ModuleFileSystem::GetFileInAllDirectory(const char * directory)
