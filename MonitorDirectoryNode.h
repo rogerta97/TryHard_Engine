@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 
 class MonitorDirectoryNode
 {
@@ -22,18 +23,20 @@ public:
 	void SetName(std::string new_name);
 
 	MonitorDirectoryNode* GetNode(std::string name);
-
 	bool IsItemAdded();
+	void GetNewFiles(std::list<std::string>& new_files_list);
 
-	void GetNewFiles(std::list<std::string> new_files_list);
+	std::list<MonitorDirectoryNode*> childs;
+	std::vector<std::string> curr_files;
 
 private:
 
-	MonitorDirectoryNode * parent; 
-	std::list<MonitorDirectoryNode*> childs; 
+	MonitorDirectoryNode * parent; 	
 
 	std::string path = ""; 
 	std::string name = ""; 
+
 	int file_ammount;
+	
 };
 

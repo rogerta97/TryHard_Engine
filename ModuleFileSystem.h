@@ -60,6 +60,7 @@ public:
 	vector<string> GetNewFiles() const; 
 
 	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path);
+	void GetFilesInThisDirectory(const char* directory, std::vector<string>& list, bool include_path);
 	std::vector<string> GetAllFilesInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllFoldersInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllItemsInDirectory(const char* directory, bool include_path);

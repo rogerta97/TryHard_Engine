@@ -23,8 +23,9 @@ void MonitorDirectoryNode::CreateNode(MonitorDirectoryNode * parent, std::string
 	this->path = path; 
 	std::vector<std::string> file_list; 
 
-	App->file_system->GetFilesInDirectory(path.c_str(), file_list, false); 
+	App->file_system->GetFilesInThisDirectory(path.c_str(), file_list, false); 
 	this->file_ammount = file_list.size();
+	this->curr_files = file_list;
 
 	name = App->file_system->GetLastPathItem(path.c_str(), false);
 }
@@ -79,21 +80,39 @@ MonitorDirectoryNode* MonitorDirectoryNode::GetNode(std::string name)
 
 bool MonitorDirectoryNode::IsItemAdded()
 {
-	std::vector<std::string> files_in_dir;
-	App->file_system->GetFilesInDirectory(path.c_str(), files_in_dir, false);
+	
 
-	int file_num = files_in_dir.size(); 
-
-	if (file_num > file_ammount)
-		return true; 
 
 	return false;
 }
 
-void MonitorDirectoryNode::GetNewFiles(std::list<std::string> new_files_list)
+void MonitorDirectoryNode::GetNewFiles(std::list<std::string>& new_files_list)
 {
-	if (IsItemAdded())
+	std::vector<std::string> files_in_dir;
+	App->file_system->GetFilesInThisDirectory(path.c_str(), files_in_dir, false);
+
+	if (files_in_dir.size() > file_ammount)
 	{
-		CONSOLE_LOG("ITEM ADDED TO %s BY MONITORING DIRECTORY :)", name.c_str()); 
+		for (auto it = files_in_dir.begin(); it != files_in_dir.end(); it++)
+		{
+			bool contained = false;
+
+			for (auto it2 = curr_files.begin(); it2 != curr_files.end(); it2++)
+			{
+				if ((*it) == (*it2))
+				{
+					contained = true;
+					break;
+				}
+			}
+
+			if (contained)
+				continue;
+			else
+			{
+				new_files_list.push_back((*it));
+				file_ammount = files_in_dir.size();
+			}
+		}
 	}
 }
