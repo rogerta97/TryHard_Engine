@@ -87,7 +87,7 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		GameObject* curr_go = CreateFBXMesh((*it).c_str());
+		GameObject* curr_go = CreateFBXMesh((*it).c_str(), true);
 		curr_go->DeleteRecursive();
 	}
 }
@@ -112,7 +112,7 @@ void MeshImporter::DrawMeshList()
 	}
 }
 
-GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
+GameObject* MeshImporter::CreateFBXMesh(const char* full_path, bool first_load)
 {
 	//Use Assimp to load the file 
 	GameObject* to_ret = nullptr; 
@@ -124,7 +124,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 
 		GameObject* tmp_go = new GameObject();
 
-		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go);
+		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go, first_load);
 
 		to_ret = tmp_go->GetChild(0);
 
@@ -145,7 +145,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path)
 
 }
 
-void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * scene, GameObject* parent_gameobject)
+void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * scene, GameObject* parent_gameobject, bool first_load)
 {
 	//This node contains mesh information (vertices, indices...)
 
@@ -383,11 +383,17 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					else 
 						CONSOLE_ERROR("Texture or color not bounded correctly to '%s' Mesh, Component material won't be applied", game_object->name.c_str());
 				}		
-			}			
+			}	
+			if (first_load == false) //This means we are not loading the FBX for creating the initial resource, the user will probably be dragging it from somewhere
+			{
+				new_mesh->LoadToMemory(); 
+				App->scene->AddGameObjectToScene(game_object);
+			}
 		}
 	}
 	else //The node contains other type of information (transform, light?)
 	{
+		
 		App->scene->AddGameObjectToScene(game_object);
 	}
 
@@ -395,7 +401,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	{
 		for (int i = 0; i < node->mNumChildren; i++)
 		{
-			LoadFBXMesh(full_path, node->mChildren[i], scene, game_object);
+			LoadFBXMesh(full_path, node->mChildren[i], scene, game_object, first_load);
 		}
 	}
 

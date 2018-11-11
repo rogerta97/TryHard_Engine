@@ -156,6 +156,87 @@ bool ModuleResources::CleanUp()
 	return false;
 }
 
+void ModuleResources::ManageDropedFile()
+{
+	//If a new file is droped, we need to save the meshes to binary first and create the resources
+
+	file_extension file_dropped_extension = App->file_system->GetFileExtension(App->input->GetFileDroped());
+
+	App->scene->CleanScene(); //Delete if you feel like :)
+
+	Timer test;
+	test.Start();
+
+	switch (file_dropped_extension)
+	{
+		case file_extension::FX_FBX:
+
+			//Create the resource
+			GameObject * parent = App->resources->mesh_importer->CreateFBXMesh(App->input->GetFileDroped().c_str());
+			App->scene->SetSelectedGameObject(parent);
+
+			//Camera interpolation
+			App->camera->GetEditorCamera()->interpolation.interpolate = true;
+			App->camera->GetEditorCamera()->interpolation.interpolation_timer.Start();
+			App->camera->GetEditorCamera()->FillInterpolationSegmentAndRot();
+			break;
+	}
+		
+	CONSOLE_ERROR("Loaded in %d ms", test.Read());
+
+}
+
+void ModuleResources::RecieveEvent(const Event & curr_event)
+{
+	if (curr_event.type == Event::FILE_DROPED)
+	{
+		ManageDropedFile();
+
+		//file_extension file_dropped_extension = App->file_system->GetFileExtension(App->input->GetFileDroped());
+
+		//if (file_dropped_extension == file_extension::FX_FBX)
+		//{
+		//	App->scene->CleanScene();
+		//	Timer test;
+		//	test.Start();
+
+		//	GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(App->input->GetFileDroped().c_str());
+		//	App->scene->SetSelectedGameObject(parent);
+
+		//	CONSOLE_ERROR("Loaded in %d ms", test.Read());
+
+		//	App->camera->GetEditorCamera()->interpolation.interpolate = true;
+		//	App->camera->GetEditorCamera()->interpolation.interpolation_timer.Start();
+		//	App->camera->GetEditorCamera()->FillInterpolationSegmentAndRot();
+
+		//}
+
+		//else if (file_dropped_extension == file_extension::FX_PNG || file_dropped_extension == file_extension::FX_DDS || file_dropped_extension == file_extension::FX_JPG)
+		//{
+		//	/*	GameObject* current_go = nullptr;
+		//	current_go = App->scene->GetSelectedGameObject();
+
+		//	if (current_go != nullptr)
+		//	{
+		//	Texture* text = App->resources->material_importer->LoadTexture(file_droped.c_str());
+
+		//	ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
+
+		//	if (mat == nullptr)
+		//	{
+		//	CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
+		//	}
+		//	else
+		//	{
+		//	mat->GetMaterial()->SetDiffuseTexture(text);
+		//	}
+		//	}
+		//	else
+		//	CONSOLE_ERROR("Could not load texture as there is no Game Object");*/
+		//}
+	}
+}
+
 void ModuleResources::AddResourceToDelete(UID to_del_id)
 {
 	for (auto it = resources.begin(); it != resources.end(); it++)

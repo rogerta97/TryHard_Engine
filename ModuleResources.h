@@ -20,6 +20,9 @@ public:
 	update_status PostUpdate(float dt); 
 	bool CleanUp();
 
+	void ManageDropedFile(); 
+	void RecieveEvent(const Event & curr_event);
+
 	void AddResourceToDelete(UID to_del_id); 
 	void DeleteResourcesNow();
 	bool WantToDelete();

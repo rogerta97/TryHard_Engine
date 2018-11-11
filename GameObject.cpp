@@ -549,6 +549,8 @@ void GameObject::LoadPrefab(const char* prefab_name)
 	
 }
 
+
+
 bool GameObject::HasComponents()  
 {
 	return  !component_list.empty();
