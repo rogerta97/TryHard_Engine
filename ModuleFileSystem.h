@@ -1,6 +1,8 @@
 #pragma once
 #include "Module.h"
 
+#include "MonitorDirectory.h"
+
 using namespace std; 
 
 enum file_extension
@@ -55,12 +57,20 @@ public:
 
 	UID GenerateUID(); 
 
+	vector<string> GetNewFiles() const; 
+
 	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path);
 	std::vector<string> GetAllFilesInDirectory(const char* directory, bool include_path);
+	std::vector<string> GetAllFoldersInDirectory(const char* directory, bool include_path);
+	std::vector<string> GetAllItemsInDirectory(const char* directory, bool include_path);
 	string GetFileInAllDirectory(const char* directory);
 	bool IsFileInDirectory(const char* directory, const char* filename);
 
+	int files_ammount;
+
 private:
+
+	MonitorDirectory* monitor_directory; 
 
 	string library_path; 
 	string mesh_library_path; 

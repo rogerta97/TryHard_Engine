@@ -586,6 +586,12 @@
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="UI_ClocksPanel.h" />
+    <ClInclude Include="MonitorDirectory.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MonitorDirectoryNode.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -859,6 +865,12 @@
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClCompile>
     <ClCompile Include="UI_Clocks.cpp" />
+    <ClCompile Include="MonitorDirectory.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MonitorDirectoryNode.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">
