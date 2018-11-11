@@ -459,7 +459,7 @@ void ModuleScene::SaveScene(const char* scene_name)
 		stream.open(new_scene_path, std::fstream::out);
 
 		JSON_Value* scene_v = json_value_init_object();
-		JSON_Object* scene_obj = json_value_get_object(scene_v);;
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
 
 		//Save Scene Info
 		json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 

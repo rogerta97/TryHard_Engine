@@ -155,48 +155,7 @@ update_status ModuleInput::PreUpdate(float dt)
 		case SDL_DROPFILE:
 		{
 			file_droped = e.drop.file;
-			file_extension file_dropped_extension = App->file_system->GetFileExtension(file_droped);
-
-			if (file_dropped_extension == file_extension::FX_FBX)
-			{
-				App->scene->CleanScene();
-				Timer test;
-				test.Start();
-
-				GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(file_droped.c_str());
-				App->scene->SetSelectedGameObject(parent);
-
-				CONSOLE_ERROR("Loaded in %d ms", test.Read()); 
-
-				App->camera->GetEditorCamera()->interpolation.interpolate = true;
-				App->camera->GetEditorCamera()->interpolation.interpolation_timer.Start();
-				App->camera->GetEditorCamera()->FillInterpolationSegmentAndRot();
-
-			}
-
-			else if (file_dropped_extension == file_extension::FX_PNG || file_dropped_extension == file_extension::FX_DDS || file_dropped_extension == file_extension::FX_JPG)
-			{
-			/*	GameObject* current_go = nullptr;
-				current_go = App->scene->GetSelectedGameObject();
-
-				if (current_go != nullptr)
-				{
-					Texture* text = App->resources->material_importer->LoadTexture(file_droped.c_str());
-
-					ComponentMaterial* mat = (ComponentMaterial*)current_go->GetComponent(CMP_MATERIAL);
-
-					if (mat == nullptr)
-					{
-						CONSOLE_ERROR("Texture can not be dragged with no Material on Destination");
-					}
-					else
-					{
-						mat->GetMaterial()->SetDiffuseTexture(text);
-					}
-				}
-				else
-					CONSOLE_ERROR("Could not load texture as there is no Game Object");*/
-			}
+			App->BroadCastEvent(Event(Event::FILE_DROPED)); 
 		}
 
 		break;
