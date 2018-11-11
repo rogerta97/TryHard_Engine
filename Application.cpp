@@ -22,12 +22,12 @@ Application::Application()
 	// They will CleanUp() in reverse order
 
 	// Main Modules
-	AddModule(time_manager);
 	AddModule(window);
 	AddModule(input);
 	AddModule(file_system);
 	AddModule(resources);
 	AddModule(camera);
+	AddModule(time_manager);
 
 	// Scenes
 	AddModule(scene);

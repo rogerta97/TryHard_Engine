@@ -15,6 +15,14 @@ public:
 
 	update_status Update(float dt) override;
 
+	Uint32 game_time;
+	Uint32 last_frame_time;
+	float game_dt;
+
+	uint frame_count;
+
+	float time_scale;
+
 	//Events
 	void RecieveEvent(const Event& event) override;
 };

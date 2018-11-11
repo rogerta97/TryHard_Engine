@@ -30,7 +30,7 @@ bool UI_ClocksPanel::Update()
 	
 	real_time = real_timer.Read();
 
-	game_time = game_timer.Read();
+	game_time = App->time_manager->game_time;
 
 	//Transform to seconds
 	real_time /= 1000;
@@ -38,9 +38,15 @@ bool UI_ClocksPanel::Update()
 
 	if (ImGui::Begin("Clocks", &show, flags))
 	{
-		ImGui::Text("Real time %.2f", real_time);
+		ImGui::Text("Real time %.2f s", real_time);
 
-		ImGui::Text("Game time %.2f", game_time);
+		ImGui::Text("Game time %.2f s",game_time);
+
+		ImGui::Text("Game dt %.2f ms", App->time_manager->game_dt);
+
+		ImGui::Text("Frame count %d", App->time_manager->frame_count);
+
+		ImGui::DragFloat("Time Scale", &App->time_manager->time_scale, 0.01f, 0.1f, 3.0f,"%.2f");
 	}
 
 	ImGui::End();
