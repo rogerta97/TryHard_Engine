@@ -572,14 +572,11 @@ void ModuleScene::Play()
 	{
 	case RUNNING:
 		App->scene->LoadScene("temp_scene.json");
-		current_state = STOPPED;
 		break;
 
 	case STOPPED:
 		SaveScene("temp_scene");
-		current_state = RUNNING;
 		break;
-
 	case PAUSED:
 
 		break;

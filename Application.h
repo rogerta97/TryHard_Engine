@@ -108,6 +108,9 @@ public:
 	float GetLastSecFramerate() const; 
 	void SaveConfigAfterUpdate();
 
+	void Play();
+	void Pause();
+
 	float getHighest(std::vector<float>	buffer);
 	float getAverage(std::vector<float>	buffer);
 

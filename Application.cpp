@@ -361,6 +361,20 @@ void Application::BroadCastEvent(const Event & event)
 	{
 		(*item)->RecieveEvent(event);
 	}
+
+	//After all the modules we manage the state
+
+	switch (event.type)
+	{
+	case Event::PLAY:
+		Play();
+		break;
+	case Event::PAUSE:
+		Pause();
+		break;
+	default:
+		break;
+	}
 }
 
 Module * Application::GetModuleAt(int id)
@@ -508,6 +522,47 @@ float Application::GetLastSecFramerate() const
 void Application::SaveConfigAfterUpdate()
 {
 	save_config_later = true;
+}
+
+void Application::Play()
+{
+	switch (current_game_state)
+	{
+	case RUNNING:
+		current_game_state = STOPPED;
+		break;
+
+	case STOPPED:
+		current_game_state = RUNNING;
+		break;
+
+	case PAUSED:
+
+		break;
+
+	default:
+		break;
+	}
+}
+
+void Application::Pause()
+{
+	switch (current_game_state)
+	{
+	case RUNNING:
+		current_game_state = PAUSED;
+		break;
+
+	case STOPPED:
+		break;
+
+	case PAUSED:
+		current_game_state = RUNNING;
+		break;
+
+	default:
+		break;
+	}
 }
 
 float Application::getHighest(std::vector<float> buffer)

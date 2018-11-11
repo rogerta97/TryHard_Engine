@@ -20,7 +20,6 @@ void ModuleTime::Pause()
 	switch (current_state)
 	{
 	case RUNNING:
-		current_state = PAUSED;
 		game_timer.Stop();
 		break;
 
@@ -28,7 +27,6 @@ void ModuleTime::Pause()
 		break;
 
 	case PAUSED:
-		current_state = RUNNING;
 		game_timer.Resume();
 		break;
 
