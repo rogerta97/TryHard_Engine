@@ -74,8 +74,7 @@ bool ComponentCamera::CleanUp()
 {
 	LOG("Cleaning camera");
 
-	//if (!is_editor)
-		App->renderer3D->rendering_cameras.pop_back();
+	App->renderer3D->rendering_cameras.pop_back();
 
 	return true;
 }

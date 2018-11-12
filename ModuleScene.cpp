@@ -106,8 +106,13 @@ void ModuleScene::DeleteGameObjectsNow()
 		(*it)->parent = nullptr;
 		
 		DeleteGameObjectFromList((*it)); 
-		delete (*it);
 
+		if ((*it) != App->camera->GetGameCameraObject())
+		{
+			delete (*it);
+			(*it) = nullptr;
+		}
+	
 		it = go_to_delete.erase(it);			
 	}
 }

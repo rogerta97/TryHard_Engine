@@ -223,6 +223,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
 			if (new_mesh != nullptr)
 			{
+				CONSOLE_DEBUG("Loading mesh %s from resources", tmp_name.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
 
