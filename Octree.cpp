@@ -120,7 +120,7 @@ void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * ne
 
 void Octree::GetIntersections(std::list<GameObject*> inter_list, Frustum new_frustum)
 {
-	root_node->GetFrustumIntersctions(inter_list, new_frustum);
+	//root_node->GetFrustumIntersctions(inter_list, new_frustum);
 }
 
 void Octree::CleanUp()
