@@ -104,9 +104,10 @@ void ModuleScene::DeleteGameObjectsNow()
 			(*it)->parent->DeleteChildFromList((*it));
 				
 		(*it)->parent = nullptr;
-
-		//delete (*it); 
+		
 		DeleteGameObjectFromList((*it)); 
+		delete (*it);
+
 		it = go_to_delete.erase(it);			
 	}
 }
