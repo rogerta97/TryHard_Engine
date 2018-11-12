@@ -67,6 +67,39 @@ void ComponentTransform::CalculateViewMatrix()
 	CalculateGlobalViewMatrix();
 }
 
+void ComponentTransform::CalculateViewMatrixFromGlobal()
+{
+	GameObject* parent = gameobject->parent;
+
+	if (parent) {
+		ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+		ViewMatrix = trans->GetGlobalViewMatrix().Inverted() * GlobalMatrix;
+	}
+	else
+		ViewMatrix = GlobalMatrix;
+
+	float3 pos = { 0,0,0 };
+	Quat rot = { 0,0,0,0 };
+	float3 scale = { 0,0,0 };
+
+	float4x4 rotmat = rot.ToFloat4x4();
+
+	ViewMatrix.Decompose(pos, rotmat, scale);
+
+	float3 eulrotmat = rotmat.ToEulerXYZ();
+
+	SetScale(scale);
+
+	rot = rot.FromEulerXYZ(eulrotmat.x, eulrotmat.y, eulrotmat.z);
+
+
+	transform.position = pos;
+	SetRotation(rot);
+
+	has_transformed = true;
+
+}
+
 float3 ComponentTransform::GetPosition() const
 {
 	return transform.position;
@@ -114,6 +147,15 @@ void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 
 	
 	//ViewMatrix = new_mat;
+}
+
+void ComponentTransform::SetGlobalViewMatrix(float4x4 new_mat)
+{
+	GlobalMatrix = new_mat;
+
+	CalculateViewMatrixFromGlobal();
+
+	CalculateGlobalViewMatrix();
 }
 
 float3 ComponentTransform::GetRotationEuler() const
@@ -285,11 +327,4 @@ void ComponentTransform::CalculateGlobalViewMatrix()
 	}
 	
 	has_transformed = true;
-	//do {
-	//	ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
-	//	GlobalMatrix = trans->GlobalMatrix * ViewMatrix;
-
-	//	parent = gameobject->GetParent();
-	//	
-	//} while (parent);
 }

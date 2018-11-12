@@ -25,6 +25,7 @@ public:
 	float4x4 GetGlobalViewMatrix(); 
 
 	void SetViewMatrix(float4x4 new_mat);
+	void SetGlobalViewMatrix(float4x4 new_mat);
 
 	float3 GetRotationEuler() const; 
 	void SetRotationEuler(float3 new_rot);
@@ -45,6 +46,7 @@ public:
 	void CalculateGlobalViewMatrix();
 
 	void CalculateViewMatrix();
+	void CalculateViewMatrixFromGlobal();
 
 private: 
 	bool has_transformed;
