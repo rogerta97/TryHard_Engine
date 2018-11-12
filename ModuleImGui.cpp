@@ -137,8 +137,6 @@ update_status ModuleImGui::Update(float dt)
 
 update_status ModuleImGui::ShowSavePopup()
 {
-
-
 	if (App->imgui->show_save_popup)
 		ImGui::OpenPopup("Do you want to save before exit?");
 

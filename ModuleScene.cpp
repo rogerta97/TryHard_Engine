@@ -518,6 +518,7 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);
+
 			new_go->selected = false;
 			i++;
 		}

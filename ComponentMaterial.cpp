@@ -65,6 +65,11 @@ void ComponentMaterial::Load(JSON_Object * root_obj)
 	{
 		string lib_name = App->file_system->DeleteFileExtension(diffuse_name.c_str());
 		material = (Material*)App->resources->Get(RES_MATERIAL, lib_name.c_str());
+
+		if (material->reference_counting == 0)
+			material->LoadToMemory(); 
+
+		material->reference_counting++; 
 	}
 	else
 	{
