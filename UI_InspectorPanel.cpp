@@ -10,6 +10,7 @@
 #include "ComponentCamera.h"
 
 #include "MaterialImporter.h"
+#include "MeshImporter.h"
 #include "ModuleScene.h"
 
 #include "ImGuizmo/ImGuizmo.h"
@@ -29,6 +30,9 @@ bool UI_InspectorPanel::Start()
 	show = true;
 	gameobject = nullptr; 
 	show_addcmp_ui = false; 
+
+	show_tex_explorer = false;
+	show_mesh_explorer = false;
 
 	return true;
 }
@@ -300,6 +304,14 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
 
+			ImGui::SameLine(); 
+			if (ImGui::SmallButton("+"))
+			{
+				ImGui::OpenPopup("select_mesh");
+			}
+
+			App->resources->mesh_importer->DrawMeshList(); 
+
 			if (ImGui::TreeNode("UID"))
 			{
 				ImGui::SameLine();
@@ -322,23 +334,18 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::Spacing();
 		}			
 		else
+		{
+			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "*NONE*");
 
+			ImGui::SameLine();
+			if (ImGui::SmallButton("+"))
+			{
+				ImGui::OpenPopup("select_mesh");
+			}
 
-	/*	ImGui::SameLine(); 
-		static bool show_mesh_explorer = false;
-		if (ImGui::SmallButton("+##MeshResourceList"))
-		{
-			ImGui::OpenPopup("select_mesh");
-			show_mesh_explorer = true; 
-		}
-	
-		if (show_mesh_explorer)
-		{
 			App->resources->mesh_importer->DrawMeshList();
-		}*/
-
-			
+		}	
 	}
 }
 
@@ -366,7 +373,6 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		if(mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str()); ImGui::SameLine();
 
-		static bool show_tex_explorer = false;
 		if (ImGui::SmallButton("+"))
 		{
 			ImGui::OpenPopup("select_texture");

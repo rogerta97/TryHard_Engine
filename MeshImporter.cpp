@@ -93,20 +93,26 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 void MeshImporter::DrawMeshList()
 {
-	std::vector<string> models_files = App->file_system->GetAllFilesInDirectory(App->file_system->GetModelsPath().c_str(), false);
+	std::list<Resource*> mesh_resources = App->resources->GetResourcesByType(RES_MESH);
 
 	if (ImGui::BeginPopup("select_mesh"))
 	{
-		for (auto it = models_files.begin(); it != models_files.end(); it++)
-		{
-			if ((*it) != "." && (*it) != "..")
+		for (auto it = mesh_resources.begin(); it != mesh_resources.end(); it++)
+		{		
+			if(ImGui::Selectable((*it)->name.c_str()))
 			{
-				ImGui::Selectable((*it).c_str());
-			}
-		
+				ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MESH);
+
+				if (cmp_mesh)
+				{
+					if ((*it)->reference_counting == 0)
+						(*it)->LoadToMemory(); 
+
+					cmp_mesh->SetMesh((Mesh*)(*it));
+				}
+			}			
 		}
 			
-
 		ImGui::EndPopup();
 	}
 }

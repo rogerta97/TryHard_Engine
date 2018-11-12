@@ -33,5 +33,9 @@ private:
 private: 
 	GameObject * gameobject; 
 	bool show_addcmp_ui; 
+
+	bool show_tex_explorer = false;
+	bool show_mesh_explorer = false;
+
 };
 
