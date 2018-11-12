@@ -358,10 +358,13 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						if (loaded_from_resources)
 						{
 							if (new_mat->reference_counting == 0)
+							{
 								new_mat->LoadToMemory();
+							}
+
+							new_mat->reference_counting++;
 						}
 							 
-
 						CONSOLE_LOG("Texture resource found, loading..."); 
 					}
 					else if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str())) // if not we load the binary and create the resource

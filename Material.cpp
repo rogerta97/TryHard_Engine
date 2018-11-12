@@ -2,6 +2,9 @@
 #include "Texture.h"
 #include "OpenGL.h"
 
+#include "Application.h"
+#include "MaterialImporter.h"
+
 
 Material::Material()
 {
@@ -41,7 +44,14 @@ bool Material::IsLoadedToMemory()
 
 void Material::LoadToMemory()
 {
-	diffuse->Bind();
+	diffuse = App->resources->material_importer->LoadTexture(path.c_str(), true);
+}
+
+void Material::UnloadFromMemory()
+{
+	int id = diffuse->GetTextureID(); 
+	glDeleteTextures(1, (GLuint*)&id);
+	diffuse->SetTextureID(0); 
 }
 
 

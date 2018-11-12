@@ -31,10 +31,6 @@ bool MaterialImporter::Start()
 
 	ImportAllFilesFromAssets();
 
-	Material* mat = (Material*)App->resources->Get(RES_MATERIAL, "PlayIcon");
-
-
-
 	return true;
 }
 
@@ -139,11 +135,13 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 			new_mat_res = new_mat; 
 
-			App->resources->material_importer->FlipTexture(new_mat->diffuse);
+			
 		}
 
 		string path_to_load = lib_path + string("\\") + lib_tex_name;
 		new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
+		//App->resources->material_importer->FlipTexture(new_mat->diffuse);
+		new_mat->UnloadFromMemory();
 	}
 }
 
@@ -311,7 +309,7 @@ Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 		to_ret->path = path_to_load;
 		to_ret->name = name;
 
-		Texture* new_tex = LoadTexture(path_to_load.c_str(), true);
+		Texture* new_tex = LoadTexture(path_to_load.c_str(), false);
 		to_ret->SetDiffuseTexture(new_tex);
 	}
 	

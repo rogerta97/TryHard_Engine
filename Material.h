@@ -18,6 +18,7 @@ public:
 	bool IsLoadedToMemory(); 
 
 	void LoadToMemory(); 
+	void UnloadFromMemory();
 
 	Color color;
 

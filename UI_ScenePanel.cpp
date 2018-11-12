@@ -26,8 +26,17 @@ bool UI_ScenePanel::Start()
 	is_mouse_in = false;
 
 	play_icon = (Material*)App->resources->Get(RES_MATERIAL, "PlayIcon");
+	play_icon->LoadToMemory(); 
+	play_icon->reference_counting++; 
+
 	pause_icon = (Material*)App->resources->Get(RES_MATERIAL, "PauseIcon");
+	pause_icon->LoadToMemory();
+	pause_icon->reference_counting++;
+
 	stop_icon = (Material*)App->resources->Get(RES_MATERIAL, "StopIcon");
+	stop_icon->LoadToMemory();
+	stop_icon->reference_counting++;
+
 
 	return true;
 }

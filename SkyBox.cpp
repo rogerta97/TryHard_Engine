@@ -193,7 +193,14 @@ void SkyBox::CreateFrontPlane(const char* front_image_path)
 	sky_cube[SKYBOX_FRONT]->uvs_cords[7] = 0.0f;
 
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
-	sky_textures[SKYBOX_FRONT] = curr_mat->GetDiffuseTexture();
+
+	if(curr_mat)
+	{
+		curr_mat->LoadToMemory();
+		sky_textures[SKYBOX_FRONT] = curr_mat->GetDiffuseTexture();
+		curr_mat->reference_counting++;
+	}
+
 
 	// ---------------------
 
@@ -282,7 +289,11 @@ void SkyBox::CreateRightPlane(const char* plane_tex_path)
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
 
 	if(curr_mat != nullptr)
+	{
+		curr_mat->LoadToMemory();
 		sky_textures[SKYBOX_RIGHT] = curr_mat->GetDiffuseTexture();
+		curr_mat->reference_counting++;
+	}
 
 	// ---------------------
 
@@ -369,7 +380,11 @@ void SkyBox::CreateLeftPlane(const char* plane_tex_path)
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
 
 	if(curr_mat != nullptr)
+	{
+		curr_mat->LoadToMemory();
 		sky_textures[SKYBOX_LEFT] = curr_mat->GetDiffuseTexture();
+		curr_mat->reference_counting++;
+	}
 
 	// ---------------------
 
@@ -456,7 +471,11 @@ void SkyBox::CreateBackPlane(const char* plane_tex_path)
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
 
 	if(curr_mat != nullptr)
+	{
+		curr_mat->LoadToMemory();
 		sky_textures[SKYBOX_BACK] = curr_mat->GetDiffuseTexture();
+		curr_mat->reference_counting++;
+	}
 
 	// ---------------------
 
@@ -543,7 +562,11 @@ void SkyBox::CreateTopPlane(const char* plane_tex_path)
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
 
 	if(curr_mat != nullptr)
+	{
+		curr_mat->LoadToMemory();
 		sky_textures[SKYBOX_TOP] = curr_mat->GetDiffuseTexture();
+		curr_mat->reference_counting++;
+	}
 
 	// ---------------------
 
@@ -629,9 +652,13 @@ void SkyBox::CreateDownPlane(const char* plane_tex_path)
 
 	Material* curr_mat = (Material*)App->resources->Get(RES_MATERIAL, name_from_path.c_str());
 
-	if(curr_mat != nullptr)
+	if (curr_mat != nullptr)
+	{
+		curr_mat->LoadToMemory();
 		sky_textures[SKYBOX_DOWN] = curr_mat->GetDiffuseTexture();
-
+		curr_mat->reference_counting++;
+	}
+		
 	// ---------------------
 
 	sky_cube[SKYBOX_DOWN]->uvs_id = sky_cube[SKYBOX_DOWN]->CreateBuffer();
