@@ -393,8 +393,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	}
 	else //The node contains other type of information (transform, light?)
 	{
-		
-		App->scene->AddGameObjectToScene(game_object);
+		if(first_load == false)
+			App->scene->AddGameObjectToScene(game_object);
 	}
 
 	if (node->mNumChildren > 0)

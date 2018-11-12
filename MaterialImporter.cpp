@@ -145,6 +145,37 @@ void MaterialImporter::ImportAllFilesFromAssets()
 	}
 }
 
+void MaterialImporter::ManageNewTexture(std::string path)
+{
+	string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
+	string name = App->file_system->GetLastPathItem(path.c_str(), true); 
+	
+	Material* new_mat = nullptr;
+
+	if (!App->file_system->IsFileInDirectory(lib_path.c_str(), name.c_str()))
+	{
+		new_mat = new Material();
+		new_mat->path = lib_path;
+		new_mat->name = name;
+
+		Texture* tex = nullptr;
+		tex = App->resources->material_importer->LoadTexture(path.c_str(), false);
+
+		if (tex)
+			new_mat->SetDiffuseTexture(tex);
+
+		App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
+
+		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+		new_mat_res = new_mat;
+
+		App->resources->material_importer->FlipTexture(new_mat->diffuse);
+	}
+
+	string path_to_load = lib_path + string("\\Materials") + name;
+	new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
+}
+
 
 
 bool MaterialImporter::DrawTextureList()

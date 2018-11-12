@@ -20,13 +20,12 @@ void MonitorDirectory::Update()
 
 		for (auto it = files_added.begin(); it != files_added.end(); it++)
 		{
+			App->resources->ManageNewFolderFile((*it).c_str()); 
 			CONSOLE_LOG("File %s was added !!", (*it).c_str());
 		}
 
 		update_timer.Start();
 	}
-
-	
 }
 
 std::list<std::string> MonitorDirectory::GetNewFiles()

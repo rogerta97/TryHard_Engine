@@ -31,6 +31,8 @@ public:
 	int GetResourcesLoadedAmmount(resource_type type = resource_type::RES_NULL);
 	int GetResourcesUsedAmmount(resource_type type = resource_type::RES_NULL);
 
+	void ManageNewFolderFile(std::string new_file_path);
+
 	Resource* Get(UID uid);
 	Resource* Get(resource_type type, const char* resource_name);
 	Resource* CreateNewResource(resource_type type, UID force_id = 0);

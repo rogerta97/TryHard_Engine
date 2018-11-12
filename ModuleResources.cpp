@@ -76,6 +76,25 @@ int ModuleResources::GetResourcesUsedAmmount(resource_type type)
 	return ret_ammount;
 }
 
+void ModuleResources::ManageNewFolderFile(string new_file_path)
+{
+	//First we should get what type of file has been added 
+	file_type type = App->file_system->GetFileType(new_file_path);
+
+	switch (type)
+	{
+	case FT_3DMODEL:
+		//We load the file as normally, the function will save the file as binary (in case it doesn't exist) and will create the resource.
+		App->resources->mesh_importer->CreateFBXMesh(new_file_path.c_str(), true); 
+
+	case FT_IMAGE:
+		//If the image exist in Library\\Materials as .dds we just create the resource, if not we export it and create the resource. 
+		App->resources->material_importer->ManageNewTexture(new_file_path); 
+
+		break; 
+	}
+}
+
 Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 {
 	Resource* to_ret = nullptr; 
@@ -188,9 +207,14 @@ void ModuleResources::ManageDropedFile()
 
 void ModuleResources::RecieveEvent(const Event & curr_event)
 {
-	if (curr_event.type == Event::FILE_DROPED)
-	{
-		ManageDropedFile();
+	switch (curr_event.type)
+		{
+			case Event::FILE_DROPED:
+				ManageDropedFile();
+				break; 
+		}
+	
+		
 
 		//file_extension file_dropped_extension = App->file_system->GetFileExtension(App->input->GetFileDroped());
 
@@ -234,7 +258,7 @@ void ModuleResources::RecieveEvent(const Event & curr_event)
 		//	else
 		//	CONSOLE_ERROR("Could not load texture as there is no Game Object");*/
 		//}
-	}
+	
 }
 
 void ModuleResources::AddResourceToDelete(UID to_del_id)
