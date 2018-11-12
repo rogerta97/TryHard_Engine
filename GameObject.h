@@ -44,7 +44,7 @@ public:
 
 	//Save & Load
 	void Save(JSON_Object* scene_obj, int index);
-	void SaveRecursive(JSON_Object* scene_obj, int index); 
+	void SaveRecursive(JSON_Object* scene_obj, int& index); 
 	bool Load(JSON_Object* scene_obj, int index);
 
 	void SaveAsPrefab(); 

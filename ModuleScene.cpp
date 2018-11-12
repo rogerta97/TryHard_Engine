@@ -174,6 +174,7 @@ GameObject * ModuleScene::LoadPrefab(const char * prf_name)
 	{
 		GameObject* new_go = new GameObject();
 		new_go->Load(scene_obj, i);
+		AddGameObjectToScene(new_go); 
 		obj_list.push_back(new_go);
 	}
 

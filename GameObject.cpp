@@ -461,7 +461,7 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	}
 }
 
-void GameObject::SaveRecursive(JSON_Object* scene_obj, int index)
+void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 {
 	string node_name = "GameObject_" + to_string(index);
 	string item_name = "";
@@ -484,9 +484,10 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int index)
 		(*it)->Save(scene_obj, node_name.c_str());
 	}
 
+	index++; 
 	for (auto it = child_list.begin(); it != child_list.end(); it++)
 	{
-		(*it)->SaveRecursive(scene_obj, ++index);
+		(*it)->SaveRecursive(scene_obj, index);
 	}
 }
 
@@ -506,7 +507,8 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	unique_id = json_object_dotget_number(scene_obj, "UID");
 	UID parent_id = json_object_dotget_number(scene_obj, "Parent");
 
-	if (parent_id != 0)	SetParent(App->scene->GetGameObjectByID(parent_id)); 
+	if (parent_id != 0)	
+		SetParent(App->scene->GetGameObjectByID(parent_id)); 
 
 	//Load Components, if it has any
 	if (json_object_get_value(scene_obj, "Components") == nullptr) 
@@ -536,7 +538,6 @@ void GameObject::SaveAsPrefab()
 	int index = 0;
 	SaveRecursive(scene_obj, index); 
 
-	index++;
 	json_object_dotset_number(scene_obj, "Info.obj_num", index);
 
 	json_serialize_to_file(scene_v, dest_str.c_str());
@@ -548,8 +549,6 @@ void GameObject::LoadPrefab(const char* prefab_name)
 {
 	
 }
-
-
 
 bool GameObject::HasComponents()  
 {

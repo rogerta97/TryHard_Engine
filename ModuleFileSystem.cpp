@@ -65,6 +65,10 @@ bool ModuleFileSystem::CleanUp()
 file_extension ModuleFileSystem::GetFileExtension(std::string full_path) 
 {
 		int pos = full_path.find_last_of(".");
+
+		if (pos == -1)
+			return FX_ERR; 
+
 		string term = full_path.substr(pos, full_path.length() - pos);
 
 		if (term == ".FBX" || term == ".fbx")

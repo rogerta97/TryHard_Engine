@@ -173,7 +173,6 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					string obj_name = App->file_system->GetLastPathItem(folder.c_str()); 
 
 					GameObject* new_go = App->scene->LoadPrefab(obj_name.c_str()); 
-					App->scene->AddGameObjectToScene(new_go); 
 
 				}
 					
