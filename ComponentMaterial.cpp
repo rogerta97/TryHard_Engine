@@ -28,21 +28,12 @@ bool ComponentMaterial::CleanUp()
 {
 	if (material != nullptr)
 	{
-		Texture* curr_tex = material->GetDiffuseTexture();
-
-		if (curr_tex != nullptr)
+		if (material->reference_counting == 1)
 		{
-			//if (!App->scene->IsTextureUsed(curr_tex->GetTextureID(), gameobject))
-			//{
-			//	curr_tex->Clear();
-			//	//App->resources->material_importer->DeleteTextureFromList(curr_tex);
-			//	delete (material->GetDiffuseTexture());
-			//}
-
-			//material->SetDiffuseTexture(nullptr);
-
-			material = nullptr;
+			material->UnloadFromMemory();
 		}
+
+		material->reference_counting--; 
 	}
 
 	return true;
@@ -74,6 +65,11 @@ void ComponentMaterial::Load(JSON_Object * root_obj)
 	{
 		string lib_name = App->file_system->DeleteFileExtension(diffuse_name.c_str());
 		material = (Material*)App->resources->Get(RES_MATERIAL, lib_name.c_str());
+
+		if (material->reference_counting == 0)
+			material->LoadToMemory(); 
+
+		material->reference_counting++; 
 	}
 	else
 	{

@@ -104,9 +104,15 @@ void ModuleScene::DeleteGameObjectsNow()
 			(*it)->parent->DeleteChildFromList((*it));
 				
 		(*it)->parent = nullptr;
-
-		//delete (*it); 
+		
 		DeleteGameObjectFromList((*it)); 
+
+		if ((*it) != App->camera->GetGameCameraObject())
+		{
+			delete (*it);
+			(*it) = nullptr;
+		}
+	
 		it = go_to_delete.erase(it);			
 	}
 }
@@ -168,6 +174,7 @@ GameObject * ModuleScene::LoadPrefab(const char * prf_name)
 	{
 		GameObject* new_go = new GameObject();
 		new_go->Load(scene_obj, i);
+		AddGameObjectToScene(new_go); 
 		obj_list.push_back(new_go);
 	}
 
@@ -450,7 +457,7 @@ void ModuleScene::SaveScene(const char* scene_name)
 	}
 }
 
-void ModuleScene::LoadScene(const char * scene_path)
+void ModuleScene::LoadScene(const char * scene_path, bool clean)
 {
 	string name_w_termination = scene_path; 
 
@@ -458,8 +465,8 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
 	{
-		//First clean the current scene
-		CleanScene(); 
+		if (clean)
+			CleanScene(); 
 
 		string path = App->file_system->GetScenesPath() + std::string("\\") + name_w_termination;
 		std::ifstream stream;
@@ -479,6 +486,7 @@ void ModuleScene::LoadScene(const char * scene_path)
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);
+
 			new_go->selected = false;
 			i++;
 		}

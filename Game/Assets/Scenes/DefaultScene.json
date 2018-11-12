@@ -1,1 +1,0 @@
-{"GameObject_0":{"Name":"Main Camera","UID":630071,"Parent":0,"Components":{"ComponentTransform":{"PositionX":8.6000003814697266,"PositionY":8.1999998092651367,"PositionZ":11.600000381469727,"RotationX":-27,"RotationY":34,"RotationZ":0,"ScaleX":1,"ScaleY":1,"ScaleZ":1},"ComponentCamera":{"Projection":0,"FOV":1.0471975803375244,"NearPlane":0.5,"FarPlane":25}}}}

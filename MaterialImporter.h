@@ -30,6 +30,8 @@ public:
 
 	void ImportAllFilesFromAssets();
 
+	void ManageNewTexture(std::string path);
+
 	bool DrawTextureList(); 
 
 	void GenerateCheckerTexture();

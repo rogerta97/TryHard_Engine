@@ -4,6 +4,7 @@
 
 Texture::Texture()
 {
+	texture_id = 0; 
 }
 
 

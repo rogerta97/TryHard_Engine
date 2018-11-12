@@ -14,19 +14,32 @@ MonitorDirectory::~MonitorDirectory()
 
 void MonitorDirectory::Update()
 {
-	GetNewFiles(); 
+	if (update_timer.Read() >= 500.0f)
+	{
+		std::list<std::string> files_added = GetNewFiles();
+
+		for (auto it = files_added.begin(); it != files_added.end(); it++)
+		{
+			App->resources->ManageNewFolderFile((*it).c_str()); 
+			CONSOLE_LOG("File %s was added !!", (*it).c_str());
+		}
+
+		update_timer.Start();
+	}
 }
 
 std::list<std::string> MonitorDirectory::GetNewFiles()
 {
 	std::list<std::string> new_files_list; 
 
-	if (update_timer.Read() >= 500.0f)
-	{
-		root->GetNewFiles(new_files_list); 
-		update_timer.Start();
-	}
+	root->GetNewFiles(new_files_list); 
 
+	for (auto it = root->childs.begin(); it != root->childs.end(); it++)
+	{
+		(*it)->GetNewFiles(new_files_list);
+	}
+		
+	
 	return new_files_list; 
 }
 

@@ -137,8 +137,6 @@ update_status ModuleImGui::Update(float dt)
 
 update_status ModuleImGui::ShowSavePopup()
 {
-
-
 	if (App->imgui->show_save_popup)
 		ImGui::OpenPopup("Do you want to save before exit?");
 
@@ -218,8 +216,18 @@ update_status ModuleImGui::DrawTopBar()
 			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
 			string scene_name = App->file_system->GetLastPathItem(path, true);
 
+			//First clean the current scene
+			App->scene->CleanScene();
 			App->scene->LoadScene(scene_name.c_str());
 
+		}
+
+		if (ImGui::MenuItem("Load Scene Into Current"))
+		{
+			char const * lFilterPatterns[2] = { "*.json" };
+			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
+			string scene_name = App->file_system->GetLastPathItem(path, true);
+			App->scene->LoadScene(scene_name.c_str(), false);
 		}
 
 		ImGui::EndMenu();

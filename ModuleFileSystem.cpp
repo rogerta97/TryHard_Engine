@@ -65,6 +65,10 @@ bool ModuleFileSystem::CleanUp()
 file_extension ModuleFileSystem::GetFileExtension(std::string full_path) 
 {
 		int pos = full_path.find_last_of(".");
+
+		if (pos == -1)
+			return FX_ERR; 
+
 		string term = full_path.substr(pos, full_path.length() - pos);
 
 		if (term == ".FBX" || term == ".fbx")
@@ -96,6 +100,15 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 
 		return FX_ERR;
 	
+}
+
+string ModuleFileSystem::GetFileExtensionStr(std::string full_path)
+{
+	int pos = full_path.find_last_of(".");
+	string term = full_path.substr(pos, full_path.length() - pos);
+
+	return term;
+
 }
 
 file_type ModuleFileSystem::GetFileType(string full_path)
@@ -223,6 +236,35 @@ vector<string> ModuleFileSystem::GetNewFiles() const
 	return vector<string>();
 }
 
+void ModuleFileSystem::GetFilesInThisDirectory(const char * directory, std::vector<string>& list, bool include_path = false)
+{
+	std::string path(directory);
+	path.append("\\*");
+
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+
+	if ((hFind = FindFirstFile(path.c_str(), &data)) != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if (std::string(data.cFileName) != std::string(".") && std::string(data.cFileName) != std::string(".."))
+			{
+	
+				string new_str = directory + string("\\") + string(data.cFileName);
+
+				if(!IsFolder(new_str.c_str()))
+					list.push_back(new_str);
+				
+			}
+
+
+		} while (FindNextFile(hFind, &data) != 0);
+		FindClose(hFind);
+	}
+
+	return;
+}
 
 void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<string>& list, bool include_path = false)
 {

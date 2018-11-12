@@ -31,6 +31,9 @@ private:
 	Material* stop_icon;
 	Material* pause_icon;
 
+	Material* play_icon_pressed;
+	Material* stop_icon_pressed;
+	Material* pause_icon_pressed;
 
 	//To highlight the button if the bool is true
 	bool play;

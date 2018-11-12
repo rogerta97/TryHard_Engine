@@ -87,27 +87,32 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		GameObject* curr_go = CreateFBXMesh((*it).c_str(), true);
-		curr_go->DeleteRecursive();
+		CreateFBXMesh((*it).c_str(), true);
 	}
 }
 
 void MeshImporter::DrawMeshList()
 {
-	std::vector<string> models_files = App->file_system->GetAllFilesInDirectory(App->file_system->GetModelsPath().c_str(), false);
+	std::list<Resource*> mesh_resources = App->resources->GetResourcesByType(RES_MESH);
 
 	if (ImGui::BeginPopup("select_mesh"))
 	{
-		for (auto it = models_files.begin(); it != models_files.end(); it++)
-		{
-			if ((*it) != "." && (*it) != "..")
+		for (auto it = mesh_resources.begin(); it != mesh_resources.end(); it++)
+		{		
+			if(ImGui::Selectable((*it)->name.c_str()))
 			{
-				ImGui::Selectable((*it).c_str());
-			}
-		
+				ComponentMesh* cmp_mesh = (ComponentMesh*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MESH);
+
+				if (cmp_mesh)
+				{
+					if ((*it)->reference_counting == 0)
+						(*it)->LoadToMemory(); 
+
+					cmp_mesh->SetMesh((Mesh*)(*it));
+				}
+			}			
 		}
 			
-
 		ImGui::EndPopup();
 	}
 }
@@ -218,6 +223,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
 			if (new_mesh != nullptr)
 			{
+				CONSOLE_DEBUG("Loading mesh %s from resources", tmp_name.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
 
@@ -226,7 +232,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 				new_mesh->reference_counting++;
 				loaded_from_resources = true; 
-				App->scene->AddGameObjectToScene(game_object);
+				//App->scene->AddGameObjectToScene(game_object);
 			}
 			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{						
@@ -353,10 +359,13 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						if (loaded_from_resources)
 						{
 							if (new_mat->reference_counting == 0)
+							{
 								new_mat->LoadToMemory();
+							}
+
+							new_mat->reference_counting++;
 						}
 							 
-
 						CONSOLE_LOG("Texture resource found, loading..."); 
 					}
 					else if (App->file_system->IsFileInDirectory(folder_to_check.c_str(), item_lib_name.c_str())) // if not we load the binary and create the resource
@@ -393,8 +402,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	}
 	else //The node contains other type of information (transform, light?)
 	{
-		
-		App->scene->AddGameObjectToScene(game_object);
+		if(first_load == false)
+			App->scene->AddGameObjectToScene(game_object);
 	}
 
 	if (node->mNumChildren > 0)

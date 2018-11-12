@@ -3,6 +3,8 @@
 
 #include "ModuleResources.h"
 
+#include "Resource.h"
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -28,10 +30,6 @@ bool MaterialImporter::Start()
 	checker_texture->FillCheckerTextureData();
 
 	ImportAllFilesFromAssets();
-
-	Material* mat = (Material*)App->resources->Get(RES_MATERIAL, "PlayIcon");
-
-
 
 	return true;
 }
@@ -82,6 +80,8 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 			new_tex->SetTextureID(new_tex->CreateBuffer());
 			new_tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			new_tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
+
+			CONSOLE_LOG("BUFFER HAS BEEN CREATED WITH ID: %d", new_tex->GetTextureID()); 
 
 			new_tex->SetPath(path);
 			new_tex->name = new_name;
@@ -137,12 +137,45 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 			new_mat_res = new_mat; 
 
-			App->resources->material_importer->FlipTexture(new_mat->diffuse);
+			
 		}
 
 		string path_to_load = lib_path + string("\\") + lib_tex_name;
 		new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
+		//App->resources->material_importer->FlipTexture(new_mat->diffuse);
+		new_mat->UnloadFromMemory();
 	}
+}
+
+void MaterialImporter::ManageNewTexture(std::string path)
+{
+	string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
+	string name = App->file_system->GetLastPathItem(path.c_str(), true); 
+	
+	Material* new_mat = nullptr;
+
+	if (!App->file_system->IsFileInDirectory(lib_path.c_str(), name.c_str()))
+	{
+		new_mat = new Material();
+		new_mat->path = lib_path;
+		new_mat->name = name;
+
+		Texture* tex = nullptr;
+		tex = App->resources->material_importer->LoadTexture(path.c_str(), false);
+
+		if (tex)
+			new_mat->SetDiffuseTexture(tex);
+
+		App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
+
+		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
+		new_mat_res = new_mat;
+
+		App->resources->material_importer->FlipTexture(new_mat->diffuse);
+	}
+
+	string path_to_load = lib_path + string("\\Materials") + name;
+	new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
 }
 
 
@@ -158,22 +191,27 @@ bool MaterialImporter::DrawTextureList()
 		ImGui::Separator();
 		int i = 0;
 
-		vector<string> textures_on_folder = App->file_system->GetAllFilesInDirectory(string(App->file_system->GetLibraryPath() + "\\Materials").c_str(), false);
+		list<Resource*> textures_resources = App->resources->GetResourcesByType(RES_MATERIAL);
 
-		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
-			if ((*it) != "." && (*it) != "..")
+		for (auto it = textures_resources.begin(); it != textures_resources.end(); it++, i++) 
+		{
+			string curr_name = (*it)->name + App->file_system->GetFileExtensionStr((*it)->path);
+
+			if (ImGui::Selectable(curr_name.c_str()))
 			{
-				if (ImGui::Selectable(textures_on_folder[i].c_str()))
-				{
-					ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
+				ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-					if (mat != nullptr)
-					{
-						Material* new_mat = (Material*)App->resources->Get(RES_MATERIAL, App->file_system->DeleteFileExtension((*it).c_str()).c_str());
-						mat->SetMaterial(new_mat);
-					}
+				if (mat != nullptr)
+				{
+					Material* new_mat = (Material*)(*it);
+					if (new_mat->reference_counting == 0)
+						new_mat->LoadToMemory(); 
+
+					new_mat->reference_counting++; 
+					mat->SetMaterial(new_mat);
 				}
 			}
+			
 		}
 		ImGui::EndPopup();
 	}
@@ -210,16 +248,23 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 
 		std::ofstream out;            
 		out.open(path_to_save.c_str(), ifstream::binary);
-										  
-		char buf[4096];
+					
+		// Get length of file:
+		in.seekg(0, in.end);
+		int length = in.tellg();
+		in.seekg(0, in.beg);
+
+		char* buf = new char[length];
 
 		do {
-			in.read(&buf[0], 4096);    
-			out.write(&buf[0], in.gcount()); 
+			in.read(buf, length);
+			out.write(buf, in.gcount()); 
 		} while (in.gcount() > 0);         
 											
 		in.close();
 		out.close();
+
+		delete[] buf; 
 
 		return true;
 	}
@@ -277,7 +322,7 @@ Material * MaterialImporter::LoadFromBinary(const char * tex_path)
 		to_ret->path = path_to_load;
 		to_ret->name = name;
 
-		Texture* new_tex = LoadTexture(path_to_load.c_str(), true);
+		Texture* new_tex = LoadTexture(path_to_load.c_str(), false);
 		to_ret->SetDiffuseTexture(new_tex);
 	}
 	

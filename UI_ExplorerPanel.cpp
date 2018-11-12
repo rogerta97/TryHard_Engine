@@ -173,7 +173,6 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					string obj_name = App->file_system->GetLastPathItem(folder.c_str()); 
 
 					GameObject* new_go = App->scene->LoadPrefab(obj_name.c_str()); 
-					App->scene->AddGameObjectToScene(new_go); 
 
 				}
 					
@@ -205,13 +204,36 @@ bool UI_ExplorerPanel::Start()
 	item_selected = ""; 
 
 	folder_mat = (Material*)App->resources->Get(RES_MATERIAL, "FolderIcon");
+	folder_mat->LoadToMemory(); 
+	folder_mat->reference_counting++; 
+
 	obj_mat = (Material*)App->resources->Get(RES_MATERIAL, "GameObjectIcon");
+	obj_mat->LoadToMemory();
+	obj_mat->reference_counting++;
+
 	image_mat = (Material*)App->resources->Get(RES_MATERIAL, "ImageIcon");
+	image_mat->LoadToMemory();
+	image_mat->reference_counting++;
+
 	mesh_mat = (Material*)App->resources->Get(RES_MATERIAL, "MeshIcon");
+	mesh_mat->LoadToMemory();
+	mesh_mat->reference_counting++;
+
 	font_mat = (Material*)App->resources->Get(RES_MATERIAL, "FontIcon");
+	font_mat->LoadToMemory();
+	font_mat->reference_counting++;
+
 	DDS_mat = (Material*)App->resources->Get(RES_MATERIAL, "DDSIcon");
+	DDS_mat->LoadToMemory();
+	DDS_mat->reference_counting++;
+
 	TGA_mat = (Material*)App->resources->Get(RES_MATERIAL, "TGAIcon");
+	TGA_mat->LoadToMemory();
+	TGA_mat->reference_counting++;
+
 	scene_mat = (Material*)App->resources->Get(RES_MATERIAL, "SceneIcon");
+	scene_mat->LoadToMemory();
+	scene_mat->reference_counting++;
 
 	return true;
 }

@@ -41,6 +41,8 @@ public:
 
 	file_extension GetFileExtension(string full_path);
 	file_type GetFileType(string full_path);
+
+	string GetFileExtensionStr(string full_path);
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 	string DeleteLastPathItem(const char* path);
@@ -60,6 +62,7 @@ public:
 	vector<string> GetNewFiles() const; 
 
 	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path);
+	void GetFilesInThisDirectory(const char* directory, std::vector<string>& list, bool include_path);
 	std::vector<string> GetAllFilesInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllFoldersInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllItemsInDirectory(const char* directory, bool include_path);
