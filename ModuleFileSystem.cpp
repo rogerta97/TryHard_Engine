@@ -98,6 +98,15 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 	
 }
 
+string ModuleFileSystem::GetFileExtensionStr(std::string full_path)
+{
+	int pos = full_path.find_last_of(".");
+	string term = full_path.substr(pos, full_path.length() - pos);
+
+	return term;
+
+}
+
 file_type ModuleFileSystem::GetFileType(string full_path)
 {
 	file_extension curr_extension = GetFileExtension(full_path);

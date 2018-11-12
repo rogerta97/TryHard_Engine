@@ -3,6 +3,8 @@
 
 #include "ModuleResources.h"
 
+#include "Resource.h"
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -189,22 +191,23 @@ bool MaterialImporter::DrawTextureList()
 		ImGui::Separator();
 		int i = 0;
 
-		vector<string> textures_on_folder = App->file_system->GetAllFilesInDirectory(string(App->file_system->GetLibraryPath() + "\\Materials").c_str(), false);
+		list<Resource*> textures_resources = App->resources->GetResourcesByType(RES_MATERIAL);
 
-		for (auto it = textures_on_folder.begin(); it != textures_on_folder.end(); it++, i++) {
-			if ((*it) != "." && (*it) != "..")
+		for (auto it = textures_resources.begin(); it != textures_resources.end(); it++, i++) 
+		{
+			string curr_name = (*it)->name + App->file_system->GetFileExtensionStr((*it)->path);
+
+			if (ImGui::Selectable(curr_name.c_str()))
 			{
-				if (ImGui::Selectable(textures_on_folder[i].c_str()))
-				{
-					ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
+				ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-					if (mat != nullptr)
-					{
-						Material* new_mat = (Material*)App->resources->Get(RES_MATERIAL, App->file_system->DeleteFileExtension((*it).c_str()).c_str());
-						mat->SetMaterial(new_mat);
-					}
+				if (mat != nullptr)
+				{
+					Material* new_mat = (Material*)(*it);
+					mat->SetMaterial(new_mat);
 				}
 			}
+			
 		}
 		ImGui::EndPopup();
 	}

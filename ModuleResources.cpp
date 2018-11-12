@@ -76,6 +76,22 @@ int ModuleResources::GetResourcesUsedAmmount(resource_type type)
 	return ret_ammount;
 }
 
+std::list<Resource*> ModuleResources::GetResourcesByType(resource_type type)
+{
+	if (type == RES_NULL)
+		return std::list<Resource*>();
+
+	std::list<Resource*> ret_list; 
+
+	for (auto it = resources.begin(); it != resources.end(); it++)
+	{
+		if ((*it).second->GetType() == type)
+			ret_list.push_back((*it).second);
+	}
+
+	return ret_list;
+}
+
 void ModuleResources::ManageNewFolderFile(string new_file_path)
 {
 	//First we should get what type of file has been added 

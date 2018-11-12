@@ -41,6 +41,8 @@ public:
 
 	file_extension GetFileExtension(string full_path);
 	file_type GetFileType(string full_path);
+
+	string GetFileExtensionStr(string full_path);
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
 	string DeleteLastPathItem(const char* path);

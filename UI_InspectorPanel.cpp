@@ -59,7 +59,7 @@ bool UI_InspectorPanel::Update()
 		Material* go_image = (Material*)App->resources->Get(RES_MATERIAL, "GameObjectIcon");
 	
 		if(go_image != nullptr)
-			ImGui::Image((ImTextureID)go_image->GetDiffuseTexture()->GetTextureID(), ImVec2(22, 25));  ImGui::SameLine();
+			ImGui::Image((ImTextureID)go_image->GetDiffuseTexture()->GetTextureID(), ImVec2(22, 25), ImVec2(0, 1), ImVec2(1, 0));  ImGui::SameLine();
 
 		ImGui::SameLine(); 
 
@@ -364,10 +364,10 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
 		if(mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str()); ImGui::SameLine();
 
 		static bool show_tex_explorer = false;
-		if (ImGui::SmallButton("Explore..."))
+		if (ImGui::SmallButton("+"))
 		{
 			ImGui::OpenPopup("select_texture");
 		}
@@ -406,6 +406,8 @@ void UI_InspectorPanel::PrintMaterialProperties()
 			ImGui::Text("Height:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mat_cmp->GetMaterial()->GetDiffuseTexture()->GetHeight());
 		}
+
+		ImGui::Spacing();
 	}		
 }
 
