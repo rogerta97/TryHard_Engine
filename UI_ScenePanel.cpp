@@ -37,7 +37,6 @@ bool UI_ScenePanel::Start()
 	stop_icon->LoadToMemory();
 	stop_icon->reference_counting++;
 
-
 	return true;
 }
 

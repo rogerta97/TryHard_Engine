@@ -202,6 +202,11 @@ bool MaterialImporter::DrawTextureList()
 				if (mat != nullptr)
 				{
 					Material* new_mat = (Material*)(*it);
+
+					if (new_mat->reference_counting == 0)
+						new_mat->LoadToMemory(); 
+
+					new_mat->reference_counting++; 
 					mat->SetMaterial(new_mat);
 				}
 			}
