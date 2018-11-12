@@ -87,8 +87,7 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		GameObject* curr_go = CreateFBXMesh((*it).c_str(), true);
-		curr_go->DeleteRecursive();
+		CreateFBXMesh((*it).c_str(), true);
 	}
 }
 
@@ -226,7 +225,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 				new_mesh->reference_counting++;
 				loaded_from_resources = true; 
-				App->scene->AddGameObjectToScene(game_object);
+				//App->scene->AddGameObjectToScene(game_object);
 			}
 			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
 			{						
