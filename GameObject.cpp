@@ -219,7 +219,6 @@ Component* GameObject::AddComponent(CompType new_type)
 
 	if (new_cmp != nullptr)
 	{
-		CONSOLE_DEBUG("GameObject '%s' already has this component assigned. Returning this component", name.c_str());
 		return GetComponent(new_type);
 	}
 	else
@@ -588,14 +587,18 @@ GameObject * GameObject::GetChild(const char * name) const
 
 void GameObject::DeleteChildFromList(GameObject * child_to_delete)
 {
-	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	if (child_list.empty() == false)
 	{
-		if ((*it) == child_to_delete)
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
 		{
-			child_list.erase(it);
-			return; 
-		}			
+			if ((*it) == child_to_delete)
+			{
+				child_list.erase(it);
+				return;
+			}
+		}
 	}
+
 }
 
 void GameObject::GetEnclosedAABB(float3& min, float3& max)

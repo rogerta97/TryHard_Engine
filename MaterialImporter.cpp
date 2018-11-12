@@ -81,6 +81,8 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 			new_tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			new_tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
 
+			CONSOLE_LOG("BUFFER HAS BEEN CREATED WITH ID: %d", new_tex->GetTextureID()); 
+
 			new_tex->SetPath(path);
 			new_tex->name = new_name;
 
@@ -202,7 +204,6 @@ bool MaterialImporter::DrawTextureList()
 				if (mat != nullptr)
 				{
 					Material* new_mat = (Material*)(*it);
-
 					if (new_mat->reference_counting == 0)
 						new_mat->LoadToMemory(); 
 
@@ -247,16 +248,23 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name)
 
 		std::ofstream out;            
 		out.open(path_to_save.c_str(), ifstream::binary);
-										  
-		char buf[4096];
+					
+		// Get length of file:
+		in.seekg(0, in.end);
+		int length = in.tellg();
+		in.seekg(0, in.beg);
+
+		char* buf = new char[length];
 
 		do {
-			in.read(&buf[0], 4096);    
-			out.write(&buf[0], in.gcount()); 
+			in.read(buf, length);
+			out.write(buf, in.gcount()); 
 		} while (in.gcount() > 0);         
 											
 		in.close();
 		out.close();
+
+		delete[] buf; 
 
 		return true;
 	}
