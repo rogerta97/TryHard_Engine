@@ -23,12 +23,14 @@ GameObject::GameObject()
 	bounding_box = nullptr;
 	is_static = false; 
 	active = true; 
+	tag = ""; 
+	selected = false; 
 
 	unique_id = App->file_system->GenerateUID();
 
 	Component* new_cmp = new ComponentTransform(this);
 	component_list.push_back(new_cmp);
-	ComponentTransform* trans = (ComponentTransform*)new_cmp;
+	transform = (ComponentTransform*)new_cmp;
 }
 
 GameObject::GameObject(const char * name)

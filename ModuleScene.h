@@ -63,7 +63,7 @@ public:
 
 	//Load & Save
 	void SaveScene(const char* scene_name);
-	void LoadScene(const char* scene_path);
+	void LoadScene(const char* scene_path, bool clean = true);
 
 	const char* GetSceneName() const;
 	void SetSceneName(const char* new_name);
