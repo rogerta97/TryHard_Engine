@@ -162,7 +162,8 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
 				{
 					string lib_item = App->file_system->GetLastPathItem(string(folder.c_str() + string(".dds")).c_str()); 
-					Material* new_mat = App->resources->material_importer->LoadFromBinary(lib_item.c_str());
+					Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL); 
+					App->resources->material_importer->LoadFromBinary(lib_item.c_str(), new_mat);
 				}
 					
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)

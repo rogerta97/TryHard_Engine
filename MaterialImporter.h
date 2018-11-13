@@ -37,8 +37,8 @@ public:
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 
 
-	bool Import(Material* mat_to_save, const char* tex_name); 
-	Material* LoadFromBinary(const char* tex_name);
+	bool Import(Material* mat_to_save, const char* tex_name, UID uid); 
+	void LoadFromBinary(const char* tex_name, Material* mat_to_fill);
 
 	~MaterialImporter();
 

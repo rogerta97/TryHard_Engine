@@ -20,6 +20,8 @@ public:
 	void LoadToMemory(); 
 	void UnloadFromMemory();
 
+	void CreateMeta(); 
+
 	Color color;
 
 	Texture * diffuse;

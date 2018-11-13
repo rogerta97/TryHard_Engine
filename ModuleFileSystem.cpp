@@ -98,6 +98,9 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 		else if (term == ".jprefab")
 			return FX_JPREFAB;
 
+		else if (term == ".meta")
+			return FX_META;
+
 		return FX_ERR;
 	
 }
@@ -308,10 +311,12 @@ std::vector<string> ModuleFileSystem::GetAllFilesInDirectory(const char * direct
 	{
 		string new_dir = directory + string("\\") + GetLastPathItem((*it).c_str(), true);
 
-		if (App->file_system->IsFolder(new_dir.c_str()))
+		if (App->file_system->IsFolder(new_dir.c_str()) )
 		{
 			it = file_names.erase(it); 
-			GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);
+
+			if (GetLastPathItem(new_dir.c_str(), true) != "MetaFiles")
+				GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);				
 		}
 		else
 			it++;

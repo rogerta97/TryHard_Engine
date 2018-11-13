@@ -372,7 +372,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					{
 						string path = folder_to_check + string("\\") + item_lib_name;
 
-						new_mat = App->resources->material_importer->LoadFromBinary(path.c_str());
+						Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL); 
+						App->resources->material_importer->LoadFromBinary(path.c_str(), new_mat);
 
 						new_mat->SetType(resource_type::RES_MATERIAL);
 					}

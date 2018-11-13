@@ -49,9 +49,16 @@ void Material::LoadToMemory()
 
 void Material::UnloadFromMemory()
 {
-	int id = diffuse->GetTextureID(); 
-	glDeleteTextures(1, (GLuint*)&id);
-	diffuse->SetTextureID(0); 
+	if (diffuse != nullptr)
+	{
+		int id = diffuse->GetTextureID();
+		glDeleteTextures(1, (GLuint*)&id);
+		diffuse->SetTextureID(0);
+	}
+}
+
+void Material::CreateMeta()
+{
 }
 
 
