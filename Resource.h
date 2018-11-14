@@ -8,6 +8,7 @@ enum resource_type
 	RES_MESH,
 	RES_TEXTURE,
 	RES_MATERIAL, 
+	RES_PREFAB, 
 	RES_NULL,
 };
 

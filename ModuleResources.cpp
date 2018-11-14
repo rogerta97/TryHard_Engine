@@ -10,6 +10,8 @@
 #include "MaterialImporter.h"
 #include "Material.h"
 
+#include "Prefab.h"
+
 #include "mmgr\mmgr.h"
 
 
@@ -125,6 +127,10 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 
 	case RES_MATERIAL:
 		to_ret = new Material();
+		break;
+
+	case RES_PREFAB:
+		to_ret = new Prefab();
 		break;
 	}
 

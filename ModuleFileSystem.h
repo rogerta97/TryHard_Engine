@@ -45,11 +45,11 @@ public:
 
 	string GetFileExtensionStr(string full_path);
 	string GetWorkingDirectory() const;
-	string GetLastPathItem(const char* path, bool termination = false);
+	string GetLastPathItem(string path, bool termination = false);
 	string GetItemsAmountFromEnd(string directory, int ammount);
-	string DeleteLastPathItem(const char* path);
-	string DeleteFileExtension(const char* path);
-	bool IsFolder(const char* directory); 
+	string DeleteLastPathItem(string path);
+	string DeleteFileExtension(string path);
+	bool IsFolder(string directory);
 
 	string GetModelsPath() const; 
 	string GetTexturesPath() const;
@@ -69,7 +69,7 @@ public:
 	std::vector<string> GetAllFoldersInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllItemsInDirectory(const char* directory, bool include_path);
 	string GetFileInAllDirectory(const char* directory);
-	bool IsFileInDirectory(const char* directory, const char* filename);
+	bool IsFileInDirectory(string directory, const char* filename);
 
 	int files_ammount;
 
@@ -78,7 +78,6 @@ private:
 	MonitorDirectory* monitor_directory; 
 
 	string library_path; 
-	string mesh_library_path; 
 	string game_path; 
 	string assets_path; 
 	string scenes_path; 

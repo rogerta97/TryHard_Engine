@@ -32,11 +32,14 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	library_path = game_path + string("\\") + std::string("Library");
 	CreateDirectory(library_path.c_str(), NULL);
 
-	mesh_library_path = library_path.c_str() + string("\\") + std::string("Meshes");
-	CreateDirectory(mesh_library_path.c_str(), NULL);
+	string curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Meshes");
+	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
 
-	mesh_library_path = library_path.c_str() + string("\\") + std::string("Materials");
-	CreateDirectory(mesh_library_path.c_str(), NULL);
+	curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Prefabs");
+	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
+
+	curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Materials");
+	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
 		 
 	assets_path = game_path + string("\\") + string("Assets");
 	models_path = assets_path + string("\\") + string("3DModels");
@@ -143,7 +146,7 @@ std::string ModuleFileSystem::GetWorkingDirectory() const
 	return game_path;
 }
 
-string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
+string ModuleFileSystem::GetLastPathItem(string path, bool termination)
 {
 	string result_string(path);
 
@@ -167,7 +170,7 @@ string ModuleFileSystem::GetItemsAmountFromEnd(string directory, int ammount)
 	return ret_str; 
 }
 
-string ModuleFileSystem::DeleteLastPathItem(const char * path)
+string ModuleFileSystem::DeleteLastPathItem(string path)
 {
 	string result_string(path);
 	int pos = result_string.find_last_of('\\');
@@ -175,7 +178,7 @@ string ModuleFileSystem::DeleteLastPathItem(const char * path)
 	return result_string;
 }
 
-string ModuleFileSystem::DeleteFileExtension(const char * path_char)
+string ModuleFileSystem::DeleteFileExtension(string path_char)
 {
 	string path(path_char);
 
@@ -186,10 +189,10 @@ string ModuleFileSystem::DeleteFileExtension(const char * path_char)
 	return path;
 }
 
-bool ModuleFileSystem::IsFolder(const char * directory)
+bool ModuleFileSystem::IsFolder(string directory)
 {
 	vector<string> files;
-	App->file_system->GetFilesInDirectory(directory, files, false);
+	App->file_system->GetFilesInDirectory(directory.c_str(), files, false);
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
@@ -404,7 +407,7 @@ string ModuleFileSystem::GetFileInAllDirectory(const char * directory)
 
 }
 
-bool ModuleFileSystem::IsFileInDirectory(const char * directory, const char * filename)
+bool ModuleFileSystem::IsFileInDirectory(string directory, const char * filename)
 {
 	std::vector<string> files_to_ret;
 

@@ -27,7 +27,7 @@ void MonitorDirectoryNode::CreateNode(MonitorDirectoryNode * parent, std::string
 	this->file_ammount = file_list.size();
 	this->curr_files = file_list;
 
-	name = App->file_system->GetLastPathItem(path.c_str(), false);
+	name = App->file_system->GetLastPathItem(path, false);
 }
 
 void MonitorDirectoryNode::AddChild(MonitorDirectoryNode * new_node)
