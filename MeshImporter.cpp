@@ -92,20 +92,25 @@ void MeshImporter::ImportAllFilesFromAssets()
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		//Create prefab resource
-		Prefab* fbx_prf = (Prefab*)App->resources->CreateNewResource(RES_PREFAB); 
-		fbx_prf->path = (*it); 
-		fbx_prf->name = App->file_system->GetLastPathItem(fbx_prf->path, true);
-	
-		string meta_path = fbx_prf->name +  ".meta"; 
+		ManageNewItem((*it)); 
+	}
+}
 
-		//If we haven't saved the scene we assume we haven't saved the meshes either. 
-		if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(fbx_prf->path), meta_path.c_str()))
-		{		
-			GameObject* root_go = CreateFBXMesh((*it).c_str(), true); 
-			fbx_prf->SetRootGameObject(root_go);
-			fbx_prf->SaveAsBinary();
-		}		
+void MeshImporter::ManageNewItem(string new_item_path)
+{
+	Prefab* fbx_prf = (Prefab*)App->resources->CreateNewResource(RES_PREFAB);
+
+	fbx_prf->path = new_item_path;
+	fbx_prf->name = App->file_system->GetLastPathItem(fbx_prf->path, true);
+
+	string meta_path = fbx_prf->name + ".meta";
+
+	//If we haven't saved the scene we assume we haven't saved the meshes either. 
+	if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(fbx_prf->path), meta_path.c_str()))
+	{
+		GameObject* root_go = CreateFBXMesh(new_item_path.c_str(), true);
+		fbx_prf->SetRootGameObject(root_go);
+		fbx_prf->SaveAsBinary();
 	}
 }
 

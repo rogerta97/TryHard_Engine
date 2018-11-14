@@ -28,6 +28,8 @@ public:
 
 	void ImportAllFilesFromAssets();
 
+	void ManageNewItem(std::string new_item_path); 
+
 	void DrawMeshList();
 
 	GameObject* CreateFBXMesh(const char* path, bool first_load = false); //Returns the set of meshes that form the file
