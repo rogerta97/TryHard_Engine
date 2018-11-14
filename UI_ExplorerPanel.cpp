@@ -5,6 +5,7 @@
 #include "MeshImporter.h"
 
 #include "Material.h"
+#include "Prefab.h"
 
 UI_ExplorerPanel::UI_ExplorerPanel()
 {
@@ -153,16 +154,33 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 			{
 				if (App->file_system->GetFileExtension(folder.c_str()) == FX_FBX)
 				{
-					GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
-					App->scene->SetSelectedGameObject(parent);
+					//If the prefab meta exist we load the binary
 
-					App->camera->GetEditorCamera()->center_next_frame = true; 
+					string directory = App->file_system->DeleteLastPathItem(folder.c_str());
+					string meta_name = App->file_system->GetLastPathItem(folder, true) + ".meta";
+
+					if (App->file_system->IsFileInDirectory(directory, meta_name.c_str()))
+					{
+						Prefab* curr_prf = (Prefab*)App->resources->Get(RES_PREFAB, App->file_system->GetLastPathItem(folder).c_str()); 
+						curr_prf->LoadFromBinary();
+
+						App->scene->SetSelectedGameObject(curr_prf->GetRootGameObject());
+					
+					}
+					else
+					{
+						GameObject* parent = App->resources->mesh_importer->CreateFBXMesh(folder.c_str());
+						App->scene->SetSelectedGameObject(parent);
+					}
+					
+					App->camera->GetEditorCamera()->center_next_frame = true;
+					
 				}
 					
 				else if (App->file_system->GetFileExtension(folder.c_str()) == FX_PNG || App->file_system->GetFileExtension(folder.c_str()) == FX_DDS || App->file_system->GetFileExtension(folder.c_str()) == FX_JPG)
 				{
 					string lib_item = App->file_system->GetLastPathItem(string(folder.c_str() + string(".dds")).c_str()); 
-					Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL); 
+					Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL); //LOOK
 					App->resources->material_importer->LoadFromBinary(lib_item.c_str(), new_mat);
 				}
 					

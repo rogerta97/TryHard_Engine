@@ -292,6 +292,7 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 	{
 		ComponentMesh* new_mesh = (ComponentMesh*)AddComponent(CMP_MESH);
 		new_mesh->Load(cmp_obj);
+		new_mesh->UpdateBoundingBox();
 		return;
 	}
 

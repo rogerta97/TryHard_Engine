@@ -44,6 +44,8 @@ void Prefab::SaveAsBinary()
 
 		json_serialize_to_file(scene_v, item_meta_path.c_str());
 
+		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
+
 		stream.close();
 
 		//Create Binary 
@@ -73,10 +75,12 @@ void Prefab::SaveAsBinary()
 void Prefab::LoadFromBinary()
 {
 	//If there is not ".Meta" we assume there is any binary, so we don't load 
-	string meta_file_path = path + name + ".meta"; 
+	string directory = App->file_system->DeleteLastPathItem(path);
+	string meta_name = name + ".meta"; 
 
-	if (App->file_system->IsFileInDirectory(path, meta_file_path.c_str()))
+	if (App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(path), meta_name.c_str()))
 	{
+		string meta_file_path = path + ".meta";
 		//Get the ID to know which binary is attached
 		std::ifstream stream;
 		stream.open(meta_file_path, std::fstream::out);
@@ -93,10 +97,10 @@ void Prefab::LoadFromBinary()
 		std::ifstream res_stream;
 		res_stream.open(resource_path, std::fstream::out);
 
-		scene_v = json_parse_file(meta_file_path.c_str());
-		scene_obj = json_value_get_object(scene_v);
+		JSON_Value* scene_v_res = json_parse_file(resource_path.c_str());
+		JSON_Object* scene_obj_res = json_value_get_object(scene_v_res);
 
-		LoadPrefabData(scene_obj); 
+		LoadPrefabData(scene_obj_res);
 
 		res_stream.close();
 	}
@@ -116,8 +120,12 @@ void Prefab::LoadPrefabData(JSON_Object* gameobject_obj)
 		obj_list.push_back(new_go);
 	}
 
-	auto it = obj_list.begin();
-	root = (*it);
+	if (!obj_list.empty())
+	{
+		auto it = obj_list.begin();
+		root = (*it);
+	}
+
 }
 
 GameObject* Prefab::GetRootGameObject()

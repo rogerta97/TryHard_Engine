@@ -80,9 +80,6 @@ MonitorDirectoryNode* MonitorDirectoryNode::GetNode(std::string name)
 
 bool MonitorDirectoryNode::IsItemAdded()
 {
-	
-
-
 	return false;
 }
 

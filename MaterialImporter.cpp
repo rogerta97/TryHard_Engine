@@ -84,8 +84,6 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 			new_tex->SetWidth(ilGetInteger(IL_IMAGE_WIDTH));
 			new_tex->SetHeight(ilGetInteger(IL_IMAGE_HEIGHT));
 
-			CONSOLE_LOG("BUFFER HAS BEEN CREATED WITH ID: %d", new_tex->GetTextureID()); 
-
 			new_tex->SetPath(path);
 			new_tex->name = new_name;
 
