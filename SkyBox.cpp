@@ -9,6 +9,10 @@
 #include "ComponentCamera.h"
 #include "ComponentTransform.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 SkyBox::SkyBox()
 {
 }

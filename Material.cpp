@@ -6,6 +6,8 @@
 #include "MaterialImporter.h"
 
 
+#include "mmgr\mmgr.h"
+
 Material::Material()
 {
 	diffuse = nullptr;

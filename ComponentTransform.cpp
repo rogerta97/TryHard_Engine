@@ -4,6 +4,10 @@
 #include "OpenGL.h"
 #include <string>
 
+
+#include "mmgr\mmgr.h"
+
+
 ComponentTransform::ComponentTransform(GameObject* parent)
 {
 	SetGameObject(parent); 

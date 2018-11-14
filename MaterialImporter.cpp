@@ -1,3 +1,5 @@
+
+
 #include "MaterialImporter.h"
 #include "Application.h"
 
@@ -12,6 +14,8 @@
 
 #include "ComponentMaterial.h"
 #include "ModuleFileSystem.h"
+
+#include "mmgr\mmgr.h"
 
 MaterialImporter::MaterialImporter()
 {

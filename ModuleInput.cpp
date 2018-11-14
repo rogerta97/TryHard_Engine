@@ -11,6 +11,8 @@
 #include "MaterialImporter.h"
 
 
+#include "mmgr\mmgr.h"
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(bool start_enabled)

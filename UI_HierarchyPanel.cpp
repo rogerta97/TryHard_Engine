@@ -7,6 +7,10 @@
 #include "Application.h"
 #include "GameObject.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 UI_HierarchyPanel::UI_HierarchyPanel()
 {
 	name = "Hierarchy";

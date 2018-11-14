@@ -11,6 +11,9 @@
 #include "OpenGL.h"
 
 
+#include "mmgr\mmgr.h"
+
+
 ComponentMesh::ComponentMesh(GameObject* parent)
 {
 	SetGameObject(parent);

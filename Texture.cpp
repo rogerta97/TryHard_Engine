@@ -2,6 +2,8 @@
 #include "OpenGL.h"
 #include "Resource.h"
 
+#include "mmgr\mmgr.h"
+
 Texture::Texture()
 {
 	texture_id = 0; 

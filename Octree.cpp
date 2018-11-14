@@ -6,6 +6,10 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 #define OCTREE_DIV_LIMIT 4
 
 Octree::Octree()

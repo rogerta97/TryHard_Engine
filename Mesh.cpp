@@ -7,6 +7,10 @@
 
 #include "Application.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 Mesh::Mesh()
 {
 	name = ""; 

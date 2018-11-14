@@ -16,6 +16,8 @@
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
 
+#include "mmgr\mmgr.h"
+
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled)
 {
 	name = "Renderer";
