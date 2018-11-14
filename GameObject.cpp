@@ -370,6 +370,21 @@ bool GameObject::DeleteComponent(CompType cmp)
 	return false;
 }
 
+GameObject * GameObject::Duplicate()
+{
+	GameObject* to_ret = new GameObject(name.c_str()); 
+
+	to_ret->selected = true; 
+	to_ret->bounding_box = bounding_box; 
+	to_ret->name = name; 
+	to_ret->parent = parent; 
+	to_ret->unique_id = unique_id; 
+
+	
+
+	return nullptr;
+}
+
 void GameObject::SetSelectedRecursive(bool selected)
 {
 	for (auto it = child_list.begin(); it != child_list.end(); it++)
@@ -553,6 +568,16 @@ void GameObject::SaveAsPrefab()
 void GameObject::LoadPrefab(const char* prefab_name)
 {
 	
+}
+
+void GameObject::ModifyIDSet()
+{
+	unique_id = App->resources->GenerateUID();
+
+	if (!child_list.empty())
+		for (auto it = child_list.begin(); it != child_list.end(); it++)				
+			(*it)->ModifyIDSet();
+			
 }
 
 bool GameObject::HasComponents()  

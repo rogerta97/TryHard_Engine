@@ -5,6 +5,9 @@
 
 #include "mmgr\mmgr.h"
 
+#include "ModuleResources.h"
+#include "Material.h"
+
 
 ModuleWindow::ModuleWindow(bool start_enabled)
 {
@@ -16,6 +19,13 @@ ModuleWindow::ModuleWindow(bool start_enabled)
 // Destructor
 ModuleWindow::~ModuleWindow()
 {
+}
+
+bool ModuleWindow::Start()
+{
+	Material* icon = (Material*)App->resources->Get(RES_MATERIAL, "EngineLogo"); 
+	SetIcon(App->file_system->GetTexturesPath() + "\\EngineTextures\\EngineLogo.bmp");
+	return true;
 }
 
 // Called before render is available
@@ -189,6 +199,16 @@ int ModuleWindow::GetHeight() const
 void ModuleWindow::GetPosition(int * x, int * y) const
 {
 	SDL_GetWindowPosition(window, x,y);
+}
+
+void ModuleWindow::SetIcon(std::string image_path)
+{
+	if (!image_path.empty())
+	{
+		SDL_Surface *surface = SDL_LoadBMP(image_path.c_str());
+		SDL_SetWindowIcon(window, surface);
+		SDL_FreeSurface(surface);
+	}
 }
 
 void ModuleWindow::SetPosition(int x, int y)

@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
+#include <string>
 
 enum Display_Mode
 {
@@ -22,6 +23,7 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
+	bool Start();
 	bool Init(JSON_Object* config);
 	bool CleanUp();
 
@@ -36,6 +38,8 @@ public:
 	void SetPosition(int x, int y);
 
 	void SaveConfigData(JSON_Object* config);
+
+	void SetIcon(std::string icon_path); 
 
 public:
 	//The window we'll be rendering to

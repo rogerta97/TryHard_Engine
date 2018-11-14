@@ -106,15 +106,23 @@ bool UI_HierarchyPanel::Update()
 				App->imgui->hierarchy_panel->show_click_menu = false;
 			}
 
-			if (ImGui::MenuItem("Duplicate"))
+			//if (ImGui::MenuItem("Duplicate"))
+			//{
+			//	//TODO: Create a function that duplicates a GameObject, remember to add it to the scene.
+			//	GameObject* to_duplicate = new GameObject(); 
+			//	to_duplicate = App->scene->GetSelectedGameObject();
+
+			//	to_duplicate->ModifyIDSet();
+
+			//	App->scene->AddGameObjectToScene(to_duplicate);
+			//	App->imgui->hierarchy_panel->show_click_menu = false;
+			//}
+
+			if (ImGui::MenuItem("Create Empty Child"))
 			{
 				//TODO: Create a function that duplicates a GameObject, remember to add it to the scene.
-				GameObject* to_duplicate = new GameObject(); 
-				memcpy(to_duplicate,App->scene->GetSelectedGameObject(), sizeof(GameObject));
-
-				to_duplicate->unique_id = App->file_system->GenerateUID();
-
-				App->scene->AddGameObjectToScene(to_duplicate);
+				GameObject* child_go = new GameObject("Empty");	
+				child_go->SetParent(App->scene->GetSelectedGameObject());
 				App->imgui->hierarchy_panel->show_click_menu = false;
 			}
 
