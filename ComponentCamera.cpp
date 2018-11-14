@@ -77,6 +77,9 @@ bool ComponentCamera::CleanUp()
 {
 	LOG("Cleaning camera");
 
+	if (App->camera->GetGameCameraObject() == this->GetGameObject())
+		App->camera->SetGameCamera(nullptr); 
+
 	App->renderer3D->rendering_cameras.pop_back();
 
 	return true;

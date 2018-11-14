@@ -431,41 +431,43 @@ void ModuleScene::SetDefaultScene()
 void ModuleScene::SaveScene(const char* scene_name)
 {
 	//Create the path were the scene is going to be saved
-	string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name) + std::string(".json");
+	string new_scene_path =  App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name);
+
+	if(App->file_system->GetFileExtension(scene_name) != FX_JSON)
+		new_scene_path += std::string(".json");
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
 	{
-		CONSOLE_DEBUG("Scene '%s' already exist. Overwritting..."); 
+		CONSOLE_DEBUG("Scene '%s' already exist. Overwritting...", App->file_system->GetLastPathItem(new_scene_path).c_str());
 	}
-	else
-	{
-		//Create the new json file 
-		std::ofstream stream;
-		stream.open(new_scene_path, std::fstream::out);
-
-		JSON_Value* scene_v = json_value_init_object();
-		JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-		//Save Scene Info
-		json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 
-		json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
-
-		if(App->camera->GetGameCameraObject() != nullptr)
-			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
-		else
-			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
-
-		int index = 0; 
-		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-		{
-			scene_obj = json_value_get_object(scene_v);
-			(*it)->Save(scene_obj, index++);
-		}
-
-		json_serialize_to_file(scene_v, new_scene_path.c_str());
 	
-		stream.close();
+	//Create the new json file 
+	std::ofstream stream;
+	stream.open(new_scene_path, std::fstream::out);
+
+	JSON_Value* scene_v = json_value_init_object();
+	JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+	//Save Scene Info
+	json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 
+	json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
+
+	if(App->camera->GetGameCameraObject() != nullptr)
+		json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
+	else
+		json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
+
+	int index = 0; 
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		scene_obj = json_value_get_object(scene_v);
+		(*it)->Save(scene_obj, index++);
 	}
+
+	json_serialize_to_file(scene_v, new_scene_path.c_str());
+	
+	stream.close();
+	
 }
 
 void ModuleScene::LoadScene(const char * scene_path, bool clean)
@@ -590,10 +592,8 @@ update_status ModuleScene::Update(float dt)
 	//if (octree->GetRoot() != nullptr)
 	//	octree->Draw(); 
 
-
 	if (octree->GetRoot() != nullptr)
 	{
-
 		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
 
 		for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)

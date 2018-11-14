@@ -297,7 +297,9 @@ GameObject * ModuleCamera3D::GetGameCameraObject()
 void ModuleCamera3D::SetGameCamera(GameObject * new_cam)
 {
 	gcam_go = new_cam; 
-	App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));
+
+	if(gcam_go)
+		App->renderer3D->rendering_cameras.push_back((ComponentCamera*)gcam_go->GetComponent(CMP_CAMERA));
 }
 
 bool ModuleCamera3D::IsGhostCamera() const
