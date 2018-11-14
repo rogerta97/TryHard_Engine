@@ -163,6 +163,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					{
 						Prefab* curr_prf = (Prefab*)App->resources->Get(RES_PREFAB, App->file_system->GetLastPathItem(folder).c_str()); 
 						curr_prf->LoadFromBinary();
+						curr_prf->GetRootGameObject()->ModifyIDSet(); 
 
 						App->scene->SetSelectedGameObject(curr_prf->GetRootGameObject());
 					

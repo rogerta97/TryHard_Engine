@@ -38,6 +38,7 @@ public:
 	void DeleteRecursive(); 
 	void DeleteAllComponents(); 
 	bool DeleteComponent(CompType cmp); 
+	GameObject* Duplicate();
 
 	void SetSelectedRecursive(bool selected); 
 	bool PrintHierarchyRecursive(int mask, int& node_clicked, int& id); 
@@ -49,6 +50,8 @@ public:
 
 	void SaveAsPrefab(); 
 	void LoadPrefab(const char* prefab_name); 
+
+	void ModifyIDSet();
 
 	//Utility
 	void GetEnclosedAABB(float3& min, float3& max); 
