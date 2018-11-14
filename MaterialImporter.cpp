@@ -108,30 +108,22 @@ void MaterialImporter::FlipTexture(Texture * tex)
 
 void MaterialImporter::ImportAllFilesFromAssets()
 {
-	// Create the MetaFiles Folder if there is not one
-	string meta_folder_path = App->file_system->GetTexturesPath() + "\\MetaFiles";
-
-	if (!App->file_system->IsFileInDirectory(App->file_system->GetTexturesPath().c_str(), "MetaFiles"))
-		CreateDirectory(meta_folder_path.c_str(), NULL);
-
 	//Get Assets Files
 	std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), true);
 
+	Material* new_mat = nullptr; 
+
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		Material* new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL); 
+		new_mat = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 
 		//If the file doesn't have ".meta", we assume there is any binary in the library
-		string item_name = App->file_system->GetLastPathItem((*it).c_str(), true);
-		string item_meta_name = item_name + ".meta";
+		string item_directory = App->file_system->DeleteLastPathItem((*it).c_str());
+		string item_meta_name = App->file_system->GetLastPathItem((*it).c_str(), true) + ".meta";
 
-		if (!App->file_system->IsFileInDirectory(meta_folder_path.c_str(), item_meta_name.c_str()))
+		if (!App->file_system->IsFileInDirectory(item_directory.c_str(), item_meta_name.c_str()))
 		{
-			string item_meta_path = meta_folder_path + "\\" + item_meta_name;
-
-			//Create tmp_mat	
-			new_mat->name = App->file_system->DeleteFileExtension(item_name.c_str());
-			new_mat->path = App->file_system->GetLibraryPath() + "\\Materials\\" + to_string(new_mat->GetUID()) + ".dds";
+			string item_meta_path = (*it) + ".meta"; 
 
 			//If the meta doesn't exist we create it. 
 			std::ofstream stream;
@@ -145,18 +137,23 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 			json_serialize_to_file(scene_v, item_meta_path.c_str());
 
+			SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
+
 			Texture* tex = nullptr;
 			tex = App->resources->material_importer->LoadTexture((*it).c_str(), false);
 
 			if (tex)
 				new_mat->SetDiffuseTexture(tex);
 
-			string lib_name = to_string(new_mat->GetUID());
-			App->resources->material_importer->Import(new_mat, item_name.c_str(), new_mat->GetUID());
+			string ass_name = App->file_system->GetLastPathItem((*it).c_str(), true);
+			App->resources->material_importer->Import(new_mat, ass_name.c_str(), new_mat->GetUID());
 		}
 
-		string path_to_load = App->file_system->GetTexturesPath() + "\\" + item_name;
-		App->resources->material_importer->LoadFromBinary(path_to_load.c_str(), new_mat);
+		App->resources->material_importer->LoadFromBinary((*it).c_str(), new_mat);
+
+		new_mat->name = App->file_system->GetLastPathItem((*it).c_str());
+		new_mat->path = App->file_system->GetLibraryPath() + "\\Materials\\" + to_string(new_mat->GetUID()) + ".dds";
+
 		new_mat->UnloadFromMemory();
 	}
 
@@ -383,9 +380,9 @@ bool MaterialImporter::Import(Material * mat_to_save, const char * tex_name, UID
 void MaterialImporter::LoadFromBinary(const char * assets_tex_path, Material* mat_to_fill)
 {	
 	string meta_name = App->file_system->GetLastPathItem(assets_tex_path, true) + ".meta";
-	string meta_file_path = App->file_system->GetTexturesPath() + "\\MetaFiles\\" + meta_name;
+	string meta_file_path = App->file_system->GetTexturesPath() + "\\" + meta_name;
 
-	if (!App->file_system->IsFileInDirectory(string(App->file_system->GetTexturesPath() + "\\MetaFiles").c_str(), meta_name.c_str()))
+	if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(assets_tex_path).c_str(), meta_name.c_str()))
 	{
 		CONSOLE_ERROR("Meta file not found in %s. Resource can't be load", assets_tex_path); 
 		return; 
@@ -406,9 +403,6 @@ void MaterialImporter::LoadFromBinary(const char * assets_tex_path, Material* ma
 
 		if (mat_to_fill)
 		{
-			mat_to_fill->path = binary_path;
-			mat_to_fill->name = App->file_system->GetLastPathItem(assets_tex_path, true);
-
 			Texture* new_tex = LoadTexture(binary_path.c_str(), false);
 			mat_to_fill->SetDiffuseTexture(new_tex);
 		}

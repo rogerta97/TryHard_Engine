@@ -592,6 +592,9 @@
     <ClInclude Include="MonitorDirectoryNode.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Prefab.h">
+      <Filter>Sources\Resources\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -870,6 +873,9 @@
     </ClCompile>
     <ClCompile Include="MonitorDirectoryNode.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp">
+      <Filter>Sources\Resources\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -150,12 +150,19 @@ string ModuleFileSystem::GetLastPathItem(const char* path, bool termination)
 	result_string = result_string.substr(pos + 1, to_copy);
 
 	if (termination == false)
-	{
-		int pos = result_string.find_last_of('.');
-		result_string = result_string.substr(0, pos);
-	}
-		
+		result_string = DeleteFileExtension(result_string.c_str());
+			
 	return result_string;
+}
+
+string ModuleFileSystem::GetItemsAmountFromEnd(string directory, int ammount)
+{
+	string ret_str = directory;
+
+	for (int i = 0; i < ammount; i++)
+		ret_str = DeleteLastPathItem(ret_str.c_str());
+
+	return ret_str; 
 }
 
 string ModuleFileSystem::DeleteLastPathItem(const char * path)
@@ -170,7 +177,7 @@ string ModuleFileSystem::DeleteFileExtension(const char * path_char)
 {
 	string path(path_char);
 
-	int pos = path.find_last_of(".");
+	int pos = path.find_first_of(".");
 	int to_del = path.size() - pos; 
 	path = path.substr(0, path.size() - to_del);
 
@@ -281,6 +288,9 @@ void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<s
 	{
 		do
 		{
+			if (GetFileExtension(data.cFileName) == FX_META)
+				continue;
+
 			if (std::string(data.cFileName) != std::string(".") && std::string(data.cFileName) != std::string(".."))
 			{
 				if (include_path)
@@ -311,12 +321,16 @@ std::vector<string> ModuleFileSystem::GetAllFilesInDirectory(const char * direct
 	{
 		string new_dir = directory + string("\\") + GetLastPathItem((*it).c_str(), true);
 
-		if (App->file_system->IsFolder(new_dir.c_str()) )
+		if (GetFileExtension(new_dir.c_str()) == FX_META)
 		{
-			it = file_names.erase(it); 
+			it = file_names.erase(it);
+			continue; 
+		}
 
-			if (GetLastPathItem(new_dir.c_str(), true) != "MetaFiles")
-				GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);				
+		else if (App->file_system->IsFolder(new_dir.c_str()))
+		{			
+			it = file_names.erase(it);
+			GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);				
 		}
 		else
 			it++;

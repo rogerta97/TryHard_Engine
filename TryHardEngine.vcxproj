@@ -226,6 +226,7 @@
     <ClInclude Include="ModuleScene.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="PCGRandom\pcg_basic.h" />
+    <ClInclude Include="Prefab.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Texture.h" />
@@ -320,6 +321,7 @@
     <ClCompile Include="MonitorDirectoryNode.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="PCGRandom\pcg_basic.c" />
+    <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resource.h" />

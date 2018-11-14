@@ -46,6 +46,7 @@ public:
 	string GetFileExtensionStr(string full_path);
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(const char* path, bool termination = false);
+	string GetItemsAmountFromEnd(string directory, int ammount);
 	string DeleteLastPathItem(const char* path);
 	string DeleteFileExtension(const char* path);
 	bool IsFolder(const char* directory); 
