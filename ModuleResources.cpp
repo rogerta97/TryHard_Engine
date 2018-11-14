@@ -105,7 +105,7 @@ void ModuleResources::ManageNewFolderFile(string new_file_path)
 	{
 	case FT_3DMODEL:
 		//We load the file as normally, the function will save the file as binary (in case it doesn't exist) and will create the resource.
-		App->resources->mesh_importer->CreateFBXMesh(new_file_path.c_str(), true); 
+		App->resources->mesh_importer->ManageNewItem(new_file_path.c_str()); 
 
 	case FT_IMAGE:
 		//If the image exist in Library\\Materials as .dds we just create the resource, if not we export it and create the resource. 
