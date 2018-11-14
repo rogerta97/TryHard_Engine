@@ -158,95 +158,45 @@ void MaterialImporter::ImportAllFilesFromAssets()
 
 		new_mat->UnloadFromMemory();
 	}
-
-	//string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
-	//
-	//string ass_tex_name = App->file_system->GetLastPathItem((*it).c_str(), true);
-	//string lib_tex_name = App->file_system->GetLastPathItem((*it).c_str(), false) + ".dds";
-	//
-	//Material* new_mat = nullptr;
-	//
-	//if (!App->file_system->IsFileInDirectory(lib_path.c_str(), lib_tex_name.c_str()))
-	//{
-	//new_mat = new Material();
-	//new_mat->path = lib_path;
-	//new_mat->name = ass_tex_name;
-	//
-	//Texture* tex = nullptr;
-	//tex = App->resources->material_importer->LoadTexture((*it).c_str(), false);
-	//
-	//if (tex)
-	//new_mat->SetDiffuseTexture(tex);
-	//
-	//App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
-	//}
-	//
-	//string path_to_load = lib_path + string("\\") + lib_tex_name;
-	//new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
-	//new_mat->UnloadFromMemory();
-	//}
-
-	//std::vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetTexturesPath().c_str(), true);
-	//
-	//for (auto it = files.begin(); it != files.end(); it++)
-	//{
-	//string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
-	//
-	//string ass_tex_name = App->file_system->GetLastPathItem((*it).c_str(), true);
-	//string lib_tex_name = App->file_system->GetLastPathItem((*it).c_str(), false) + ".dds";
-	//
-	//Material* new_mat = nullptr;
-	//
-	//if (!App->file_system->IsFileInDirectory(lib_path.c_str(), lib_tex_name.c_str()))
-	//{
-	//new_mat = new Material();
-	//new_mat->path = lib_path;
-	//new_mat->name = ass_tex_name;
-	//
-	//Texture* tex = nullptr;
-	//tex = App->resources->material_importer->LoadTexture((*it).c_str(), false);
-	//
-	//if (tex)
-	//new_mat->SetDiffuseTexture(tex);
-	//
-	//App->resources->material_importer->Import(new_mat, new_mat->name.c_str());
-	//}
-	//
-	//string path_to_load = lib_path + string("\\") + lib_tex_name;
-	//new_mat = App->resources->material_importer->LoadFromBinary(path_to_load.c_str());
-	//new_mat->UnloadFromMemory();
-	//}
 }
 
 void MaterialImporter::ManageNewTexture(std::string path)
 {
-	string lib_path = App->file_system->GetLibraryPath() + string("\\Materials");
-	string name = App->file_system->GetLastPathItem(path.c_str(), true); 
-	
-	Material* new_mat = nullptr;
+	//We assume new texture doesn't have .meta since they are new. 
+	string directory = App->file_system->DeleteLastPathItem(path);
+	string file_name = App->file_system->GetLastPathItem(path, true);
+	string meta_file_name = file_name + ".meta";
 
-	if (!App->file_system->IsFileInDirectory(lib_path.c_str(), name.c_str()))
+	if (!App->file_system->IsFileInDirectory(directory, meta_file_name.c_str()))
 	{
-		new_mat = new Material();
-		new_mat->path = lib_path;
-		new_mat->name = name;
+		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
 
-		Texture* tex = nullptr;
+		string item_meta_path = path + ".meta"; 
+
+		//Create the meta file 
+		std::ofstream stream;
+		stream.open(item_meta_path, std::fstream::out);
+
+		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+		json_object_dotset_number(scene_obj, "MetaInfo.UID", new_mat_res->GetUID());
+		json_serialize_to_file(scene_v, item_meta_path.c_str());
+
+		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
+
+		new_mat_res->name = file_name; 
+		new_mat_res->path = path; 
+
+		Texture* tex = nullptr; 
 		tex = App->resources->material_importer->LoadTexture(path.c_str(), false);
 
 		if (tex)
-			new_mat->SetDiffuseTexture(tex);
+			new_mat_res->SetDiffuseTexture(tex);
 
-		App->resources->material_importer->Import(new_mat, new_mat->name.c_str(), App->file_system->GetFileExtension(name.c_str()));
-
-		Material* new_mat_res = (Material*)App->resources->CreateNewResource(RES_MATERIAL);
-		new_mat_res = new_mat;
-
-		App->resources->material_importer->FlipTexture(new_mat->diffuse);
+		App->resources->material_importer->Import(new_mat_res, new_mat_res->name.c_str(), new_mat_res->GetUID());
 	}
 
-	string path_to_load = lib_path + string("\\Materials") + name;
-	App->resources->material_importer->LoadFromBinary(path_to_load.c_str(), new_mat);
 }
 
 

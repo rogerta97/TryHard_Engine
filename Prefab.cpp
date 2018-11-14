@@ -68,7 +68,7 @@ void Prefab::SaveAsBinary()
 	}
 
 	//Load The Binary
-	LoadFromBinary(); 
+	//LoadFromBinary(); 
 	
 }
 
