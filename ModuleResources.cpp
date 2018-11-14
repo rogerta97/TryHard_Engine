@@ -195,8 +195,27 @@ update_status ModuleResources::PostUpdate(float dt)
 bool ModuleResources::CleanUp()
 {
 //	material_importer->SaveTexturesAsDDS();
+// Create a map iterator and point to beginning of map
+	auto it = resources.begin();
 
-	return false;
+	// Iterate over the map using Iterator till end.
+	while (it != resources.end())
+	{
+		// Accessing VALUE from element pointed by it.
+		Resource* resource = it->second;
+
+		delete resource;
+
+		// Increment the Iterator to point to next entry
+		it++;
+	}
+
+	it = resources.begin();
+
+
+	material_importer->CleanUp();
+	mesh_importer->CleanUp();
+	return true;
 }
 
 void ModuleResources::ManageDropedFile()

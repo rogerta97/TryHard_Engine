@@ -55,7 +55,7 @@ GameObject::GameObject(const char * name)
 
 GameObject::~GameObject()
 {
-
+	DeleteAllComponents();
 }
 
 void GameObject::Start()

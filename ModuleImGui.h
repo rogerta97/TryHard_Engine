@@ -45,7 +45,7 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	update_status PreUpdate(float dt);
-	bool CleanUp();
+	bool CleanUp() override;
 
 	UI_Panel* AddPanel(Panel_Types type);
 

@@ -501,6 +501,9 @@ bool ModuleImGui::CleanUp()
 {
 	ImGui_ImplSdlGL2_Shutdown();
 
+	for (std::list<UI_Panel*>::iterator item = panels_list.begin(); item != panels_list.end(); item++)
+		delete (*item);
+
 	return true;
 }
 

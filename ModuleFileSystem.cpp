@@ -64,6 +64,7 @@ update_status ModuleFileSystem::Update(float dt)
 
 bool ModuleFileSystem::CleanUp()
 {
+	delete monitor_directory;
 	return true;
 }
 

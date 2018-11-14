@@ -57,6 +57,13 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	for (std::list<GameObject*>::iterator item = scene_gameobjects.begin(); item != scene_gameobjects.end(); item++)
+	{
+		delete (*item);
+	}
+
+	delete octree;
+
 	return true;
 }
 

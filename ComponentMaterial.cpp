@@ -21,6 +21,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+
 }
 
 bool ComponentMaterial::Update()
