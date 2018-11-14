@@ -41,6 +41,7 @@ bool ComponentMaterial::CleanUp()
 		material->reference_counting--; 
 	}
 
+
 	return true;
 }
 
