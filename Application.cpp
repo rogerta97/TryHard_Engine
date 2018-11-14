@@ -4,6 +4,9 @@
 #include "JSON\parson.h"
 #include "ModuleWindow.h"
 
+
+#include "mmgr\mmgr.h"
+
 Application::Application()
 {
 	window = new ModuleWindow();

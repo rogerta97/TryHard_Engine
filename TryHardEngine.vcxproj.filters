@@ -76,6 +76,9 @@
     <Filter Include="Sources\3rd Partys\ImGuizmo">
       <UniqueIdentifier>{630fb7ee-d69e-4cce-a303-a4e7554f304d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\mmgr">
+      <UniqueIdentifier>{4236a674-9951-4ba7-bf28-619368c53b5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -583,6 +586,12 @@
     <ClInclude Include="MonitorDirectoryNode.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="mmgr\mmgr.h">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="mmgr\nommgr.h">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -859,6 +868,9 @@
     <ClCompile Include="MonitorDirectoryNode.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="mmgr\mmgr.cpp">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">
@@ -903,5 +915,10 @@
     <None Include="MathGeoLib\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>Sources\3rd Partys\MathGeoLib\src</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="mmgr\readme.txt">
+      <Filter>Sources\3rd Partys\mmgr</Filter>
+    </Text>
   </ItemGroup>
 </Project>
