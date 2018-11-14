@@ -3,6 +3,8 @@
 #include "imgui_dock.h"
 #include "ModuleWindow.h"
 
+#include "mmgr\mmgr.h"
+
 
 ModuleWindow::ModuleWindow(bool start_enabled)
 {

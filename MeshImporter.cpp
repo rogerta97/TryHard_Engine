@@ -1,3 +1,4 @@
+
 #include "MeshImporter.h"
 #include "Globals.h"
 #include "OpenGL.h"
@@ -19,6 +20,9 @@
 #include <fstream>
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
+
+#include "mmgr\mmgr.h"
+
 
 void LogAssimpLogs(const char * str, char * userData);
 

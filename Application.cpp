@@ -1,9 +1,11 @@
 #include "Application.h"
 #include "SDL/include/SDL_cpuinfo.h"
 #include "DeviceId\DeviceId.h"
-#include "mmgr/mmgr.h"
 #include "JSON\parson.h"
 #include "ModuleWindow.h"
+
+
+#include "mmgr\mmgr.h"
 
 Application::Application()
 {

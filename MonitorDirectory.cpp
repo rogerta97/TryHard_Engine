@@ -4,6 +4,10 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 MonitorDirectory::MonitorDirectory()
 {
 }

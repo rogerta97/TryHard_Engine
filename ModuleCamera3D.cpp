@@ -14,6 +14,10 @@
 
 #include "ImGuizmo/ImGuizmo.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 {
 	name = "Camera";

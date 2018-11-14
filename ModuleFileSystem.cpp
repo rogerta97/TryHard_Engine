@@ -11,6 +11,8 @@
 #include <filesystem>
 
 
+#include "mmgr\mmgr.h"
+
 ModuleFileSystem::ModuleFileSystem(bool start_enabled)
 {
 	name = "FileSystem"; 

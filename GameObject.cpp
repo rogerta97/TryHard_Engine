@@ -16,6 +16,10 @@
 
 #include <fstream>
 
+
+#include "mmgr\mmgr.h"
+
+
 GameObject::GameObject()
 {
 	name = ""; 

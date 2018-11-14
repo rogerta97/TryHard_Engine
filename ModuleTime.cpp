@@ -1,6 +1,8 @@
 #include "ModuleTime.h"
 #include "Application.h"
 
+#include "mmgr\mmgr.h"
+
 
 
 ModuleTime::ModuleTime()

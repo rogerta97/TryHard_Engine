@@ -9,6 +9,9 @@
 #include "ComponentTransform.h"
 
 
+#include "mmgr\mmgr.h"
+
+
 ComponentCamera::ComponentCamera(GameObject* parent)
 {
 	SetGameObject(parent);

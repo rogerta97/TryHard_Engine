@@ -10,6 +10,8 @@
 #include "MaterialImporter.h"
 #include "Material.h"
 
+#include "mmgr\mmgr.h"
+
 
 ModuleResources::ModuleResources()
 {

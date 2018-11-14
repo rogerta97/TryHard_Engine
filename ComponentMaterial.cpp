@@ -5,6 +5,10 @@
 
 #include "MaterialImporter.h"
 
+
+#include "mmgr\mmgr.h"
+
+
 ComponentMaterial::ComponentMaterial(GameObject* parent)
 {
 	SetGameObject(parent);

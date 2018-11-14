@@ -15,6 +15,10 @@
 
 #include <fstream>
 
+
+#include "mmgr\mmgr.h"
+
+
 ModuleScene::ModuleScene(bool start_enabled)
 {
 	name = "Scene";
