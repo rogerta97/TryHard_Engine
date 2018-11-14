@@ -10,10 +10,17 @@
 
 MonitorDirectory::MonitorDirectory()
 {
+	root = nullptr;
 }
 
 MonitorDirectory::~MonitorDirectory()
 {
+	for (auto it = node_list.begin(); it != node_list.end(); it++)
+	{
+		delete ((*it));
+	}
+
+	delete root;
 }
 
 void MonitorDirectory::Update()
@@ -49,17 +56,21 @@ std::list<std::string> MonitorDirectory::GetNewFiles()
 
 void MonitorDirectory::StartMonitoring(std::string new_node_path)
 {
+	if (root)
+		delete root;
+
 	root = new MonitorDirectoryNode();
 	root->SetPath(new_node_path); 
 	root->SetName("Root"); 
 
-	std::vector<std::string> nodes = App->file_system->GetAllFoldersInDirectory(new_node_path.c_str(), true);
+	nodes = App->file_system->GetAllFoldersInDirectory(new_node_path.c_str(), true);
 
 	//Create the nodes
 	for (auto it = nodes.begin(); it != nodes.end(); it++)
 	{
 		MonitorDirectoryNode* new_node = new MonitorDirectoryNode();
 		new_node->CreateNode(root, (*it)); 
+		node_list.push_back(new_node);
 	}
 
 	update_timer.Start();

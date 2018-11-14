@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include <string>
 #include <list>
+#include <vector>
 
 class MonitorDirectoryNode; 
 
@@ -14,6 +15,10 @@ public:
 
 	void Update(); 
 	std::list<std::string> GetNewFiles();
+
+	std::vector<std::string> nodes;
+
+	std::list<MonitorDirectoryNode*> node_list;
 
 	void StartMonitoring(std::string new_node_path);
 
