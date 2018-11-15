@@ -23,6 +23,7 @@ public:
 private:
 
 	Material * material; 
-	
+	bool is_just_color;
+
 };
 

@@ -15,6 +15,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent)
 	component_type = CMP_MATERIAL;
 	active = true;
 	material = nullptr;
+	is_just_color = false;
 }
 
 
@@ -58,6 +59,11 @@ void ComponentMaterial::SetMaterial(Material * new_mat)
 
 void ComponentMaterial::SetColor(Color color)
 {
+	if (!material)
+	{
+		material = new Material();
+		is_just_color = true;
+	}
 	material->color = color;
 }
 
