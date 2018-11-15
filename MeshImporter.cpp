@@ -317,7 +317,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					{
 						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
 						game_object->DeleteRecursive();		
-						App->resources->AddResourceToDelete(new_mesh->GetUID()); 
+						App->resources->AddResourceToDelete(new_mesh->GetUID());
+						new_mesh->CleanMeshData();
 						new_mesh->~Mesh();
 						break;
 					}
