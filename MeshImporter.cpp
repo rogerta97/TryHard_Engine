@@ -88,11 +88,19 @@ Mesh * MeshImporter::CreateSphereMesh()
 
 void MeshImporter::ImportAllFilesFromAssets()
 {
+	//If the mesh binary folder is not created we create it 
+	if (!App->file_system->IsFileInDirectory(App->file_system->GetModelsPath(), "MetaMeshes"))
+	{
+		string matmesh_folder_path = App->file_system->GetModelsPath() + "\\MetaMeshes";
+		CreateDirectory(matmesh_folder_path.c_str(), NULL);
+	}
+
 	vector<string> files = App->file_system->GetAllFilesInDirectory(App->file_system->GetModelsPath().c_str(), true);
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
-		ManageNewItem((*it)); 
+		if(App->file_system->GetFileExtension((*it).c_str()) != FX_ERR)
+			ManageNewItem((*it)); 
 	}
 }
 
@@ -103,15 +111,17 @@ void MeshImporter::ManageNewItem(string new_item_path)
 	fbx_prf->path = new_item_path;
 	fbx_prf->name = App->file_system->GetLastPathItem(fbx_prf->path, true);
 
-	string meta_path = fbx_prf->name + ".meta";
+	string meta_name = fbx_prf->name + ".meta";
 
-	//If we haven't saved the scene we assume we haven't saved the meshes either. 
-	if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(fbx_prf->path), meta_path.c_str()))
-	{
-		GameObject* root_go = CreateFBXMesh(new_item_path.c_str(), true);
-		fbx_prf->SetRootGameObject(root_go);
+	//If we have load the scene, we assume the meshes are also loaded, but we need to generate the mesh resources 
+	
+	GameObject* root_go = CreateFBXMesh(new_item_path.c_str(), fbx_prf->GetUID(), true);
+	fbx_prf->SetRootGameObject(root_go);
+
+	if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(fbx_prf->path), meta_name.c_str()))
 		fbx_prf->SaveAsBinary();
-	}
+	
+
 }
 
 void MeshImporter::DrawMeshList()
@@ -140,7 +150,7 @@ void MeshImporter::DrawMeshList()
 	}
 }
 
-GameObject* MeshImporter::CreateFBXMesh(const char* full_path, bool first_load)
+GameObject* MeshImporter::CreateFBXMesh(const char* full_path, UID root_uid, bool first_load)
 {
 	//Use Assimp to load the file 
 	GameObject* to_ret = nullptr; 
@@ -152,7 +162,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path, bool first_load)
 
 		GameObject* tmp_go = new GameObject();
 
-		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go, first_load);
+		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go, first_load, root_uid);
 
 		to_ret = tmp_go->GetChild(0);
 
@@ -173,7 +183,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path, bool first_load)
 
 }
 
-void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * scene, GameObject* parent_gameobject, bool first_load)
+void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * scene, GameObject* parent_gameobject, bool first_load, UID root_uid)
 {
 	//This node contains mesh information (vertices, indices...)
 
@@ -243,6 +253,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			string mesh_lib_path = App->file_system->GetLibraryPath() + string("\\") + "Meshes";
 			string file_name = tmp_name + ".mesh";
 
+			string meta_file_mesh_name = to_string(root_uid) + "_" + tmp_name + ".meta"; 
 			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
 			if (new_mesh != nullptr)
 			{
@@ -256,9 +267,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->reference_counting++;
 				loaded_from_resources = true; 
 			}
-			else if (App->file_system->IsFileInDirectory(mesh_lib_path.c_str(), file_name.c_str()))
-			{						
-				new_mesh = App->resources->mesh_importer->LoadFromBinary(file_name.c_str());
+			else if (App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_file_mesh_name.c_str()))
+			{			
+				string meta_file_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_file_mesh_name;
+				new_mesh = App->resources->mesh_importer->LoadFromBinary(meta_file_path.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->type = MESH_FBX;
 			}
@@ -339,8 +351,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					}
 
 					//Create the mesh resource
-					//new_mesh->LoadToMemory();
-					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str());					
+					App->resources->mesh_importer->Import((Mesh*)new_mesh, game_object->name.c_str(), root_uid);					
 				}
 				
 			}
@@ -433,75 +444,108 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 	{
 		for (int i = 0; i < node->mNumChildren; i++)
 		{
-			LoadFBXMesh(full_path, node->mChildren[i], scene, game_object, first_load);
+			LoadFBXMesh(full_path, node->mChildren[i], scene, game_object, first_load, root_uid);
 		}
 	}
 
 	parent_gameobject = game_object;
 }
 
-bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name)
-{
-	CONSOLE_DEBUG("Mesh '%s' was not found in library. Saving to binary....", mesh_name);
-
-	string save_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + mesh_name + ".mesh";
+bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name, UID parent_mesh_uid)
+{	
 
 	if (saving_mesh->num_vertices == 0)
 		return false;
 
-	//Create a new file or open it 
-	std::ofstream stream;
-	stream.open(save_path, std::fstream::binary | std::fstream::out);
-	stream.clear();
+	// Creating the meta and the binary
+	string meta_name = to_string(parent_mesh_uid) + "_" + mesh_name + ".meta";
+	if (!App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_name.c_str()))
+	{
+		//Create Meta
+		string item_meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_name; 
+		std::ofstream stream;
+		stream.open(item_meta_path, std::fstream::out);
 
-	//Create the buffer and allocate the space. Data will be stored Ranges - Vertices - Indices - UVS - Normals
-	uint size_of_data = (sizeof(uint) * 4) + (sizeof(float)*saving_mesh->num_vertices * 3) + (sizeof(uint)*saving_mesh->num_indices) + (sizeof(float)*saving_mesh->num_uvs * 3) + (sizeof(float)*saving_mesh->num_normals * 3);
-	GLubyte* buffer = new GLubyte[size_of_data];
-	GLubyte* cursor = buffer;
+		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
 
-	//Allocate Ranges
-	uint ranges[4] = { saving_mesh->num_vertices , saving_mesh->num_indices , saving_mesh->num_uvs , saving_mesh->num_normals };
-	uint bytes = sizeof(ranges);
-	memcpy(cursor, ranges, bytes);
+		//Save Meta Info
+		json_object_dotset_number(scene_obj, "MetaInfo.UID", saving_mesh->GetUID());
 
-	//Allocate Vertices 
-	cursor += bytes;
-	bytes = sizeof(float)*saving_mesh->num_vertices * 3;
-	memcpy(cursor, saving_mesh->vertices, bytes);
+		json_serialize_to_file(scene_v, item_meta_path.c_str());
 
-	//Allocate Indices
-	cursor += bytes;
-	bytes = sizeof(uint)*saving_mesh->num_indices;
-	memcpy(cursor, saving_mesh->indices, bytes);
+		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
 
-	//Allocate UVS
-	cursor += bytes;
-	bytes = sizeof(float)*saving_mesh->num_uvs * 3;
-	memcpy(cursor, saving_mesh->uvs_cords, bytes);
+		//Create Binary
+		string save_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + to_string(saving_mesh->GetUID()) + ".mesh";
 
-	//Allocate Normals
-	cursor += bytes;
-	bytes = sizeof(float)*saving_mesh->num_normals * 3;
-	memcpy(cursor, saving_mesh->normal_cords, bytes);
+		//Create a new file or open it 
+		stream.close();
+		stream.open(save_path, std::fstream::binary | std::fstream::out);
+		stream.clear();
 
-	//Save data to the file
-	stream.write((const char*)buffer, size_of_data);
-	stream.close();
+		//Create the buffer and allocate the space. Data will be stored Ranges - Vertices - Indices - UVS - Normals
+		uint size_of_data = (sizeof(uint) * 4) + (sizeof(float)*saving_mesh->num_vertices * 3) + (sizeof(uint)*saving_mesh->num_indices) + (sizeof(float)*saving_mesh->num_uvs * 3) + (sizeof(float)*saving_mesh->num_normals * 3);
+		GLubyte* buffer = new GLubyte[size_of_data];
+		GLubyte* cursor = buffer;
 
+		//Allocate Ranges
+		uint ranges[4] = { saving_mesh->num_vertices , saving_mesh->num_indices , saving_mesh->num_uvs , saving_mesh->num_normals };
+		uint bytes = sizeof(ranges);
+		memcpy(cursor, ranges, bytes);
+
+		//Allocate Vertices 
+		cursor += bytes;
+		bytes = sizeof(float)*saving_mesh->num_vertices * 3;
+		memcpy(cursor, saving_mesh->vertices, bytes);
+
+		//Allocate Indices
+		cursor += bytes;
+		bytes = sizeof(uint)*saving_mesh->num_indices;
+		memcpy(cursor, saving_mesh->indices, bytes);
+
+		//Allocate UVS
+		cursor += bytes;
+		bytes = sizeof(float)*saving_mesh->num_uvs * 3;
+		memcpy(cursor, saving_mesh->uvs_cords, bytes);
+
+		//Allocate Normals
+		cursor += bytes;
+		bytes = sizeof(float)*saving_mesh->num_normals * 3;
+		memcpy(cursor, saving_mesh->normal_cords, bytes);
+
+		//Save data to the file
+		stream.write((const char*)buffer, size_of_data);
+		stream.close();
+
+	}
+
+	
 	return true;
 }
 
-Mesh * MeshImporter::LoadFromBinary(const char * mesh_name)
+Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 {
-	Mesh* mesh_to_ret = (Mesh*)App->resources->CreateNewResource(RES_MESH);;
+	//Get the ID of the binary from the meta file 
+	string meta_file_path(mesh_meta_path);
 
-	CONSOLE_DEBUG("Mesh '%s' has been FOUND in library. Loading mesh...", mesh_name);
+	std::ifstream stream;
+	stream.open(meta_file_path.c_str(), std::fstream::in);
 
-	string mesh_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + mesh_name;
+	JSON_Value* root = json_parse_file(meta_file_path.c_str());
+	JSON_Object* root_obj = json_value_get_object(root);
+
+	UID res_id = json_object_dotget_number(root_obj, "MetaInfo.UID");
+
+	string binary_path = App->file_system->GetLibraryPath() + "\\Meshes\\" + to_string(res_id) + ".mesh";
+
+	// ------------------
+
+	Mesh* mesh_to_ret = (Mesh*)App->resources->CreateNewResource(RES_MESH);
 
 	//Open the file for reading
-	std::ifstream stream;
-	stream.open(mesh_path, std::fstream::binary);
+	stream.close();
+	stream.open(binary_path, std::fstream::binary);
 
 	if (stream)
 	{

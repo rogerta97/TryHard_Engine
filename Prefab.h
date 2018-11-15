@@ -17,6 +17,8 @@ public:
 	GameObject* GetRootGameObject(); 
 	void SetRootGameObject(GameObject* root_go);
 
+	void CreateContainingMeshResources();
+
 private:
 
 	GameObject * root; 

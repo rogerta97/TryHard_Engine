@@ -19,9 +19,9 @@ UI_ConsolePanel::~UI_ConsolePanel()
 
 bool UI_ConsolePanel::Start()
 {
-	debug_color = ImVec4(0, 0, 1, 1); 
+	debug_color = ImVec4(0.2, 0.2, 1, 1); 
 	log_color = ImVec4(1, 1, 1, 1);
-	error_color = ImVec4(1, 0, 0, 1);
+	error_color = ImVec4(1, 0.1, 0.1, 1);
 
 	show_debug = true; 
 	show_log = true; 

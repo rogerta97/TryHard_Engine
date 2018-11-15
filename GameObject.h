@@ -24,7 +24,7 @@ public:
 
 	//Components & Childs
 	Component* AddComponent(CompType new_cmp);
-	void AddComponentFromJSON(JSON_Object* cmp_obj, const char* cmp_type);
+	void AddComponentFromJSON(JSON_Object* cmp_obj, const char* cmp_type, UID prefab_uid = 0);
 	bool AddChild(GameObject* child); 
 	bool HasComponents();
 	bool HasChilds() const;
@@ -46,7 +46,7 @@ public:
 	//Save & Load
 	void Save(JSON_Object* scene_obj, int index);
 	void SaveRecursive(JSON_Object* scene_obj, int& index); 
-	bool Load(JSON_Object* scene_obj, int index);
+	bool Load(JSON_Object* scene_obj, int index, UID prefab_uid = 0);
 
 	void SaveAsPrefab(); 
 	void LoadPrefab(const char* prefab_name); 
