@@ -20,6 +20,8 @@ Mesh::Mesh()
 	vertices_id = normals_id = indices_id = uvs_id = 0;
 
 	reference_counting = 0;
+
+	load_buffer = nullptr;
 }
 
 Mesh::~Mesh()
@@ -347,7 +349,10 @@ void Mesh::CleanMeshData()
 	{
 		glDeleteBuffers(1, &normals_id);
 		delete[] normal_cords;
-	}
+	}	
+	
+
+	delete[] load_buffer; //mem_leak, but if uncommented scene crashes
 }
 
 

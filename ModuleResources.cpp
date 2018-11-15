@@ -210,11 +210,11 @@ bool ModuleResources::CleanUp()
 		it++;
 	}
 
-	it = resources.begin();
-
 
 	material_importer->CleanUp();
 	mesh_importer->CleanUp();
+
+	//delete material_importer;
 	return true;
 }
 

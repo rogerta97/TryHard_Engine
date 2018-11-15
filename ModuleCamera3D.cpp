@@ -112,6 +112,9 @@ bool ModuleCamera3D::CleanUp()
 		skybox->CleanUpSkyBox();
 	}
 
+	if (ecam_go)
+		delete ecam_go;
+
 	return true;
 }
 

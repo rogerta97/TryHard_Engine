@@ -555,9 +555,9 @@ Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 		stream.seekg(0, stream.beg);
 
 		// Create the buffer where the data is going to be stored
-		char* buffer = new char[length];
-		stream.read(buffer, sizeof(char) * length);
-		char* cursor = buffer;
+		mesh_to_ret->load_buffer = new char[length];
+		stream.read(mesh_to_ret->load_buffer, sizeof(char) * length);
+		char* cursor = mesh_to_ret->load_buffer;
 
 		////Get Ranges
 		uint ranges[4];
@@ -598,10 +598,12 @@ Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 			mesh_to_ret->normal_cords = new float3[mesh_to_ret->num_normals];
 			memcpy(mesh_to_ret->normal_cords, cursor, bytes);
 		}
-	}
 
+
+	}
 	//Close the file	
 	stream.close();
+
 
 	return mesh_to_ret;
 }
