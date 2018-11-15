@@ -49,7 +49,7 @@ GameObject::GameObject(const char * name)
 
 	Component* new_cmp = new ComponentTransform(this);
 	component_list.push_back(new_cmp);
-	ComponentTransform* trans = (ComponentTransform*)new_cmp;
+	transform = (ComponentTransform*)new_cmp;
 }
 
 
