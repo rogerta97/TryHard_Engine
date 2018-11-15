@@ -210,6 +210,7 @@ update_status ModuleImGui::DrawTopBar()
 			string scene_name = App->file_system->GetLastPathItem(path, true); 
 
 			App->scene->SaveScene(scene_name.c_str());
+			CONSOLE_LOG("SCENE SAVED SUCCESFULLY"); 
 		}
 
 		if (ImGui::MenuItem("Load Scene"))

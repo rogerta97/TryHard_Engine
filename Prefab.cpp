@@ -56,6 +56,8 @@ void Prefab::SaveAsBinary()
 		scene_v = json_value_init_object();
 		scene_obj = json_value_get_object(scene_v);
 
+		json_object_dotset_number(scene_obj, "Info.uid", GetUID());
+
 		// Saving GameObject Info
 		int index = 0;
 		root->SaveRecursive(scene_obj, index);
@@ -109,13 +111,14 @@ void Prefab::LoadFromBinary()
 void Prefab::LoadPrefabData(JSON_Object* gameobject_obj)
 {
 	int obj_ammount = json_object_dotget_number(gameobject_obj, "Info.obj_num");
+	UID prefab_uid = json_object_dotget_number(gameobject_obj, "Info.uid");
 
 	list<GameObject*> obj_list;
 
 	for (int i = 0; i < obj_ammount; i++)
 	{
 		GameObject* new_go = new GameObject();
-		new_go->Load(gameobject_obj, i);
+		new_go->Load(gameobject_obj, i, prefab_uid);
 		App->scene->AddGameObjectToScene(new_go);
 		obj_list.push_back(new_go);
 	}
@@ -136,4 +139,38 @@ GameObject* Prefab::GetRootGameObject()
 void Prefab::SetRootGameObject(GameObject* root)
 {
 	this->root = root; 
+}
+
+void Prefab::CreateContainingMeshResources()
+{
+	//If there is not ".Meta" we assume there is any binary, so we don't load 
+	string directory = App->file_system->DeleteLastPathItem(path);
+	string meta_name = name + ".meta";
+
+	if (App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(path), meta_name.c_str()))
+	{
+		string meta_file_path = path + ".meta";
+		//Get the ID to know which binary is attached
+		std::ifstream stream;
+		stream.open(meta_file_path, std::fstream::out);
+
+		JSON_Value* scene_v = json_parse_file(meta_file_path.c_str());
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+		UID lib_id = json_object_dotget_number(scene_obj, "MetaInfo.UID");
+		stream.close();
+
+		//Load the binary into root 
+		string resource_path = App->file_system->GetLibraryPath() + "\\Prefabs\\" + to_string(lib_id) + ".jprefab";
+
+		std::ifstream res_stream;
+		res_stream.open(resource_path, std::fstream::out);
+
+		JSON_Value* scene_v_res = json_parse_file(resource_path.c_str());
+		JSON_Object* scene_obj_res = json_value_get_object(scene_v_res);
+
+		LoadPrefabData(scene_obj_res);
+
+		res_stream.close();
+	}
 }

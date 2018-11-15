@@ -32,10 +32,10 @@ public:
 
 	void DrawMeshList();
 
-	GameObject* CreateFBXMesh(const char* path, bool first_load = false); //Returns the set of meshes that form the file
-	void LoadFBXMesh(const char* path, aiNode* node, aiScene* scene, GameObject* gameobject_in, bool first_load = false);
+	GameObject* CreateFBXMesh(const char* path, UID root_uid = 0, bool first_load = false); //Returns the set of meshes that form the file
+	void LoadFBXMesh(const char* path, aiNode* node, aiScene* scene, GameObject* gameobject_in, bool first_load = false, UID root_uid = 0);
 
-	bool Import(Mesh* saving_mesh, const char* mesh_name);
+	bool Import(Mesh* saving_mesh, const char* mesh_name, UID parent_mesh_uid = 0);
 	Mesh* LoadFromBinary(const char* mesh_name);
 
 };

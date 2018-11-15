@@ -333,7 +333,7 @@ std::vector<string> ModuleFileSystem::GetAllFilesInDirectory(const char * direct
 			continue; 
 		}
 
-		else if (App->file_system->IsFolder(new_dir.c_str()))
+		if (App->file_system->IsFolder(new_dir.c_str()))
 		{			
 			it = file_names.erase(it);
 			GetFilesInDirectory(new_dir.c_str(), files_to_add, include_path);				

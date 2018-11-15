@@ -368,20 +368,26 @@ void ComponentMesh::CheckAABBPoints(float3 & min_point, float3 & max_point)
 		max_point = bounding_box.maxPoint;	
 }
 
-void ComponentMesh::Load(JSON_Object * root_obj)
+void ComponentMesh::Load(JSON_Object * root_obj, UID prefab_uid)
 {
-	string mesh_name = json_object_dotget_string(root_obj, "MeshName");
+	string mesh_name = to_string(prefab_uid) + "_" + json_object_dotget_string(root_obj, "MeshName");
 	string container_fbx = json_object_dotget_string(root_obj, "FBXName");
+	string meta_name = json_object_dotget_string(root_obj, "MetaName");
+
 	///Save somehow from what FBX the mesh is comming, if the Mesh don't exist in the library, 
 	///load the FBX (not adding it to the scene) and unload it in order to create the library mesh. 
 	///Then you can go on
 	
 	//Check if it's in library
-	mesh_name += ".mesh"; 
-	if (!App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Meshes").c_str(), mesh_name.c_str()))
+	if(prefab_uid == 0)
+		mesh_name = json_object_dotget_string(root_obj, "MetaName");
+
+	mesh_name += ".meta";
+
+	if (!App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", mesh_name.c_str()))
 	{
 		//Load the containing FBX && Unload It
-		GameObject* new_go = App->resources->mesh_importer->CreateFBXMesh(string(App->file_system->GetModelsPath() + string("\\") + container_fbx + ".fbx").c_str());
+		GameObject* new_go = App->resources->mesh_importer->CreateFBXMesh(string(App->file_system->GetModelsPath() + string("\\") + container_fbx + ".fbx").c_str(), prefab_uid, true);
 
 		if (new_go)
 		{
@@ -396,7 +402,8 @@ void ComponentMesh::Load(JSON_Object * root_obj)
 	}
 		
 	//Load Library Resource
-	SetMesh(App->resources->mesh_importer->LoadFromBinary(mesh_name.c_str()));
+	string meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + mesh_name;
+	SetMesh(App->resources->mesh_importer->LoadFromBinary(meta_path.c_str()));
 	mesh->name = mesh_name.c_str();
 	mesh->type = MESH_FBX;
 	mesh->LoadToMemory();
@@ -410,6 +417,9 @@ void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 
 	item_name = node_name + ".Components.ComponentMesh.MeshName";
 	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
+
+	item_name = node_name + ".Components.ComponentMesh.MetaName";
+	json_object_dotset_string(root_obj, item_name.c_str(), App->file_system->DeleteFileExtension(mesh->name.c_str()).c_str());
 
 	item_name = node_name + ".Components.ComponentMesh.FBXName";
 	json_object_dotset_string(root_obj, item_name.c_str(), container_fbx.c_str());

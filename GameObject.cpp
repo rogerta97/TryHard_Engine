@@ -279,7 +279,7 @@ Component* GameObject::AddComponent(CompType new_type)
 	return new_cmp; 
 }
 
-void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_name)
+void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_name, UID prefab_uid)
 {
 	if (string(cmp_name) == string("ComponentTransform"))
 	{
@@ -291,7 +291,7 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 	if (string(cmp_name) == string("ComponentMesh"))
 	{
 		ComponentMesh* new_mesh = (ComponentMesh*)AddComponent(CMP_MESH);
-		new_mesh->Load(cmp_obj);
+		new_mesh->Load(cmp_obj, prefab_uid);
 		new_mesh->UpdateBoundingBox();
 		return;
 	}
@@ -511,7 +511,7 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 	}
 }
 
-bool GameObject::Load(JSON_Object* scene_obj, int index)
+bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)
 {
 	//Load basic GO info
 	string node_name = "GameObject_" + to_string(index);
@@ -539,7 +539,7 @@ bool GameObject::Load(JSON_Object* scene_obj, int index)
 	{
 		string cmp_name = json_object_get_name(scene_obj, i);
 		JSON_Object* curr_cmp_obj = json_object_get_object(scene_obj, cmp_name.c_str());
-		AddComponentFromJSON(curr_cmp_obj, cmp_name.c_str());
+		AddComponentFromJSON(curr_cmp_obj, cmp_name.c_str(), prefab_uid);
 	}
 	
 	return true; 

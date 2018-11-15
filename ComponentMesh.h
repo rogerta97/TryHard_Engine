@@ -34,7 +34,7 @@ public:
 
 	void CheckAABBPoints(float3& min_point, float3 &max_point);
 
-	void Load(JSON_Object* root_obj); 
+	void Load(JSON_Object* root_obj, UID prefab_uid = 0); 
 	void Save(JSON_Object* root_obj, const char* root);
 
 	Mesh* GetMesh() const; 
