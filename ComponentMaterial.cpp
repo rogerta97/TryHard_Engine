@@ -13,9 +13,8 @@ ComponentMaterial::ComponentMaterial(GameObject* parent)
 {
 	SetGameObject(parent);
 	component_type = CMP_MATERIAL;
-	active = true; 
-
-	material = new Material();
+	active = true;
+	material = nullptr;
 }
 
 
@@ -40,7 +39,6 @@ bool ComponentMaterial::CleanUp()
 
 		material->reference_counting--; 
 	}
-
 
 	return true;
 }

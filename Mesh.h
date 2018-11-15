@@ -29,6 +29,8 @@ public:
 
 	float3 color = {0,0,0};
 
+	char* load_buffer;
+
 	float3* vertices = nullptr; 
 	int* indices = nullptr;
 	float* uvs_cords = nullptr;
