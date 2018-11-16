@@ -381,18 +381,21 @@ void ModuleResources::PrintConfigData()
 
 					ImGui::Text("%d. ", i++); ImGui::SameLine();
 
-					if (ImGui::TreeNode((*it).second->name.c_str()))
+					
+					ImGui::Selectable((*it).second->name.c_str());
+					if (ImGui::IsItemHovered())
 					{
-						ImGui::Text("  ---- Reference Counting: %d", mesh->reference_counting); 
+						ImGui::BeginTooltip();
 
-						ImGui::Text("  ---- Loaded To Memory: "); ImGui::SameLine();
+						ImGui::Text("  Reference Counting: %d", mesh->reference_counting);
+						ImGui::Text("  Loaded To Memory: "); ImGui::SameLine();
 
 						if(mesh->IsLoadedToMemory())
 							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
 						else
 							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0, 1.0f), "NO");
 
-						ImGui::TreePop();
+						ImGui::EndTooltip();
 					}
 				}
 			

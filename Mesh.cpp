@@ -20,6 +20,7 @@ Mesh::Mesh()
 	vertices_id = normals_id = indices_id = uvs_id = 0;
 
 	reference_counting = 0;
+	meta_path = "";
 
 	load_buffer = nullptr;
 }

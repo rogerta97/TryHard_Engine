@@ -267,6 +267,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 			string file_name = tmp_name + ".mesh";
 
 			string meta_file_mesh_name = to_string(root_uid) + "_" + tmp_name + ".meta"; 
+			string meta_file_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_file_mesh_name;
 			new_mesh = (Mesh*)App->resources->Get(RES_MESH, game_object->name.c_str()); 
 			if (new_mesh != nullptr)
 			{
@@ -281,10 +282,10 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				loaded_from_resources = true; 
 			}
 			else if (App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_file_mesh_name.c_str()))
-			{			
-				string meta_file_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_file_mesh_name;
+			{							
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(meta_file_path.c_str());
 				new_mesh->name = game_object->name;
+				new_mesh->meta_path = meta_file_path;
 				new_mesh->type = MESH_FBX;
 			}
 			else
@@ -293,6 +294,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh = (Mesh*)App->resources->CreateNewResource(RES_MESH); 
 
 				new_mesh->name = game_object->name;
+				new_mesh->meta_path = meta_file_path;
 				new_mesh->path = mesh_lib_path + "\\" + game_object->name;
 
 				//Load Vertices
@@ -622,7 +624,6 @@ Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 	}
 	//Close the file	
 	stream.close();
-
 
 	return mesh_to_ret;
 }

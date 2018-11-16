@@ -3,6 +3,7 @@
 #include "MathGeoLib\MathGeoLib.h"
 #include "Globals.h"
 #include "Resource.h"
+#include <string>
 
 enum BasicMeshType { MESH_CUBE, MESH_PLANE, MESH_FBX, MESH_SPHERE };
 
@@ -45,6 +46,8 @@ public:
 	uint indices_id = -1;
 	uint uvs_id = -1;
 	uint normals_id = -1;
+
+	std::string meta_path = ""; 
 
 	BasicMeshType type; 
 };

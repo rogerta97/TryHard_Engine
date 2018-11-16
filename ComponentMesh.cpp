@@ -370,20 +370,15 @@ void ComponentMesh::CheckAABBPoints(float3 & min_point, float3 & max_point)
 
 void ComponentMesh::Load(JSON_Object * root_obj, UID prefab_uid)
 {
-	string mesh_name = to_string(prefab_uid) + "_" + json_object_dotget_string(root_obj, "MeshName");
 	string container_fbx = json_object_dotget_string(root_obj, "FBXName");
-	string meta_name = json_object_dotget_string(root_obj, "MetaName");
+	string meta_path = json_object_dotget_string(root_obj, "MetaName");
+	string mesh_name = App->file_system->GetLastPathItem(meta_path, true);
 
 	///Save somehow from what FBX the mesh is comming, if the Mesh don't exist in the library, 
 	///load the FBX (not adding it to the scene) and unload it in order to create the library mesh. 
 	///Then you can go on
 	
 	//Check if it's in library
-	if(prefab_uid == 0)
-		mesh_name = json_object_dotget_string(root_obj, "MetaName");
-
-	mesh_name += ".meta";
-
 	if (!App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", mesh_name.c_str()))
 	{
 		//Load the containing FBX && Unload It
@@ -402,11 +397,15 @@ void ComponentMesh::Load(JSON_Object * root_obj, UID prefab_uid)
 	}
 		
 	//Load Library Resource
-	string meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + mesh_name;
 	SetMesh(App->resources->mesh_importer->LoadFromBinary(meta_path.c_str()));
 	mesh->type = MESH_FBX;
-	mesh->LoadToMemory();
+
+	if(mesh->reference_counting == 0)
+		mesh->LoadToMemory();
+
 	draw_bounding_box = false; 
+
+	mesh->reference_counting++;
 }
 
 void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
@@ -418,7 +417,7 @@ void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
 
 	item_name = node_name + ".Components.ComponentMesh.MetaName";
-	json_object_dotset_string(root_obj, item_name.c_str(), App->file_system->DeleteFileExtension(mesh->name.c_str()).c_str());
+	json_object_dotset_string(root_obj, item_name.c_str(), mesh->meta_path.c_str());
 
 	item_name = node_name + ".Components.ComponentMesh.FBXName";
 	json_object_dotset_string(root_obj, item_name.c_str(), container_fbx.c_str());
