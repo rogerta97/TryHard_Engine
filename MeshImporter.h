@@ -30,6 +30,8 @@ public:
 
 	void ManageNewItem(std::string new_item_path); 
 
+	std::string GetNameFromMeshMeta(std::string meta_name); 
+
 	void DrawMeshList();
 
 	GameObject* CreateFBXMesh(const char* path, UID root_uid = 0, bool first_load = false); //Returns the set of meshes that form the file

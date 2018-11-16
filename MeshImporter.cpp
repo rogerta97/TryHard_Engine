@@ -121,7 +121,20 @@ void MeshImporter::ManageNewItem(string new_item_path)
 	if (!App->file_system->IsFileInDirectory(App->file_system->DeleteLastPathItem(fbx_prf->path), meta_name.c_str()))
 		fbx_prf->SaveAsBinary();
 	
+}
 
+string MeshImporter::GetNameFromMeshMeta(string meta_name)
+{
+	string result = ""; 
+
+	// Delete scene UID
+	int _pos = meta_name.find_first_of("_"); 
+	result = meta_name.substr(_pos + 1, meta_name.size() - _pos - 1); 
+
+	//Delete the extension 
+	result = App->file_system->DeleteFileExtension(result);
+
+	return result;
 }
 
 void MeshImporter::DrawMeshList()
@@ -279,7 +292,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				//Create the resource 
 				new_mesh = (Mesh*)App->resources->CreateNewResource(RES_MESH); 
 
-				new_mesh->name = game_object->name + ".mesh";
+				new_mesh->name = game_object->name;
 				new_mesh->path = mesh_lib_path + "\\" + game_object->name;
 
 				//Load Vertices
@@ -454,7 +467,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name, UID parent_mesh_uid)
 {	
-
 	if (saving_mesh->num_vertices == 0)
 		return false;
 
@@ -529,6 +541,7 @@ Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 {
 	//Get the ID of the binary from the meta file 
 	string meta_file_path(mesh_meta_path);
+	string meta_file_name = App->file_system->GetLastPathItem(mesh_meta_path);
 
 	std::ifstream stream;
 	stream.open(meta_file_path.c_str(), std::fstream::in);
@@ -542,7 +555,13 @@ Mesh * MeshImporter::LoadFromBinary(const char * mesh_meta_path)
 
 	// ------------------
 
-	Mesh* mesh_to_ret = (Mesh*)App->resources->CreateNewResource(RES_MESH);
+	string mesh_name = GetNameFromMeshMeta(meta_file_name);
+	Mesh* mesh_to_ret = (Mesh*)App->resources->Get(RES_MESH, mesh_name.c_str());
+	
+	if (mesh_to_ret != nullptr)
+		return mesh_to_ret;
+		
+	mesh_to_ret = (Mesh*)App->resources->CreateNewResource(RES_MESH);
 
 	//Open the file for reading
 	stream.close();

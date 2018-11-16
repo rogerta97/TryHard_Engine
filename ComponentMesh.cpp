@@ -404,7 +404,6 @@ void ComponentMesh::Load(JSON_Object * root_obj, UID prefab_uid)
 	//Load Library Resource
 	string meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + mesh_name;
 	SetMesh(App->resources->mesh_importer->LoadFromBinary(meta_path.c_str()));
-	mesh->name = mesh_name.c_str();
 	mesh->type = MESH_FBX;
 	mesh->LoadToMemory();
 	draw_bounding_box = false; 
