@@ -533,7 +533,6 @@ bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name, UID parent
 
 	}
 
-	
 	return true;
 }
 

@@ -327,32 +327,36 @@ float3 Mesh::CenterVertices(float3* vertices, int num)
 
 void Mesh::CleanMeshData()
 {	
-	if (num_vertices != 0)
+	if (reference_counting == 1)
 	{
-		glDeleteBuffers(1, &vertices_id);
-		delete[] vertices;
-	}
-	
-	if (num_indices != 0)
-	{
-		glDeleteBuffers(1, &indices_id);
-		delete[] indices;
-	}
-	
-	if (num_uvs != 0 && uvs_id != 0)
-	{
-		glDeleteBuffers(1, &uvs_id);
-		delete[] uvs_cords;
-	}
-	
-	if (num_normals != 0 && normals_id != 0)
-	{
-		glDeleteBuffers(1, &normals_id);
-		delete[] normal_cords;
-	}	
-	
+		if (num_vertices != 0)
+		{
+			glDeleteBuffers(1, &vertices_id);
+			delete[] vertices;
+		}
 
-	delete[] load_buffer; //mem_leak, but if uncommented scene crashes
+		if (num_indices != 0)
+		{
+			glDeleteBuffers(1, &indices_id);
+			delete[] indices;
+		}
+
+		if (num_uvs != 0 && uvs_id != 0)
+		{
+			glDeleteBuffers(1, &uvs_id);
+			delete[] uvs_cords;
+		}
+
+		if (num_normals != 0 && normals_id != 0)
+		{
+			glDeleteBuffers(1, &normals_id);
+			delete[] normal_cords;
+		}
+
+		delete[] load_buffer; //mem_leak, but if uncommented scene crashes
+		reference_counting--;
+	}
+	
 }
 
 
