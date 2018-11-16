@@ -150,9 +150,12 @@ int Octree::GetNumObjects()
 
 void Octree::Draw()
 {
-	App->renderer3D->UseDebugRenderSettings();
-	root_node->Draw(); 
-	App->renderer3D->UseCurrentRenderSettings(); 
+	if (draw)
+	{
+		App->renderer3D->UseDebugRenderSettings();
+		root_node->Draw();
+		App->renderer3D->UseCurrentRenderSettings();
+	}	
 }
 
 OctreeNode::OctreeNode(AABB box, OctreeNode* parent_node, bool root)

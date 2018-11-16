@@ -302,8 +302,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 				new_mesh->vertices = new float3[new_mesh->num_vertices];
 				memcpy(new_mesh->vertices, curr_mesh->mVertices, sizeof(float3) * new_mesh->num_vertices);
 
-				CONSOLE_DEBUG("Game Object %s loaded with %d vertices", game_object->name.c_str(), new_mesh->num_vertices);
-
 				//Load Indices
 				if (curr_mesh->HasFaces())
 				{
@@ -316,7 +314,6 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						if (curr_face.mNumIndices != 3)
 						{
-							CONSOLE_ERROR("Geometry index in face %d is != 3", j);
 							load_succes = false;
 							break;
 						}
@@ -324,13 +321,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 							memcpy(&new_mesh->indices[j * 3], curr_face.mIndices, sizeof(uint) * 3);
 					}
 
-					if (load_succes)
+					if (!load_succes)
 					{
-						CONSOLE_DEBUG("Game Object %s loaded with %d indices", game_object->name.c_str(), new_mesh->num_indices);
-					}
-					else
-					{
-						CONSOLE_ERROR("Component mesh of %s not created", game_object->name.c_str(), new_mesh->num_normals);
 						game_object->DeleteRecursive();		
 						App->resources->AddResourceToDelete(new_mesh->GetUID());
 						new_mesh->CleanMeshData();
@@ -353,7 +345,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 						memcpy(new_mesh->uvs_cords, curr_mesh->mTextureCoords[0], sizeof(float) * new_mesh->num_uvs * 3);
 
-						CONSOLE_DEBUG("Game Object %s loaded with %d UV's", game_object->name.c_str(), new_mesh->num_uvs);
+						
 					}
 
 					//Load Normals
@@ -363,7 +355,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 						new_mesh->normal_cords = new float3[new_mesh->num_normals];
 						memcpy(new_mesh->normal_cords, &curr_mesh->mNormals[0], sizeof(float3) * new_mesh->num_normals);
 
-						CONSOLE_DEBUG("Game Object %s loaded with %d normals", game_object->name.c_str(), new_mesh->num_normals);
+		
 					}
 
 					//Create the mesh resource

@@ -419,24 +419,65 @@ void ModuleResources::PrintConfigData()
 					Material* mat = (Material*)Get(RES_MATERIAL, (*it).second->name.c_str());
 					ImGui::Text("%d. ", i++); ImGui::SameLine();
 
-					if (ImGui::TreeNode((*it).second->name.c_str()))
+					ImGui::Selectable((*it).second->name.c_str());
+					if (ImGui::IsItemHovered())
 					{
-						ImGui::Text("  ---- Reference Counting: %d", mat->reference_counting);
 
-						ImGui::Text("  ---- Loaded To Memory: "); ImGui::SameLine();
+						ImGui::BeginTooltip(); 
+
+						ImGui::Text("Reference Counting: %d", mat->reference_counting);
+						ImGui::Text("Loaded To Memory: "); ImGui::SameLine();
 
 						if (mat->IsLoadedToMemory())
 							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
 						else
 							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0, 1.0f), "NO");
 
-						ImGui::TreePop();
+						ImGui::EndTooltip();
 					}
 				}
 
 			}
 			ImGui::TreePop();
 		}
+
+		/*if (ImGui::TreeNode("Prefabs"))
+		{
+			ImGui::Text("Prefab Resources in Assets: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesLoadedAmmount(RES_PREFAB));
+
+			ImGui::Text("Prefab Resources Used: "); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesUsedAmmount(RES_PREFAB));
+
+			int i = 0;
+			for (auto it = resources.begin(); it != resources.end(); it++)
+			{
+				if ((*it).second->GetType() == resource_type::RES_PREFAB)
+				{
+					Prefab* mat = (Prefab*)Get(RES_PREFAB, (*it).second->name.c_str());
+					ImGui::Text("%d. ", i++); ImGui::SameLine();
+
+					ImGui::Selectable((*it).second->name.c_str());
+					if (ImGui::IsItemHovered())
+					{
+
+						ImGui::BeginTooltip();
+
+						ImGui::Text("  Reference Counting: %d", mat->reference_counting);
+						ImGui::Text("  Loaded To Memory: "); ImGui::SameLine();
+
+						if (mat->IsLoadedToMemory())
+							ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0, 1.0f), "YES");
+						else
+							ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0, 1.0f), "NO");
+
+						ImGui::EndTooltip();
+					}
+				}
+
+			}
+		ImGui::TreePop();*/
+		
 
 	}
 }

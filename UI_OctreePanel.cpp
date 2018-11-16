@@ -14,7 +14,7 @@ UI_OctreePanel::~UI_OctreePanel()
 
 bool UI_OctreePanel::Start()
 {
-	show = false; 
+	show = true;
 	octree = App->scene->octree; 
 	size = 5.0f; 
 	
@@ -29,7 +29,8 @@ bool UI_OctreePanel::Update()
 
 		SEPARATE_WITH_SPACE
 
-		ImGui::Checkbox("Adaptative", &octree->adaptative);
+		ImGui::Checkbox("Adaptative", &octree->adaptative); ImGui::SameLine();
+		ImGui::Checkbox("Draw Divisions", &octree->draw);
 
 		if (octree->adaptative == false)
 		{
@@ -63,7 +64,6 @@ bool UI_OctreePanel::Update()
 			{
 				AABB octree_root;
 
-				size = 5.0f;
 				octree_root.minPoint = { -size, -size, -size };
 				octree_root.maxPoint = { size, size, size };
 

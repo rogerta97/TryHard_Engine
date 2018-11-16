@@ -585,7 +585,6 @@
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClInclude>
-    <ClInclude Include="UI_ClocksPanel.h" />
     <ClInclude Include="MonitorDirectory.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
@@ -594,6 +593,9 @@
     </ClInclude>
     <ClInclude Include="Prefab.h">
       <Filter>Sources\Resources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ClocksPanel.h">
+      <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -867,7 +869,6 @@
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>Sources\3rd Partys\ImGuizmo</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Clocks.cpp" />
     <ClCompile Include="MonitorDirectory.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
@@ -876,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="Prefab.cpp">
       <Filter>Sources\Resources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Clocks.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

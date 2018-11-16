@@ -58,6 +58,7 @@ public:
 	void Draw(); 
 
 	bool adaptative;
+	bool draw;
 
 private: 
 
@@ -65,6 +66,7 @@ private:
 	int limit_go; 
 	int obj_ammount; 
 	int sub_limit;  
+	
 };
 
 
