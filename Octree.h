@@ -52,6 +52,8 @@ public:
 	bool IsNull();
 	void GetIntersections(std::list<GameObject*> inter_list, GameObject* new_go);
 	void GetIntersections(std::list<GameObject*> inter_list, Frustum new_frustum);
+
+	void Recalculate(); 
 	
 	OctreeNode* GetRoot();
 	int GetNumObjects(); 

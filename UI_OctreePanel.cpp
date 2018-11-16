@@ -16,7 +16,7 @@ bool UI_OctreePanel::Start()
 {
 	show = true;
 	octree = App->scene->octree; 
-	size = 5.0f; 
+	size = 100.0f; 
 	
 	return true;
 }
@@ -54,32 +54,37 @@ bool UI_OctreePanel::Update()
 
 		SEPARATE_WITH_SPACE
 
-		if (ImGui::Button("Create"))
+		if (octree->GetRoot() == nullptr)
 		{
-			if(App->scene->static_gameobjects.empty())
+			if (ImGui::Button("Create"))
 			{
-				CONSOLE_ERROR("Octree can not be created with any static GO in the scene."); 
+				if (App->scene->static_gameobjects.empty())
+				{
+					CONSOLE_ERROR("Octree can not be created with any static GO in the scene.");
+				}
+				else
+				{
+					AABB octree_root;
+
+					octree_root.minPoint = { -size, -size, -size };
+					octree_root.maxPoint = { size, size, size };
+
+					App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
+					size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
+
+				}
+
+
 			}
-			else
-			{
-				AABB octree_root;
-
-				octree_root.minPoint = { -size, -size, -size };
-				octree_root.maxPoint = { size, size, size };
-
-				App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
-				size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
-
-			}
-		
-
-		} ImGui::SameLine(); 
-
-		if (ImGui::Button("Delete"))
-		{
-			octree->CleanUp(); 
 		}
-
+		else
+		{
+			if (ImGui::Button("Delete"))
+			{
+				octree->CleanUp();
+			}
+		}
+	
 		ImGui::End(); 
 
 	}

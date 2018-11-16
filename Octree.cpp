@@ -30,7 +30,7 @@ void Octree::Create(AABB limits, bool adaptative, int obj_limit)
 
 	CleanUp(); //In case we are redoing the octree
 
-	CONSOLE_LOG("newoctree creatred"); 
+	CONSOLE_LOG("new octree creatred"); 
 
 	root_node = new OctreeNode(limits, nullptr, true);
 	this->adaptative = adaptative; 
@@ -62,7 +62,7 @@ bool Octree::Insert(GameObject * new_go)
 	}
 
 	//If it intersects we do the following:
-	if (root_node->box.Contains(mesh->bounding_box))
+	if (root_node->box.Intersects(mesh->bounding_box))
 	{
 		//Add it to the root node, which will look for the best node recursively
 		root_node->Insert(new_go, obj_ammount);
@@ -73,8 +73,6 @@ bool Octree::Insert(GameObject * new_go)
 	{
 		//We need to redo the octree taking into account the new GO 
 		int obj_lim = limit_go; 
-
-		CleanUp();
 
 		//The size of the new box is the greatest value from x, y, or z (this is because AABB should be a cube)
 		float3 new_size = mesh->bounding_box.minPoint;
@@ -94,9 +92,16 @@ bool Octree::Insert(GameObject * new_go)
 
 		AABB new_bb(min_point, max_point);
 
+		if (root_node->box.minPoint.Distance({ 0,0,0 }) > new_bb.minPoint.Distance({ 0,0,0 }))
+			new_bb.minPoint = root_node->box.minPoint;
+
+		if (root_node->box.maxPoint.Distance({ 0,0,0 }) > new_bb.maxPoint.Distance({ 0,0,0 }))
+			new_bb.maxPoint = root_node->box.maxPoint;
+
 		//Create a new Octree
 		ret = true; 
 
+		CleanUp();
 		Create(new_bb, adaptative, obj_lim);
 
 	}
@@ -125,6 +130,16 @@ void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * ne
 void Octree::GetIntersections(std::list<GameObject*> inter_list, Frustum new_frustum)
 {
 	//root_node->GetFrustumIntersctions(inter_list, new_frustum);
+}
+
+void Octree::Recalculate()
+{
+	AABB octree_root;
+
+	octree_root.minPoint = { -5, -5, -5 };
+	octree_root.maxPoint = { 5, 5, 5 };
+
+	App->scene->octree->Create(octree_root, true, 5);
 }
 
 void Octree::CleanUp()

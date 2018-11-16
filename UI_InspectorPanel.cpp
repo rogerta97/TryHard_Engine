@@ -84,8 +84,10 @@ bool UI_InspectorPanel::Update()
 		ImGui::SameLine();
 
 		bool tmp_is_static = gameobject->GetIsStatic();
-		if (ImGui::Checkbox("Static", &tmp_is_static)) {
+		if (ImGui::Checkbox("Static", &tmp_is_static)) 
+		{
 			gameobject->SetStatic(tmp_is_static);
+			App->scene->octree->Recalculate();
 		}
 
 		ImGui::SameLine();
