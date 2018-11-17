@@ -114,9 +114,9 @@ void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * ne
 	root_node->GetObjectIntersections(inter_list, mesh->bounding_box);
 }
 
-void Octree::GetIntersections(std::list<GameObject*> inter_list, Frustum new_frustum)
+void Octree::GetIntersections(std::list<GameObject*>& inter_list, Frustum new_frustum)
 {
-	//root_node->GetFrustumIntersctions(inter_list, new_frustum);
+	root_node->GetFrustumIntersctions(inter_list, new_frustum);
 }
 
 void Octree::Recalculate()
@@ -244,23 +244,29 @@ void OctreeNode::GetObjectIntersections(std::list<GameObject*> inter_list, AABB 
 	}
 }
 
-void OctreeNode::GetFrustumIntersctions(std::list<GameObject*> inter_list, Frustum frustum)
+void OctreeNode::GetFrustumIntersctions(std::list<GameObject*>& inter_list, Frustum frustum)
 {
 	if (box.Intersects(frustum))
 	{
-		for (std::list<GameObject*>::const_iterator it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
+		if (leaf)
 		{
-			if ((*it)->bounding_box != NULL)
+			for (auto it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
 			{
-				if ((*it)->bounding_box->Intersects(frustum))
+				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+
+				if (mesh->bounding_box.Intersects(frustum))
 					inter_list.push_back(*it);
+
 			}
 		}
-
-		for (int i = 0; i < 8; i++)
+		else
 		{
-			childs[i]->GetFrustumIntersctions(inter_list, frustum);
+			for (int i = 0; i < 8; i++)
+			{
+				childs[i]->GetFrustumIntersctions(inter_list, frustum);
+			}
 		}
+	
 	}
 }
 

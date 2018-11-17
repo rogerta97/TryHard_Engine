@@ -592,6 +592,8 @@ update_status ModuleScene::Update(float dt)
 	{
 		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
 
+		CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
+
 		for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)
 		{
 			ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
