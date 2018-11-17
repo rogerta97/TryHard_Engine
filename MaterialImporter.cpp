@@ -150,7 +150,25 @@ void MaterialImporter::ImportAllFilesFromAssets()
 			string ass_name = App->file_system->GetLastPathItem((*it).c_str(), true);
 			App->resources->material_importer->Import(new_mat, ass_name.c_str(), new_mat->GetUID());
 		}
+		else
+		{
+			//If the meta file exist, we have to check if the binary exist, if not we generate it
+			string binary_directory = App->file_system->GetLibraryPath() + "\\Materials";
+			string binary_name = to_string(new_mat->GetUID()) + ".dds";
 
+			if (!App->file_system->IsFileInDirectory(binary_directory.c_str(), binary_name.c_str()))
+			{
+				Texture* tex = nullptr;
+				tex = App->resources->material_importer->LoadTexture((*it).c_str(), false);
+
+				if (tex)
+					new_mat->SetDiffuseTexture(tex);
+
+				string ass_name = App->file_system->GetLastPathItem((*it).c_str(), true);
+				App->resources->material_importer->Import(new_mat, ass_name.c_str(), new_mat->GetUID());
+			}
+		}
+	
 		App->resources->material_importer->LoadFromBinary((*it).c_str(), new_mat);
 
 		new_mat->name = App->file_system->GetLastPathItem((*it).c_str());

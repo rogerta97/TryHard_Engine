@@ -405,11 +405,15 @@ void ModuleResources::PrintConfigData()
 
 		if (ImGui::TreeNode("Materials"))
 		{
+			SEPARATE_WITH_SPACE
+
 			ImGui::Text("Material Resources in Assets: "); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesLoadedAmmount(RES_MATERIAL));
 
 			ImGui::Text("Material Resources Used: "); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0f), "%d", GetResourcesUsedAmmount(RES_MATERIAL));
+
+			SEPARATE_WITH_SPACE
 
 			int i = 0;
 			for (auto it = resources.begin(); it != resources.end(); it++)

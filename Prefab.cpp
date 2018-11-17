@@ -48,13 +48,19 @@ void Prefab::SaveAsBinary()
 
 		stream.close();
 
+	}
+
+	//If the binary for the file don't exist we generate it 
+	if (!App->file_system->IsFileInDirectory(App->file_system->GetLibraryPath(), string(to_string(GetUID()) + ".jprefab").c_str()))
+	{
 		//Create Binary 
 		string dest_str = App->file_system->GetLibraryPath() + string("\\Prefabs\\") + to_string(GetUID()) + ".jprefab";
 
+		ifstream stream; 
 		stream.open(dest_str, std::fstream::out);
 
-		scene_v = json_value_init_object();
-		scene_obj = json_value_get_object(scene_v);
+		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
 
 		json_object_dotset_number(scene_obj, "Info.uid", GetUID());
 

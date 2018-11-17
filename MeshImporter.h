@@ -31,6 +31,7 @@ public:
 	void ManageNewItem(std::string new_item_path); 
 
 	std::string GetNameFromMeshMeta(std::string meta_name); 
+	UID GetResourceIDFromMeshMeta(std::string meta_name);
 
 	void DrawMeshList();
 

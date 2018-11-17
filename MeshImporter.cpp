@@ -114,7 +114,6 @@ void MeshImporter::ManageNewItem(string new_item_path)
 	string meta_name = fbx_prf->name + ".meta";
 
 	//If we have load the scene, we assume the meshes are also loaded, but we need to generate the mesh resources 
-	
 	GameObject* root_go = CreateFBXMesh(new_item_path.c_str(), fbx_prf->GetUID(), true);
 	fbx_prf->SetRootGameObject(root_go);
 
@@ -135,6 +134,21 @@ string MeshImporter::GetNameFromMeshMeta(string meta_name)
 	result = App->file_system->DeleteFileExtension(result);
 
 	return result;
+}
+
+UID MeshImporter::GetResourceIDFromMeshMeta(string meta_name)
+{
+	//Open the file to read the ID 
+	string meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_name.c_str();
+	std::ifstream stream;
+	stream.open(meta_path, std::fstream::in);
+
+	JSON_Value* scene_v = json_parse_file(meta_path.c_str());
+	JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+	UID resource_id = json_object_dotget_number(scene_obj, "MetaInfo.UID");
+
+	return resource_id;
 }
 
 void MeshImporter::DrawMeshList()
@@ -280,9 +294,11 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 
 				new_mesh->reference_counting++;
 				loaded_from_resources = true; 
+				to_string(App->resources->mesh_importer->GetResourceIDFromMeshMeta(meta_file_mesh_name)).c_str();
 			}
-			else if (App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_file_mesh_name.c_str()))
-			{							
+			else if (App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_file_mesh_name.c_str()) && App->file_system->IsFileInDirectory(App->file_system->GetLibraryPath() + "\\Meshes", string(to_string(App->resources->mesh_importer->GetResourceIDFromMeshMeta(meta_file_mesh_name)) + ".mesh").c_str()))
+			{					
+
 				new_mesh = App->resources->mesh_importer->LoadFromBinary(meta_file_path.c_str());
 				new_mesh->name = game_object->name;
 				new_mesh->meta_path = meta_file_path;
@@ -469,7 +485,7 @@ bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name, UID parent
 	if (!App->file_system->IsFileInDirectory(App->file_system->GetModelsPath() + "\\MetaMeshes", meta_name.c_str()))
 	{
 		//Create Meta
-		string item_meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_name; 
+		string item_meta_path = App->file_system->GetModelsPath() + "\\MetaMeshes\\" + meta_name;
 		std::ofstream stream;
 		stream.open(item_meta_path, std::fstream::out);
 
@@ -483,11 +499,16 @@ bool MeshImporter::Import(Mesh * saving_mesh, const char * mesh_name, UID parent
 
 		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
 
+		stream.close();
+	}
+
+	if (!App->file_system->IsFileInDirectory(App->file_system->GetLibraryPath() + "\\Meshes", string(to_string(App->resources->mesh_importer->GetResourceIDFromMeshMeta(meta_name)) + ".mesh").c_str()))
+	{
 		//Create Binary
 		string save_path = App->file_system->GetLibraryPath() + '\\' + "Meshes\\" + to_string(saving_mesh->GetUID()) + ".mesh";
 
-		//Create a new file or open it 
-		stream.close();
+		//Create a new file or open it 		
+		std::ofstream stream;
 		stream.open(save_path, std::fstream::binary | std::fstream::out);
 		stream.clear();
 
