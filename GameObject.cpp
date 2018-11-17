@@ -546,7 +546,7 @@ bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)
 
 void GameObject::SaveAsPrefab()
 {
-	string dest_str = App->file_system->GetPrefabPath() + string("\\") + name + ".jprefab"; 
+	string dest_str = App->file_system->GetPrefabPath() + string("\\") + name.c_str() + ".jprefab"; 
 
 	std::ofstream stream;
 	stream.open(dest_str, std::fstream::out);

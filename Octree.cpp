@@ -91,7 +91,6 @@ bool Octree::Insert(GameObject * new_go)
 
 		CleanUp();
 		Create(new_bb, adaptative, obj_lim);
-
 	}
 	else
 	{
