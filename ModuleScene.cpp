@@ -34,17 +34,17 @@ bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-			
+
 	start_time = performance_timer.Read();
 	selected_go = nullptr;
 
 	App->renderer3D->OnResize(1000, 1000);
 	octree = new Octree();
-	octree->draw = false; 
+	octree->draw = false;
 
 	App->imgui->tag_panel->AddTag("Untagged");
-	SetDefaultScene(); 
-	scene_name = "Untitled"; 
+	SetDefaultScene();
+	scene_name = "Untitled";
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
@@ -70,15 +70,15 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 {
-	bool editor_cam = false; 
+	bool editor_cam = false;
 
 	if (App->camera->skybox)
 	{
-		App->camera->skybox->AttachTo(camera); 
+		App->camera->skybox->AttachTo(camera);
 		App->camera->skybox->Draw();
 	}
-		
-	ComponentCamera* cam = (ComponentCamera*)camera->GetComponent(CMP_CAMERA); 
+
+	ComponentCamera* cam = (ComponentCamera*)camera->GetComponent(CMP_CAMERA);
 
 	if (cam == App->camera->GetEditorCamera())
 	{
@@ -89,12 +89,12 @@ void ModuleScene::DrawSceneGameObjects(GameObject* camera)
 		App->renderer3D->UseDebugRenderSettings();
 		p.Render();
 		App->renderer3D->GetDefaultRenderSettings();
-		editor_cam = true; 
+		editor_cam = true;
 	}
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
-		(*it)->Draw(editor_cam); 
+		(*it)->Draw(editor_cam);
 	}
 
 	if (editor_cam) {
@@ -111,21 +111,21 @@ void ModuleScene::DeleteGameObjectsNow()
 	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
 	{
 		(*it)->DeleteAllComponents();
-		
+
 		if ((*it)->parent != nullptr)
 			(*it)->parent->DeleteChildFromList((*it));
-				
+
 		(*it)->parent = nullptr;
-		
-		DeleteGameObjectFromList((*it)); 
+
+		DeleteGameObjectFromList((*it));
 
 		if ((*it) != App->camera->GetGameCameraObject())
 		{
 			delete (*it);
 			(*it) = nullptr;
 		}
-	
-		it = go_to_delete.erase(it);			
+
+		it = go_to_delete.erase(it);
 	}
 }
 
@@ -146,7 +146,7 @@ void ModuleScene::CleanScene()
 
 void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)
 {
-	go_to_delete.push_back(to_del); 
+	go_to_delete.push_back(to_del);
 }
 
 void ModuleScene::AddGOToStaticList(GameObject * go)
@@ -160,15 +160,15 @@ void ModuleScene::DeleteGOFromStaticList(GameObject * go)
 	{
 		if ((*it) == go)
 		{
-			static_gameobjects.erase(it); 
-			return; 
+			static_gameobjects.erase(it);
+			return;
 		}
 	}
 }
 
 GameObject * ModuleScene::LoadPrefab(const char * prf_name)
 {
-	GameObject* root_go = new GameObject(prf_name); 
+	GameObject* root_go = new GameObject(prf_name);
 
 	string dest_str = App->file_system->GetPrefabPath() + string("\\") + prf_name + ".jprefab";
 
@@ -186,7 +186,7 @@ GameObject * ModuleScene::LoadPrefab(const char * prf_name)
 	{
 		GameObject* new_go = new GameObject();
 		new_go->Load(scene_obj, i);
-		AddGameObjectToScene(new_go); 
+		AddGameObjectToScene(new_go);
 		obj_list.push_back(new_go);
 	}
 
@@ -195,19 +195,19 @@ GameObject * ModuleScene::LoadPrefab(const char * prf_name)
 
 	stream.close();
 
-	return root_go; 
+	return root_go;
 }
 
 GameObject * ModuleScene::CreateGameObject()
 {
-	GameObject* new_go = new GameObject(""); 
+	GameObject* new_go = new GameObject("");
 
 	//Here we will add the component transform, every GO should have it.
 
 	AddGameObjectToScene(new_go);
 
 
-	return new_go; 
+	return new_go;
 }
 
 GameObject * ModuleScene::GetGameObjectByID(UID uid)
@@ -218,7 +218,7 @@ GameObject * ModuleScene::GetGameObjectByID(UID uid)
 			return (*it);
 	}
 
-	return nullptr; 
+	return nullptr;
 }
 
 GameObject * ModuleScene::GetGameObject(const char * name)
@@ -241,10 +241,10 @@ std::list<GameObject*> ModuleScene::GetAllGameObjectsWith(CompType type)
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
 		if ((*it)->GetComponent(type) != nullptr)
-			to_ret.push_back((*it)); 
+			to_ret.push_back((*it));
 	}
 
-	return to_ret; 
+	return to_ret;
 }
 
 GameObject * ModuleScene::CreateGameObject(const char* name)
@@ -265,12 +265,12 @@ GameObject * ModuleScene::CreateGameObject(std::list<GameObject*> list_childs, c
 
 	for (auto it = list_childs.begin(); it != list_childs.end(); it++)
 	{
-		(*it)->parent = parent_go; 
-		parent_go->AddChild((*it)); 
+		(*it)->parent = parent_go;
+		parent_go->AddChild((*it));
 	}
 
-	AddGameObjectToScene(parent_go); 
-	return parent_go; 
+	AddGameObjectToScene(parent_go);
+	return parent_go;
 }
 
 int ModuleScene::GetGameObjectsAmmount()
@@ -292,22 +292,22 @@ void ModuleScene::DeleteGameObjectFromList(GameObject* go)
 
 void ModuleScene::AddGameObjectToScene(GameObject* go)
 {
-	scene_gameobjects.push_back(go); 
+	scene_gameobjects.push_back(go);
 	go->Start();
 }
 
 bool ModuleScene::IsTextureUsed(int id, GameObject* skip)
 {
-	bool using_texture = false; 
+	bool using_texture = false;
 
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
 		if ((*it) != skip)
 			if ((*it)->IsUsingTexture(id, using_texture))
-				return true; 
+				return true;
 	}
-	
-	return false; 
+
+	return false;
 }
 
 void ModuleScene::TestLineAgainstGOs(LineSegment line)
@@ -408,11 +408,11 @@ GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> 
 void ModuleScene::SetSelectedGameObject(GameObject * selected)
 {
 	if (App->imgui->inspector_panel == nullptr)
-		return; 
+		return;
 
 	App->imgui->inspector_panel->SetGameObject(selected);
-	selected_go = selected; 
-	
+	selected_go = selected;
+
 }
 
 GameObject* ModuleScene::GetSelectedGameObject() const
@@ -426,23 +426,23 @@ void ModuleScene::SetDefaultScene()
 	GameObject* main_cam = CreateGameObject("Main Camera");
 
 	ComponentCamera* cam = (ComponentCamera*)main_cam->AddComponent(CMP_CAMERA);
-	cam->is_editor = false; 
+	cam->is_editor = false;
 
 }
 
 void ModuleScene::SaveScene(const char* scene_name)
 {
 	//Create the path were the scene is going to be saved
-	string new_scene_path =  App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name);
+	string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name);
 
-	if(App->file_system->GetFileExtension(scene_name) != FX_JSON)
+	if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
 		new_scene_path += std::string(".json");
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
 	{
 		CONSOLE_DEBUG("Scene '%s' already exist. Overwritting...", App->file_system->GetLastPathItem(new_scene_path).c_str());
 	}
-	
+
 	//Create the new json file 
 	std::ofstream stream;
 	stream.open(new_scene_path, std::fstream::out);
@@ -451,15 +451,15 @@ void ModuleScene::SaveScene(const char* scene_name)
 	JSON_Object* scene_obj = json_value_get_object(scene_v);
 
 	//Save Scene Info
-	json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size()); 
+	json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size());
 	json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
 
-	if(App->camera->GetGameCameraObject() != nullptr)
+	if (App->camera->GetGameCameraObject() != nullptr)
 		json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
 	else
 		json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
 
-	int index = 0; 
+	int index = 0;
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
 		scene_obj = json_value_get_object(scene_v);
@@ -467,37 +467,37 @@ void ModuleScene::SaveScene(const char* scene_name)
 	}
 
 	json_serialize_to_file(scene_v, new_scene_path.c_str());
-	
+
 	stream.close();
-	
+
 }
 
 void ModuleScene::LoadScene(const char * scene_path, bool clean)
 {
-	string name_w_termination = scene_path; 
+	string name_w_termination = scene_path;
 
-	SetSceneName(name_w_termination.c_str()); 
+	SetSceneName(name_w_termination.c_str());
 
 	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
 	{
 		if (clean)
-			CleanScene(); 
+			CleanScene();
 
 		string path = App->file_system->GetScenesPath() + std::string("\\") + name_w_termination;
 		std::ifstream stream;
 		stream.open(path.c_str(), std::fstream::in);
 
-		JSON_Value* root = json_parse_file(path.c_str()); 
+		JSON_Value* root = json_parse_file(path.c_str());
 		JSON_Object* root_obj = json_value_get_object(root);
 
 		int obj_ammount = json_object_dotget_number(root_obj, "Scene.obj_num");
 		UID main_cam_uid = json_object_dotget_number(root_obj, "Scene.main_camera_uid");
 
-		int i = 0; 
-		while(i < obj_ammount)
+		int i = 0;
+		while (i < obj_ammount)
 		{
-			string item_to_get = "GameObject_" + to_string(i); 
-			GameObject* new_go = new GameObject(); 
+			string item_to_get = "GameObject_" + to_string(i);
+			GameObject* new_go = new GameObject();
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);
@@ -506,10 +506,10 @@ void ModuleScene::LoadScene(const char * scene_path, bool clean)
 			i++;
 		}
 
-		if(main_cam_uid != 0)
+		if (main_cam_uid != 0)
 			App->camera->SetGameCamera(App->scene->GetGameObjectByID(main_cam_uid));
 
-		stream.close(); 
+		stream.close();
 	}
 }
 
@@ -521,7 +521,7 @@ const char * ModuleScene::GetSceneName() const
 void ModuleScene::SetSceneName(const char * new_name)
 {
 	//If it has termination we delete it 
-	string name(new_name); 
+	string name(new_name);
 
 	int pos = name.find_last_of('.');
 
@@ -533,7 +533,7 @@ void ModuleScene::SetSceneName(const char * new_name)
 		return;
 	}
 
-	scene_name = new_name; 
+	scene_name = new_name;
 }
 
 void ModuleScene::RecieveEvent(const Event & event)
@@ -583,18 +583,22 @@ update_status ModuleScene::Update(float dt)
 	{
 		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
 		{
-			(*it)->Update(); 
+			(*it)->Update();
 		}
 	}
 
-	std::list<GameObject*> intersections_list;
 
-	if (octree->GetRoot() != nullptr)
-	{
-		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
 
-		//CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
-		if (App->camera->frustum_culling) {
+	if (App->camera->frustum_culling) {
+
+		std::list<GameObject*> intersections_list;
+
+		if (octree->GetRoot() != nullptr)
+		{
+			octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
+
+			//CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
+
 			for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 			{
 				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
@@ -635,8 +639,8 @@ update_status ModuleScene::Update(float dt)
 
 
 	if (go_to_delete.size() != 0)
-		DeleteGameObjectsNow(); 
-	 
+		DeleteGameObjectsNow();
+
 	return UPDATE_CONTINUE;
 }
 

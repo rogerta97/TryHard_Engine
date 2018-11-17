@@ -82,7 +82,9 @@ bool UI_HierarchyPanel::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_UP)
 	{
 		App->imgui->hierarchy_panel->show_click_menu = false;
-		App->scene->GetSelectedGameObject()->DeleteRecursive();
+		GameObject* selected = App->scene->GetSelectedGameObject();
+		if (selected)
+			selected->DeleteRecursive();
 		App->scene->SetSelectedGameObject(nullptr);
 		delete App->scene->GetSelectedGameObject();
 	}
