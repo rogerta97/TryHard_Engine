@@ -2,6 +2,7 @@
 #include "DebugDraw.h"
 #include "Application.h"
 #include "GameObject.h"
+#include "Functions.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
@@ -62,7 +63,7 @@ bool Octree::Insert(GameObject * new_go)
 	}
 
 	//If it intersects we do the following:
-	if (root_node->box.Intersects(mesh->bounding_box))
+	if (root_node->box.Contains(mesh->bounding_box))
 	{
 		//Add it to the root node, which will look for the best node recursively
 		root_node->Insert(new_go, obj_ammount);
@@ -77,8 +78,8 @@ bool Octree::Insert(GameObject * new_go)
 		//The size of the new box is the greatest value from x, y, or z (this is because AABB should be a cube)
 		float3 new_size = mesh->bounding_box.minPoint;
 
-		if (mesh->bounding_box.minPoint.Distance({ 0,0,0 }) < mesh->bounding_box.maxPoint.Distance({ 0,0,0 }))
-			new_size = mesh->bounding_box.maxPoint;
+		//if (mesh->bounding_box.minPoint.Distance({ 0,0,0 }) < mesh->bounding_box.maxPoint.Distance({ 0,0,0 }))
+		//	new_size = mesh->bounding_box.maxPoint;
 
 		float higher_distance = 0;
 
@@ -92,11 +93,11 @@ bool Octree::Insert(GameObject * new_go)
 
 		AABB new_bb(min_point, max_point);
 
-		if (root_node->box.minPoint.Distance({ 0,0,0 }) > new_bb.minPoint.Distance({ 0,0,0 }))
-			new_bb.minPoint = root_node->box.minPoint;
+		//if (root_node->box.minPoint.Distance({ 0,0,0 }) > new_bb.minPoint.Distance({ 0,0,0 }))
+		//	new_bb.minPoint = root_node->box.minPoint;
 
-		if (root_node->box.maxPoint.Distance({ 0,0,0 }) > new_bb.maxPoint.Distance({ 0,0,0 }))
-			new_bb.maxPoint = root_node->box.maxPoint;
+		//if (root_node->box.maxPoint.Distance({ 0,0,0 }) > new_bb.maxPoint.Distance({ 0,0,0 }))
+		//	new_bb.maxPoint = root_node->box.maxPoint;
 
 		//Create a new Octree
 		ret = true; 
@@ -139,7 +140,7 @@ void Octree::Recalculate()
 	octree_root.minPoint = { -5, -5, -5 };
 	octree_root.maxPoint = { 5, 5, 5 };
 
-	App->scene->octree->Create(octree_root, true, 5);
+	App->scene->octree->Create(octree_root, true, 1);
 }
 
 void Octree::CleanUp()
