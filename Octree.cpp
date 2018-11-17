@@ -126,7 +126,7 @@ void Octree::Recalculate()
 	octree_root.minPoint = { -5, -5, -5 };
 	octree_root.maxPoint = { 5, 5, 5 };
 
-	App->scene->octree->Create(octree_root, true, 1);
+	App->scene->octree->Create(octree_root, true, LIMIT_OCTREE_BUCKET);
 }
 
 void Octree::CleanUp()
@@ -286,6 +286,9 @@ void OctreeNode::CleanUp()
 
 void OctreeNode::Split()
 {
+
+	if (this->division_lvl >= 4)
+		return; 
 	//Get the size of the new nodes
 	float3 new_size = box.HalfSize();
 
@@ -316,11 +319,11 @@ void OctreeNode::Split()
 		{
 			if (childs[i]->box.Intersects(object_mesh->bounding_box))
 			{
-				if (childs[i]->objects_in_node.size() >= LIMIT_OCTREE_BUCKET)
-					childs[i]->Split(); 
+				childs[i]->objects_in_node.push_back(*it);
 
-				else
-					childs[i]->objects_in_node.push_back(*it);
+				if (childs[i]->objects_in_node.size() > LIMIT_OCTREE_BUCKET)
+					childs[i]->Split(); 
+				
 			}
 		}
 	}
