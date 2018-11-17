@@ -207,21 +207,27 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			char const * lFilterPatterns[1] = { "*.json" };
 			const char* path = tinyfd_saveFileDialog("Save Scene...", "UntitledScene", 1, lFilterPatterns, NULL);
-			string scene_name = App->file_system->GetLastPathItem(path, true); 
 
-			App->scene->SaveScene(scene_name.c_str());
-			CONSOLE_LOG("SCENE SAVED SUCCESFULLY"); 
+			if (path != NULL) {
+				string scene_name = App->file_system->GetLastPathItem(path, true);
+
+				App->scene->SaveScene(scene_name.c_str());
+				CONSOLE_LOG("SCENE SAVED SUCCESFULLY");
+			}
 		}
 
 		if (ImGui::MenuItem("Load Scene"))
 		{
 			char const * lFilterPatterns[2] = { "*.json" };
 			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
-			string scene_name = App->file_system->GetLastPathItem(path, true);
 
-			//First clean the current scene
-			App->scene->CleanScene();
-			App->scene->LoadScene(scene_name.c_str());
+			if (path != NULL) {
+				string scene_name = App->file_system->GetLastPathItem(path, true);
+
+				//First clean the current scene
+				App->scene->CleanScene();
+				App->scene->LoadScene(scene_name.c_str());
+			}
 
 		}
 
