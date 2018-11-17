@@ -320,8 +320,6 @@ bool ComponentMesh::GetClosestIntersectionPoint(LineSegment line, float3 &closes
 
 		bool hit = line.Intersects(tri, &current_distance, &hit_point);
 
-
-
 		if (hit) 
 		{
 			//CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
