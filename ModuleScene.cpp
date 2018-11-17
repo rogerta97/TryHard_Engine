@@ -593,19 +593,28 @@ update_status ModuleScene::Update(float dt)
 	{
 		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
 
-		CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
+		//CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
+		if (App->camera->frustum_culling) {
+			for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+			{
+				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
 
-		for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)
-		{
-			ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+				if (!mesh)
+					continue;
 
-			if (!mesh)
-				continue;
+				mesh->frustum_col_type = OUTSIDE_FRUSTUM;
+			}
 
-			if (App->camera->frustum_culling)
+			for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)
+			{
+				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+
+				if (!mesh)
+					continue;
+
+
 				mesh->frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(mesh->bounding_box);
-			else
-				mesh->frustum_col_type = INSIDE_FRUSTUM;
+			}
 		}
 	}
 	else
