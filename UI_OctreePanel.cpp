@@ -23,7 +23,7 @@ bool UI_OctreePanel::Start()
 
 bool UI_OctreePanel::Update()
 {
-	if (ImGui::Begin("Octree"))
+	if (ImGui::Begin("Octree",&show))
 	{
 		ImGui::TextWrapped("Octree is an space partitioning tool for optimizing frustum culling and intersection test. Creating an octree will take in account every static gameobject laying on the current scene"); 
 
@@ -84,10 +84,9 @@ bool UI_OctreePanel::Update()
 				octree->CleanUp();
 			}
 		}
-	
-		ImGui::End(); 
-
 	}
+	ImGui::End();
+
 	return true;
 }
 
