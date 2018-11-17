@@ -248,25 +248,22 @@ void OctreeNode::GetFrustumIntersctions(std::list<GameObject*>& inter_list, Frus
 {
 	if (box.Intersects(frustum))
 	{
-		if (leaf)
-		{
 			for (auto it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
 			{
 				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
 
-				if (mesh->bounding_box.Intersects(frustum))
+				if (frustum.Intersects(mesh->bounding_box))
 					inter_list.push_back(*it);
 
 			}
-		}
-		else
-		{
-			for (int i = 0; i < 8; i++)
+
+			if (!leaf)
 			{
-				childs[i]->GetFrustumIntersctions(inter_list, frustum);
+				for (int i = 0; i < 8; i++)
+				{
+					childs[i]->GetFrustumIntersctions(inter_list, frustum);
+				}
 			}
-		}
-	
 	}
 }
 
@@ -287,8 +284,9 @@ void OctreeNode::CleanUp()
 void OctreeNode::Split()
 {
 
-	if (this->division_lvl >= 4)
+	if (division_lvl >= OCTREE_DIV_LIMIT)
 		return; 
+
 	//Get the size of the new nodes
 	float3 new_size = box.HalfSize();
 
