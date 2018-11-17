@@ -78,15 +78,11 @@ bool Octree::Insert(GameObject * new_go)
 		//The size of the new box is the greatest value from x, y, or z (this is because AABB should be a cube)
 		float3 new_size = mesh->bounding_box.minPoint;
 
-		float higher_distance = 0;
-
-		if (new_size.Abs().x > higher_distance) higher_distance = new_size.Abs().x;
-		if (new_size.Abs().y  > higher_distance) higher_distance = new_size.Abs().y;
-		if (new_size.Abs().z  > higher_distance) higher_distance = new_size.Abs().z;
+		float higher_distance = GetHigherNumber(new_size.Abs().x, new_size.Abs().y, new_size.Abs().z);
 
 		//Create the new adapted AABB
-		float3 max_point = float3(higher_distance, higher_distance, higher_distance);
-		float3 min_point = -float3(higher_distance, higher_distance, higher_distance);
+		float3 max_point = float3(higher_distance + 1, higher_distance + 1, higher_distance + 1);
+		float3 min_point = -float3(higher_distance + 1, higher_distance + 1, higher_distance + 1);
 
 		AABB new_bb(min_point, max_point);
 

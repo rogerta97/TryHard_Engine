@@ -588,11 +588,6 @@ update_status ModuleScene::Update(float dt)
 
 	std::list<GameObject*> intersections_list;
 
-
-
-	//if (octree->GetRoot() != nullptr)
-	//	octree->Draw(); 
-
 	if (octree->GetRoot() != nullptr)
 	{
 		octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());

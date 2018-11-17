@@ -36,6 +36,33 @@ float GetPCGRandomNumberFloat(float max_value, float min_value)
 	return num_generated;
 }
 
+float GetHigherNumber(float num1, float num2)
+{
+	if (num1 >= num2)
+		return num1;
+
+	else
+		return num2; 
+}
+
+float GetHigherNumber(float num1, float num2, float num3)
+{
+	if (GetHigherNumber(num1, num2) == num2)
+	{
+		if (GetHigherNumber(num2, num3) == num3)
+		{
+			return num3;
+		}
+
+		return num2;
+	}
+	else if (GetHigherNumber(num1, num3) == num3)
+		return num3; 
+
+	else
+		return num1; 		
+}
+
 bool AskUserIfSave() {
 	return true;
 }

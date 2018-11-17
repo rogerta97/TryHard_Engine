@@ -336,7 +336,6 @@ void GameObject::DeleteRecursive()
 		{		
 			(*it)->DeleteRecursive();
 		}
-
 	}
  
 	App->scene->AddGameObjectToDeleteList(this);
