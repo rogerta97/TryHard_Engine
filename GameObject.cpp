@@ -678,3 +678,13 @@ void GameObject::SetCenterCamDataRecursive(float3 & position_amm, float & distan
 		}			
 	}
 }
+
+void GameObject::GetGOAmount(int& counter)
+{
+	counter++;
+
+	for (auto it = child_list.begin(); it != child_list.end(); it++)
+	{
+		(*it)->GetGOAmount(counter);
+	}
+}

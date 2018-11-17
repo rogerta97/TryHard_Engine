@@ -56,6 +56,7 @@ public:
 	//Utility
 	void GetEnclosedAABB(float3& min, float3& max); 
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
+	void GetGOAmount(int& counter);
 
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;

@@ -283,11 +283,13 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 			selected_go->SetCenterCamDataRecursive(position, distance);
 
 			AABB new_bb; 
-			new_bb.minPoint = min; 
-			new_bb.maxPoint = max; 
+			new_bb.minPoint = min;
+			new_bb.maxPoint = max;
 			distance = new_bb.Diagonal().Length() + 1; 
 
-			float3 center = position / App->scene->GetGameObjectsAmmount();
+			int ammount = 0; 
+			App->scene->GetSelectedGameObject()->GetGOAmount(ammount);
+			float3 center = position / (ammount - 1.0f);
 
 			float3 dst_point = GetCamPointFromDistance(center, distance);
 
