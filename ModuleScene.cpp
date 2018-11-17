@@ -400,7 +400,8 @@ GameObject * ModuleScene::GetClosestGO(LineSegment line, std::list<GameObject*> 
 	}
 
 	//if (something_intersected)
-	//CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	//	CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+
 	return closest_go;
 }
 
