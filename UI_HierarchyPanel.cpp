@@ -103,7 +103,7 @@ bool UI_HierarchyPanel::Update()
 			if (ImGui::MenuItem("Rename"))
 			{
 				//TODO: Create a floating window to open momentaniously to insert a new name and change it. 
-				App->imgui->hierarchy_panel->show_click_menu = false;
+				//App->imgui->hierarchy_panel->show_click_menu = false;
 			}
 
 			//if (ImGui::MenuItem("Duplicate"))
@@ -150,33 +150,12 @@ bool UI_HierarchyPanel::Update()
 		ImGui::OpenPopup("CreateOptions");
 		if (ImGui::BeginPopup("CreateOptions"))
 		{
-			if (ImGui::MenuItem("Empty"))
+			if (ImGui::MenuItem("Create Empty"))
 			{
 				App->imgui->hierarchy_panel->show_create_menu = false;
 
 				GameObject* new_go = App->scene->CreateGameObject();
 				new_go->name = "Empty";
-				App->scene->SetSelectedGameObject(new_go);
-			}
-
-			if (ImGui::MenuItem("Cube"))
-			{
-				App->imgui->hierarchy_panel->show_create_menu = false;
-
-				GameObject* new_go = App->scene->CreateGameObject();
-				new_go->SetParent(nullptr);
-
-				new_go->name = "Cube";
-
-				//Add Mesh
-				ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_MESH);
-				//Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE);
-
-				//new_mesh->name = "CubeMesh";
-				//new_mesh->LoadToMemory();
-				//cmp->SetMesh(new_mesh);
-				//cmp->CreateEnclosedMeshAABB();
-
 				App->scene->SetSelectedGameObject(new_go);
 			}
 
@@ -212,7 +191,7 @@ void UI_HierarchyPanel::ManageDragAndDrop(GameObject* current)
 			if (App->imgui->hierarchy_panel->dst_in_drag == App->imgui->hierarchy_panel->source_in_drag)
 				return;
 
-			else if (App->imgui->hierarchy_panel->dst_in_drag->GetChild(App->imgui->hierarchy_panel->source_in_drag->GetName().c_str()))
+			else if (App->imgui->hierarchy_panel->dst_in_drag->GetChild(App->imgui->hierarchy_panel->source_in_drag->unique_id))
 				return;
 
 			//Assign parenting

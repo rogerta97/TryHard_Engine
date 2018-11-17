@@ -29,6 +29,7 @@ public:
 	bool HasComponents();
 	bool HasChilds() const;
 	GameObject* GetChild(int index) const;
+	GameObject* GetChild(UID uid) const;
 	GameObject* GetChild(const char* name) const;
 	void DeleteChildFromList(GameObject* child_to_delete);
 	int GetNumChilds();

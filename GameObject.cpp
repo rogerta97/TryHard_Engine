@@ -614,6 +614,18 @@ GameObject * GameObject::GetChild(const char * name) const
 	return nullptr;
 }
 
+GameObject * GameObject::GetChild(UID id) const
+{
+	int i = 0;
+	for (auto it = child_list.begin(); it != child_list.end(); it++, i++)
+	{
+		if ((*it)->unique_id == id)
+			return (*it);
+	}
+
+	return nullptr;
+}
+
 void GameObject::DeleteChildFromList(GameObject * child_to_delete)
 {
 	if (child_list.empty() == false)
