@@ -10,24 +10,38 @@ Pol Ferrando: https://github.com/polferrando98
 
 Roger Tello: https://github.com/rogerta97
 
-## Innovations:
+## New innovations:
 
-- Interpolation when centering camera with 'F'
-- A Skybox
-- Possibility of changing the engine font
-- Slightly advanced performance tools
-- Scene in a dock
+- Any camera can be assigned as game camera and it can ve previewed in it's own dock
+- An octree instead of quadtree
+- A Skybox that moves with each camera
+- Resources built with a map
+- Guizmos
+- Drag and drop to assign parenting in the hierarchy
+- An explorer to select items to load
+- Any gameobject can have tags assigned
+- Prefabs can be created after editing a model
 
 ## How to use:
+
+### Basics:
+
+- Any gameobject can be picked with the mouse, and it's transform can be edited with the guizmo or in the inspector.
+- To change the guizmo mode, select a mode in the inspector of a transform component.
+- After loading models, the current scene can be saved and loaded later.
+- Pressing the play button will inter game mode. When exiting this mode, objects will return to the state they were when entering the mode.
 
 ### Tools:
 
 - Console: Shows and hides the console panel, the console LOGS the start LOGS and when you import geometry it shows the details of it.
 - RandomNum: Shows and hides a random generator tool panel.
 - Configuration: Shows the configuration panel where we can find a Menu Items with functionalities that apply to the scene or the engine workflow, it also shows the system information.
-- Performance: Shows the init and  Start-up performance of the modules and the run time graphs of the modules with preupdate, update and post-update.
+- Performance: Shows the init and  Start-up performance of the modules and the run time graphs of the modules with preupdate, update and post-update, as well as panels.
 - Inspector: Shows information about the selected game object and offers some options like changing the texture.
 - Hierarchy: Displays the game objects in the scene.
+- Explorer: Select and load models
+- Tags: Manage the tags of the gameobjects
+- Clocks: See the real time and the game time, and accelerate or slow down game time with a slider
 
 ### Help:
 
