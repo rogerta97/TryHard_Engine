@@ -20,6 +20,7 @@ public:
 	ImVec2 GetSize() const;
 
 	bool is_mouse_in;
+	bool is_dock_focused;
 
 	bool show = true;
 

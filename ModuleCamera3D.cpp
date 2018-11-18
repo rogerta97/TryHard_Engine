@@ -331,7 +331,7 @@ void ModuleCamera3D::ManageMovement()
 		//Camera WASD & ER input
 		float3 increment = { 0.0f ,0.0f ,0.0f };
 
-		if (App->imgui->is_mouse_in_scene) {
+		if (App->imgui->is_mouse_in_scene && App->imgui->scene_panel->is_dock_focused) {
 
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
 				cam->speed_multiplier = 2;
