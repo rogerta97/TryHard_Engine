@@ -441,6 +441,7 @@ void ModuleScene::SetDefaultScene()
 	GameObject* main_cam = CreateGameObject("Main Camera");
 
 	ComponentCamera* cam = (ComponentCamera*)main_cam->AddComponent(CMP_CAMERA);
+	cam->camera->frustum.farPlaneDistance = 1000;
 	cam->is_editor = false;
 
 }
