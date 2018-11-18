@@ -83,7 +83,7 @@ bool UI_ScenePanel::Update()
 
 		glDisable(GL_TEXTURE_2D);
 
-		is_mouse_in = ImGui::IsWindowHovered();
+		is_mouse_in = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
 
 		App->scene->DrawGuizmo();
 

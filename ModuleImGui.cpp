@@ -291,6 +291,10 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			tag_panel->show = !tag_panel->show;
 		}
+		if (ImGui::MenuItem("Clocks"))
+		{
+			clocks_panel->show = !clocks_panel->show;
+		}
 
 		ImGui::EndMenu();
 	}

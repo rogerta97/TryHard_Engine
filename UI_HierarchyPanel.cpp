@@ -110,24 +110,6 @@ bool UI_HierarchyPanel::Update()
 				delete App->scene->GetSelectedGameObject();
 			}
 
-			if (ImGui::MenuItem("Rename"))
-			{
-				//TODO: Create a floating window to open momentaniously to insert a new name and change it. 
-				//App->imgui->hierarchy_panel->show_click_menu = false;
-			}
-
-			//if (ImGui::MenuItem("Duplicate"))
-			//{
-			//	//TODO: Create a function that duplicates a GameObject, remember to add it to the scene.
-			//	GameObject* to_duplicate = new GameObject(); 
-			//	to_duplicate = App->scene->GetSelectedGameObject();
-
-			//	to_duplicate->ModifyIDSet();
-
-			//	App->scene->AddGameObjectToScene(to_duplicate);
-			//	App->imgui->hierarchy_panel->show_click_menu = false;
-			//}
-
 			if (ImGui::MenuItem("Create Empty Child"))
 			{
 				//TODO: Create a function that duplicates a GameObject, remember to add it to the scene.

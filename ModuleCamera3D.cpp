@@ -331,50 +331,53 @@ void ModuleCamera3D::ManageMovement()
 		//Camera WASD & ER input
 		float3 increment = { 0.0f ,0.0f ,0.0f };
 
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
-			cam->speed_multiplier = 2;
+		if (App->imgui->is_mouse_in_scene) {
 
-		if (App->input->GetKey(SDL_SCANCODE_W))
-		{
-			increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
+				cam->speed_multiplier = 2;
 
-		if (App->input->GetKey(SDL_SCANCODE_S))
-		{
-			increment += cam->Z * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_A))
-		{
-			increment += cam->X * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_D))
-		{
-			increment += cam->X * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_E))
-		{
-			increment += cam->Y * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_R))
-		{
-			increment += cam->Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
-			moved = true;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-		{
-			if (App->scene->GetSelectedGameObject() != nullptr)
+			if (App->input->GetKey(SDL_SCANCODE_W))
 			{
-				cam->center_next_frame = true; 
+				increment += cam->Z * -cam->GetSpeed()*App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_S))
+			{
+				increment += cam->Z * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A))
+			{
+				increment += cam->X * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_D))
+			{
+				increment += cam->X * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_E))
+			{
+				increment += cam->Y * cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_R))
+			{
+				increment += cam->Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
+				moved = true;
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+			{
+				if (App->scene->GetSelectedGameObject() != nullptr)
+				{
+					cam->center_next_frame = true;
+				}
 			}
 		}
 
@@ -411,7 +414,7 @@ void ModuleCamera3D::ManageMovement()
 			cam->Move(increment);
 
 		// Mouse motion ----------------
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->imgui->is_mouse_in_scene)
 		{
 
 			int dx = -App->input->GetMouseXMotion();
