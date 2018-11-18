@@ -30,6 +30,7 @@ public:
 
 	int GetResourcesLoadedAmmount(resource_type type = resource_type::RES_NULL);
 	int GetResourcesUsedAmmount(resource_type type = resource_type::RES_NULL);
+
 	std::list<Resource*> GetResourcesByType(resource_type type); 
 
 	void ManageNewFolderFile(std::string new_file_path);
