@@ -22,7 +22,7 @@ Material::~Material()
 
 void Material::CleanUp()
 {
-	//diffuse->Clear();
+	diffuse->Clear(); 
 }
 
 Texture * Material::GetDiffuseTexture()
@@ -53,10 +53,8 @@ void Material::UnloadFromMemory()
 {
 	if (diffuse != nullptr)
 	{
-		int id = diffuse->GetTextureID();
-		diffuse->SetTextureID(0);
-		glDeleteTextures(1, (GLuint*)&id);
-	
+		glDeleteTextures(1, (GLuint*)&diffuse->texture_id);
+		delete diffuse;
 	}
 }
 

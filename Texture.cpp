@@ -115,6 +115,7 @@ uint Texture::CreateBuffer()
 void Texture::Clear()
 {
 	glDeleteTextures(1, &texture_id); 
+	texture_id = 0;
 }
 
 

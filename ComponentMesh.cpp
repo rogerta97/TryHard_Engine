@@ -55,6 +55,7 @@ bool ComponentMesh::CleanUp()
 {
 	if (mesh != nullptr)
 	{
+		mesh->reference_counting--; 
 		mesh->CleanMeshData();
 		mesh = nullptr; 
 	}

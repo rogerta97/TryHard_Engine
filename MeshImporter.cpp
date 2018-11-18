@@ -340,9 +340,8 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 					if (!load_succes)
 					{
 						game_object->DeleteRecursive();		
-						App->resources->AddResourceToDelete(new_mesh->GetUID());
-						new_mesh->CleanMeshData();
-						new_mesh->~Mesh();
+						//App->resources->AddResourceToDelete(new_mesh->GetUID());
+						//new_mesh->CleanMeshData();
 						break;
 					}
 				}
