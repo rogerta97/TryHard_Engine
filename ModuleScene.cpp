@@ -14,6 +14,9 @@
 #include "ImGuizmo/ImGuizmo.h"
 
 #include <fstream>
+#include <vector> 
+#include <algorithm> 
+#include <iostream>
 
 
 #include "mmgr\mmgr.h"
@@ -110,12 +113,19 @@ void ModuleScene::DeleteGameObjectsNow()
 {
 	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
 	{
+		if ((*it)->GetIsStatic())
+		{
+			(*it)->SetStatic(false); 
+		}
 		(*it)->DeleteAllComponents();
 
 		if ((*it)->parent != nullptr)
 			(*it)->parent->DeleteChildFromList((*it));
 
 		(*it)->parent = nullptr;
+
+		if ((*it)->GetIsStatic())
+			DeleteGOFromStaticList((*it));
 
 		DeleteGameObjectFromList((*it));
 
@@ -591,13 +601,16 @@ update_status ModuleScene::Update(float dt)
 
 	if (App->camera->frustum_culling) {
 
-		std::list<GameObject*> intersections_list;
+		std::list<UID> intersections_list_uid;
 
-		if (octree->GetRoot() != nullptr)
+		if (octree->GetRoot() != nullptr && App->scene->go_to_delete.empty())
 		{
-			octree->GetIntersections(intersections_list, *App->camera->GetGameCamera()->GetFrustum());
+			octree->GetIntersections(intersections_list_uid, *App->camera->GetGameCamera()->GetFrustum());
 
-			CONSOLE_LOG("INTERSECTIONS: %d", intersections_list.size()); 
+			intersections_list_uid.sort();
+			intersections_list_uid.unique();
+
+			CONSOLE_LOG("INTERSECTIONS: %d", intersections_list_uid.size());
 
 			for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 			{
@@ -609,9 +622,9 @@ update_status ModuleScene::Update(float dt)
 				mesh->frustum_col_type = OUTSIDE_FRUSTUM;
 			}
 
-			for (auto it = intersections_list.begin(); it != intersections_list.end(); it++)
+			for (auto it = intersections_list_uid.begin(); it != intersections_list_uid.end(); it++)
 			{
-				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+				ComponentMesh* mesh = (ComponentMesh*)App->scene->GetGameObjectByID((*it))->GetComponent(CMP_MESH);
 
 				if (!mesh)
 					continue;

@@ -114,7 +114,7 @@ void Octree::GetIntersections(std::list<GameObject*> inter_list, GameObject * ne
 	root_node->GetObjectIntersections(inter_list, mesh->bounding_box);
 }
 
-void Octree::GetIntersections(std::list<GameObject*>& inter_list, Frustum new_frustum)
+void Octree::GetIntersections(std::list<UID>& inter_list, Frustum new_frustum)
 {
 	root_node->GetFrustumIntersctions(inter_list, new_frustum);
 }
@@ -221,7 +221,12 @@ void OctreeNode::Insert(GameObject* new_go, int& num_obj)
 					//We need to split and reasign the gameobjects 
 					Split();
 				}
-			}		
+			}
+			else
+			{
+				objects_in_node.push_back(new_go);
+				num_obj++;
+			}
 		}		
 	}
 }
@@ -244,17 +249,19 @@ void OctreeNode::GetObjectIntersections(std::list<GameObject*> inter_list, AABB 
 	}
 }
 
-void OctreeNode::GetFrustumIntersctions(std::list<GameObject*>& inter_list, Frustum frustum)
+void OctreeNode::GetFrustumIntersctions(std::list<UID>& inter_list, Frustum frustum)
 {
 	if (box.Intersects(frustum))
 	{
 			for (auto it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
 			{
-				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
+				if ((*it) != nullptr)
+				{
+					ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
 
-				if (frustum.Intersects(mesh->bounding_box))
-					inter_list.push_back(*it);
-
+					if (frustum.Intersects(mesh->bounding_box))
+						inter_list.push_back((*it)->unique_id);
+				}
 			}
 
 			if (!leaf)

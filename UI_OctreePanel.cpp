@@ -47,10 +47,10 @@ bool UI_OctreePanel::Update()
 			max_in_box = 1; 
 
 		ImGui::Spacing(); 
-		if(octree)
-			ImGui::Text("Objects: %d", octree->GetNumObjects()); 
-		else
-			ImGui::Text("Objects: 0");
+		
+		ImGui::Text("Objects: ");  ImGui::SameLine(); 	
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0), "%d", App->scene->static_gameobjects.size());
+
 
 		SEPARATE_WITH_SPACE
 
