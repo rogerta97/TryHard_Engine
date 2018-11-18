@@ -15,6 +15,8 @@ UI_ClocksPanel::~UI_ClocksPanel()
 
 bool UI_ClocksPanel::Start()
 {
+	show = false; 
+
 	return true;
 }
 
