@@ -273,7 +273,7 @@ void ComponentMesh::UpdateBoundingBox()
 {
 	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
-	if (trans)
+	if (trans && mesh)
 	{
 		bounding_box.SetNegativeInfinity();
 		bounding_box = bounding_box.MinimalEnclosingAABB(mesh->vertices, mesh->num_vertices);
