@@ -367,6 +367,11 @@ void ModuleScene::DrawGuizmo()
 
 		object_matrix.Transpose();
 
+		if (selected_go->GetIsStatic())
+			ImGuizmo::Enable(false);
+		else
+			ImGuizmo::Enable(true);
+
 		ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::LOCAL, (float*)&object_matrix);
 
 		object_matrix.Transpose();

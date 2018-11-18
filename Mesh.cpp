@@ -357,6 +357,8 @@ void Mesh::CleanMeshData()
 		delete[] load_buffer; //mem_leak, but if uncommented scene crashes
 		reference_counting--;
 	}
+
+	App->resources->DeleteFromList(uid);
 	
 }
 

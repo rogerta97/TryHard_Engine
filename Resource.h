@@ -47,7 +47,7 @@ public:
 
 	int reference_counting = 0; 
 
-private:
+protected:
 
 	UID uid; 
 	resource_type res_type; 
