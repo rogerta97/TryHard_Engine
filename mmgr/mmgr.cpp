@@ -257,32 +257,32 @@ static		void		doCleanupLogOnFirstRun();
 
 static	void	log(const char *format, ...)
 {
-	// Cleanup the log?
+	//// Cleanup the log?
 
-	if (cleanupLogOnFirstRun) doCleanupLogOnFirstRun();
+	//if (cleanupLogOnFirstRun) doCleanupLogOnFirstRun();
 
-	// Build the buffer
+	//// Build the buffer
 
-	static char buffer[2048];
-	va_list	ap;
-	va_start(ap, format);
-	vsprintf(buffer, format, ap);
-	va_end(ap);
+	//static char buffer[2048];
+	//va_list	ap;
+	//va_start(ap, format);
+	//vsprintf(buffer, format, ap);
+	//va_end(ap);
 
-	// Open the log file
+	//// Open the log file
 
-	FILE	*fp = fopen(memoryLogFile, "ab");
+	//FILE	*fp = fopen(memoryLogFile, "ab");
 
-	// If you hit this assert, then the memory logger is unable to log information to a file (can't open the file for some
-	// reason.) You can interrogate the variable 'buffer' to see what was supposed to be logged (but won't be.)
-	m_assert(fp);
+	//// If you hit this assert, then the memory logger is unable to log information to a file (can't open the file for some
+	//// reason.) You can interrogate the variable 'buffer' to see what was supposed to be logged (but won't be.)
+	//m_assert(fp);
 
-	if (!fp) return;
+	//if (!fp) return;
 
-	// Spit out the data to the log
+	//// Spit out the data to the log
 
-	fprintf(fp, "%s\r\n", buffer);
-	fclose(fp);
+	//fprintf(fp, "%s\r\n", buffer);
+	//fclose(fp);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------
@@ -533,56 +533,56 @@ static	void	dumpLeakReport()
 {
 	// Open the report file
 
-	FILE	*fp = fopen(memoryLeakLogFile, "w+b");
+	//FILE	*fp = fopen(memoryLeakLogFile, "w+b");
 
-	// If you hit this assert, then the memory report generator is unable to log information to a file (can't open the file for
-	// some reason.)
-	m_assert(fp);
-	if (!fp) return;
+	//// If you hit this assert, then the memory report generator is unable to log information to a file (can't open the file for
+	//// some reason.)
+	//m_assert(fp);
+	//if (!fp) return;
 
-	// Any leaks?
+	//// Any leaks?
 
-	// Header
+	//// Header
 
-	static  char    timeString[25];
-	memset(timeString, 0, sizeof(timeString));
-	time_t  t = time(NULL);
-	struct  tm *tme = localtime(&t);
-	fprintf(fp, " ---------------------------------------------------------------------------------------------------------------------------------- \r\n");
-	fprintf(fp, "|                                          Memory leak report for:  %02d/%02d/%04d %02d:%02d:%02d                                            |\r\n", tme->tm_mon + 1, tme->tm_mday, tme->tm_year + 1900, tme->tm_hour, tme->tm_min, tme->tm_sec);
-	fprintf(fp, " ---------------------------------------------------------------------------------------------------------------------------------- \r\n");
-	fprintf(fp, "\r\n");
-	fprintf(fp, "\r\n");
-	if (stats.totalAllocUnitCount)
-	{
-		fprintf(fp, "%d memory leak%s found:\r\n", stats.totalAllocUnitCount, stats.totalAllocUnitCount == 1 ? "":"s");
-	}
-	else
-	{
-		fprintf(fp, "Congratulations! No memory leaks found!\r\n");
+	//static  char    timeString[25];
+	//memset(timeString, 0, sizeof(timeString));
+	//time_t  t = time(NULL);
+	//struct  tm *tme = localtime(&t);
+	//fprintf(fp, " ---------------------------------------------------------------------------------------------------------------------------------- \r\n");
+	//fprintf(fp, "|                                          Memory leak report for:  %02d/%02d/%04d %02d:%02d:%02d                                            |\r\n", tme->tm_mon + 1, tme->tm_mday, tme->tm_year + 1900, tme->tm_hour, tme->tm_min, tme->tm_sec);
+	//fprintf(fp, " ---------------------------------------------------------------------------------------------------------------------------------- \r\n");
+	//fprintf(fp, "\r\n");
+	//fprintf(fp, "\r\n");
+	//if (stats.totalAllocUnitCount)
+	//{
+	//	fprintf(fp, "%d memory leak%s found:\r\n", stats.totalAllocUnitCount, stats.totalAllocUnitCount == 1 ? "":"s");
+	//}
+	//else
+	//{
+	//	fprintf(fp, "Congratulations! No memory leaks found!\r\n");
 
-		// We can finally free up our own memory allocations
+	//	// We can finally free up our own memory allocations
 
-		if (reservoirBuffer)
-		{
-			for (unsigned int i = 0; i < reservoirBufferSize; i++)
-			{
-				free(reservoirBuffer[i]);
-			}
-			free(reservoirBuffer);
-			reservoirBuffer = 0;
-			reservoirBufferSize = 0;
-			reservoir = NULL;
-		}
-	}
-	fprintf(fp, "\r\n");
+	//	if (reservoirBuffer)
+	//	{
+	//		for (unsigned int i = 0; i < reservoirBufferSize; i++)
+	//		{
+	//			free(reservoirBuffer[i]);
+	//		}
+	//		free(reservoirBuffer);
+	//		reservoirBuffer = 0;
+	//		reservoirBufferSize = 0;
+	//		reservoir = NULL;
+	//	}
+	//}
+	//fprintf(fp, "\r\n");
 
-	if (stats.totalAllocUnitCount)
-	{
-		dumpAllocations(fp);
-	}
+	//if (stats.totalAllocUnitCount)
+	//{
+	//	dumpAllocations(fp);
+	//}
 
-	fclose(fp);
+	//fclose(fp);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------
