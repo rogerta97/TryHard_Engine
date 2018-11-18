@@ -37,10 +37,11 @@ public:
 	void Clear(); 
 
 	std::string name = "";
+	uint texture_id;
 
 private:
 
-	uint texture_id;
+	
 	uint width;
 	uint height;
 

@@ -139,30 +139,6 @@ bool Mesh::SetCubeData()
 	uvs_cords[4] = 1.0f;
 	uvs_cords[5] = 0.0f;
 
-	//uvs_cords[6] = 1.0f; uvs_cords[7] = 1.0f;
-	//uvs_cords[8] = 0.0f; uvs_cords[9] = 1.0f;
-	//uvs_cords[10] = 0.0f; uvs_cords[11] = 0.0f;
-
-	//uvs_cords[6] = { 1.0f, 0.0f, 0.0f };	uvs_cords[7] = { 1.0f, 0.0f, 0.0f};
-	//uvs_cords[8] = { 0.0f, 1.0f, 0.0f };	uvs_cords[9] = { 1.0f, 0.0f, 0.0f};
-	//uvs_cords[10] = { 1.0f, 1.0f, 0.0f };	uvs_cords[11] = { 0.0f, 1.0f, 0.0f };
-
-	//uvs_cords[12] = { 0.0f, 0.0f, 0.0f };	uvs_cords[13] = { 1.0f, 1.0f, 0.0f };
-	//uvs_cords[14] = { 1.0f, 0.0f, 0.0f };	uvs_cords[15] = { 0.0f, 0.0f, 0.0f };
-	//uvs_cords[16] = { 0.0f, 1.0f, 0.0f };	uvs_cords[17] = { 1.0f, 1.0f, 0.0f };
-
-	//uvs_cords[18] = { 0.0f, 0.0f, 0.0f };	uvs_cords[19] = { 1.0f, 1.0f, 0.0f };
-	//uvs_cords[20] = { 1.0f, 0.0f, 0.0f };	uvs_cords[21] = { 0.0f, 1.0f, 0.0f };
-	//uvs_cords[22] = { 1.0f, 1.0f, 0.0f };	uvs_cords[23] = { 0.0f, 0.0f, 0.0f };
-
-	//uvs_cords[24] = { 1.0f, 0.0f, 0.0f };	uvs_cords[25] = { 0.0f, 0.0f, 0.0f };
-	//uvs_cords[26] = { 1.0f, 1.0f, 0.0f };	uvs_cords[27] = { 0.0f, 0.0f, 0.0f };
-	//uvs_cords[28] = { 0.0f, 1.0f, 0.0f };	uvs_cords[29] = { 1.0f, 0.0f, 0.0f };
-
-	//uvs_cords[30] = { 0.0f, 0.0f, 0.0f };	uvs_cords[31] = { 1.0f, 1.0f, 0.0f };
-	//uvs_cords[32] = { 1.0f, 0.0f, 0.0f };	uvs_cords[33] = { 0.0f, 0.0f, 0.0f };
-	//uvs_cords[34] = { 0.0f, 1.0f, 0.0f };	uvs_cords[35] = { 1.0f, 1.0f, 0.0f };
-
 	return true;
 }
 
@@ -187,162 +163,21 @@ float3 Mesh::CenterVertices(float3* vertices, int num)
 	return(max + min) / 2;
 }
 
-//bool Mesh::SetPlaneData()
-//{
-//	//Create the buffers
-//	type = BasicMeshType::MESH_PLANE;
-//		
-//	//Create Vertices
-//	num_vertices = 4;
-//	vertices = new float3[num_vertices];
-//
-//	vertices[0].x = 1.0f;
-//	vertices[0].y = 0.0f;
-//	vertices[0].z = 1.0f;
-//
-//	vertices[1].x = 1.0;
-//	vertices[1].y = 0.0f;
-//	vertices[1].z = -1.0f;
-//
-//	vertices[2].x = -1.0f;
-//	vertices[2].y = 0.0f;
-//	vertices[2].z = 1.0f;
-//
-//	vertices[3].x = -1.0;
-//	vertices[3].y = 0.0f;
-//	vertices[3].z = -1.0f;
-//
-//	////Create Indices
-//	num_indices = 6;
-//	indices = new int[num_indices];
-//	indices[0] = 0;
-//	indices[1] = 1;
-//	indices[2] = 2;
-//	indices[3] = 3;
-//	indices[4] = 2;
-//	indices[5] = 1;
-//
-//	num_uvs = num_indices;
-//	uvs_cords = new float[num_uvs*2];
-//
-//	uvs_cords[0] = 0.0f;
-//	uvs_cords[1] = 1.0f;
-//
-//	uvs_cords[2] = 0.0f;
-//	uvs_cords[3] = 0.0f;
-//
-//	uvs_cords[4] = 1.0f;
-//	uvs_cords[5] = 1.0f;
-//
-//	uvs_cords[6] = 1.0f;
-//	uvs_cords[7] = 0.0f;
-//
-//	uvs_cords[8] = 1.0f;
-//	uvs_cords[9] = 1.0f;
-//
-//	uvs_cords[10] = 0.0f;
-//	uvs_cords[11] = 0.0f;
-//
-//	return true; 
-//}
-//
-//bool Mesh::SetSphereData()
-//{
-//	////Create the buffers
-//	//vertices_id = CreateBuffer();
-//	//indices_id = CreateBuffer();
-//
-//	//std::vector<float3> sphere;
-//
-//	////---sphere
-//	//float radius = 1;
-//	//float sectors = 10;
-//	//float stacks = 10;
-//	//vec position(0, 0, 0);
-//
-//	//float x, y, z, xy;                              // vertex position
-//
-//	//float sectorStep = 2 * pi / sectors;
-//	//float stackStep = pi / stacks;
-//	//float sectorAngle, stackAngle;
-//
-//	//for (int i = 0; i <= stacks; ++i)
-//	//{
-//	//	stackAngle = pi / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-//	//	xy = radius * cosf(stackAngle);             // r * cos(u)
-//	//	y = position.y + radius * sinf(stackAngle);              // r * sin(u)
-//
-//	//															 // add (sectorCount+1) vertices per stack
-//	//															 // the first and last vertices have same position and normal, but different tex coods
-//	//	for (int j = 0; j <= sectors; ++j)
-//	//	{
-//	//		sectorAngle = j * sectorStep;
-//
-//	//		// vertex position (x, y, z)
-//	//		z = position.z + xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
-//	//		x = position.x + xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
-//	//		sphere.push_back(vec(x, y, z));
-//
-//	//	}
-//	//}
-//
-//	//glGenBuffers(1, (GLuint*) &(buffsphereID));
-//	//glBindBuffer(GL_ARRAY_BUFFER, buffsphereID);
-//	//glBufferData(GL_ARRAY_BUFFER, sizeof(float)*sphere.size() * 3, &sphere[0], GL_STATIC_DRAW);
-//
-//
-//
-//	//int k1, k2;
-//	//for (int i = 0; i < stacks; ++i)
-//	//{
-//	//	k1 = i * (sectors + 1);     // beginning of current stack
-//	//	k2 = k1 + sectors + 1;      // beginning of next stack
-//
-//	//	for (int j = 0; j < sectors; ++j, ++k1, ++k2)
-//	//	{
-//	//		// 2 triangles per sector excluding 1st and last stacks
-//	//		if (i != 0)
-//	//		{
-//	//			sphereIndices.push_back(k1);
-//	//			sphereIndices.push_back(k2);
-//	//			sphereIndices.push_back(k1 + 1);
-//	//		}
-//
-//	//		if (i != (stacks - 1))
-//	//		{
-//	//			sphereIndices.push_back(k1 + 1);
-//	//			sphereIndices.push_back(k2);
-//	//			sphereIndices.push_back(k2 + 1);
-//	//		}
-//	//	}
-//	//}
-//
-//	//glGenBuffers(1, (GLuint*)&(buffIndicesSphereID));
-//	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffIndicesSphereID);
-//	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * sphereIndices.size(), &sphereIndices[0], GL_STATIC_DRAW);
-//
-//	//GenBuffFromMeshes();
-//
-//	return true;
-//}
-
 void Mesh::CleanMeshData()
 {	
-	if (reference_counting == 1)
+	if (reference_counting == 0)
 	{
 		if (vertices_id != 0)
 		{
 			glDeleteBuffers(1, &vertices_id);
-			//delete[] vertices;
+			vertices_id = 0; 
 		}
 
 		if (indices_id != 0)
 		{
 			glDeleteBuffers(1, &indices_id);
-			//delete[] indices;
+			indices_id = 0; 
 		}
-
-		reference_counting--;
 	}
 
 	//App->resources->DeleteFromList(uid);
