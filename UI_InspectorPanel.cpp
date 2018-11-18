@@ -396,7 +396,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		
 		if (mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 		{
-			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150));
+			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
 
 			ImGui::SameLine();
 
