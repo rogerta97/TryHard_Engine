@@ -210,18 +210,6 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 
 			}
-
-			if (ImGui::MenuItem("Delete Resource"))
-			{
-
-			}
-
-			if (ImGui::MenuItem("Open In Explorer"))
-			{
-				const char* parent_folder = App->file_system->DeleteLastPathItem(folder.c_str()).c_str();
-				ShellExecute(NULL, "open", parent_folder, NULL, NULL, SW_SHOWMINIMIZED);
-			}
-
 			ImGui::EndPopup();
 		}
 	}

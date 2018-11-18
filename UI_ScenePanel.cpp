@@ -58,7 +58,7 @@ bool UI_ScenePanel::Update()
 	if (ImGuizmo::IsOver())
 		flags = flags | ImGuiWindowFlags_NoMove;
 
-	if (ImGui::Begin("Scene", &show, flags))
+	if (ImGui::Begin("Scene", NULL, flags))
 	{
 
 		region_size = ImGui::GetContentRegionAvail();

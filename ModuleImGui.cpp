@@ -305,25 +305,6 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SetSelectedGameObject(new_go);
 		}
 
-		if (ImGui::MenuItem("Cube"))
-		{
-			GameObject* new_go = App->scene->CreateGameObject();
-			new_go->SetParent(nullptr); 
-
-			new_go->name = "Cube"; 
-
-			//Add Mesh
-			ComponentMesh* cmp = (ComponentMesh*)new_go->AddComponent(CMP_MESH);
-			//Mesh* new_mesh = App->resources->mesh_importer->GetMeshByType(MESH_CUBE); 
-
-			//new_mesh->name = "CubeMesh"; 
-			//new_mesh->LoadToMemory(); 
-			//cmp->SetMesh(new_mesh);
-			//cmp->CreateEnclosedMeshAABB(); 
-
-			App->scene->SetSelectedGameObject(new_go);
-		}
-
 
 		if (ImGui::MenuItem("Camera"))
 		{
