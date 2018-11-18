@@ -65,8 +65,9 @@ bool UI_TagPanel::Update()
 			AddTag(tag_to_add.c_str());
 		}
 	
-		ImGui::End();
 	}
+
+	ImGui::End();
 
 	return true;
 }

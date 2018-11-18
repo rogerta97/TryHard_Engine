@@ -77,7 +77,11 @@ bool UI_HierarchyPanel::Update()
 				selection_mask = (1 << node_clicked);
 		}
 		ImGui::PopStyleVar();
+
+		ImGui::EndChild();
 	}
+	ImGui::End();
+
 
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_UP)
 	{
@@ -172,8 +176,7 @@ bool UI_HierarchyPanel::Update()
 		}
 	}
 
-	ImGui::EndChild();
-	ImGui::End();
+
 
 	return true;
 }

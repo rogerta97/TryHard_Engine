@@ -275,9 +275,8 @@ bool UI_ExplorerPanel::Update()
 	if (ImGui::Begin("Explorer", &show, NULL))
 	{
 		DrawExplorerRecursive(root_folder);
-
-		ImGui::End();
 	}
+	ImGui::End();
 	return true;
 }
 
