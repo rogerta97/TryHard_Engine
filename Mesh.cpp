@@ -330,35 +330,22 @@ void Mesh::CleanMeshData()
 {	
 	if (reference_counting == 1)
 	{
-		if (num_vertices != 0)
+		if (vertices_id != 0)
 		{
 			glDeleteBuffers(1, &vertices_id);
-			delete[] vertices;
+			//delete[] vertices;
 		}
 
-		if (num_indices != 0)
+		if (indices_id != 0)
 		{
 			glDeleteBuffers(1, &indices_id);
-			delete[] indices;
+			//delete[] indices;
 		}
 
-		if (num_uvs != 0 && uvs_id != 0)
-		{
-			glDeleteBuffers(1, &uvs_id);
-			delete[] uvs_cords;
-		}
-
-		if (num_normals != 0 && normals_id != 0)
-		{
-			glDeleteBuffers(1, &normals_id);
-			delete[] normal_cords;
-		}
-
-		delete[] load_buffer; //mem_leak, but if uncommented scene crashes
 		reference_counting--;
 	}
 
-	App->resources->DeleteFromList(uid);
+	//App->resources->DeleteFromList(uid);
 	
 }
 
