@@ -206,7 +206,8 @@ void UI_HierarchyPanel::ManageDragAndDrop(GameObject* current)
 		}
 		else if (!ImGui::IsAnyItemHovered())
 		{
-			App->imgui->hierarchy_panel->source_in_drag->SetParent(nullptr);
+			if(source_in_drag != nullptr && dst_in_drag != nullptr)
+				App->imgui->hierarchy_panel->source_in_drag->SetParent(nullptr);
 		}
 	}	
 }

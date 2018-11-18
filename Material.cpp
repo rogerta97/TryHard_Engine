@@ -54,8 +54,8 @@ void Material::UnloadFromMemory()
 	if (diffuse != nullptr)
 	{
 		int id = diffuse->GetTextureID();
-		glDeleteTextures(1, (GLuint*)&id);
 		diffuse->SetTextureID(0);
+		glDeleteTextures(1, (GLuint*)&id);
 		delete diffuse;
 	}
 }
