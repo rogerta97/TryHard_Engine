@@ -334,6 +334,14 @@ void GameObject::DeleteRecursive()
 	{
 		for (auto it = child_list.begin(); it != child_list.end(); it++)
 		{		
+			if ((*it)->GetIsStatic())
+			{
+				(*it)->SetStatic(false);
+
+				if (App->scene->octree)
+					App->scene->octree->Recalculate(); 
+			}
+			
 			(*it)->DeleteRecursive();
 		}
 	}

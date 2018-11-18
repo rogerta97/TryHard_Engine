@@ -141,8 +141,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
-	{		
-		
+	{				
 		(*it)->GetViewportTexture()->Bind();	
 		float4x4 view_gl_mat = *(float4x4*)(*it)->GetViewOpenGLViewMatrix();
 
