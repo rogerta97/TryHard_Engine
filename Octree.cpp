@@ -126,7 +126,7 @@ void Octree::Recalculate()
 	octree_root.minPoint = { -5, -5, -5 };
 	octree_root.maxPoint = { 5, 5, 5 };
 
-	App->scene->octree->Create(octree_root, true, 1);
+	App->scene->octree->Create(octree_root, true, LIMIT_OCTREE_BUCKET);
 }
 
 void Octree::CleanUp()
@@ -248,25 +248,22 @@ void OctreeNode::GetFrustumIntersctions(std::list<GameObject*>& inter_list, Frus
 {
 	if (box.Intersects(frustum))
 	{
-		if (leaf)
-		{
 			for (auto it = objects_in_node.begin(); it != objects_in_node.end(); ++it)
 			{
 				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
 
-				if (mesh->bounding_box.Intersects(frustum))
+				if (frustum.Intersects(mesh->bounding_box))
 					inter_list.push_back(*it);
 
 			}
-		}
-		else
-		{
-			for (int i = 0; i < 8; i++)
+
+			if (!leaf)
 			{
-				childs[i]->GetFrustumIntersctions(inter_list, frustum);
+				for (int i = 0; i < 8; i++)
+				{
+					childs[i]->GetFrustumIntersctions(inter_list, frustum);
+				}
 			}
-		}
-	
 	}
 }
 
@@ -286,6 +283,10 @@ void OctreeNode::CleanUp()
 
 void OctreeNode::Split()
 {
+
+	if (division_lvl >= OCTREE_DIV_LIMIT)
+		return; 
+
 	//Get the size of the new nodes
 	float3 new_size = box.HalfSize();
 
@@ -316,11 +317,11 @@ void OctreeNode::Split()
 		{
 			if (childs[i]->box.Intersects(object_mesh->bounding_box))
 			{
-				if (childs[i]->objects_in_node.size() >= LIMIT_OCTREE_BUCKET)
-					childs[i]->Split(); 
+				childs[i]->objects_in_node.push_back(*it);
 
-				else
-					childs[i]->objects_in_node.push_back(*it);
+				if (childs[i]->objects_in_node.size() > LIMIT_OCTREE_BUCKET)
+					childs[i]->Split(); 
+				
 			}
 		}
 	}
