@@ -597,6 +597,9 @@
     <ClInclude Include="UI_ClocksPanel.h">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Sources\Resources\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -880,6 +883,9 @@
     </ClCompile>
     <ClCompile Include="UI_Clocks.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Sources\Resources\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,1 @@
+{"Scene":{"obj_num":1,"tags_num":0,"main_camera_uid":4677034},"GameObject_0":{"Name":"Main Camera","UID":4677034,"Parent":0,"Components":{"ComponentTransform":{"PositionX":0,"PositionY":0,"PositionZ":0,"RotationX":0,"RotationY":0,"RotationZ":0,"ScaleX":1,"ScaleY":1,"ScaleZ":1},"ComponentCamera":{"Projection":0,"FOV":1.0471975803375244,"NearPlane":0.5,"FarPlane":1000}}}}
