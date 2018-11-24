@@ -4,16 +4,17 @@
 #include "imgui.h"
 #include "GameObject.h"
 #include "Octree.h"
+#include "Scene.h"
 
 #define MAX_SNAKE 2
 
-enum OPERATION
-{
-	TRANSLATE,
-	ROTATE,
-	SCALE,
-	BOUNDS,
-};
+//enum OPERATION
+//{
+//	TRANSLATE,
+//	ROTATE,
+//	SCALE,
+//	BOUNDS,
+//};
 
 class ModuleScene : public Module
 {
@@ -73,15 +74,11 @@ public:
 	void Pause();
 	void Play();
 
+	Scene* GetCurrentScene();
+	void SetCurrentScene(Scene* new_scene);
+
 public:
 
-	std::list<GameObject*> scene_gameobjects;
-	std::list<GameObject*> static_gameobjects;
-	std::list<GameObject*> go_to_delete;
-	GameObject* selected_go;
-	std::string scene_name;
-	Octree* octree;
-
-	OPERATION guizmo_mode;
+	Scene * current_scene; 
 
 };

@@ -38,7 +38,7 @@ void Octree::Create(AABB limits, bool adaptative, int obj_limit)
 
 	obj_ammount = 0; 
 
-	for (auto it = App->scene->static_gameobjects.begin(); it != App->scene->static_gameobjects.end(); it++)
+	for (auto it = App->scene->current_scene->static_gameobjects.begin(); it != App->scene->current_scene->static_gameobjects.end(); it++)
 	{
 		if (Insert((*it)))
 			break; 
@@ -126,7 +126,7 @@ void Octree::Recalculate()
 	octree_root.minPoint = { -5, -5, -5 };
 	octree_root.maxPoint = { 5, 5, 5 };
 
-	App->scene->octree->Create(octree_root, true, LIMIT_OCTREE_BUCKET);
+	App->scene->current_scene->octree->Create(octree_root, true, LIMIT_OCTREE_BUCKET);
 }
 
 void Octree::CleanUp()
@@ -179,7 +179,7 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::Draw()
 {
-	if (App->scene->octree->IsNull())
+	if (App->scene->current_scene->octree->IsNull())
 		return; 
 
 	float3 corners[8]; 

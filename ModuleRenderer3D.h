@@ -61,6 +61,5 @@ public:
 
 	int cam_cicles = 0; 
 
-
 	std::list<ComponentCamera*> rendering_cameras; 
 };

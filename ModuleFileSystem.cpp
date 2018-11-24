@@ -38,6 +38,9 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Prefabs");
 	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
 
+	curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Scenes");
+	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
+
 	curr_lib_folder_path = library_path.c_str() + string("\\") + std::string("Materials");
 	CreateDirectory(curr_lib_folder_path.c_str(), NULL);
 		 

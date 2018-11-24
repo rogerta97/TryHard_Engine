@@ -195,6 +195,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
 				{
+					item_name = App->file_system->DeleteFileExtension(item_name);
 					App->scene->LoadScene(item_name.c_str());
 					CONSOLE_LOG("SCENE LOADED SUCCESFULLY");
 				}

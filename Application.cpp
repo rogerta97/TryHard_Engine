@@ -23,6 +23,8 @@ Application::Application()
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
 
+	scene->current_scene = new Scene(); 
+
 	// Main Modules
 	AddModule(resources);
 	AddModule(window);

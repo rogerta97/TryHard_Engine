@@ -222,7 +222,7 @@ update_status ModuleImGui::DrawTopBar()
 			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
 
 			if (path != NULL) {
-				string scene_name = App->file_system->GetLastPathItem(path, true);
+				string scene_name = App->file_system->GetLastPathItem(path, false);
 
 				//First clean the current scene
 				App->scene->CleanScene();
@@ -235,7 +235,7 @@ update_status ModuleImGui::DrawTopBar()
 		{
 			char const * lFilterPatterns[2] = { "*.json" };
 			const char* path = tinyfd_openFileDialog("Load Scene...", NULL, 1, lFilterPatterns, NULL, 0);
-			string scene_name = App->file_system->GetLastPathItem(path, true);
+			string scene_name = App->file_system->GetLastPathItem(path, false);
 			App->scene->LoadScene(scene_name.c_str(), false);
 		}
 

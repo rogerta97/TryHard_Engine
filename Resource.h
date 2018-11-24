@@ -9,6 +9,7 @@ enum resource_type
 	RES_TEXTURE,
 	RES_MATERIAL, 
 	RES_PREFAB, 
+	RES_SCENE,
 	RES_NULL,
 };
 

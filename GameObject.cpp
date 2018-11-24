@@ -338,8 +338,8 @@ void GameObject::DeleteRecursive()
 			{
 				(*it)->SetStatic(false);
 
-				if (App->scene->octree)
-					App->scene->octree->Recalculate(); 
+				if (App->scene->GetCurrentScene()->octree)
+					App->scene->GetCurrentScene()->octree->Recalculate();
 			}
 			
 			(*it)->DeleteRecursive();

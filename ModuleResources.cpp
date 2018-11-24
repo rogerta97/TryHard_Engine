@@ -132,6 +132,10 @@ Resource* ModuleResources::CreateNewResource(resource_type type, UID force_id)
 	case RES_PREFAB:
 		to_ret = new Prefab();
 		break;
+
+	case RES_SCENE:
+		to_ret = new Scene();
+		break;
 	}
 
 	if (to_ret)

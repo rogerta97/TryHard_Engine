@@ -18,6 +18,13 @@
 UI_InspectorPanel::UI_InspectorPanel()
 {
 	name = "Inspector";
+
+	show = true;
+	gameobject = nullptr;
+	show_addcmp_ui = false;
+
+	show_tex_explorer = false;
+	show_mesh_explorer = false;
 }
 
 
@@ -27,12 +34,7 @@ UI_InspectorPanel::~UI_InspectorPanel()
 
 bool UI_InspectorPanel::Start()
 {
-	show = true;
-	gameobject = nullptr; 
-	show_addcmp_ui = false; 
 
-	show_tex_explorer = false;
-	show_mesh_explorer = false;
 
 	return true;
 }
@@ -87,7 +89,7 @@ bool UI_InspectorPanel::Update()
 		if (ImGui::Checkbox("Static", &tmp_is_static)) 
 		{
 			gameobject->SetStatic(tmp_is_static);
-			App->scene->octree->Recalculate();
+			App->scene->current_scene->octree->Recalculate();
 		}
 
 		ImGui::SameLine();
@@ -178,12 +180,15 @@ bool UI_InspectorPanel::Update()
 
 void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 {
+	
 	//Delete prev selected objects 
 	if (gameobject != nullptr)
 		gameobject->SetSelectedRecursive(false); 
 
-	gameobject = new_go; 
-	if(gameobject) new_go->SetSelectedRecursive(true); 
+	gameobject = new_go;
+
+	if(gameobject)
+		new_go->SetSelectedRecursive(true); 
 }
 
 GameObject * UI_InspectorPanel::GetGameObject() const
@@ -235,14 +240,14 @@ void UI_InspectorPanel::PrintTransformProperties()
 
 			SEPARATE_WITH_SPACE
 
-			if (ImGui::RadioButton("Translate", App->scene->guizmo_mode == ImGuizmo::TRANSLATE))
-				App->scene->guizmo_mode = (OPERATION)ImGuizmo::TRANSLATE;
+			if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Rotate", App->scene->guizmo_mode == ImGuizmo::ROTATE))
-				App->scene->guizmo_mode = (OPERATION)ImGuizmo::ROTATE;
+			if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
 			ImGui::SameLine();
-			if (ImGui::RadioButton("Scale", App->scene->guizmo_mode == ImGuizmo::SCALE))
-				App->scene->guizmo_mode = (OPERATION)ImGuizmo::SCALE;
+			if (ImGui::RadioButton("Scale", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::SCALE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::SCALE);
 
 			SEPARATE_WITH_SPACE
 
