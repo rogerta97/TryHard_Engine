@@ -76,7 +76,7 @@ Texture* MaterialImporter::LoadTexture(const char * path, bool flip)
 		}
 	
 
-		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+		int a = ilGetInteger(IL_PNG_ALPHA_INDEX);
 
 		if (success)
 		{

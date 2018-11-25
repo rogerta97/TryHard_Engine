@@ -166,6 +166,20 @@ void Scene::AddGameObjectToDeleteList(GameObject * to_del)
 	go_to_delete.push_back(to_del);
 }
 
+void Scene::AddGameObjectToTransparencyList(GameObject * to_add)
+{
+	transparent_gameobjects.push_back(to_add); 
+}
+
+std::map<float, GameObject*> Scene::GetSortedGOList(GameObject * new_go)
+{
+	std::map<float, GameObject*> list_to_ret; 
+
+	return list_to_ret;
+}
+
+
+
 void Scene::AddGOToStaticList(GameObject * go)
 {
 	static_gameobjects.push_back(go);

@@ -127,6 +127,9 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		UseCurrentRenderSettings();
 	}
 

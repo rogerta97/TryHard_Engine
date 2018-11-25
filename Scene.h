@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include <list>
+#include <map>
 
 class GameObject; 
 class Octree;
@@ -31,6 +32,8 @@ public:
 	void DeleteGameObjectsNow();
 	void CleanScene();
 	void AddGameObjectToDeleteList(GameObject* to_del);
+	void AddGameObjectToTransparencyList(GameObject* to_add);
+	std::map<float, GameObject*> GetSortedGOList(GameObject* new_go);
 
 	void AddGOToStaticList(GameObject* go);
 	void DeleteGOFromStaticList(GameObject* go);
@@ -77,6 +80,7 @@ public:
 	std::list<GameObject*> scene_gameobjects;
 	std::list<GameObject*> static_gameobjects;
 	std::list<GameObject*> go_to_delete;
+	std::list<GameObject*> transparent_gameobjects;
 
 	OPERATION guizmo_mode;
 };
