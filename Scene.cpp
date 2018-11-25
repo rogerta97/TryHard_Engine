@@ -48,8 +48,6 @@ bool Scene::Start()
 	octree->draw = false;
 
 	App->imgui->tag_panel->AddTag("Untagged");
-	SetDefaultScene();
-	scene_name = "Untitled";
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
@@ -457,84 +455,7 @@ void Scene::SetDefaultScene()
 
 void Scene::SaveScene(const char* scene_name)
 {
-	bool overwrite = false; 
-
-	// Check if a meta with the same name exists
-	Scene* scene_to_save = nullptr; 
-	string meta_name = scene_name + string(".json.meta"); 
-	string meta_path = App->file_system->GetScenesPath(); 
-
-	if (!App->file_system->IsFileInDirectory(meta_path, meta_name.c_str()))
-	{
-		overwrite = true; 
-		scene_to_save = (Scene*)App->resources->CreateNewResource(RES_MATERIAL); 
-
-		scene_to_save->name = scene_name; 
-		scene_to_save->path = App->file_system->GetLibraryPath() +  "\\Scenes" + scene_name + ".json"; 
-
-		//Create Meta
-		string item_meta_path = App->file_system->GetScenesPath() + string("\\") + meta_name;
-		std::ofstream stream;
-		stream.open(item_meta_path, std::fstream::out);
-
-		JSON_Value* scene_v = json_value_init_object();
-		JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-		//Save Meta Info
-		json_object_dotset_number(scene_obj, "MetaInfo.UID", scene_to_save->GetUID());
-
-		json_serialize_to_file(scene_v, item_meta_path.c_str());
-
-		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
-
-		stream.close();
-	}
-	else
-	{
-		//TODO: Inform that an scene is already saved with this name, and ask he wants to overwrite it
-		//final result is to set overwrite to true/false
-	}
-
-	if (overwrite)
-	{
-		//Create the path were the scene is going to be saved
-		string new_scene_path = App->file_system->GetLibraryPath() + std::string("\\Scenes\\") + to_string(scene_to_save->GetUID());
-
-		if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
-			new_scene_path += std::string(".json");
-
-		if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
-		{
-			CONSOLE_DEBUG("Scene '%s' already exist. Overwritting...", App->file_system->GetLastPathItem(new_scene_path).c_str());
-		}
-
-		//Create the new json file 
-		std::ofstream stream;
-		stream.open(new_scene_path, std::fstream::out);
-
-		JSON_Value* scene_v = json_value_init_object();
-		JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-		//Save Scene Info
-		json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size());
-		json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
-
-		if (App->camera->GetGameCameraObject() != nullptr)
-			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
-		else
-			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
-
-		int index = 0;
-		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-		{
-			scene_obj = json_value_get_object(scene_v);
-			(*it)->Save(scene_obj, index++);
-		}
-
-		json_serialize_to_file(scene_v, new_scene_path.c_str());
-
-		stream.close();
-	}
+	
 
 
 

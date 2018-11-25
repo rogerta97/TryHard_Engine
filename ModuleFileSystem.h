@@ -26,6 +26,7 @@ enum file_type
 	FT_IMAGE,
 	FT_FONT,
 	FT_SCENE, 
+	FT_META,
 	FT_PREFAB, 
 	FT_UNDEFINED,
 };
@@ -47,6 +48,7 @@ public:
 	string GetWorkingDirectory() const;
 	string GetLastPathItem(string path, bool termination = false);
 	string GetItemsAmountFromEnd(string directory, int ammount);
+	string DeleteLastFileExtension(string path);
 	string DeleteLastPathItem(string path);
 	string DeleteFileExtension(string path);
 	bool IsFolder(string directory);
@@ -63,10 +65,11 @@ public:
 
 	vector<string> GetNewFiles() const; 
 
-	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path);
+	void GetFilesInDirectory(const char* directory, std::vector<string>& list, bool include_path, bool get_meta);
 	void GetFilesInThisDirectory(const char* directory, std::vector<string>& list, bool include_path);
 	std::vector<string> GetAllFilesInDirectory(const char* directory, bool include_path);
 	std::vector<string> GetAllFoldersInDirectory(const char* directory, bool include_path);
+	string GetAllFilesExtension(string path);
 	std::vector<string> GetAllItemsInDirectory(const char* directory, bool include_path);
 	string GetFileInAllDirectory(const char* directory);
 	bool IsFileInDirectory(string directory, const char* filename);

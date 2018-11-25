@@ -60,6 +60,7 @@ bool ComponentCamera::Start()
 
 	viewport_texture = new TextureMSAA();
 	viewport_texture->Create(size.x, size.y, 2);
+	is_rendering = false;
 
 	//viewport_texture->SetHeight(size.y);
 	//viewport_texture->SetWidth(size.x);

@@ -11,7 +11,7 @@ public:
 	UI_ExplorerPanel();
 	~UI_ExplorerPanel();
 
-	void DrawExplorerRecursive(std::string folder);
+	void DrawExplorerRecursive(std::string folder, bool get_meta);
 
 	bool Start();
 	bool Update();

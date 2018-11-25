@@ -38,7 +38,9 @@ bool ModuleScene::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	LoadScene("DefaultScene");
+	current_scene = new Scene(); 
+	current_scene->SetDefaultScene();
+	App->scene->SetSelectedGameObject(nullptr);
 
 	App->renderer3D->OnResize(1000, 1000);
 	current_scene->octree = new Octree();
@@ -46,7 +48,7 @@ bool ModuleScene::Start()
 
 	App->imgui->tag_panel->AddTag("Untagged");
 
-	//App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
+	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
 	current_scene->SetGuizmoMode(TRANSLATE);
 
@@ -247,9 +249,89 @@ void ModuleScene::SetDefaultScene()
 
 void ModuleScene::SaveScene(const char* scene_name)
 {
-	current_scene->SaveScene(scene_name);
+	bool overwrite = false;
+
+	// Check if a meta with the same name exists
+	Scene* scene_to_save = nullptr;
+	string meta_name = scene_name + string(".json.meta");
+	string meta_path = App->file_system->GetScenesPath();
+
+	if (!App->file_system->IsFileInDirectory(meta_path, meta_name.c_str()))
+	{
+		overwrite = true;
+		scene_to_save = (Scene*)App->resources->CreateNewResource(RES_SCENE);
+
+		scene_to_save->name = scene_name;
+		scene_to_save->path = App->file_system->GetLibraryPath() + "\\Scenes" + scene_name + ".json";
+
+		//Create Meta
+		string item_meta_path = App->file_system->GetScenesPath() + string("\\") + meta_name;
+		std::ofstream stream;
+		stream.open(item_meta_path, std::fstream::out);
+
+		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+		//Save Meta Info
+		json_object_dotset_number(scene_obj, "MetaInfo.UID", scene_to_save->GetUID());
+
+		json_serialize_to_file(scene_v, item_meta_path.c_str());
+
+		SetFileAttributes(item_meta_path.c_str(), FILE_ATTRIBUTE_HIDDEN);
+
+		stream.close();
+	}
+	else
+	{
+		//TODO: Inform that an scene is already saved with this name, and ask he wants to overwrite it
+		//final result is to set overwrite to true/false
+		overwrite = true;
+	}
+
+	if (overwrite)
+	{
+		//Create the path were the scene is going to be saved
+		string new_scene_path = App->file_system->GetLibraryPath() + std::string("\\Scenes\\") + to_string(scene_to_save->GetUID());
+
+		if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
+			new_scene_path += std::string(".json");
+
+		if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
+		{
+			CONSOLE_DEBUG("Scene '%s' already exist. Overwritting...", App->file_system->GetLastPathItem(new_scene_path).c_str());
+		}
+
+		//Create the new json file 
+		std::ofstream stream;
+		stream.open(new_scene_path, std::fstream::out);
+
+		JSON_Value* scene_v = json_value_init_object();
+		JSON_Object* scene_obj = json_value_get_object(scene_v);
+
+		//Save Scene Info
+		json_object_dotset_number(scene_obj, "Scene.obj_num", current_scene->scene_gameobjects.size());
+		json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
+
+		if (App->camera->GetGameCameraObject() != nullptr)
+			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
+		else
+			json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
+
+		int index = 0;
+		for (auto it = current_scene->scene_gameobjects.begin(); it != current_scene->scene_gameobjects.end(); it++)
+		{
+			scene_obj = json_value_get_object(scene_v);
+			(*it)->Save(scene_obj, index++);
+		}
+
+		json_serialize_to_file(scene_v, new_scene_path.c_str());
+
+		stream.close();
+	}
+
+	//current_scene->SaveScene(scene_name);
 	
-	////Create the path were the scene is going to be saved
+	//Create the path were the scene is going to be saved
 	//string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name);
 
 	//if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
@@ -293,16 +375,45 @@ void ModuleScene::LoadScene(const char * scene_name, bool clean)
 {
 	string name_w_termination = scene_name + string(".json");
 
-	//Look 
+	if (App->file_system->GetFileExtension(name_w_termination) != FX_JSON)
+		name_w_termination += std::string(".json");
 
-	SetSceneName(name_w_termination.c_str());
+	Scene* scene_to_save = nullptr;
+	string meta_name = scene_name + string(".json.meta");
+	string meta_path = App->file_system->GetScenesPath();
 
-	if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), name_w_termination.c_str()))
+	//Check if the meta path exists, if not we don't load the scene
+	if (!App->file_system->IsFileInDirectory(meta_path, meta_name.c_str()))
+	{
+		////If the scene trying to be load is "DefaultScene", we create the scene
+		//if (scene_name == "DefaultScene")
+		//{
+		//	current_scene->SetDefaultScene();
+		//	App->scene->SetSelectedGameObject(nullptr);
+		//	return;
+		//}
+		//	
+		CONSOLE_ERROR("'.meta' file for %s is not found. Scene can not be load", scene_name); 
+		return; 
+	}
+
+	//Get the ID from the meta which is the name of the file 
+	string meta_file_path = meta_path + "\\" + meta_name; 
+
+	std::ifstream stream;
+	stream.open(meta_file_path.c_str(), std::fstream::in);
+
+	JSON_Value* root = json_parse_file(meta_file_path.c_str());
+	JSON_Object* root_obj = json_value_get_object(root);
+
+	UID obj_id = json_object_dotget_number(root_obj, "MetaInfo.UID");
+
+	if (App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Scenes").c_str(), string(to_string(obj_id) + ".json").c_str()))
 	{
 		if (clean)
 			CleanScene();
 
-		string path = App->file_system->GetScenesPath() + std::string("\\") + name_w_termination;
+		string path = App->file_system->GetLibraryPath() + "\\Scenes\\" + to_string(obj_id) + ".json";
 		std::ifstream stream;
 		stream.open(path.c_str(), std::fstream::in);
 
@@ -327,6 +438,8 @@ void ModuleScene::LoadScene(const char * scene_name, bool clean)
 
 		if (main_cam_uid != 0)
 			App->camera->SetGameCamera(App->scene->GetGameObjectByID(main_cam_uid));
+
+		SetSceneName(name_w_termination.c_str());
 
 		stream.close();
 	}
@@ -369,7 +482,7 @@ void ModuleScene::Play()
 	switch (current_state)
 	{
 	case RUNNING:
-		App->scene->LoadScene("temp_scene");
+		LoadScene("temp_scene");
 		break;
 
 	case STOPPED:

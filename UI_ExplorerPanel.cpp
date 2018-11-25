@@ -25,11 +25,11 @@ UI_ExplorerPanel::~UI_ExplorerPanel()
 {
 }
 
-void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
+void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder, bool get_meta = false)
 {
 	string item_name;
 
-	if (App->file_system->IsFolder(folder.c_str()))
+	if (App->file_system->IsFolder(folder.c_str()) || folder == App->file_system->GetScenesPath())
 	{
 		item_name = App->file_system->GetLastPathItem(folder.c_str(), true);
 
@@ -41,16 +41,22 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 		if (ImGui::TreeNodeEx(item_name.c_str()))
 		{
-			//If it has childs we call them recursively
+			//If it has childs we call them recursively   
 			vector<string> child_files;
-			App->file_system->GetFilesInDirectory(folder.c_str(), child_files, false);
+
+			if (folder == App->file_system->GetScenesPath())
+				App->file_system->GetFilesInDirectory(folder.c_str(), child_files, false, true);
+			else
+				App->file_system->GetFilesInDirectory(folder.c_str(), child_files, false, false);
 
 			for (auto it = child_files.begin(); it != child_files.end(); it++)
 			{
 				if ((*it) != "." && (*it) != "..")
 				{
 					string next_file = folder + '\\' + (*it);
-					DrawExplorerRecursive(next_file);
+					
+					DrawExplorerRecursive(next_file, true);
+
 				}
 
 			}
@@ -77,31 +83,30 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 
 		case file_type::FT_IMAGE:
 
-			/*if (App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
+			if (App->file_system->GetFileExtension(folder.c_str()) == FX_DDS)
 			{
-			if (DDS_mat == nullptr)
-			break;
+				if (DDS_mat == nullptr)
+					break;
 
-			ImGui::Image((ImTextureID)DDS_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
-			ImGui::SameLine();
+				ImGui::Image((ImTextureID)DDS_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break;
 			}
 			else if (App->file_system->GetFileExtension(folder.c_str()) == FX_TGA)
 			{
-			if (TGA_mat == nullptr)
-			break;
+				if (TGA_mat == nullptr)
+				break;
 
-			ImGui::Image((ImTextureID)TGA_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
-			ImGui::SameLine();
+				ImGui::Image((ImTextureID)TGA_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18));
+				ImGui::SameLine();
+				break; 
 			}
-			*/
-			//else
-			//{
+				
 			if (image_mat == nullptr)
 				break;
 
 			ImGui::Image((ImTextureID)image_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
 			ImGui::SameLine();
-			//}
 
 			break;
 
@@ -114,13 +119,23 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 			ImGui::SameLine();
 			break;
 
-		case file_type::FT_SCENE:
+		case file_type::FT_META:
 
+		{
 			if (scene_mat == nullptr)
 				break;
 
-			ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
-			ImGui::SameLine();
+			string no_meta_str = App->file_system->DeleteLastFileExtension(folder);
+			file_extension new_ext = App->file_system->GetFileExtension(no_meta_str);
+
+			if (new_ext == FX_JSON)
+			{
+				ImGui::Image((ImTextureID)scene_mat->GetDiffuseTexture()->GetTextureID(), ImVec2(18, 18), ImVec2(0, 1), ImVec2(1, 0));
+				ImGui::SameLine();
+			}
+
+		}
+		
 			break;
 
 		case file_type::FT_PREFAB:
@@ -193,11 +208,16 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder)
 					App->resources->material_importer->LoadFromBinary(lib_item.c_str(), new_mat);
 				}
 
-				else if (App->file_system->GetFileType(folder.c_str()) == FT_SCENE)
+				else if (App->file_system->GetFileExtensionStr(folder) == ".meta")
 				{
-					item_name = App->file_system->DeleteFileExtension(item_name);
-					App->scene->LoadScene(item_name.c_str());
-					CONSOLE_LOG("SCENE LOADED SUCCESFULLY");
+					string no_meta_name = App->file_system->DeleteLastFileExtension(folder); 
+
+					if(App->file_system->GetFileExtensionStr(no_meta_name) == ".json")
+					{ 
+						item_name = App->file_system->DeleteFileExtension(item_name);
+						App->scene->LoadScene(item_name.c_str());
+						CONSOLE_LOG("SCENE LOADED SUCCESFULLY");
+					}			
 				}
 
 

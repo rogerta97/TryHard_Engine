@@ -109,6 +109,8 @@ file_extension ModuleFileSystem::GetFileExtension(std::string full_path)
 
 		else if (term == ".meta")
 			return FX_META;
+		
+			
 
 		return FX_ERR;
 	
@@ -141,6 +143,9 @@ file_type ModuleFileSystem::GetFileType(string full_path)
 
 	else if (curr_extension == FX_JPREFAB)
 		return file_type::FT_PREFAB;
+
+	else if (curr_extension == FX_META)
+		return file_type::FT_META;
 
 	return file_type::FT_UNDEFINED; 
 }
@@ -192,11 +197,21 @@ string ModuleFileSystem::DeleteFileExtension(string path_char)
 
 	return path;
 }
+string ModuleFileSystem::DeleteLastFileExtension(string path_char)
+{
+	string path(path_char);
+
+	int pos = path.find_last_of(".");
+	int to_del = path.size() - pos;
+	path = path.substr(0, path.size() - to_del);
+
+	return path;
+}
 
 bool ModuleFileSystem::IsFolder(string directory)
 {
 	vector<string> files;
-	App->file_system->GetFilesInDirectory(directory.c_str(), files, false);
+	App->file_system->GetFilesInDirectory(directory.c_str(), files, false, false);
 
 	for (auto it = files.begin(); it != files.end(); it++)
 	{
@@ -285,7 +300,7 @@ void ModuleFileSystem::GetFilesInThisDirectory(const char * directory, std::vect
 	return;
 }
 
-void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<string>& list, bool include_path = false)
+void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<string>& list, bool include_path = false, bool get_meta = false)
 {
 	std::string path(directory);
 	path.append("\\*");
@@ -297,7 +312,7 @@ void ModuleFileSystem::GetFilesInDirectory(const char * directory, std::vector<s
 	{
 		do
 		{
-			if (GetFileExtension(data.cFileName) == FX_META)
+			if (GetFileExtension(data.cFileName) == FX_META && get_meta == false)
 				continue;
 
 			if (std::string(data.cFileName) != std::string(".") && std::string(data.cFileName) != std::string(".."))

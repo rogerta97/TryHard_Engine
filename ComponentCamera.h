@@ -107,6 +107,7 @@ public:
 	bool					draw_frustum; 
 	Camera*					camera;
 	bool					is_editor; 
+	bool					is_rendering; 
 	bool					center_next_frame; 
 
 private:
