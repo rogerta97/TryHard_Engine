@@ -8,13 +8,6 @@
 
 #define MAX_SNAKE 2
 
-//enum OPERATION
-//{
-//	TRANSLATE,
-//	ROTATE,
-//	SCALE,
-//	BOUNDS,
-//};
 
 class ModuleScene : public Module
 {

@@ -374,7 +374,7 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 void Scene::DrawGuizmo()
 {
-	if (selected_go) //Draw guizmos
+	if (selected_go != nullptr && selected_go->GetIsUI() == false) //Draw guizmos
 	{
 		ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
 		ImVec2 scene_size = App->imgui->scene_panel->GetSize();
@@ -465,6 +465,10 @@ void Scene::SetDefaultScene()
 	cam->camera->frustum.farPlaneDistance = 1000;
 	cam->is_editor = false;
 
+	// Try to create a canvas GO
+	GameObject* parent_canvas = new GameObject("Canvas", true); 
+	parent_canvas->AddComponent(CMP_CANVAS);
+	AddGameObjectToScene(parent_canvas); 
 }
 
 void Scene::SaveScene(const char* scene_name)

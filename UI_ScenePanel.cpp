@@ -63,7 +63,6 @@ bool UI_ScenePanel::Update()
 
 		region_size = ImGui::GetContentRegionAvail();
 
-
 		ImGui::BeginChild("SceneView");
 
 		//Render the texture

@@ -2,9 +2,10 @@
 
 #include "GameObject.h"
 
+class UI_Canvas;
+
 enum UI_Widgget_Type
 {
-	UI_CANVAS,
 	UI_BUTTON,
 	UI_CHECKBOX,
 	UI_LABEL,
@@ -29,5 +30,6 @@ public:
 private:
 
 	UI_Widgget_Type wid_type; 
+	UI_Canvas* canvas; 
 };
 

@@ -25,6 +25,8 @@ private:
 
 	void PrintProperties(CompType type); 
 	void PrintTransformProperties();
+	void PrintRectTransformProperties();
+	void PrintCanvasProperties();
 	void PrintMeshProperties(); 
 	void PrintMaterialProperties();
 

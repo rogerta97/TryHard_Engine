@@ -43,8 +43,7 @@ GameObject::GameObject(const char * name, bool _is_ui)
 	}
 	else
 	{
-		Component* new_cmp = new ComponentRectTransform(this);
-		component_list.push_back(new_cmp);
+		ComponentRectTransform* new_cmp = (ComponentRectTransform*)AddComponent(CMP_RECTTRANSFORM);
 		rect_transform = (ComponentRectTransform*)new_cmp;
 	}
 

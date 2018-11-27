@@ -4,6 +4,7 @@
 
 ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 {
+	component_type = CMP_RECTTRANSFORM;
 }
 
 

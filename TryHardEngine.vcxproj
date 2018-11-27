@@ -247,6 +247,7 @@
     <ClInclude Include="UI_ExplorerPanel.h" />
     <ClInclude Include="UI_GamePanel.h" />
     <ClInclude Include="UI_HierarchyPanel.h" />
+    <ClInclude Include="UI_Image.h" />
     <ClInclude Include="UI_InspectorPanel.h" />
     <ClInclude Include="UI_OctreePanel.h" />
     <ClInclude Include="UI_Panel.h" />
@@ -350,6 +351,7 @@
     <ClCompile Include="UI_ExplorerPanel.cpp" />
     <ClCompile Include="UI_GamePanel.cpp" />
     <ClCompile Include="UI_HierarchyPanel.cpp" />
+    <ClCompile Include="UI_Image.cpp" />
     <ClCompile Include="UI_InspectorPanel.cpp" />
     <ClCompile Include="UI_OctreePanel.cpp" />
     <ClCompile Include="UI_PerformancePanel.cpp" />

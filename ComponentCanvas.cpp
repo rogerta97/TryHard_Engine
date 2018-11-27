@@ -3,6 +3,7 @@
 
 ComponentCanvas::ComponentCanvas(GameObject* parent)
 {
+	component_type = CMP_CANVAS;
 }
 
 

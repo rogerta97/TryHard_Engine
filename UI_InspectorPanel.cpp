@@ -213,17 +213,26 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		break;
 
 	case CMP_CAMERA:
-		if (ImGui::CollapsingHeader("Component Camera"))
+		if (ImGui::CollapsingHeader("Camera"))
 		{			
 			PrintCameraProperties((ComponentCamera*)GetGameObject()->GetComponent(CMP_CAMERA));
 		}	
 		break;
+
+	case CMP_RECTTRANSFORM:
+		PrintRectTransformProperties();
+		break;
+
+	case CMP_CANVAS:
+		PrintCanvasProperties();
+		break;
+
 	}
 }
 
 void UI_InspectorPanel::PrintTransformProperties()
 {
-	if (ImGui::CollapsingHeader("Component Transform"))
+	if (ImGui::CollapsingHeader("Transform"))
 	{
 		ComponentTransform* trans_cmp = (ComponentTransform*)GetGameObject()->GetComponent(CMP_TRANSFORM);
 
@@ -284,10 +293,26 @@ void UI_InspectorPanel::PrintTransformProperties()
 	}
 }
 
+void UI_InspectorPanel::PrintRectTransformProperties()
+{
+	if (ImGui::CollapsingHeader("Rect Transform"))
+	{
+
+	}
+}
+
+void UI_InspectorPanel::PrintCanvasProperties()
+{
+	if (ImGui::CollapsingHeader("Canvas"))
+	{
+
+	}
+}
+
 
 void UI_InspectorPanel::PrintMeshProperties()
 {
-	if (ImGui::CollapsingHeader("Component Mesh Renderer"))
+	if (ImGui::CollapsingHeader("Mesh Renderer"))
 	{
 		ComponentMesh* mesh_cmp = (ComponentMesh*)GetGameObject()->GetComponent(CMP_MESH);
 
@@ -358,7 +383,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 
 void UI_InspectorPanel::PrintMaterialProperties()
 {
-	if (ImGui::CollapsingHeader("Component Material"))
+	if (ImGui::CollapsingHeader("Material"))
 	{
 		ComponentMaterial* mat_cmp = (ComponentMaterial*)GetGameObject()->GetComponent(CMP_MATERIAL);
 
