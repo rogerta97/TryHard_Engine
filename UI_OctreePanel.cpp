@@ -15,7 +15,7 @@ UI_OctreePanel::~UI_OctreePanel()
 bool UI_OctreePanel::Start()
 {
 	show = false;
-	octree = App->scene->octree; 
+	octree = App->scene->current_scene->octree;
 	size = 100.0f; 
 	
 	return true;
@@ -49,7 +49,7 @@ bool UI_OctreePanel::Update()
 		ImGui::Spacing(); 
 		
 		ImGui::Text("Objects: ");  ImGui::SameLine(); 	
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0), "%d", App->scene->static_gameobjects.size());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0, 1.0), "%d", App->scene->current_scene->static_gameobjects.size());
 
 
 		SEPARATE_WITH_SPACE
@@ -58,7 +58,7 @@ bool UI_OctreePanel::Update()
 		{
 			if (ImGui::Button("Create"))
 			{
-				if (App->scene->static_gameobjects.empty())
+				if (App->scene->current_scene->static_gameobjects.empty())
 				{
 					CONSOLE_ERROR("Octree can not be created with any static GO in the scene.");
 				}
@@ -69,8 +69,8 @@ bool UI_OctreePanel::Update()
 					octree_root.minPoint = { -size, -size, -size };
 					octree_root.maxPoint = { size, size, size };
 
-					App->scene->octree->Create(octree_root, octree->adaptative, max_in_box);
-					size = App->scene->octree->GetRoot()->box.Edge(0).Length() / 2;
+					App->scene->current_scene->octree->Create(octree_root, octree->adaptative, max_in_box);
+					size = App->scene->current_scene->octree->GetRoot()->box.Edge(0).Length() / 2;
 
 				}
 

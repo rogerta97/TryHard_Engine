@@ -10,6 +10,8 @@
 
 #include "Component.h"
 #include "ComponentTransform.h"
+#include "ComponentRectTransform.h"
+#include "ComponentCanvas.h"
 #include "ComponentMesh.h"
 
 #include "ComponentMaterial.h"
@@ -244,6 +246,14 @@ Component* GameObject::AddComponent(CompType new_type)
 
 			case CMP_CAMERA:
 				new_cmp = new ComponentCamera(this);
+				break;
+
+			case CMP_CANVAS:
+				new_cmp = new ComponentCanvas(this);
+				break;
+
+			case CMP_RECTTRANSFORM:
+				new_cmp = new ComponentRectTransform(this);
 				break;
 		}
 

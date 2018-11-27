@@ -15,6 +15,7 @@ Application::Application()
 	scene = new ModuleScene();
 	resources = new ModuleResources();
 	renderer3D = new ModuleRenderer3D();
+	user_interface = new ModuleUserInterface(); 
 	camera = new ModuleCamera3D();
 	file_system = new ModuleFileSystem();
 	time_manager = new ModuleTime();
@@ -39,7 +40,7 @@ Application::Application()
 	// Renderer last!	
 	AddModule(imgui);
 	AddModule(renderer3D);
-
+	AddModule(user_interface); 
 
 }
 

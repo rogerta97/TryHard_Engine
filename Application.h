@@ -11,6 +11,7 @@
 #include "ModuleScene.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleUserInterface.h"
 #include "ModuleFileSystem.h"
 #include "ModuleTime.h"
 
@@ -51,6 +52,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleFileSystem* file_system; 
+	ModuleUserInterface* user_interface;
 	ModuleTime* time_manager;
 
 	GameState current_game_state = STOPPED;
