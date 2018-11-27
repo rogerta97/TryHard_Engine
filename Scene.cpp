@@ -199,7 +199,7 @@ void Scene::DeleteGOFromStaticList(GameObject * go)
 
 GameObject * Scene::LoadPrefab(const char * prf_name)
 {
-	GameObject* root_go = new GameObject(prf_name);
+	GameObject* root_go = new GameObject(prf_name, false);
 
 	string dest_str = App->file_system->GetPrefabPath() + string("\\") + prf_name + ".jprefab";
 
@@ -215,7 +215,7 @@ GameObject * Scene::LoadPrefab(const char * prf_name)
 
 	for (int i = 0; i < obj_ammount; i++)
 	{
-		GameObject* new_go = new GameObject();
+		GameObject* new_go = new GameObject("", false);
 		new_go->Load(scene_obj, i);
 		AddGameObjectToScene(new_go);
 		obj_list.push_back(new_go);
@@ -500,7 +500,7 @@ void Scene::LoadScene(const char * scene_path, bool clean)
 		while (i < obj_ammount)
 		{
 			string item_to_get = "GameObject_" + to_string(i);
-			GameObject* new_go = new GameObject();
+			GameObject* new_go = new GameObject("", false);
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);

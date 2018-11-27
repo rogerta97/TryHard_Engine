@@ -13,7 +13,7 @@ enum UI_Widgget_Type
 	UI_NULL,
 };
 
-class UI_Element : public GameObject
+class UI_Element
 {
 public:
 	UI_Element();

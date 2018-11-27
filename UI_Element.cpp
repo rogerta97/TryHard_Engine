@@ -1,9 +1,9 @@
 #include "UI_Element.h"
+#include "GameObject.h"
 
 UI_Element::UI_Element()
 {
-	// Add the rect transform component to it
-
+	
 }
 
 UI_Element::~UI_Element()
@@ -16,6 +16,7 @@ void UI_Element::Start()
 
 void UI_Element::Update()
 {
+	
 }
 
 void UI_Element::CleanUp()

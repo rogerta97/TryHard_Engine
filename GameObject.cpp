@@ -22,36 +22,32 @@
 #include "mmgr\mmgr.h"
 
 
-GameObject::GameObject()
-{
-	name = ""; 
-	parent = nullptr; 
-	bounding_box = nullptr;
-	is_static = false; 
-	active = true; 
-	tag = ""; 
-	selected = false; 
 
-	unique_id = App->file_system->GenerateUID();
-
-	Component* new_cmp = new ComponentTransform(this);
-	component_list.push_back(new_cmp);
-	transform = (ComponentTransform*)new_cmp;
-}
-
-GameObject::GameObject(const char * name)
+GameObject::GameObject(const char * name, bool _is_ui)
 {
 	this->name = name;
+	SetIsUI(_is_ui);
+	unique_id = App->file_system->GenerateUID();
+
 	is_static = false;
 	bounding_box = nullptr;
 	parent = nullptr; 
 	selected = false; 
+	ui_element = nullptr; 
+	
+	if (!GetIsUI())
+	{
+		Component* new_cmp = new ComponentTransform(this);
+		component_list.push_back(new_cmp);
+		transform = (ComponentTransform*)new_cmp;
+	}
+	else
+	{
+		Component* new_cmp = new ComponentRectTransform(this);
+		component_list.push_back(new_cmp);
+		rect_transform = (ComponentRectTransform*)new_cmp;
+	}
 
-	unique_id = App->file_system->GenerateUID();
-
-	Component* new_cmp = new ComponentTransform(this);
-	component_list.push_back(new_cmp);
-	transform = (ComponentTransform*)new_cmp;
 }
 
 
@@ -119,6 +115,27 @@ GameObject * GameObject::GetRootParent()
 		to_ret = to_ret->GetParent(); 
 
 	return to_ret; 
+}
+
+void GameObject::SetIsUI(bool newValue)
+{
+	is_ui = newValue;
+}
+
+bool GameObject::GetIsUI() const
+{
+	return is_ui;
+}
+
+void GameObject::SetUIElement(UI_Element * newValue)
+{
+	if(newValue != nullptr)
+		ui_element = newValue;
+}
+
+UI_Element * GameObject::GetUIElement() const
+{
+	return ui_element;
 }
 
 string GameObject::GetTag() const
@@ -389,7 +406,7 @@ bool GameObject::DeleteComponent(CompType cmp)
 
 GameObject * GameObject::Duplicate()
 {
-	GameObject* to_ret = new GameObject(name.c_str()); 
+	GameObject* to_ret = new GameObject(name.c_str(), false); 
 
 	to_ret->selected = true; 
 	to_ret->bounding_box = bounding_box; 

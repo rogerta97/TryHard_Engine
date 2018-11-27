@@ -7,13 +7,14 @@
 #include "JSON\parson.h"
 
 class ComponentTransform;
+class ComponentRectTransform; 
+class UI_Element; 
 
 class GameObject
 {
 public:
 
-	GameObject();
-	GameObject(const char* name);
+	GameObject(const char* name, bool is_ui = false);
 	~GameObject();
 
 	void Start(); 
@@ -64,6 +65,12 @@ public:
 	GameObject* GetParent() const;
 	GameObject* GetRootParent(); 
 
+	void SetIsUI(bool newValue); 
+	bool GetIsUI() const;
+
+	void SetUIElement(UI_Element* newValue);
+	UI_Element* GetUIElement() const;
+
 	std::string GetTag() const;
 	void SetTag(std::string new_tag); 
 
@@ -88,11 +95,17 @@ public:
 	std::string name;
 	GameObject* parent;
 	UID unique_id;
+
+	//Easy acces to transform 
+
 	ComponentTransform* transform;
+	ComponentRectTransform* rect_transform;
 
 private:
 	std::list<GameObject*> child_list; 
 	bool active; 
+	bool is_ui; 
+	UI_Element* ui_element; 
 	bool is_static;
 	std::string tag; 
 };

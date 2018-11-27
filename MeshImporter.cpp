@@ -187,7 +187,7 @@ GameObject* MeshImporter::CreateFBXMesh(const char* full_path, UID root_uid, boo
 	{
 		aiNode* root_node = scene->mRootNode;
 
-		GameObject* tmp_go = new GameObject();
+		GameObject* tmp_go = new GameObject("", false);
 
 		LoadFBXMesh(full_path, root_node, (aiScene*)scene, tmp_go, first_load, root_uid);
 
@@ -214,7 +214,7 @@ void MeshImporter::LoadFBXMesh(const char * full_path, aiNode * node, aiScene * 
 {
 	//This node contains mesh information (vertices, indices...)
 
-	GameObject* game_object = new GameObject();
+	GameObject* game_object = new GameObject("", false);
 	bool load_succes = true;
 
 	if (node->mParent != nullptr)

@@ -113,7 +113,7 @@ bool UI_HierarchyPanel::Update()
 			if (ImGui::MenuItem("Create Empty Child"))
 			{
 				//TODO: Create a function that duplicates a GameObject, remember to add it to the scene.
-				GameObject* child_go = new GameObject("Empty");	
+				GameObject* child_go = new GameObject("Empty", false);	
 				child_go->SetParent(App->scene->GetSelectedGameObject());
 				App->imgui->hierarchy_panel->show_click_menu = false;
 			}

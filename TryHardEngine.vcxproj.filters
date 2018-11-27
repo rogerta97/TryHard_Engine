@@ -79,6 +79,9 @@
     <Filter Include="Sources\3rd Partys\ImGuizmo">
       <UniqueIdentifier>{630fb7ee-d69e-4cce-a303-a4e7554f304d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObject\UI_Elements">
+      <UniqueIdentifier>{b46bdb68-eb96-42de-ae97-bcf383bbd958}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -612,6 +615,9 @@
     <ClInclude Include="ComponentRectTransform.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Canvas.h">
+      <Filter>Sources\GameObject\UI_Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -910,6 +916,9 @@
     </ClCompile>
     <ClCompile Include="ComponentRectTransform.cpp">
       <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Canvas.cpp">
+      <Filter>Sources\GameObject\UI_Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

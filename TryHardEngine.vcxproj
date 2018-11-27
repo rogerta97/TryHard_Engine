@@ -239,6 +239,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TinyFileDialog.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI_Canvas.h" />
     <ClInclude Include="UI_ClocksPanel.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
@@ -341,6 +342,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TinyFileDialog.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UI_Canvas.cpp" />
     <ClCompile Include="UI_Clocks.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />
