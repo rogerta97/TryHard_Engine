@@ -26,21 +26,63 @@ bool UI_GamePanel::Start()
 
 bool UI_GamePanel::Update()
 {
-	if (ImGui::Begin("Game", &show))
+	ImGuiWindowFlags flags = NULL;
+	flags = flags | ImGuiWindowFlags_NoScrollWithMouse;
+	flags = flags | ImGuiWindowFlags_NoScrollbar;
+	if (ImGui::Begin("Game", &show,flags))
 	{
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
 
-		region_size = ImGui::GetContentRegionAvail();
+		region_size = ImGui::GetWindowSize();
+
+		region_size.y -= 25;
+
 		const float region_ratio = region_size.y / region_size.x;
 
 		if (App->camera->GetGameCamera() != nullptr)
 		{			
 			Camera* camera = App->camera->GetGameCamera()->camera;
 			pos = ImGui::GetWindowPos();
-			camera->SetAspectRatio(camera->aspect_ratio / region_ratio);
 
-			ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), region_size, ImVec2(0, 1), ImVec2(1, 0));
+			ImVec2 size = { 0,0 };
+
+
+
+			float original_tex_ratio = 0.5625; //Hardcode but is the standard 16:9 or 1920 x 1080
+
+
+
+			float offset_x = 0;
+			float offset_y = 21;
+
+			float size_offset = 0.9;
+
+			ImGui::SetCursorPos({ offset_x,offset_y });
+
+			float difference = 0;
+			if (region_ratio < original_tex_ratio)
+			{
+				size.y = region_size.y;
+				size.x = region_size.y / original_tex_ratio;
+
+				difference = region_size.x - size.x;
+				ImGui::SetCursorPosX(difference / 2);
+			}
+			else if (region_ratio > original_tex_ratio)
+			{
+				size.x = region_size.x;
+				size.y = region_size.x * original_tex_ratio;
+
+				difference = region_size.y - size.y;
+				ImGui::SetCursorPosY((difference / 2)+offset_y);
+			}
+
+			camera->SetAspectRatio(camera->aspect_ratio / original_tex_ratio);
+
+
+
+			ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
 			App->camera->GetGameCamera()->GetViewportTexture()->Render();
 			App->camera->GetGameCamera()->GetViewportTexture()->Unbind();
