@@ -20,6 +20,7 @@ UI_GamePanel::~UI_GamePanel()
 
 bool UI_GamePanel::Start()
 {
+	//ar = STANDARD; mmgr assert trigerred when uncommented wtf?
 	show = true; 
 	return true;
 }
@@ -38,14 +39,12 @@ bool UI_GamePanel::Update()
 
 		region_size.y -= 25;
 
-
+		float original_tex_ratio = 0.5625f;;// ShowARSelector();
 
 		if (App->camera->GetGameCamera() != nullptr)
 		{			
 			Camera* camera = App->camera->GetGameCamera()->camera;
 			pos = ImGui::GetWindowPos();
-
-			float original_tex_ratio = 0.5625; //Hardcode but is the standard 16:9 or 1920 x 1080
 
 			ImVec2 size = CalculateSizeAndSetCursor(original_tex_ratio);
 
@@ -110,4 +109,35 @@ ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
 	}
 
 	return size;
+}
+
+float UI_GamePanel::ShowARSelector() //WIP, not used yet
+{
+	float new_ar = 0.5625f;
+
+	int selected = ar;
+
+	if (ImGui::Combo("Aspect ratio", &selected, " 16:9\0 1:1\0Windowed"))
+	{
+		Uint32 flags;
+
+		switch (selected)
+		{
+		case 0:
+			new_ar = 0.5625f;
+			break;
+
+		case 1:
+			new_ar = 1.0f;
+			break;
+
+		case 2:
+			new_ar = 0.5625f;
+			break;
+		}
+
+		ar = (ar_type)selected;
+	}
+
+	return new_ar;
 }
