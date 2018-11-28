@@ -50,8 +50,6 @@ bool ModuleScene::Start()
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
-	//Attempt to create a UI_Canvas 
-
 
 	current_scene->SetGuizmoMode(TRANSLATE);
 

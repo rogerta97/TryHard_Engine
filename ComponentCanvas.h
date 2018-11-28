@@ -8,6 +8,7 @@
 
 class UI_Element; 
 class GameObject; 
+class UI_Canvas; 
 
 class ComponentCanvas : public Component
 {
@@ -34,7 +35,6 @@ public:
 
 private:
 
-	std::list<UI_Element*> elements_in_canvas; 
-	SDL_Rect frame_rect; 
+	UI_Canvas * canvas; 
 };
 

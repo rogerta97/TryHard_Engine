@@ -14,6 +14,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentRectTransform.h"
 #include "ImGuizmo/ImGuizmo.h"
 
 #include <fstream>
@@ -374,32 +375,46 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 void Scene::DrawGuizmo()
 {
-	if (selected_go != nullptr && selected_go->GetIsUI() == false) //Draw guizmos
+	if (selected_go == nullptr)
+		return; 
+
+	ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
+	ImVec2 scene_size = App->imgui->scene_panel->GetSize();
+	ImGuizmo::SetRect(scene_pos.x, scene_pos.y, scene_size.x, scene_size.y);
+
+	ComponentTransform* trans = nullptr;
+	if (selected_go->GetIsUI() == false) //Draw guizmos
 	{
-		ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
-		ImVec2 scene_size = App->imgui->scene_panel->GetSize();
-		ImGuizmo::SetRect(scene_pos.x, scene_pos.y, scene_size.x, scene_size.y);
-
-		ComponentTransform* trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
-
-		float4x4 vmat = App->camera->GetEditorCamera()->GetRawViewMatrix();
-
-		float4x4 object_matrix = trans->GetGlobalViewMatrix();
-
-		object_matrix.Transpose();
-
-		if (selected_go->GetIsStatic())
-			ImGuizmo::Enable(false);
-		else
-			ImGuizmo::Enable(true);
-
-		ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::LOCAL, (float*)&object_matrix);
-
-		object_matrix.Transpose();
-
-		trans->SetGlobalViewMatrix(object_matrix);
-
+		trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
 	}
+	else
+	{
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
+		
+		trans = rtransform->GetTransform(); 
+		if (trans == nullptr)
+		{
+			CONSOLE_ERROR("Transform in RectTransform is NULLPTR"); 
+			return;
+		}
+	}
+
+	float4x4 vmat = App->camera->GetEditorCamera()->GetRawViewMatrix();
+
+	float4x4 object_matrix = trans->GetGlobalViewMatrix();
+
+	object_matrix.Transpose();
+
+	if (selected_go->GetIsStatic())
+		ImGuizmo::Enable(false);
+	else
+		ImGuizmo::Enable(true);
+
+	ImGuizmo::Manipulate(&vmat[0][0], App->camera->GetEditorCamera()->camera->GetProjectionMatrix(), (ImGuizmo::OPERATION)guizmo_mode, ImGuizmo::LOCAL, (float*)&object_matrix);
+
+	object_matrix.Transpose();
+
+	trans->SetGlobalViewMatrix(object_matrix);	
 }
 
 GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)
@@ -474,9 +489,6 @@ void Scene::SetDefaultScene()
 void Scene::SaveScene(const char* scene_name)
 {
 	
-
-
-
 }
 
 void Scene::LoadScene(const char * scene_path, bool clean)

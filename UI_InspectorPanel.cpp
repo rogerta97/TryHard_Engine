@@ -7,6 +7,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentRectTransform.h"
 #include "ComponentCamera.h"
 
 #include "MaterialImporter.h"
@@ -297,7 +298,36 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 {
 	if (ImGui::CollapsingHeader("Rect Transform"))
 	{
+		
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
 
+		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
+		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
+		float show_scale[3] = { rtransform->GetTransform()->transform.scale.x, rtransform->GetTransform()->transform.scale.y, rtransform->GetTransform()->transform.scale.z };
+
+		ImGui::Spacing();
+		ImGui::Text("Transform:");
+		ImGui::Separator();
+		ImGui::Spacing(); 
+
+		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
+				rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
+
+		if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
+		{
+			if (rtransform->GetTransform()->GetRotationEuler().x != show_rot[0])
+				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+			if (rtransform->GetTransform()->GetRotationEuler().y != show_rot[1])
+				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+			if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
+				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+		}
+
+
+		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
+			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 	}
 }
 

@@ -4,6 +4,7 @@
 
 class GameObject;
 class ComponentRectTransform; 
+class ComponentTransform; 
 
 struct AnchorPoint
 {
@@ -27,9 +28,15 @@ public:
 
 	// ----------------------
 
+	// Set & Get ------------
+
+	ComponentTransform* GetTransform();
+
+	// ----------------------
+
 private:
 
-	Transform transform; 
+	ComponentTransform* transform_part; 
 	AnchorPoint anchor; 
 
 	ComponentRectTransform* parent; 
