@@ -38,45 +38,16 @@ bool UI_GamePanel::Update()
 
 		region_size.y -= 25;
 
-		const float region_ratio = region_size.y / region_size.x;
+
 
 		if (App->camera->GetGameCamera() != nullptr)
 		{			
 			Camera* camera = App->camera->GetGameCamera()->camera;
 			pos = ImGui::GetWindowPos();
 
-			ImVec2 size = { 0,0 };
-
-
-
 			float original_tex_ratio = 0.5625; //Hardcode but is the standard 16:9 or 1920 x 1080
 
-
-
-			float offset_x = 0;
-			float offset_y = 21;
-
-			float size_offset = 0.9;
-
-			ImGui::SetCursorPos({ offset_x,offset_y });
-
-			float difference = 0;
-			if (region_ratio < original_tex_ratio)
-			{
-				size.y = region_size.y;
-				size.x = region_size.y / original_tex_ratio;
-
-				difference = region_size.x - size.x;
-				ImGui::SetCursorPosX(difference / 2);
-			}
-			else if (region_ratio > original_tex_ratio)
-			{
-				size.x = region_size.x;
-				size.y = region_size.x * original_tex_ratio;
-
-				difference = region_size.y - size.y;
-				ImGui::SetCursorPosY((difference / 2)+offset_y);
-			}
+			ImVec2 size = CalculateSizeAndSetCursor(original_tex_ratio);
 
 			camera->SetAspectRatio(camera->aspect_ratio / original_tex_ratio);
 
@@ -103,4 +74,40 @@ bool UI_GamePanel::Update()
 bool UI_GamePanel::CleanUp()
 {
 	return true;
+}
+
+ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
+{
+	ImVec2 size = { 0,0 };
+
+	const float region_ratio = region_size.y / region_size.x;
+
+
+
+	float offset_x = 0;
+	float offset_y = 21;
+
+	float size_offset = 0.9;
+
+	ImGui::SetCursorPos({ offset_x,offset_y });
+
+	float difference = 0;
+	if (region_ratio < original_aspect_ratio)
+	{
+		size.y = region_size.y;
+		size.x = region_size.y / original_aspect_ratio;
+
+		difference = region_size.x - size.x;
+		ImGui::SetCursorPosX(difference / 2);
+	}
+	else if (region_ratio > original_aspect_ratio)
+	{
+		size.x = region_size.x;
+		size.y = region_size.x * original_aspect_ratio;
+
+		difference = region_size.y - size.y;
+		ImGui::SetCursorPosY((difference / 2) + offset_y);
+	}
+
+	return size;
 }

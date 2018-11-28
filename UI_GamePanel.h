@@ -11,6 +11,10 @@ public:
 	bool Update();
 	bool CleanUp();
 
+private:
+	ImVec2 CalculateSizeAndSetCursor(float original_aspect_ratio);
+
+public:
 	ImVec2 pos;
 	ImVec2 region_size;
 };
