@@ -6,6 +6,8 @@
 class GameObject;
 class ComponentRectTransform; 
 class ComponentTransform; 
+class ComponentMesh; 
+class Mesh;
 
 struct AnchorPoint
 {
@@ -27,6 +29,8 @@ public:
 	//Utility functions -----
 
 	void AddaptRectToScreenSize();			// Will be use in case a canvas is added
+	void CreateRectQuad();					// Will create the quad of the Rect
+	void DrawRectFrame();					// Will draw the limits of the Rect Transform 
 
 	// ----------------------
 
@@ -41,13 +45,13 @@ public:
 
 private:
 
+	ComponentMesh * quad_cmp_mesh; 
 	ComponentTransform* transform_part; 
-	ComponentRectTransform* parent;
-
+	
 	float2 anchor_point; 
 	SDL_Rect rect; 
 
-		
+	ComponentRectTransform* parent;
 };
 
 

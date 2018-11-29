@@ -309,6 +309,22 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SetSelectedGameObject(new_go);
 		}
 
+		if (ImGui::MenuItem("Plane"))
+		{
+			GameObject* new_go = App->scene->CreateGameObject();
+			new_go->name = "Plane";
+
+			ComponentMesh* cmp_mesh = (ComponentMesh*)new_go->AddComponent(CMP_MESH); 
+
+			Mesh* plane_mesh = new Mesh(); 
+			plane_mesh->SetVertPlaneData(); 
+			plane_mesh->LoadToMemory();
+
+			cmp_mesh->SetMesh(plane_mesh);
+
+			App->scene->SetSelectedGameObject(new_go);
+		}
+
 
 		if (ImGui::MenuItem("Camera"))
 		{

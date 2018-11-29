@@ -1,9 +1,14 @@
 #include "ComponentRectTransform.h"
 #include "ComponentTransform.h"
+#include "Application.h"
+#include "ComponentMesh.h"
+#include "Mesh.h"
+#include "OpenGL.h"
 
 ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 {
 	component_type = CMP_RECTTRANSFORM;
+	gameobject = parent;
 
 	transform_part = new ComponentTransform(parent);
 
@@ -11,9 +16,10 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	transform_part->transform.rotation = Quat::identity;
 	transform_part->transform.scale = float3::zero;
 
+	CreateRectQuad();
+
 	anchor_point = { 0,0 };
 }
-
 
 ComponentRectTransform::~ComponentRectTransform()
 {
@@ -22,22 +28,40 @@ ComponentRectTransform::~ComponentRectTransform()
 
 bool ComponentRectTransform::Start()
 {
-	return false;
+	return true;
 }
 
 bool ComponentRectTransform::Update()
 {
-	return false;
+	DrawRectFrame(); 
+
+	return true;
 }
 
 bool ComponentRectTransform::CleanUp()
 {
-	return false;
+	return true;
 }
 
 void ComponentRectTransform::AddaptRectToScreenSize()
 {
 	rect = SDL_Rect({ 0,0,250,250 }); 
+}
+
+void ComponentRectTransform::CreateRectQuad()
+{
+	quad_cmp_mesh = new ComponentMesh(gameobject);
+
+	Mesh* plane_mesh = new Mesh(); 
+	plane_mesh->SetVertPlaneData(); 
+	plane_mesh->LoadToMemory(); 
+
+	quad_cmp_mesh->SetMesh(plane_mesh);
+}
+
+void ComponentRectTransform::DrawRectFrame()
+{	
+	quad_cmp_mesh->DrawMesh();
 }
 
 ComponentTransform* ComponentRectTransform::GetTransform()

@@ -17,6 +17,8 @@ public:
 	void UnbindBuffer();
 
 	bool SetCubeData(); 
+	bool SetVertPlaneData();
+
 	float3 CenterVertices(float3* center, int num);
 	void CleanMeshData(); 
 

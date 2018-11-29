@@ -72,6 +72,9 @@ void ComponentMesh::SetMesh(Mesh * new_mesh)
 
 void ComponentMesh::DrawNormals()
 {
+	if (mesh->num_normals == 0)
+		return; 
+
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f);
 

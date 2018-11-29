@@ -142,6 +142,53 @@ bool Mesh::SetCubeData()
 	return true;
 }
 
+bool Mesh::SetVertPlaneData()
+{
+	//Set Vertices
+	type = BasicMeshType::MESH_CUBE;
+
+	num_vertices = 4;
+	vertices = new float3[num_vertices];
+
+	int size = 1;
+	float half_size = (float)size / 2.0f;
+
+	vertices[0] = { -half_size, half_size, 0 };
+	vertices[1] = { half_size, half_size, 0 };
+	vertices[2] = { -half_size, -half_size, 0 };
+	vertices[3] = { half_size, -half_size, 0 };
+
+	num_indices = 6;
+	indices = new int[num_indices];
+
+	//Front
+	indices[0] = 0;
+	indices[1] = 2;
+	indices[2] = 1;
+
+	indices[3] = 1;
+	indices[4] = 2;
+	indices[5] = 3;
+
+	//num_uvs = num_vertices;
+	//uvs_cords = new float[num_uvs * 2];
+
+	////Front 
+	//uvs_cords[0] = -1.0f;
+	//uvs_cords[1] = 1.0f;
+
+	//uvs_cords[2] = 1.0f;
+	//uvs_cords[3] = 1.0f;
+
+	//uvs_cords[4] = -1.0f;
+	//uvs_cords[5] = -1.0f;
+
+	//uvs_cords[4] = 1.0f;
+	//uvs_cords[5] = -1.0f;
+
+	return true;
+}
+
 float3 Mesh::CenterVertices(float3* vertices, int num)
 {
 	float3 min = float3::inf;
