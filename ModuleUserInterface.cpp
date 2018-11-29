@@ -1,5 +1,7 @@
 #include "ModuleUserInterface.h"
 #include "UI_Image.h"
+#include "GameObject.h"
+#include "ComponentRectTransform.h"
 
 ModuleUserInterface::ModuleUserInterface()
 {
@@ -17,6 +19,14 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 bool ModuleUserInterface::Start()
 {
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		ComponentRectTransform* r_transform = (ComponentRectTransform*)(*it)->GetComponent(CMP_RECTTRANSFORM);
+		if (r_transform != nullptr)
+		{
+			r_transform->AddaptRectToScreenSize(); 
+		}
+	}
 	return true;
 }
 
@@ -59,4 +69,9 @@ UI_Element * ModuleUserInterface::CreateUIElement(UI_Widgget_Type type)
 	}
 
 	return to_ret;
+}
+
+void ModuleUserInterface::AddCanvas(GameObject* canvas_go)
+{
+	go_with_canvas.push_back(canvas_go); 
 }

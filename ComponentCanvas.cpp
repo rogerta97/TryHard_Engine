@@ -1,10 +1,13 @@
 #include "ComponentCanvas.h"
+#include "ComponentRectTransform.h"
+#include "Application.h"
 #include "DebugDraw.h"
 #include "UI_Canvas.h"
 
 ComponentCanvas::ComponentCanvas(GameObject* parent)
 {
 	component_type = CMP_CANVAS;
+	gameobject = parent; 
 }
 
 
@@ -20,6 +23,14 @@ bool ComponentCanvas::Start()
 	// For now we will force a 500x500 canvas
 
 	canvas = new UI_Canvas();
+
+	//ComponentRectTransform* r_transform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+	//if (r_transform != nullptr)
+	//{
+	//	r_transform->AddaptRectToScreenSize();
+	//}
+
+	App->user_interface->AddCanvas(gameobject); 
 
 	return false;
 }

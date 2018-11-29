@@ -6,6 +6,7 @@
 
 class ComponentMaterial; 
 enum Frustum_Collision;
+class ComponentTransform; 
 
 class ComponentMesh : public Component
 {
@@ -44,6 +45,8 @@ public:
 	void DrawBoundingBox(); 
 	void UpdateBoundingBox(); 
 	void SetBBColor(float r, float g, float b); 
+
+	void SetWireframe(bool newValue); 
 
 	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance);
 

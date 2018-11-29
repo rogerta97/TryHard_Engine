@@ -50,7 +50,6 @@ bool ModuleScene::Start()
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
-
 	current_scene->SetGuizmoMode(TRANSLATE);
 
 	return ret;

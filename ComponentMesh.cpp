@@ -1,5 +1,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentRectTransform.h"
+#include "ComponentCanvas.h"
 #include "ComponentTransform.h"
 
 #include "Application.h"
@@ -41,7 +43,15 @@ bool ComponentMesh::Update()
 	if (draw_mesh == false || mesh == nullptr)
 		return false;
 
-	ComponentTransform* trans =  (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+	ComponentTransform* trans = nullptr; 
+
+	if (gameobject->GetIsUI())
+	{
+		ComponentRectTransform* rect_trans = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+		trans = rect_trans->GetTransform();		
+	}		
+	else
+		trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
 
 	if (trans->HasTransformed()) {
 		UpdateBoundingBox();
@@ -103,7 +113,17 @@ void ComponentMesh::DrawMesh()
 		return;
 
 	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
-	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+
+	ComponentTransform* trans = nullptr;
+
+	if (gameobject->GetIsUI() == false)
+		trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+	else
+	{
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+		trans = rtransform->GetTransform();		
+	}
+		
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -157,8 +177,11 @@ void ComponentMesh::DrawMesh()
 		glColor3f(0.5f, 0.5f, 1.0f);
 	}
 
-	if(wireframe)
-		glColor3f(DEFAULT_WIREFRAME_COLOR);
+	if (wireframe)
+	{
+		App->renderer3D->UseDebugRenderSettings();
+	}
+		
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indices_id);
 	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
@@ -190,14 +213,12 @@ void ComponentMesh::Draw(bool is_editor)
 	}
 
 	//if the mesh is selected we draw it again in wireframe mode
-	if (gameobject->selected && wireframe == false && App->renderer3D->render_settings.wireframe_selected == true && is_editor == true)
-	{
-		wireframe = true;
+	if (gameobject->selected && App->renderer3D->render_settings.wireframe_selected == true && is_editor == true)
+	{	
 		App->renderer3D->UseDebugRenderSettings();
 		glLineWidth(3.0f);
 		DrawMesh();
-		App->renderer3D->UseCurrentRenderSettings();
-		wireframe = false;
+		App->renderer3D->UseCurrentRenderSettings();	
 	}
 
 	if (draw_normals)
@@ -288,6 +309,11 @@ void ComponentMesh::UpdateBoundingBox()
 void ComponentMesh::SetBBColor(float r, float g, float b)
 {
 	glColor3f(r,g,b); 
+}
+
+void ComponentMesh::SetWireframe(bool newValue)
+{
+	wireframe = newValue; 
 }
 
 bool ComponentMesh::GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance)

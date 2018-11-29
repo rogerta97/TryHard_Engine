@@ -25,12 +25,14 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+	void Draw(bool is_editor);
 
 	//Utility functions -----
 
 	void AddaptRectToScreenSize();			// Will be use in case a canvas is added
 	void CreateRectQuad();					// Will create the quad of the Rect
-	void DrawRectFrame();					// Will draw the limits of the Rect Transform 
+	void DrawRectFrame();					// Will create the quad of the Rect
+	void Resize(float2 new_size);			// Will resize the rectangle at the values sended
 
 	// ----------------------
 
@@ -45,7 +47,7 @@ public:
 
 private:
 
-	ComponentMesh * quad_cmp_mesh; 
+	Mesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
 	ComponentTransform* transform_part; 
 	
 	float2 anchor_point; 

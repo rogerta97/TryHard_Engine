@@ -170,6 +170,7 @@ bool Mesh::SetVertPlaneData()
 	indices[4] = 2;
 	indices[5] = 3;
 
+
 	//num_uvs = num_vertices;
 	//uvs_cords = new float[num_uvs * 2];
 
