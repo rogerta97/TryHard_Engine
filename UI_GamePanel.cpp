@@ -20,7 +20,7 @@ UI_GamePanel::~UI_GamePanel()
 
 bool UI_GamePanel::Start()
 {
-	//ar = STANDARD; mmgr assert trigerred when uncommented wtf?
+	ar = STANDARD; //mmgr assert trigerred when uncommented wtf?
 	show = true; 
 	return true;
 }
@@ -39,7 +39,7 @@ bool UI_GamePanel::Update()
 
 		region_size.y -= 25;
 
-		float original_tex_ratio = 0.5625f;;// ShowARSelector();
+		float original_tex_ratio = ShowARSelector();//0.5625f;// ShowARSelector();
 
 		if (App->camera->GetGameCamera() != nullptr)
 		{			
@@ -137,6 +137,21 @@ float UI_GamePanel::ShowARSelector() //WIP, not used yet
 		}
 
 		ar = (ar_type)selected;
+	}
+
+	switch (ar)
+	{
+	case 0:
+		new_ar = 0.5625f;
+		break;
+
+	case 1:
+		new_ar = 1.0f;
+		break;
+
+	case 2:
+		new_ar = 0.5625f;
+		break;
 	}
 
 	return new_ar;
