@@ -2,6 +2,7 @@
 #include "ComponentTransform.h"
 #include "Application.h"
 #include "UI_GamePanel.h"
+#include "DebugDraw.h"
 #include "ComponentMesh.h"
 #include "Mesh.h"
 #include "OpenGL.h"
@@ -65,25 +66,29 @@ void ComponentRectTransform::CreateRectQuad()
 
 void ComponentRectTransform::DrawRectFrame()
 {
+	App->renderer3D->UseDebugRenderSettings();
+	DebugDrawPlane(quad_mesh->vertices, Color(1.0f, 1.0f, 1.0f)); 
+	App->renderer3D->GetDefaultRenderSettings();
+
 	//In case this is a canvas, set to wireframe 
-	glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//
+	//glBindBuffer(GL_ARRAY_BUFFER, quad_mesh->vertices_id);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
+	//
+	//glDisable(GL_TEXTURE_2D);
+	//glColor3f(0.9f, 0.9f, 0.9f);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad_mesh->indices_id);
+	//glDrawElements(GL_TRIANGLES, quad_mesh->num_indices, GL_UNSIGNED_INT, NULL);
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//
+	//glDisableClientState(GL_VERTEX_ARRAY);
 
-	glBindBuffer(GL_ARRAY_BUFFER, quad_mesh->vertices_id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	glDisable(GL_TEXTURE_2D);
-	glColor3f(0.9f, 0.9f, 0.9f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad_mesh->indices_id);
-	glDrawElements(GL_TRIANGLES, quad_mesh->num_indices, GL_UNSIGNED_INT, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	App->renderer3D->GetDefaultRenderSettings(); 
 }
 
 void ComponentRectTransform::Resize(float2 new_size)

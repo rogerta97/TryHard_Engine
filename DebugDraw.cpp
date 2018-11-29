@@ -143,6 +143,30 @@ void DebugDrawBox(const float3* corners, Color color, bool debug)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 }
+
+void DebugDrawPlane(const float3* corners, Color color, bool debug)
+{
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glLineWidth(3.0f);
+	glDisable(GL_CULL_FACE);
+
+	glColor3f(color.r, color.g, color.b);
+
+	glBegin(GL_QUADS);
+
+	glVertex3fv((GLfloat*)&corners[2]); //glVertex3f(-sx, -sy, sz);
+	glVertex3fv((GLfloat*)&corners[3]); //glVertex3f( sx, -sy, sz);
+	glVertex3fv((GLfloat*)&corners[1]); //glVertex3f( sx,  sy, sz);
+	glVertex3fv((GLfloat*)&corners[0]); //glVertex3f(-sx,  sy, sz);
+
+	glEnd();
+	glLineWidth(1.0f);
+	glColor3f(255, 255, 255);
+	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+}
 // ------------------------------------------------------------
 void DebugDraw(const AABB & aabb, Color color, const float4x4& transform)
 {

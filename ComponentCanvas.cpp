@@ -13,6 +13,7 @@ ComponentCanvas::ComponentCanvas(GameObject* parent)
 
 ComponentCanvas::~ComponentCanvas()
 {
+	delete canvas; 
 }
 
 bool ComponentCanvas::Start()

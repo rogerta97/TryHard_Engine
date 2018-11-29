@@ -20,6 +20,7 @@ void DebugDraw(const float3& point, Color color = White);
 void DebugDraw(const Cylinder& cylinder, Color color = White, const float4x4& transform = float4x4::identity);
 void DebugDraw(const Cone& cone, Color color = White, const float4x4& transform = float4x4::identity);
 void DebugDrawBox(const float3* corners, Color color, bool debug = false);
+void DebugDrawPlane(const float3* corners, Color color, bool debug = false);
 void DebugDrawArrow(const float3 & dir, const float3 & offset, Color color, const float4x4 & transform = float4x4::identity);
 void DebugDraw(const Circle& circle, Color color = White);
 void DebugDraw(const Circle& pos, float inner_radius, Color color = White);
