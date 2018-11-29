@@ -15,13 +15,17 @@ public:
 	bool CleanUp();
 
 	ImVec2 CalculateSizeAndSetCursor(float original_aspect_ratio);
-	float ShowARSelector();
+	void ShowARSelector();
 
 public:
 	ImVec2 pos;
 	ImVec2 region_size;
 
+	uint game_tex_width;
+	uint game_tex_height;
+
 	ar_type ar;
+
 
 	float game_ar;
 };
