@@ -328,6 +328,16 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
+
+		ImGui::Spacing();
+		ImGui::Text("Anchor Point:");
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		float show_point[2] = { rtransform->GetAnchorPoint().x, rtransform->GetAnchorPoint().y }; 
+
+		if (ImGui::DragFloat2("Anchor", show_point))
+			rtransform->SetAnchorPoint(float2(show_point[0], show_point[1]));
 	}
 }
 

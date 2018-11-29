@@ -11,7 +11,7 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	transform_part->transform.rotation = Quat::identity;
 	transform_part->transform.scale = float3::zero;
 
-	anchor.rect_transform_attached = this; 
+	anchor_point = { 0,0 };
 }
 
 
@@ -35,7 +35,23 @@ bool ComponentRectTransform::CleanUp()
 	return false;
 }
 
+void ComponentRectTransform::AddaptRectToScreenSize()
+{
+	rect = SDL_Rect({ 0,0,250,250 }); 
+}
+
 ComponentTransform* ComponentRectTransform::GetTransform()
 {
+
 	return transform_part; 
+}
+
+void ComponentRectTransform::SetAnchorPoint(float2 new_point)
+{
+	anchor_point = new_point; 
+}
+
+float2 ComponentRectTransform::GetAnchorPoint() const
+{
+	return anchor_point;
 }

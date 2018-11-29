@@ -45,6 +45,7 @@ GameObject::GameObject(const char * name, bool _is_ui)
 	{
 		ComponentRectTransform* new_cmp = (ComponentRectTransform*)AddComponent(CMP_RECTTRANSFORM);
 		rect_transform = (ComponentRectTransform*)new_cmp;
+		tag = "UI"; 
 	}
 
 }
