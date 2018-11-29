@@ -11,6 +11,8 @@
 UI_GamePanel::UI_GamePanel()
 {
 	name = "GamePanel"; 
+	game_size.x = 0;
+	game_size.y = 0;
 }
 
 
@@ -38,7 +40,7 @@ bool UI_GamePanel::Update()
 
 		region_size = ImGui::GetWindowSize();
 
-		region_size.y -= 25;
+		region_size.y -= 25; //The height of the top bar
 
 		if (App->camera->GetGameCamera() != nullptr)
 		{			
@@ -48,6 +50,9 @@ bool UI_GamePanel::Update()
 			ImVec2 size = CalculateSizeAndSetCursor(game_ar);
 
 			camera->SetAspectRatio(camera->aspect_ratio / game_ar);
+
+			game_size.y = size.y;
+			game_size.x = size.x;
 
 			ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
@@ -107,6 +112,11 @@ ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
 		difference = region_size.y - size.y;
 		ImGui::SetCursorPosY((difference / 2) + offset_y);
 	}
+	else
+	{
+		size.x = region_size.x;
+		size.y = region_size.x;
+	}
 
 	return size;
 }
@@ -134,4 +144,9 @@ void UI_GamePanel::ShowARSelector() //WIP, not used yet
 		game_ar = 0.5625f;
 		break;
 	}
+}
+
+ImVec2 UI_GamePanel::GetGameTexSize() const
+{
+	return game_size;
 }

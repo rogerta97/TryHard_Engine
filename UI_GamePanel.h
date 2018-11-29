@@ -16,16 +16,15 @@ public:
 
 	ImVec2 CalculateSizeAndSetCursor(float original_aspect_ratio);
 	void ShowARSelector();
+	ImVec2 GetGameTexSize() const; //Uses imvec to avoid including glmath
 
 public:
 	ImVec2 pos;
 	ImVec2 region_size;
 
-	uint game_tex_width;
-	uint game_tex_height;
+	ImVec2 game_size;
 
 	ar_type ar;
-
 
 	float game_ar;
 };
