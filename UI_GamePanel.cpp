@@ -13,6 +13,7 @@ UI_GamePanel::UI_GamePanel()
 	name = "GamePanel"; 
 	game_size.x = 0;
 	game_size.y = 0;
+	size_changed = false;
 }
 
 
@@ -50,6 +51,11 @@ bool UI_GamePanel::Update()
 			ImVec2 size = CalculateSizeAndSetCursor(game_ar);
 
 			camera->SetAspectRatio(camera->aspect_ratio / game_ar);
+
+			if (game_size.x != size.x || game_size.y != size.y) 
+				size_changed = true;
+			else
+				size_changed = false;
 
 			game_size.y = size.y;
 			game_size.x = size.x;

@@ -26,6 +26,8 @@ public:
 
 	ar_type ar;
 
+	bool size_changed;
+
 	float game_ar;
 };
 
