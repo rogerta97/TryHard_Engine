@@ -414,7 +414,8 @@ void Scene::DrawGuizmo()
 
 	object_matrix.Transpose();
 
-	trans->SetGlobalViewMatrix(object_matrix);	
+	if (ImGuizmo::IsUsing())
+		trans->SetGlobalViewMatrix(object_matrix);	
 }
 
 GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)
