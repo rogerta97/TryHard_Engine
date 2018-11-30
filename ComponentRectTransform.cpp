@@ -94,12 +94,17 @@ void ComponentRectTransform::Resize(float2 new_size)
 
 	float2 scale_percentage = {x,y};
 
+	float3 new_scale = float3(curr_rect_scale.x * scale_percentage.x, curr_rect_scale.y*scale_percentage.y, 1); 
+	new_scale /= 4;   // for scale reduction 
+
 	//Scale the canvas
 	if (scale_percentage.x != 1 || scale_percentage.y != 1)
-		GetTransform()->SetScale(float3(curr_rect_scale.x * scale_percentage.x, curr_rect_scale.y*scale_percentage.y, 1));
-
+	{
+		GetTransform()->SetScale(new_scale);
+	}
+		
 	// Set a proper canvas position
-	//GetTransform()->SetPosition({ GetTransform()->GetPosition().x + new_size.x / 2, GetTransform()->GetPosition().y + new_size.y / 2, 1 });
+	GetTransform()->SetPosition({new_scale.x / 2, new_scale.y / 2, 0 });
 												
 }
 
