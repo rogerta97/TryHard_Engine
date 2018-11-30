@@ -52,13 +52,22 @@ bool UI_GamePanel::Update()
 
 			camera->SetAspectRatio(camera->aspect_ratio / game_ar);
 
-			if (game_size.x != size.x || game_size.y != size.y) 
+			if (game_size.x != size.x || game_size.y != size.y)
+			{
 				size_changed = true;
+			}			
 			else
 				size_changed = false;
 
 			game_size.y = size.y;
 			game_size.x = size.x;
+
+			if (size_changed)
+			{
+				App->user_interface->AddaptCanvasToScreen();
+				size_changed = false;
+			}
+				
 
 			ImGui::Image((void*)App->camera->GetGameCamera()->GetViewportTexture()->GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
 
@@ -91,8 +100,6 @@ ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
 	ImVec2 size = { 0,0 };
 
 	const float region_ratio = region_size.y / region_size.x;
-
-
 
 	float offset_x = 0;
 	float offset_y = 21;

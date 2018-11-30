@@ -19,19 +19,12 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 bool ModuleUserInterface::Start()
 {
-	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
-	{
-		ComponentRectTransform* r_transform = (ComponentRectTransform*)(*it)->GetComponent(CMP_RECTTRANSFORM);
-		if (r_transform != nullptr)
-		{
-			r_transform->AddaptRectToScreenSize(); 
-		}
-	}
 	return true;
 }
 
 update_status ModuleUserInterface::Update(float dt)
 {
+
 	return UPDATE_CONTINUE;
 }
 
@@ -74,4 +67,16 @@ UI_Element * ModuleUserInterface::CreateUIElement(UI_Widgget_Type type)
 void ModuleUserInterface::AddCanvas(GameObject* canvas_go)
 {
 	go_with_canvas.push_back(canvas_go); 
+}
+
+void ModuleUserInterface::AddaptCanvasToScreen()
+{
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		ComponentRectTransform* r_transform = (ComponentRectTransform*)(*it)->GetComponent(CMP_RECTTRANSFORM);
+		if (r_transform != nullptr)
+		{
+			r_transform->AddaptRectToScreenSize();
+		}
+	}
 }

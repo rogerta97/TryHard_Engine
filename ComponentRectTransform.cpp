@@ -51,9 +51,9 @@ void ComponentRectTransform::Draw(bool is_editor)
 }
 
 void ComponentRectTransform::AddaptRectToScreenSize()
-{
-	//float2 screen_tex_size = float2(App->imgui->game_panel->GetGameTexSize().x, App->imgui->game_panel->GetGameTexSize().y);
-	float2 screen_tex_size = float2(250,250);
+{	
+	float2 screen_tex_size = float2(App->imgui->game_panel->GetGameTexSize().x, App->imgui->game_panel->GetGameTexSize().y);
+	//float2 screen_tex_size = { 50,50 }; 
 	Resize(screen_tex_size);
 }
 
@@ -67,8 +67,21 @@ void ComponentRectTransform::CreateRectQuad()
 void ComponentRectTransform::DrawRectFrame()
 {
 	App->renderer3D->UseDebugRenderSettings();
+
+	float4x4 view_mat = float4x4::identity;
+
+	GLfloat matrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+	view_mat.Set((float*)matrix);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((GLfloat*)((GetTransform()->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+	
 	DebugDrawPlane(quad_mesh->vertices, Color(1.0f, 1.0f, 1.0f)); 
 	App->renderer3D->GetDefaultRenderSettings();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((GLfloat*)view_mat.v);
 
 	//In case this is a canvas, set to wireframe 
 	//glEnableClientState(GL_VERTEX_ARRAY);
@@ -93,15 +106,19 @@ void ComponentRectTransform::DrawRectFrame()
 
 void ComponentRectTransform::Resize(float2 new_size)
 {
-	float3 curr_rect_scale = float3(15,15,1); 
+	float3 curr_rect_scale = GetTransform()->GetScale(); 
 
 	//Get the percentage in which the new_size is bigger/smaller from the current size
-	float x = 10 / curr_rect_scale.x;
-	float y = 10 / curr_rect_scale.y;
+	float x = new_size.x / curr_rect_scale.x;
+	float y = new_size.y / curr_rect_scale.y;
 
 	float2 scale_percentage = {x,y};
 
-	GetTransform()->SetScale(float3(scale_percentage.x, curr_rect_scale.y, 1)); 
+	//Scale the canvas
+	GetTransform()->SetScale(float3(scale_percentage.x, scale_percentage.y, 1));
+
+	// Set a proper canvas position
+	//GetTransform()->SetPosition({ GetTransform()->GetPosition().x + new_size.x / 2, GetTransform()->GetPosition().y + new_size.y / 2, 1 });
 												
 }
 

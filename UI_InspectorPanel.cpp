@@ -307,8 +307,21 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::Spacing();
 		ImGui::Text("Transform:");
-		ImGui::Separator();
-		ImGui::Spacing(); 
+
+		SEPARATE_WITH_SPACE
+
+			if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
+
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
+
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Scale", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::SCALE))
+				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::SCALE);
+
+		SEPARATE_WITH_SPACE
 
 		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
 				rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));

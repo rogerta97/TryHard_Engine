@@ -22,6 +22,7 @@ public:
 	UI_Element* CreateUIElement(UI_Widgget_Type type = UI_Widgget_Type::UI_NULL);	//Create the UI element
 
 	void AddCanvas(GameObject* canvas_go);
+	void AddaptCanvasToScreen();					// Will addapt all the canvas of the scene (unless they are in world space) to game screen size
 
 	// -----------------
 
