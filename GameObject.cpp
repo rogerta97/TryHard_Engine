@@ -457,6 +457,10 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 		if (ImGui::IsItemClicked(1))
 			App->imgui->hierarchy_panel->show_click_menu = true;
 
+		if (ImGui::IsMouseClicked(1))
+			if(!ImGui::IsAnyItemHovered())
+				App->imgui->hierarchy_panel->show_create_menu = true; 
+
 		if(opened)
 		{
 			for (auto it = child_list.begin(); it != child_list.end(); it++)
@@ -486,6 +490,10 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 
 		if (ImGui::IsItemClicked(1))
 			App->imgui->hierarchy_panel->show_click_menu = true;
+
+		if (ImGui::IsMouseClicked(1))
+			if (!ImGui::IsAnyItemHovered())
+				App->imgui->hierarchy_panel->show_create_menu = true;
 			
 	}
 	return ret; 

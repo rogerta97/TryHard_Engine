@@ -83,6 +83,7 @@ bool UI_HierarchyPanel::Update()
 	ImGui::End();
 
 
+
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_UP)
 	{
 		App->imgui->hierarchy_panel->show_click_menu = false;
@@ -132,10 +133,11 @@ bool UI_HierarchyPanel::Update()
 
 	}
 
-	if (ImGui::IsMouseClicked(1) && !ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
-	{
-		App->imgui->hierarchy_panel->show_create_menu = true; 
-	}
+
+	if (ImGui::IsMouseClicked(1))
+		/*if (!ImGui::IsAnyItemHovered())*/
+			if (ImGui::IsWindowHovered())
+				App->imgui->hierarchy_panel->show_create_menu = true;
 
 	if (App->imgui->hierarchy_panel->show_create_menu)
 	{
