@@ -34,6 +34,7 @@ bool UI_GamePanel::Update()
 	ImGuiWindowFlags flags = NULL;
 	flags = flags | ImGuiWindowFlags_NoScrollWithMouse;
 	flags = flags | ImGuiWindowFlags_NoScrollbar;
+
 	if (ImGui::Begin("Game", &show,flags))
 	{
 		//Render the texture

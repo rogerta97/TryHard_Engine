@@ -82,26 +82,6 @@ void ComponentRectTransform::DrawRectFrame()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)view_mat.v);
-
-	//In case this is a canvas, set to wireframe 
-	//glEnableClientState(GL_VERTEX_ARRAY);
-	//
-	//glBindBuffer(GL_ARRAY_BUFFER, quad_mesh->vertices_id);
-	//glVertexPointer(3, GL_FLOAT, 0, NULL);
-	//
-	//glDisable(GL_TEXTURE_2D);
-	//glColor3f(0.9f, 0.9f, 0.9f);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
-	//
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quad_mesh->indices_id);
-	//glDrawElements(GL_TRIANGLES, quad_mesh->num_indices, GL_UNSIGNED_INT, NULL);
-	//
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//
-	//glDisableClientState(GL_VERTEX_ARRAY);
-
-
 }
 
 void ComponentRectTransform::Resize(float2 new_size)
@@ -115,7 +95,8 @@ void ComponentRectTransform::Resize(float2 new_size)
 	float2 scale_percentage = {x,y};
 
 	//Scale the canvas
-	GetTransform()->SetScale(float3(scale_percentage.x, scale_percentage.y, 1));
+	if (scale_percentage.x != 1 || scale_percentage.y != 1)
+		GetTransform()->SetScale(float3(curr_rect_scale.x * scale_percentage.x, curr_rect_scale.y*scale_percentage.y, 1));
 
 	// Set a proper canvas position
 	//GetTransform()->SetPosition({ GetTransform()->GetPosition().x + new_size.x / 2, GetTransform()->GetPosition().y + new_size.y / 2, 1 });

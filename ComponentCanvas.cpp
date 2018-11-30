@@ -18,19 +18,8 @@ ComponentCanvas::~ComponentCanvas()
 
 bool ComponentCanvas::Start()
 {
-	// TODO1_UI
-	// Here we should get the size of the rendering texture and create the canvas from it, NOT FROM THE CAMERA FRUSTUM SIZE (imagine there's no cam, ui should have to render. We also wouldn't have to take in account FOV).
-	// Thus, we need to keep the AR for the game camera always the same when resizing. 
-	// For now we will force a 500x500 canvas
 
 	canvas = new UI_Canvas();
-
-	//ComponentRectTransform* r_transform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
-	//if (r_transform != nullptr)
-	//{
-	//	r_transform->AddaptRectToScreenSize();
-	//}
-
 	App->user_interface->AddCanvas(gameobject); 
 
 	return false;
