@@ -228,6 +228,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		PrintCanvasProperties();
 		break;
 
+	case CMP_IMAGE:
+		PrintImageProperties();
+		break;
+
 	}
 }
 
@@ -357,6 +361,14 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 void UI_InspectorPanel::PrintCanvasProperties()
 {
 	if (ImGui::CollapsingHeader("Canvas"))
+	{
+
+	}
+}
+
+void UI_InspectorPanel::PrintImageProperties()
+{
+	if (ImGui::CollapsingHeader("Image (UI)"))
 	{
 
 	}

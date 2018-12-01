@@ -1,7 +1,9 @@
 #include "UI_Image.h"
-#include "Mesh.h"
 #include "OpenGL.h"
 #include "Application.h"
+
+#include "Mesh.h"
+#include "Texture.h"
 
 #include "DebugDraw.h"
 #include "ComponentRectTransform.h"
@@ -49,60 +51,45 @@ void UI_Image::CreateDrawSpace()
 
 void UI_Image::DrawImage()
 {
-	App->renderer3D->UseDebugRenderSettings();
-
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
+	App->renderer3D->GetDefaultRenderSettings(); 
+
 	float4x4 view_mat = float4x4::identity;
 
-	GLfloat matrix[16];
-	glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
-	view_mat.Set((float*)matrix);
+	if (trans)
+	{
+		GLfloat matrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+		view_mat.Set((float*)matrix);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+	}
 
-	DebugDrawPlane(draw_space_mesh->vertices, Color(1.0f, 1.0f, 1.0f));
-	App->renderer3D->GetDefaultRenderSettings();
+	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((GLfloat*)view_mat.v);
+	glBindBuffer(GL_ARRAY_BUFFER, draw_space_mesh->vertices_id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	//ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
-	//ComponentTransform* trans = rtransform->GetTransform();
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, draw_space_mesh->indices_id);
+	glDrawElements(GL_TRIANGLES, draw_space_mesh->num_indices, GL_UNSIGNED_INT, NULL);
 
-	//App->renderer3D->GetDefaultRenderSettings(); 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//float4x4 view_mat = float4x4::identity;
+	glDisableClientState(GL_VERTEX_ARRAY);
 
-	//if (trans)
-	//{
-	//	GLfloat matrix[16];
-	//	glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
-	//	view_mat.Set((float*)matrix);
+	if (trans)
+	{
+		trans->DrawAxis();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
+	}
+}
 
-	//	glMatrixMode(GL_MODELVIEW);
-	//	glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
-	//}
-
-	//glEnableClientState(GL_VERTEX_ARRAY);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, draw_space_mesh->vertices_id);
-	//glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, draw_space_mesh->indices_id);
-	//glDrawElements(GL_TRIANGLES, draw_space_mesh->num_indices, GL_UNSIGNED_INT, NULL);
-
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//glDisableClientState(GL_VERTEX_ARRAY);
-
-	//if (trans)
-	//{
-	//	trans->DrawAxis();
-	//	glMatrixMode(GL_MODELVIEW);
-	//	glLoadMatrixf((GLfloat*)view_mat.v);
-	//}
+void UI_Image::SetTexture(Texture * new_tex)
+{
+	draw_texture = new_tex; 
 }

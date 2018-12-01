@@ -12,7 +12,7 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
-	void Draw(); 
+	void Draw(bool is_editor); 
 
 private:
 	UI_Image * image; 

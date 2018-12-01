@@ -34,7 +34,7 @@ bool ComponentImage::CleanUp()
 	return false;
 }
 
-void ComponentImage::Draw()
+void ComponentImage::Draw(bool is_editor)
 {
-	image->DrawImage(); 
+	image->Draw(); 
 }

@@ -26,7 +26,6 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
-
 	return UPDATE_CONTINUE;
 }
 
