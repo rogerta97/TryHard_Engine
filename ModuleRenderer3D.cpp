@@ -165,6 +165,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 		}
 
 		App->scene->DrawSceneGameObjects((*it)->GetGameObject()); 
+		App->user_interface->DrawSceneUI((*it)->GetGameObject());
 
 		lights[0].SetPos((*it)->Position.x, (*it)->Position.y, (*it)->Position.z);
 

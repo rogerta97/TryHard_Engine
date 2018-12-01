@@ -2,10 +2,11 @@
 #include "Resource.h"
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include "GameObject.h"
+
 #include <list>
 #include <map>
 
-class GameObject; 
 class Octree;
 
 #define MAX_SNAKE 2
@@ -40,6 +41,7 @@ public:
 
 	GameObject* LoadPrefab(const char* prf_name);
 	GameObject* CreateGameObject();
+	GameObject* CreateUIElement(UI_Widgget_Type type, GameObject* forced_parent = nullptr);
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 	int GetGameObjectsAmmount();

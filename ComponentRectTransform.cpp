@@ -53,7 +53,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 void ComponentRectTransform::AddaptRectToScreenSize()
 {	
 	float2 screen_tex_size = float2(App->imgui->game_panel->GetGameTexSize().x, App->imgui->game_panel->GetGameTexSize().y);
-	//float2 screen_tex_size = { 50,50 }; 
 	Resize(screen_tex_size);
 }
 

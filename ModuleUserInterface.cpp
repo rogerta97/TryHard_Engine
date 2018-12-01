@@ -2,6 +2,8 @@
 #include "UI_Image.h"
 #include "GameObject.h"
 #include "ComponentRectTransform.h"
+#include "ComponentCamera.h"
+#include "GameObject.h"
 
 ModuleUserInterface::ModuleUserInterface()
 {
@@ -28,40 +30,21 @@ update_status ModuleUserInterface::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+
 bool ModuleUserInterface::CleanUp()
 {
 	return true;
 }
 
-UI_Element * ModuleUserInterface::CreateUIElement(UI_Widgget_Type type)
+void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 {
-	UI_Element* to_ret = nullptr; 
+	bool editor_cam = false;
 
-	switch (type)
-	{
-	case UI_Widgget_Type::UI_BUTTON:
-		// TODO :)
-		break; 
-
-	case UI_Widgget_Type::UI_CHECKBOX:
-		// TODO :)
-		break;
-
-	case UI_Widgget_Type::UI_INPUTFIELD:
-		// TODO :)
-		break;
-
-	case UI_Widgget_Type::UI_LABEL:
-		// TODO :)
-		break;
-
-	case UI_Widgget_Type::UI_IMAGE:
-		to_ret = new UI_Image(); 
-		break;
-
+	//Draw normal GameObjects
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{		
+		(*it)->Draw(editor_cam);
 	}
-
-	return to_ret;
 }
 
 void ModuleUserInterface::AddCanvas(GameObject* canvas_go)
@@ -79,4 +62,18 @@ void ModuleUserInterface::AddaptCanvasToScreen()
 			r_transform->AddaptRectToScreenSize();
 		}
 	}
+}
+
+GameObject* ModuleUserInterface::GetLastCanvas() const
+{
+	int limit = go_with_canvas.size(); 
+	int count = 0; 
+
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		if (++count == limit)
+			return (*it); 
+	}
+
+	return nullptr; 
 }

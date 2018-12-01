@@ -5,6 +5,7 @@
 #include "UI_Element.h"
 
 class GameObject; 
+class GameObject; 
 
 class ModuleUserInterface : public Module
 {
@@ -19,10 +20,10 @@ public:
 
 	// Utility ---------
 
-	UI_Element* CreateUIElement(UI_Widgget_Type type = UI_Widgget_Type::UI_NULL);	//Create the UI element
-
+	void DrawSceneUI(GameObject* camera); 
 	void AddCanvas(GameObject* canvas_go);
 	void AddaptCanvasToScreen();					// Will addapt all the canvas of the scene (unless they are in world space) to game screen size
+	GameObject* GetLastCanvas() const;						// Will return the UI_Canvas of the last GameObject in the list
 
 	// -----------------
 

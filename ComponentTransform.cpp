@@ -1,4 +1,5 @@
 #include "ComponentTransform.h"
+#include "ComponentRectTransform.h"
 #include "Globals.h"
 #include "GameObject.h"
 #include "OpenGL.h"
@@ -75,8 +76,18 @@ void ComponentTransform::CalculateViewMatrixFromGlobal()
 {
 	GameObject* parent = gameobject->parent;
 
-	if (parent) {
-		ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+	if (parent) 
+	{
+		ComponentTransform* trans = nullptr; 
+
+		if(!parent->GetIsUI())
+			trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+		else
+		{
+			ComponentRectTransform* rtrans = (ComponentRectTransform*)parent->GetComponent(CMP_RECTTRANSFORM);
+			trans = rtrans->GetTransform(); 
+		}
+
 		ViewMatrix = trans->GetGlobalViewMatrix().Inverted() * GlobalMatrix;
 	}
 	else
@@ -313,7 +324,17 @@ void ComponentTransform::CalculateGlobalViewMatrix()
 	GameObject* parent = gameobject->parent;
 
 	if (parent) {
-		ComponentTransform* trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+
+		ComponentTransform* trans = nullptr;
+
+		if (!parent->GetIsUI())
+			trans = (ComponentTransform*)parent->GetComponent(CMP_TRANSFORM);
+		else
+		{
+			ComponentRectTransform* rtrans = (ComponentRectTransform*)parent->GetComponent(CMP_RECTTRANSFORM);
+			trans = rtrans->GetTransform();
+		}
+
 		GlobalMatrix = trans->GlobalMatrix * ViewMatrix;
 	}
 	else

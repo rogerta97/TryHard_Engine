@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+class Mesh; 
 class UI_Canvas;
 
 enum UI_Widgget_Type
@@ -18,18 +19,20 @@ class UI_Element
 {
 public:
 	UI_Element();
+	UI_Element(UI_Widgget_Type type);
 	~UI_Element();
 
-	void Start(); 
-	void Update();
-	void CleanUp();
+	virtual void Start(); 
+	virtual void Update();
+	virtual void CleanUp();
+	virtual void Draw(); 
 
 	UI_Widgget_Type GetType() const;
 	void SetType(UI_Widgget_Type new_type);
 
 private:
 
-	UI_Widgget_Type wid_type; 
-	UI_Canvas* canvas; 
+	UI_Widgget_Type wid_type;	//Type of UI element 
+	UI_Canvas* canvas;			//Canvas where the element lays
 };
 

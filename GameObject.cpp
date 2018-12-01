@@ -12,6 +12,7 @@
 #include "ComponentTransform.h"
 #include "ComponentRectTransform.h"
 #include "ComponentCanvas.h"
+#include "ComponentImage.h"
 #include "ComponentMesh.h"
 
 #include "ComponentMaterial.h"
@@ -33,7 +34,6 @@ GameObject::GameObject(const char * name, bool _is_ui)
 	bounding_box = nullptr;
 	parent = nullptr; 
 	selected = false; 
-	ui_element = nullptr; 
 	
 	if (!GetIsUI())
 	{
@@ -91,6 +91,16 @@ void GameObject::Draw(bool is_editor)
 	}
 }
 
+GameObject * GameObject::GetFirstParentWith(CompType type)
+{
+	GameObject* to_ret = GetParent(); 
+
+	while (to_ret->GetComponent(CMP_CANVAS) == nullptr)
+		to_ret = to_ret->GetParent();
+
+	return to_ret;
+}
+
 Component * GameObject::GetComponent(CompType cmp_type) const
 {
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
@@ -127,16 +137,6 @@ bool GameObject::GetIsUI() const
 	return is_ui;
 }
 
-void GameObject::SetUIElement(UI_Element * newValue)
-{
-	if(newValue != nullptr)
-		ui_element = newValue;
-}
-
-UI_Element * GameObject::GetUIElement() const
-{
-	return ui_element;
-}
 
 string GameObject::GetTag() const
 {
@@ -271,6 +271,10 @@ Component* GameObject::AddComponent(CompType new_type)
 
 			case CMP_RECTTRANSFORM:
 				new_cmp = new ComponentRectTransform(this);
+				break;
+
+			case CMP_IMAGE:
+				new_cmp = new ComponentImage(this);
 				break;
 		}
 
@@ -458,7 +462,7 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 			App->imgui->hierarchy_panel->show_click_menu = true;
 
 		if (ImGui::IsMouseClicked(1))
-			if(!ImGui::IsAnyItemHovered())
+			if(!ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
 				App->imgui->hierarchy_panel->show_create_menu = true; 
 
 		if(opened)
@@ -492,7 +496,7 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 			App->imgui->hierarchy_panel->show_click_menu = true;
 
 		if (ImGui::IsMouseClicked(1))
-			if (!ImGui::IsAnyItemHovered())
+			if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
 				App->imgui->hierarchy_panel->show_create_menu = true;
 			
 	}

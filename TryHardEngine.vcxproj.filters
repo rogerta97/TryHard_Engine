@@ -79,7 +79,10 @@
     <Filter Include="Sources\3rd Partys\ImGuizmo">
       <UniqueIdentifier>{630fb7ee-d69e-4cce-a303-a4e7554f304d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\GameObject\UI_Elements">
+    <Filter Include="Sources\UI">
+      <UniqueIdentifier>{bf00141c-a58b-48bc-bb04-96b3e6f47f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI\UI_Elements">
       <UniqueIdentifier>{b46bdb68-eb96-42de-ae97-bcf383bbd958}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -609,17 +612,20 @@
     <ClInclude Include="ComponentCanvas.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Element.h">
-      <Filter>Sources\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentRectTransform.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Canvas.h">
-      <Filter>Sources\GameObject\UI_Elements</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Image.h">
-      <Filter>Sources\GameObject\UI_Elements</Filter>
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Element.h">
+      <Filter>Sources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Canvas.h">
+      <Filter>Sources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentImage.h">
+      <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -914,17 +920,20 @@
     <ClCompile Include="ComponentCanvas.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Element.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentRectTransform.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Canvas.cpp">
-      <Filter>Sources\GameObject\UI_Elements</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Image.cpp">
-      <Filter>Sources\GameObject\UI_Elements</Filter>
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Element.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Canvas.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentImage.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

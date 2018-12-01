@@ -6,6 +6,11 @@ UI_Element::UI_Element()
 	
 }
 
+UI_Element::UI_Element(UI_Widgget_Type type)
+{
+	wid_type = type; 
+}
+
 UI_Element::~UI_Element()
 {
 }
@@ -20,6 +25,10 @@ void UI_Element::Update()
 }
 
 void UI_Element::CleanUp()
+{
+}
+
+void UI_Element::Draw()
 {
 }
 

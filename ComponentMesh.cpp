@@ -124,7 +124,6 @@ void ComponentMesh::DrawMesh()
 		trans = rtransform->GetTransform();		
 	}
 		
-
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertices_id);

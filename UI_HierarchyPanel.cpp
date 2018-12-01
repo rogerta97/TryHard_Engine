@@ -1,5 +1,6 @@
 #include "UI_HierarchyPanel.h"
 #include "ComponentMesh.h"
+#include "UI_Canvas.h"
 
 #include "MeshImporter.h"
 
@@ -134,11 +135,6 @@ bool UI_HierarchyPanel::Update()
 	}
 
 
-	if (ImGui::IsMouseClicked(1))
-		/*if (!ImGui::IsAnyItemHovered())*/
-			if (ImGui::IsWindowHovered())
-				App->imgui->hierarchy_panel->show_create_menu = true;
-
 	if (App->imgui->hierarchy_panel->show_create_menu)
 	{
 		ImGui::OpenPopup("CreateOptions");
@@ -151,6 +147,29 @@ bool UI_HierarchyPanel::Update()
 				GameObject* new_go = App->scene->CreateGameObject();
 				new_go->name = "Empty";
 				App->scene->SetSelectedGameObject(new_go);
+			}
+
+			if (ImGui::BeginMenu("UI"))
+			{
+		
+				ImGui::MenuItem("Image");
+				
+				if (ImGui::IsItemClicked())
+				{
+
+					App->scene->CreateUIElement(UI_IMAGE); 
+					// Following Unity, Image will be added to the last canvas in the scene
+					
+					//GameObject* canvas_parent = App->user_interface->GetLastCanvas(); 
+					////Get the last canvas and create the child UI calling  the AddChildUI from canvas
+
+					//App->scene->AddGameObjectToScene(new_ui_go);
+				}
+				
+					
+				
+	
+				ImGui::EndMenu();
 			}
 
 			if(ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())

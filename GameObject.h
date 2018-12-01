@@ -5,10 +5,10 @@
 #include "Globals.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "JSON\parson.h"
+#include "UI_Element.h"
 
 class ComponentTransform;
 class ComponentRectTransform; 
-class UI_Element; 
 
 class GameObject
 {
@@ -60,6 +60,10 @@ public:
 	void SetCenterCamDataRecursive(float3& position_amm, float& distance_amm); 
 	void GetGOAmount(int& counter);
 
+	// UI Utility 
+
+	GameObject* GetFirstParentWith(CompType type);
+
 	//Getters & Setters
 	Component* GetComponent(CompType cmp_type) const;
 	GameObject* GetParent() const;
@@ -67,9 +71,6 @@ public:
 
 	void SetIsUI(bool newValue); 
 	bool GetIsUI() const;
-
-	void SetUIElement(UI_Element* newValue);
-	UI_Element* GetUIElement() const;
 
 	std::string GetTag() const;
 	void SetTag(std::string new_tag); 
@@ -105,7 +106,6 @@ private:
 	std::list<GameObject*> child_list; 
 	bool active; 
 	bool is_ui; 
-	UI_Element* ui_element; 
 	bool is_static;
 	std::string tag; 
 };

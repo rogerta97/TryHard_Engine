@@ -3,10 +3,17 @@
 
 UI_Canvas::UI_Canvas()
 {
-	//frame_rect = SDL_Rect({ 0,0,250,250 }); 
 }
 
 
 UI_Canvas::~UI_Canvas()
 {
+}
+
+void UI_Canvas::Update()
+{
+	for (auto it = elements_in_canvas.begin(); it != elements_in_canvas.end(); it++)
+	{
+		(*it)->Update(); 
+	}
 }

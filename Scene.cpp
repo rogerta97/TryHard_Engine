@@ -14,6 +14,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentCanvas.h"
 #include "ComponentRectTransform.h"
 #include "ImGuizmo/ImGuizmo.h"
 
@@ -96,15 +97,18 @@ void Scene::DrawSceneGameObjects(GameObject* camera)
 		editor_cam = true;
 	}
 
+	//Draw normal GameObjects
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
-		(*it)->Draw(editor_cam);
+		if((*it)->GetIsUI() == false)
+			(*it)->Draw(editor_cam);
 	}
 
 	if (editor_cam) {
 		cam->Draw(editor_cam);
 		App->camera->DrawMouseRay();
 	}
+
 }
 
 void Scene::SetGuizmoMode(OPERATION new_mode)
@@ -340,6 +344,38 @@ bool Scene::IsTextureUsed(int id, GameObject* skip)
 	}
 
 	return false;
+}
+
+GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_parent)
+{
+	// Find a parent for the new UI Element
+	GameObject* UI_parent = nullptr;
+
+	if (force_parent != nullptr && force_parent->GetIsUI())	
+		UI_parent = force_parent; 	
+	else
+		UI_parent = App->user_interface->GetLastCanvas(); 		//Get the last Canvas 
+	
+
+	// Create the UI Element
+	const char* name = "";
+	GameObject* new_ui_go = new GameObject("PlaceHold", true);
+	new_ui_go->SetParent(UI_parent);
+
+	switch (widdget)
+	{
+	case UI_Widgget_Type::UI_IMAGE:
+		new_ui_go->SetName("Image");
+		new_ui_go->AddComponent(CMP_IMAGE);
+		break;
+	}
+
+	ComponentCanvas* cmp_canv = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS); 
+	cmp_canv->AddElement(new_ui_go);
+
+	AddGameObjectToScene(new_ui_go); 
+
+	return new_ui_go;
 }
 
 void Scene::TestLineAgainstGOs(LineSegment line)

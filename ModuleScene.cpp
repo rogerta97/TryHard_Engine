@@ -139,6 +139,11 @@ GameObject * ModuleScene::CreateGameObject()
 	return new_go;
 }
 
+GameObject * ModuleScene::CreateUIElement(UI_Widgget_Type widdget, GameObject * force_parent)
+{
+	return current_scene->CreateUIElement(widdget, force_parent);
+}
+
 GameObject * ModuleScene::GetGameObjectByID(UID uid)
 {
 	return current_scene->GetGameObjectByID(uid);
@@ -246,6 +251,7 @@ void ModuleScene::SetDefaultScene()
 	cam->is_editor = false;
 
 }
+
 
 void ModuleScene::SaveScene(const char* scene_name)
 {

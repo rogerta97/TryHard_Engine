@@ -1,7 +1,6 @@
 #include "ComponentCanvas.h"
 #include "ComponentRectTransform.h"
 #include "Application.h"
-#include "DebugDraw.h"
 #include "UI_Canvas.h"
 
 ComponentCanvas::ComponentCanvas(GameObject* parent)
@@ -27,7 +26,7 @@ bool ComponentCanvas::Start()
 
 bool ComponentCanvas::Update()
 {
-	Draw();
+	canvas->Update();
 	return true;
 }
 
@@ -36,13 +35,15 @@ bool ComponentCanvas::CleanUp()
 	return true;
 }
 
-void ComponentCanvas::Draw()
+void ComponentCanvas::Draw(bool is_editor)
 {
-	DrawFrame();
-	DrawElements();
+	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
+	{
+		(*it)->Draw(is_editor);
+	}
 }
 
-void ComponentCanvas::AddElement(UI_Element * new_element)
+void ComponentCanvas::AddElement(GameObject * new_element)
 {
 	if (new_element != nullptr)
 		canvas->elements_in_canvas.push_back(new_element); 
@@ -62,11 +63,5 @@ UI_Element * ComponentCanvas::GetElement(uint element_id) const
 	return nullptr;
 }
 
-void ComponentCanvas::DrawFrame()
-{
-	
-}
 
-void ComponentCanvas::DrawElements()
-{
-}
+
