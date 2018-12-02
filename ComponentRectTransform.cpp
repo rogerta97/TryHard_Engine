@@ -47,7 +47,8 @@ bool ComponentRectTransform::CleanUp()
 
 void ComponentRectTransform::Draw(bool is_editor)
 {
-	DrawRectFrame();
+	if(is_editor)
+		DrawRectFrame();
 }
 
 void ComponentRectTransform::AddaptRectToScreenSize()

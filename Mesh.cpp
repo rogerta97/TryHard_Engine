@@ -170,22 +170,25 @@ bool Mesh::SetVertPlaneData()
 	indices[4] = 2;
 	indices[5] = 3;
 
+	num_uvs = num_vertices;
+	uvs_cords = new float[num_uvs * 3];
 
-	//num_uvs = num_vertices;
-	//uvs_cords = new float[num_uvs * 2];
+	//Front 
+	uvs_cords[0] = 0.0f;
+	uvs_cords[1] = 1.0f;
+	uvs_cords[2] = 0.0f;
 
-	////Front 
-	//uvs_cords[0] = -1.0f;
-	//uvs_cords[1] = 1.0f;
+	uvs_cords[3] = 1.0f;
+	uvs_cords[4] = 1.0f;
+	uvs_cords[5] = 0.0f;
 
-	//uvs_cords[2] = 1.0f;
-	//uvs_cords[3] = 1.0f;
+	uvs_cords[6] = 0.0f;
+	uvs_cords[7] = 0.0f;
+	uvs_cords[8] = 0.0f;
 
-	//uvs_cords[4] = -1.0f;
-	//uvs_cords[5] = -1.0f;
-
-	//uvs_cords[4] = 1.0f;
-	//uvs_cords[5] = -1.0f;
+	uvs_cords[9] = 1.0f;
+	uvs_cords[10] = 0.0f;
+	uvs_cords[11] = 0.0f;
 
 	return true;
 }

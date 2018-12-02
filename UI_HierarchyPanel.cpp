@@ -152,19 +152,27 @@ bool UI_HierarchyPanel::Update()
 			if (ImGui::BeginMenu("UI"))
 			{
 		
+				ImGui::MenuItem("Canvas");
+
+				if (ImGui::IsItemClicked())
+				{
+					GameObject* parent_canvas = new GameObject("Canvas", true);
+					parent_canvas->AddComponent(CMP_CANVAS);
+
+					App->user_interface->AddaptCanvasToScreen(); 
+					App->scene->AddGameObjectToScene(parent_canvas);
+				}
+
 				ImGui::MenuItem("Image");
 				
 				if (ImGui::IsItemClicked())
-				{
+					App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
+				
 
-					App->scene->CreateUIElement(UI_IMAGE); 
-					// Following Unity, Image will be added to the last canvas in the scene
-					
-					//GameObject* canvas_parent = App->user_interface->GetLastCanvas(); 
-					////Get the last canvas and create the child UI calling  the AddChildUI from canvas
+				ImGui::MenuItem("Button");
 
-					//App->scene->AddGameObjectToScene(new_ui_go);
-				}
+				if (ImGui::IsItemClicked())
+					App->scene->CreateUIElement(UI_BUTTON);
 				
 					
 				

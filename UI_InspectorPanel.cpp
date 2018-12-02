@@ -8,6 +8,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentRectTransform.h"
+#include "ComponentImage.h"
 #include "ComponentCamera.h"
 
 #include "MaterialImporter.h"
@@ -370,7 +371,36 @@ void UI_InspectorPanel::PrintImageProperties()
 {
 	if (ImGui::CollapsingHeader("Image (UI)"))
 	{
+		ComponentImage* img_cmp = (ComponentImage*)GetGameObject()->GetComponent(CMP_IMAGE);
 
+		ImGui::Spacing();
+
+		bool ray = img_cmp->GetImage()->GetRaycast();
+		if (ImGui::Checkbox("Raycast detection", &ray))
+			img_cmp->GetImage()->SetRaycast(ray);
+
+		ImGui::Separator();
+		ImGui::Spacing(); 
+
+		ImGui::BeginChild("c1", ImVec2(90, 90));
+		ImGui::Image((ImTextureID)img_cmp->GetImage()->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(75, 75), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+
+		ImGui::SameLine();
+
+		ImGui::BeginChild("c2", ImVec2(0, 300));
+		ImGui::Text("Material:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->name.c_str());
+
+		ImGui::SameLine(); 
+		if (ImGui::Button("+"))
+		{
+			ImGui::OpenPopup("select_texture");
+		}
+
+		App->resources->material_importer->DrawTextureList(true);
+
+		ImGui::EndChild();
 	}
 }
 
@@ -467,7 +497,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
-		if(mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
+		if(mat_cmp->GetMaterial() != nullptr && mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str()); ImGui::SameLine();
 
 		if (ImGui::SmallButton("+"))
@@ -489,7 +519,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Spacing();
 		
-		if (mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
+		if ((mat_cmp->GetMaterial() != nullptr && mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr))
 		{
 			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
 

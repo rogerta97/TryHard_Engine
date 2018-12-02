@@ -30,9 +30,14 @@ public:
 	UI_Widgget_Type GetType() const;
 	void SetType(UI_Widgget_Type new_type);
 
+	bool GetRaycast() const;
+	void SetRaycast(bool new_ray);
+
+
 private:
 
-	UI_Widgget_Type wid_type;	//Type of UI element 
-	UI_Canvas* canvas;			//Canvas where the element lays
+	UI_Widgget_Type wid_type;	// Type of UI element 
+	UI_Canvas* canvas;			// Canvas where the element lays
+	bool raycast;				// Make the canvas clickable
 };
 

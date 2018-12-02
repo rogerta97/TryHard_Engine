@@ -148,7 +148,7 @@ void DebugDrawPlane(const float3* corners, Color color, bool debug)
 {
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(3.0f);
+	glLineWidth(1.5f);
 	glDisable(GL_CULL_FACE);
 
 	glColor3f(color.r, color.g, color.b);

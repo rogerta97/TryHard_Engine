@@ -32,6 +32,7 @@ bool ComponentCanvas::Update()
 
 bool ComponentCanvas::CleanUp()
 {
+	App->user_interface->DeleteCanvas(gameobject);
 	return true;
 }
 

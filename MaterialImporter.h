@@ -32,7 +32,7 @@ public:
 
 	void ManageNewTexture(std::string path);
 
-	bool DrawTextureList(); 
+	bool DrawTextureList(bool ui = false); 
 
 	void GenerateCheckerTexture();
 	Texture* GetCheckerTexture() const; 

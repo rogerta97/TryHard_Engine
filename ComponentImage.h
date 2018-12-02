@@ -1,7 +1,6 @@
 #pragma once
 #include "Component.h"
-
-class UI_Image; 
+#include "UI_Image.h"
 
 class ComponentImage : public Component
 {
@@ -13,6 +12,8 @@ public:
 	bool Update();
 	bool CleanUp();
 	void Draw(bool is_editor); 
+
+	UI_Image* GetImage() const; 
 
 private:
 	UI_Image * image; 

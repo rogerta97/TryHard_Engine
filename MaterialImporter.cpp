@@ -13,6 +13,7 @@
 #include <filesystem>
 
 #include "ComponentMaterial.h"
+#include "ComponentImage.h"
 #include "ModuleFileSystem.h"
 
 #include "mmgr\mmgr.h"
@@ -219,7 +220,7 @@ void MaterialImporter::ManageNewTexture(std::string path)
 
 
 
-bool MaterialImporter::DrawTextureList()
+bool MaterialImporter::DrawTextureList(bool ui)
 {
 	static bool show_browser = false;
 
@@ -238,17 +239,28 @@ bool MaterialImporter::DrawTextureList()
 
 			if (ImGui::Selectable(curr_name.c_str()))
 			{
-				ComponentMaterial* mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-				if (mat != nullptr)
+				Material* new_mat = (Material*)(*it);
+				if (new_mat->reference_counting == 0)
+					new_mat->LoadToMemory();
+
+				new_mat->reference_counting++;
+
+				ComponentMaterial* mat = nullptr; 
+
+				if (!ui)
 				{
-					Material* new_mat = (Material*)(*it);
-					if (new_mat->reference_counting == 0)
-						new_mat->LoadToMemory(); 
+					mat = (ComponentMaterial*)App->scene->GetSelectedGameObject()->GetComponent(CMP_MATERIAL);
 
-					new_mat->reference_counting++; 
-					mat->SetMaterial(new_mat);
+					if(mat)
+						mat->SetMaterial(new_mat);
+				}					
+				else
+				{
+					ComponentImage* cmp_img = (ComponentImage*)App->scene->GetSelectedGameObject()->GetComponent(CMP_IMAGE);
+					cmp_img->GetImage()->SetMaterial(new_mat);
 				}
+
 			}
 			
 		}

@@ -39,6 +39,11 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 {
 	bool editor_cam = false;
 
+	ComponentCamera* cam = (ComponentCamera*)camera->GetComponent(CMP_CAMERA); 
+
+	if (cam->is_editor)
+		editor_cam = true; 
+
 	//Draw normal GameObjects
 	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
 	{		
@@ -49,6 +54,18 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 void ModuleUserInterface::AddCanvas(GameObject* canvas_go)
 {
 	go_with_canvas.push_back(canvas_go); 
+}
+
+void ModuleUserInterface::DeleteCanvas(GameObject * go)
+{
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		if ((*it) == go)
+		{
+			go_with_canvas.erase(it); 
+			return; 
+		}
+	}
 }
 
 void ModuleUserInterface::AddaptCanvasToScreen()

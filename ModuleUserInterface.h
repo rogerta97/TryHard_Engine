@@ -20,8 +20,11 @@ public:
 
 	// Utility ---------
 
-	void DrawSceneUI(GameObject* camera); 
 	void AddCanvas(GameObject* canvas_go);
+	void DeleteCanvas(GameObject* go);
+
+
+	void DrawSceneUI(GameObject* camera); 
 	void AddaptCanvasToScreen();					// Will addapt all the canvas of the scene (unless they are in world space) to game screen size
 	GameObject* GetLastCanvas() const;						// Will return the UI_Canvas of the last GameObject in the list
 

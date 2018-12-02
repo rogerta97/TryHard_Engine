@@ -1,5 +1,4 @@
 #include "ComponentImage.h"
-#include "UI_Image.h"
 
 #include "mmgr\mmgr.h"
 
@@ -37,4 +36,9 @@ bool ComponentImage::CleanUp()
 void ComponentImage::Draw(bool is_editor)
 {
 	image->Draw(); 
+}
+
+UI_Image * ComponentImage::GetImage() const
+{
+	return image;
 }

@@ -355,8 +355,19 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		UI_parent = force_parent; 	
 	else
 		UI_parent = App->user_interface->GetLastCanvas(); 		//Get the last Canvas 
-	
 
+	if (UI_parent == nullptr)
+	{
+		// If there is no canvas in the scene we create a default one 
+		GameObject* parent_canvas = new GameObject("Canvas", true);
+		parent_canvas->AddComponent(CMP_CANVAS);
+
+		App->user_interface->AddaptCanvasToScreen();
+		App->scene->AddGameObjectToScene(parent_canvas);
+
+		UI_parent = parent_canvas; 
+	}
+	
 	// Create the UI Element
 	const char* name = "";
 	GameObject* new_ui_go = new GameObject("PlaceHold", true);

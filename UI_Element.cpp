@@ -41,3 +41,13 @@ void UI_Element::SetType(UI_Widgget_Type new_type)
 {
 	wid_type = new_type;
 }
+
+bool UI_Element::GetRaycast() const
+{
+	return raycast;
+}
+
+void UI_Element::SetRaycast(bool new_type)
+{
+	raycast = new_type; 
+}
