@@ -3,7 +3,11 @@
 #include "GameObject.h"
 #include "ComponentRectTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentTransform.h"
+#include "Application.h"
 #include "GameObject.h"
+#include "OpenGL.h"
+#include "DebugDraw.h"
 
 ModuleUserInterface::ModuleUserInterface()
 {
@@ -47,6 +51,35 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 	//Draw normal GameObjects
 	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
 	{		
+		if (!editor_cam)
+		{
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			
+			ComponentRectTransform* rtransform = (ComponentRectTransform*)(*it)->GetComponent(CMP_RECTTRANSFORM);
+			Transform canvas_transform = rtransform->GetTransform()->transform; 
+
+			// args: left, right, bottom, top, near, far
+			float left = canvas_transform.position.x - rtransform->width;
+			float right = canvas_transform.position.x + rtransform->width;
+			float bottom = canvas_transform.position.x - rtransform->height;
+			float top = canvas_transform.position.x + rtransform->height;
+			float near_plane = 0.1f;
+			float far_plane = 200.0f;
+
+			glOrtho(left, right, bottom, top, near_plane, far_plane);
+
+			float3 min = {left, bottom, near_plane}; 
+			float3 max = { right, top, far_plane};
+
+			AABB orth_debug_box(min, max); 
+
+			App->renderer3D->UseDebugRenderSettings();
+			//DebugDraw(orth_debug_box); 
+			
+		}
+
+		App->renderer3D->UseUIRenderSettings();
 		(*it)->Draw(editor_cam);
 	}
 }

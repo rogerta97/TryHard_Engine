@@ -29,6 +29,7 @@ ComponentRectTransform::~ComponentRectTransform()
 bool ComponentRectTransform::Start()
 {
 	CreateRectQuad();
+	scale_to_show = { 1,1,1 }; 
 
 	return true;
 }
@@ -61,6 +62,8 @@ void ComponentRectTransform::CreateRectQuad()
 {
 	quad_mesh = new Mesh();
 	quad_mesh->SetVertPlaneData();
+
+	width = height = 1; 
 	quad_mesh->LoadToMemory();	
 }
 
@@ -100,6 +103,9 @@ void ComponentRectTransform::Resize(float2 new_size)
 	if (scale_percentage.x != 1 || scale_percentage.y != 1)
 	{
 		GetTransform()->SetScale(new_scale);
+
+		width = new_scale.x; 
+		height = new_scale.y; 
 	}
 		
 	// Set a proper canvas position

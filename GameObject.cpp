@@ -17,6 +17,9 @@
 
 #include "ComponentMaterial.h"
 
+#include "UI_GamePanel.h"
+#include "DebugDraw.h"
+
 #include <fstream>
 
 
@@ -85,10 +88,12 @@ void GameObject::Draw(bool is_editor)
 	if (!active)
 		return; 
 
+
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		(*it)->Draw(is_editor);
 	}
+
 }
 
 GameObject * GameObject::GetFirstParentWith(CompType type)

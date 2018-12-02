@@ -4,6 +4,8 @@
 
 #include "MeshImporter.h"
 
+#include "ComponentRectTransform.h"
+
 #include "imgui_dock.h"
 #include "Application.h"
 #include "GameObject.h"
@@ -166,7 +168,15 @@ bool UI_HierarchyPanel::Update()
 				ImGui::MenuItem("Image");
 				
 				if (ImGui::IsItemClicked())
-					App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
+				{
+					GameObject* img = App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
+
+					//Force scale 
+					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
+					rtransform->GetTransform()->SetScale({ 1.0f,  1.0f, 1.0f });
+					
+				}
+					
 				
 
 				ImGui::MenuItem("Button");

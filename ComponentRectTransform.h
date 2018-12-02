@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include "SDL\include\SDL_rect.h"
 
+#include "ComponentTransform.h"
+
 class GameObject;
 class ComponentRectTransform; 
 class ComponentTransform; 
@@ -44,6 +46,9 @@ public:
 	void SetAnchorPoint(float2 new_point); 
 
 	// ----------------------
+
+	float width, height;
+	float3 scale_to_show; 
 
 private:
 

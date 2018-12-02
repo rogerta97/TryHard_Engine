@@ -12,19 +12,26 @@
 ComponentTransform::ComponentTransform(GameObject* parent)
 {
 	SetGameObject(parent); 
+
 	transform.position = float3(0.0f, 0.0f, 0.0f);
-	transform.rotation = Quat::identity; 
+	transform.rotation = Quat::identity;
 	transform.scale = float3(1.0f, 1.0f, 1.0f);
-	transform.euler_angles = float3::zero; 
+	transform.euler_angles = float3::zero;
 
-	CalculateViewMatrix(); 
+	if (parent != nullptr)
+	{
+		
 
-	transform.X = { 1.0f, 0.0f, 0.0f };
-	transform.Y = { 0.0f, 1.0f, 0.0f };
-	transform.Z = { 0.0f, 0.0f, 1.0f };
+		CalculateViewMatrix();
 
-	has_transformed = true;
-	GlobalMatrix = float4x4::identity;
+		transform.X = { 1.0f, 0.0f, 0.0f };
+		transform.Y = { 0.0f, 1.0f, 0.0f };
+		transform.Z = { 0.0f, 0.0f, 1.0f };
+
+		has_transformed = true;
+		GlobalMatrix = float4x4::identity;
+	}
+
 
 	component_type = CMP_TRANSFORM; 
 	active = true;
@@ -333,6 +340,7 @@ void ComponentTransform::CalculateGlobalViewMatrix()
 		{
 			ComponentRectTransform* rtrans = (ComponentRectTransform*)parent->GetComponent(CMP_RECTTRANSFORM);
 			trans = rtrans->GetTransform();
+				
 		}
 
 		GlobalMatrix = trans->GlobalMatrix * ViewMatrix;
@@ -346,9 +354,18 @@ void ComponentTransform::CalculateGlobalViewMatrix()
 	auto child = gameobject->GetChildList()->begin();
 	while (child != gameobject->GetChildList()->end())
 	{
-			ComponentTransform* child_trans = (ComponentTransform*)(*child)->GetComponent(CMP_TRANSFORM);
-			child_trans->CalculateGlobalViewMatrix();
-			child++;
+		ComponentTransform* child_trans = nullptr;
+
+		if (!(*child)->GetIsUI())
+			child_trans = (ComponentTransform*)(*child)->GetComponent(CMP_TRANSFORM);
+		else
+		{
+			ComponentRectTransform* rtrans = (ComponentRectTransform*)(*child)->GetComponent(CMP_RECTTRANSFORM);
+			child_trans = rtrans->GetTransform();
+		}
+
+		child_trans->CalculateGlobalViewMatrix();
+		child++;
 	}
 	
 	has_transformed = true;

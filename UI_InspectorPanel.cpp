@@ -308,7 +308,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
-		float show_scale[3] = { rtransform->GetTransform()->transform.scale.x, rtransform->GetTransform()->transform.scale.y, rtransform->GetTransform()->transform.scale.z };
+		float show_scale[3] = { rtransform->scale_to_show.x,rtransform->scale_to_show.y, rtransform->scale_to_show.z };
 
 		ImGui::Spacing();
 		ImGui::Text("Transform:");
@@ -346,6 +346,9 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
+
+		ImGui::DragFloat("Width", &rtransform->width); 
+		ImGui::DragFloat("Height", &rtransform->height);
 
 		ImGui::Spacing();
 		ImGui::Text("Anchor Point:");
