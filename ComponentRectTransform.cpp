@@ -89,27 +89,18 @@ void ComponentRectTransform::DrawRectFrame()
 
 void ComponentRectTransform::Resize(float2 new_size)
 {
-	float3 curr_rect_scale = GetTransform()->GetScale(); 
+	float2 half_size = new_size / 2; 
 
-	//Get the percentage in which the new_size is bigger/smaller from the current size
-	float x = new_size.x / curr_rect_scale.x;
-	float y = new_size.y / curr_rect_scale.y;
+	quad_mesh->vertices[0] = { -half_size.x, half_size.y, 0 };
+	quad_mesh->vertices[1] = { half_size.x, half_size.y, 0 };
+	quad_mesh->vertices[2] = { -half_size.x, -half_size.y, 0 };
+	quad_mesh->vertices[3] = { half_size.x, -half_size.y, 0 };
 
-	float2 scale_percentage = {x,y};
-
-	float3 new_scale = float3(curr_rect_scale.x * scale_percentage.x, curr_rect_scale.y*scale_percentage.y, 1); 
-
-	//Scale the canvas
-	if (scale_percentage.x != 1 || scale_percentage.y != 1)
-	{
-		GetTransform()->SetScale(new_scale);
-
-		width = new_scale.x; 
-		height = new_scale.y; 
-	}
+	width = new_size.x; 
+	height = new_size.y;
 		
 	// Set a proper canvas position
-	GetTransform()->SetPosition({new_scale.x / 2, new_scale.y / 2, 0 });
+	GetTransform()->SetPosition({ half_size.x, half_size.y, 0 });
 												
 }
 

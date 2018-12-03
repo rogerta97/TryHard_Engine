@@ -3,9 +3,11 @@
 #include "Module.h"
 #include <list>
 #include "UI_Element.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 class GameObject; 
 class GameObject; 
+
 
 class ModuleUserInterface : public Module
 {
@@ -32,5 +34,6 @@ public:
 
 private:
 	std::list<GameObject*> go_with_canvas; 
+	AABB ui_render_box;
 };
 

@@ -173,7 +173,7 @@ bool UI_HierarchyPanel::Update()
 
 					//Force scale 
 					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
-					rtransform->GetTransform()->SetScale({ 1.0f,  1.0f, 1.0f });
+					rtransform->GetTransform()->SetScale({ 100.0f,  100.0f, 100.0f });
 					
 				}
 					

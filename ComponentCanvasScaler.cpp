@@ -25,3 +25,13 @@ bool ComponentCanvasScaler::CleanUp()
 {
 	return false;
 }
+
+float ComponentCanvasScaler::GetScaleFactor()
+{
+	return scale_factor;
+}
+
+void ComponentCanvasScaler::SetScaleFactor(float newValue)
+{
+	scale_factor = newValue; 
+}

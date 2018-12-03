@@ -347,6 +347,8 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
+		ImGui::Separator(); 
+
 		ImGui::DragFloat("Width", &rtransform->width); 
 		ImGui::DragFloat("Height", &rtransform->height);
 

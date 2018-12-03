@@ -11,6 +11,7 @@
 
 ModuleUserInterface::ModuleUserInterface()
 {
+	name = "User_Interface"; 
 }
 
 
@@ -25,6 +26,9 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 bool ModuleUserInterface::Start()
 {
+	ui_render_box.minPoint = { -1, -1, -1 };
+	ui_render_box.maxPoint = { 1, 1, 1 };
+
 	return true;
 }
 
@@ -60,25 +64,40 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 			Transform canvas_transform = rtransform->GetTransform()->transform; 
 
 			// args: left, right, bottom, top, near, far
-			float left = canvas_transform.position.x - rtransform->width;
-			float right = canvas_transform.position.x + rtransform->width;
-			float bottom = canvas_transform.position.x - rtransform->height;
-			float top = canvas_transform.position.x + rtransform->height;
-			float near_plane = 0.1f;
+			float left = canvas_transform .position.x -rtransform->width / 2;
+			float right = canvas_transform.position.x + rtransform->width / 2;
+			float bottom = canvas_transform.position.y -rtransform->height / 2;
+			float top = canvas_transform.position.y + rtransform->height / 2;
+			float near_plane = -0.1f;
 			float far_plane = 200.0f;
 
 			glOrtho(left, right, bottom, top, near_plane, far_plane);
 
 			float3 min = {left, bottom, near_plane}; 
 			float3 max = { right, top, far_plane};
+		 
+			ui_render_box.minPoint = min; 
+			ui_render_box.maxPoint = max;
 
-			AABB orth_debug_box(min, max); 
+			App->renderer3D->UseDebugRenderSettings(); 			
+		}
+		
+		LineSegment curr_line;
 
-			App->renderer3D->UseDebugRenderSettings();
-			//DebugDraw(orth_debug_box); 
-			
+		glBegin(GL_LINES);
+		App->renderer3D->UseDebugRenderSettings();
+		glColor3f(1.0f, 0.0f, 0.0f);
+
+		for (int i = 0; i < 12; i++)
+		{
+			curr_line = ui_render_box.Edge(i);
+
+			glVertex3f(curr_line.a.x, curr_line.a.y, -curr_line.a.z);
+			glVertex3f(curr_line.b.x, curr_line.b.y, -curr_line.b.z);
 		}
 
+		glEnd();
+	
 		App->renderer3D->UseUIRenderSettings();
 		(*it)->Draw(editor_cam);
 	}

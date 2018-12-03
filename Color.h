@@ -1,6 +1,8 @@
 
 #pragma once
 
+
+
 struct Color
 {
 	float r, g, b, a;
@@ -30,3 +32,4 @@ extern Color Green;
 extern Color Blue;
 extern Color Black;
 extern Color White;
+

@@ -13,6 +13,10 @@ public:
 	bool Update();
 	bool CleanUp();
 
-	Transform modified_transform; 
+	float GetScaleFactor(); 
+	void SetScaleFactor(float newValue); 
+
+private:
+	float scale_factor; 
 };
 
