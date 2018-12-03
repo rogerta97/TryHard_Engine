@@ -68,8 +68,8 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 			float right = canvas_transform.position.x + rtransform->width / 2;
 			float bottom = canvas_transform.position.y -rtransform->height / 2;
 			float top = canvas_transform.position.y + rtransform->height / 2;
-			float near_plane = 0.1f;
-			float far_plane = -200.0f;
+			float near_plane = 1000.0f;
+			float far_plane = -1000.0f;
 
 			glOrtho(left, right, bottom, top, near_plane, far_plane);
 
@@ -81,7 +81,7 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 
 			App->renderer3D->UseDebugRenderSettings(); 			
 		}
-		
+	/*	
 		LineSegment curr_line;
 
 		glBegin(GL_LINES);
@@ -96,7 +96,7 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 			glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
 		}
 
-		glEnd();
+		glEnd();*/
 	
 		App->renderer3D->UseUIRenderSettings();
 		(*it)->Draw(editor_cam);
