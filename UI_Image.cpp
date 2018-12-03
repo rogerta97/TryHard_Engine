@@ -58,7 +58,7 @@ void UI_Image::DrawImage()
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
-	App->renderer3D->UseCurrentRenderSettings(); 
+	App->renderer3D->UseUIRenderSettings(); 
 
 	float4x4 view_mat = float4x4::identity;
 

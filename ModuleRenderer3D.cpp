@@ -281,22 +281,13 @@ void ModuleRenderer3D::UpdateProjectionMatrix(Camera* cam)
 	glLoadMatrixf(&ProjectionMatrix[0][0]);
 }
 
-void ModuleRenderer3D::UseUIRenderSettings()
-{
-	GLfloat LightModelAmbient[] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-
-	GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
-
-	GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
-
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+void ModuleRenderer3D::UseUIRenderSettings(bool game_scene)
+{	
+	glColor3f(1,1,1);
+	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
-	glDisable(GL_COLOR_MATERIAL);
-	glShadeModel(GL_SMOOTH);
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 }
 
 void ModuleRenderer3D::UseDebugRenderSettings()

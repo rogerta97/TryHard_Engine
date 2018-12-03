@@ -233,6 +233,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		PrintImageProperties();
 		break;
 
+	case CMP_BUTTON:
+		PrintButtonProperties();
+		break;
+
 	}
 }
 
@@ -393,7 +397,7 @@ void UI_InspectorPanel::PrintImageProperties()
 
 		ImGui::SameLine();
 
-		ImGui::BeginChild("c2", ImVec2(0, 300));
+		ImGui::BeginChild("c2", ImVec2(0, 90));
 		ImGui::Text("Material:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->name.c_str());
 
@@ -406,6 +410,14 @@ void UI_InspectorPanel::PrintImageProperties()
 		App->resources->material_importer->DrawTextureList(true);
 
 		ImGui::EndChild();
+	}
+}
+
+void UI_InspectorPanel::PrintButtonProperties()
+{
+	if (ImGui::CollapsingHeader("Button (UI)"))
+	{
+
 	}
 }
 

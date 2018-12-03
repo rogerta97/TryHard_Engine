@@ -630,6 +630,12 @@
     <ClInclude Include="ComponentCanvasScaler.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Button.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentButton.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -939,6 +945,12 @@
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCanvasScaler.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Button.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentButton.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>

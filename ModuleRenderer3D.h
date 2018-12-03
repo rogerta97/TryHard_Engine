@@ -36,7 +36,7 @@ public:
 	void UpdateProjectionMatrix(Camera* cam);
 
 	void UseCurrentRenderSettings();
-	void UseUIRenderSettings(); 
+	void UseUIRenderSettings(bool game_scene = false); 
 	void UseDebugRenderSettings(); 
 
 	char* GetGraphicsModel() const;

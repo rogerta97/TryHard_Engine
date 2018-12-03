@@ -178,7 +178,6 @@ bool UI_HierarchyPanel::Update()
 				}
 					
 				
-
 				ImGui::MenuItem("Button");
 
 				if (ImGui::IsItemClicked())

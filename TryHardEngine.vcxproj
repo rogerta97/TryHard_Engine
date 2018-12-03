@@ -113,6 +113,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentButton.h" />
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentCanvas.h" />
     <ClInclude Include="ComponentCanvasScaler.h" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TinyFileDialog.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UI_Button.h" />
     <ClInclude Include="UI_Canvas.h" />
     <ClInclude Include="UI_ClocksPanel.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
@@ -262,6 +264,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentButton.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentCanvas.cpp" />
     <ClCompile Include="ComponentCanvasScaler.cpp" />
@@ -347,6 +350,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TinyFileDialog.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UI_Button.cpp" />
     <ClCompile Include="UI_Canvas.cpp" />
     <ClCompile Include="UI_Clocks.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
