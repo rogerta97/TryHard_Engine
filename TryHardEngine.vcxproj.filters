@@ -648,7 +648,7 @@
     <ClInclude Include="ComponentText.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="FreeType\ft2build.h">
+    <ClInclude Include="FreeType\include\ft2build.h">
       <Filter>Sources\3rd Partys\FreeType</Filter>
     </ClInclude>
   </ItemGroup>
