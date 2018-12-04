@@ -28,7 +28,3 @@ void UI_Button::Draw()
 {
 }
 
-void UI_Button::AddaptToRectSize()
-{
-
-}

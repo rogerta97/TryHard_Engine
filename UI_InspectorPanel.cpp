@@ -502,7 +502,6 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		ImGui::Spacing();
 		ImGui::Checkbox("Active##2", &mat_cmp->active);
 
-
 		if (!mat_cmp->active)
 		{
 			ImGui::SameLine();

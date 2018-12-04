@@ -113,7 +113,6 @@ void ComponentMesh::DrawMesh()
 		return;
 
 	ComponentMaterial* material = (ComponentMaterial*)gameobject->GetComponent(CMP_MATERIAL); 
-
 	ComponentTransform* trans = nullptr;
 
 	if (gameobject->GetIsUI() == false)

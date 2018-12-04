@@ -121,6 +121,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 		//This should be load from JSON files
 		render_settings.depth_test = true; 
 		render_settings.cull_face = true;
+		render_settings.light = false; 
 		render_settings.wireframe = false;
 		render_settings.color_material = true;
 

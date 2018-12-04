@@ -14,13 +14,11 @@ public:
 	void Update();
 	void CleanUp();
 	void Draw();
-
-	void AddaptToRectSize();
 	
 	ComponentButton* component_container; 
 
 private: 
 
-	Mesh* clickable_area; 
+	UI_Image* clickable_area;  //We will just use the plane for the clicking area. 
 };
 
