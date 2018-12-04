@@ -85,6 +85,9 @@
     <Filter Include="Sources\UI\UI_Elements">
       <UniqueIdentifier>{b46bdb68-eb96-42de-ae97-bcf383bbd958}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\3rd Partys\FreeType">
+      <UniqueIdentifier>{ab0007c4-dcd9-422a-9967-5e20eaa0d0db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -639,6 +642,15 @@
     <ClInclude Include="UI_Plane.h">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Label.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentText.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeType\ft2build.h">
+      <Filter>Sources\3rd Partys\FreeType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -958,6 +970,12 @@
     </ClCompile>
     <ClCompile Include="UI_Plane.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Label.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentText.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
