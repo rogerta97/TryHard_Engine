@@ -2,9 +2,6 @@
 #include "UI_Element.h"
 #include <string>
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 using namespace std; 
 
 class ComponentText; 

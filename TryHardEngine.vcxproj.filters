@@ -651,6 +651,12 @@
     <ClInclude Include="FreeType\include\ft2build.h">
       <Filter>Sources\3rd Partys\FreeType</Filter>
     </ClInclude>
+    <ClInclude Include="FreeType\include\freetype\freetype.h">
+      <Filter>Sources\3rd Partys\FreeType</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeType\include\freetype\config\ftheader.h">
+      <Filter>Sources\3rd Partys\FreeType</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -977,6 +983,7 @@
     <ClCompile Include="ComponentText.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
+    <ClCompile Include="FreeType\include\freetype\freetype.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">
