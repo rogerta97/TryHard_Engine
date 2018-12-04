@@ -4,7 +4,7 @@
 
 class ComponentImage; 
 class Material; 
-class Mesh; 
+class UI_Plane; 
 
 class UI_Image : public UI_Element
 {
@@ -27,7 +27,7 @@ public:
 
 private: 
 
-	Mesh* draw_space_mesh;		//	Plane where the texture (if it has) is going to be displayed
+	UI_Plane* plane;					//	Plane where the texture (if it has) is going to be displayed
 	Material* draw_material;		//  Texture that is going to be shown in the image 
 };
 

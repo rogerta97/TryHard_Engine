@@ -14,7 +14,7 @@
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>
     <RootNamespace>SDLGame</RootNamespace>
     <ProjectName>TryHard Engine</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -256,6 +256,7 @@
     <ClInclude Include="UI_OctreePanel.h" />
     <ClInclude Include="UI_Panel.h" />
     <ClInclude Include="UI_PerformancePanel.h" />
+    <ClInclude Include="UI_Plane.h" />
     <ClInclude Include="UI_RandomNumberPanel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
     <ClInclude Include="UI_TagPanel.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="UI_InspectorPanel.cpp" />
     <ClCompile Include="UI_OctreePanel.cpp" />
     <ClCompile Include="UI_PerformancePanel.cpp" />
+    <ClCompile Include="UI_Plane.cpp" />
     <ClCompile Include="UI_RandomNumberPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
     <ClCompile Include="UI_TagPanel.cpp" />

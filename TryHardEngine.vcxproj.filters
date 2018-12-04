@@ -636,6 +636,9 @@
     <ClInclude Include="ComponentButton.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
+    <ClInclude Include="UI_Plane.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -952,6 +955,9 @@
     </ClCompile>
     <ClCompile Include="ComponentButton.cpp">
       <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Plane.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

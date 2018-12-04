@@ -382,7 +382,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 	case UI_Widgget_Type::UI_BUTTON:
 		new_ui_go->SetName("Button");
-		new_ui_go->AddComponent(CMP_IMAGE);
 		new_ui_go->AddComponent(CMP_BUTTON);
 		break;
 	}

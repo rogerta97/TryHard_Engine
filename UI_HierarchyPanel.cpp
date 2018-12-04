@@ -165,8 +165,7 @@ bool UI_HierarchyPanel::Update()
 					App->scene->AddGameObjectToScene(parent_canvas);
 				}
 
-				ImGui::MenuItem("Image");
-				
+				ImGui::MenuItem("Image");				
 				if (ImGui::IsItemClicked())
 				{
 					GameObject* img = App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
@@ -176,16 +175,11 @@ bool UI_HierarchyPanel::Update()
 					rtransform->GetTransform()->SetScale({ 100.0f,  100.0f, 100.0f });
 					
 				}
-					
-				
+								
 				ImGui::MenuItem("Button");
-
 				if (ImGui::IsItemClicked())
 					App->scene->CreateUIElement(UI_BUTTON);
 				
-					
-				
-	
 				ImGui::EndMenu();
 			}
 

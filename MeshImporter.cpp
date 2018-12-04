@@ -102,6 +102,12 @@ void MeshImporter::ImportAllFilesFromAssets()
 		if(App->file_system->GetFileExtension((*it).c_str()) != FX_ERR)
 			ManageNewItem((*it)); 
 	}
+
+	// Create plane resource 
+	Mesh* plane_resource = (Mesh*)App->resources->CreateNewResource(RES_MESH);
+	plane_resource->name = "Plane"; 
+	plane_resource->SetVertPlaneData();
+	plane_resource->LoadToMemory(); 
 }
 
 void MeshImporter::ManageNewItem(string new_item_path)

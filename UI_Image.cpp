@@ -8,6 +8,7 @@
 #include "DebugDraw.h"
 #include "ComponentRectTransform.h"
 #include "ComponentTransform.h"
+#include "UI_Plane.h"
 
 #include "ComponentImage.h"
 #include "ModuleRenderer3D.h"
@@ -48,9 +49,7 @@ void UI_Image::CleanUp()
 
 void UI_Image::CreateDrawSpace()
 {
-	draw_space_mesh = new Mesh();
-	draw_space_mesh->SetVertPlaneData();
-	draw_space_mesh->LoadToMemory();
+	plane = new UI_Plane();
 }
 
 void UI_Image::DrawImage()
@@ -74,21 +73,21 @@ void UI_Image::DrawImage()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glBindBuffer(GL_ARRAY_BUFFER, draw_space_mesh->vertices_id);
+	glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
 	if (draw_material != nullptr)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, draw_space_mesh->uvs_id);
+		glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->uvs_id);
 
 		draw_material->GetDiffuseTexture()->Bind();
 
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 	}
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, draw_space_mesh->indices_id);
-	glDrawElements(GL_TRIANGLES, draw_space_mesh->num_indices, GL_UNSIGNED_INT, NULL);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane->GetMesh()->indices_id);
+	glDrawElements(GL_TRIANGLES, plane->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
