@@ -11,9 +11,9 @@ class ComponentTransform;
 class ComponentMesh; 
 class Mesh;
 
-struct AnchorPoint
+struct AnchorPoints
 {
-	float2 anchor;
+	float min_x, min_y, max_x, max_y;
 	ComponentRectTransform* rect_transform_attached;
 };
 
@@ -36,14 +36,18 @@ public:
 	void DrawRectFrame();					// Will create the quad of the Rect
 	void Resize(float2 new_size);			// Will resize the rectangle at the values sended
 
+	float2 GetRelativePos() const;
+
+	void UpdateRectWithAnchors();
+
 	// ----------------------
 
 	// Set & Get ------------
 
 	ComponentTransform* GetTransform();
 
-	float2 GetAnchorPoint() const;
-	void SetAnchorPoint(float2 new_point); 
+	AnchorPoints GetAnchorPoint() const;
+	void SetAnchorPoint(float min_x, float min_y, float max_x, float max_y);
 
 	// ----------------------
 
@@ -55,8 +59,10 @@ private:
 	Mesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
 	ComponentTransform* transform_part; 
 	
-	float2 anchor_point; 
+	AnchorPoints anchor;
 	SDL_Rect rect; 
+
+	float2 relative_pos;
 
 	ComponentRectTransform* parent;
 };

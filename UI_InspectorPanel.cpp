@@ -357,14 +357,14 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		ImGui::DragFloat("Height", &rtransform->height);
 
 		ImGui::Spacing();
-		ImGui::Text("Anchor Point:");
+		ImGui::Text("Relative pos:");
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		float show_point[2] = { rtransform->GetAnchorPoint().x, rtransform->GetAnchorPoint().y }; 
+		//float show_point[2] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y };
 
-		if (ImGui::DragFloat2("Anchor", show_point))
-			rtransform->SetAnchorPoint(float2(show_point[0], show_point[1]));
+		//if (ImGui::DragFloat2("Anchor", show_point))
+		//	rtransform->SetAnchorPoint(float2(show_point[0], show_point[1]));
 	}
 }
 

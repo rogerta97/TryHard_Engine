@@ -18,7 +18,13 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	transform_part->transform.rotation = Quat::identity;
 	transform_part->transform.scale = {1,1,1};
 
-	anchor_point = { 0,0 };
+	anchor.min_x = 0.0;
+	anchor.min_x = 0.0;
+	anchor.min_x = 0.0;
+	anchor.min_x = 0.0;
+
+	relative_pos.x = 0;
+	relative_pos.y = 0;
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -104,18 +110,31 @@ void ComponentRectTransform::Resize(float2 new_size)
 												
 }
 
+float2 ComponentRectTransform::GetRelativePos() const
+{
+	return relative_pos;
+}
+
+void ComponentRectTransform::UpdateRectWithAnchors()
+{
+
+}
+
 ComponentTransform* ComponentRectTransform::GetTransform()
 {
 
 	return transform_part; 
 }
 
-void ComponentRectTransform::SetAnchorPoint(float2 new_point)
+void ComponentRectTransform::SetAnchorPoint(float min_x, float min_y, float max_x, float max_y)
 {
-	anchor_point = new_point; 
+	anchor.min_x = min_x;
+	anchor.min_y = min_y;
+	anchor.max_x = max_x;
+	anchor.max_y = max_y;
 }
 
-float2 ComponentRectTransform::GetAnchorPoint() const
+AnchorPoints ComponentRectTransform::GetAnchorPoint() const
 {
-	return anchor_point;
+	return anchor;
 }
