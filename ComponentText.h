@@ -1,12 +1,13 @@
 #pragma once
 #include "Component.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 class UI_Label; 
 
 class ComponentText : public Component
 {
 public:
-	ComponentText();
+	ComponentText(GameObject* parent);
 	~ComponentText();
 
 	bool Start();
@@ -18,5 +19,6 @@ public:
 
 private:
 	UI_Label * label;
+	float3 draw_color; 
 };
 

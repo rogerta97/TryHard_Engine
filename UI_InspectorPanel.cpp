@@ -1,5 +1,6 @@
 #include "UI_InspectorPanel.h"
 #include "UI_TagPanel.h"
+#include "UI_Label.h"
 
 #include "Application.h"
 #include "imgui_dock.h"
@@ -8,6 +9,7 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentRectTransform.h"
+#include "ComponentText.h"
 #include "ComponentImage.h"
 #include "ComponentCamera.h"
 
@@ -237,6 +239,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		PrintButtonProperties();
 		break;
 
+	case CMP_TEXT:
+		PrintTextProperties();
+		break;
+
 	}
 }
 
@@ -372,6 +378,24 @@ void UI_InspectorPanel::PrintCanvasProperties()
 {
 	if (ImGui::CollapsingHeader("Canvas"))
 	{
+
+	}
+}
+
+void UI_InspectorPanel::PrintTextProperties()
+{
+	if (ImGui::CollapsingHeader("Text (UI)"))
+	{
+		ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT); 
+
+		ImGui::Spacing();
+
+		ImGui::InputText("Text", (char*)cmp_text->GetLabel()->GetText().c_str(), 256);
+
+		ImGui::Spacing();
+
+		static float col[3]; 
+		ImGui::ColorPicker3("Color", col); 
 
 	}
 }

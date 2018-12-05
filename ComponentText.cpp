@@ -1,9 +1,12 @@
 #include "ComponentText.h"
+#include "UI_Label.h"
 
 
-
-ComponentText::ComponentText()
+ComponentText::ComponentText(GameObject* parent)
 {
+	component_type = CMP_TEXT;
+	gameobject = parent;
+	label = new UI_Label(this); 
 }
 
 

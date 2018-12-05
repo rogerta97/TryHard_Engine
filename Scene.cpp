@@ -385,6 +385,11 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		new_ui_go->AddComponent(CMP_IMAGE); 
 		new_ui_go->AddComponent(CMP_BUTTON);
 		break;
+
+	case UI_Widgget_Type::UI_LABEL:
+		new_ui_go->SetName("Text");
+		new_ui_go->AddComponent(CMP_TEXT);
+		break;
 	}
 
 	ComponentCanvas* cmp_canv = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS); 

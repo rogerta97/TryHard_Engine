@@ -179,6 +179,10 @@ bool UI_HierarchyPanel::Update()
 				ImGui::MenuItem("Button");
 				if (ImGui::IsItemClicked())
 					App->scene->CreateUIElement(UI_BUTTON);
+
+				ImGui::MenuItem("Text");
+				if (ImGui::IsItemClicked())
+					App->scene->CreateUIElement(UI_LABEL);
 				
 				ImGui::EndMenu();
 			}

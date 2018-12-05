@@ -24,6 +24,7 @@ public:
 
 	ComponentText* cmp_container; 
 
+	string GetText() const;
 	void SetText(const char* new_text);
 	void SetFont(string font_name);
 

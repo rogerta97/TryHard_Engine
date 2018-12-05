@@ -70,7 +70,6 @@ void Font::GenerateCharacterList()
 		loaded = true; 
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		FT_Done_Face(text_font);
 	}
 }
 

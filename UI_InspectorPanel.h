@@ -27,6 +27,7 @@ private:
 	void PrintTransformProperties();
 	void PrintRectTransformProperties();
 	void PrintCanvasProperties();
+	void PrintTextProperties();
 	void PrintImageProperties();
 	void PrintButtonProperties();
 	void PrintMeshProperties(); 

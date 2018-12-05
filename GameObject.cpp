@@ -11,6 +11,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentRectTransform.h"
+#include "ComponentText.h"
 #include "ComponentButton.h"
 #include "ComponentCanvas.h"
 #include "ComponentImage.h"
@@ -285,6 +286,10 @@ Component* GameObject::AddComponent(CompType new_type)
 
 			case CMP_BUTTON:
 				new_cmp = new ComponentButton(this);
+				break;
+
+			case CMP_TEXT:
+				new_cmp = new ComponentText(this);
 				break;
 		}
 
