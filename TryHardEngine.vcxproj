@@ -137,6 +137,7 @@
     <ClInclude Include="Devil\include\ilut_config.h" />
     <ClInclude Include="Devil\include\ilu_region.h" />
     <ClInclude Include="Devil\include\il_wrap.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="FreeType\include\freetype\config\ftheader.h" />
     <ClInclude Include="FreeType\include\freetype\freetype.h" />
     <ClInclude Include="FreeType\include\ft2build.h" />
@@ -285,7 +286,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="DeviceId\DeviceId.cpp" />
-    <ClCompile Include="FreeType\include\freetype\freetype.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />

@@ -8,12 +8,13 @@
 #include "GameObject.h"
 #include "OpenGL.h"
 #include "DebugDraw.h"
+#include "Font.h"
+
 
 ModuleUserInterface::ModuleUserInterface()
 {
 	name = "User_Interface"; 
 }
-
 
 ModuleUserInterface::~ModuleUserInterface()
 {
@@ -27,6 +28,8 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 	{
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
+
+	LoadNewFont("Oswald-Regular", 20); 
 
 	return true;
 }
@@ -48,6 +51,40 @@ update_status ModuleUserInterface::Update(float dt)
 bool ModuleUserInterface::CleanUp()
 {
 	return true;
+}
+
+Font* ModuleUserInterface::GetFont(std::string font_name) const
+{
+	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
+	{		
+		if ((*it)->text_font->family_name == font_name)
+		{
+			return (Font*)&(*it);
+		}			
+	}
+
+	return nullptr; 
+}
+
+Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
+{
+	Font* font_to_add = new Font();     
+
+	string path = App->file_system->GetFontsPath() + "\\" + font_name + ".ttf"; 
+	FT_Error error = FT_New_Face(ft_library, path.c_str(), 0, &font_to_add->text_font);
+
+	if (error)
+	{
+		CONSOLE_ERROR("An Error has occurred loading the font"); 
+		return nullptr;
+	}
+	else
+	{
+		FT_Set_Pixel_Sizes(font_to_add->text_font, 0, size);
+		font_to_add->GenerateCharacterList();
+		fonts_face_list.push_back(font_to_add);
+		return font_to_add;
+	}
 }
 
 void ModuleUserInterface::DrawSceneUI(GameObject* camera)

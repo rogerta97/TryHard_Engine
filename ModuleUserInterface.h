@@ -2,6 +2,7 @@
 
 #include "Module.h"
 #include <list>
+#include <string>
 #include "UI_Element.h"
 #include "MathGeoLib\MathGeoLib.h"
 
@@ -10,7 +11,8 @@
 
 #pragma comment(lib, "FreeType/win32/freetype.lib") 
 
-class GameObject; 
+class GameObject;
+class Font; 
 
 class ModuleUserInterface : public Module
 {
@@ -23,11 +25,17 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	// Fonts -----------
+
+	Font* GetFont(std::string font_name) const; 
+	Font* LoadNewFont(std::string font_path, int size);
+
+	// -----------------
+
 	// Utility ---------
 
 	void AddCanvas(GameObject* canvas_go);
 	void DeleteCanvas(GameObject* go);
-
 
 	void DrawSceneUI(GameObject* camera); 
 	void AddaptCanvasToScreen();					// Will addapt all the canvas of the scene (unless they are in world space) to game screen size
@@ -40,6 +48,6 @@ private:
 	AABB ui_render_box;
 
 	FT_Library ft_library; 
-	std::list<FT_Face> fonts_face_list; 
+	std::list<Font*> fonts_face_list; 
 };
 

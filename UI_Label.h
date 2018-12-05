@@ -2,6 +2,11 @@
 #include "UI_Element.h"
 #include <string>
 
+#include "ModuleUserInterface.h"
+#include "Font.h"
+
+#include <map>
+
 using namespace std; 
 
 class ComponentText; 
@@ -20,10 +25,12 @@ public:
 	ComponentText* cmp_container; 
 
 	void SetText(const char* new_text);
+	void SetFont(string font_name);
 
 private: 
 
-	string text; 
-
+	string text;
+	Font text_font; 
+	int text_size; 
 };
 

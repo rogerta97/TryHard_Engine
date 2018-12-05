@@ -657,6 +657,9 @@
     <ClInclude Include="FreeType\include\freetype\config\ftheader.h">
       <Filter>Sources\3rd Partys\FreeType</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -983,7 +986,9 @@
     <ClCompile Include="ComponentText.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FreeType\include\freetype\freetype.cpp" />
+    <ClCompile Include="Font.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\_editorconfig">

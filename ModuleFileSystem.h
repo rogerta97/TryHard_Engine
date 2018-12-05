@@ -60,6 +60,7 @@ public:
 	string GetSkyBoxPath() const;
 	string GetAssetsPath() const; 
 	string GetScenesPath() const; 
+	string GetFontsPath() const; 
 
 	UID GenerateUID(); 
 
@@ -87,6 +88,7 @@ private:
 	string prefabs_path; 
 	string models_path; 
 	string skybox_path;
+	string fonts_path; 
 	string textures_path;
 };
 

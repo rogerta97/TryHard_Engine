@@ -50,6 +50,7 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	textures_path = assets_path + string("\\") + string("Textures");
 	prefabs_path = assets_path + string("\\") + string("Prefabs");
 	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
+	fonts_path = assets_path + string("\\") + string("Fonts");
 
 	//Start monitor directory
 	monitor_directory = new MonitorDirectory(); 
@@ -257,6 +258,11 @@ string ModuleFileSystem::GetAssetsPath() const
 string ModuleFileSystem::GetScenesPath() const
 {
 	return scenes_path;
+}
+
+string ModuleFileSystem::GetFontsPath() const
+{
+	return fonts_path;
 }
 
 UID ModuleFileSystem::GenerateUID()
