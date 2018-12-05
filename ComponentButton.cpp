@@ -1,12 +1,11 @@
 #include "ComponentButton.h"
-
-
-
+#include "UI_Button.h"
 
 ComponentButton::ComponentButton(GameObject * parent)
 {
 	gameobject = parent; 
 	component_type = CMP_BUTTON; 
+	button = new UI_Button(this); 
 }
 
 ComponentButton::~ComponentButton()
@@ -25,14 +24,19 @@ bool ComponentButton::Update()
 
 bool ComponentButton::CleanUp()
 {
-	return false;
+	button->CleanUp();
+	delete button; 
+
+	return true;
 }
 
 void ComponentButton::Draw(bool is_editor)
 {
+	if(button)
+		button->Draw(is_editor);
 }
 
-UI_button * ComponentButton::GetButton() const
+UI_Button * ComponentButton::GetButton() const
 {
 	return button;
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class UI_button; 
+class UI_Button;
 
 class ComponentButton : public Component
 {
@@ -14,9 +14,9 @@ public:
 	bool CleanUp();
 	void Draw(bool is_editor);
 
-	UI_button* GetButton() const;
+	UI_Button* GetButton() const;
 
 private:
-	UI_button * button;
+	UI_Button * button;
 };
 

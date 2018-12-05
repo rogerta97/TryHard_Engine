@@ -5,9 +5,12 @@
 #include "UI_Element.h"
 #include "MathGeoLib\MathGeoLib.h"
 
-class GameObject; 
-class GameObject; 
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
+#pragma comment(lib, "FreeType/win32/freetype.lib") 
+
+class GameObject; 
 
 class ModuleUserInterface : public Module
 {
@@ -35,5 +38,8 @@ public:
 private:
 	std::list<GameObject*> go_with_canvas; 
 	AABB ui_render_box;
+
+	FT_Library ft_library; 
+	std::list<FT_Face> fonts_face_list; 
 };
 

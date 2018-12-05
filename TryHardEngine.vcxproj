@@ -49,6 +49,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>$(SolutionDir)FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -66,6 +67,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>$(SolutionDir)FreeType\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -121,6 +123,7 @@
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentRectTransform.h" />
+    <ClInclude Include="ComponentText.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DebugDraw.h" />
@@ -134,6 +137,9 @@
     <ClInclude Include="Devil\include\ilut_config.h" />
     <ClInclude Include="Devil\include\ilu_region.h" />
     <ClInclude Include="Devil\include\il_wrap.h" />
+    <ClInclude Include="FreeType\include\freetype\config\ftheader.h" />
+    <ClInclude Include="FreeType\include\freetype\freetype.h" />
+    <ClInclude Include="FreeType\include\ft2build.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Glew\include\eglew.h" />
@@ -253,9 +259,11 @@
     <ClInclude Include="UI_HierarchyPanel.h" />
     <ClInclude Include="UI_Image.h" />
     <ClInclude Include="UI_InspectorPanel.h" />
+    <ClInclude Include="UI_Label.h" />
     <ClInclude Include="UI_OctreePanel.h" />
     <ClInclude Include="UI_Panel.h" />
     <ClInclude Include="UI_PerformancePanel.h" />
+    <ClInclude Include="UI_Plane.h" />
     <ClInclude Include="UI_RandomNumberPanel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
     <ClInclude Include="UI_TagPanel.h" />
@@ -272,10 +280,12 @@
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentRectTransform.cpp" />
+    <ClCompile Include="ComponentText.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="DeviceId\DeviceId.cpp" />
+    <ClCompile Include="FreeType\include\freetype\freetype.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />
@@ -361,8 +371,10 @@
     <ClCompile Include="UI_HierarchyPanel.cpp" />
     <ClCompile Include="UI_Image.cpp" />
     <ClCompile Include="UI_InspectorPanel.cpp" />
+    <ClCompile Include="UI_Label.cpp" />
     <ClCompile Include="UI_OctreePanel.cpp" />
     <ClCompile Include="UI_PerformancePanel.cpp" />
+    <ClCompile Include="UI_Plane.cpp" />
     <ClCompile Include="UI_RandomNumberPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
     <ClCompile Include="UI_TagPanel.cpp" />

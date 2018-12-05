@@ -21,6 +21,13 @@ ModuleUserInterface::~ModuleUserInterface()
 
 bool ModuleUserInterface::Init(JSON_Object * config)
 {
+	FT_Error error = FT_Init_FreeType(&ft_library);
+
+	if (error)
+	{
+		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
+	}
+
 	return true;
 }
 
