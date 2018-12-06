@@ -37,6 +37,7 @@ public:
 	void Resize(float2 new_size);			// Will resize the rectangle at the values sended
 
 	float2 GetRelativePos() const;
+	void SetRelativePos(float2 new_pos);
 
 	void UpdateRectWithAnchors();
 
@@ -60,7 +61,6 @@ private:
 	ComponentTransform* transform_part; 
 	
 	AnchorPoints anchor;
-	SDL_Rect rect; 
 
 	float2 relative_pos;
 

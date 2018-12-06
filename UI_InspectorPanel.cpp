@@ -367,10 +367,55 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		//float show_point[2] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y };
+		float show_rel_pos[2] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y };
 
-		//if (ImGui::DragFloat2("Anchor", show_point))
-		//	rtransform->SetAnchorPoint(float2(show_point[0], show_point[1]));
+		if (ImGui::DragFloat2("Pos", show_rel_pos))
+			rtransform->SetRelativePos(float2(show_rel_pos[0],show_rel_pos[1]));
+
+		ImGui::Text("Anchors:");
+		ImGui::Separator();
+		ImGui::Spacing();
+
+
+		//ANCHOR
+
+		float show_anchor[4];
+		
+		show_anchor[0] = rtransform->GetAnchorPoint().min_x;
+		show_anchor[1] = rtransform->GetAnchorPoint().min_y;
+		show_anchor[2] = rtransform->GetAnchorPoint().max_x;
+		show_anchor[3] = rtransform->GetAnchorPoint().max_y;
+		
+
+		ImGui::Columns(3, "", false);
+
+		ImGui::Text("Min");
+
+		ImGui::NextColumn();
+
+		if (ImGui::DragFloat("X", &show_anchor[0], 0.1f, 0.0f, 1.0f))
+			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
+
+		ImGui::NextColumn();
+
+		if (ImGui::DragFloat("Y", &show_anchor[1], 0.1f, 0.0f, 1.0f))
+			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
+
+		ImGui::NextColumn();
+
+		ImGui::Text("Max");
+
+		ImGui::NextColumn();
+
+		if (ImGui::DragFloat("X", &show_anchor[2],0.1f,0.0f,1.0f))
+			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
+
+		ImGui::NextColumn();
+
+		if (ImGui::DragFloat("Y", &show_anchor[3], 0.1f, 0.0f, 1.0f))
+			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
+
+		ImGui::Columns(1);
 	}
 }
 

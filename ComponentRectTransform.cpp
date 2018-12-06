@@ -19,9 +19,9 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	transform_part->transform.scale = {1,1,1};
 
 	anchor.min_x = 0.0;
-	anchor.min_x = 0.0;
-	anchor.min_x = 0.0;
-	anchor.min_x = 0.0;
+	anchor.min_y = 0.0;
+	anchor.max_x = 0.0;
+	anchor.max_y = 0.0;
 
 	relative_pos.x = 0;
 	relative_pos.y = 0;
@@ -42,7 +42,25 @@ bool ComponentRectTransform::Start()
 
 bool ComponentRectTransform::Update()
 {
+	float3 real_pos = transform_part->GetPosition();
+	float3 parent_pos = { 0,0,0 };
+	ComponentRectTransform* parent_rect = nullptr;
+	ComponentTransform* parent_transform = nullptr;
 
+	if (gameobject->parent)
+		parent_rect = gameobject->parent->rect_transform;
+
+	if (parent_rect)
+	{
+		parent_transform = parent_rect->transform_part;
+
+		parent_pos = parent_transform->GetPosition();
+
+		real_pos.y = (parent_pos.y - (anchor.min_y * parent_rect->height) - relative_pos.y);
+
+
+		transform_part->SetPosition(real_pos);
+	}
 
 	return true;
 }
@@ -113,6 +131,11 @@ void ComponentRectTransform::Resize(float2 new_size)
 float2 ComponentRectTransform::GetRelativePos() const
 {
 	return relative_pos;
+}
+
+void ComponentRectTransform::SetRelativePos(float2 new_pos)
+{
+	relative_pos = new_pos;
 }
 
 void ComponentRectTransform::UpdateRectWithAnchors()
