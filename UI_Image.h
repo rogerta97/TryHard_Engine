@@ -24,6 +24,7 @@ public:
 	Material* GetMaterial() const; 
 
 	ComponentImage* cmp_container; 
+	bool is_glyphy; 
 
 private: 
 

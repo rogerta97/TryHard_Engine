@@ -14,6 +14,7 @@ public:
 	void CleanUp();
 
 	void CreatePlaneMesh();
+	void InvertImage(); 
 
 	Mesh* GetMesh() const; 
 	void SetMesh(Mesh* nValue); 

@@ -31,7 +31,9 @@ bool ComponentText::CleanUp()
 
 void ComponentText::Draw(bool is_editor)
 {
+	label->Draw(is_editor); 
 }
+
 
 UI_Label * ComponentText::GetLabel() const
 {

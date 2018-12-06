@@ -27,7 +27,7 @@ public:
 
 	// Fonts -----------
 
-	Font* GetFont(std::string font_name) const; 
+	Font GetFont(std::string font_name) const; 
 	Font* LoadNewFont(std::string font_path, int size);
 
 	// -----------------

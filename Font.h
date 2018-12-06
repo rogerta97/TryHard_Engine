@@ -6,6 +6,7 @@
 
 struct Character
 {
+	Character() {}
 	Character(GLuint id, float2 _size, float2 _bearing, GLuint _advance) : TextureID(id), Size(_size), Bearing(_bearing), Advance(_advance) {}
 		
 	GLuint     TextureID;  // ID handle of the glyph texture

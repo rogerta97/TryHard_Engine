@@ -35,6 +35,11 @@ void UI_Plane::CreatePlaneMesh()
 	quad_plane_mesh->LoadToMemory();
 }
 
+void UI_Plane::InvertImage()
+{
+
+}
+
 Mesh * UI_Plane::GetMesh() const
 {
 	return quad_plane_mesh;

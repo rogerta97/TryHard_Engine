@@ -13,6 +13,7 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+
 	void Draw(bool is_editor);
 
 	UI_Label* GetLabel() const;
