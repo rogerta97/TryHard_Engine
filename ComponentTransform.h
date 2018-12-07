@@ -34,6 +34,9 @@ public:
 	void SetRotation(Quat new_pos);
 	void SetScale(float3 new_pos);
 
+	//UI The difference is that it will not recalculate the global view matrix as ui works different
+	void SetPositionForUI(float3 new_pos);
+
 	//Load & Save
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
