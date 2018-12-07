@@ -1,4 +1,6 @@
 #include "Font.h"
+#include "Material.h"
+#include "Texture.h"
 
 #include <map>
 
@@ -17,9 +19,11 @@ uint Font::GetCharacterTexture(const char * character)
 {
 	for (auto it = chars_list.begin(); it != chars_list.end(); it++)
 	{
+
 		if ((*it).first == (GLchar)character)
 		{
-			return (*it).second->TextureID; 
+			uint id = (*it).second->TextureID;
+			return id; 
 		}			
 	}
 }
@@ -30,6 +34,8 @@ void Font::GenerateCharacterList()
 
 	for (GLubyte c = 0; c < 128; c++)
 	{
+		Character* new_character = new Character();
+
 		// Load character glyph 
 		if (FT_Load_Char(text_font, c, FT_LOAD_RENDER))
 		{
@@ -38,9 +44,8 @@ void Font::GenerateCharacterList()
 		}
 
 		// Generate texture
-		GLuint texture_id;
-		glGenTextures(1, &texture_id);
-		glBindTexture(GL_TEXTURE_2D, texture_id);
+		glGenTextures(1, &new_character->TextureID);
+		glBindTexture(GL_TEXTURE_2D, new_character->TextureID);
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
@@ -61,12 +66,11 @@ void Font::GenerateCharacterList()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Now store character for later use
-		Character new_char(texture_id,
-			{ (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows },
-			{ (float)text_font->glyph->bitmap_left, (float)text_font->glyph->bitmap_top },
-			text_font->glyph->advance.x);
+		new_character->Bearing = { (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows };
+		new_character->Size = { (float)text_font->glyph->bitmap_left, (float)text_font->glyph->bitmap_top };
+		new_character->Advance = text_font->glyph->advance.x; 
 
-		chars_list.insert(std::pair<GLchar, Character*>(c, &new_char)); 
+		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

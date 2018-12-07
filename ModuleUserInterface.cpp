@@ -29,7 +29,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
 
-	LoadNewFont("Oswald-Regular", 20); 
+	LoadNewFont("Antonio-Regular", 20); 
 
 	return true;
 }
@@ -53,22 +53,22 @@ bool ModuleUserInterface::CleanUp()
 	return true;
 }
 
-Font* ModuleUserInterface::GetFont(std::string font_name) const
+Font ModuleUserInterface::GetFont(std::string font_name) const
 {
 	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
 	{		
 		if ((*it)->text_font->family_name == font_name)
 		{
-			return (Font*)&(*it);
+			return *(*it);
 		}			
 	}
 
-	return nullptr; 
+	return Font(); 
 }
 
 Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 {
-	Font* font_to_add = new Font();     
+	Font* font_to_add = new Font();   
 
 	string path = App->file_system->GetFontsPath() + "\\" + font_name + ".ttf"; 
 	FT_Error error = FT_New_Face(ft_library, path.c_str(), 0, &font_to_add->text_font);

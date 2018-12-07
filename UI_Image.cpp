@@ -21,6 +21,8 @@ UI_Image::UI_Image(ComponentImage* container)
 	draw_material = (Material*)App->resources->Get(RES_MATERIAL, "DefaultUIBackground");
 	draw_material->LoadToMemory();
 	draw_material->reference_counting++;
+
+	is_glyphy = false;
 }
 
 
