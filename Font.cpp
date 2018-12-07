@@ -28,6 +28,18 @@ uint Font::GetCharacterTexture(const char * character)
 	}
 }
 
+Character * Font::GetCharacter(GLchar character) const
+{
+	for (auto it = chars_list.begin(); it != chars_list.end(); it++)
+	{
+		if ((*it).first == (GLchar)character)
+		{
+			return  (*it).second;
+		}
+	}
+	return nullptr; 
+}
+
 void Font::GenerateCharacterList()
 {	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
@@ -50,7 +62,7 @@ void Font::GenerateCharacterList()
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
+			GL_RED,
 			text_font->glyph->bitmap.width,
 			text_font->glyph->bitmap.rows,
 			0,

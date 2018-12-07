@@ -29,7 +29,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
 
-	LoadNewFont("Antonio-Regular", 20); 
+	LoadNewFont("Antonio-Regular", 10); 
 
 	return true;
 }

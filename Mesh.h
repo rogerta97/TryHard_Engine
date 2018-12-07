@@ -17,7 +17,7 @@ public:
 	void UnbindBuffer();
 
 	bool SetCubeData(); 
-	bool SetVertPlaneData();
+	bool SetVertPlaneData(float2 size = {1,1});
 
 	float3 CenterVertices(float3* center, int num);
 	void CleanMeshData(); 

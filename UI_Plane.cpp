@@ -3,6 +3,11 @@
 
 #include "Application.h"
 
+UI_Plane::UI_Plane(float2 size)
+{
+	CreatePlaneMesh(size);
+}
+
 UI_Plane::UI_Plane()
 {
 	CreatePlaneMesh(); 
@@ -27,18 +32,18 @@ void UI_Plane::CleanUp()
 
 }
 
-void UI_Plane::CreatePlaneMesh()
+void UI_Plane::CreatePlaneMesh(float2 size)
 {
 	quad_plane_mesh = new Mesh(); /* (Mesh*)App->resources->Get(RES_MESH, "Plane");*/
 	quad_plane_mesh->reference_counting++; 
-	quad_plane_mesh->SetVertPlaneData();
+	quad_plane_mesh->SetVertPlaneData(size);
 	quad_plane_mesh->LoadToMemory();
 }
 
-void UI_Plane::InvertImage()
+void UI_Plane::InvertImage(float2 size)
 {
 	quad_plane_mesh->CleanMeshData(); 
-	quad_plane_mesh->SetVertPlaneData();
+	quad_plane_mesh->SetVertPlaneData(size);
 
 	quad_plane_mesh->uvs_cords[0] = 0.0f;
 	quad_plane_mesh->uvs_cords[1] = 0.0f;

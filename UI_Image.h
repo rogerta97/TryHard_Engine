@@ -17,8 +17,13 @@ public:
 	void CleanUp();
 	void Draw(); 
 
+	UI_Plane* GetPlane(); 
+
 	void CreateDrawSpace(); 
 	void DrawImage();
+
+	void SetImgID(uint new_tex);
+	uint GetImgID() const;
 
 	void SetMaterial(Material* new_tex); 
 	Material* GetMaterial() const; 
@@ -29,6 +34,7 @@ public:
 private: 
 
 	UI_Plane* plane;					//	Plane where the texture (if it has) is going to be displayed
-	Material* draw_material;		//  Texture that is going to be shown in the image 
+	Material* draw_material;			//  Texture that is going to be shown in the image 
+	uint	  img_textureID; 
 };
 

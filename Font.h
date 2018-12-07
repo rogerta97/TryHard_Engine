@@ -24,6 +24,7 @@ public:
 	~Font();
 
 	uint GetCharacterTexture(const char* character); 
+	Character* GetCharacter(GLchar character) const; 
 	void GenerateCharacterList(); 
 
 	std::string name; 

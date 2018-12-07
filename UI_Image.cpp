@@ -45,6 +45,11 @@ void UI_Image::Draw()
 	DrawImage();
 }
 
+UI_Plane * UI_Image::GetPlane()
+{
+	return plane;
+}
+
 void UI_Image::CleanUp()
 {
 }
@@ -105,6 +110,16 @@ void UI_Image::DrawImage()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
+}
+
+void UI_Image::SetImgID(uint new_id)
+{
+	img_textureID = new_id; 
+}
+
+uint UI_Image::GetImgID() const
+{
+	return img_textureID;
 }
 
 void UI_Image::SetMaterial(Material * new_tex)

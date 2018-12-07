@@ -142,7 +142,7 @@ bool Mesh::SetCubeData()
 	return true;
 }
 
-bool Mesh::SetVertPlaneData()
+bool Mesh::SetVertPlaneData(float2 size)
 {
 	//Set Vertices
 	type = BasicMeshType::MESH_CUBE;
@@ -150,13 +150,12 @@ bool Mesh::SetVertPlaneData()
 	num_vertices = 4;
 	vertices = new float3[num_vertices];
 
-	int size = 1;
-	float half_size = (float)size / 2.0f;
+	float2 half_size = (float2)size / 2.0f;
 
-	vertices[0] = { -half_size, half_size, 0 };
-	vertices[1] = { half_size, half_size, 0 };
-	vertices[2] = { -half_size, -half_size, 0 };
-	vertices[3] = { half_size, -half_size, 0 };
+	vertices[0] = { -half_size.x, half_size.y, 0 };
+	vertices[1] = { half_size.x, half_size.y, 0 };
+	vertices[2] = { -half_size.x, -half_size.y, 0 };
+	vertices[3] = { half_size.x, -half_size.y, 0 };
 
 	num_indices = 6;
 	indices = new int[num_indices];

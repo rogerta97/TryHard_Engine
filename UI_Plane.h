@@ -6,6 +6,7 @@
 class UI_Plane : public UI_Element
 {
 public:
+	UI_Plane(float2 size);
 	UI_Plane();
 	~UI_Plane();
 
@@ -13,8 +14,8 @@ public:
 	void Update();
 	void CleanUp();
 
-	void CreatePlaneMesh();
-	void InvertImage(); 
+	void CreatePlaneMesh(float2 size = {1,1});
+	void InvertImage(float2 size = { 1,1 });
 
 	Mesh* GetMesh() const; 
 	void SetMesh(Mesh* nValue); 

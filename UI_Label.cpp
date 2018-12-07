@@ -1,16 +1,18 @@
 #include "UI_Label.h"
+#include "UI_Image.h"
 #include "UI_Plane.h"
+
 #include "ComponentText.h"
+#include "ComponentTransform.h"
+#include "ComponentRectTransform.h"
 
 #include "Application.h"
 
 UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
-	text = "A"; 
-	text_size = 0; 
 	SetFont("Antonio-Regular");
-	CreateTextPlanes();
+	SetText("BCA");
 }
 
 UI_Label::~UI_Label()
@@ -24,6 +26,7 @@ void UI_Label::Start()
 
 void UI_Label::Update()
 {
+	
 }
 
 void UI_Label::CleanUp()
@@ -38,24 +41,46 @@ void UI_Label::Draw(bool is_editor)
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
-	{
-		(*it).second->InvertImage();
+	float3 cursor = {0,0,0};
+	int counter = 0; 
 
-		glBindBuffer(GL_ARRAY_BUFFER, (*it).second->GetMesh()->vertices_id);
+	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+	{		
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+		ComponentTransform* trans = rtransform->GetTransform();
+
+		// Get Parent Matrix
+		float4x4 view_mat = float4x4::identity;
+
+		GLfloat matrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+		view_mat.Set((float*)matrix);
+
+		// Create increment matrix
+		float4x4 increment = float4x4::identity;
+
+		increment.SetTranslatePart(cursor); 
+
+		cursor.x += 5;
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)(((increment) * trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, (*it).second->GetMesh()->uvs_id);
-		glBindTexture(GL_TEXTURE_2D, (*it).first);
+		glBindBuffer(GL_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->uvs_id);
+		glBindTexture(GL_TEXTURE_2D, (*it)->GetImgID());
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		glColor3f(255.0f, 255.0f, 255.0f);
 	
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it).second->GetMesh()->indices_id);
-		glDrawElements(GL_TRIANGLES, (*it).second->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->indices_id);
+		glDrawElements(GL_TRIANGLES, (*it)->GetPlane()->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -63,27 +88,29 @@ void UI_Label::Draw(bool is_editor)
 
 }
 
-void UI_Label::CreateTextPlanes()
+void UI_Label::FillTextPlanes()
 {
-	char* text_chr = (char*)text.c_str(); 
-
-	for (int i = 0; text_chr[i] != '\0'; i++)
+	for (int i = 0; i < text.size(); i++)
 	{
-		const char* plane_letter = (const char*)text_chr[i];
-		CreateCharacterPlane(plane_letter, { (float)i,0,0 });
+		CreateCharacterPlane((const char*)text[i], {0,0,0});
 	}
 }
 
 void UI_Label::CreateCharacterPlane(const char * character, float3 position)
 {
+	// Set proper size
+	FT_Load_Char(text_font.text_font, (GLchar)character, FT_LOAD_RENDER);
+	float2 size = { (float)text_font.text_font->glyph->bitmap.width, (float)text_font.text_font->glyph->bitmap.rows};
+
 	// Create the corresponding plane 
-	UI_Plane* new_char_img = new UI_Plane();
-	new_char_img->InvertImage(); 
+	UI_Image* new_char_img = new UI_Image(nullptr);
+	new_char_img->GetPlane()->InvertImage(size);
 
 	// Get the corresponding texture 
 	uint texture_id = text_font.GetCharacterTexture(character);
+	new_char_img->SetImgID(texture_id);
 
-	text_planes.insert(std::pair<uint, UI_Plane*>(texture_id, new_char_img));	
+	text_planes.push_back(new_char_img);
 }
 
 string UI_Label::GetText() const
@@ -94,6 +121,8 @@ string UI_Label::GetText() const
 void UI_Label::SetText(const char * new_text)
 {
 	text = new_text; 
+	text_planes.clear();
+	FillTextPlanes();
 }
 
 void UI_Label::SetFont(string font_name)

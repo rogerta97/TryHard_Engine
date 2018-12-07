@@ -435,7 +435,10 @@ void UI_InspectorPanel::PrintTextProperties()
 
 		ImGui::Spacing();
 
-		ImGui::InputText("Text", (char*)cmp_text->GetLabel()->GetText().c_str(), 256);
+		string tmp_txt = cmp_text->GetLabel()->GetText();
+
+		if (ImGui::InputText("Text", (char*)tmp_txt.c_str(), 256))
+			cmp_text->GetLabel()->SetText(tmp_txt.c_str());
 
 		ImGui::Spacing();
 

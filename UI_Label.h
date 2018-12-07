@@ -12,7 +12,7 @@
 using namespace std; 
 
 class ComponentText; 
-class UI_Plane; 
+class UI_Image; 
 
 class UI_Label : public UI_Element
 {
@@ -25,7 +25,7 @@ public:
 	void CleanUp();
 	void Draw(bool is_editor);
 
-	void CreateTextPlanes();
+	void FillTextPlanes();
 	void CreateCharacterPlane(const char* character, float3 position);
 
 	ComponentText* cmp_container; 
@@ -40,6 +40,6 @@ private:
 	Font text_font; 
 	int text_size; 
 
-	std::map<uint, UI_Plane*> text_planes; 
+	std::list<UI_Image*> text_planes; 
 };
 
