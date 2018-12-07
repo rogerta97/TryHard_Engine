@@ -57,7 +57,7 @@ Font ModuleUserInterface::GetFont(std::string font_name) const
 {
 	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
 	{		
-		if ((*it)->text_font->family_name == font_name)
+		if ((*it)->name == font_name)
 		{
 			return *(*it);
 		}			
@@ -70,12 +70,13 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 {
 	Font* font_to_add = new Font();   
 
+	font_to_add->name = font_name; 
 	string path = App->file_system->GetFontsPath() + "\\" + font_name + ".ttf"; 
 	FT_Error error = FT_New_Face(ft_library, path.c_str(), 0, &font_to_add->text_font);
 
 	if (error)
 	{
-		CONSOLE_ERROR("An Error has occurred loading the font"); 
+		CONSOLE_ERROR("An Error has occurred loading the font '%s'", font_name.c_str()); 
 		return nullptr;
 	}
 	else
@@ -85,6 +86,9 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 		fonts_face_list.push_back(font_to_add);
 		return font_to_add;
 	}
+
+	FT_Done_Face(font_to_add->text_font);
+	FT_Done_FreeType(ft_library);
 }
 
 void ModuleUserInterface::DrawSceneUI(GameObject* camera)

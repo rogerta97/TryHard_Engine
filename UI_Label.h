@@ -25,8 +25,8 @@ public:
 	void CleanUp();
 	void Draw(bool is_editor);
 
-	void RenderText();
-	void RenderCharacter(const char* character, float3 position); 
+	void CreateTextPlanes();
+	void CreateCharacterPlane(const char* character, float3 position);
 
 	ComponentText* cmp_container; 
 

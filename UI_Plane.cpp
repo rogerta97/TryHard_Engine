@@ -29,7 +29,7 @@ void UI_Plane::CleanUp()
 
 void UI_Plane::CreatePlaneMesh()
 {
-	quad_plane_mesh = (Mesh*)App->resources->Get(RES_MESH, "Plane");
+	quad_plane_mesh = new Mesh(); /* (Mesh*)App->resources->Get(RES_MESH, "Plane");*/
 	quad_plane_mesh->reference_counting++; 
 	quad_plane_mesh->SetVertPlaneData();
 	quad_plane_mesh->LoadToMemory();
@@ -37,7 +37,26 @@ void UI_Plane::CreatePlaneMesh()
 
 void UI_Plane::InvertImage()
 {
+	quad_plane_mesh->CleanMeshData(); 
+	quad_plane_mesh->SetVertPlaneData();
 
+	quad_plane_mesh->uvs_cords[0] = 0.0f;
+	quad_plane_mesh->uvs_cords[1] = 0.0f;
+	quad_plane_mesh->uvs_cords[2] = 0.0f;
+
+	quad_plane_mesh->uvs_cords[3] = 1.0f;
+	quad_plane_mesh->uvs_cords[4] = 0.0f;
+	quad_plane_mesh->uvs_cords[5] = 0.0f;
+
+	quad_plane_mesh->uvs_cords[6] = 0.0f;
+	quad_plane_mesh->uvs_cords[7] = 1.0f;
+	quad_plane_mesh->uvs_cords[8] = 0.0f;
+
+	quad_plane_mesh->uvs_cords[9] = 1.0f;
+	quad_plane_mesh->uvs_cords[10] = 1.0f;
+	quad_plane_mesh->uvs_cords[11] = 0.0f;
+
+	quad_plane_mesh->LoadToMemory();
 }
 
 Mesh * UI_Plane::GetMesh() const

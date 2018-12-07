@@ -8,6 +8,7 @@
 Font::Font()
 {
 	loaded = false; 
+	name = ""; 
 }
 
 
@@ -19,7 +20,6 @@ uint Font::GetCharacterTexture(const char * character)
 {
 	for (auto it = chars_list.begin(); it != chars_list.end(); it++)
 	{
-
 		if ((*it).first == (GLchar)character)
 		{
 			uint id = (*it).second->TextureID;
@@ -50,7 +50,7 @@ void Font::GenerateCharacterList()
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RED,
+			GL_RGBA,
 			text_font->glyph->bitmap.width,
 			text_font->glyph->bitmap.rows,
 			0,
@@ -72,8 +72,6 @@ void Font::GenerateCharacterList()
 
 		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 
-
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	}
 }
 

@@ -53,6 +53,8 @@ Resource * ModuleResources::Get(resource_type type, const char * resource_name)
 	return nullptr; 
 }
 
+
+
 int ModuleResources::GetResourcesLoadedAmmount(resource_type type)
 {
 	int ret_ammount = 0;

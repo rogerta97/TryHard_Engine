@@ -3,6 +3,7 @@
 #include "ModuleUserInterface.h"
 #include "OpenGL.h"
 #include <map>
+#include <string>
 
 struct Character
 {
@@ -25,6 +26,7 @@ public:
 	uint GetCharacterTexture(const char* character); 
 	void GenerateCharacterList(); 
 
+	std::string name; 
 	FT_Face text_font; 
 	std::map<GLchar, Character*> chars_list;
 	bool loaded = false; 
