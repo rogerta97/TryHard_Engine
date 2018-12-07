@@ -393,12 +393,12 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("X", &show_anchor[0], 0.1f, 0.0f, 1.0f))
+		if (ImGui::DragFloat("X", &show_anchor[0], 0.01f, 0.0f, 1.0f))
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("Y", &show_anchor[1], 0.1f, 0.0f, 1.0f))
+		if (ImGui::DragFloat("Y", &show_anchor[1], 0.01f, 0.0f, 1.0f))
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::NextColumn();
@@ -407,12 +407,12 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("X", &show_anchor[2],0.1f,0.0f,1.0f))
+		if (ImGui::DragFloat("X", &show_anchor[2], 0.01f,0.0f,1.0f))
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("Y", &show_anchor[3], 0.1f, 0.0f, 1.0f))
+		if (ImGui::DragFloat("Y", &show_anchor[3], 0.01f, 0.0f, 1.0f))
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::Columns(1);

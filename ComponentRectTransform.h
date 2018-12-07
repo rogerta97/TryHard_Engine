@@ -28,6 +28,7 @@ public:
 	bool Update();
 	bool CleanUp();
 	void Draw(bool is_editor);
+	void DrawAnchorPoint(float3 pos, float2 lines_lenght);
 
 	//Utility functions -----
 

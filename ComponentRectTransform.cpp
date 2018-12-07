@@ -42,25 +42,8 @@ bool ComponentRectTransform::Start()
 
 bool ComponentRectTransform::Update()
 {
-	float3 real_pos = transform_part->GetPosition();
-	float3 parent_pos = { 0,0,0 };
-	ComponentRectTransform* parent_rect = nullptr;
-	ComponentTransform* parent_transform = nullptr;
 
-	if (gameobject->parent)
-		parent_rect = gameobject->parent->rect_transform;
-
-	if (parent_rect)
-	{
-		parent_transform = parent_rect->transform_part;
-
-		parent_pos = parent_transform->GetPosition();
-
-		real_pos.y = (parent_pos.y - (anchor.min_y * parent_rect->height) - relative_pos.y);
-
-
-		transform_part->SetPosition(real_pos);
-	}
+	UpdateRectWithAnchors();
 
 	return true;
 }
@@ -72,8 +55,65 @@ bool ComponentRectTransform::CleanUp()
 
 void ComponentRectTransform::Draw(bool is_editor)
 {
-	if(is_editor)
+	if (is_editor)
+
+	{
 		DrawRectFrame();
+
+
+		///////////////
+		ComponentRectTransform* parent_rect = nullptr;
+		ComponentTransform* parent_transform = nullptr;
+
+		if (gameobject->parent)
+		{
+			parent_rect = gameobject->parent->rect_transform;
+
+			float3 parent_pos = parent_rect->GetTransform()->GetPosition();
+
+			float3 start_pos = {
+				parent_pos.x - parent_rect->width / 2,
+				parent_pos.y - parent_rect->height / 2,
+				parent_pos.z
+			};
+
+
+			float3 anchor_min_x_pos, anchor_min_y_pos;
+
+			anchor_min_x_pos = start_pos;
+			anchor_min_x_pos.x += parent_rect->width * anchor.min_x;
+
+			DrawAnchorPoint(anchor_min_x_pos, { 10,10 });
+
+			anchor_min_y_pos = start_pos;
+			anchor_min_y_pos.y += parent_rect->height * anchor.min_y;
+
+			DrawAnchorPoint(anchor_min_y_pos, { -10,-10 });
+
+
+		}
+
+
+
+
+	}
+}
+
+void ComponentRectTransform::DrawAnchorPoint(float3 pos, float2 lines_lenght)
+{
+	glLineWidth(5.0f);
+
+	glBegin(GL_LINES);
+
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glVertex3f(pos.x, pos.y, pos.z);
+	glVertex3f(pos.x - lines_lenght.x, pos.y, pos.z);
+
+	glVertex3f(pos.x, pos.y, pos.z);
+	glVertex3f(pos.x, pos.y + lines_lenght.y, pos.z);
+
+	glEnd();
 }
 
 void ComponentRectTransform::AddaptRectToScreenSize()
@@ -140,6 +180,30 @@ void ComponentRectTransform::SetRelativePos(float2 new_pos)
 
 void ComponentRectTransform::UpdateRectWithAnchors()
 {
+	float3 real_pos = transform_part->GetPosition();
+	float3 parent_pos = { 0,0,0 };
+	ComponentRectTransform* parent_rect = nullptr;
+	ComponentTransform* parent_transform = nullptr;
+
+	if (gameobject->parent)
+		parent_rect = gameobject->parent->rect_transform;
+
+	if (parent_rect)
+	{
+		parent_transform = parent_rect->transform_part;
+
+		parent_pos = parent_transform->GetPosition();
+
+		float2 start_pos = {
+			parent_pos.x - parent_rect->width,
+			parent_pos.y - parent_rect->height
+		};
+
+		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
+		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
+
+		transform_part->SetPosition(real_pos);
+	}
 
 }
 
