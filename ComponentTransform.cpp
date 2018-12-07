@@ -217,6 +217,11 @@ void ComponentTransform::SetScale(float3 new_esc)
 	CalculateViewMatrix();
 }
 
+void ComponentTransform::SetPositionForUI(float3 new_pos)
+{
+	transform.position = new_pos;
+}
+
 void ComponentTransform::Load(JSON_Object * json_obj)
 {
 	float3 pos = float3::zero; 

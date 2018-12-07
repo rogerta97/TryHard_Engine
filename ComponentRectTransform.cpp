@@ -14,14 +14,14 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	transform_part = new ComponentTransform(parent);
 
-	transform_part->transform.position = float3::zero; 
+	transform_part->transform.position = float3::zero;
 	transform_part->transform.rotation = Quat::identity;
-	transform_part->transform.scale = {1,1,1};
+	transform_part->transform.scale = { 1,1,1 };
 
-	anchor.min_x = 0.0;
-	anchor.min_y = 0.0;
-	anchor.max_x = 0.0;
-	anchor.max_y = 0.0;
+	anchor.min_x = 0.5;
+	anchor.min_y = 0.5;
+	anchor.max_x = 0.5;
+	anchor.max_y = 0.5;
 
 	relative_pos.x = 0;
 	relative_pos.y = 0;
@@ -29,13 +29,13 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 ComponentRectTransform::~ComponentRectTransform()
 {
-	delete transform_part; 
+	delete transform_part;
 }
 
 bool ComponentRectTransform::Start()
 {
 	CreateRectQuad();
-	scale_to_show = { 1,1,1 }; 
+	scale_to_show = { 1,1,1 };
 
 	return true;
 }
@@ -63,7 +63,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 
 		///////////////
 		ComponentRectTransform* parent_rect = nullptr;
-		ComponentTransform* parent_transform = nullptr;
 
 		if (gameobject->parent)
 		{
@@ -93,7 +92,7 @@ void ComponentRectTransform::Draw(bool is_editor)
 
 		}
 
-
+		DebugDrawRectSize();
 
 
 	}
@@ -117,7 +116,7 @@ void ComponentRectTransform::DrawAnchorPoint(float3 pos, float2 lines_lenght)
 }
 
 void ComponentRectTransform::AddaptRectToScreenSize()
-{	
+{
 	float2 screen_tex_size = float2(App->imgui->game_panel->GetGameTexSize().x, App->imgui->game_panel->GetGameTexSize().y);
 	Resize(screen_tex_size);
 }
@@ -127,8 +126,8 @@ void ComponentRectTransform::CreateRectQuad()
 	quad_mesh = new Mesh();
 	quad_mesh->SetVertPlaneData();
 
-	width = height = 1; 
-	quad_mesh->LoadToMemory();	
+	width = height = 1;
+	quad_mesh->LoadToMemory();
 }
 
 void ComponentRectTransform::DrawRectFrame()
@@ -143,29 +142,55 @@ void ComponentRectTransform::DrawRectFrame()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)((GetTransform()->GetGlobalViewMatrix()).Transposed() * view_mat).v);
-	
-	DebugDrawPlane(quad_mesh->vertices, Color(1.0f, 1.0f, 1.0f)); 
+
+	DebugDrawPlane(quad_mesh->vertices, Color(1.0f, 1.0f, 1.0f));
 	App->renderer3D->GetDefaultRenderSettings();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)view_mat.v);
 }
 
+void ComponentRectTransform::DebugDrawRectSize()
+{
+	float3 real_pos = GetTransform()->GetPosition();
+
+	ComponentRectTransform* parent_rect = nullptr;
+
+	if (gameobject->parent)
+	{
+		parent_rect = gameobject->parent->rect_transform;
+		real_pos.x += parent_rect->width / 2;
+		real_pos.y += parent_rect->height / 2;
+	}
+
+
+	glLineWidth(5.0f);
+
+	glBegin(GL_LINES);
+
+	glColor4f(1.0f, 0.0f, 0.5f, 1.0f);
+
+	glVertex3f(real_pos.x, real_pos.y, real_pos.z);
+	glVertex3f(real_pos.x, real_pos.y, real_pos.z + 100);
+
+	glEnd();
+}
+
 void ComponentRectTransform::Resize(float2 new_size)
 {
-	float2 half_size = new_size / 2; 
+	float2 half_size = new_size / 2;
 
 	quad_mesh->vertices[0] = { -half_size.x, half_size.y, 0 };
 	quad_mesh->vertices[1] = { half_size.x, half_size.y, 0 };
 	quad_mesh->vertices[2] = { -half_size.x, -half_size.y, 0 };
 	quad_mesh->vertices[3] = { half_size.x, -half_size.y, 0 };
 
-	width = new_size.x; 
+	width = new_size.x;
 	height = new_size.y;
-		
+
 	// Set a proper canvas position
 	GetTransform()->SetPosition({ half_size.x, half_size.y, 0 });
-												
+
 }
 
 float2 ComponentRectTransform::GetRelativePos() const
@@ -210,11 +235,22 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 ComponentTransform* ComponentRectTransform::GetTransform()
 {
 
-	return transform_part; 
+	return transform_part;
 }
 
 void ComponentRectTransform::SetAnchorPoint(float min_x, float min_y, float max_x, float max_y)
 {
+	ComponentRectTransform* parent_rect = nullptr;
+
+	if (gameobject->parent)
+		parent_rect = gameobject->parent->rect_transform;
+
+	float x_diff = (min_x - anchor.min_x) * parent_rect->width;
+	float y_diff = (min_y - anchor.min_y) * parent_rect->height;
+
+	relative_pos.x -= x_diff;
+	relative_pos.y -= y_diff;
+
 	anchor.min_x = min_x;
 	anchor.min_y = min_y;
 	anchor.max_x = max_x;

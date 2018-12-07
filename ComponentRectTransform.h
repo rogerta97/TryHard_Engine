@@ -35,6 +35,7 @@ public:
 	void AddaptRectToScreenSize();			// Will be use in case a canvas is added
 	void CreateRectQuad();					// Will create the quad of the Rect
 	void DrawRectFrame();					// Will create the quad of the Rect
+	void DebugDrawRectSize();				// The difference is that this rect is to debug the width and height
 	void Resize(float2 new_size);			// Will resize the rectangle at the values sended
 
 	float2 GetRelativePos() const;
