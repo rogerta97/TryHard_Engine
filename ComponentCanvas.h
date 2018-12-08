@@ -26,6 +26,9 @@ public:
 	void AddElement(GameObject* new_element); 
 	UI_Element* GetElement(std::string name) const;
 	UI_Element* GetElement(uint element_id) const;
+
+	UI_Canvas* GetCanvas() const; 
+	void SetCanvas(UI_Canvas* new_cnv); 
 	
 	// Creates GameObject with the UI element specified, by default it will add a child in the last canvas of the scene. 
 

@@ -13,6 +13,7 @@ public:
 	bool Update();
 	bool CleanUp();
 	void Draw(bool is_editor);
+	void FitToRect(); 
 
 	UI_Button* GetButton() const;
 

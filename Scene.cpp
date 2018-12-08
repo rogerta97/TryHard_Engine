@@ -6,6 +6,7 @@
 #include "UI_InspectorPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_TagPanel.h"
+#include "UI_Button.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 #include "Octree.h"
@@ -14,6 +15,8 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentButton.h"
+#include "ComponentImage.h"
 #include "ComponentCanvas.h"
 #include "ComponentRectTransform.h"
 #include "ImGuizmo/ImGuizmo.h"
@@ -125,10 +128,12 @@ void Scene::DeleteGameObjectsNow()
 {
 	for (auto it = go_to_delete.begin(); it != go_to_delete.end();)
 	{
+
 		if ((*it)->GetIsStatic())
 		{
 			(*it)->SetStatic(false);
 		}
+
 		(*it)->DeleteAllComponents();
 
 		if ((*it)->parent != nullptr)
@@ -350,12 +355,22 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 {
 	// Find a parent for the new UI Element
 	GameObject* UI_parent = nullptr;
+	UI_Canvas* canvas_container = nullptr; 
 
 	if (force_parent != nullptr && force_parent->GetIsUI())	
 		UI_parent = force_parent; 	
 	else
-		UI_parent = App->user_interface->GetLastCanvas(); 		//Get the last Canvas 
+	{
+		UI_parent = App->user_interface->GetLastCanvas();
 
+		if (UI_parent)
+		{
+			ComponentCanvas* cnv_cmp = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
+			canvas_container = cnv_cmp->GetCanvas();
+		}
+		
+	}
+		
 	if (UI_parent == nullptr)
 	{
 		// If there is no canvas in the scene we create a default one 
@@ -366,6 +381,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		App->scene->AddGameObjectToScene(parent_canvas);
 
 		UI_parent = parent_canvas; 
+
+		ComponentCanvas* cnv_cmp = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
+		canvas_container = cnv_cmp->GetCanvas();
 	}
 	
 	// Create the UI Element
@@ -376,16 +394,28 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	switch (widdget)
 	{
 	case UI_Widgget_Type::UI_IMAGE:
+	{
 		new_ui_go->SetName("Image");
-		new_ui_go->AddComponent(CMP_IMAGE);
+		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
+		img->GetImage()->SetCanvas(canvas_container);
 		break;
+	}
+	
+		
 
 	case UI_Widgget_Type::UI_BUTTON:
+	{
 		new_ui_go->SetName("Button");
-		new_ui_go->AddComponent(CMP_IMAGE); 
-		new_ui_go->AddComponent(CMP_BUTTON);
-		break;
 
+		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
+		img->GetImage()->SetCanvas(canvas_container);
+
+		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
+		button_cmp->GetButton()->SetCanvas(canvas_container);
+
+		break;
+	}
+		
 	case UI_Widgget_Type::UI_LABEL:
 		new_ui_go->SetName("Text");
 		new_ui_go->AddComponent(CMP_TEXT);

@@ -58,6 +58,7 @@ void UI_Image::Resize(float2 size)
 
 void UI_Image::CleanUp()
 {
+	plane->CleanUp();
 }
 
 void UI_Image::CreateDrawSpace()
@@ -104,9 +105,6 @@ void UI_Image::DrawImage()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	if (draw_material)
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY); 
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 

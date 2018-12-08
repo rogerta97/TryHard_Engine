@@ -22,6 +22,8 @@ public:
 	void Update();
 	void CleanUp();
 	void Draw(bool is_editor);
+
+	UI_Plane* GetArea() const; 
 	
 	ComponentButton* component_container; 
 

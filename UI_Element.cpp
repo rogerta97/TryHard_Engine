@@ -61,3 +61,13 @@ void UI_Element::SetRaycast(bool new_type)
 {
 	raycast = new_type; 
 }
+
+UI_Canvas * UI_Element::GetCanvas() const
+{
+	return canvas;
+}
+
+void UI_Element::SetCanvas(UI_Canvas * new_ray)
+{
+	canvas = new_ray; 
+}

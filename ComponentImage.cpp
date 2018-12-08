@@ -2,6 +2,7 @@
 #include "ComponentRectTransform.h"
 #include "UI_Plane.h"
 #include "UI_Image.h"
+#include "UI_Canvas.h"
 
 #include "mmgr\mmgr.h"
 
@@ -33,6 +34,10 @@ bool ComponentImage::Update()
 
 bool ComponentImage::CleanUp()
 {
+	// Delete object from the canvas 
+	UI_Canvas* canvas_container = image->GetCanvas();
+	canvas_container->DeleteElementByUID(gameobject->unique_id); 
+	
 	return false;
 }
 

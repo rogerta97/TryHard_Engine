@@ -36,6 +36,8 @@ public:
 	bool GetRaycast() const;
 	void SetRaycast(bool new_ray);
 
+	UI_Canvas* GetCanvas() const;
+	void SetCanvas(UI_Canvas* new_ray);
 
 private:
 

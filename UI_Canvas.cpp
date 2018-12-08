@@ -17,3 +17,15 @@ void UI_Canvas::Update()
 		(*it)->Update(); 
 	}
 }
+
+void UI_Canvas::DeleteElementByUID(UID uid)
+{
+	for (auto it = elements_in_canvas.begin(); it != elements_in_canvas.end(); it++)
+	{
+		if ((*it)->unique_id == uid)
+		{
+			elements_in_canvas.erase(it);
+			break; 
+		}			
+	}
+}

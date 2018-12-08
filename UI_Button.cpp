@@ -34,7 +34,7 @@ void UI_Button::CleanUp()
 
 void UI_Button::Draw(bool is_editor)
 {
-	/*ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
 	App->renderer3D->UseUIRenderSettings();
@@ -49,12 +49,12 @@ void UI_Button::Draw(bool is_editor)
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
-	}*/
+	}
 
 	//if (is_editor) return; 
 
 	App->renderer3D->UseUIRenderSettings();
-	glColor3f(1, 0, 0); 
+	//glColor3f(1, 0, 0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -71,12 +71,17 @@ void UI_Button::Draw(bool is_editor)
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 
-	//if (trans)
-	//{
-	//	trans->DrawAxis();
-	//	glMatrixMode(GL_MODELVIEW);
-	//	glLoadMatrixf((GLfloat*)view_mat.v);
-	//}
+	if (trans)
+	{
+		trans->DrawAxis();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
+	}
+}
+
+UI_Plane * UI_Button::GetArea() const
+{
+	return clickable_area;
 }
 
 Button_Transition UI_Button::GetTransition() const

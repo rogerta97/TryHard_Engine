@@ -31,7 +31,8 @@ void UI_Plane::Update()
 
 void UI_Plane::CleanUp()
 {
-
+	if (quad_plane_mesh != nullptr)
+		quad_plane_mesh->CleanMeshData();
 }
 
 void UI_Plane::CreatePlaneMesh(float2 size)

@@ -64,5 +64,15 @@ UI_Element * ComponentCanvas::GetElement(uint element_id) const
 	return nullptr;
 }
 
+UI_Canvas * ComponentCanvas::GetCanvas() const
+{
+	return canvas;
+}
+
+void ComponentCanvas::SetCanvas(UI_Canvas * new_cnv)
+{
+	canvas = new_cnv; 
+}
+
 
 

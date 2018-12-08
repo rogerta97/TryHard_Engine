@@ -11,6 +11,8 @@ public:
 
 	void Update(); 
 
+	void DeleteElementByUID(UID uid); 
+
 	std::list<GameObject*> elements_in_canvas;
 };
 

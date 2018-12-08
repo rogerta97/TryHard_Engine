@@ -90,6 +90,7 @@ void GameObject::Draw(bool is_editor)
 	if (!active)
 		return; 
 
+
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		(*it)->Draw(is_editor);
@@ -504,16 +505,19 @@ bool GameObject::PrintHierarchyRecursive(int mask, int& node_clicked, int& id)
 			App->imgui->hierarchy_panel->source_in_drag = this; 
 		}
 
-		App->imgui->hierarchy_panel->ManageDragAndDrop(this); 
-
 		if (ImGui::IsItemClicked(1))
 			App->imgui->hierarchy_panel->show_click_menu = true;
 
 		if (ImGui::IsMouseClicked(1))
 			if (!ImGui::IsAnyItemHovered() && ImGui::IsMouseHoveringWindow())
 				App->imgui->hierarchy_panel->show_create_menu = true;
+
+		App->imgui->hierarchy_panel->ManageDragAndDrop(this);
 			
 	}
+
+	
+
 	return ret; 
 }
 

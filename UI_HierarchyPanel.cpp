@@ -170,7 +170,7 @@ bool UI_HierarchyPanel::Update()
 				{
 					GameObject* img = App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
 
-					//Force scale 
+					// Addapt size
 					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
 					rtransform->Resize({ 50, 50 });
 					
@@ -212,30 +212,36 @@ bool UI_HierarchyPanel::CleanUp()
 
 void UI_HierarchyPanel::ManageDragAndDrop(GameObject* current)
 {
- 
-	if (App->imgui->hierarchy_panel->want_to_drag && ImGui::IsMouseReleased(0) && ImGui::IsMouseHoveringWindow())
-	{
-		if (ImGui::IsItemHoveredRect())
-		{
-			//Get the dst
-			App->imgui->hierarchy_panel->want_to_drag = false;
-			App->imgui->hierarchy_panel->dst_in_drag = current;
 
-			if (App->imgui->hierarchy_panel->dst_in_drag == App->imgui->hierarchy_panel->source_in_drag)
-				return;
+	//if (App->imgui->hierarchy_panel->show_click_menu || App->imgui->hierarchy_panel->show_create_menu)
+	//	return; 
 
-			else if (App->imgui->hierarchy_panel->dst_in_drag->GetChild(App->imgui->hierarchy_panel->source_in_drag->unique_id))
-				return;
+	//if (App->imgui->hierarchy_panel->want_to_drag && ImGui::IsMouseReleased(0) && ImGui::IsMouseHoveringWindow())
+	//{
+	//	if (ImGui::IsItemHoveredRect())
+	//	{
+	//		//Get the dst
+	//		App->imgui->hierarchy_panel->want_to_drag = false;
+	//		App->imgui->hierarchy_panel->dst_in_drag = current;
 
-			//Assign parenting
-			if (source_in_drag != nullptr && dst_in_drag != nullptr)
-				App->imgui->hierarchy_panel->source_in_drag->SetParent(App->imgui->hierarchy_panel->dst_in_drag);
-			
-		}
-		else if (!ImGui::IsAnyItemHovered())
-		{
-			if(source_in_drag != nullptr && dst_in_drag != nullptr)
-				App->imgui->hierarchy_panel->source_in_drag->SetParent(nullptr);
-		}
-	}	
+	//		if (App->imgui->hierarchy_panel->dst_in_drag == App->imgui->hierarchy_panel->source_in_drag)
+	//			return;
+	//		
+	//		if (App->imgui->hierarchy_panel->dst_in_drag->GetChild(App->imgui->hierarchy_panel->source_in_drag->unique_id))
+	//			return;
+
+	//		//Assign parenting
+	//		if (source_in_drag != nullptr && dst_in_drag != nullptr)
+	//			App->imgui->hierarchy_panel->source_in_drag->SetParent(App->imgui->hierarchy_panel->dst_in_drag);
+
+	//		App->imgui->hierarchy_panel->source_in_drag = nullptr; 
+	//		App->imgui->hierarchy_panel->dst_in_drag = nullptr; 
+	//		
+	//	}
+	//	else if (!ImGui::IsAnyItemHovered())
+	//	{
+	//		if(source_in_drag != nullptr && dst_in_drag != nullptr)
+	//			App->imgui->hierarchy_panel->source_in_drag->SetParent(nullptr);
+	//	}
+	//}	
 }
