@@ -6,6 +6,13 @@ class ComponentImage;
 class Material; 
 class UI_Plane; 
 
+enum UI_Image_Texture
+{
+	UI_IMG_TEXTURE,
+	UI_IMG_COLOR,
+	UI_IMG_TINTED,
+};
+
 class UI_Image : public UI_Element
 {
 public:
@@ -30,12 +37,16 @@ public:
 	Material* GetMaterial() const; 
 
 	ComponentImage* cmp_container; 
+
 	bool is_glyphy; 
+	UI_Image_Texture texture_type;
+	float3	  image_color;
 
 private: 
 
 	UI_Plane* plane;					//	Plane where the texture (if it has) is going to be displayed
 	Material* draw_material;			//  Texture that is going to be shown in the image 
 	uint	  img_textureID; 
+ 
 };
 

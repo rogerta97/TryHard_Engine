@@ -468,25 +468,73 @@ void UI_InspectorPanel::PrintImageProperties()
 		ImGui::Separator();
 		ImGui::Spacing(); 
 
-		ImGui::BeginChild("c1", ImVec2(90, 90));
-		ImGui::Image((ImTextureID)img_cmp->GetImage()->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(75, 75), ImVec2(0, 1), ImVec2(1, 0));
-		ImGui::EndChild();
+		static int tex_type = 1;
+		if (ImGui::Combo("Texture Type", &tex_type, "Textured Material\0Colored Material\0Tinted Texture"))
+			img_cmp->GetImage()->texture_type = (UI_Image_Texture)tex_type; 
 
-		ImGui::SameLine();
-
-		ImGui::BeginChild("c2", ImVec2(0, 90));
-		ImGui::Text("Material:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->name.c_str());
-
-		ImGui::SameLine(); 
-		if (ImGui::Button("+"))
+		SEPARATE_WITH_SPACE
+		
+		switch (img_cmp->GetImage()->texture_type)
 		{
-			ImGui::OpenPopup("select_texture");
+		case UI_IMG_TEXTURE:
+		{				
+			ImGui::Image((ImTextureID)img_cmp->GetImage()->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(75, 75), ImVec2(0, 1), ImVec2(1, 0));
+
+			ImGui::SameLine();
+	
+			ImGui::Text("Material:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->name.c_str());
+
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
+			{
+				ImGui::OpenPopup("select_texture");
+			}
+
+			App->resources->material_importer->DrawTextureList(true);
+
+			break;
+		}
+		
+		case UI_IMG_COLOR:
+		{
+			float tmp_col[3] = { img_cmp->GetImage()->image_color.x, img_cmp->GetImage()->image_color.y, img_cmp->GetImage()->image_color.z };
+			if (ImGui::ColorPicker3("Color", tmp_col))
+				img_cmp->GetImage()->image_color = { tmp_col[0], tmp_col[1] , tmp_col[2] };
+
+			break;
 		}
 
-		App->resources->material_importer->DrawTextureList(true);
+		case UI_IMG_TINTED:
+		{
+			float tmp_col[3] = { img_cmp->GetImage()->image_color.x, img_cmp->GetImage()->image_color.y, img_cmp->GetImage()->image_color.z };
+			if (ImGui::ColorPicker3("Color", tmp_col))
+				img_cmp->GetImage()->image_color = { tmp_col[0], tmp_col[1] , tmp_col[2] };
 
-		ImGui::EndChild();
+			SEPARATE_WITH_SPACE
+
+			ImGui::Image((ImTextureID)img_cmp->GetImage()->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(75, 75), ImVec2(0, 1), ImVec2(1, 0));
+
+			ImGui::SameLine();
+
+			ImGui::Text("Material:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->name.c_str());
+
+			ImGui::SameLine();
+			if (ImGui::Button("+"))
+			{
+				ImGui::OpenPopup("select_texture");
+			}
+
+			App->resources->material_importer->DrawTextureList(true);
+
+			break;
+		}
+	
+			
+		}
+		
+		ImGui::Spacing();
 	}
 }
 
