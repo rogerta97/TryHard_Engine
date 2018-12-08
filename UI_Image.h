@@ -18,6 +18,7 @@ public:
 	void Draw(); 
 
 	UI_Plane* GetPlane(); 
+	void Resize(float2 size); 
 
 	void CreateDrawSpace(); 
 	void DrawImage();

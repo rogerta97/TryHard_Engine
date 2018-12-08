@@ -6,6 +6,8 @@
 #include "OpenGL.h"
 #include "Mesh.h"
 
+#include "ComponentRectTransform.h"
+
 UI_Button::UI_Button(ComponentButton* container)
 {
 	component_container = container; 
@@ -32,7 +34,7 @@ void UI_Button::CleanUp()
 
 void UI_Button::Draw(bool is_editor)
 {
-	/*ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+	/*ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
 	App->renderer3D->UseUIRenderSettings();
@@ -49,9 +51,10 @@ void UI_Button::Draw(bool is_editor)
 		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
 	}*/
 
-	if (is_editor) return; 
+	//if (is_editor) return; 
 
 	App->renderer3D->UseUIRenderSettings();
+	glColor3f(1, 0, 0); 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -59,14 +62,12 @@ void UI_Button::Draw(bool is_editor)
 	glBindBuffer(GL_ARRAY_BUFFER, clickable_area->GetMesh()->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	glColor3f(255.0f, 0.0f, 0.0f); 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, clickable_area->GetMesh()->indices_id);
 	glDrawElements(GL_TRIANGLES, clickable_area->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//if (draw_material)
-	//	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -76,5 +77,15 @@ void UI_Button::Draw(bool is_editor)
 	//	glMatrixMode(GL_MODELVIEW);
 	//	glLoadMatrixf((GLfloat*)view_mat.v);
 	//}
+}
+
+Button_Transition UI_Button::GetTransition() const
+{
+	return transition_type;
+}
+
+void UI_Button::SetTransition(Button_Transition new_transition)
+{
+	transition_type = new_transition; 
 }
 

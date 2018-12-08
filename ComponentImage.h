@@ -14,6 +14,7 @@ public:
 	void Draw(bool is_editor); 
 
 	UI_Image* GetImage() const; 
+	void FitToRect(); 
 
 private:
 	UI_Image * image; 

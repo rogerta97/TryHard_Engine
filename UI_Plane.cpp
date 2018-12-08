@@ -5,11 +5,13 @@
 
 UI_Plane::UI_Plane(float2 size)
 {
+	quad_plane_mesh = nullptr; 
 	CreatePlaneMesh(size);
 }
 
 UI_Plane::UI_Plane()
 {
+	quad_plane_mesh = nullptr;
 	CreatePlaneMesh(); 
 }
 
@@ -34,8 +36,10 @@ void UI_Plane::CleanUp()
 
 void UI_Plane::CreatePlaneMesh(float2 size)
 {
+	if (quad_plane_mesh != nullptr)
+		quad_plane_mesh->CleanMeshData(); 
+
 	quad_plane_mesh = new Mesh(); /* (Mesh*)App->resources->Get(RES_MESH, "Plane");*/
-	quad_plane_mesh->reference_counting++; 
 	quad_plane_mesh->SetVertPlaneData(size);
 	quad_plane_mesh->LoadToMemory();
 }
@@ -62,6 +66,11 @@ void UI_Plane::InvertImage(float2 size)
 	quad_plane_mesh->uvs_cords[11] = 0.0f;
 
 	quad_plane_mesh->LoadToMemory();
+}
+
+void UI_Plane::Resize(float x, float y)
+{
+	CreatePlaneMesh({ x,y }); 
 }
 
 Mesh * UI_Plane::GetMesh() const

@@ -191,6 +191,9 @@ void ComponentRectTransform::Resize(float2 new_size)
 	// Set a proper canvas position
 	GetTransform()->SetPosition({ half_size.x, half_size.y, 0 });
 
+	// Addapt plane components if needed
+	for (auto it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
+		(*it)->FitToRect();		
 }
 
 float2 ComponentRectTransform::GetRelativePos() const

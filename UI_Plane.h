@@ -16,6 +16,7 @@ public:
 
 	void CreatePlaneMesh(float2 size = {1,1});
 	void InvertImage(float2 size = { 1,1 });
+	void Resize(float x, float y); 
 
 	Mesh* GetMesh() const; 
 	void SetMesh(Mesh* nValue); 

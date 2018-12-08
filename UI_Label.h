@@ -41,7 +41,6 @@ private:
 	Font text_font; 
 	int text_size; 
 
-	
 	std::list<UI_Image*> text_planes; 
 };
 

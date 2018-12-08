@@ -172,13 +172,19 @@ bool UI_HierarchyPanel::Update()
 
 					//Force scale 
 					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
-					rtransform->GetTransform()->SetScale({ 100.0f,  100.0f, 100.0f });
+					rtransform->Resize({ 50, 50 });
 					
 				}
 								
 				ImGui::MenuItem("Button");
 				if (ImGui::IsItemClicked())
-					App->scene->CreateUIElement(UI_BUTTON);
+				{
+					GameObject* img = App->scene->CreateUIElement(UI_BUTTON);  //Create the element specified to the last canvas 
+																	  //Force scale 
+					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM);
+					rtransform->Resize({ 50, 50 });
+				}
+					
 
 				ImGui::MenuItem("Text");
 				if (ImGui::IsItemClicked())

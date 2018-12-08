@@ -32,6 +32,10 @@ void Component::Draw(bool is_editor)
 {
 }
 
+void Component::FitToRect()
+{
+}
+
 CompType Component::GetType() const
 {
 	return component_type;

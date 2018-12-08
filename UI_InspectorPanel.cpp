@@ -353,14 +353,16 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 		}
 
-
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
 		ImGui::Separator(); 
 
-		ImGui::DragFloat("Width", &rtransform->width); 
-		ImGui::DragFloat("Height", &rtransform->height);
+		if (ImGui::DragFloat("Width", &rtransform->width))
+			rtransform->Resize({ rtransform->width, rtransform->height });
+
+		if(ImGui::DragFloat("Height", &rtransform->height))
+			rtransform->Resize({ rtransform->width, rtransform->height });
 
 		ImGui::Spacing();
 		ImGui::Text("Relative pos:");
@@ -416,6 +418,8 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::Columns(1);
+
+		ImGui::Spacing();
 	}
 }
 

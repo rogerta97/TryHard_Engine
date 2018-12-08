@@ -42,6 +42,16 @@ void UI_Element::SetType(UI_Widgget_Type new_type)
 	wid_type = new_type;
 }
 
+float UI_Element::GetPercentage() const
+{
+	return canvas_percentage;
+}
+
+void UI_Element::SetPercentage(float new_num)
+{
+	canvas_percentage = new_num;
+}
+
 bool UI_Element::GetRaycast() const
 {
 	return raycast;

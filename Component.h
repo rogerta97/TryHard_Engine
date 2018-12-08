@@ -18,6 +18,9 @@ public:
 	virtual bool CleanUp(); 
 	virtual void Draw(bool is_editor);
 
+	// UI type objects 
+	virtual void FitToRect();
+
 	//Setters & Getters
 	CompType GetType() const;
 	void SetType(CompType new_type);

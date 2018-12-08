@@ -15,6 +15,7 @@
 
 UI_Image::UI_Image(ComponentImage* container)
 {
+	SetPercentage(0.2f); 
 	CreateDrawSpace();
 	cmp_container = container; 
 
@@ -48,6 +49,11 @@ void UI_Image::Draw()
 UI_Plane * UI_Image::GetPlane()
 {
 	return plane;
+}
+
+void UI_Image::Resize(float2 size)
+{
+	GetPlane()->Resize(size.x, size.y); 
 }
 
 void UI_Image::CleanUp()
