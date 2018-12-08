@@ -29,6 +29,7 @@ public:
 	void CreateCharacterPlane(const char* character, float3 position);
 
 	ComponentText* cmp_container; 
+	float3 color;
 
 	string GetText() const;
 	void SetText(const char* new_text);
@@ -40,6 +41,7 @@ private:
 	Font text_font; 
 	int text_size; 
 
+	
 	std::list<UI_Image*> text_planes; 
 };
 

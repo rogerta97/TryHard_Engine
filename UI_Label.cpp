@@ -61,7 +61,7 @@ void UI_Label::Draw(bool is_editor)
 
 		increment.SetTranslatePart(cursor); 
 
-		cursor.x += 5;
+		cursor.x += 30;
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)(((increment) * trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
@@ -73,6 +73,7 @@ void UI_Label::Draw(bool is_editor)
 		glBindTexture(GL_TEXTURE_2D, (*it)->GetImgID());
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 	
+		glColor3f(color.x, color.y, color.z); 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->indices_id);
 		glDrawElements(GL_TRIANGLES, (*it)->GetPlane()->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 

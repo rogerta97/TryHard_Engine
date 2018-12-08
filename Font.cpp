@@ -62,11 +62,11 @@ void Font::GenerateCharacterList()
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RED,
+			GL_ALPHA,
 			text_font->glyph->bitmap.width,
 			text_font->glyph->bitmap.rows,
 			0,
-			GL_RED,
+			GL_ALPHA,
 			GL_UNSIGNED_BYTE,
 			text_font->glyph->bitmap.buffer
 		);

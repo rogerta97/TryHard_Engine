@@ -431,7 +431,7 @@ void UI_InspectorPanel::PrintTextProperties()
 {
 	if (ImGui::CollapsingHeader("Text (UI)"))
 	{
-		ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT); 
+		ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 
 		ImGui::Spacing();
 
@@ -442,8 +442,9 @@ void UI_InspectorPanel::PrintTextProperties()
 
 		ImGui::Spacing();
 
-		static float col[3]; 
-		ImGui::ColorPicker3("Color", col); 
+		float tmp_col[3] = { cmp_text->GetLabel()->color.x, cmp_text->GetLabel()->color.y, cmp_text->GetLabel()->color.z };
+		if (ImGui::ColorPicker3("Color", tmp_col))
+			cmp_text->GetLabel()->color = { tmp_col[0], tmp_col[1] , tmp_col[2] }; 
 
 	}
 }
