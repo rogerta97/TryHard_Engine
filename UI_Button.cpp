@@ -12,6 +12,9 @@ UI_Button::UI_Button(ComponentButton* container)
 {
 	component_container = container; 
 	clickable_area = new UI_Plane(); 
+
+	transition_type = TRANSITION_ANY;
+	button_state = BUTTON_IDLE; 
 }
 
 
@@ -34,6 +37,9 @@ void UI_Button::CleanUp()
 
 void UI_Button::Draw(bool is_editor)
 {
+
+	if (!is_editor) return; 
+
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
@@ -51,10 +57,8 @@ void UI_Button::Draw(bool is_editor)
 		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
 	}
 
-	//if (is_editor) return; 
-
 	App->renderer3D->UseUIRenderSettings();
-	//glColor3f(1, 0, 0);
+
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
 
 	glEnableClientState(GL_VERTEX_ARRAY);

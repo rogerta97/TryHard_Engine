@@ -1,6 +1,8 @@
 #include "UI_InspectorPanel.h"
 #include "UI_TagPanel.h"
+
 #include "UI_Label.h"
+#include "UI_Button.h"
 
 #include "Application.h"
 #include "imgui_dock.h"
@@ -10,6 +12,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentRectTransform.h"
 #include "ComponentText.h"
+#include "ComponentButton.h"
 #include "ComponentImage.h"
 #include "ComponentCamera.h"
 
@@ -542,7 +545,34 @@ void UI_InspectorPanel::PrintButtonProperties()
 {
 	if (ImGui::CollapsingHeader("Button (UI)"))
 	{
+		ComponentButton* button_cmp = (ComponentButton*)GetGameObject()->GetComponent(CMP_BUTTON);
 
+		static int trans_type = 0; 
+		if (ImGui::Combo("Transition Style", &trans_type, "Tint\0Swap Images"))
+		{
+			button_cmp->GetButton()->SetTransition((Button_Transition)trans_type); 
+		}
+
+		SEPARATE_WITH_SPACE
+
+		switch (trans_type)
+		{
+		case Button_Transition::TRANSITION_COLOR:
+		{
+			static float tes2[3] = { 12,12,12 };
+			ImGui::ColorEdit3("Hover Tint", tes2);
+
+			static float tes3[3] = { 20, 0 ,12 };
+			ImGui::ColorEdit3("Click Tint", tes3);
+
+			break;
+		}
+
+		case Button_Transition::TRANSITION_IMG_SWAP:
+
+			break;
+
+		}
 	}
 }
 
