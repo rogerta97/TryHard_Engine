@@ -4,6 +4,7 @@
 #include "SDL\include\SDL_rect.h"
 
 #include "ComponentTransform.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 class GameObject;
 class ComponentRectTransform; 
@@ -42,6 +43,8 @@ public:
 	void SetRelativePos(float2 new_pos);
 
 	void UpdateRectWithAnchors();
+
+	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance); //For mousepicking
 
 	// ----------------------
 

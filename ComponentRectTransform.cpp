@@ -235,6 +235,60 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 
 }
 
+bool ComponentRectTransform::GetClosestIntersectionPoint(LineSegment line, float3 & closest_point, float & distance)
+{
+	ComponentTransform* trans = GetTransform();
+	Triangle tri;
+	float current_distance;
+	float closest_distance = 10000; //Hmm maybe there is a better way to do this
+	float3 hit_point;
+	bool ret = false;
+
+	if (!quad_mesh)
+		return false;
+
+	if (!quad_mesh->vertices)
+		return false;
+
+	int num_tris = quad_mesh->num_indices / 3;
+
+	float4x4 gm = trans->GetGlobalViewMatrix();
+
+
+	line.Transform(gm.Inverted());
+
+	for (int i = 0; i < quad_mesh->num_indices; i += 3)
+	{
+		float3 vertex_a = quad_mesh->vertices[quad_mesh->indices[i]];
+		float3 vertex_b = quad_mesh->vertices[quad_mesh->indices[i + 1]];
+		float3 vertex_c = quad_mesh->vertices[quad_mesh->indices[i + 2]];
+
+		tri.a = vertex_a;
+		tri.b = vertex_b;
+		tri.c = vertex_c;
+
+		bool hit = line.Intersects(tri, &current_distance, &hit_point);
+
+		if (hit)
+		{
+			CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
+			if (current_distance < closest_distance)
+			{
+				closest_point = hit_point;
+				closest_distance = current_distance;
+				ret = true;
+			}
+		}
+	}
+
+	closest_point += gm.TranslatePart();
+	distance = closest_distance;
+
+	//if (ret)
+	//	CONSOLE_LOG("x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+	return ret;
+}
+
 ComponentTransform* ComponentRectTransform::GetTransform()
 {
 

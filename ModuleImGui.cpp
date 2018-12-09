@@ -317,7 +317,7 @@ update_status ModuleImGui::DrawTopBar()
 			ComponentMesh* cmp_mesh = (ComponentMesh*)new_go->AddComponent(CMP_MESH); 
 
 			Mesh* plane_mesh = new Mesh(); 
-			plane_mesh->SetVertPlaneData(); 
+			plane_mesh->SetVertPlaneData({ 1,1 });
 			plane_mesh->LoadToMemory();
 
 			cmp_mesh->SetMesh(plane_mesh);

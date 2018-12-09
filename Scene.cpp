@@ -439,6 +439,15 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 	while (go_iterator != scene_gameobjects.end()) {
 		GameObject* go = (*go_iterator);
 
+
+		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+		if (rect_trans)
+		{
+			intersected_list.push_back(go);
+			go_iterator++;
+			continue;
+		}
+
 		if (!go->bounding_box)
 		{
 			go_iterator++;
@@ -536,6 +545,23 @@ GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_lis
 				}
 			}
 		}
+
+		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+		if (rect_trans)
+		{
+			float3 point = { 0,0,0 };
+			if (rect_trans->GetClosestIntersectionPoint(line, point, distance))
+			{
+				something_intersected = true;
+				if (distance < closest_distance || go->GetComponent(CMP_CANVAS) == nullptr)
+				{
+					closest_distance = distance;
+					closest_point = point;
+					closest_go = go;
+				}
+			}
+		}
+
 		go_iterator++;
 	}
 
