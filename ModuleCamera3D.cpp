@@ -6,6 +6,7 @@
 #include "UI_InspectorPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_GamePanel.h"
+#include "ModuleUserInterface.h"
 
 #include "DebugDraw.h"
 
@@ -69,6 +70,11 @@ bool ModuleCamera3D::Start()
 	mouse_picking_ray.a = { 0,0,0 };
 	mouse_picking_ray.b = { 0,0,0 };
 
+	
+
+	game_picking_ray.a = { 0,0,0 };
+	game_picking_ray.b = { 0,0,0 };
+
 	return ret;
 }
 
@@ -79,6 +85,9 @@ update_status ModuleCamera3D::Update(float dt)
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 	cam->Update();
 	ManageMovement();
+
+	Frustum ui_frustum;
+	AABB ui_aabb = App->user_interface->GetRenderBox();
 
 	// Mouse Picking ----------------
 	///For the scene
@@ -94,12 +103,17 @@ update_status ModuleCamera3D::Update(float dt)
 			App->scene->TestLineAgainstGOs(mouse_picking_ray);
 	}
 	///For the game
-	else if (App->imgui->game_panel->is_mouse_in) {
-		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
-	}
+	//else if (App->imgui->game_panel->is_mouse_in) {
+	//	ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
+
+	//	if (mouse_pos_norm.x > -1 && mouse_pos_norm.x < 1)
+	//		if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
+	//			game_picking_ray = cam->GetFrustum()->UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y); // Fustum needed
+	//	if (game_picking_ray.Length() != 0)
+	//		App->scene->TestLineAgainstGOs(game_picking_ray);
+	//}
 
 	cam->CalculateViewMatrix();
-
 
 	if (!ecam_go || !cam)
 		return UPDATE_ERROR;

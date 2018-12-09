@@ -221,6 +221,11 @@ void ModuleScene::TestLineAgainstGOs(LineSegment line)
 
 }
 
+void ModuleScene::TestLineAgainstUIGOs(LineSegment line)
+{
+	current_scene->TestLineAgainstUIGOs(line);
+}
+
 void ModuleScene::DrawGuizmo()
 {
 	current_scene->DrawGuizmo(); 

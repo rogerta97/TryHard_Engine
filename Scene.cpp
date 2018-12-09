@@ -470,6 +470,29 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 }
 
+void Scene::TestLineAgainstUIGOs(LineSegment line)
+{
+	list<GameObject*> intersected_list;
+
+	auto go_iterator = scene_gameobjects.begin();
+
+	while (go_iterator != scene_gameobjects.end()) {
+		GameObject* go = (*go_iterator);
+
+
+		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+		if (rect_trans)
+		{
+			intersected_list.push_back(go);
+		}
+		go_iterator++;
+	}
+
+	GameObject* closestGo = GetClosestGO(line, intersected_list);
+
+	SetSelectedGameObject(closestGo);
+}
+
 void Scene::DrawGuizmo()
 {
 	if (selected_go == nullptr)
@@ -545,6 +568,44 @@ GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_lis
 				}
 			}
 		}
+
+		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+		if (rect_trans)
+		{
+			float3 point = { 0,0,0 };
+			if (rect_trans->GetClosestIntersectionPoint(line, point, distance))
+			{
+				something_intersected = true;
+				if (distance < closest_distance || go->GetComponent(CMP_CANVAS) == nullptr)
+				{
+					closest_distance = distance;
+					closest_point = point;
+					closest_go = go;
+				}
+			}
+		}
+
+		go_iterator++;
+	}
+
+	//if (something_intersected)
+	//	CONSOLE_LOG("CLOSEST: x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
+
+	return closest_go;
+}
+
+GameObject * Scene::GetClosestUIGO(LineSegment line, std::list<GameObject*> go_list)
+{
+	float3 closest_point;
+	float closest_distance = 100000;
+	GameObject* closest_go = nullptr;
+	float distance;
+	bool something_intersected = false;
+
+	auto go_iterator = scene_gameobjects.begin();
+
+	while (go_iterator != scene_gameobjects.end()) {
+		GameObject* go = (*go_iterator);
 
 		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
 		if (rect_trans)

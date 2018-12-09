@@ -41,6 +41,8 @@ public:
 	void AddaptCanvasToScreen();					// Will addapt all the canvas of the scene (unless they are in world space) to game screen size
 	GameObject* GetLastCanvas() const;						// Will return the UI_Canvas of the last GameObject in the list
 
+	AABB GetRenderBox() const;
+
 	// -----------------
 
 private:

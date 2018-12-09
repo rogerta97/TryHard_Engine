@@ -226,7 +226,7 @@ ImVec2 UI_GamePanel::GetMousePosInDockNormalized()
 
 	mouse_normalized.y *= -1;
 
-	CONSOLE_LOG("x:%f, y:%f", mouse_normalized.x, mouse_normalized.y);
+	//CONSOLE_LOG("x:%f, y:%f", mouse_normalized.x, mouse_normalized.y);
 
 	return mouse_normalized;
 }

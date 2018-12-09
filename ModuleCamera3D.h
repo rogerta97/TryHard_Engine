@@ -53,4 +53,6 @@ private:
 	bool draw_mouse_picking_ray;
 
 	LineSegment mouse_picking_ray;
+
+	LineSegment game_picking_ray; //To be able to debug see both
 };
