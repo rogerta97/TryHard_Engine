@@ -19,6 +19,9 @@ struct RenderSettings
 	bool texture = true; 
 	bool wireframe_selected = true; 
 	bool light = true;
+
+	void EnableWireframe() { wireframe = true; }
+	void DisableWireframe() { wireframe = false; }
 };
 
 class ModuleRenderer3D : public Module

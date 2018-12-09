@@ -17,8 +17,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void FillFunctionList(std::string path);
+	void FillFunctionList();
 	
-	//std::map<const char*, std::function<TYPE>> function_list;
+	std::map<const char*, std::function<void()>> function_list;
 };
 
