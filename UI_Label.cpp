@@ -12,7 +12,7 @@ UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
 	SetFont("Antonio-Regular");
-	SetText("BCA");
+	SetText("Insert Text");
 }
 
 UI_Label::~UI_Label()

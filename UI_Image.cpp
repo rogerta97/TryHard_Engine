@@ -23,7 +23,6 @@ UI_Image::UI_Image(ComponentImage* container)
 	draw_material->LoadToMemory();
 	draw_material->reference_counting++;
 
-	texture_type = UI_IMG_COLOR; 
 	image_color = { 1.0f,1.0f,1.0f };
 
 	is_glyphy = false;
@@ -93,39 +92,19 @@ void UI_Image::DrawImage()
 	glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	switch (texture_type)
+	if (draw_material != nullptr)
 	{
-	case UI_IMG_TEXTURE:
-
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->uvs_id);
 
 		draw_material->GetDiffuseTexture()->Bind();
 
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		break;
-
-	case UI_IMG_COLOR:
-
-		glDisable(GL_TEXTURE_2D);
-		glColor3f(image_color.x, image_color.y, image_color.z); 
-
-		break; 
-
-	case UI_IMG_TINTED:
-
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->uvs_id);
-
-		draw_material->GetDiffuseTexture()->Bind();
-
-		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-
-		glColor3f(image_color.x, image_color.y, image_color.z);
-
-		break;
 	}
+	else
+		glDisable(GL_TEXTURE_2D); 
+
+	glColor3f(image_color.x, image_color.y, image_color.z);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane->GetMesh()->indices_id);
 	glDrawElements(GL_TRIANGLES, plane->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
