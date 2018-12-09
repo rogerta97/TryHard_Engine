@@ -14,6 +14,7 @@ UI_GamePanel::UI_GamePanel()
 	game_size.x = 0;
 	game_size.y = 0;
 	size_changed = false;
+	margin_type = NONE;
 }
 
 
@@ -27,6 +28,7 @@ bool UI_GamePanel::Start()
 	game_ar = 0.5625f;
 	show = true; 
 	return true;
+	is_mouse_in = false;
 }
 
 bool UI_GamePanel::Update()
@@ -39,6 +41,8 @@ bool UI_GamePanel::Update()
 	{
 		//Render the texture
 		glEnable(GL_TEXTURE_2D);
+
+		is_mouse_in = ImGui::IsWindowHovered();
 
 		region_size = ImGui::GetWindowSize();
 
@@ -116,7 +120,12 @@ ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
 		size.x = region_size.y / original_aspect_ratio;
 
 		difference = region_size.x - size.x;
-		ImGui::SetCursorPosX(difference / 2);
+
+		game_tex_pos = { difference / 2 , 0 };
+
+		ImGui::SetCursorPosX(game_tex_pos.x);
+
+		margin_type = HORIZONTAL;
 	}
 	else if (region_ratio > original_aspect_ratio)
 	{
@@ -124,12 +133,17 @@ ImVec2 UI_GamePanel::CalculateSizeAndSetCursor(float original_aspect_ratio)
 		size.y = region_size.x * original_aspect_ratio;
 
 		difference = region_size.y - size.y;
-		ImGui::SetCursorPosY((difference / 2) + offset_y);
+
+		game_tex_pos = { 0, (difference / 2) + offset_y};
+
+		ImGui::SetCursorPosY(game_tex_pos.y);
+		margin_type = VERTICAL;
 	}
 	else
 	{
 		size.x = region_size.x;
 		size.y = region_size.x;
+		margin_type = NONE;
 	}
 
 	return size;
@@ -163,4 +177,56 @@ void UI_GamePanel::ShowARSelector() //WIP, not used yet
 ImVec2 UI_GamePanel::GetGameTexSize() const
 {
 	return game_size;
+}
+
+ImVec2 UI_GamePanel::GetMousePosInDock()
+{
+	ImVec2 mouse_pos, mouse_in_dock_pos;
+	mouse_pos = ImGui::GetMousePos();
+
+	int offset_x = game_tex_pos.x; 
+	int offset_y = game_tex_pos.y;
+
+	mouse_in_dock_pos.x = mouse_pos.x - pos.x - offset_x;
+	mouse_in_dock_pos.y = mouse_pos.y - pos.y - offset_y;
+
+	switch (margin_type)
+	{
+	case NONE:
+		break;
+	case VERTICAL:
+		mouse_in_dock_pos.x -= 4;
+		game_size.x -= 12;
+		break;
+	case HORIZONTAL:
+		mouse_in_dock_pos.y -= 20;
+		break;
+	default:
+		break;
+	}
+
+	//CONSOLE_LOG("x:%f, y:%f, w:%f, h:%f", mouse_in_dock_pos.x, mouse_in_dock_pos.y, game_size.x, game_size.y);
+
+	return mouse_in_dock_pos;
+}
+
+ImVec2 UI_GamePanel::GetMousePosInDockNormalized()
+{
+	ImVec2 mouse_in_dock_pos = GetMousePosInDock();
+	ImVec2 mouse_normalized;
+
+	mouse_normalized.x = mouse_in_dock_pos.x / game_size.x;
+	mouse_normalized.y = mouse_in_dock_pos.y / game_size.y;
+
+	mouse_normalized.x -= 0.5;
+	mouse_normalized.x *= 2;
+
+	mouse_normalized.y -= 0.5;
+	mouse_normalized.y *= 2;
+
+	mouse_normalized.y *= -1;
+
+	CONSOLE_LOG("x:%f, y:%f", mouse_normalized.x, mouse_normalized.y);
+
+	return mouse_normalized;
 }

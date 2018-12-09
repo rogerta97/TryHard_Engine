@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "UI_InspectorPanel.h"
 #include "UI_ScenePanel.h"
+#include "UI_GamePanel.h"
 
 #include "DebugDraw.h"
 
@@ -80,6 +81,7 @@ update_status ModuleCamera3D::Update(float dt)
 	ManageMovement();
 
 	// Mouse Picking ----------------
+	///For the scene
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene && !ImGuizmo::IsOver())
 	{
 		ImVec2 mouse_pos_norm = App->imgui->scene_panel->GetMousePosInDockNormalized();
@@ -90,7 +92,10 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (mouse_picking_ray.Length() != 0)
 			App->scene->TestLineAgainstGOs(mouse_picking_ray);
-
+	}
+	///For the game
+	else if (App->imgui->game_panel->is_mouse_in) {
+		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
 	}
 
 	cam->CalculateViewMatrix();
