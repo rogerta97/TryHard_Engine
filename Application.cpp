@@ -19,6 +19,7 @@ Application::Application()
 	camera = new ModuleCamera3D();
 	file_system = new ModuleFileSystem();
 	time_manager = new ModuleTime();
+	script = new ModuleScripting(); 
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -40,6 +41,7 @@ Application::Application()
 	// Renderer last!	
 	AddModule(imgui);
 	AddModule(renderer3D);
+	AddModule(script); 
 	AddModule(user_interface); 
 
 }

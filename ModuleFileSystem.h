@@ -56,6 +56,7 @@ public:
 	string GetModelsPath() const; 
 	string GetTexturesPath() const;
 	string GetPrefabPath() const;
+	string GetScriptsPath() const;
 	string GetLibraryPath() const;
 	string GetSkyBoxPath() const;
 	string GetAssetsPath() const; 
@@ -84,6 +85,7 @@ private:
 	string library_path; 
 	string game_path; 
 	string assets_path; 
+	string scripts_path; 
 	string scenes_path; 
 	string prefabs_path; 
 	string models_path; 

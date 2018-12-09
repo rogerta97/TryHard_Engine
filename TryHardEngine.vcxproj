@@ -228,6 +228,7 @@
     <ClInclude Include="ModuleImGui.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="ModuleResources.h" />
+    <ClInclude Include="ModuleScripting.h" />
     <ClInclude Include="ModuleTime.h" />
     <ClInclude Include="ModuleUserInterface.h" />
     <ClInclude Include="MonitorDirectory.h" />
@@ -342,6 +343,7 @@
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleResources.cpp" />
     <ClCompile Include="ModuleScene.cpp" />
+    <ClCompile Include="ModuleScripting.cpp" />
     <ClCompile Include="ModuleTime.cpp" />
     <ClCompile Include="ModuleUserInterface.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />

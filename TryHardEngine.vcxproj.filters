@@ -660,6 +660,9 @@
     <ClInclude Include="Font.h">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleScripting.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -988,6 +991,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScripting.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

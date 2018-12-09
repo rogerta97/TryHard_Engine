@@ -49,6 +49,7 @@ bool ModuleFileSystem::Init(JSON_Object* config)
 	scenes_path = assets_path + string("\\") + string("Scenes");
 	textures_path = assets_path + string("\\") + string("Textures");
 	prefabs_path = assets_path + string("\\") + string("Prefabs");
+	scripts_path = assets_path + string("\\") + string("Scripts");
 	skybox_path = assets_path + string("\\") + string("Textures\\SkyBox");
 	fonts_path = assets_path + string("\\") + string("Fonts");
 
@@ -238,6 +239,11 @@ std::string ModuleFileSystem::GetTexturesPath() const
 string ModuleFileSystem::GetPrefabPath() const
 {
 	return prefabs_path;
+}
+
+string ModuleFileSystem::GetScriptsPath() const
+{
+	return scripts_path;
 }
 
 std::string ModuleFileSystem::GetLibraryPath() const
