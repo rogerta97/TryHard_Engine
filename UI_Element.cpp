@@ -71,3 +71,13 @@ void UI_Element::SetCanvas(UI_Canvas * new_ray)
 {
 	canvas = new_ray; 
 }
+
+void UI_Element::SetState(const UI_ElementState new_state)
+{
+	state = new_state; 
+}
+
+UI_ElementState UI_Element::GetState() const
+{
+	return state;
+}

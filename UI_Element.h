@@ -15,6 +15,14 @@ enum UI_Widgget_Type
 	UI_NULL,
 };
 
+enum UI_ElementState
+{
+	ELM_PRESSED,
+	ELM_IDLE,
+	ELM_HOVERED,
+	ELM_ANY,
+};
+
 class UI_Element
 {
 public:
@@ -39,11 +47,15 @@ public:
 	UI_Canvas* GetCanvas() const;
 	void SetCanvas(UI_Canvas* new_ray);
 
+	void SetState(const UI_ElementState new_state); 
+	UI_ElementState GetState() const;
+
 private:
 
-	UI_Widgget_Type wid_type;	// Type of UI element 
-	UI_Canvas* canvas;			// Canvas where the element lays
-	bool raycast;				// Make the canvas clickable
-	float canvas_percentage;	// For setting an initial size 
+	UI_ElementState state = UI_ElementState::ELM_IDLE;		// State of the element 
+	UI_Widgget_Type wid_type;								// Type of UI element 
+	UI_Canvas* canvas;										// Canvas where the element lays
+	bool raycast;											// Make the canvas clickable
+	float canvas_percentage;								// For setting an initial size 
 };
 
