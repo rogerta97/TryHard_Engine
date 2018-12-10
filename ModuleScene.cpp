@@ -270,6 +270,8 @@ void ModuleScene::SaveScene(const char* scene_name)
 	string meta_name = scene_name + string(".json.meta");
 	string meta_path = App->file_system->GetScenesPath();
 
+	string item_meta_path = App->file_system->GetScenesPath() + string("\\") + meta_name;
+
 	if (!App->file_system->IsFileInDirectory(meta_path, meta_name.c_str()))
 	{
 		overwrite = true;
@@ -279,7 +281,6 @@ void ModuleScene::SaveScene(const char* scene_name)
 		scene_to_save->path = App->file_system->GetLibraryPath() + "\\Scenes" + scene_name + ".json";
 
 		//Create Meta
-		string item_meta_path = App->file_system->GetScenesPath() + string("\\") + meta_name;
 		std::ofstream stream;
 		stream.open(item_meta_path, std::fstream::out);
 
@@ -304,9 +305,19 @@ void ModuleScene::SaveScene(const char* scene_name)
 
 	if (overwrite)
 	{
-		//Create the path were the scene is going to be saved
+		//Get the ID from the meta 
+		
+		std::ofstream stream;
+		stream.open(item_meta_path, std::fstream::out);
 
-		string new_scene_path = App->file_system->GetLibraryPath() + std::string("\\Scenes\\") + to_string(scene_to_save->GetUID());
+		JSON_Value* scene_v_meta = json_parse_file(item_meta_path.c_str());
+		JSON_Object* scene_obj_meta = json_value_get_object(scene_v_meta);
+
+		UID scene_id = json_object_dotget_number(scene_obj_meta, "MetaInfo.UID");
+
+		stream.close();
+
+		string new_scene_path = App->file_system->GetLibraryPath() + std::string("\\Scenes\\") + to_string(scene_id);
 
 		if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
 			new_scene_path += std::string(".json");
@@ -317,7 +328,6 @@ void ModuleScene::SaveScene(const char* scene_name)
 		}
 
 		//Create the new json file 
-		std::ofstream stream;
 		stream.open(new_scene_path, std::fstream::out);
 
 		JSON_Value* scene_v = json_value_init_object();
