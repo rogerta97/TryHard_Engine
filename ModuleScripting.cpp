@@ -121,25 +121,28 @@ void ModuleScripting::FillFunctionList()
 
 }
 
-void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent)
+void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 {
 	if (ImGui::BeginPopup("select_callback"))
 	{
-		if (ImGui::BeginMenu("Void"))
+		string label_name = "Void##" + to_string(index); 
+		if (ImGui::BeginMenu(label_name.c_str()))
 		{
 			int i = 0;
 			for (auto it = function_list.begin(); it != function_list.end(); it++, i++)
 			{
 				string curr_name = (*it).first;
 
-				if (ImGui::Selectable(curr_name.c_str()))
+				ImGui::Selectable(curr_name.c_str());
+
+				if (ImGui::IsItemClicked(0))
 				{
 					agent->action = (*it).second; 
 					agent->name = curr_name;
 
 					ImGui::EndMenu();
 					ImGui::EndPopup();
-					agent->system_container->show_function_list = false; 
+					agent->show_function_list = false; 
 
 					ComponentButton* button_cmp = agent->system_container->GetSystemOwner();
 					button_cmp->OnMousePressed.push_back((*it).second);
@@ -151,7 +154,8 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent)
 			ImGui::EndMenu();
 		}
 			
-		if (ImGui::BeginMenu("Char"))
+		label_name = "Char##" + to_string(index);
+		if (ImGui::BeginMenu(label_name.c_str()))
 		{
 			int i = 0;
 			for (auto it = function_string_list.begin(); it != function_string_list.end(); it++, i++)
@@ -165,7 +169,7 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent)
 
 					ImGui::EndMenu();
 					ImGui::EndPopup();
-					agent->system_container->show_function_list = false;
+					agent->show_function_list = false;
 
 					return;
 				}

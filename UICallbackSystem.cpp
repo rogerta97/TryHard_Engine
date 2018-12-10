@@ -39,13 +39,10 @@ void UICallbackSystem::PrintSystemUI()
 	ImGui::SameLine();
 	ImGui::Button("-");
 
-	ImGui::Separator();
-
+	int index = 0; 
 	for (auto it = callbacks_list.begin(); it != callbacks_list.end(); it++)	
-		(*it)->PrintAgentUI(); 
+		(*it)->PrintAgentUI(index++); 
 	
-	ImGui::Separator(); 
-
 }
 
 UI_CallbackAgent * UICallbackSystem::CreateEmptyAgent()
@@ -83,6 +80,7 @@ UI_CallbackAgent::UI_CallbackAgent(UICallbackSystem* system_container)
 	name = ""; 
 
 	this->system_container = system_container; 
+	show_function_list = false; 
 }
 
 void UI_CallbackAgent::CleanAgent()
@@ -92,8 +90,9 @@ void UI_CallbackAgent::CleanAgent()
 	system_container = nullptr; 
 }
 
-void UI_CallbackAgent::PrintAgentUI()
+void UI_CallbackAgent::PrintAgentUI(int index)
 {
+
 	ImGui::Separator();
 	ImGui::Text("Target: "); ImGui::SameLine();
 
@@ -103,7 +102,9 @@ void UI_CallbackAgent::PrintAgentUI()
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
 	ImGui::SameLine();
-	if (ImGui::Button("+##Target"))
+
+	string curr_label_name = "+##Target" + to_string(index);
+	if (ImGui::Button(curr_label_name.c_str()))
 	{
 
 	}
@@ -125,16 +126,20 @@ void UI_CallbackAgent::PrintAgentUI()
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
 	ImGui::SameLine();
-	ImGui::Button("+##Action");
+
+	curr_label_name = "+##Action" + to_string(index);
+	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
 	{
 		ImGui::OpenPopup("select_callback");
-		system_container->show_function_list = true;
+		show_function_list = true;
 	}
 
 	ImGui::SameLine();
-	ImGui::Button("-##Action");
+
+	curr_label_name = "-##Action" + to_string(index);
+	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
 	{
@@ -147,8 +152,13 @@ void UI_CallbackAgent::PrintAgentUI()
 		ImGui::InputText("Value", (char*)value_char, 256);
 	}
 					
-	if(system_container->show_function_list)
-		App->script->PrintFunctionsList(this);
+	if (show_function_list)
+	{
+		App->script->PrintFunctionsList(this, index);
+	}
+
+	if (show_function_list && ImGui::IsMouseClicked(0) && ImGui::IsMouseHoveringWindow() && !ImGui::IsAnyItemHovered())
+		show_function_list = false; 
 		
 	ImGui::Separator();
 

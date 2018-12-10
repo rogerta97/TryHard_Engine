@@ -14,19 +14,18 @@ struct UI_CallbackAgent
 	UI_CallbackAgent(UICallbackSystem* container);
 
 	void CleanAgent(); 
+	void PrintAgentUI(int index);
 
 	GameObject* parent; 
-
-	std::function<void()> action;
-	std::function<void(const char*)> action_char;
-
-	std::string name;
-
-	const char* value_char = ""; 
-
+	std::string name;	
 	UICallbackSystem* system_container; 
 
-	void PrintAgentUI();
+	std::function<void()> action;
+
+	std::function<void(const char*)> action_char;
+	const char* value_char = "";
+
+	bool show_function_list; 
 };
 
 class UICallbackSystem

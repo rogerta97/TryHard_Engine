@@ -21,7 +21,7 @@ public:
 
 	void FillFunctionList();
 
-	void PrintFunctionsList(UI_CallbackAgent* agent);
+	void PrintFunctionsList(UI_CallbackAgent* agent, int index);
 	
 	std::map<const char*, std::function<void()>> function_list;
 	std::map<const char*, std::function<void(const char*)>> function_string_list;
