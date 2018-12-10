@@ -143,8 +143,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	if (ImGui::IsItemClicked(0))
 	{
-		action = nullptr;
-		name = "";
+		SetEmpty(); 
 	}
 
 	if (action_char != nullptr)
@@ -162,4 +161,16 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 		
 	ImGui::Separator();
 
+}
+
+void UI_CallbackAgent::SetEmpty()
+{
+	parent = nullptr; 
+	name = ""; 
+	
+	action = nullptr; 
+	action_char = nullptr; 
+
+	value_char = ""; 
+	show_function_list = false; 
 }

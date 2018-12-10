@@ -15,6 +15,7 @@ struct UI_CallbackAgent
 
 	void CleanAgent(); 
 	void PrintAgentUI(int index);
+	void SetEmpty(); 
 
 	GameObject* parent; 
 	std::string name;	
