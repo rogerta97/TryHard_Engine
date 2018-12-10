@@ -144,37 +144,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
-	{				
-		(*it)->GetViewportTexture()->Bind();	
-		float4x4 view_gl_mat = *(float4x4*)(*it)->GetViewOpenGLViewMatrix();
-
-		if (App->camera->IsGhostCamera())
-			view_gl_mat = *(float4x4*)(*it)->GetViewMatrix();
-
-		glLoadIdentity();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(&view_gl_mat[0][0]);
-
-		(*it)->camera->projection_changed = true;
-
-		if ((*it)->camera->projection_changed == true)
-		{
-			UpdateProjectionMatrix((*it)->camera);
-			(*it)->camera->projection_changed = false;
-		}
-
-		App->scene->DrawSceneGameObjects((*it)->GetGameObject()); 
-		App->user_interface->DrawSceneUI((*it)->GetGameObject());
-
-		lights[0].SetPos((*it)->Position.x, (*it)->Position.y, (*it)->Position.z);
-
-		for (uint i = 0; i < MAX_LIGHTS; ++i)
-			lights[i].Render();
-
-		//App->imgui->scene_panel->Update();
-	}
+	
 
 	//{
 	//glLoadIdentity();
@@ -211,6 +181,38 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	for (auto it = rendering_cameras.begin(); it != rendering_cameras.end(); it++)
+	{
+		(*it)->GetViewportTexture()->Bind();
+		float4x4 view_gl_mat = *(float4x4*)(*it)->GetViewOpenGLViewMatrix();
+
+		if (App->camera->IsGhostCamera())
+			view_gl_mat = *(float4x4*)(*it)->GetViewMatrix();
+
+		glLoadIdentity();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(&view_gl_mat[0][0]);
+
+		(*it)->camera->projection_changed = true;
+
+		if ((*it)->camera->projection_changed == true)
+		{
+			UpdateProjectionMatrix((*it)->camera);
+			(*it)->camera->projection_changed = false;
+		}
+
+		App->scene->DrawSceneGameObjects((*it)->GetGameObject());
+		App->user_interface->DrawSceneUI((*it)->GetGameObject());
+
+		lights[0].SetPos((*it)->Position.x, (*it)->Position.y, (*it)->Position.z);
+
+		for (uint i = 0; i < MAX_LIGHTS; ++i)
+			lights[i].Render();
+
+		//App->imgui->scene_panel->Update();
+	}
+
 	SDL_GL_SwapWindow(App->window->window);
 	
 	//App->camera->GetEditorCamera()->GetViewportTexture()->Bind();

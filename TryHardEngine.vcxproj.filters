@@ -663,6 +663,9 @@
     <ClInclude Include="ModuleScripting.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="UICallbackSystem.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -994,6 +997,9 @@
     </ClCompile>
     <ClCompile Include="ModuleScripting.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="UICallbackSystem.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

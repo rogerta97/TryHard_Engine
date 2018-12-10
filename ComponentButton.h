@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
+#include <functional>
 
 class UI_Button;
+class UICallbackSystem; 
 
 class ComponentButton : public Component
 {
@@ -16,6 +18,10 @@ public:
 	void FitToRect(); 
 
 	UI_Button* GetButton() const;
+
+	UICallbackSystem* callback_system;
+
+	std::function<void()> OnMousePressed; 
 
 private:
 	UI_Button * button;

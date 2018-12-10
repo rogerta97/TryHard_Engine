@@ -50,6 +50,8 @@ update_status ModuleUserInterface::Update(float dt)
 
 bool ModuleUserInterface::CleanUp()
 {
+	go_with_canvas.clear(); 
+	
 	return true;
 }
 

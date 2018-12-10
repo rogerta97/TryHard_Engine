@@ -568,6 +568,8 @@ void UI_InspectorPanel::PrintButtonProperties()
 			break;
 
 		}
+
+		button_cmp->callback_system->PrintSystemUI(); 
 	}
 }
 

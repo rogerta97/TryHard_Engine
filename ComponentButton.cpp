@@ -11,6 +11,7 @@ ComponentButton::ComponentButton(GameObject * parent)
 	gameobject = parent; 
 	component_type = CMP_BUTTON; 
 	button = new UI_Button(this); 
+	callback_system = new UICallbackSystem(this); 
 }
 
 ComponentButton::~ComponentButton()
@@ -32,6 +33,11 @@ bool ComponentButton::CleanUp()
 	// Delete object from the canvas 
 	UI_Canvas* canvas_container = button->GetCanvas();
 	canvas_container->DeleteElementByUID(gameobject->unique_id);
+
+	//// Callback System 
+	OnMousePressed = nullptr; 
+	callback_system->CleanSystem();
+	delete callback_system; 
 
 	button->CleanUp();
 	delete button; 

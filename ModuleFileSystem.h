@@ -51,6 +51,8 @@ public:
 	string DeleteLastFileExtension(string path);
 	string DeleteLastPathItem(string path);
 	string DeleteFileExtension(string path);
+	void DeleteAllFileExtensions(string& path); 
+
 	bool IsFolder(string directory);
 
 	string GetModelsPath() const; 

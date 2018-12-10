@@ -1,5 +1,6 @@
 #pragma once
 #include "UI_Element.h"
+#include "UICallbackSystem.h"
 
 class UI_Image; 
 class ComponentButton; 
@@ -45,5 +46,7 @@ private:
 
 	Button_Transition transition_type; 
 	Button_State button_state; 
+
+	
 };
 

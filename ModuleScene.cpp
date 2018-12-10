@@ -257,10 +257,13 @@ void ModuleScene::SetDefaultScene()
 
 }
 
-
 void ModuleScene::SaveScene(const char* scene_name)
 {
 	bool overwrite = false;
+	
+	string name(scene_name); 
+	App->file_system->DeleteAllFileExtensions(name);
+	scene_name = name.c_str(); 
 
 	// Check if a meta with the same name exists
 	Scene* scene_to_save = nullptr;
@@ -302,6 +305,7 @@ void ModuleScene::SaveScene(const char* scene_name)
 	if (overwrite)
 	{
 		//Create the path were the scene is going to be saved
+
 		string new_scene_path = App->file_system->GetLibraryPath() + std::string("\\Scenes\\") + to_string(scene_to_save->GetUID());
 
 		if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
@@ -339,47 +343,6 @@ void ModuleScene::SaveScene(const char* scene_name)
 
 		stream.close();
 	}
-
-	//current_scene->SaveScene(scene_name);
-	
-	//Create the path were the scene is going to be saved
-	//string new_scene_path = App->file_system->GetScenesPath() + std::string("\\") + std::string(scene_name);
-
-	//if (App->file_system->GetFileExtension(scene_name) != FX_JSON)
-	//	new_scene_path += std::string(".json");
-
-	//if (App->file_system->IsFileInDirectory(App->file_system->GetScenesPath().c_str(), scene_name))
-	//{
-	//	CONSOLE_DEBUG("Scene '%s' already exist. Overwritting...", App->file_system->GetLastPathItem(new_scene_path).c_str());
-	//}
-
-	////Create the new json file 
-	//std::ofstream stream;
-	//stream.open(new_scene_path, std::fstream::out);
-
-	//JSON_Value* scene_v = json_value_init_object();
-	//JSON_Object* scene_obj = json_value_get_object(scene_v);
-
-	////Save Scene Info
-	//json_object_dotset_number(scene_obj, "Scene.obj_num", scene_gameobjects.size());
-	//json_object_dotset_number(scene_obj, "Scene.tags_num", 0);
-
-	//if (App->camera->GetGameCameraObject() != nullptr)
-	//	json_object_dotset_number(scene_obj, "Scene.main_camera_uid", App->camera->GetGameCamera()->GetGameObject()->unique_id);
-	//else
-	//	json_object_dotset_number(scene_obj, "Scene.main_camera_uid", 0);
-
-	//int index = 0;
-	//for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-	//{
-	//	scene_obj = json_value_get_object(scene_v);
-	//	(*it)->Save(scene_obj, index++);
-	//}
-
-	//json_serialize_to_file(scene_v, new_scene_path.c_str());
-
-	//stream.close();
-
 }
 
 void ModuleScene::LoadScene(const char * scene_name, bool clean)

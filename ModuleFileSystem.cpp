@@ -199,6 +199,13 @@ string ModuleFileSystem::DeleteFileExtension(string path_char)
 
 	return path;
 }
+void ModuleFileSystem::DeleteAllFileExtensions(string& path)
+{
+	while (path.find_last_of('.') <= path.size())
+	{
+		path = DeleteLastFileExtension(path.c_str());
+	}
+}
 string ModuleFileSystem::DeleteLastFileExtension(string path_char)
 {
 	string path(path_char);

@@ -18,6 +18,8 @@ public:
 	bool CleanUp();
 
 	void FillFunctionList();
+
+	std::pair<const char*, std::function<void()>> PrintFunctionList();
 	
 	std::map<const char*, std::function<void()>> function_list;
 };

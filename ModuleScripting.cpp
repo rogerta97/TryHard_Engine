@@ -91,3 +91,27 @@ void ModuleScripting::FillFunctionList()
 		//function_list.insert(std::pair<const char*, std::function<void()>>("EnableWireframe", callback));
 	}
 }
+
+std::pair<const char*, function<void()>> ModuleScripting::PrintFunctionList()
+{
+	if (ImGui::BeginPopup("select_callback"))
+	{
+		ImGui::Text("Void Actions");
+		ImGui::Separator();
+		int i = 0;
+
+		for (auto it = function_list.begin(); it != function_list.end(); it++, i++)
+		{
+			string curr_name = (*it).first;
+
+			if (ImGui::Selectable(curr_name.c_str()))
+			{
+				ImGui::EndPopup();
+				return (*it); 
+			}
+		}
+		ImGui::EndPopup();
+	}
+
+	return std::pair<const char*, function<void()>>(); 
+}
