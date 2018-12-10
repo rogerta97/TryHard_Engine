@@ -112,6 +112,8 @@ public:
 	float GetLastSecFramerate() const; 
 	void SaveConfigAfterUpdate();
 
+	void CapFPS(int max); 
+
 	void Play();
 	void Pause();
 

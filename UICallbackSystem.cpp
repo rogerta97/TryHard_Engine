@@ -31,6 +31,13 @@ void UICallbackSystem::PrintSystemUI()
 {
 	ImGui::Spacing();
 	ImGui::Text("On Click Actions"); 
+	ImGui::SameLine(); 
+
+	if (ImGui::Button("+##AddObject"))
+		CreateEmptyAgent();
+
+	ImGui::SameLine();
+	ImGui::Button("-");
 
 	ImGui::Separator();
 
@@ -39,11 +46,6 @@ void UICallbackSystem::PrintSystemUI()
 	
 	ImGui::Separator(); 
 
-	if (ImGui::Button("+##AddObject"))	
-		CreateEmptyAgent(); 
-	
-	ImGui::SameLine();
-	ImGui::Button("-"); 
 }
 
 UI_CallbackAgent * UICallbackSystem::CreateEmptyAgent()
@@ -53,6 +55,11 @@ UI_CallbackAgent * UICallbackSystem::CreateEmptyAgent()
 	new_agent->name = "";
 
 	return new_agent;
+}
+
+std::list<UI_CallbackAgent*> UICallbackSystem::GetCallbacks() const
+{
+	return callbacks_list;
 }
 
 ComponentButton * UICallbackSystem::GetSystemOwner() const
@@ -69,6 +76,10 @@ UI_CallbackAgent::UI_CallbackAgent(UICallbackSystem* system_container)
 {
 	parent = nullptr; 
 	action = nullptr; 
+
+	action_char = nullptr; 
+	value_char = ""; 
+
 	name = ""; 
 
 	this->system_container = system_container; 
@@ -84,29 +95,27 @@ void UI_CallbackAgent::CleanAgent()
 void UI_CallbackAgent::PrintAgentUI()
 {
 	ImGui::Separator();
-
 	ImGui::Text("Target: "); ImGui::SameLine();
 
 	if (parent)
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", parent->GetName().c_str());
 	else
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty"); 
+		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
-	ImGui::SameLine(); 
+	ImGui::SameLine();
 	if (ImGui::Button("+##Target"))
 	{
-		
+
 	}
 
 	ImGui::SameLine();
 	ImGui::Button("-##Target");
 
-	if(ImGui::IsItemClicked(0))
-	{
-		parent = nullptr; 
-	}
 
-	//Add GameObject Button
+	if (ImGui::IsItemClicked(0))
+	{
+		parent = nullptr;
+	}
 
 	ImGui::Text("Action: "); ImGui::SameLine();
 
@@ -126,27 +135,20 @@ void UI_CallbackAgent::PrintAgentUI()
 
 	ImGui::SameLine();
 	ImGui::Button("-##Action");
-	
+
 	if (ImGui::IsItemClicked(0))
 	{
 		action = nullptr;
 		name = "";
-	}		
-			
-	std::pair<const char*, std::function<void()>> func("", nullptr); 
-	
-	if(system_container->show_function_list)
-		func = App->script->PrintFunctionList();
-
-	if (func.first != "" && func.second != nullptr)
-	{
-		ComponentButton* button_cmp = system_container->GetSystemOwner();
-		
-		action = func.second; 
-		name = func.first; 
-
-		button_cmp->OnMousePressed = action;
 	}
+
+	if (action_char != nullptr)
+	{
+		ImGui::InputText("Value", (char*)value_char, 256);
+	}
+					
+	if(system_container->show_function_list)
+		App->script->PrintFunctionsList(this);
 		
 	ImGui::Separator();
 

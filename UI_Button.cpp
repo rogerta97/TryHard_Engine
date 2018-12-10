@@ -28,6 +28,23 @@ void UI_Button::Start()
 
 void UI_Button::Update()
 {
+	// Force state
+	if (App->input->GetKey(SDL_SCANCODE_M))
+	{
+		SetState(ELM_PRESSED); 
+	}
+
+	if (GetState() == ELM_PRESSED)
+	{
+		if(!component_container->OnMousePressed.empty())
+			for (auto it = component_container->OnMousePressed.begin(); it != component_container->OnMousePressed.end(); it++)
+			{
+				std::function<void()> curr_func = (*it); 
+				curr_func(); 
+			}
+			
+		SetState(ELM_IDLE); 
+	}
 }
 
 void UI_Button::CleanUp()

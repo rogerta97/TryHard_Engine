@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
+
 #include <functional>
+#include <list>
 
 class UI_Button;
 class UICallbackSystem; 
@@ -21,7 +23,9 @@ public:
 
 	UICallbackSystem* callback_system;
 
-	std::function<void()> OnMousePressed; 
+	void BindCallbackFunctions(); 
+
+	std::list<std::function<void()>> OnMousePressed; 
 
 private:
 	UI_Button * button;

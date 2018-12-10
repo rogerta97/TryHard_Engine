@@ -4,6 +4,8 @@
 #include <string>
 #include <functional>
 
+class UI_CallbackAgent; 
+
 // This module is just a simulation, will read a file (script) and store functions in order to use them as callbacks in UI. 
 
 class ModuleScripting : public Module
@@ -19,8 +21,9 @@ public:
 
 	void FillFunctionList();
 
-	std::pair<const char*, std::function<void()>> PrintFunctionList();
+	void PrintFunctionsList(UI_CallbackAgent* agent);
 	
 	std::map<const char*, std::function<void()>> function_list;
+	std::map<const char*, std::function<void(const char*)>> function_string_list;
 };
 

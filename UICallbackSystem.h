@@ -6,7 +6,8 @@
 
 class GameObject; 
 class ComponentButton; 
-class UICallbackSystem; 
+class UICallbackSystem;
+
 
 struct UI_CallbackAgent
 {
@@ -15,8 +16,13 @@ struct UI_CallbackAgent
 	void CleanAgent(); 
 
 	GameObject* parent; 
-	std::function<void()> action; 
-	std::string name; 
+
+	std::function<void()> action;
+	std::function<void(const char*)> action_char;
+
+	std::string name;
+
+	const char* value_char = ""; 
 
 	UICallbackSystem* system_container; 
 
@@ -33,6 +39,8 @@ public:
 
 	void PrintSystemUI(); 
 	UI_CallbackAgent* CreateEmptyAgent();
+
+	std::list<UI_CallbackAgent*> GetCallbacks() const; 
 
 	ComponentButton* GetSystemOwner() const; 
 	void SetSystemOwner(ComponentButton* new_owner);

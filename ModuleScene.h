@@ -6,6 +6,8 @@
 #include "Octree.h"
 #include "Scene.h"
 
+#include <functional>
+
 #define MAX_SNAKE 2
 
 
@@ -60,7 +62,8 @@ public:
 
 	//Load & Save
 	void SaveScene(const char* scene_name);
-	void LoadScene(const char* scene_path, bool clean = true);
+	void CleanAndLoadScene(const char* scene_path); 
+	void LoadScene(const char* scene_path);
 
 	const char* GetSceneName() const;
 	void SetSceneName(const char* new_name);

@@ -531,6 +531,11 @@ void Application::SaveConfigAfterUpdate()
 	save_config_later = true;
 }
 
+void Application::CapFPS(int max)
+{
+	max_fps = max; 
+}
+
 void Application::Play()
 {
 	switch (current_game_state)

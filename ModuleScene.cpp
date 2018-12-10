@@ -355,7 +355,14 @@ void ModuleScene::SaveScene(const char* scene_name)
 	}
 }
 
-void ModuleScene::LoadScene(const char * scene_name, bool clean)
+void ModuleScene::CleanAndLoadScene(const char * scene_path)
+{
+	
+	CleanScene();
+	LoadScene(scene_path); 
+}
+
+void ModuleScene::LoadScene(const char * scene_name)
 {
 	string name_w_termination = scene_name + string(".json");
 
@@ -369,14 +376,6 @@ void ModuleScene::LoadScene(const char * scene_name, bool clean)
 	//Check if the meta path exists, if not we don't load the scene
 	if (!App->file_system->IsFileInDirectory(meta_path, meta_name.c_str()))
 	{
-		////If the scene trying to be load is "DefaultScene", we create the scene
-		//if (scene_name == "DefaultScene")
-		//{
-		//	current_scene->SetDefaultScene();
-		//	App->scene->SetSelectedGameObject(nullptr);
-		//	return;
-		//}
-		//	
 		CONSOLE_ERROR("'.meta' file for %s is not found. Scene can not be load", scene_name); 
 		return; 
 	}
@@ -394,9 +393,6 @@ void ModuleScene::LoadScene(const char * scene_name, bool clean)
 
 	if (App->file_system->IsFileInDirectory(string(App->file_system->GetLibraryPath() + "\\Scenes").c_str(), string(to_string(obj_id) + ".json").c_str()))
 	{
-		if (clean)
-			CleanScene();
-
 		string path = App->file_system->GetLibraryPath() + "\\Scenes\\" + to_string(obj_id) + ".json";
 		std::ifstream stream;
 		stream.open(path.c_str(), std::fstream::in);
@@ -466,7 +462,7 @@ void ModuleScene::Play()
 	switch (current_state)
 	{
 	case RUNNING:
-		LoadScene("temp_scene");
+		CleanAndLoadScene("temp_scene");
 		break;
 
 	case STOPPED:

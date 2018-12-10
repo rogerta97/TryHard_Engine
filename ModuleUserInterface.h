@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _USER_INTERFACE_H_
+#define _USER_INTERFACE_H_
 
 #include "Module.h"
 #include <list>
@@ -43,7 +44,7 @@ public:
 
 	AABB GetRenderBox() const;
 
-	// -----------------
+	// ----------------
 
 private:
 	std::list<GameObject*> go_with_canvas; 
@@ -52,4 +53,6 @@ private:
 	FT_Library ft_library; 
 	std::list<Font*> fonts_face_list; 
 };
+
+#endif
 
