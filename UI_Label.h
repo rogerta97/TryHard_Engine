@@ -38,7 +38,7 @@ public:
 private: 
 
 	string text;
-	Font text_font; 
+	Font font; 
 	int text_size; 
 
 	std::list<UI_Image*> text_planes; 

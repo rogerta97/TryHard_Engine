@@ -78,9 +78,9 @@ void Font::GenerateCharacterList()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Now store character for later use
-		new_character->Bearing = { (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows };
-		new_character->Size = { (float)text_font->glyph->bitmap_left, (float)text_font->glyph->bitmap_top };
-		new_character->Advance = text_font->glyph->advance.x; 
+		new_character->Bearing = { (float)text_font->glyph->bitmap_left, (float)text_font->glyph->bitmap_top };
+		new_character->Size = { (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows };
+		new_character->Advance = text_font->glyph->advance.x / 64.0f; 
 
 		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 

@@ -29,7 +29,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
 
-	LoadNewFont("Antonio-Regular", 30); 
+	LoadNewFont("Funny", 31); 
 
 	return true;
 }
@@ -83,6 +83,12 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 	}
 	else
 	{
+		if (FT_HAS_VERTICAL(font_to_add->text_font))
+		{
+			CONSOLE_LOG("Vertical fonts not supported"); 
+			return nullptr; 
+		}
+
 		FT_Set_Pixel_Sizes(font_to_add->text_font, 0, size);
 		font_to_add->GenerateCharacterList();
 		fonts_face_list.push_back(font_to_add);

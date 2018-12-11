@@ -11,8 +11,8 @@
 UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
-	SetFont("Antonio-Regular");
-	SetText("Insert Text");
+	SetFont("Funny");
+	SetText("Eo");
 }
 
 UI_Label::~UI_Label()
@@ -44,7 +44,8 @@ void UI_Label::Draw(bool is_editor)
 	float3 cursor = {0,0,0};
 	int counter = 0; 
 
-	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+
+	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
 	{		
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 		ComponentTransform* trans = rtransform->GetTransform();
@@ -59,9 +60,29 @@ void UI_Label::Draw(bool is_editor)
 		// Create increment matrix
 		float4x4 increment = float4x4::identity;
 
-		increment.SetTranslatePart(cursor); 
+		Character* curr_caracter = font.GetCharacter((GLchar)text[counter]); 
+		Character* next_caracter = nullptr; 
 
-		cursor.x += 30;
+		if (counter < text.size() - 1)
+			next_caracter = font.GetCharacter((GLchar)text[++counter]);
+		else
+			next_caracter = font.GetCharacter((GLchar)"");
+	
+		// Y offset
+		float size = (float)curr_caracter->Size.y;
+		float bearingy = (float)curr_caracter->Bearing.y;
+		float center_to_origin = (curr_caracter->Size.y / 2);
+		cursor.y =  -(size - bearingy) + center_to_origin;
+
+		// X offset
+		float advance = (float)curr_caracter->Advance / 2.0f;
+		float advance_distance = 0;
+	
+		advance_distance = advance + next_caracter->Advance / 2.0f;
+
+		increment.SetTranslatePart(cursor);
+
+		cursor.x += advance_distance; 
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)(((increment) * trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
@@ -100,15 +121,15 @@ void UI_Label::FillTextPlanes()
 void UI_Label::CreateCharacterPlane(const char * character, float3 position)
 {
 	// Set proper size
-	FT_Load_Char(text_font.text_font, (GLchar)character, FT_LOAD_RENDER);
-	float2 size = { (float)text_font.text_font->glyph->bitmap.width, (float)text_font.text_font->glyph->bitmap.rows};
+	FT_Load_Char(font.text_font, (GLchar)character, FT_LOAD_RENDER);
+	float2 size = { (float)font.text_font->glyph->bitmap.width, (float)font.text_font->glyph->bitmap.rows};
 
 	// Create the corresponding plane 
 	UI_Image* new_char_img = new UI_Image(nullptr);
 	new_char_img->GetPlane()->InvertImage(size);
 
 	// Get the corresponding texture 
-	uint texture_id = text_font.GetCharacterTexture(character);
+	uint texture_id = font.GetCharacterTexture(character);
 	new_char_img->SetImgID(texture_id);
 
 	text_planes.push_back(new_char_img);
@@ -128,5 +149,5 @@ void UI_Label::SetText(const char * new_text)
 
 void UI_Label::SetFont(string font_name)
 {
-	text_font = App->user_interface->GetFont(font_name);
+	font = App->user_interface->GetFont(font_name);
 }
