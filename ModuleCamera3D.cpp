@@ -93,6 +93,7 @@ update_status ModuleCamera3D::Update(float dt)
 	ui_frustum.SetWorldMatrix(float3x4::identity);
 	ui_frustum.nearPlaneDistance = 0.4;
 	ui_frustum.farPlaneDistance = 100;
+	//orthographic height
 
 	// Mouse Picking ----------------
 	///For the scene
