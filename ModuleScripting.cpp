@@ -144,8 +144,12 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 					ImGui::EndPopup();
 					agent->show_function_list = false; 
 
-					ComponentButton* button_cmp = agent->system_container->GetSystemOwner();
-					button_cmp->OnMousePressed.push_back((*it).second);
+					int i = 0; 
+					for (auto it2 = agent->system_container->GetSystemOwner()->OnMousePressed.begin(); it2 != agent->system_container->GetSystemOwner()->OnMousePressed.end(); it2++)
+					{
+						if (i++ == index)
+							(*it2) = (*it).second; 			
+					}
 
 					return;
 				}

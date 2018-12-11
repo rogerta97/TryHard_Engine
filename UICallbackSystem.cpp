@@ -34,7 +34,11 @@ void UICallbackSystem::PrintSystemUI()
 	ImGui::SameLine(); 
 
 	if (ImGui::Button("+##AddObject"))
-		CreateEmptyAgent();
+	{
+		UI_CallbackAgent* new_agent = CreateEmptyAgent();
+		new_agent->system_container->button_cmp_attached->OnMousePressed.push_back(new_agent->action);	
+	}
+		
 
 	ImGui::SameLine();
 	ImGui::Button("-");

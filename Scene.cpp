@@ -470,7 +470,7 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 }
 
-void Scene::TestLineAgainstUIGOs(LineSegment line)
+void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 {
 	list<GameObject*> intersected_list;
 
@@ -488,9 +488,22 @@ void Scene::TestLineAgainstUIGOs(LineSegment line)
 		go_iterator++;
 	}
 
-	GameObject* closestGo = GetClosestGO(line, intersected_list);
+	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
-	SetSelectedGameObject(closestGo);
+	if (!closestGo)
+		return;
+
+	ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
+	if (button)
+	{
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+			button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
+		}
+		else {
+			button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
+		}
+	}
+
 }
 
 void Scene::DrawGuizmo()
@@ -534,8 +547,39 @@ void Scene::DrawGuizmo()
 
 	object_matrix.Transpose();
 
-	if (ImGuizmo::IsUsing())
-		trans->SetGlobalViewMatrix(object_matrix);	
+	ComponentRectTransform* rect_trans = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
+	
+	if (!ImGuizmo::IsUsing())
+		return;
+
+	if (rect_trans)
+	{
+		float3 translate;
+		float3 modified_translate;
+		float3x3 rot;
+		float3 scal;
+
+		object_matrix.Decompose(modified_translate, rot, scal);
+
+		trans->GetGlobalViewMatrix().Decompose(translate, rot, scal);
+
+		float3 trans_diff = modified_translate - translate;
+
+		float2 distance = rect_trans->GetRelativePos();
+
+		distance += {trans_diff.x, trans_diff.y};
+
+		//CONSOLE_LOG("translate%f", translate.x);
+		//CONSOLE_LOG("transform%f", trans->transform.position.x);
+		//CONSOLE_LOG("diff%f", trans_diff.x);
+
+		rect_trans->SetRelativePos(distance);
+	}
+	else {
+		trans->SetGlobalViewMatrix(object_matrix);
+	}
+
+
 }
 
 GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)
@@ -594,7 +638,7 @@ GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_lis
 	return closest_go;
 }
 
-GameObject * Scene::GetClosestUIGO(LineSegment line, std::list<GameObject*> go_list)
+GameObject * Scene::GetClosestUIGOinGame(LineSegment line, std::list<GameObject*> go_list)
 {
 	float3 closest_point;
 	float closest_distance = 100000;
@@ -611,7 +655,7 @@ GameObject * Scene::GetClosestUIGO(LineSegment line, std::list<GameObject*> go_l
 		if (rect_trans)
 		{
 			float3 point = { 0,0,0 };
-			if (rect_trans->GetClosestIntersectionPoint(line, point, distance))
+			if (rect_trans->GetClosestIntersectionPointForGame(line, point, distance))
 			{
 				something_intersected = true;
 				if (distance < closest_distance || go->GetComponent(CMP_CANVAS) == nullptr)
