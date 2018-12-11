@@ -494,10 +494,10 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 	if (button)
 	{
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
-			CONSOLE_LOG("Click button");
+			button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
 		}
 		else {
-			CONSOLE_LOG("Hovering button");
+			button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
 		}
 	}
 
@@ -544,8 +544,30 @@ void Scene::DrawGuizmo()
 
 	object_matrix.Transpose();
 
-	if (ImGuizmo::IsUsing())
-		trans->SetGlobalViewMatrix(object_matrix);	
+	ComponentRectTransform* rect_trans = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
+	
+	if (!ImGuizmo::IsUsing())
+		return;
+
+	if (rect_trans)
+	{
+		float3 translate;
+		float3x3 rot;
+		float3 scal;
+
+		object_matrix.Decompose(translate, rot, scal);
+
+		float3 trans_diff = translate - trans->transform.position;
+
+		if (!trans_diff.IsZero())
+
+			rect_trans->SetRelativePos({ trans_diff.x, trans_diff.z });
+	}
+	else {
+		trans->SetGlobalViewMatrix(object_matrix);
+	}
+
+
 }
 
 GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_list)
