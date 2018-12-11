@@ -55,7 +55,7 @@ public:
 	void TestLineAgainstUIGOs(LineSegment line);
 	void DrawGuizmo();
 	GameObject* GetClosestGO(LineSegment line, std::list<GameObject*> go_list);
-	GameObject* GetClosestUIGO(LineSegment line, std::list<GameObject*> go_list);
+	GameObject* GetClosestUIGOinGame(LineSegment line, std::list<GameObject*> go_list);
 
 	//Setters & Getters
 	void SetSelectedGameObject(GameObject* selected);

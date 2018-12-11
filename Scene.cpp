@@ -488,7 +488,7 @@ void Scene::TestLineAgainstUIGOs(LineSegment line)
 		go_iterator++;
 	}
 
-	GameObject* closestGo = GetClosestUIGO(line, intersected_list);
+	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
 	SetSelectedGameObject(closestGo);
 }
@@ -594,7 +594,7 @@ GameObject * Scene::GetClosestGO(LineSegment line, std::list<GameObject*> go_lis
 	return closest_go;
 }
 
-GameObject * Scene::GetClosestUIGO(LineSegment line, std::list<GameObject*> go_list)
+GameObject * Scene::GetClosestUIGOinGame(LineSegment line, std::list<GameObject*> go_list)
 {
 	float3 closest_point;
 	float closest_distance = 100000;
@@ -611,7 +611,7 @@ GameObject * Scene::GetClosestUIGO(LineSegment line, std::list<GameObject*> go_l
 		if (rect_trans)
 		{
 			float3 point = { 0,0,0 };
-			if (rect_trans->GetClosestIntersectionPoint(line, point, distance))
+			if (rect_trans->GetClosestIntersectionPointForGame(line, point, distance))
 			{
 				something_intersected = true;
 				if (distance < closest_distance || go->GetComponent(CMP_CANVAS) == nullptr)

@@ -91,9 +91,10 @@ update_status ModuleCamera3D::Update(float dt)
 
 	ui_frustum.type = FrustumType::OrthographicFrustum;
 	ui_frustum.SetWorldMatrix(float3x4::identity);
-	ui_frustum.nearPlaneDistance = 0.4;
+	ui_frustum.nearPlaneDistance = -100;
 	ui_frustum.farPlaneDistance = 100;
-	//orthographic height
+	ui_frustum.orthographicWidth = ui_aabb.maxPoint.x - ui_aabb.minPoint.x;
+	ui_frustum.orthographicHeight = ui_aabb.maxPoint.y - ui_aabb.minPoint.y;
 
 	// Mouse Picking ----------------
 	///For the scene

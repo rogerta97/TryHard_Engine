@@ -45,6 +45,7 @@ public:
 	void UpdateRectWithAnchors();
 
 	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance); //For mousepicking
+	bool GetClosestIntersectionPointForGame(LineSegment line, float3 &closest_point, float & distance);
 
 	// ----------------------
 
