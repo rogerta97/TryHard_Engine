@@ -490,6 +490,9 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 
 	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
+	if (!closestGo)
+		return;
+
 	ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
 	if (button)
 	{
