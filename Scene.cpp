@@ -488,7 +488,7 @@ void Scene::TestLineAgainstUIGOs(LineSegment line)
 		go_iterator++;
 	}
 
-	GameObject* closestGo = GetClosestGO(line, intersected_list);
+	GameObject* closestGo = GetClosestUIGO(line, intersected_list);
 
 	SetSelectedGameObject(closestGo);
 }

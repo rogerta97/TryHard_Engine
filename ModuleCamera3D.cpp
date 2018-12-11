@@ -89,6 +89,11 @@ update_status ModuleCamera3D::Update(float dt)
 	Frustum ui_frustum;
 	AABB ui_aabb = App->user_interface->GetRenderBox();
 
+	ui_frustum.type = FrustumType::OrthographicFrustum;
+	ui_frustum.SetWorldMatrix(float3x4::identity);
+	ui_frustum.nearPlaneDistance = 0.4;
+	ui_frustum.farPlaneDistance = 100;
+
 	// Mouse Picking ----------------
 	///For the scene
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && App->imgui->is_mouse_in_scene && !ImGuizmo::IsOver())
@@ -103,15 +108,15 @@ update_status ModuleCamera3D::Update(float dt)
 			App->scene->TestLineAgainstGOs(mouse_picking_ray);
 	}
 	///For the game
-	//else if (App->imgui->game_panel->is_mouse_in) {
-	//	ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
+	else if (App->imgui->game_panel->is_mouse_in) {
+		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
 
-	//	if (mouse_pos_norm.x > -1 && mouse_pos_norm.x < 1)
-	//		if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
-	//			game_picking_ray = cam->GetFrustum()->UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y); // Fustum needed
-	//	if (game_picking_ray.Length() != 0)
-	//		App->scene->TestLineAgainstGOs(game_picking_ray);
-	//}
+		if (mouse_pos_norm.x > -1 && mouse_pos_norm.x < 1)
+			if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
+				game_picking_ray = ui_frustum.UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y); // Fustum needed
+		if (game_picking_ray.Length() != 0)
+			App->scene->TestLineAgainstUIGOs(game_picking_ray);
+	}
 
 	cam->CalculateViewMatrix();
 
