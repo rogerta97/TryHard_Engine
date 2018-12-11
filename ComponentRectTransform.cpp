@@ -272,7 +272,7 @@ bool ComponentRectTransform::GetClosestIntersectionPoint(LineSegment line, float
 
 		if (hit)
 		{
-			CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
+			//CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
 			if (current_distance < closest_distance)
 			{
 				closest_point = hit_point;
@@ -334,7 +334,7 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 
 		if (hit)
 		{
-			CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
+			//CONSOLE_LOG("hitpoint:  x:%f, y:%f, z:%f", hit_point.x, hit_point.y, hit_point.z);
 			if (current_distance < closest_distance)
 			{
 				closest_point = hit_point;

@@ -470,7 +470,7 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 }
 
-void Scene::TestLineAgainstUIGOs(LineSegment line)
+void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 {
 	list<GameObject*> intersected_list;
 
@@ -490,7 +490,17 @@ void Scene::TestLineAgainstUIGOs(LineSegment line)
 
 	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
-	SetSelectedGameObject(closestGo);
+	ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
+	if (button)
+	{
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+			CONSOLE_LOG("Click button");
+		}
+		else {
+			CONSOLE_LOG("Hovering button");
+		}
+	}
+
 }
 
 void Scene::DrawGuizmo()

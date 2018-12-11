@@ -52,7 +52,7 @@ public:
 	void SetDefaultScene();
 
 	void TestLineAgainstGOs(LineSegment line);
-	void TestLineAgainstUIGOs(LineSegment line);
+	void TestLineAgainstUIGOsForGame(LineSegment line);
 	void DrawGuizmo();
 	GameObject* GetClosestGO(LineSegment line, std::list<GameObject*> go_list);
 	GameObject* GetClosestUIGOinGame(LineSegment line, std::list<GameObject*> go_list);
