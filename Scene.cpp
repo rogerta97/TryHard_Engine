@@ -552,16 +552,25 @@ void Scene::DrawGuizmo()
 	if (rect_trans)
 	{
 		float3 translate;
+		float3 modified_translate;
 		float3x3 rot;
 		float3 scal;
 
-		object_matrix.Decompose(translate, rot, scal);
+		object_matrix.Decompose(modified_translate, rot, scal);
 
-		float3 trans_diff = translate - trans->transform.position;
+		trans->GetGlobalViewMatrix().Decompose(translate, rot, scal);
 
-		if (!trans_diff.IsZero())
+		float3 trans_diff = modified_translate - translate;
 
-			rect_trans->SetRelativePos({ trans_diff.x, trans_diff.z });
+		float2 distance = rect_trans->GetRelativePos();
+
+		distance += {trans_diff.x, trans_diff.y};
+
+		//CONSOLE_LOG("translate%f", translate.x);
+		//CONSOLE_LOG("transform%f", trans->transform.position.x);
+		//CONSOLE_LOG("diff%f", trans_diff.x);
+
+		rect_trans->SetRelativePos(distance);
 	}
 	else {
 		trans->SetGlobalViewMatrix(object_matrix);
