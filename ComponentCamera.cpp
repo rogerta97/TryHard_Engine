@@ -233,7 +233,6 @@ void ComponentCamera::Save(JSON_Object * root_obj, const char* root)
 void ComponentCamera::FillInterpolationSegmentAndRot()
 {
 	//If it does not have childs just look at the AABB
-
 	GameObject* selected_go = App->scene->GetSelectedGameObject();
 
 	if (selected_go != nullptr)

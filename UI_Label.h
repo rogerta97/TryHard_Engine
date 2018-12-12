@@ -34,13 +34,14 @@ public:
 	string GetText() const;
 	void SetText(const char* new_text);
 	void SetFont(string font_name);
+	void ResizeFont(); 
+
+	int text_size;
 
 private: 
 
 	string text;
 	Font font; 
-	int text_size; 
-
 	std::list<UI_Image*> text_planes; 
 };
 

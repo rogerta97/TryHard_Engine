@@ -30,6 +30,7 @@ public:
 
 	Font GetFont(std::string font_name) const; 
 	Font* LoadNewFont(std::string font_path, int size);
+	void DeleteFont(std::string name); 
 
 	// -----------------
 

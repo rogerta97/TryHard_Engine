@@ -26,10 +26,12 @@ public:
 	uint GetCharacterTexture(const char* character); 
 	Character* GetCharacter(GLchar character) const; 
 	void GenerateCharacterList(); 
+	void CleanCharacterList(); 
 
 	std::string name; 
 	FT_Face text_font; 
 	std::map<GLchar, Character*> chars_list;
+	int size; 
 	bool loaded = false; 
 
 };

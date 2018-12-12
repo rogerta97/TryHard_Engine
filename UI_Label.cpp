@@ -13,6 +13,8 @@ UI_Label::UI_Label(ComponentText* cmp_text)
 	cmp_container = cmp_text; 
 	SetFont("Funny");
 	SetText("Insert Text");
+	text_size = font.size;
+	color = { 0,0,0 }; 
 }
 
 UI_Label::~UI_Label()
@@ -156,4 +158,14 @@ void UI_Label::SetText(const char * new_text)
 void UI_Label::SetFont(string font_name)
 {
 	font = App->user_interface->GetFont(font_name);
+}
+
+void UI_Label::ResizeFont()
+{
+	// The new size is already stored in text_size
+	std::string font_name = font.name; 	
+	App->user_interface->DeleteFont(font.name);
+	App->user_interface->LoadNewFont(font_name, text_size); 
+	font = App->user_interface->GetFont(font_name);
+	SetText(text.c_str());
 }

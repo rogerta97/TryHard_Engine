@@ -9,6 +9,7 @@ Font::Font()
 {
 	loaded = false; 
 	name = ""; 
+	size = 0; 
 }
 
 
@@ -85,6 +86,17 @@ void Font::GenerateCharacterList()
 		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 
 	}
+}
+
+void Font::CleanCharacterList()
+{
+	for (auto it = chars_list.begin(); it != chars_list.end(); it++)
+	{
+		glDeleteTextures(1, &(*it).second->TextureID); 
+		delete (*it).second; 
+	}
+
+	chars_list.clear(); 
 }
 
 

@@ -92,12 +92,25 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 
 		FT_Set_Pixel_Sizes(font_to_add->text_font, 0, size);
 		font_to_add->GenerateCharacterList();
+		font_to_add->size = size; 
 		fonts_face_list.push_back(font_to_add);
 		return font_to_add;
 	}
 
 	FT_Done_Face(font_to_add->text_font);
 	FT_Done_FreeType(ft_library);
+}
+
+void ModuleUserInterface::DeleteFont(std::string name)
+{
+	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
+	{
+		if ((*it)->name == name)
+		{
+			fonts_face_list.erase(it); 
+			return; 
+		}
+	}
 }
 
 void ModuleUserInterface::DrawSceneUI(GameObject* camera)

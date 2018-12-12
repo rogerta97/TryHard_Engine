@@ -447,10 +447,14 @@ void UI_InspectorPanel::PrintTextProperties()
 		if (ImGui::InputText("Text", (char*)tmp_txt.c_str(), 256))
 			cmp_text->GetLabel()->SetText(tmp_txt.c_str());
 
-		ImGui::Spacing();
+		
+		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))
+		{
+			cmp_text->GetLabel()->ResizeFont(); 
+		}
 
 		float tmp_col[3] = { cmp_text->GetLabel()->color.x, cmp_text->GetLabel()->color.y, cmp_text->GetLabel()->color.z };
-		if (ImGui::ColorPicker3("Color", tmp_col))
+		if (ImGui::ColorEdit3("Color", tmp_col))
 			cmp_text->GetLabel()->color = { tmp_col[0], tmp_col[1] , tmp_col[2] }; 
 
 	}
