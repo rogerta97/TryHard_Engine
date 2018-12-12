@@ -64,7 +64,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 	{
 		DrawRectFrame();
 
-
 		///////////////
 		ComponentRectTransform* parent_rect = nullptr;
 
@@ -92,8 +91,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 			anchor_min_y_pos.y += parent_rect->height * anchor.min_y;
 
 			DrawAnchorPoint(anchor_min_y_pos, { -10,-10 });
-
-
 		}
 
 		DebugDrawRectSize();

@@ -37,6 +37,6 @@ private:
 	float3 container_plane_vertices[4];
 	UI_Label * label;
 	float3 draw_color; 
-	ClipTextType clipping = ClipTextType::CLIP_TOPLEFT; 
+	ClipTextType clipping = ClipTextType::CLIP_BOTTOMLEFT; 
 };
 

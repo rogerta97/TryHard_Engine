@@ -457,6 +457,14 @@ void UI_InspectorPanel::PrintTextProperties()
 		if (ImGui::ColorEdit3("Color", tmp_col))
 			cmp_text->GetLabel()->color = { tmp_col[0], tmp_col[1] , tmp_col[2] }; 
 
+		//Clipping
+		int curr_type = cmp_text->GetClipping(); 
+
+		if (ImGui::Combo("Clipping", &curr_type, "TOP LEFT\0BOTTOM_LEFT\0TOP_RIGHT\0BOTTOM_RIGHT\0"))
+		{
+			cmp_text->SetClipping((ClipTextType)curr_type); 
+		}
+
 	}
 }
 

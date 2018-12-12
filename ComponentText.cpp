@@ -13,6 +13,7 @@ ComponentText::ComponentText(GameObject* parent)
 	component_type = CMP_TEXT;
 	gameobject = parent;
 	label = new UI_Label(this); 
+	label->CreateEnclosedPlane(container_plane_vertices);
 }
 
 
@@ -38,6 +39,9 @@ bool ComponentText::CleanUp()
 void ComponentText::Draw(bool is_editor)
 {
 	label->Draw(is_editor); 
+
+	if (!is_editor)
+		return; 
 
 	App->renderer3D->UseDebugRenderSettings();
 
@@ -74,27 +78,52 @@ void ComponentText::SetClipping(const ClipTextType new_clip)
 {
 	clipping = new_clip; 
 
-	// Get the increment in which we have to translate the text planes
-	// 1. Create the container plane -----
-	label->CreateEnclosedPlane(container_plane_vertices);
-
-	// --------
-	// 2. Get the distance that the planes should move deppending on clipping type
+	// 1. Get the distance that the planes should move deppending on clipping type
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
 	float3 translation = {0,0,0};
+
+	float3 p1, p2; 
 
 	switch (clipping)
 	{
 		case ClipTextType::CLIP_TOPLEFT:
 		{
-			float3 top_left_rtransform = rtransform->GetGlobalPosition() + float3({-rtransform->width / 2, rtransform->height / 2, 0});
-			float3 top_left_rect = container_plane_vertices[0]; 
-			translation = top_left_rtransform - top_left_rect;
+			p1 = rtransform->GetGlobalPosition() + float3({-rtransform->width / 2, rtransform->height / 2, 0});
+			p2 = container_plane_vertices[0];
+			translation = p1 - p2;
 		}
+
+		break;
+
+		case ClipTextType::CLIP_BOTTOMLEFT:
+		{
+			p1 = rtransform->GetGlobalPosition() + float3({ -rtransform->width / 2, -rtransform->height / 2, 0 });
+			p2 = container_plane_vertices[2];
+			translation = p1 - p2;
+		}
+
+		break;
+
+		case ClipTextType::CLIP_TOPRIGHT:
+		{
+			p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, rtransform->height / 2, 0 });
+			p2 = container_plane_vertices[1];
+			translation = p1 - p2;
+		}
+
+		break;
+
+		case ClipTextType::CLIP_BOTTOMRIGHT:
+		{
+			p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, -rtransform->height / 2, 0 });
+			p2 = container_plane_vertices[3];
+			translation = p1 - p2;
+		}
+
 		break;
 	}
 
-	// 3. Move every text plane 
+	// 2. Move every text plane 
 	if (translation.x != 0 || translation.y != 0) //Move all planes in that increment		
 		label->TranslateCharactersPlanes(translation); 
 	
@@ -102,8 +131,8 @@ void ComponentText::SetClipping(const ClipTextType new_clip)
 
 void ComponentText::TranslateEnclosedPlane(float3 increment)
 {
-	container_plane_vertices[0] += increment; 
+	container_plane_vertices[0] += increment;
 	container_plane_vertices[1] += increment;
 	container_plane_vertices[2] += increment;
 	container_plane_vertices[3] += increment;
-}
+}								

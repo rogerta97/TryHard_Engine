@@ -114,6 +114,7 @@ void UI_Label::FillTextPlanes()
 		CreateCharacterPlane((const char*)text[i], {0,0,0});
 
 	int counter = 0; 
+	offset_planes.clear(); 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
 		float distancex = 0;
@@ -201,10 +202,10 @@ void UI_Label::CreateEnclosedPlane(float3* points)
 	points[0] = GetContainerPlanePoint(CLIP_TOPLEFT);
 
 	// Get Bottom-Left point
-	points[1] = GetContainerPlanePoint(CLIP_BOTTOMLEFT);
+	points[1] = GetContainerPlanePoint(CLIP_TOPRIGHT);
 
 	// Get Top-Right point
-	points[2] = GetContainerPlanePoint(CLIP_TOPRIGHT);
+	points[2] = GetContainerPlanePoint(CLIP_BOTTOMLEFT);
 
 	// Get Top-Right point
 	points[3] = GetContainerPlanePoint(CLIP_BOTTOMRIGHT);

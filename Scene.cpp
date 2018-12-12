@@ -424,7 +424,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// Set a RectTransform more likely for text
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM); 
 		rtransform->Resize({ 160, 30 });
-		text_cmp->SetClipping(CLIP_TOPLEFT);
+		text_cmp->SetClipping(CLIP_BOTTOMLEFT);
 
 		break;
 	}

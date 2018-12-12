@@ -84,10 +84,6 @@ void Font::GenerateCharacterList()
 		new_character->Bearing = { (float)text_font->glyph->bitmap_left, (float)text_font->glyph->bitmap_top };
 		new_character->Size = { (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows };
 		new_character->Advance = text_font->glyph->advance.x / 64.0f; 
-
-		//cursor.x = new_character->Bearing.x + (new_character->Size.x / 2.0f);
-
-		//text_offset.insert(std::pair<GLchar, float3>(c, cursor));
 		
 		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 
