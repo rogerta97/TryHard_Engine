@@ -39,6 +39,8 @@ public:
 	void SetFont(string font_name);
 	void ResizeFont(); 
 
+	void TranslateCharactersPlanes(float3 increment); 
+
 	// Create container plane helpers
 	void CreateEnclosedPlane(float3* points); 
 	float3 GetValueFromRenderedText(const char* point); 

@@ -48,7 +48,7 @@ void UI_Label::Draw(bool is_editor)
 	float3 cursor = {0,0,0};
 	int counter = 0;
 
-	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
+	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{		
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 		ComponentTransform* trans = rtransform->GetTransform();
@@ -67,7 +67,7 @@ void UI_Label::Draw(bool is_editor)
 		Character* next_caracter = nullptr; 
 
 		if (counter < text.size() - 1)
-			next_caracter = font.GetCharacter((GLchar)text[++counter]);
+			next_caracter = font.GetCharacter((GLchar)text[counter + 1]);
 		else
 			next_caracter = font.GetCharacter((GLchar)"");
 
@@ -76,22 +76,11 @@ void UI_Label::Draw(bool is_editor)
 			CONSOLE_ERROR("Trying to pick a null font texture"); 
 			return;
 		}
-		
-		// Y offset
-		float size = (float)curr_caracter->Size.y;
-		float bearingy = (float)curr_caracter->Bearing.y;
-		float center_to_origin = (curr_caracter->Size.y / 2);
-		cursor.y =  -(size - bearingy) + center_to_origin;
 
-		// X offset
-		float advance = (float)curr_caracter->Advance / 2.0f;
-		float advance_distance = 0;
-	
-		advance_distance = advance + next_caracter->Advance / 2.0f;
+		cursor.x += offset_planes[counter].x;
+		cursor.y = offset_planes[counter].y;
 
 		increment.SetTranslatePart(cursor);
-
-		cursor.x += advance_distance; 
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)(((increment) * trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
@@ -196,6 +185,16 @@ void UI_Label::ResizeFont()
 	SetText(text.c_str());
 }
 
+void UI_Label::TranslateCharactersPlanes(float3 increment)
+{	
+	offset_planes[0].x += increment.x;
+
+	for (int i = 0; i < offset_planes.size(); i++)
+		offset_planes[i].y += increment.y; 	
+
+	cmp_container->TranslateEnclosedPlane(increment); 
+}
+
 void UI_Label::CreateEnclosedPlane(float3* points)
 {
 	// Get Top-Left point
@@ -227,8 +226,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 		float offset = -1; 
 
 		for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
-		{
-			
+		{			
 			if (counter == text_planes.size() - 1)
 			{
 				last_img = (*it);
@@ -306,6 +304,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 			}			
 		}
 
+		CONSOLE_LOG("%f", g_position.y); 
 		return_value = { 0, min_y_plane->GetPlane()->GetMesh()->vertices[2].y + min_y + g_position.y, 0 };
 		return return_value;
 	}

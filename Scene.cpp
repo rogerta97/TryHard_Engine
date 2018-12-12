@@ -16,6 +16,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentButton.h"
+#include "ComponentText.h"
 #include "ComponentImage.h"
 #include "ComponentCanvas.h"
 #include "ComponentRectTransform.h"
@@ -418,18 +419,22 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		
 	case UI_Widgget_Type::UI_LABEL:
 		new_ui_go->SetName("Text");
-		new_ui_go->AddComponent(CMP_TEXT);
-
+		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
+		
 		// Set a RectTransform more likely for text
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM); 
 		rtransform->Resize({ 160, 30 });
+		text_cmp->SetClipping(CLIP_TOPLEFT);
 
 		break;
 	}
 
+	
+
 	ComponentCanvas* cmp_canv = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS); 
 	cmp_canv->AddElement(new_ui_go);
 
+	new_ui_go->Start();
 	AddGameObjectToScene(new_ui_go); 
 
 	return new_ui_go;
