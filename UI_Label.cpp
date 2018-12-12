@@ -12,7 +12,7 @@ UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
 	SetFont("Funny");
-	SetText("Eo");
+	SetText("Insert Text");
 }
 
 UI_Label::~UI_Label()
@@ -67,7 +67,13 @@ void UI_Label::Draw(bool is_editor)
 			next_caracter = font.GetCharacter((GLchar)text[++counter]);
 		else
 			next_caracter = font.GetCharacter((GLchar)"");
-	
+
+		if (next_caracter == nullptr)
+		{
+			CONSOLE_ERROR("Trying to pick a null font texture"); 
+			return;
+		}
+		
 		// Y offset
 		float size = (float)curr_caracter->Size.y;
 		float bearingy = (float)curr_caracter->Bearing.y;

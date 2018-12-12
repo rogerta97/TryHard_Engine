@@ -6,6 +6,7 @@
 #include "ModuleRenderer3D.h"
 
 #include "ComponentMesh.h"
+#include "ComponentRectTransform.h"
 #include "ComponentTransform.h"
 
 
@@ -237,8 +238,25 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 	if (selected_go != nullptr)
 	{
-		ComponentMesh* cmp_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
-		ComponentTransform* cmp_trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
+		ComponentTransform* cmp_trans = nullptr;
+		ComponentMesh* cmp_mesh = nullptr;
+
+		if (selected_go->GetIsUI())
+		{
+			ComponentRectTransform* rtransform = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
+			cmp_trans = rtransform->GetTransform();
+			cmp_trans->SetGlobalViewMatrix(rtransform->GetTransform()->GetGlobalViewMatrix());
+
+			cmp_mesh = new ComponentMesh(nullptr);
+			cmp_mesh->SetMesh(rtransform->GetRectQuad());
+			cmp_mesh->CreateEnclosedMeshAABB(); 
+			cmp_mesh->UpdateBoundingBox(cmp_trans);		
+		}
+		else
+		{
+			cmp_mesh = (ComponentMesh*)selected_go->GetComponent(CMP_MESH);
+			cmp_trans = (ComponentTransform*)selected_go->GetComponent(CMP_TRANSFORM);
+		}
 
 		float distance = 0.0f;
 		float3 center = { 0,0,0 }; 
@@ -289,7 +307,9 @@ void ComponentCamera::FillInterpolationSegmentAndRot()
 
 			int ammount = 0; 
 			App->scene->GetSelectedGameObject()->GetGOAmount(ammount);
-			float3 center = position / (ammount - 1.0f);
+
+			//float3 center = position / (ammount - 1.0f);
+			float3 center = new_bb.CenterPoint();
 
 			float3 dst_point = GetCamPointFromDistance(center, distance);
 

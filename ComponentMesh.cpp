@@ -264,7 +264,9 @@ bool ComponentMesh::CreateEnclosedMeshAABB()
 {	
 	bounding_box.SetNegativeInfinity();
 	bounding_box = bounding_box.MinimalEnclosingAABB(GetMesh()->vertices, GetMesh()->num_vertices);
-	gameobject->bounding_box = &bounding_box; 
+
+	if(gameobject)
+		gameobject->bounding_box = &bounding_box; 
 
 	return true;	
 }
@@ -292,9 +294,15 @@ void ComponentMesh::DrawBoundingBox()
 	}
 }
 
-void ComponentMesh::UpdateBoundingBox()
+void ComponentMesh::UpdateBoundingBox(ComponentTransform* force_trans)
 {
-	ComponentTransform* trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+	ComponentTransform* trans = nullptr;
+	
+	if (force_trans)		
+		trans = force_trans;		
+	else
+		trans = (ComponentTransform*)gameobject->GetComponent(CMP_TRANSFORM);
+	
 
 	if (trans && mesh)
 	{

@@ -42,6 +42,9 @@ public:
 	float2 GetRelativePos() const;
 	void SetRelativePos(float2 new_pos);
 
+	Mesh* GetRectQuad() const; 
+	ComponentMesh* GetRectQuadComponent() const;
+
 	void UpdateRectWithAnchors();
 
 	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance); //For mousepicking
@@ -63,7 +66,7 @@ public:
 
 private:
 
-	Mesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
+	ComponentMesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
 	ComponentTransform* transform_part; 
 	
 	AnchorPoints anchor;

@@ -50,7 +50,7 @@ bool ModuleCamera3D::Start()
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->AddComponent(CMP_CAMERA);
 	cam->camera->aspect = ASP_EDITOR;
-	cam->camera->frustum.farPlaneDistance = 500;
+	cam->camera->frustum.farPlaneDistance = 1000;
 	cam->SetEditorCamera();
 	cam->draw_frustum = false;
 	cam->camera->frustum.pos = { 10, 4, 10 };
@@ -343,7 +343,6 @@ void ModuleCamera3D::SetGhostCamera(bool value)
 
 void ModuleCamera3D::ManageMovement()
 {
-
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
 	if (ecam_go != nullptr && cam != nullptr)
@@ -397,13 +396,13 @@ void ModuleCamera3D::ManageMovement()
 				increment += cam->Y * -cam->GetSpeed() * App->GetDt() * cam->speed_multiplier;
 				moved = true;
 			}
+		}
 
-			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+		{
+			if (App->scene->GetSelectedGameObject() != nullptr)
 			{
-				if (App->scene->GetSelectedGameObject() != nullptr)
-				{
-					cam->center_next_frame = true;
-				}
+				cam->center_next_frame = true;
 			}
 		}
 

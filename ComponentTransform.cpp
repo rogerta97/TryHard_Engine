@@ -167,7 +167,6 @@ void ComponentTransform::SetViewMatrix(float4x4 new_mat)
 	transform.position = pos;
 	SetRotationEuler(eulrotmat);
 
-	
 	//ViewMatrix = new_mat;
 }
 

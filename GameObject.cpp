@@ -718,6 +718,16 @@ void GameObject::GetEnclosedAABB(float3& min, float3& max)
 
 	ComponentMesh* curr_mesh = (ComponentMesh*)GetComponent(CMP_MESH);
 
+	//if the object don't has mesh and it's ui, i should have a rect transform. 
+	if (curr_mesh == nullptr)
+	{
+		if (GetIsUI())
+		{
+			ComponentRectTransform* rtrans = (ComponentRectTransform*)GetComponent(CMP_RECTTRANSFORM);
+			curr_mesh = rtrans->GetRectQuadComponent();
+		}			
+	}
+
 	if (curr_mesh)
 	{
 		curr_mesh->CheckAABBPoints(min, max);

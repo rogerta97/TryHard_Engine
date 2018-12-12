@@ -43,7 +43,7 @@ public:
 	AABB bounding_box; 
 	bool CreateEnclosedMeshAABB();
 	void DrawBoundingBox(); 
-	void UpdateBoundingBox(); 
+	void UpdateBoundingBox(ComponentTransform* force_trans = nullptr); 
 	void SetBBColor(float r, float g, float b); 
 
 	void SetWireframe(bool newValue); 

@@ -26,6 +26,9 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	relative_pos.x = 0;
 	relative_pos.y = 0;
+
+	GetTransform()->CalculateGlobalViewMatrix();
+
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -124,11 +127,15 @@ void ComponentRectTransform::AddaptRectToScreenSize()
 
 void ComponentRectTransform::CreateRectQuad()
 {
-	quad_mesh = new Mesh();
-	quad_mesh->SetVertPlaneData();
+	quad_mesh = new ComponentMesh(nullptr);
 
-	width = height = 1;
-	quad_mesh->LoadToMemory();
+	Mesh* square = new Mesh();
+	square->SetVertPlaneData();
+	square->LoadToMemory();
+
+	quad_mesh->SetMesh(square);
+	quad_mesh->CreateEnclosedMeshAABB();
+	quad_mesh->UpdateBoundingBox(GetTransform());
 }
 
 void ComponentRectTransform::DrawRectFrame()
@@ -144,7 +151,7 @@ void ComponentRectTransform::DrawRectFrame()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)((GetTransform()->GetGlobalViewMatrix()).Transposed() * view_mat).v);
 
-	DebugDrawPlane(quad_mesh->vertices, Color(1.0f, 1.0f, 1.0f));
+	DebugDrawPlane(quad_mesh->GetMesh()->vertices, Color(1.0f, 1.0f, 1.0f));
 	App->renderer3D->GetDefaultRenderSettings();
 
 	glMatrixMode(GL_MODELVIEW);
@@ -181,10 +188,10 @@ void ComponentRectTransform::Resize(float2 new_size)
 {
 	float2 half_size = new_size / 2;
 
-	quad_mesh->vertices[0] = { -half_size.x, half_size.y, 0 };
-	quad_mesh->vertices[1] = { half_size.x, half_size.y, 0 };
-	quad_mesh->vertices[2] = { -half_size.x, -half_size.y, 0 };
-	quad_mesh->vertices[3] = { half_size.x, -half_size.y, 0 };
+	quad_mesh->GetMesh()->vertices[0] = { -half_size.x, half_size.y, 0 };
+	quad_mesh->GetMesh()->vertices[1] = { half_size.x, half_size.y, 0 };
+	quad_mesh->GetMesh()->vertices[2] = { -half_size.x, -half_size.y, 0 };
+	quad_mesh->GetMesh()->vertices[3] = { half_size.x, -half_size.y, 0 };
 
 	width = new_size.x;
 	height = new_size.y;
@@ -205,6 +212,17 @@ float2 ComponentRectTransform::GetRelativePos() const
 void ComponentRectTransform::SetRelativePos(float2 new_pos)
 {
 	relative_pos = new_pos;
+	quad_mesh->UpdateBoundingBox(GetTransform()); 
+}
+
+Mesh * ComponentRectTransform::GetRectQuad() const
+{
+	return quad_mesh->GetMesh();
+}
+
+ComponentMesh * ComponentRectTransform::GetRectQuadComponent() const
+{
+	return quad_mesh;
 }
 
 void ComponentRectTransform::UpdateRectWithAnchors()
@@ -249,20 +267,20 @@ bool ComponentRectTransform::GetClosestIntersectionPoint(LineSegment line, float
 	if (!quad_mesh)
 		return false;
 
-	if (!quad_mesh->vertices)
+	if (!quad_mesh->GetMesh()->vertices)
 		return false;
 
-	int num_tris = quad_mesh->num_indices / 3;
+	int num_tris = quad_mesh->GetMesh()->num_indices / 3;
 
 	float4x4 gm = trans->GetGlobalViewMatrix();
 
 	line.Transform(gm.Inverted());
 
-	for (int i = 0; i < quad_mesh->num_indices; i += 3)
+	for (int i = 0; i < quad_mesh->GetMesh()->num_indices; i += 3)
 	{
-		float3 vertex_a = quad_mesh->vertices[quad_mesh->indices[i]];
-		float3 vertex_b = quad_mesh->vertices[quad_mesh->indices[i + 1]];
-		float3 vertex_c = quad_mesh->vertices[quad_mesh->indices[i + 2]];
+		float3 vertex_a = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i]];
+		float3 vertex_b = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i + 1]];
+		float3 vertex_c = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i + 2]];
 
 		tri.a = vertex_a;
 		tri.b = vertex_b;
@@ -303,10 +321,10 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 	if (!quad_mesh)
 		return false;
 
-	if (!quad_mesh->vertices)
+	if (!quad_mesh->GetMesh()->vertices)
 		return false;
 
-	int num_tris = quad_mesh->num_indices / 3;
+	int num_tris = quad_mesh->GetMesh()->num_indices / 3;
 
 	float4x4 gm = trans->GetGlobalViewMatrix();
 
@@ -320,11 +338,11 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 
 	line.Transform(gm.Inverted());
 
-	for (int i = 0; i < quad_mesh->num_indices; i += 3)
+	for (int i = 0; i < quad_mesh->GetMesh()->num_indices; i += 3)
 	{
-		float3 vertex_a = quad_mesh->vertices[quad_mesh->indices[i]];
-		float3 vertex_b = quad_mesh->vertices[quad_mesh->indices[i + 1]];
-		float3 vertex_c = quad_mesh->vertices[quad_mesh->indices[i + 2]];
+		float3 vertex_a = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i]];
+		float3 vertex_b = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i + 1]];
+		float3 vertex_c = quad_mesh->GetMesh()->vertices[quad_mesh->GetMesh()->indices[i + 2]];
 
 		tri.a = vertex_a;
 		tri.b = vertex_b;
