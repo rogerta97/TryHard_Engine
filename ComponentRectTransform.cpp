@@ -119,6 +119,24 @@ void ComponentRectTransform::DrawAnchorPoint(float3 pos, float2 lines_lenght)
 	glEnd();
 }
 
+float3 ComponentRectTransform::GetGlobalPosition()
+{
+	ComponentRectTransform* curr_cmp = this;
+	float3 ret_value = { 0,0,0 };
+
+	while (curr_cmp != nullptr)
+	{
+		ret_value += curr_cmp->GetTransform()->GetPosition();
+
+		if (curr_cmp->GetGameObject()->GetParent() == nullptr)
+			break; 
+
+		curr_cmp = (ComponentRectTransform*)curr_cmp->gameobject->GetParent()->GetComponent(CMP_RECTTRANSFORM);
+	}
+
+	return ret_value;
+}
+
 void ComponentRectTransform::AddaptRectToScreenSize()
 {
 	float2 screen_tex_size = float2(App->imgui->game_panel->GetGameTexSize().x, App->imgui->game_panel->GetGameTexSize().y);
@@ -372,7 +390,6 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 
 ComponentTransform* ComponentRectTransform::GetTransform()
 {
-
 	return transform_part;
 }
 

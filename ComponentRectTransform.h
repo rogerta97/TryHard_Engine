@@ -33,6 +33,8 @@ public:
 
 	//Utility functions -----
 
+	float3 GetGlobalPosition(); 
+
 	void AddaptRectToScreenSize();			// Will be use in case a canvas is added
 	void CreateRectQuad();					// Will create the quad of the Rect
 	void DrawRectFrame();					// Will create the quad of the Rect

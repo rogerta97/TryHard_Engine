@@ -45,6 +45,8 @@ void Font::GenerateCharacterList()
 {	
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
 
+	float3 cursor = { 0,0,0 }; 
+
 	for (GLubyte c = 0; c < 128; c++)
 	{
 		Character* new_character = new Character();
@@ -83,6 +85,10 @@ void Font::GenerateCharacterList()
 		new_character->Size = { (float)text_font->glyph->bitmap.width, (float)text_font->glyph->bitmap.rows };
 		new_character->Advance = text_font->glyph->advance.x / 64.0f; 
 
+		//cursor.x = new_character->Bearing.x + (new_character->Size.x / 2.0f);
+
+		//text_offset.insert(std::pair<GLchar, float3>(c, cursor));
+		
 		chars_list.insert(std::pair<GLchar, Character*>(c, new_character)); 
 		loaded = true; 
 	}

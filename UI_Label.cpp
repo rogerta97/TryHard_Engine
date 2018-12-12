@@ -6,6 +6,8 @@
 #include "ComponentTransform.h"
 #include "ComponentRectTransform.h"
 
+#include "MathGeoLib\MathGeoLib.h"
+
 #include "Application.h"
 
 UI_Label::UI_Label(ComponentText* cmp_text)
@@ -44,8 +46,7 @@ void UI_Label::Draw(bool is_editor)
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	float3 cursor = {0,0,0};
-	int counter = 0; 
-
+	int counter = 0;
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
 	{		
@@ -119,11 +120,36 @@ void UI_Label::Draw(bool is_editor)
 }
 
 void UI_Label::FillTextPlanes()
-{
-	for (int i = 0; i < text.size(); i++)
-	{
+{	
+	for (int i = 0; i < text.size(); i++)	
 		CreateCharacterPlane((const char*)text[i], {0,0,0});
+
+	int counter = 0; 
+	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+	{
+		float distancex = 0;
+		float distancey = 0;
+
+		Character* curr_character = font.GetCharacter(text[counter]);
+
+		// X offset
+		if (counter < text.size() - 1)
+			distancex = curr_character->Advance / 2.0 + font.GetCharacter(text[counter + 1])->Advance / 2.0;
+		else
+			distancex = curr_character->Advance / 2.0f + curr_character->Size.x / 2.0f;
+
+		if (counter == 0)
+			distancex = 0; 
+
+		//Y offset
+		float size = (float)curr_character->Size.y;
+		float bearingy = (float)curr_character->Bearing.y;
+		float center_to_origin = (curr_character->Size.y / 2);
+		distancey = -(size - bearingy) + center_to_origin;
+
+		offset_planes.push_back({ distancex, distancey, 0 });
 	}
+	
 }
 
 void UI_Label::CreateCharacterPlane(const char * character, float3 position)
@@ -168,4 +194,154 @@ void UI_Label::ResizeFont()
 	App->user_interface->LoadNewFont(font_name, text_size); 
 	font = App->user_interface->GetFont(font_name);
 	SetText(text.c_str());
+}
+
+void UI_Label::CreateEnclosedPlane(float3* points)
+{
+	// Get Top-Left point
+	points[0] = GetContainerPlanePoint(CLIP_TOPLEFT);
+
+	// Get Bottom-Left point
+	points[1] = GetContainerPlanePoint(CLIP_BOTTOMLEFT);
+
+	// Get Top-Right point
+	points[2] = GetContainerPlanePoint(CLIP_TOPRIGHT);
+
+	// Get Top-Right point
+	points[3] = GetContainerPlanePoint(CLIP_BOTTOMRIGHT);
+}
+
+float3 UI_Label::GetValueFromRenderedText(const char * point)
+{
+	float3 return_value = {0,0,0};
+
+	//Get the parent position
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+	float3 g_position = rtransform->GetGlobalPosition();
+
+	if (point == "XMax")
+	{
+		//It will always lay on the last letter 
+		UI_Image* last_img = nullptr; 
+		int counter = 0;
+		float offset = -1; 
+
+		for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+		{
+			
+			if (counter == text_planes.size() - 1)
+			{
+				last_img = (*it);
+				offset += offset_planes[counter].x;
+				break; 
+			}	
+
+			offset += offset_planes[counter].x;
+		}
+
+		if (last_img == nullptr)
+		{
+			CONSOLE_LOG("An error has occurred trying to look for the max X"); 
+			return { 0,0,0 }; 
+		}
+
+		return_value = { last_img->GetPlane()->GetMesh()->vertices[1].x + offset + g_position.x, 0, 0 };
+		return return_value; 
+	}
+	else if (point == "XMin")
+	{
+		//It will always lay on the first letter 
+
+		UI_Image* first_img = nullptr;
+		int counter = 0;
+		float offset = 0;
+
+		auto it = text_planes.begin();	
+		first_img = (*it);
+			
+		if (first_img == nullptr)
+		{
+			CONSOLE_LOG("An error has occurred trying to look for the min X");
+			return { 0,0,0 };
+		}
+
+		return_value = { first_img->GetPlane()->GetMesh()->vertices[0].x + g_position.x, 0, 0 };
+		return return_value;
+	}
+	else if (point == "YMax")
+	{
+		float max_y = -100000; 
+		UI_Image* max_y_plane = nullptr;
+		int counter = 0; 
+
+		for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+		{
+			float plane_max_y = offset_planes[counter].y;
+
+			if (max_y < plane_max_y)
+			{
+				max_y = plane_max_y;
+				max_y_plane = (*it); 
+			}
+				
+		}
+
+		return_value = { 0, max_y_plane->GetPlane()->GetMesh()->vertices[0].y + max_y + g_position.y, 0 };
+		return return_value;
+	}
+	else if (point == "YMin")
+	{
+		float min_y = 100000;
+		UI_Image* min_y_plane = nullptr;
+		int counter = 0;
+
+		for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
+		{
+			float plane_min_y = offset_planes[counter].y;
+
+			if (min_y > plane_min_y && plane_min_y != 0) //if plane_min_y == 0 it's an space
+			{
+				min_y = plane_min_y;
+				min_y_plane = (*it); 
+			}			
+		}
+
+		return_value = { 0, min_y_plane->GetPlane()->GetMesh()->vertices[2].y + min_y + g_position.y, 0 };
+		return return_value;
+	}
+
+	return return_value;
+}
+
+float3 UI_Label::GetContainerPlanePoint(ClipTextType clipping)
+{
+	float3 ret_point; 
+
+	float3 p1, p2; 
+
+	switch (clipping)
+	{
+	case ClipTextType::CLIP_TOPLEFT:
+		p1 = GetValueFromRenderedText("XMin"); 
+		p2 = GetValueFromRenderedText("YMax");
+		break; 
+
+	case ClipTextType::CLIP_BOTTOMLEFT:
+		p1 = GetValueFromRenderedText("XMin");
+		p2 = GetValueFromRenderedText("YMin");
+		break;
+
+	case ClipTextType::CLIP_TOPRIGHT:
+		p1 = GetValueFromRenderedText("XMax");
+		p2 = GetValueFromRenderedText("YMax");
+		break;
+
+	case ClipTextType::CLIP_BOTTOMRIGHT:
+		p1 = GetValueFromRenderedText("XMax");
+		p2 = GetValueFromRenderedText("YMin");
+		break;
+	}
+	
+	ret_point = p1 + p2; 
+	return ret_point; 
 }

@@ -21,6 +21,8 @@ public:
 	Quat GetRotation() const; 
 	float3 GetScale() const;
 
+	float3 GetGlobalPosition(); 
+
 	float4x4 GetViewMatrix(); 
 	float4x4 GetGlobalViewMatrix(); 
 

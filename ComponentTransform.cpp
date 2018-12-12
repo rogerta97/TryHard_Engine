@@ -137,6 +137,23 @@ float3 ComponentTransform::GetScale() const
 	return transform.scale;
 }
 
+float3 ComponentTransform::GetGlobalPosition()
+{
+	if (gameobject == nullptr)
+		return { 0,0,0 }; 
+
+	ComponentTransform* curr_cmp = this; 
+	float3 ret_value = { 0,0,0 }; 
+
+	while (curr_cmp->gameobject->GetParent() != nullptr)
+	{
+		ret_value += curr_cmp->GetPosition();
+		curr_cmp = (ComponentTransform*)curr_cmp->gameobject->GetParent()->GetComponent(CMP_TRANSFORM); 
+	}
+
+	return ret_value;
+}
+
 float4x4 ComponentTransform::GetViewMatrix() //If wanted for OpenGL, will need transposing.
 {
 	return ViewMatrix;

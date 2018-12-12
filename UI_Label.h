@@ -3,8 +3,11 @@
 
 #include <string>
 #include <list>
+#include <vector>
+#include <map>
 
 #include "ModuleUserInterface.h"
+#include "ComponentText.h"
 #include "Font.h"
 
 #include <map>
@@ -36,12 +39,19 @@ public:
 	void SetFont(string font_name);
 	void ResizeFont(); 
 
+	// Create container plane helpers
+	void CreateEnclosedPlane(float3* points); 
+	float3 GetValueFromRenderedText(const char* point); 
+	float3 GetContainerPlanePoint(ClipTextType clipping);
+
 	int text_size;
 
 private: 
 
 	string text;
-	Font font; 
+	Font font;
+
 	std::list<UI_Image*> text_planes; 
+	std::vector<float3> offset_planes; 
 };
 

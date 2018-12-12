@@ -30,7 +30,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
 
-	LoadNewFont("Funny", 31); 
+	LoadNewFont("Funny", 14); 
 
 	return true;
 }
