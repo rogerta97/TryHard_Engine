@@ -14,7 +14,6 @@ UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
 	SetFont("Funny");
-	SetText("Insert Text");
 	text_size = font.size;
 	color = { 0,0,0 }; 
 }
@@ -39,17 +38,25 @@ void UI_Label::CleanUp()
 
 void UI_Label::Draw(bool is_editor)
 {
+	RenderText(); 
+}
+
+void UI_Label::RenderText()
+{
 	App->renderer3D->UseCurrentRenderSettings();
 
 	// Render the rectangle 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	float3 cursor = {0,0,0};
+	float3 cursor = { 0,0,0 };
 	int counter = 0;
 
+	//Wrapping
+	int current_line = 0; 
+
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
-	{		
+	{
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 		ComponentTransform* trans = rtransform->GetTransform();
 
@@ -63,8 +70,8 @@ void UI_Label::Draw(bool is_editor)
 		// Create increment matrix
 		float4x4 increment = float4x4::identity;
 
-		Character* curr_caracter = font.GetCharacter((GLchar)text[counter]); 
-		Character* next_caracter = nullptr; 
+		Character* curr_caracter = font.GetCharacter((GLchar)text[counter]);
+		Character* next_caracter = nullptr;
 
 		if (counter < text.size() - 1)
 			next_caracter = font.GetCharacter((GLchar)text[counter + 1]);
@@ -73,26 +80,34 @@ void UI_Label::Draw(bool is_editor)
 
 		if (next_caracter == nullptr)
 		{
-			CONSOLE_ERROR("Trying to pick a null font texture"); 
+			CONSOLE_ERROR("Trying to pick a null font texture");
 			return;
 		}
 
 		cursor.x += offset_planes[counter].x;
-		cursor.y = offset_planes[counter].y;
+		cursor.y = offset_planes[counter].y + current_line*cmp_container->line_spacing;
+
+		CONSOLE_LOG("%f", cursor.x); 
+			
+		if (cursor.x + offset_planes[counter].x >= rtransform->width / 2.0f)
+		{
+			cursor.x = offset_planes[0].x;
+			current_line++; 
+		}
 
 		increment.SetTranslatePart(cursor);
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf((GLfloat*)(((increment) * trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
-		
+		glLoadMatrixf((GLfloat*)(((increment)* trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+
 		glBindBuffer(GL_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
-		
+
 		glBindBuffer(GL_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->uvs_id);
 		glBindTexture(GL_TEXTURE_2D, (*it)->GetImgID());
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-	
-		glColor3f(color.x, color.y, color.z); 
+
+		glColor3f(color.x, color.y, color.z);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->indices_id);
 		glDrawElements(GL_TRIANGLES, (*it)->GetPlane()->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
@@ -169,6 +184,8 @@ void UI_Label::SetText(const char * new_text)
 	text = new_text; 
 	text_planes.clear();
 	FillTextPlanes();
+	
+	UpdateContainerPlane(); 
 }
 
 void UI_Label::SetFont(string font_name)
@@ -344,4 +361,10 @@ float3 UI_Label::GetContainerPlanePoint(ClipTextType clipping)
 	
 	ret_point = p1 + p2; 
 	return ret_point; 
+}
+
+void UI_Label::UpdateContainerPlane()
+{
+	CreateEnclosedPlane(cmp_container->container_plane_vertices);
+	cmp_container->SetClipping(cmp_container->GetClipping());
 }

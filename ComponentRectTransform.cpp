@@ -1,6 +1,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentTransform.h"
 #include "Application.h"
+#include "ComponentText.h"
 #include "UI_GamePanel.h"
 #include "DebugDraw.h"
 #include "ComponentMesh.h"
@@ -29,6 +30,9 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	GetTransform()->CalculateGlobalViewMatrix();
 
+	CreateRectQuad();
+	Resize({ 1,1 });
+
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -38,7 +42,7 @@ ComponentRectTransform::~ComponentRectTransform()
 
 bool ComponentRectTransform::Start()
 {
-	CreateRectQuad();
+	
 	scale_to_show = { 1,1,1 };
 
 	return true;
@@ -217,7 +221,8 @@ void ComponentRectTransform::Resize(float2 new_size)
 
 	// Addapt plane components if needed
 	for (auto it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
-		(*it)->FitToRect();		
+		(*it)->FitToRect();	
+
 }
 
 float2 ComponentRectTransform::GetRelativePos() const
@@ -229,6 +234,9 @@ void ComponentRectTransform::SetRelativePos(float2 new_pos)
 {
 	relative_pos = new_pos;
 	quad_mesh->UpdateBoundingBox(GetTransform()); 
+
+	ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
+
 }
 
 Mesh * ComponentRectTransform::GetRectQuad() const

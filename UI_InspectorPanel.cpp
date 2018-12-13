@@ -316,7 +316,8 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 {
 	if (ImGui::CollapsingHeader("Rect Transform"))
 	{
-		
+		bool edited = false; 
+
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
 
 		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
@@ -342,7 +343,11 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		SEPARATE_WITH_SPACE
 
 		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
-				rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
+		{
+			rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
+			edited = true; 
+		}
+				
 
 		if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
 		{
@@ -354,6 +359,8 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 			if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
 				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+			edited = true; 
 		}
 
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
@@ -362,10 +369,18 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		ImGui::Separator(); 
 
 		if (ImGui::DragFloat("Width", &rtransform->width))
+		{
 			rtransform->Resize({ rtransform->width, rtransform->height });
+			edited = true; 
+		}
+			
 
-		if(ImGui::DragFloat("Height", &rtransform->height))
+		if (ImGui::DragFloat("Height", &rtransform->height))
+		{
 			rtransform->Resize({ rtransform->width, rtransform->height });
+			edited = true; 
+		}
+			
 
 		ImGui::Spacing();
 		ImGui::Text("Relative pos:");
@@ -380,7 +395,6 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		ImGui::Text("Anchors:");
 		ImGui::Separator();
 		ImGui::Spacing();
-
 
 		//ANCHOR
 
@@ -421,6 +435,17 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::Columns(1);
+
+		if (edited)
+		{
+			edited = false;
+			ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
+
+			if (cmp_text != nullptr)
+			{
+				cmp_text->SetClipping(cmp_text->GetClipping());
+			}
+		}
 
 		ImGui::Spacing();
 	}
@@ -464,6 +489,22 @@ void UI_InspectorPanel::PrintTextProperties()
 		{
 			cmp_text->SetClipping((ClipTextType)curr_type); 
 		}
+
+		curr_type = cmp_text->GetHorizontalOverflow();
+
+		if (ImGui::Combo("Horizontal Overflow", &curr_type, "Overflow\0Wrap\0"))
+		{
+			cmp_text->SetHorizontalOverflow((horizontalTextOverflow)curr_type);
+		}
+
+		curr_type = cmp_text->GetVerticalOverflow();
+
+		if (ImGui::Combo("Vertical Overflow", &curr_type, "Overflow\0Truncate\0"))
+		{
+			cmp_text->SetVerticalOverflow((verticalTextOverflow)curr_type);
+		}
+
+		ImGui::InputInt("Line Spacing", &cmp_text->line_spacing);
 
 	}
 }

@@ -12,6 +12,7 @@
 
 #include <map>
 
+
 using namespace std; 
 
 class ComponentText; 
@@ -27,9 +28,10 @@ public:
 	void Update();
 	void CleanUp();
 	void Draw(bool is_editor);
+	void RenderText(); 
 
-	void FillTextPlanes();
-	void CreateCharacterPlane(const char* character, float3 position);
+	void FillTextPlanes();												// Create the UI images with each corresponding size and texture following 'text'
+	void CreateCharacterPlane(const char* character, float3 position);	// Creates the plane of a letter 
 
 	ComponentText* cmp_container; 
 	float3 color;
@@ -39,17 +41,18 @@ public:
 	void SetFont(string font_name);
 	void ResizeFont(); 
 
-	void TranslateCharactersPlanes(float3 increment); 
+	void TranslateCharactersPlanes(float3 increment);					// Translate the text
 
 	// Create container plane helpers
-	void CreateEnclosedPlane(float3* points); 
-	float3 GetValueFromRenderedText(const char* point); 
-	float3 GetContainerPlanePoint(ClipTextType clipping);
+	void CreateEnclosedPlane(float3* points);							// Update Enclosed Plane (Delete and create a new one)
+	float3 GetValueFromRenderedText(const char* point);					// Get highest/lowest x/y from the rendered text in world space
+	float3 GetContainerPlanePoint(ClipTextType clipping);				// Get the clipping point in world space 
+	void UpdateContainerPlane();										// Fits the container plane to the text, and clip it 
 
 	int text_size;
+	
 
-private: 
-
+private: 								
 	string text;
 	Font font;
 

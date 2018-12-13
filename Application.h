@@ -36,7 +36,7 @@ struct Vsync
 };
 
 struct Event {
-	enum EventType { PLAY, PAUSE, STOP, FILE_DROPED} type;
+	enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED} type;
 	const char* ptr;
 
 	Event(EventType type) :type(type) {};

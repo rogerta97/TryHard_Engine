@@ -13,7 +13,7 @@ ComponentText::ComponentText(GameObject* parent)
 	component_type = CMP_TEXT;
 	gameobject = parent;
 	label = new UI_Label(this); 
-	label->CreateEnclosedPlane(container_plane_vertices);
+	label->SetText("Insert Text"); 
 }
 
 
@@ -67,6 +67,31 @@ void ComponentText::Draw(bool is_editor)
 UI_Label * ComponentText::GetLabel() const
 {
 	return label;
+}
+
+void ComponentText::UpdateContainerPlane()
+{
+
+}
+
+horizontalTextOverflow ComponentText::GetHorizontalOverflow() const
+{
+	return horizontal_overflow;
+}
+
+void ComponentText::SetHorizontalOverflow(const horizontalTextOverflow new_ov)
+{
+	horizontal_overflow = new_ov;
+}
+
+verticalTextOverflow ComponentText::GetVerticalOverflow() const
+{
+	return vertical_overflow;
+}
+
+void ComponentText::SetVerticalOverflow(const verticalTextOverflow new_ov)
+{
+	vertical_overflow = new_ov;
 }
 
 ClipTextType ComponentText::GetClipping() const
@@ -124,8 +149,12 @@ void ComponentText::SetClipping(const ClipTextType new_clip)
 	}
 
 	// 2. Move every text plane 
-	if (translation.x != 0 || translation.y != 0) //Move all planes in that increment		
-		label->TranslateCharactersPlanes(translation); 
+	if (translation.x != 0 || translation.y != 0)
+	{
+		if(label)
+			label->TranslateCharactersPlanes(translation); //Move all planes in that increment
+	}		
+		
 	
 }
 
