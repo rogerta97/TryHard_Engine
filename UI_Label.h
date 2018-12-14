@@ -39,7 +39,9 @@ public:
 	string GetText() const;
 	void SetText(const char* new_text);
 	void SetFont(string font_name);
+	Font GetFont() const; 
 	void ResizeFont(); 
+	bool ControlNewLine(float3& cursor, const std::vector<float3> offset_planes, const ClipTextType clipping_type, int& current_line, const int counter);												// Will cut the text and start to render in the line below if needed. 
 
 	void TranslateCharactersPlanes(float3 increment);					// Translate the text
 

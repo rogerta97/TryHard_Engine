@@ -1,6 +1,7 @@
 #include "ComponentText.h"
 #include "UI_Label.h"
 #include "DebugDraw.h"
+#include "Font.h"
 
 #include "ComponentCanvas.h"
 #include "ComponentRectTransform.h"
@@ -14,6 +15,7 @@ ComponentText::ComponentText(GameObject* parent)
 	gameobject = parent;
 	label = new UI_Label(this); 
 	label->SetText("Insert Text"); 
+	line_spacing = label->GetFont().size * 1.3f; 
 }
 
 
@@ -42,6 +44,13 @@ void ComponentText::Draw(bool is_editor)
 
 	if (!is_editor)
 		return; 
+
+	RenderContainerPlane();
+
+}
+
+void ComponentText::RenderContainerPlane()
+{
 
 	App->renderer3D->UseDebugRenderSettings();
 

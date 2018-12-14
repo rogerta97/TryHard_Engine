@@ -10,6 +10,8 @@
 
 #include "Application.h"
 
+#define VERTICAL_LIMIT_OFFSET 10 //When truncating vertical text, truncate when with is "a little bit more" than the origin
+
 UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
@@ -54,6 +56,7 @@ void UI_Label::RenderText()
 
 	//Wrapping
 	int current_line = 0; 
+	float line_distance = 0; 
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
@@ -85,14 +88,22 @@ void UI_Label::RenderText()
 		}
 
 		cursor.x += offset_planes[counter].x;
-		cursor.y = offset_planes[counter].y + current_line*cmp_container->line_spacing;
+		cursor.y = offset_planes[counter].y + -current_line*cmp_container->line_spacing;
 
-		CONSOLE_LOG("%f", cursor.x); 
+		if(counter == 0 )
+			line_distance = curr_caracter->Size.x / 2.0f;
+		else
+			line_distance += offset_planes[counter].x;
+				
+		if (counter == text_planes.size() - 1)		
+			line_distance += curr_caracter->Size.x / 2.0f;
 			
-		if (cursor.x + offset_planes[counter].x >= rtransform->width / 2.0f)
+		if (line_distance >= rtransform->width)
 		{
-			cursor.x = offset_planes[0].x;
-			current_line++; 
+			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter) == false)
+				return; 
+
+			line_distance = 0; 	
 		}
 
 		increment.SetTranslatePart(cursor);
@@ -193,6 +204,11 @@ void UI_Label::SetFont(string font_name)
 	font = App->user_interface->GetFont(font_name);
 }
 
+Font UI_Label::GetFont() const
+{
+	return font;
+}
+
 void UI_Label::ResizeFont()
 {
 	// The new size is already stored in text_size
@@ -201,6 +217,25 @@ void UI_Label::ResizeFont()
 	App->user_interface->LoadNewFont(font_name, text_size); 
 	font = App->user_interface->GetFont(font_name);
 	SetText(text.c_str());
+}
+
+bool UI_Label::ControlNewLine(float3& cursor, const std::vector<float3> offset_planes, const ClipTextType clipping_type, int& current_line, const int counter)
+{
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+
+	current_line++;
+	if (clipping_type == ClipTextType::CLIP_TOPLEFT || clipping_type == ClipTextType::CLIP_TOPRIGHT)
+	{
+		cursor.x = offset_planes[0].x; 
+		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
+	}
+
+	if (cursor.y - VERTICAL_LIMIT_OFFSET <= rtransform->GetRectQuad()->vertices[2].y)
+		return false;
+
+	return true; 
+
 }
 
 void UI_Label::TranslateCharactersPlanes(float3 increment)

@@ -44,7 +44,8 @@ public:
 	ClipTextType GetClipping() const; 
 	void SetClipping(const ClipTextType new_clip); 
 	void TranslateEnclosedPlane(float3 increment);
-	void UpdateContainerPlane(); 
+	void UpdateContainerPlane();
+	void RenderContainerPlane(); 
 
 	// Wrapping --------------------
 
