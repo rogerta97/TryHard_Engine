@@ -32,6 +32,7 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	CreateRectQuad();
 	Resize({ 1,1 });
+	edited = false; 
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -235,8 +236,6 @@ void ComponentRectTransform::SetRelativePos(float2 new_pos)
 	quad_mesh->UpdateBoundingBox(GetTransform()); 
 
 	ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
-
-	edited = true; 
 }
 
 Mesh * ComponentRectTransform::GetRectQuad() const

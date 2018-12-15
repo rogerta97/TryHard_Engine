@@ -252,12 +252,11 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 
 void UI_Label::TranslateCharactersPlanes(float3 increment)
 {	
+	
 	offset_planes[0].x += increment.x;
 
 	for (int i = 0; i < offset_planes.size(); i++)
-		offset_planes[i].y += increment.y; 	
-
-	cmp_container->TranslateEnclosedPlane(increment); 
+		offset_planes[i].y += increment.y; 		
 }
 
 void UI_Label::CreateEnclosedPlane(float3* points)

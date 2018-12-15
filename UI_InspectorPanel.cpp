@@ -321,6 +321,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
 		float show_scale[3] = { rtransform->scale_to_show.x,rtransform->scale_to_show.y, rtransform->scale_to_show.z };
+		bool move_container = false; 
 
 		ImGui::Spacing();
 		ImGui::Text("Transform:");
@@ -343,7 +344,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
 		{
 			rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
-			rtransform->edited = true;
+			move_container = true; 
 		}
 				
 
@@ -358,7 +359,6 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
 				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
-			rtransform->edited = true;
 		}
 
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
@@ -390,6 +390,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat2("Pos", show_rel_pos))
 		{
 			rtransform->SetRelativePos(float2(show_rel_pos[0], show_rel_pos[1]));
+			move_container = true; 
 		}
 			
 
@@ -437,14 +438,25 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::Columns(1);
 
-		if (rtransform->edited)
+		if (rtransform->edited || move_container)
 		{
-			rtransform->edited = false;
+			
 			ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 
 			if (cmp_text != nullptr)
 			{
-				cmp_text->SetClipping(cmp_text->GetClipping());
+				if (rtransform->edited)
+				{
+					cmp_text->SetClipping(cmp_text->GetClipping());
+					rtransform->edited = false;
+				}
+					
+				else if (move_container)
+				{				
+					cmp_text->GetLabel()->SetText(cmp_text->GetLabel()->GetText().c_str());
+					move_container = false; 
+				}
+					
 			}
 		}
 

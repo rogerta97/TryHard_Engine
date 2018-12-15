@@ -51,7 +51,6 @@ void ComponentText::Draw(bool is_editor)
 
 void ComponentText::RenderContainerPlane()
 {
-
 	App->renderer3D->UseDebugRenderSettings();
 
 	glBegin(GL_LINES);
@@ -76,6 +75,63 @@ float3 ComponentText::GetContainerPlaneCenter()
 {
 	float3 total = container_plane_vertices[0] + container_plane_vertices[1] + container_plane_vertices[2] + container_plane_vertices[3];
 	return total / 4; 
+}
+
+float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
+{
+	// 1. Get the distance that the planes should move deppending on clipping type
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+	float3 translation = { 0,0,0 };
+
+	float3 p1, p2;
+
+	switch (clipping)
+	{
+	case ClipTextType::CLIP_TOPLEFT:
+	{
+		p1 = rtransform->GetGlobalPosition() + float3({ -rtransform->width / 2, rtransform->height / 2, 0 });
+		p2 = container_plane_vertices[0];
+		translation = p1 - p2;
+	}
+
+	break;
+
+	case ClipTextType::CLIP_BOTTOMLEFT:
+	{
+		p1 = rtransform->GetGlobalPosition() + float3({ -rtransform->width / 2, -rtransform->height / 2, 0 });
+		p2 = container_plane_vertices[2];
+		translation = p1 - p2;
+	}
+
+	break;
+
+	case ClipTextType::CLIP_TOPRIGHT:
+	{
+		p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, rtransform->height / 2, 0 });
+		p2 = container_plane_vertices[1];
+		translation = p1 - p2;
+	}
+
+	break;
+
+	case ClipTextType::CLIP_BOTTOMRIGHT:
+	{
+		p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, -rtransform->height / 2, 0 });
+		p2 = container_plane_vertices[3];
+		translation = p1 - p2;
+	}
+
+	case ClipTextType::CLIP_CENTER:
+	{
+		p1 = rtransform->GetGlobalPosition();
+		p2 = GetContainerPlaneCenter();
+		translation = p1 - p2;
+	}
+
+	break;
+	}
+
+	return translation; 
 }
 
 
@@ -117,67 +173,20 @@ ClipTextType ComponentText::GetClipping() const
 void ComponentText::SetClipping(const ClipTextType new_clip)
 {
 	clipping = new_clip; 
-
-	// 1. Get the distance that the planes should move deppending on clipping type
-	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
-	float3 translation = {0,0,0};
-
-	float3 p1, p2; 
-
-	switch (clipping)
-	{
-		case ClipTextType::CLIP_TOPLEFT:
-		{
-			p1 = rtransform->GetGlobalPosition() + float3({-rtransform->width / 2, rtransform->height / 2, 0});
-			p2 = container_plane_vertices[0];
-			translation = p1 - p2;
-		}
-
-		break;
-
-		case ClipTextType::CLIP_BOTTOMLEFT:
-		{
-			p1 = rtransform->GetGlobalPosition() + float3({ -rtransform->width / 2, -rtransform->height / 2, 0 });
-			p2 = container_plane_vertices[2];
-			translation = p1 - p2;
-		}
-
-		break;
-
-		case ClipTextType::CLIP_TOPRIGHT:
-		{
-			p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, rtransform->height / 2, 0 });
-			p2 = container_plane_vertices[1];
-			translation = p1 - p2;
-		}
-
-		break;
-
-		case ClipTextType::CLIP_BOTTOMRIGHT:
-		{
-			p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, -rtransform->height / 2, 0 });
-			p2 = container_plane_vertices[3];
-			translation = p1 - p2;
-		}
-
-		case ClipTextType::CLIP_CENTER:
-		{
-			p1 = rtransform->GetGlobalPosition();
-			p2 = GetContainerPlaneCenter();
-			translation = p1 - p2;
-		}
-
-		break;
-	}
+	GetClippingDistance(new_clip);
+	float3 translation = GetClippingDistance(clipping);
 
 	// 2. Move every text plane 
 	if (translation.x != 0 || translation.y != 0)
 	{
-		if(label)
+		if (label)
+		{
+			TranslateEnclosedPlane(translation);
 			label->TranslateCharactersPlanes(translation); //Move all planes in that increment
+		}
+			
 	}		
-		
-	
+			
 }
 
 void ComponentText::TranslateEnclosedPlane(float3 increment)
@@ -186,4 +195,6 @@ void ComponentText::TranslateEnclosedPlane(float3 increment)
 	container_plane_vertices[1] += increment;
 	container_plane_vertices[2] += increment;
 	container_plane_vertices[3] += increment;
-}								
+}
+
+
