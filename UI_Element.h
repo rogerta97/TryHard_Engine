@@ -56,6 +56,6 @@ private:
 	UI_Widgget_Type wid_type;								// Type of UI element 
 	UI_Canvas* canvas;										// Canvas where the element lays
 	bool raycast;											// Make the canvas clickable
-	float canvas_percentage;								// For setting an initial size 
+	float canvas_percentage;								// For setting an initial size, representing the lenght of the top edge 
 };
 

@@ -15,7 +15,7 @@
 
 UI_Image::UI_Image(ComponentImage* container)
 {
-	SetPercentage(0.2f); 
+	SetPercentage(0.10f); 
 	CreateDrawSpace();
 	cmp_container = container; 
 

@@ -7,6 +7,7 @@
 #include "UI_ScenePanel.h"
 #include "UI_TagPanel.h"
 #include "UI_Button.h"
+#include "UI_Label.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 #include "Octree.h"
@@ -357,17 +358,24 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	// Find a parent for the new UI Element
 	GameObject* UI_parent = nullptr;
 	UI_Canvas* canvas_container = nullptr; 
+	ComponentCanvas* cmp_canvas = nullptr; 
+	ComponentRectTransform* canvas_rtransform = nullptr; 
 
-	if (force_parent != nullptr && force_parent->GetIsUI())	
-		UI_parent = force_parent; 	
+	if (force_parent != nullptr && force_parent->GetIsUI())
+	{
+		UI_parent = force_parent;
+		cmp_canvas = (ComponentCanvas*)UI_parent->GetFirstParentWith(CMP_CANVAS)->GetComponent(CMP_CANVAS); 
+		canvas_container = cmp_canvas->GetCanvas();
+	}
+		
 	else
 	{
 		UI_parent = App->user_interface->GetLastCanvas();
 
 		if (UI_parent)
 		{
-			ComponentCanvas* cnv_cmp = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
-			canvas_container = cnv_cmp->GetCanvas();
+			cmp_canvas = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
+			canvas_container = cmp_canvas->GetCanvas();
 		}
 		
 	}
@@ -383,14 +391,19 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		UI_parent = parent_canvas; 
 
-		ComponentCanvas* cnv_cmp = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
-		canvas_container = cnv_cmp->GetCanvas();
+		cmp_canvas = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
+		canvas_container = cmp_canvas->GetCanvas();
 	}
+
+	canvas_rtransform = (ComponentRectTransform*)cmp_canvas->GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
 	
 	// Create the UI Element
 	const char* name = "";
 	GameObject* new_ui_go = new GameObject("PlaceHold", true);
 	new_ui_go->SetParent(UI_parent);
+
+	// Set a RectTransform more likely for text
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
 
 	switch (widdget)
 	{
@@ -399,6 +412,10 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		new_ui_go->SetName("Image");
 		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img->GetImage()->SetCanvas(canvas_container);
+
+		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);
+		rtransform->Resize(size); 
+
 		break;
 	}
 	
@@ -416,21 +433,12 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
-		button_text = CreateUIElement(UI_LABEL, new_ui_go);
+		/*button_text = CreateUIElement(UI_LABEL, new_ui_go);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
-
-		ComponentRectTransform* parent_rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
-		ComponentRectTransform* text_rtransform = (ComponentRectTransform*)button_text->GetComponent(CMP_RECTTRANSFORM);
-		text_rtransform->Resize({ parent_rtransform->width, parent_rtransform->height });
-
-		//button_text->SetParent(new_ui_go);
-
-		//// Addapt text rect transform to parent rect transform
-		
-
-		//text_rtransform->Resize({parent_rtransform->width, parent_rtransform->height});
-
-		//text_cmp->SetClipping(ClipTextType::CLIP_CENTER); 
+*/
+		//ComponentRectTransform* parent_rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
+		//ComponentRectTransform* text_rtransform = (ComponentRectTransform*)button_text->GetComponent(CMP_RECTTRANSFORM);
+		//text_rtransform->Resize({ parent_rtransform->width, parent_rtransform->height });
 				
 		break;
 	}
@@ -438,17 +446,16 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	case UI_Widgget_Type::UI_LABEL:
 		new_ui_go->SetName("Text");
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
-		
-		// Set a RectTransform more likely for text
-		ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM); 
-		rtransform->Resize({ 160, 30 });
-		text_cmp->SetClipping(CLIP_CENTER);
+		text_cmp->GetLabel()->SetCanvas(canvas_container);
+
+		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_BUTTON);
+		rtransform->Resize(size);
+
+		text_cmp->SetClipping(CLIP_TOPLEFT); 
 
 		break;
 	}
 
-	GameObject* cmp_canv_go = UI_parent->GetFirstParentWith(CMP_CANVAS);
-	ComponentCanvas* cmp_canvas = (ComponentCanvas*)cmp_canv_go->GetComponent(CMP_CANVAS);
 	cmp_canvas->AddElement(new_ui_go);
 
 	new_ui_go->Start();

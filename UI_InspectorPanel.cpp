@@ -488,6 +488,7 @@ void UI_InspectorPanel::PrintTextProperties()
 		
 		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))
 		{
+			if (cmp_text->GetLabel()->text_size < 1) cmp_text->GetLabel()->text_size = 1; 
 			cmp_text->GetLabel()->ResizeFont(); 
 		}
 

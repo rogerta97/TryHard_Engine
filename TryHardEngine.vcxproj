@@ -124,6 +124,7 @@
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentText.h" />
+    <ClInclude Include="ComponentTextInput.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DebugDraw.h" />
@@ -253,6 +254,7 @@
     <ClInclude Include="UICallbackSystem.h" />
     <ClInclude Include="UI_Button.h" />
     <ClInclude Include="UI_Canvas.h" />
+    <ClInclude Include="UI_CheckBox.h" />
     <ClInclude Include="UI_ClocksPanel.h" />
     <ClInclude Include="UI_ConfigurationPanel.h" />
     <ClInclude Include="UI_ConsolePanel.h" />
@@ -270,6 +272,7 @@
     <ClInclude Include="UI_RandomNumberPanel.h" />
     <ClInclude Include="UI_ScenePanel.h" />
     <ClInclude Include="UI_TagPanel.h" />
+    <ClInclude Include="UI_TextInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -284,6 +287,7 @@
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentText.cpp" />
+    <ClCompile Include="ComponentTextInput.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
@@ -367,6 +371,7 @@
     <ClCompile Include="UICallbackSystem.cpp" />
     <ClCompile Include="UI_Button.cpp" />
     <ClCompile Include="UI_Canvas.cpp" />
+    <ClCompile Include="UI_CheckBox.cpp" />
     <ClCompile Include="UI_Clocks.cpp" />
     <ClCompile Include="UI_ConfigurationPanel.cpp" />
     <ClCompile Include="UI_ConsolePanel.cpp" />
@@ -383,6 +388,7 @@
     <ClCompile Include="UI_RandomNumberPanel.cpp" />
     <ClCompile Include="UI_ScenePanel.cpp" />
     <ClCompile Include="UI_TagPanel.cpp" />
+    <ClCompile Include="UI_TextInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assimp\include\color4.inl" />

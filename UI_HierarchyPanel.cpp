@@ -128,6 +128,38 @@ bool UI_HierarchyPanel::Update()
 				App->scene->GetSelectedGameObject()->SaveAsPrefab(); 				
 			}
 
+			if (App->scene->GetSelectedGameObject()->GetIsUI() == true)
+			{
+				if (ImGui::BeginMenu("Create Child UI"))
+				{
+					ImGui::MenuItem("Image");
+
+					if (ImGui::IsItemClicked())
+					{
+						App->scene->CreateUIElement(UI_IMAGE, App->scene->GetSelectedGameObject());
+					}
+
+
+					ImGui::MenuItem("Button");
+
+					if (ImGui::IsItemClicked())
+					{
+						App->scene->CreateUIElement(UI_BUTTON, App->scene->GetSelectedGameObject());
+					}
+
+
+					ImGui::MenuItem("Text");
+
+					if (ImGui::IsItemClicked())
+					{
+						App->scene->CreateUIElement(UI_LABEL, App->scene->GetSelectedGameObject());
+					}
+
+					ImGui::EndMenu();
+				}
+			
+			}
+
 			if (ImGui::IsMouseClicked(0) && !ImGui::IsWindowHovered())
 				App->imgui->hierarchy_panel->show_click_menu = false;
 
@@ -170,17 +202,17 @@ bool UI_HierarchyPanel::Update()
 				{
 					GameObject* img = App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
 
-					// Addapt size
-					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
-					rtransform->Resize({ 50, 50 });
+					//// Addapt size
+					//ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM); 
+					//rtransform->Resize({ 50, 50 });
 					
 				}
 								
 				ImGui::MenuItem("Button");
 				if (ImGui::IsItemClicked())
 				{
-					GameObject* img = App->scene->CreateUIElement(UI_BUTTON);  //Create the element specified to the last canvas 
-																	  //Force scale 
+					GameObject* img = App->scene->CreateUIElement(UI_BUTTON);  //Create the element specified to the last canvas //Force scale 
+																							 
 					ComponentRectTransform* rtransform = (ComponentRectTransform*)img->GetComponent(CMP_RECTTRANSFORM);
 					rtransform->Resize({ 50, 50 });
 				}

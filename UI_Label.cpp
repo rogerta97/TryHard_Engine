@@ -17,6 +17,7 @@ UI_Label::UI_Label(ComponentText* cmp_text)
 	cmp_container = cmp_text; 
 	SetFont("Funny");
 	text_size = font.size;
+	SetPercentage(0.20f); 
 	color = { 0,0,0 }; 
 }
 

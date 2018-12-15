@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Transform.h"
 #include "SDL\include\SDL_rect.h"
+#include "UI_Element.h"
 
 #include "ComponentTransform.h"
 #include "MathGeoLib\MathGeoLib.h"
@@ -35,11 +36,12 @@ public:
 
 	float3 GetGlobalPosition(); 
 
-	void AddaptRectToScreenSize();			// Will be use in case a canvas is added
-	void CreateRectQuad();					// Will create the quad of the Rect
-	void DrawRectFrame();					// Will create the quad of the Rect
-	void DebugDrawRectSize();				// The difference is that this rect is to debug the width and height
-	void Resize(float2 new_size);			// Will resize the rectangle at the values sended
+	void AddaptRectToScreenSize();										// Will be use in case a canvas is added
+	void CreateRectQuad();												// Will create the quad of the Rect
+	void DrawRectFrame();												// Will create the quad of the Rect
+	void DebugDrawRectSize();											// The difference is that this rect is to debug the width and height
+	void Resize(float2 new_size);										// Will resize the rectangle at the values sended
+	float2 GetSizeFromPercentage(float value, UI_Widgget_Type type);	// Returns the size of the percentage sended. ex. 0.2 would output the 20%
 
 	float2 GetRelativePos() const;
 	void SetRelativePos(float2 new_pos);

@@ -216,13 +216,26 @@ void ComponentRectTransform::Resize(float2 new_size)
 	height = new_size.y;
 
 	// Set a proper canvas position
-	if(gameobject->GetComponent(CMP_CANVAS) != nullptr)
+	if (gameobject->GetComponent(CMP_CANVAS) != nullptr)
 		GetTransform()->SetPosition({ half_size.x, half_size.y, 0 });
 
 	// Addapt plane components if needed
 	for (auto it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
 		(*it)->FitToRect();	
 
+}
+
+float2 ComponentRectTransform::GetSizeFromPercentage(float value, UI_Widgget_Type type)
+{
+	float2 ret_size; 
+
+	ret_size.x = width * value; 
+	ret_size.y = width * value;
+
+	if(type == UI_Widgget_Type::UI_BUTTON)
+		ret_size.y = ret_size.x * 0.25f;
+
+	return ret_size;
 }
 
 float2 ComponentRectTransform::GetRelativePos() const
@@ -272,7 +285,7 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
 		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
 
-		transform_part->SetPosition(real_pos);
+		//transform_part->SetPosition(real_pos);
 	}
 
 }

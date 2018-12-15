@@ -666,6 +666,15 @@
     <ClInclude Include="UICallbackSystem.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="UI_CheckBox.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TextInput.h">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTextInput.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -1000,6 +1009,15 @@
     </ClCompile>
     <ClCompile Include="UICallbackSystem.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_CheckBox.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TextInput.cpp">
+      <Filter>Sources\UI\UI_Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTextInput.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
