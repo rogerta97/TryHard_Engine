@@ -232,7 +232,7 @@ float2 ComponentRectTransform::GetSizeFromPercentage(float value, UI_Widgget_Typ
 	ret_size.x = width * value; 
 	ret_size.y = width * value;
 
-	if(type == UI_Widgget_Type::UI_BUTTON)
+	if(type == UI_Widgget_Type::UI_LABEL || type == UI_Widgget_Type::UI_INPUTFIELD)
 		ret_size.y = ret_size.x * 0.25f;
 
 	return ret_size;

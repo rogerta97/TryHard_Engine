@@ -446,12 +446,27 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_BUTTON);
+		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
 		text_cmp->SetClipping(CLIP_TOPLEFT); 
 
 		break;
+
+
+	//case UI_Widgget_Type::UI_INPUTFIELD:
+
+	//	new_ui_go->SetName("Input Field");
+
+	//	ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
+	//	img_cmp->GetImage()->SetCanvas(canvas_container);
+
+	//	float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
+	//	rtransform->Resize(size);
+
+	//	text_cmp->SetClipping(CLIP_TOPLEFT);
+
+	//	break;
 	}
 
 	cmp_canvas->AddElement(new_ui_go);

@@ -208,6 +208,10 @@ bool UI_HierarchyPanel::Update()
 				ImGui::MenuItem("Text");
 				if (ImGui::IsItemClicked())
 					App->scene->CreateUIElement(UI_LABEL);
+
+				ImGui::MenuItem("Input Field");
+				if (ImGui::IsItemClicked())
+					App->scene->CreateUIElement(UI_INPUTFIELD);
 				
 				ImGui::EndMenu();
 			}
