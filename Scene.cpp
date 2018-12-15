@@ -431,6 +431,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
+		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);
+		rtransform->Resize(size);
+
 		button_text = CreateUIElement(UI_LABEL, new_ui_go);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
