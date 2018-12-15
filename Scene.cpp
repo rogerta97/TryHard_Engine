@@ -419,8 +419,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		break;
 	}
 	
-		
-
 	case UI_Widgget_Type::UI_BUTTON:
 	{
 		// Create the text of the button as child
@@ -433,13 +431,10 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
-		/*button_text = CreateUIElement(UI_LABEL, new_ui_go);
+		button_text = CreateUIElement(UI_LABEL, new_ui_go);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
-*/
-		//ComponentRectTransform* parent_rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
-		//ComponentRectTransform* text_rtransform = (ComponentRectTransform*)button_text->GetComponent(CMP_RECTTRANSFORM);
-		//text_rtransform->Resize({ parent_rtransform->width, parent_rtransform->height });
-				
+		button_cmp->GetButton()->SetCanvas(canvas_container);
+			
 		break;
 	}
 		

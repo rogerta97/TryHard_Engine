@@ -91,7 +91,6 @@ void GameObject::Draw(bool is_editor)
 	if (!active)
 		return; 
 
-
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		(*it)->Draw(is_editor);

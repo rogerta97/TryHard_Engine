@@ -38,7 +38,7 @@ bool ComponentCanvas::CleanUp()
 
 void ComponentCanvas::Draw(bool is_editor)
 {
-	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
+	for (auto it = canvas->elements_in_canvas.rbegin(); it != canvas->elements_in_canvas.rend(); it++)
 	{
 		(*it)->Draw(is_editor);
 	}

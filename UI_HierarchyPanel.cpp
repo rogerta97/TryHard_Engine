@@ -128,7 +128,7 @@ bool UI_HierarchyPanel::Update()
 				App->scene->GetSelectedGameObject()->SaveAsPrefab(); 				
 			}
 
-			if (App->scene->GetSelectedGameObject()->GetIsUI() == true)
+			if (App->scene->GetSelectedGameObject() != nullptr && App->scene->GetSelectedGameObject()->GetIsUI() == true)
 			{
 				if (ImGui::BeginMenu("Create Child UI"))
 				{

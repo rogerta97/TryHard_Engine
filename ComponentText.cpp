@@ -35,6 +35,11 @@ bool ComponentText::Update()
 
 bool ComponentText::CleanUp()
 {
+	UI_Canvas* canvas_container = label->GetCanvas();
+	canvas_container->DeleteElementByUID(gameobject->unique_id);
+
+	delete label; 
+
 	return false;
 }
 
