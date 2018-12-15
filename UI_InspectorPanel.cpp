@@ -316,8 +316,6 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 {
 	if (ImGui::CollapsingHeader("Rect Transform"))
 	{
-		bool edited = false; 
-
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
 
 		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
@@ -345,7 +343,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
 		{
 			rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
-			edited = true; 
+			rtransform->edited = true;
 		}
 				
 
@@ -360,7 +358,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
 				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
-			edited = true; 
+			rtransform->edited = true;
 		}
 
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
@@ -371,14 +369,14 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat("Width", &rtransform->width))
 		{
 			rtransform->Resize({ rtransform->width, rtransform->height });
-			edited = true; 
+			rtransform->edited = true;
 		}
 			
 
 		if (ImGui::DragFloat("Height", &rtransform->height))
 		{
 			rtransform->Resize({ rtransform->width, rtransform->height });
-			edited = true; 
+			rtransform->edited = true;
 		}
 			
 
@@ -390,7 +388,10 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		float show_rel_pos[2] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y };
 
 		if (ImGui::DragFloat2("Pos", show_rel_pos))
-			rtransform->SetRelativePos(float2(show_rel_pos[0],show_rel_pos[1]));
+		{
+			rtransform->SetRelativePos(float2(show_rel_pos[0], show_rel_pos[1]));
+		}
+			
 
 		ImGui::Text("Anchors:");
 		ImGui::Separator();
@@ -436,9 +437,9 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::Columns(1);
 
-		if (edited)
+		if (rtransform->edited)
 		{
-			edited = false;
+			rtransform->edited = false;
 			ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 
 			if (cmp_text != nullptr)
@@ -485,7 +486,7 @@ void UI_InspectorPanel::PrintTextProperties()
 		//Clipping
 		int curr_type = cmp_text->GetClipping(); 
 
-		if (ImGui::Combo("Clipping", &curr_type, "TOP LEFT\0BOTTOM_LEFT\0TOP_RIGHT\0BOTTOM_RIGHT\0"))
+		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Bottom Left\0Top Right\0Bottom Right\0Center\0"))
 		{
 			cmp_text->SetClipping((ClipTextType)curr_type); 
 		}

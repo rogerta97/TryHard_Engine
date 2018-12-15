@@ -46,6 +46,7 @@ public:
 
 	Mesh* GetRectQuad() const; 
 	ComponentMesh* GetRectQuadComponent() const;
+	float2 GetSize() const; 
 
 	void UpdateRectWithAnchors();
 
@@ -53,6 +54,8 @@ public:
 	bool GetClosestIntersectionPointForGame(LineSegment line, float3 &closest_point, float & distance);
 
 	// ----------------------
+
+	void FitToParentRect();
 
 	// Set & Get ------------
 
@@ -65,6 +68,7 @@ public:
 
 	float width, height;
 	float3 scale_to_show; 
+	bool edited = false;
 
 private:
 
@@ -76,6 +80,7 @@ private:
 	float2 relative_pos;
 
 	ComponentRectTransform* parent;
+	
 };
 
 

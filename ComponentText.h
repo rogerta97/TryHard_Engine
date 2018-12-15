@@ -10,6 +10,7 @@ enum ClipTextType
 	CLIP_BOTTOMLEFT,
 	CLIP_TOPRIGHT,
 	CLIP_BOTTOMRIGHT,
+	CLIP_CENTER,
 	CLIP_NONE, 
 };
 
@@ -46,6 +47,7 @@ public:
 	void TranslateEnclosedPlane(float3 increment);
 	void UpdateContainerPlane();
 	void RenderContainerPlane(); 
+	float3 GetContainerPlaneCenter();
 
 	// Wrapping --------------------
 

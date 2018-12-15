@@ -406,6 +406,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 	case UI_Widgget_Type::UI_BUTTON:
 	{
+		// Create the text of the button as child
+		GameObject* button_text = nullptr;
 		new_ui_go->SetName("Button");
 
 		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
@@ -414,6 +416,22 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
+		button_text = CreateUIElement(UI_LABEL, new_ui_go);
+		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
+
+		ComponentRectTransform* parent_rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
+		ComponentRectTransform* text_rtransform = (ComponentRectTransform*)button_text->GetComponent(CMP_RECTTRANSFORM);
+		text_rtransform->Resize({ parent_rtransform->width, parent_rtransform->height });
+
+		//button_text->SetParent(new_ui_go);
+
+		//// Addapt text rect transform to parent rect transform
+		
+
+		//text_rtransform->Resize({parent_rtransform->width, parent_rtransform->height});
+
+		//text_cmp->SetClipping(ClipTextType::CLIP_CENTER); 
+				
 		break;
 	}
 		
@@ -424,15 +442,14 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// Set a RectTransform more likely for text
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM); 
 		rtransform->Resize({ 160, 30 });
-		text_cmp->SetClipping(CLIP_TOPLEFT);
+		text_cmp->SetClipping(CLIP_CENTER);
 
 		break;
 	}
 
-	
-
-	ComponentCanvas* cmp_canv = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS); 
-	cmp_canv->AddElement(new_ui_go);
+	GameObject* cmp_canv_go = UI_parent->GetFirstParentWith(CMP_CANVAS);
+	ComponentCanvas* cmp_canvas = (ComponentCanvas*)cmp_canv_go->GetComponent(CMP_CANVAS);
+	cmp_canvas->AddElement(new_ui_go);
 
 	new_ui_go->Start();
 	AddGameObjectToScene(new_ui_go); 

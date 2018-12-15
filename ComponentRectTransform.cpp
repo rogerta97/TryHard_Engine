@@ -32,7 +32,6 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	CreateRectQuad();
 	Resize({ 1,1 });
-
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -237,6 +236,7 @@ void ComponentRectTransform::SetRelativePos(float2 new_pos)
 
 	ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 
+	edited = true; 
 }
 
 Mesh * ComponentRectTransform::GetRectQuad() const
@@ -392,6 +392,17 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 	//if (ret)
 	//	CONSOLE_LOG("x:%f, y:%f, z:%f distance:%f", closest_point.x, closest_point.y, closest_point.z, closest_distance);
 	return ret;
+}
+
+void ComponentRectTransform::FitToParentRect()
+{
+	float2 parent_size = parent->GetSize(); 
+	Resize(parent_size);
+}
+
+float2 ComponentRectTransform::GetSize() const
+{
+	return {width, height};
 }
 
 ComponentTransform* ComponentRectTransform::GetTransform()

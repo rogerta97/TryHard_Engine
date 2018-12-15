@@ -57,6 +57,7 @@ void UI_Label::RenderText()
 	//Wrapping
 	int current_line = 0; 
 	float line_distance = 0; 
+	float init_offset = offset_planes[0].x; 
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
@@ -98,18 +99,20 @@ void UI_Label::RenderText()
 		if (counter == text_planes.size() - 1)		
 			line_distance += curr_caracter->Size.x / 2.0f;
 			
-		if (line_distance >= rtransform->width)
+		if (line_distance > rtransform->width)
 		{
-			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter) == false)
+			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter, init_offset) == false)
 				return; 
 
 			line_distance = 0; 	
 		}
 
+		// Estaves fent que el rectangle vermell e smogies amb el recttransform
+
 		increment.SetTranslatePart(cursor);
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf((GLfloat*)(((increment)* trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+		glLoadMatrixf((GLfloat*)(((trans->GetGlobalViewMatrix() * increment).Transposed() * view_mat).v));
 
 		glBindBuffer(GL_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->vertices_id);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -219,15 +222,24 @@ void UI_Label::ResizeFont()
 	SetText(text.c_str());
 }
 
-bool UI_Label::ControlNewLine(float3& cursor, const std::vector<float3> offset_planes, const ClipTextType clipping_type, int& current_line, const int counter)
+bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const int init_offset)
 {
 
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+
+	float total_x_ammount_center = 0; 
 
 	current_line++;
 	if (clipping_type == ClipTextType::CLIP_TOPLEFT || clipping_type == ClipTextType::CLIP_TOPRIGHT)
 	{
 		cursor.x = offset_planes[0].x; 
+		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
+	}
+	else if (clipping_type == ClipTextType::CLIP_CENTER)
+	{
+		total_x_ammount_center = offset_planes[counter].x;
+
+		cursor.x = -total_x_ammount_center;
 		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
 	}
 

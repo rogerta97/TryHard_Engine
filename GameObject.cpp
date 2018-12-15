@@ -100,7 +100,7 @@ void GameObject::Draw(bool is_editor)
 
 GameObject * GameObject::GetFirstParentWith(CompType type)
 {
-	GameObject* to_ret = GetParent(); 
+	GameObject* to_ret = this; 
 
 	while (to_ret->GetComponent(CMP_CANVAS) == nullptr)
 		to_ret = to_ret->GetParent();

@@ -72,6 +72,12 @@ void ComponentText::RenderContainerPlane()
 	glEnd();
 }
 
+float3 ComponentText::GetContainerPlaneCenter()
+{
+	float3 total = container_plane_vertices[0] + container_plane_vertices[1] + container_plane_vertices[2] + container_plane_vertices[3];
+	return total / 4; 
+}
+
 
 UI_Label * ComponentText::GetLabel() const
 {
@@ -151,6 +157,13 @@ void ComponentText::SetClipping(const ClipTextType new_clip)
 		{
 			p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, -rtransform->height / 2, 0 });
 			p2 = container_plane_vertices[3];
+			translation = p1 - p2;
+		}
+
+		case ClipTextType::CLIP_CENTER:
+		{
+			p1 = rtransform->GetGlobalPosition();
+			p2 = GetContainerPlaneCenter();
 			translation = p1 - p2;
 		}
 
