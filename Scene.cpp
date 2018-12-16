@@ -477,6 +477,21 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
 		rtransform->Resize(size);
 
+		//Create 2 text childs 
+		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go); 
+		placeholder_text_go->SetName("PlaceHolder");
+
+		ComponentText* text_cmp = nullptr; 
+		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
+		text_cmp->SetClipping(CLIP_MIDDLELEFT); 
+
+		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go);
+
+		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
+		text_cmp->SetClipping(CLIP_MIDDLELEFT);
+		text_cmp->GetLabel()->SetText("");
+		
+
 		break;
 	}
 	

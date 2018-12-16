@@ -133,6 +133,15 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 		translation = p1 - p2;
 	}
 
+
+	case ClipTextType::CLIP_MIDDLELEFT:
+	{
+		p1 = rtransform->GetGlobalPosition() - float3(rtransform->width / 2.0f, 0,0);
+		float container_width = float3(container_plane_vertices[1] - container_plane_vertices[0]).Length(); 
+		p2 = GetContainerPlaneCenter() - float3({container_width / 2.0f, 0, 0});
+		translation = p1 - p2;
+	}
+
 	break;
 	}
 

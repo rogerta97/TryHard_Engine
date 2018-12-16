@@ -41,7 +41,8 @@ void UI_Label::CleanUp()
 
 void UI_Label::Draw(bool is_editor)
 {
-	RenderText(); 
+	if(text != "")
+		RenderText(); 
 }
 
 void UI_Label::RenderText()
@@ -200,7 +201,8 @@ void UI_Label::SetText(const char * new_text)
 	text_planes.clear();
 	FillTextPlanes();
 	
-	UpdateContainerPlane(); 
+	if(text != "")
+		UpdateContainerPlane(); 
 }
 
 void UI_Label::SetFont(string font_name)

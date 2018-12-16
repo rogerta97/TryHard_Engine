@@ -505,7 +505,7 @@ void UI_InspectorPanel::PrintTextProperties()
 		//Clipping
 		int curr_type = cmp_text->GetClipping(); 
 
-		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Bottom Left\0Top Right\0Bottom Right\0Center\0"))
+		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Bottom Left\0Top Right\0Bottom Right\0Center\0Middle Left"))
 		{
 			cmp_text->SetClipping((ClipTextType)curr_type); 
 		}
@@ -618,14 +618,10 @@ void UI_InspectorPanel::PrintInputFieldProperties()
 		GameObject* place_holder_go = input_cmp->GetInputField()->GetPlaceHolderText();
 		ImGui::Text("PlaceHolder: "); ImGui::SameLine();
 
-		ImGui::Columns(0);
-
 		if (place_holder_go != nullptr)
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName()); 
 		else
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
-
-		ImGui::Columns(1);
 
 		GameObject* text_go = input_cmp->GetInputField()->GetShowText();
 		ImGui::Text("Text: "); ImGui::SameLine();

@@ -289,7 +289,7 @@ void ModuleRenderer3D::UseUIRenderSettings(bool game_scene)
 	glColor3f(1,1,1);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
 }
 
