@@ -53,6 +53,12 @@ public:
 
 	// Wrapping --------------------
 
+	float2 GetSection() const;
+	void SetSection(const float2 new_section); 
+
+	void MoveSectionForward();
+	void MovesectionBackward();
+
 	horizontalTextOverflow GetHorizontalOverflow() const;
 	void SetHorizontalOverflow(const horizontalTextOverflow new_ov);
 
@@ -67,6 +73,8 @@ private:
 	horizontalTextOverflow horizontal_overflow = HORIZONTAL_OVERFLOW;	// Horizontal text wrapping
 	verticalTextOverflow vertical_overflow = VERTICAL_OVERFLOW;			// vertical text wrapping	
 	
+	float2 text_origin; 
+	float2 section;														// Section of the text that will be rendered (normally used for text input)
 	UI_Label * label;
 	float3 draw_color; 
 	ClipTextType clipping = ClipTextType::CLIP_BOTTOMLEFT; 

@@ -451,6 +451,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		new_ui_go->SetName("Text");
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
+		text_cmp->SetSection({ 0, 2 }); 
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);

@@ -47,22 +47,36 @@ void UI_Label::Draw(bool is_editor)
 
 void UI_Label::RenderText()
 {
+	bool draw_section = false; 
+
+	if (section.x != -1 && section.y != -1)
+		draw_section = true; 
+
 	App->renderer3D->UseCurrentRenderSettings();
 
 	// Render the rectangle 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	float3 cursor = { 0,0,0 };
+	float3 cursor = float3(text_origin.x, text_origin.y, 0);
 	int counter = 0;
+	int letters_drawn = 0; 
 
 	//Wrapping
 	int current_line = 0; 
 	float line_distance = 0; 
-	float init_offset = offset_planes[0].x; 
+	float init_offset = text_origin.x; 
+
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_UP)
+		section += {1, 1}; 
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
+		if (draw_section && (counter < section.x || counter > section.y))
+			continue;
+		else
+			letters_drawn++; 
+
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 		ComponentTransform* trans = rtransform->GetTransform();
 
@@ -91,10 +105,15 @@ void UI_Label::RenderText()
 		}
 
 		cursor.x += offset_planes[counter].x;
-		cursor.y = offset_planes[counter].y + -current_line*cmp_container->line_spacing;
+		cursor.y = text_origin.y + offset_planes[counter].y + -current_line*cmp_container->line_spacing;
 
-		if(counter == 0 )
+		if (draw_section && letters_drawn == 1)
+			cursor.x -= offset_planes[counter].x;
+
+		if (counter == 0)
+		{
 			line_distance = curr_caracter->Size.x / 2.0f;
+		}		
 		else
 			line_distance += offset_planes[counter].x;
 				
@@ -108,8 +127,6 @@ void UI_Label::RenderText()
 
 			line_distance = 0; 	
 		}
-
-		// Estaves fent que el rectangle vermell e smogies amb el recttransform
 
 		increment.SetTranslatePart(cursor);
 
@@ -159,18 +176,19 @@ void UI_Label::FillTextPlanes()
 		else
 			distancex = curr_character->Advance / 2.0f + curr_character->Size.x / 2.0f;
 
-		if (counter == 0)
-			distancex = 0; 
-
 		//Y offset
 		float size = (float)curr_character->Size.y;
 		float bearingy = (float)curr_character->Bearing.y;
 		float center_to_origin = (curr_character->Size.y / 2);
 		distancey = -(size - bearingy) + center_to_origin;
 
+		if (counter == 0)
+		{
+			distancex = 0;
+		}
+			
 		offset_planes.push_back({ distancex, distancey, 0 });
-	}
-	
+	}		
 }
 
 void UI_Label::CreateCharacterPlane(const char * character, float3 position)
@@ -195,10 +213,26 @@ string UI_Label::GetText() const
 	return text;
 }
 
+float2 UI_Label::GetOrigin() const
+{
+	return text_origin;
+}
+
+void UI_Label::SetOrigin(const float2 new_origin)
+{
+	text_origin = new_origin;
+}
+
+void UI_Label::TranslateOrigin(float2 increment)
+{
+	text_origin += increment;
+}
+
 void UI_Label::SetText(const char * new_text)
 {
 	text = new_text; 
 	text_planes.clear();
+
 	FillTextPlanes();
 	
 	if(text != "")
@@ -251,15 +285,6 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 
 	return true; 
 
-}
-
-void UI_Label::TranslateCharactersPlanes(float3 increment)
-{	
-	
-	offset_planes[0].x += increment.x;
-
-	for (int i = 0; i < offset_planes.size(); i++)
-		offset_planes[i].y += increment.y; 		
 }
 
 void UI_Label::CreateEnclosedPlane(float3* points)

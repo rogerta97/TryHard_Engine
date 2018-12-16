@@ -149,6 +149,8 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 }
 
 
+
+
 UI_Label * ComponentText::GetLabel() const
 {
 	return label;
@@ -157,6 +159,26 @@ UI_Label * ComponentText::GetLabel() const
 void ComponentText::UpdateContainerPlane()
 {
 
+}
+
+float2 ComponentText::GetSection() const
+{
+	return label->section;
+}
+
+void ComponentText::SetSection(const float2 new_section)
+{
+	label->section = new_section; 
+}
+
+void ComponentText::MoveSectionForward()
+{
+	section += {1, 1}; 
+}
+
+void ComponentText::MovesectionBackward()
+{
+	section += {-1, -1};
 }
 
 horizontalTextOverflow ComponentText::GetHorizontalOverflow() const
@@ -187,19 +209,11 @@ ClipTextType ComponentText::GetClipping() const
 void ComponentText::SetClipping(const ClipTextType new_clip)
 {
 	clipping = new_clip; 
-	GetClippingDistance(new_clip);
 	float3 translation = GetClippingDistance(clipping);
 
 	// 2. Move every text plane 
-	if (translation.x != 0 || translation.y != 0)
-	{
-		if (label)
-		{
-			TranslateEnclosedPlane(translation);
-			label->TranslateCharactersPlanes(translation); //Move all planes in that increment
-		}
-			
-	}		
+	if (label && translation.x != 0 || translation.y != 0)
+			TranslateEnclosedPlane(translation);			
 			
 }
 
@@ -209,6 +223,8 @@ void ComponentText::TranslateEnclosedPlane(float3 increment)
 	container_plane_vertices[1] += increment;
 	container_plane_vertices[2] += increment;
 	container_plane_vertices[3] += increment;
+
+	label->TranslateOrigin(float2(increment.x, increment.y)); 
 }
 
 

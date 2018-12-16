@@ -155,23 +155,23 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 			App->renderer3D->UseDebugRenderSettings(); 			
 		}
 		
-		{
-			LineSegment curr_line;
+		//{
+		//	LineSegment curr_line;
 
-			glBegin(GL_LINES);
-			App->renderer3D->UseDebugRenderSettings();
-			glColor3f(1.0f, 0.0f, 0.0f);
+		//	glBegin(GL_LINES);
+		//	App->renderer3D->UseDebugRenderSettings();
+		//	glColor3f(1.0f, 0.0f, 0.0f);
 
-			for (int i = 0; i < 12; i++)
-			{
-				curr_line = ui_render_box.Edge(i);
+		//	for (int i = 0; i < 12; i++)
+		//	{
+		//		curr_line = ui_render_box.Edge(i);
 
-				glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
-				glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
-			}
+		//		glVertex3f(curr_line.a.x, curr_line.a.y, curr_line.a.z);
+		//		glVertex3f(curr_line.b.x, curr_line.b.y, curr_line.b.z);
+		//	}
 
-			glEnd();
-		}
+		//	glEnd();
+		//}
 	
 		App->renderer3D->UseUIRenderSettings();
 		(*it)->Draw(editor_cam);

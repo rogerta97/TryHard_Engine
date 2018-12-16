@@ -28,10 +28,14 @@ public:
 	void Update();
 	void CleanUp();
 	void Draw(bool is_editor);
-	void RenderText(); 
+	void RenderText();
 
 	void FillTextPlanes();												// Create the UI images with each corresponding size and texture following 'text'
 	void CreateCharacterPlane(const char* character, float3 position);	// Creates the plane of a letter 
+
+	float2 GetOrigin() const;
+	void SetOrigin(const float2 new_origin);
+	void TranslateOrigin(float2 increment);
 
 	ComponentText* cmp_container; 
 	float3 color;
@@ -43,8 +47,6 @@ public:
 	void ResizeFont(); 
 	bool ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const int init_offset);												// Will cut the text and start to render in the line below if needed. 
 
-	void TranslateCharactersPlanes(float3 increment);					// Translate the text
-
 	// Create container plane helpers
 	void CreateEnclosedPlane(float3* points);							// Update Enclosed Plane (Delete and create a new one)
 	float3 GetValueFromRenderedText(const char* point);					// Get highest/lowest x/y from the rendered text in world space
@@ -53,13 +55,14 @@ public:
 
 	GameObject* GetParentGameObject(); 
 
-	int text_size;
-	
+	int text_size = 0;
+	float2 section = {-1,-1};
 
 private: 								
 	string text;
 	Font font;
 
+	float2 text_origin = {0,0};
 	std::list<UI_Image*> text_planes; 
 	std::vector<float3> offset_planes; 
 };

@@ -88,6 +88,12 @@
     <Filter Include="Sources\3rd Partys\FreeType">
       <UniqueIdentifier>{ab0007c4-dcd9-422a-9967-5e20eaa0d0db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObject\Components\UIComponents">
+      <UniqueIdentifier>{890b2a17-ea49-422e-bce1-7e203dedb707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject\Components\Components">
+      <UniqueIdentifier>{39dc6191-147d-43db-a6bd-efabe273b698}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -179,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Sources\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentTransform.h">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="PCGRandom\pcg_basic.h">
       <Filter>Sources\3rd Partys\PCGRandom</Filter>
@@ -312,12 +315,6 @@
     <ClInclude Include="Assimp\include\version.h">
       <Filter>Sources\3rd Partys\Assimp</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentMesh.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentMaterial.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Devil\include\devil_cpp_wrapper.hpp">
       <Filter>Sources\3rd Partys\Devil</Filter>
     </ClInclude>
@@ -362,9 +359,6 @@
     </ClInclude>
     <ClInclude Include="mmgr\nommgr.h">
       <Filter>Sources\3rd Partys\mmgr</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentCamera.h">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>Sources\Tools</Filter>
@@ -612,12 +606,6 @@
     <ClInclude Include="ModuleUserInterface.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentCanvas.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentRectTransform.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Image.h">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClInclude>
@@ -627,26 +615,14 @@
     <ClInclude Include="UI_Canvas.h">
       <Filter>Sources\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentImage.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentCanvasScaler.h">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Button.h">
       <Filter>Sources\UI\UI_Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentButton.h">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="UI_Plane.h">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Label.h">
       <Filter>Sources\UI\UI_Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentText.h">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="FreeType\include\ft2build.h">
       <Filter>Sources\3rd Partys\FreeType</Filter>
@@ -672,8 +648,38 @@
     <ClInclude Include="UI_TextInput.h">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentButton.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCanvas.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentImage.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentText.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
     <ClInclude Include="ComponentTextInput.h">
-      <Filter>Sources\GameObject\Components</Filter>
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentRectTransform.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCamera.h">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCanvasScaler.h">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Sources\GameObject\Components\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -746,12 +752,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Sources\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentMesh.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentTransform.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="PCGRandom\pcg_basic.c">
       <Filter>Sources\3rd Partys\PCGRandom</Filter>
     </ClCompile>
@@ -776,9 +776,6 @@
     <ClCompile Include="UI_PerformancePanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentMaterial.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="UI_HierarchyPanel.cpp">
       <Filter>Sources\UI_Editor\UI_Panels</Filter>
     </ClCompile>
@@ -793,9 +790,6 @@
     </ClCompile>
     <ClCompile Include="mmgr\mmgr.cpp">
       <Filter>Sources\3rd Partys\mmgr</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentCamera.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
       <Filter>Sources\Main</Filter>
@@ -965,12 +959,6 @@
     <ClCompile Include="ModuleUserInterface.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentCanvas.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentRectTransform.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Image.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClCompile>
@@ -980,26 +968,14 @@
     <ClCompile Include="UI_Canvas.cpp">
       <Filter>Sources\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentImage.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentCanvasScaler.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Button.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentButton.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="UI_Plane.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Label.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentText.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
@@ -1016,8 +992,38 @@
     <ClCompile Include="UI_TextInput.cpp">
       <Filter>Sources\UI\UI_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentButton.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvas.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentImage.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentText.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
     <ClCompile Include="ComponentTextInput.cpp">
-      <Filter>Sources\GameObject\Components</Filter>
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentRectTransform.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCamera.cpp">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvasScaler.cpp">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Sources\GameObject\Components\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
