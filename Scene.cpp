@@ -491,7 +491,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
 		text_cmp->GetLabel()->SetText("");
 		
-
 		break;
 	}
 	
