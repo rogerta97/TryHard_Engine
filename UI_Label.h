@@ -51,6 +51,8 @@ public:
 	float3 GetContainerPlanePoint(ClipTextType clipping);				// Get the clipping point in world space 
 	void UpdateContainerPlane();										// Fits the container plane to the text, and clip it 
 
+	GameObject* GetParentGameObject(); 
+
 	int text_size;
 	
 

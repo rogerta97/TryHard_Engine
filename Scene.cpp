@@ -8,6 +8,7 @@
 #include "UI_TagPanel.h"
 #include "UI_Button.h"
 #include "UI_Label.h"
+#include "UI_TextInput.h"
 #include "Primitive.h"
 #include "OpenGL.h"
 #include "Octree.h"
@@ -20,6 +21,7 @@
 #include "ComponentText.h"
 #include "ComponentImage.h"
 #include "ComponentCanvas.h"
+#include "ComponentTextInput.h"
 #include "ComponentRectTransform.h"
 #include "ImGuizmo/ImGuizmo.h"
 
@@ -420,6 +422,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	}
 	
 	case UI_Widgget_Type::UI_BUTTON:
+	
 	{
 		// Create the text of the button as child
 		GameObject* button_text = nullptr;
@@ -437,11 +440,14 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		button_text = CreateUIElement(UI_LABEL, new_ui_go);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
-			
+
 		break;
 	}
 		
+	
+		
 	case UI_Widgget_Type::UI_LABEL:
+	{
 		new_ui_go->SetName("Text");
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
@@ -449,24 +455,31 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
-		text_cmp->SetClipping(CLIP_TOPLEFT); 
+		text_cmp->SetClipping(CLIP_TOPLEFT);
 
 		break;
+	}
 
 
-	//case UI_Widgget_Type::UI_INPUTFIELD:
+	case UI_Widgget_Type::UI_INPUTFIELD:
 
-	//	new_ui_go->SetName("Input Field");
+	{
+		new_ui_go->SetName("Input Field");
 
-	//	ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
-	//	img_cmp->GetImage()->SetCanvas(canvas_container);
+		ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
+		img_cmp->GetImage()->SetCanvas(canvas_container);
 
-	//	float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
-	//	rtransform->Resize(size);
+		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
+		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
-	//	text_cmp->SetClipping(CLIP_TOPLEFT);
+		img_cmp->GetImage()->SetPercentage(0.20f); 
 
-	//	break;
+		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
+		rtransform->Resize(size);
+
+		break;
+	}
+	
 	}
 
 	cmp_canvas->AddElement(new_ui_go);

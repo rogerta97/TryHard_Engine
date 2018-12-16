@@ -415,3 +415,13 @@ void UI_Label::UpdateContainerPlane()
 	CreateEnclosedPlane(cmp_container->container_plane_vertices);
 	cmp_container->SetClipping(cmp_container->GetClipping());
 }
+
+GameObject * UI_Label::GetParentGameObject()
+{
+	GameObject* go = nullptr; 
+
+	if (cmp_container)
+		go = cmp_container->GetGameObject();
+
+	return go;
+}

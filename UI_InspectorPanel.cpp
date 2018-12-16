@@ -3,6 +3,7 @@
 
 #include "UI_Label.h"
 #include "UI_Button.h"
+#include "UI_TextInput.h"
 
 #include "Application.h"
 #include "imgui_dock.h"
@@ -13,6 +14,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentText.h"
 #include "ComponentButton.h"
+#include "ComponentTextInput.h"
 #include "ComponentImage.h"
 #include "ComponentCamera.h"
 
@@ -244,6 +246,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_TEXT:
 		PrintTextProperties();
+		break;
+
+	case CMP_TEXTINPUT:
+		PrintInputFieldProperties();
 		break;
 
 	}
@@ -600,6 +606,35 @@ void UI_InspectorPanel::PrintImageProperties()
 		ImGui::EndChild();
 		
 		ImGui::Spacing();
+	}
+}
+
+void UI_InspectorPanel::PrintInputFieldProperties()
+{
+	if (ImGui::CollapsingHeader("Input Field (UI)"))
+	{
+		ComponentTextInput* input_cmp = (ComponentTextInput*)GetGameObject()->GetComponent(CMP_TEXTINPUT);
+
+		GameObject* place_holder_go = input_cmp->GetInputField()->GetPlaceHolderText();
+		ImGui::Text("PlaceHolder: "); ImGui::SameLine();
+
+		ImGui::Columns(0);
+
+		if (place_holder_go != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName()); 
+		else
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
+
+		ImGui::Columns(1);
+
+		GameObject* text_go = input_cmp->GetInputField()->GetShowText();
+		ImGui::Text("Text: "); ImGui::SameLine();
+
+		if (text_go != nullptr)
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", text_go->GetName());
+		else
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
+
 	}
 }
 

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _UI_INSPECTOR_PANEL_H_
+#define _UI_INSPECTOR_PANEL_H_
+
 #include "UI_Panel.h"
 
 #include "Component.h"
@@ -29,6 +31,7 @@ private:
 	void PrintCanvasProperties();
 	void PrintTextProperties();
 	void PrintImageProperties();
+	void PrintInputFieldProperties();
 	void PrintButtonProperties();
 	void PrintMeshProperties(); 
 	void PrintMaterialProperties();
@@ -36,11 +39,13 @@ private:
 	void DeleteElement(CompType type);
 
 private: 
-	GameObject * gameobject; 
+	GameObject * gameobject = nullptr; 
 	bool show_addcmp_ui; 
 
 	bool show_tex_explorer = false;
 	bool show_mesh_explorer = false;
 
 };
+
+#endif
 

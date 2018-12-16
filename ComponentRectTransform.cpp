@@ -285,7 +285,7 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
 		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
 
-		//transform_part->SetPosition(real_pos);
+		transform_part->SetPosition(real_pos);
 	}
 
 }
