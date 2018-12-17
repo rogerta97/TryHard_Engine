@@ -84,7 +84,8 @@ void ComponentMaterial::Load(JSON_Object * root_obj)
 	else
 	{
 		material = new Material(); 
-		float3 rgb = { (float)json_object_dotget_number(root_obj, "Color.R"), (float)json_object_dotget_number(root_obj, "Color.G"), (float)json_object_dotget_number(root_obj, "Color.B") };
+		float r = (float)json_object_dotget_number(root_obj, "Color.R");
+		float3 rgb = { r, (float)json_object_dotget_number(root_obj, "Color.G"), (float)json_object_dotget_number(root_obj, "Color.B") };
 		material->color.Set(rgb.x, rgb.y, rgb.z);
 	}
 }
@@ -101,7 +102,7 @@ void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
 	else
 		json_object_dotset_string(root_obj, item_name.c_str(), material->name.c_str());
 
-	item_name = node_name + "ComponentMaterial.Color.R";
+	item_name = node_name + ".ComponentMaterial.Color.R";
 	json_object_dotset_number(root_obj, item_name.c_str(), material->color.r); 
 
 	item_name = node_name + ".ComponentMaterial.Color.G";

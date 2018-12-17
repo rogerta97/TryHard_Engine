@@ -62,4 +62,9 @@ void Material::CreateMeta()
 {
 }
 
+void Material::SetColor(Color color)
+{
+	this->color = color; 
+}
+
 
