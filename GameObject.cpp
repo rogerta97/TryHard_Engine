@@ -382,6 +382,13 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 		cmp_img->Load(cmp_obj);
 		return;
 	}
+
+	if (string(cmp_name) == string("ComponentText"))
+	{
+		ComponentText* cmp_txt = (ComponentText*)AddComponent(CMP_TEXT);
+		cmp_txt->Load(cmp_obj);
+		return;
+	}
 }
 
 bool GameObject::AddChild(GameObject * child)
