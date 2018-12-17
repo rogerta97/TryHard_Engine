@@ -148,7 +148,8 @@ void ComponentRectTransform::CreateRectQuad()
 {
 	quad_mesh = new ComponentMesh(nullptr);
 
-	Mesh* square = (Mesh*)App->resources->Get(RES_MESH, "Plane");
+	Mesh* square = new Mesh(); 
+	square->SetVertPlaneData(); 
 	square->LoadToMemory();
 
 	quad_mesh->SetMesh(square);
@@ -424,7 +425,6 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	plane_mesh->LoadToMemory(); 
 	quad_mesh->SetMesh(plane_mesh);
 	
-
 	float2 size = { (float)json_object_dotget_number(json_obj, "Width"),  (float)json_object_dotget_number(json_obj, "Height") };
 	Resize(size);
 

@@ -510,6 +510,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	AddGameObjectToScene(new_ui_go); 
 
 	return new_ui_go;
+
+	return nullptr; 
 }
 
 void Scene::TestLineAgainstGOs(LineSegment line)
