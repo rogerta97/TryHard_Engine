@@ -536,6 +536,9 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	item_name = node_name + ".UID";
 	json_object_dotset_number(scene_obj, item_name.c_str(), unique_id);
 
+	item_name = node_name + ".IsUI";
+	json_object_dotset_boolean(scene_obj, item_name.c_str(), GetIsUI());
+
 	item_name = node_name + ".Parent";
 
 	if(GetParent() == nullptr)
@@ -559,6 +562,9 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 
 	item_name = node_name + ".UID";
 	json_object_dotset_number(scene_obj, item_name.c_str(), unique_id);
+
+	item_name = node_name + ".IsUI";
+	json_object_dotset_boolean(scene_obj, item_name.c_str(), GetIsUI());
 
 	item_name = node_name + ".Parent";
 
@@ -593,6 +599,8 @@ bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)
 	//If it exist load it's base properties
 	name = json_object_dotget_string(scene_obj, "Name");
 	unique_id = json_object_dotget_number(scene_obj, "UID");
+	is_ui = json_object_dotget_boolean(scene_obj, "IsUI"); 
+
 	UID parent_id = json_object_dotget_number(scene_obj, "Parent");
 
 	if (parent_id != 0)	

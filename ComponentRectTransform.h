@@ -50,6 +50,9 @@ public:
 	ComponentMesh* GetRectQuadComponent() const;
 	float2 GetSize() const; 
 
+	void Load(JSON_Object* json_obj);
+	void Save(JSON_Object* json_obj, const char* root);
+
 	void UpdateRectWithAnchors();
 
 	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance); //For mousepicking
@@ -78,7 +81,6 @@ private:
 	ComponentTransform* transform_part; 
 	
 	AnchorPoints anchor;
-
 	float2 relative_pos;
 
 	ComponentRectTransform* parent;

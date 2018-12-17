@@ -285,7 +285,7 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
 		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
 
-		transform_part->SetPosition(real_pos);
+		//transform_part->SetPosition(real_pos);
 	}
 
 }
@@ -415,6 +415,50 @@ void ComponentRectTransform::FitToParentRect()
 float2 ComponentRectTransform::GetSize() const
 {
 	return {width, height};
+}
+
+void ComponentRectTransform::Load(JSON_Object * json_obj)
+{
+	
+}
+
+void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
+{
+	std::string node_name = root;
+	std::string item_name = "";
+
+	item_name = node_name + ".Components.ComponentRectTransform.PositionX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().x);
+
+	item_name = node_name + ".Components.ComponentRectTransform.PositionY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().y);
+
+	item_name = node_name + ".Components.ComponentRectTransform.PositionZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().z);
+
+	item_name = node_name + ".Components.ComponentRectTransform.RotationX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().x);
+
+	item_name = node_name + ".Components.ComponentRectTransform.RotationY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().y);
+
+	item_name = node_name + ".Components.ComponentRectTransform.RotationZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().z);
+
+	item_name = node_name + ".Components.ComponentRectTransform.ScaleX";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().x);
+
+	item_name = node_name + ".Components.ComponentRectTransform.ScaleY";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().y);
+
+	item_name = node_name + ".Components.ComponentRectTransform.ScaleZ";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().z);
+
+	item_name = node_name + ".Components.ComponentRectTransform.Width";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().y);
+
+	item_name = node_name + ".Components.ComponentRectTransform.Height";
+	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().z);
 }
 
 ComponentTransform* ComponentRectTransform::GetTransform()
