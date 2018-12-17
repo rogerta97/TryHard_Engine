@@ -45,7 +45,7 @@ public:
 	void SetFont(string font_name);
 	Font GetFont() const; 
 	void ResizeFont(); 
-	bool ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const int init_offset);												// Will cut the text and start to render in the line below if needed. 
+	bool ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const float2 init_offset);												// Will cut the text and start to render in the line below if needed. 
 
 	// Create container plane helpers
 	void CreateEnclosedPlane(float3* points);							// Update Enclosed Plane (Delete and create a new one)

@@ -49,6 +49,7 @@ public:
 	void UpdateContainerPlane();
 	void RenderContainerPlane(); 
 	float3 GetContainerPlaneCenter();
+	float2 GetContainerPlaneSize();
 	float3 GetClippingDistance(const ClipTextType new_clip);
 
 	// Wrapping --------------------

@@ -13,9 +13,11 @@ ComponentText::ComponentText(GameObject* parent)
 {
 	component_type = CMP_TEXT;
 	gameobject = parent;
+
 	label = new UI_Label(this); 
 	label->SetText("Insert Text"); 
-	line_spacing = label->GetFont().size * 1.3f; 
+
+	line_spacing = GetContainerPlaneSize().y * 1.25f;
 }
 
 
@@ -82,6 +84,16 @@ float3 ComponentText::GetContainerPlaneCenter()
 	return total / 4; 
 }
 
+float2 ComponentText::GetContainerPlaneSize()
+{
+	float2 ret; 
+
+	ret.x = (container_plane_vertices[1] - container_plane_vertices[0]).Length(); 
+	ret.y = (container_plane_vertices[2] - container_plane_vertices[0]).Length();
+
+	return ret;
+}
+
 float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 {
 	// 1. Get the distance that the planes should move deppending on clipping type
@@ -126,6 +138,8 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 		translation = p1 - p2;
 	}
 
+	break;
+
 	case ClipTextType::CLIP_CENTER:
 	{
 		p1 = rtransform->GetGlobalPosition();
@@ -133,6 +147,7 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 		translation = p1 - p2;
 	}
 
+	break;
 
 	case ClipTextType::CLIP_MIDDLELEFT:
 	{

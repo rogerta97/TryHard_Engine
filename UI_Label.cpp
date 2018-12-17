@@ -15,7 +15,7 @@
 UI_Label::UI_Label(ComponentText* cmp_text)
 {
 	cmp_container = cmp_text; 
-	SetFont("Funny");
+	SetFont("Antonio-Regular");
 	text_size = font.size;
 	SetPercentage(0.20f); 
 	color = { 0,0,0 }; 
@@ -122,7 +122,7 @@ void UI_Label::RenderText()
 			
 		if (line_distance > rtransform->width)
 		{
-			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter, init_offset) == false)
+			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter, text_origin) == false)
 				return; 
 
 			line_distance = 0; 	
@@ -236,8 +236,8 @@ void UI_Label::SetText(const char * new_text)
 
 	FillTextPlanes();
 	
-	if(text != "")
-		UpdateContainerPlane(); 
+	if(text != "") //Adjust the container plane to the new text size 
+		CreateEnclosedPlane(cmp_container->container_plane_vertices);
 }
 
 void UI_Label::SetFont(string font_name)
@@ -258,9 +258,10 @@ void UI_Label::ResizeFont()
 	App->user_interface->LoadNewFont(font_name, text_size); 
 	font = App->user_interface->GetFont(font_name);
 	SetText(text.c_str());
+	cmp_container->SetClipping(cmp_container->GetClipping());
 }
 
-bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const int init_offset)
+bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const float2 init_offset)
 {
 
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
@@ -270,8 +271,8 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 	current_line++;
 	if (clipping_type == ClipTextType::CLIP_TOPLEFT || clipping_type == ClipTextType::CLIP_TOPRIGHT)
 	{
-		cursor.x = offset_planes[0].x; 
-		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
+		cursor.x = init_offset.x;
+		cursor.y = offset_planes[counter].y + init_offset.y + -current_line * cmp_container->line_spacing;
 	}
 	else if (clipping_type == ClipTextType::CLIP_CENTER)
 	{
@@ -336,7 +337,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 			return { 0,0,0 }; 
 		}
 
-		return_value = { last_img->GetPlane()->GetMesh()->vertices[1].x + offset + g_position.x, 0, 0 };
+		return_value = { last_img->GetPlane()->GetMesh()->vertices[1].x + offset + g_position.x + text_origin.x, 0, 0 };
 		return return_value; 
 	}
 	else if (point == "XMin")
@@ -356,7 +357,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 			return { 0,0,0 };
 		}
 
-		return_value = { first_img->GetPlane()->GetMesh()->vertices[0].x + g_position.x, 0, 0 };
+		return_value = { first_img->GetPlane()->GetMesh()->vertices[0].x + g_position.x + text_origin.x, 0, 0 };
 		return return_value;
 	}
 	else if (point == "YMax")
@@ -377,7 +378,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 				
 		}
 
-		return_value = { 0, max_y_plane->GetPlane()->GetMesh()->vertices[0].y + max_y + g_position.y, 0 };
+		return_value = { 0, max_y_plane->GetPlane()->GetMesh()->vertices[0].y + max_y + g_position.y + text_origin.y, 0 };
 		return return_value;
 	}
 	else if (point == "YMin")
@@ -398,7 +399,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 		}
 
 		CONSOLE_LOG("%f", g_position.y); 
-		return_value = { 0, min_y_plane->GetPlane()->GetMesh()->vertices[2].y + min_y + g_position.y, 0 };
+		return_value = { 0, min_y_plane->GetPlane()->GetMesh()->vertices[2].y + min_y + g_position.y + text_origin.y, 0 };
 		return return_value;
 	}
 

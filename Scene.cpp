@@ -484,8 +484,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentText* text_cmp = nullptr; 
 		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT); 
-		text_cmp->GetLabel()->SetText("Enter text here...");
-
+		text_cmp->GetLabel()->SetText("Text here");
 		text_cmp->TranslateEnclosedPlane(float3(7,0,0));  //TODO: it should move a certain percentage
 
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go);
