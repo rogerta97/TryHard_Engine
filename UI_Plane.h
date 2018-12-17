@@ -14,6 +14,8 @@ public:
 	void Update();
 	void CleanUp();
 
+	float2 GetSize() const; 
+
 	void CreatePlaneMesh(float2 size = {1,1});
 	void InvertImage(float2 size = { 1,1 });
 	void Resize(float x, float y); 

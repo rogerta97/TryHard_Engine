@@ -58,7 +58,7 @@ UI_CallbackAgent * UICallbackSystem::CreateEmptyAgent()
 	return new_agent;
 }
 
-std::list<UI_CallbackAgent*> UICallbackSystem::GetCallbacks() const
+std::list<UI_CallbackAgent*>& UICallbackSystem::GetCallbacks()
 {
 	return callbacks_list;
 }

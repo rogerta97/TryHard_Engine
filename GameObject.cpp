@@ -389,6 +389,13 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 		cmp_txt->Load(cmp_obj);
 		return;
 	}
+
+	if (string(cmp_name) == string("ComponentButton"))
+	{
+		ComponentButton* cmp_button = (ComponentButton*)AddComponent(CMP_BUTTON);
+		cmp_button->Load(cmp_obj);
+		return;
+	}
 }
 
 bool GameObject::AddChild(GameObject * child)
@@ -614,7 +621,7 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 	
 }
 
-bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)
+bool GameObject::Load(JSON_Object* scene_obj, int index, std::map<UID, GameObject*>& list, UID prefab_uid)
 {
 	//Load basic GO info
 	string node_name = "GameObject_" + to_string(index);
@@ -632,9 +639,16 @@ bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)
 
 	UID parent_id = json_object_dotget_number(scene_obj, "Parent");
 
-	if (parent_id != 0)	
-		SetParent(App->scene->GetGameObjectByID(parent_id)); 
+	if (parent_id != 0)
+	{
+		GameObject* parent = App->scene->GetGameObjectByID(parent_id);
 
+		if (parent)
+			SetParent(parent);
+		else
+			list.insert(std::pair<UID, GameObject*>(parent_id, this));
+	}
+		
 	//Load Components, if it has any
 	if (json_object_get_value(scene_obj, "Components") == nullptr) 
 		return true;

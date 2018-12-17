@@ -68,8 +68,7 @@ void ComponentCanvas::Save(JSON_Object * json_obj, const char * root)
 	int i = 0; 
 	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
 	{
-		std::string name = "E" + to_string(i); 
-		json_object_dotset_number(json_obj, name.c_str(), (*it)->unique_id);
+	
 	}
 }
 

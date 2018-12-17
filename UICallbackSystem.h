@@ -11,11 +11,17 @@ class UICallbackSystem;
 
 struct UI_CallbackAgent
 {
+
+public: 
+
 	UI_CallbackAgent(UICallbackSystem* container);
 
 	void CleanAgent(); 
 	void PrintAgentUI(int index);
 	void SetEmpty(); 
+
+
+public:
 
 	GameObject* parent; 
 	std::string name;	
@@ -40,7 +46,7 @@ public:
 	void PrintSystemUI(); 
 	UI_CallbackAgent* CreateEmptyAgent();
 
-	std::list<UI_CallbackAgent*> GetCallbacks() const; 
+	std::list<UI_CallbackAgent*>& GetCallbacks(); 
 
 	ComponentButton* GetSystemOwner() const; 
 	void SetSystemOwner(ComponentButton* new_owner);
