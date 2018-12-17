@@ -546,6 +546,8 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	else
 		json_object_dotset_number(scene_obj, item_name.c_str(), GetParent()->unique_id);
 
+	node_name += ".Components"; 
+
 	for(auto it = component_list.begin(); it != component_list.end(); it++)
 	{
 		(*it)->Save(scene_obj, node_name.c_str());
@@ -572,6 +574,8 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 		json_object_dotset_number(scene_obj, item_name.c_str(), 0);
 	else
 		json_object_dotset_number(scene_obj, item_name.c_str(), GetParent()->unique_id);
+
+	node_name += ".Components";
 
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
 	{

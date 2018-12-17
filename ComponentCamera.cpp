@@ -212,21 +212,20 @@ void ComponentCamera::Save(JSON_Object * root_obj, const char* root)
 	string node_name = root;
 	string item_name = "";
 
-
-	item_name = node_name + ".Components.ComponentCamera.Projection";
+	item_name = node_name + ".ComponentCamera.Projection";
 
 	if(camera->frustum.type == FrustumType::PerspectiveFrustum)
 		json_object_dotset_number(root_obj, item_name.c_str(), 0);
 	else if (camera->frustum.type == FrustumType::PerspectiveFrustum)
 		json_object_dotset_number(root_obj, item_name.c_str(), 1);
 
-	item_name = node_name + ".Components.ComponentCamera.FOV";
+	item_name = node_name + ".ComponentCamera.FOV";
 	json_object_dotset_number(root_obj, item_name.c_str(), camera->GetFov());
 
-	item_name = node_name + ".Components.ComponentCamera.NearPlane";
+	item_name = node_name + ".ComponentCamera.NearPlane";
 	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.nearPlaneDistance);
 
-	item_name = node_name + ".Components.ComponentCamera.FarPlane";
+	item_name = node_name + ".ComponentCamera.FarPlane";
 	json_object_dotset_number(root_obj, item_name.c_str(), camera->frustum.farPlaneDistance);
 }
 

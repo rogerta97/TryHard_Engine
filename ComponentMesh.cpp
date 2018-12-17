@@ -449,15 +449,15 @@ void ComponentMesh::Save(JSON_Object * root_obj, const char* root)
 	std::string node_name = root;
 	std::string item_name = "";
 
-	item_name = node_name + ".Components.ComponentMesh.MeshName";
+	item_name = node_name + ".ComponentMesh.MeshName";
 	json_object_dotset_string(root_obj, item_name.c_str(), gameobject->name.c_str());
 
-	item_name = node_name + ".Components.ComponentMesh.MetaName";
+	item_name = node_name + ".ComponentMesh.MetaName";
 	json_object_dotset_string(root_obj, item_name.c_str(), mesh->meta_path.c_str());
 
-	item_name = node_name + ".Components.ComponentMesh.FBXName";
+	item_name = node_name + ".ComponentMesh.FBXName";
 	json_object_dotset_string(root_obj, item_name.c_str(), container_fbx.c_str());
 
-	item_name = node_name + ".Components.ComponentMesh.Type";
+	item_name = node_name + ".ComponentMesh.Type";
 	json_object_dotset_string(root_obj, item_name.c_str(), ".fbx");
 }

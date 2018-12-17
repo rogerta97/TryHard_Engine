@@ -94,20 +94,20 @@ void ComponentMaterial::Save(JSON_Object * root_obj, const char* root)
 	std::string node_name = root;
 	std::string item_name = "";
 
-	item_name = node_name + ".Components.ComponentMaterial.DiffuseName";
+	item_name = node_name + ".ComponentMaterial.DiffuseName";
 
 	if(material->GetDiffuseTexture() == nullptr)
 		json_object_dotset_string(root_obj, item_name.c_str(), "NONE");
 	else
 		json_object_dotset_string(root_obj, item_name.c_str(), material->name.c_str());
 
-	item_name = node_name + ".Components.ComponentMaterial.Color.R";
+	item_name = node_name + "ComponentMaterial.Color.R";
 	json_object_dotset_number(root_obj, item_name.c_str(), material->color.r); 
 
-	item_name = node_name + ".Components.ComponentMaterial.Color.G";
+	item_name = node_name + ".ComponentMaterial.Color.G";
 	json_object_dotset_number(root_obj, item_name.c_str(), material->color.g);
 
-	item_name = node_name + ".Components.ComponentMaterial.Color.B";
+	item_name = node_name + ".ComponentMaterial.Color.B";
 	json_object_dotset_number(root_obj, item_name.c_str(), material->color.b);
 }
 

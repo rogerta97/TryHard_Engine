@@ -268,31 +268,31 @@ void ComponentTransform::Save(JSON_Object * json_obj, const char* root)
 	std::string node_name = root;
 	std::string item_name = "";
 
-	item_name = node_name + ".Components.ComponentTransform.PositionX";
+	item_name = node_name + ".ComponentTransform.PositionX";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().x);
 
-	item_name = node_name + ".Components.ComponentTransform.PositionY";
+	item_name = node_name + ".ComponentTransform.PositionY";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().y);
 
-	item_name = node_name + ".Components.ComponentTransform.PositionZ";
+	item_name = node_name + ".ComponentTransform.PositionZ";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetPosition().z);
 
-	item_name = node_name + ".Components.ComponentTransform.RotationX";
+	item_name = node_name + ".ComponentTransform.RotationX";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().x);
 
-	item_name = node_name + ".Components.ComponentTransform.RotationY";
+	item_name = node_name + ".ComponentTransform.RotationY";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().y);
 
-	item_name = node_name + ".Components.ComponentTransform.RotationZ";
+	item_name = node_name + ".ComponentTransform.RotationZ";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetRotationEuler().z);
 
-	item_name = node_name + ".Components.ComponentTransform.ScaleX";
+	item_name = node_name + ".ComponentTransform.ScaleX";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().x);
 
-	item_name = node_name + ".Components.ComponentTransform.ScaleY";
+	item_name = node_name + ".ComponentTransform.ScaleY";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().y);
 
-	item_name = node_name + ".Components.ComponentTransform.ScaleZ";
+	item_name = node_name + ".ComponentTransform.ScaleZ";
 	json_object_dotset_number(json_obj, item_name.c_str(), GetScale().z);
 
 }
