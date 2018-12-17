@@ -21,6 +21,9 @@ public:
 	bool CleanUp();
 	void Draw(bool is_editor); 
 
+	void Load(JSON_Object* json_obj);
+	void Save(JSON_Object* json_obj, const char* root);
+
 	//Utility functions -----
 
 	void AddElement(GameObject* new_element); 

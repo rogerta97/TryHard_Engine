@@ -53,6 +53,25 @@ void ComponentCanvas::Draw(bool is_editor)
 	}
 }
 
+void ComponentCanvas::Load(JSON_Object * json_obj)
+{
+}
+
+void ComponentCanvas::Save(JSON_Object * json_obj, const char * root)
+{
+	std::string item_name = root + std::string(".ComponentCanvas");
+
+	int elements_num = canvas->elements_in_canvas.size();
+	item_name += ".ObjectNum";
+	json_object_dotset_number(json_obj, item_name.c_str(), elements_num);
+
+	int i = 0; 
+	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
+	{
+		(*it)->Save(json_obj, i); 
+	}
+}
+
 void ComponentCanvas::AddElement(GameObject * new_element)
 {
 	if (new_element != nullptr)

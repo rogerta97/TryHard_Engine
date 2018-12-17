@@ -148,8 +148,7 @@ void ComponentRectTransform::CreateRectQuad()
 {
 	quad_mesh = new ComponentMesh(nullptr);
 
-	Mesh* square = new Mesh();
-	square->SetVertPlaneData();
+	Mesh* square = (Mesh*)App->resources->Get(RES_MESH, "Plane");
 	square->LoadToMemory();
 
 	quad_mesh->SetMesh(square);
@@ -419,47 +418,58 @@ float2 ComponentRectTransform::GetSize() const
 
 void ComponentRectTransform::Load(JSON_Object * json_obj)
 {
+	// Get the mesh --------	
+	std::string resource_name = json_object_dotget_string(json_obj, "ComponentMesh.MeshName");	//As it's UI, it will always be the plane
+	Mesh* plane_mesh = (Mesh*)App->resources->Get(RES_MESH, resource_name.c_str());
+	plane_mesh->LoadToMemory(); 
+	quad_mesh->SetMesh(plane_mesh);
 	
+
+	float2 size = { (float)json_object_dotget_number(json_obj, "Width"),  (float)json_object_dotget_number(json_obj, "Height") };
+	Resize(size);
+
+	// Apply the transform ------
+	float3 pos = float3::zero;
+	float3 rot = float3::zero;
+	float3 scale = float3::zero;
+
+	pos.x = json_object_dotget_number(json_obj, "ComponentTransform.PositionX");
+	pos.y = json_object_dotget_number(json_obj, "ComponentTransform.PositionY");
+	pos.z = json_object_dotget_number(json_obj, "ComponentTransform.PositionZ");
+
+	rot.x = json_object_dotget_number(json_obj, "ComponentTransform.RotationX");
+	rot.y = json_object_dotget_number(json_obj, "ComponentTransform.RotationY");
+	rot.z = json_object_dotget_number(json_obj, "ComponentTransform.RotationZ");
+
+	scale.x = json_object_dotget_number(json_obj, "ComponentTransform.ScaleX");
+	scale.y = json_object_dotget_number(json_obj, "ComponentTransform.ScaleY");
+	scale.z = json_object_dotget_number(json_obj, "ComponentTransform.ScaleZ");
+
+	transform_part->SetPosition(pos);
+	transform_part->SetRotationEuler(rot);
+	transform_part->SetScale(scale);
+
 }
 
 void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
 {
-	std::string node_name = root;
+	std::string node_name = root + std::string(".ComponentRectTransform");
 	std::string item_name = "";
 
-	item_name = node_name + ".Components.ComponentRectTransform.PositionX";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().x);
+	//We need to save the transform, the quad mesh and the parent. 
+	// Transform
+	GetTransform()->Save(json_obj, node_name.c_str());
 
-	item_name = node_name + ".Components.ComponentRectTransform.PositionY";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().y);
+	// Quad Mesh
+	GetRectQuadComponent()->Save(json_obj, node_name.c_str());
 
-	item_name = node_name + ".Components.ComponentRectTransform.PositionZ";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetPosition().z);
+	std::string width_name = node_name + ".Width";
+	std::string height_name = node_name += ".Height";
 
-	item_name = node_name + ".Components.ComponentRectTransform.RotationX";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().x);
-
-	item_name = node_name + ".Components.ComponentRectTransform.RotationY";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().y);
-
-	item_name = node_name + ".Components.ComponentRectTransform.RotationZ";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetRotationEuler().z);
-
-	item_name = node_name + ".Components.ComponentRectTransform.ScaleX";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().x);
-
-	item_name = node_name + ".Components.ComponentRectTransform.ScaleY";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().y);
-
-	item_name = node_name + ".Components.ComponentRectTransform.ScaleZ";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().z);
-
-	item_name = node_name + ".Components.ComponentRectTransform.Width";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().y);
-
-	item_name = node_name + ".Components.ComponentRectTransform.Height";
-	json_object_dotset_number(json_obj, item_name.c_str(), GetTransform()->GetScale().z);
+	json_object_dotset_number(json_obj, width_name.c_str(), width);
+	json_object_dotset_number(json_obj, height_name.c_str(), height);
 }
+
 
 ComponentTransform* ComponentRectTransform::GetTransform()
 {

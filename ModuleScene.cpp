@@ -356,8 +356,7 @@ void ModuleScene::SaveScene(const char* scene_name)
 }
 
 void ModuleScene::CleanAndLoadScene(const char * scene_path)
-{
-	
+{	
 	CleanScene();
 	LoadScene(scene_path); 
 }
@@ -407,7 +406,9 @@ void ModuleScene::LoadScene(const char * scene_name)
 		while (i < obj_ammount)
 		{
 			string item_to_get = "GameObject_" + to_string(i);
-			GameObject* new_go = new GameObject("", false);
+
+			bool isui = json_object_dotget_boolean(root_obj, std::string(item_to_get + ".IsUI").c_str());			
+			GameObject* new_go = new GameObject("", isui);
 
 			if (new_go->Load(root_obj, i))
 				AddGameObjectToScene(new_go);

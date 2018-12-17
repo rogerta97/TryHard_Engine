@@ -26,6 +26,8 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void CleanCanvasList(); 
+
 	// Fonts -----------
 
 	Font GetFont(std::string font_name) const; 

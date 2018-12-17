@@ -359,6 +359,22 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 		new_cam->Load(cmp_obj);
 		return;
 	}
+
+	if (string(cmp_name) == string("ComponentRectTransform"))
+	{
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)AddComponent(CMP_RECTTRANSFORM);
+		rtransform->Load(cmp_obj);
+		return;
+	}
+
+
+	if (string(cmp_name) == string("ComponentCanvas"))
+	{
+		ComponentCanvas* cmp_canvas = (ComponentCanvas*)AddComponent(CMP_CANVAS);
+		cmp_canvas->Load(cmp_obj);
+		App->user_interface->AddCanvas(this); 
+		return;
+	}
 }
 
 bool GameObject::AddChild(GameObject * child)
@@ -549,9 +565,7 @@ void GameObject::Save(JSON_Object* scene_obj, int index)
 	node_name += ".Components"; 
 
 	for(auto it = component_list.begin(); it != component_list.end(); it++)
-	{
-		(*it)->Save(scene_obj, node_name.c_str());
-	}
+		(*it)->Save(scene_obj, node_name.c_str());	
 }
 
 void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
@@ -578,15 +592,12 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 	node_name += ".Components";
 
 	for (auto it = component_list.begin(); it != component_list.end(); it++)
-	{
 		(*it)->Save(scene_obj, node_name.c_str());
-	}
-
+	
 	index++; 
 	for (auto it = child_list.begin(); it != child_list.end(); it++)
-	{
 		(*it)->SaveRecursive(scene_obj, index);
-	}
+	
 }
 
 bool GameObject::Load(JSON_Object* scene_obj, int index, UID prefab_uid)

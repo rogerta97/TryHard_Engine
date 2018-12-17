@@ -173,6 +173,8 @@ void Scene::CleanScene()
 		App->scene->DeleteGameObjectsNow();
 	}
 
+	App->user_interface->CleanCanvasList();
+
 }
 
 void Scene::AddGameObjectToDeleteList(GameObject * to_del)

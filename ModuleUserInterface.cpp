@@ -56,6 +56,11 @@ bool ModuleUserInterface::CleanUp()
 	return true;
 }
 
+void ModuleUserInterface::CleanCanvasList()
+{
+	go_with_canvas.clear(); 
+}
+
 Font ModuleUserInterface::GetFont(std::string font_name) const
 {
 	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
