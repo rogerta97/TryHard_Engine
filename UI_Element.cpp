@@ -1,5 +1,7 @@
 #include "UI_Element.h"
 #include "GameObject.h"
+#include "UI_Canvas.h"
+#include "ComponentCanvas.h"
 
 UI_Element::UI_Element()
 {
@@ -60,6 +62,11 @@ bool UI_Element::GetRaycast() const
 void UI_Element::SetRaycast(bool new_type)
 {
 	raycast = new_type; 
+}
+
+GameObject * UI_Element::GetContainerCanvasGO() const
+{
+	return canvas->cmp_container->GetGameObject();
 }
 
 UI_Canvas * UI_Element::GetCanvas() const

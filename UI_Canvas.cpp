@@ -1,8 +1,9 @@
 #include "UI_Canvas.h"
+#include "ComponentCanvas.h"
 
-
-UI_Canvas::UI_Canvas()
+UI_Canvas::UI_Canvas(ComponentCanvas* canvas)
 {
+	cmp_container = canvas; 
 }
 
 

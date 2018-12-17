@@ -3,14 +3,17 @@
 #include "SDL\include\SDL_rect.h"
 #include <list>
 
+class ComponentCanvas; 
+
 class UI_Canvas
 {
 public:
-	UI_Canvas();
+	UI_Canvas(ComponentCanvas* container);
 	~UI_Canvas();
 
-	void Update(); 
+	ComponentCanvas* cmp_container; 
 
+	void Update(); 
 	void DeleteElementByUID(UID uid); 
 
 	std::list<GameObject*> elements_in_canvas;

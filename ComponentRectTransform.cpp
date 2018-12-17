@@ -68,7 +68,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 	{
 		DrawRectFrame();
 
-		///////////////
 		ComponentRectTransform* parent_rect = nullptr;
 
 		if (gameobject->parent)

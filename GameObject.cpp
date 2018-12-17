@@ -375,6 +375,13 @@ void GameObject::AddComponentFromJSON(JSON_Object * cmp_obj, const char * cmp_na
 		App->user_interface->AddCanvas(this); 
 		return;
 	}
+
+	if (string(cmp_name) == string("ComponentImage"))
+	{
+		ComponentImage* cmp_img = (ComponentImage*)AddComponent(CMP_IMAGE);
+		cmp_img->Load(cmp_obj);
+		return;
+	}
 }
 
 bool GameObject::AddChild(GameObject * child)

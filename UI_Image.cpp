@@ -75,7 +75,6 @@ void UI_Image::DrawImage()
 
 	App->renderer3D->UseUIRenderSettings(); 
 
-
 	float4x4 view_mat = float4x4::identity;
 
 	if (trans)
