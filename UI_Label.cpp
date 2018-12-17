@@ -52,7 +52,7 @@ void UI_Label::RenderText()
 	if (section.x != -1 && section.y != -1)
 		draw_section = true; 
 
-	App->renderer3D->UseCurrentRenderSettings();
+	App->renderer3D->UseUIRenderSettings();
 
 	// Render the rectangle 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -67,7 +67,7 @@ void UI_Label::RenderText()
 	float line_distance = 0; 
 	float init_offset = text_origin.x; 
 
-	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_UP)
 		section += {1, 1}; 
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
@@ -142,6 +142,7 @@ void UI_Label::RenderText()
 
 		glColor3f(color.x, color.y, color.z);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->indices_id);
+
 		glDrawElements(GL_TRIANGLES, (*it)->GetPlane()->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -440,7 +441,6 @@ float3 UI_Label::GetContainerPlanePoint(ClipTextType clipping)
 void UI_Label::UpdateContainerPlane()
 {
 	CreateEnclosedPlane(cmp_container->container_plane_vertices);
-	cmp_container->SetClipping(cmp_container->GetClipping());
 }
 
 GameObject * UI_Label::GetParentGameObject()

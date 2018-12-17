@@ -451,7 +451,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		new_ui_go->SetName("Text");
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
-		text_cmp->SetSection({ 0, 2 }); 
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
@@ -485,12 +484,19 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentText* text_cmp = nullptr; 
 		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT); 
+		text_cmp->GetLabel()->SetText("Enter text here...");
+
+		text_cmp->TranslateEnclosedPlane(float3(7,0,0));  //TODO: it should move a certain percentage
 
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go);
 
 		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
 		text_cmp->GetLabel()->SetText("");
+
+		text_cmp->TranslateEnclosedPlane(float3(7, 0, 0));  //TODO: it should move a certain percentage
+
+		
 		
 		break;
 	}

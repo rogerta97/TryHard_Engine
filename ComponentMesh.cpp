@@ -157,7 +157,6 @@ void ComponentMesh::DrawMesh()
 			if (mesh->num_normals != 0)
 			{
 				glEnableClientState(GL_NORMAL_ARRAY);
-
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->normals_id);
 				glNormalPointer(GL_FLOAT, 0, NULL);
 			}

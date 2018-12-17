@@ -19,7 +19,7 @@ UI_Image::UI_Image(ComponentImage* container)
 	CreateDrawSpace();
 	cmp_container = container; 
 
-	draw_material = (Material*)App->resources->Get(RES_MATERIAL, "DefaultUIBackground");
+	draw_material = (Material*)App->resources->Get(RES_MATERIAL, "blending_transparent_window");
 	draw_material->LoadToMemory();
 	draw_material->reference_counting++;
 
@@ -74,6 +74,7 @@ void UI_Image::DrawImage()
 	ComponentTransform* trans = rtransform->GetTransform();
 
 	App->renderer3D->UseUIRenderSettings(); 
+
 
 	float4x4 view_mat = float4x4::identity;
 

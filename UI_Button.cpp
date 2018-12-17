@@ -74,8 +74,6 @@ void UI_Button::Draw(bool is_editor)
 		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
 	}
 
-	App->renderer3D->UseUIRenderSettings();
-
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); 
 
 	glEnableClientState(GL_VERTEX_ARRAY);

@@ -173,7 +173,6 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 		//	glEnd();
 		//}
 	
-		App->renderer3D->UseUIRenderSettings();
 		(*it)->Draw(editor_cam);
 	}
 }

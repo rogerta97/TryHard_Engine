@@ -38,6 +38,15 @@ bool ComponentCanvas::CleanUp()
 
 void ComponentCanvas::Draw(bool is_editor)
 {
+	glColor3f(1, 1, 1);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
 	{
 		(*it)->Draw(is_editor);
