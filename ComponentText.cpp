@@ -15,7 +15,7 @@ ComponentText::ComponentText(GameObject* parent)
 	gameobject = parent;
 
 	label = new UI_Label(this); 
-	label->SetText("Insert Text"); 
+	label->SetText("mum"); 
 
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
 	section = { 0,0 };

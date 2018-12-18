@@ -170,12 +170,15 @@ void UI_Label::FillTextPlanes()
 		float distancey = 0;
 
 		Character* curr_character = font.GetCharacter(text[counter]);
+		Character* prev_character = nullptr; 
 
-		// X offset
-		if (counter < text.size() - 1)
-			distancex = curr_character->Advance / 2.0 + font.GetCharacter(text[counter + 1])->Advance / 2.0;
-		else
-			distancex = curr_character->Advance / 2.0f + curr_character->Size.x / 2.0f;
+		if(counter -1 >= 0)
+			prev_character = font.GetCharacter(text[counter - 1]);
+
+		if (prev_character)
+			distancex = prev_character->Advance / 2.0;
+
+		distancex += curr_character->Advance / 2.0;
 
 		//Y offset
 		float size = (float)curr_character->Size.y;
@@ -190,6 +193,8 @@ void UI_Label::FillTextPlanes()
 			
 		offset_planes.push_back({ distancex, distancey, 0 });
 	}		
+
+
 }
 
 void UI_Label::CreateCharacterPlane(const char * character, float3 position)
