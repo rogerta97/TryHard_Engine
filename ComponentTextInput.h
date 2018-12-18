@@ -15,6 +15,8 @@ public:
 	bool CleanUp();
 	void Draw(bool is_editor);
 
+	void OnEvent(const Event& new_event);
+
 	UI_TextInput* GetInputField() const;
 
 private:

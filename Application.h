@@ -35,10 +35,13 @@ struct Vsync
 	void SetLevel(uint lvl) { vsync_lvl = lvl; };
 };
 
+enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED };
+
 struct Event {
-	enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED} type;
+	EventType type;
 	const char* ptr;
 
+	Event() {};
 	Event(EventType type) :type(type) {};
 };
 

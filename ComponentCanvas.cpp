@@ -53,6 +53,14 @@ void ComponentCanvas::Draw(bool is_editor)
 	}
 }
 
+void ComponentCanvas::OnEvent(const Event & new_event)
+{
+	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
+	{
+		(*it)->OnEvent(new_event); 
+	}
+}
+
 void ComponentCanvas::Load(JSON_Object * json_obj)
 {
 }

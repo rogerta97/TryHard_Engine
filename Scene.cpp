@@ -494,7 +494,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		//Create 2 text childs 
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false); 
-		placeholder_text_go->SetName("");
+		placeholder_text_go->SetName("PlaceHolder");
 
 		ComponentText* text_cmp = nullptr; 
 		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);

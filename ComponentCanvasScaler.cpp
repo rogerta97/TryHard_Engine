@@ -32,6 +32,10 @@ bool ComponentCanvasScaler::CleanUp()
 	return true;
 }
 
+void ComponentCanvasScaler::OnEvent(const Event & new_event)
+{
+}
+
 float ComponentCanvasScaler::GetScaleFactor()
 {
 	return scale_factor;

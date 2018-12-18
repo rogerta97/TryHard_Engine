@@ -14,6 +14,7 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+	void OnEvent(const Event& new_event);
 
 	float GetScaleFactor(); 
 	void SetScaleFactor(float newValue); 

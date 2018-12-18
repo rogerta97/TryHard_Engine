@@ -32,6 +32,10 @@ void Component::Draw(bool is_editor)
 {
 }
 
+void Component::OnEvent(const Event & new_event)
+{
+}
+
 void Component::FitToRect()
 {
 }

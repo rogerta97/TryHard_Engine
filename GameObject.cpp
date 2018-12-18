@@ -1,7 +1,6 @@
 #include "GameObject.h"
 #include "imgui_dock.h"
 #include "imgui.h"
-#include "Application.h"
 #include "JSON\parson.h"
 
 #include "UI_InspectorPanel.h"
@@ -25,11 +24,9 @@
 #include "DebugDraw.h"
 
 #include <fstream>
-
+#include "Application.h"
 
 #include "mmgr\mmgr.h"
-
-
 
 GameObject::GameObject(const char * name, bool _is_ui)
 {
@@ -97,6 +94,14 @@ void GameObject::Draw(bool is_editor)
 		(*it)->Draw(is_editor);
 	}
 
+}
+
+void GameObject::OnEvent(const Event& new_event)
+{
+	for (auto it = component_list.begin(); it != component_list.end(); it++)
+	{
+		(*it)->OnEvent(new_event);
+	}
 }
 
 GameObject * GameObject::GetFirstParentWith(CompType type)

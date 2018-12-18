@@ -52,6 +52,10 @@ void ComponentImage::Draw(bool is_editor)
 	image->Draw(); 
 }
 
+void ComponentImage::OnEvent(const Event & new_event)
+{
+}
+
 void ComponentImage::Load(JSON_Object * json_obj)
 {
 	ComponentCanvas* cmp_canvas = nullptr;

@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "JSON\parson.h"
+#include "Module.h"
 
 enum CompType {CMP_TRANSFORM = 0, CMP_MESH, CMP_MATERIAL, CMP_CAMERA, CMP_CANVAS, CMP_RECTTRANSFORM, CMP_IMAGE, CMP_BUTTON, CMP_TEXT, CMP_TEXTINPUT, CMP_CANVASSCALER};
 
@@ -17,6 +18,7 @@ public:
 	virtual bool Update(); 
 	virtual bool CleanUp(); 
 	virtual void Draw(bool is_editor);
+	virtual void OnEvent(const Event& new_event); 
 
 	// UI type objects 
 	virtual void FitToRect();

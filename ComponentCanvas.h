@@ -20,6 +20,7 @@ public:
 	bool Update();
 	bool CleanUp();
 	void Draw(bool is_editor); 
+	void OnEvent(const Event& new_event);
 
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);

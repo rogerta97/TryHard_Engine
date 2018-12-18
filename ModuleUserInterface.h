@@ -1,11 +1,10 @@
-#ifndef _USER_INTERFACE_H_
-#define _USER_INTERFACE_H_
+#pragma once
 
 #include "Module.h"
 #include <list>
 #include <string>
-#include "UI_Element.h"
 #include "MathGeoLib\MathGeoLib.h"
+#include "Component.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -35,6 +34,7 @@ public:
 	void DeleteFont(std::string name); 
 
 	// -----------------
+	void RecieveEvent(const Event & curr_event);
 
 	// Utility ---------
 
@@ -56,6 +56,4 @@ private:
 	FT_Library ft_library; 
 	std::list<Font*> fonts_face_list; 
 };
-
-#endif
 

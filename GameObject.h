@@ -9,7 +9,7 @@
 #include "UI_Element.h"
 
 class ComponentTransform;
-class ComponentRectTransform; 
+class ComponentRectTransform;  
 
 class GameObject
 {
@@ -21,6 +21,7 @@ public:
 	void Start(); 
 	void Update(); 
 	void Draw(bool is_editor); 
+	void OnEvent(const Event & new_event);
 
 public: 
 

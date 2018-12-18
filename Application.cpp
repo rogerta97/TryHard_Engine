@@ -373,10 +373,10 @@ void Application::BroadCastEvent(const Event & event)
 
 	switch (event.type)
 	{
-	case Event::PLAY:
+	case PLAY:
 		Play();
 		break;
-	case Event::PAUSE:
+	case PAUSE:
 		Pause();
 		break;
 	default:

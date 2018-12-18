@@ -119,6 +119,10 @@ void ComponentRectTransform::DrawAnchorPoint(float3 pos, float2 lines_lenght)
 	glEnd();
 }
 
+void ComponentRectTransform::OnEvent(const Event & new_event)
+{
+}
+
 float3 ComponentRectTransform::GetGlobalPosition()
 {
 	ComponentRectTransform* curr_cmp = this;

@@ -6,7 +6,6 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "Application.h"
-#include "GameObject.h"
 #include "OpenGL.h"
 #include "DebugDraw.h"
 #include "Font.h"
@@ -117,6 +116,15 @@ void ModuleUserInterface::DeleteFont(std::string name)
 		}
 	}
 }
+
+void ModuleUserInterface::RecieveEvent(const Event & new_event)
+{
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		(*it)->OnEvent(new_event);		
+	}
+}
+
 
 void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 {

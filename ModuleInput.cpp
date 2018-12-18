@@ -157,7 +157,7 @@ update_status ModuleInput::PreUpdate(float dt)
 		case SDL_DROPFILE:
 		{
 			file_droped = e.drop.file;
-			App->BroadCastEvent(Event(Event::FILE_DROPED)); 
+			App->BroadCastEvent(Event(FILE_DROPED)); 
 		}
 
 		break;

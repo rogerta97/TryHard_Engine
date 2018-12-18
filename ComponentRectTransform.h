@@ -31,6 +31,7 @@ public:
 	bool CleanUp();
 	void Draw(bool is_editor);
 	void DrawAnchorPoint(float3 pos, float2 lines_lenght);
+	void OnEvent(const Event& new_event);
 
 	//Utility functions -----
 
