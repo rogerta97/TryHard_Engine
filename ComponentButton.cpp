@@ -53,6 +53,8 @@ bool ComponentButton::CleanUp()
 
 void ComponentButton::Draw(bool is_editor)
 {
+	App->renderer3D->UseUIRenderSettings();
+
 	if(button)
 		button->Draw(is_editor);
 }

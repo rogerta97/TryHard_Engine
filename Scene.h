@@ -41,7 +41,7 @@ public:
 
 	GameObject* LoadPrefab(const char* prf_name);
 	GameObject* CreateGameObject();
-	GameObject* CreateUIElement(UI_Widgget_Type type, GameObject* forced_parent = nullptr);
+	GameObject* CreateUIElement(UI_Widgget_Type type, GameObject* forced_parent = nullptr, bool add_to_scene = true);
 	GameObject* CreateGameObject(const char* name);
 	GameObject* CreateGameObject(std::list<GameObject*> list_childs, const char* name);
 	int GetGameObjectsAmmount();

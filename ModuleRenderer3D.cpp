@@ -144,7 +144,6 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	
 
 	//{
 	//glLoadIdentity();
@@ -284,17 +283,29 @@ void ModuleRenderer3D::UpdateProjectionMatrix(Camera* cam)
 	glLoadMatrixf(&ProjectionMatrix[0][0]);
 }
 
-void ModuleRenderer3D::UseUIRenderSettings(bool game_scene)
+void ModuleRenderer3D::UseImGuiRenderSettings(bool game_scene)
 {	
 	glColor3f(1,1,1);
 
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 	
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+}
+
+void ModuleRenderer3D::UseUIRenderSettings()
+{
+	glColor3f(1, 1, 1);
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_LIGHTING);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
+
+	glDisable(GL_DEPTH_TEST);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void ModuleRenderer3D::UseDebugRenderSettings()
