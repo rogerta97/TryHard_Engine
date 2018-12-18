@@ -422,6 +422,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		cmp_canvas->AddElement(new_ui_go);
 
+		if (add_to_scene)
+			AddGameObjectToScene(new_ui_go);
+
 		break;
 	}
 	
@@ -450,7 +453,10 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		text_cmp->GetLabel()->SetText("Button"); 
 		text_cmp->SetClipping(CLIP_CENTER); 
 
-		cmp_canvas->AddElement(button_text);
+		//cmp_canvas->AddElement(button_text);
+
+		if(add_to_scene)
+			AddGameObjectToScene(new_ui_go);
 
 		break;
 	}
@@ -469,6 +475,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		text_cmp->SetClipping(CLIP_TOPLEFT);
 
 		cmp_canvas->AddElement(new_ui_go);
+
+		if (add_to_scene)
+			AddGameObjectToScene(new_ui_go);
 
 		break;
 	}
@@ -513,15 +522,15 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		cmp_canvas->AddElement(text_go);
 
 		text_cmp->TranslateEnclosedPlane(float3(7, 0, 0));  //TODO: it should move a certain percentage
-	
+
+		if (add_to_scene)
+			AddGameObjectToScene(new_ui_go);
+
 		break;
 	}
 	
 	}
 	new_ui_go->Start();
-
-	if(add_to_scene == true)
-		AddGameObjectToScene(new_ui_go); 
 
 	return new_ui_go;
 }

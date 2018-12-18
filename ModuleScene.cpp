@@ -344,7 +344,7 @@ void ModuleScene::SaveScene(const char* scene_name)
 
 		int index = 0;
 		for (auto it = current_scene->scene_gameobjects.begin(); it != current_scene->scene_gameobjects.end(); it++)
-		{
+		{		
 			scene_obj = json_value_get_object(scene_v);
 			(*it)->Save(scene_obj, index++);
 		}
