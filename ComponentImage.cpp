@@ -1,9 +1,14 @@
 #include "ComponentImage.h"
 #include "ComponentRectTransform.h"
+#include "ComponentCanvas.h"
 #include "UI_Plane.h"
 #include "UI_Image.h"
 #include "UI_Canvas.h"
 
+#include "Material.h"
+#include "Application.h"
+
+#include "GameObject.h"
 #include "mmgr\mmgr.h"
 
 ComponentImage::ComponentImage(GameObject* parent)
@@ -44,6 +49,44 @@ bool ComponentImage::CleanUp()
 void ComponentImage::Draw(bool is_editor)
 {
 	image->Draw(); 
+}
+
+void ComponentImage::Load(JSON_Object * json_obj)
+{
+	ComponentCanvas* cmp_canvas = nullptr;
+
+	UID canvas_go_uid = json_object_dotget_number(json_obj, "CanvasContainer"); 
+	GameObject* container_canvas_go = App->scene->GetGameObjectByID(canvas_go_uid);
+	
+	if (container_canvas_go)
+	{
+		cmp_canvas = (ComponentCanvas*)container_canvas_go->GetComponent(CMP_CANVAS);
+		if (cmp_canvas)
+		{
+			GetImage()->SetCanvas(cmp_canvas->GetCanvas());
+			cmp_canvas->AddElement(gameobject);
+		}
+	}
+					
+	float2 size = { (float)json_object_dotget_number(json_obj, "PlaneSize.X"), (float)json_object_dotget_number(json_obj, "PlaneSize.Y") };
+	std::string mat_name = json_object_dotget_string(json_obj, "MaterialName");
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+	rtransform->Resize(size); 
+}
+
+void ComponentImage::Save(JSON_Object * json_obj, const char * root)
+{
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
+
+	std::string item_name = root + std::string(".ComponentImage"); 
+	
+	//Plane will have the size of the rectransform
+	json_object_dotset_number(json_obj, std::string(item_name + ".CanvasContainer").c_str(), GetImage()->GetContainerCanvasGO()->unique_id);
+	json_object_dotset_number(json_obj, std::string(item_name + ".PlaneSize.X").c_str(), rtransform->width); 
+	json_object_dotset_number(json_obj, std::string(item_name + ".PlaneSize.Y").c_str(), rtransform->height);
+	json_object_dotset_string(json_obj, std::string(item_name + ".MaterialName").c_str(), GetImage()->GetMaterial()->name.c_str());
 }
 
 UI_Image * ComponentImage::GetImage() const

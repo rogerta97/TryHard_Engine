@@ -68,7 +68,6 @@ void ComponentRectTransform::Draw(bool is_editor)
 	{
 		DrawRectFrame();
 
-		///////////////
 		ComponentRectTransform* parent_rect = nullptr;
 
 		if (gameobject->parent)
@@ -455,8 +454,11 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 {
 	// Get the mesh --------	
 	std::string resource_name = json_object_dotget_string(json_obj, "ComponentMesh.MeshName");	//As it's UI, it will always be the plane
-	Mesh* plane_mesh = (Mesh*)App->resources->Get(RES_MESH, resource_name.c_str());
-	plane_mesh->LoadToMemory();
+
+	Mesh* plane_mesh = new Mesh();
+	plane_mesh->SetVertPlaneData(); 
+	plane_mesh->LoadToMemory(); 
+
 	quad_mesh->SetMesh(plane_mesh);
 
 	float2 size = { (float)json_object_dotget_number(json_obj, "Width"),  (float)json_object_dotget_number(json_obj, "Height") };

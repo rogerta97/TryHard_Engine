@@ -19,6 +19,9 @@ public:
 	void Draw(bool is_editor);
 	void FitToRect(); 
 
+	void Load(JSON_Object* json_obj);
+	void Save(JSON_Object* json_obj, const char* root);
+
 	UI_Button* GetButton() const;
 
 	UICallbackSystem* callback_system;

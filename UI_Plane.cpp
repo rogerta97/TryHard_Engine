@@ -35,6 +35,14 @@ void UI_Plane::CleanUp()
 		quad_plane_mesh->CleanMeshData();
 }
 
+float2 UI_Plane::GetSize() const
+{
+	float width = (quad_plane_mesh->vertices[1] - quad_plane_mesh->vertices[0]).Length(); 
+	float height = (quad_plane_mesh->vertices[2] - quad_plane_mesh->vertices[0]).Length();
+
+	return { width, height }; 
+}
+
 void UI_Plane::CreatePlaneMesh(float2 size)
 {
 	if (quad_plane_mesh != nullptr)

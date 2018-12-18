@@ -402,6 +402,8 @@ void ModuleScene::LoadScene(const char * scene_name)
 		int obj_ammount = json_object_dotget_number(root_obj, "Scene.obj_num");
 		UID main_cam_uid = json_object_dotget_number(root_obj, "Scene.main_camera_uid");
 
+		std::map<UID, GameObject*> parenting_candidates = std::map<UID, GameObject*>();
+
 		int i = 0;
 		while (i < obj_ammount)
 		{
@@ -410,18 +412,22 @@ void ModuleScene::LoadScene(const char * scene_name)
 			bool isui = json_object_dotget_boolean(root_obj, std::string(item_to_get + ".IsUI").c_str());			
 			GameObject* new_go = new GameObject("", isui);
 
-			if (new_go->Load(root_obj, i))
+			if (new_go->Load(root_obj, i, parenting_candidates))
 				AddGameObjectToScene(new_go);
 
 			new_go->selected = false;
 			i++;
 		}
 
+
 		if (main_cam_uid != 0)
 			App->camera->SetGameCamera(App->scene->GetGameObjectByID(main_cam_uid));
 
+		for (auto it = parenting_candidates.begin(); it != parenting_candidates.end(); it++)
+			(*it).second->SetParent(App->scene->GetGameObjectByID((*it).first));
+		
+		
 		SetSceneName(name_w_termination.c_str());
-
 		stream.close();
 	}
 

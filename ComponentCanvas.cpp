@@ -18,7 +18,7 @@ ComponentCanvas::~ComponentCanvas()
 bool ComponentCanvas::Start()
 {
 
-	canvas = new UI_Canvas();
+	canvas = new UI_Canvas(this);
 	App->user_interface->AddCanvas(gameobject); 
 
 	return false;
@@ -68,7 +68,7 @@ void ComponentCanvas::Save(JSON_Object * json_obj, const char * root)
 	int i = 0; 
 	for (auto it = canvas->elements_in_canvas.begin(); it != canvas->elements_in_canvas.end(); it++)
 	{
-		//json_object_dotset_number(json_obj, "E1", (*it)->unique_id); 
+	
 	}
 }
 

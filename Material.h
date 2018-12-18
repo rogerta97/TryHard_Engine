@@ -22,13 +22,14 @@ public:
 
 	void CreateMeta(); 
 
-	Color color;
+	void SetColor(Color color); 
 
 	Texture * diffuse;
 
+	Color color;
+
 private:
 
-	
 
 };
 

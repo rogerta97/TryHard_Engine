@@ -350,7 +350,11 @@ void ModuleRenderer3D::UseCurrentRenderSettings()
 	else
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor3f(DEFAULT_GEOMETRY_COLOR);
+
+		if(render_settings.texture == false)
+			glColor3f(DEFAULT_GEOMETRY_COLOR);
+		else
+			glColor3f(1.0f , 1.0f, 1.0f);
 	}
 		
 }
