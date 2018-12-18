@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _UI_BUTTON_H_
+#define _UI_BUTTON_H_
+
 #include "UI_Element.h"
 #include "UICallbackSystem.h"
 
@@ -49,4 +51,6 @@ private:
 
 	
 };
+
+#endif
 

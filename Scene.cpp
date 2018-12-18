@@ -438,7 +438,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);
+		img->GetImage()->SetPercentage(0.30f); 
+		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
 		cmp_canvas->AddElement(new_ui_go);
@@ -446,6 +447,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		button_text = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
+		text_cmp->GetLabel()->SetText("Button"); 
+		text_cmp->SetClipping(CLIP_CENTER); 
 
 		cmp_canvas->AddElement(button_text);
 
@@ -465,6 +468,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		text_cmp->SetClipping(CLIP_TOPLEFT);
 
+		cmp_canvas->AddElement(new_ui_go);
+
 		break;
 	}
 
@@ -480,10 +485,12 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
 		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
-		img_cmp->GetImage()->SetPercentage(0.20f); 
+		img_cmp->GetImage()->SetPercentage(0.30f); 
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
 		rtransform->Resize(size);
+
+		cmp_canvas->AddElement(new_ui_go);
 
 		//Create 2 text childs 
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false); 
@@ -495,11 +502,15 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		text_cmp->GetLabel()->SetText("Text here");
 		text_cmp->TranslateEnclosedPlane(float3(7,0,0));  //TODO: it should move a certain percentage
 
+		cmp_canvas->AddElement(placeholder_text_go);
+
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 
 		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
 		text_cmp->GetLabel()->SetText("");
+
+		cmp_canvas->AddElement(text_go);
 
 		text_cmp->TranslateEnclosedPlane(float3(7, 0, 0));  //TODO: it should move a certain percentage
 	
