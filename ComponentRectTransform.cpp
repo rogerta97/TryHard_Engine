@@ -32,7 +32,7 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 
 	CreateRectQuad();
 	Resize({ 1,1 });
-	edited = false; 
+	edited = false;
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -42,7 +42,7 @@ ComponentRectTransform::~ComponentRectTransform()
 
 bool ComponentRectTransform::Start()
 {
-	
+
 	scale_to_show = { 1,1,1 };
 
 	return true;
@@ -130,7 +130,7 @@ float3 ComponentRectTransform::GetGlobalPosition()
 		ret_value += curr_cmp->GetTransform()->GetPosition();
 
 		if (curr_cmp->GetGameObject()->GetParent() == nullptr)
-			break; 
+			break;
 
 		curr_cmp = (ComponentRectTransform*)curr_cmp->gameobject->GetParent()->GetComponent(CMP_RECTTRANSFORM);
 	}
@@ -148,8 +148,8 @@ void ComponentRectTransform::CreateRectQuad()
 {
 	quad_mesh = new ComponentMesh(nullptr);
 
-	Mesh* square = new Mesh(); 
-	square->SetVertPlaneData(); 
+	Mesh* square = new Mesh();
+	square->SetVertPlaneData();
 	square->LoadToMemory();
 
 	quad_mesh->SetMesh(square);
@@ -221,21 +221,26 @@ void ComponentRectTransform::Resize(float2 new_size)
 
 	// Addapt plane components if needed
 	for (auto it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
-		(*it)->FitToRect();	
+		(*it)->FitToRect();
 
 }
 
 float2 ComponentRectTransform::GetSizeFromPercentage(float value, UI_Widgget_Type type)
 {
-	float2 ret_size; 
+	float2 ret_size;
 
-	ret_size.x = width * value; 
+	ret_size.x = width * value;
 	ret_size.y = width * value;
 
-	if(type == UI_Widgget_Type::UI_LABEL || type == UI_Widgget_Type::UI_INPUTFIELD)
+	if (type == UI_Widgget_Type::UI_LABEL || type == UI_Widgget_Type::UI_INPUTFIELD)
 		ret_size.y = ret_size.x * 0.25f;
 
 	return ret_size;
+}
+
+void ComponentRectTransform::CompensateParentRelativePos()
+{
+
 }
 
 float2 ComponentRectTransform::GetRelativePos() const
@@ -246,7 +251,7 @@ float2 ComponentRectTransform::GetRelativePos() const
 void ComponentRectTransform::SetRelativePos(float2 new_pos)
 {
 	relative_pos = new_pos;
-	quad_mesh->UpdateBoundingBox(GetTransform()); 
+	quad_mesh->UpdateBoundingBox(GetTransform());
 
 	ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 }
@@ -277,15 +282,44 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 
 		parent_pos = parent_transform->GetPosition();
 
-		float2 start_pos = {
+		float2 start_pos = { 0,0 };
+
+		if (gameobject->parent->GetComponent(CMP_CANVAS)) { //as canvas is never centered
+			start_pos = {
 			parent_pos.x - parent_rect->width,
 			parent_pos.y - parent_rect->height
-		};
+			};
+		}
+		else {
+			start_pos = {
+			parent_pos.x - parent_rect->width / 2,
+			parent_pos.y - parent_rect->height / 2
+			};
+		}
+
 
 		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
 		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
 
-		//transform_part->SetPosition(real_pos);
+
+		//to prevent positions accumulating
+		if (!gameobject->parent->GetComponent(CMP_CANVAS)) {
+			if (gameobject->parent->GetComponent(CMP_RECTTRANSFORM)) //parent atribute is nullptr?
+			{
+				ComponentRectTransform* parent_rect_trans = (ComponentRectTransform*)gameobject->parent->GetComponent(CMP_RECTTRANSFORM);
+				ComponentTransform* parent_trans = parent_rect_trans->transform_part;
+
+
+				float2 offset = { 0,0 };
+				offset.x = -parent_trans->GetPosition().x;
+				offset.y = -parent_trans->GetPosition().y;
+				real_pos.y += offset.y;
+				real_pos.x += offset.x;
+
+			}
+		}
+
+		transform_part->SetPosition(real_pos);
 	}
 
 }
@@ -408,13 +442,13 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 
 void ComponentRectTransform::FitToParentRect()
 {
-	float2 parent_size = parent->GetSize(); 
+	float2 parent_size = parent->GetSize();
 	Resize(parent_size);
 }
 
 float2 ComponentRectTransform::GetSize() const
 {
-	return {width, height};
+	return { width, height };
 }
 
 void ComponentRectTransform::Load(JSON_Object * json_obj)
@@ -422,9 +456,9 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	// Get the mesh --------	
 	std::string resource_name = json_object_dotget_string(json_obj, "ComponentMesh.MeshName");	//As it's UI, it will always be the plane
 	Mesh* plane_mesh = (Mesh*)App->resources->Get(RES_MESH, resource_name.c_str());
-	plane_mesh->LoadToMemory(); 
+	plane_mesh->LoadToMemory();
 	quad_mesh->SetMesh(plane_mesh);
-	
+
 	float2 size = { (float)json_object_dotget_number(json_obj, "Width"),  (float)json_object_dotget_number(json_obj, "Height") };
 	Resize(size);
 

@@ -235,7 +235,9 @@ void ComponentTransform::SetScale(float3 new_esc)
 
 void ComponentTransform::SetPositionForUI(float3 new_pos)
 {
-	transform.position = new_pos;
+	float4x4 new_g_matrix = GlobalMatrix;
+	new_g_matrix.SetTranslatePart(new_pos);
+	SetGlobalViewMatrix(new_g_matrix);
 }
 
 void ComponentTransform::Load(JSON_Object * json_obj)

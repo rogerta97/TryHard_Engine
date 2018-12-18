@@ -43,6 +43,8 @@ public:
 	void Resize(float2 new_size);										// Will resize the rectangle at the values sended
 	float2 GetSizeFromPercentage(float value, UI_Widgget_Type type);	// Returns the size of the percentage sended. ex. 0.2 would output the 20%
 
+	void CompensateParentRelativePos();
+
 	float2 GetRelativePos() const;
 	void SetRelativePos(float2 new_pos);
 
