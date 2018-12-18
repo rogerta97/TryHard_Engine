@@ -48,6 +48,7 @@ bool ComponentImage::CleanUp()
 
 void ComponentImage::Draw(bool is_editor)
 {
+	App->renderer3D->UseUIRenderSettings();
 	image->Draw(); 
 }
 

@@ -39,18 +39,16 @@ public:
 	void UpdateProjectionMatrix(Camera* cam);
 
 	void UseCurrentRenderSettings();
-	void UseUIRenderSettings(bool game_scene = false); 
+	void UseImGuiRenderSettings(bool game_scene = false); 
+	void UseUIRenderSettings();
 	void UseDebugRenderSettings(); 
 
 	char* GetGraphicsModel() const;
 	char* GetGraphicsVendor() const;
 
-
 	RenderSettings GetDefaultRenderSettings() const; 
 
 	void AddRenderCamera(ComponentCamera* cam);
-	//void SetRenderCamera(ComponentCamera* cam); 
-	//ComponentCamera* GetRenderCamera() const;
 
 	void PrintConfigData(); 
 

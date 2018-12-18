@@ -60,7 +60,7 @@ void UI_Button::Draw(bool is_editor)
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
-	App->renderer3D->UseUIRenderSettings();
+	App->renderer3D->UseImGuiRenderSettings();
 
 	float4x4 view_mat = float4x4::identity;
 

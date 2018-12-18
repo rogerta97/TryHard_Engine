@@ -129,7 +129,7 @@ update_status ModuleImGui::Update(float dt)
 	is_mouse_in_scene = scene_panel->is_mouse_in;
 
 
-	App->renderer3D->UseUIRenderSettings();
+	App->renderer3D->UseImGuiRenderSettings();
 	DrawDocking();
 	ImGui::Render();
 	App->renderer3D->UseCurrentRenderSettings();

@@ -41,6 +41,8 @@ void UI_Label::CleanUp()
 
 void UI_Label::Draw(bool is_editor)
 {
+	App->renderer3D->UseUIRenderSettings();
+
 	if(text != "")
 		RenderText(); 
 }
@@ -51,8 +53,6 @@ void UI_Label::RenderText()
 
 	if (section.x != -1 && section.y != -1)
 		draw_section = true; 
-
-	App->renderer3D->UseUIRenderSettings();
 
 	// Render the rectangle 
 	glEnableClientState(GL_VERTEX_ARRAY);

@@ -156,11 +156,9 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 		 
 			ui_render_box.minPoint = min; 
 			ui_render_box.maxPoint = max;
-
-			App->renderer3D->UseDebugRenderSettings(); 	
-			glDisable(GL_DEPTH_TEST);
 		}
 		
+		//App->renderer3D->UseDebugRenderSettings();
 		//{
 		//	LineSegment curr_line;
 
