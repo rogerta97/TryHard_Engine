@@ -420,11 +420,12 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);
 		rtransform->Resize(size); 
 
-		cmp_canvas->AddElement(new_ui_go);
-
 		if (add_to_scene)
+		{
+			cmp_canvas->AddElement(new_ui_go);
 			AddGameObjectToScene(new_ui_go);
-
+		}
+			
 		break;
 	}
 	
@@ -445,19 +446,20 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
-		cmp_canvas->AddElement(new_ui_go);
-
 		button_text = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 		text_cmp->GetLabel()->SetText("Button"); 
 		text_cmp->SetClipping(CLIP_CENTER); 
 
-		//cmp_canvas->AddElement(button_text);
-
-		if(add_to_scene)
+		if (add_to_scene)
+		{
+			cmp_canvas->AddElement(new_ui_go);
+			cmp_canvas->AddElement(button_text);
 			AddGameObjectToScene(new_ui_go);
-
+			AddGameObjectToScene(button_text);
+		}
+		
 		break;
 	}
 		
@@ -474,10 +476,13 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		text_cmp->SetClipping(CLIP_TOPLEFT);
 
-		cmp_canvas->AddElement(new_ui_go);
 
 		if (add_to_scene)
+		{
+			cmp_canvas->AddElement(new_ui_go);
 			AddGameObjectToScene(new_ui_go);
+		}
+			
 
 		break;
 	}

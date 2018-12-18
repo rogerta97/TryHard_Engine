@@ -19,7 +19,7 @@ UI_Image::UI_Image(ComponentImage* container)
 	CreateDrawSpace();
 	cmp_container = container; 
 
-	draw_material = (Material*)App->resources->Get(RES_MATERIAL, "DefaultUIBackground_White");
+	draw_material = (Material*)App->resources->Get(RES_MATERIAL, "blending_transparent_window");
 	draw_material->LoadToMemory();
 	draw_material->reference_counting++;
 
