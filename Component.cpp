@@ -3,10 +3,12 @@
 
 Component::Component(GameObject* parent)
 {
+	default_size = float2(50, 50);
 }
 
 Component::Component()
 {
+	default_size = float2(50, 50);
 }
 
 Component::~Component()

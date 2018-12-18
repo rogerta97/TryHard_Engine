@@ -23,6 +23,7 @@
 #include "ComponentCanvas.h"
 #include "ComponentTextInput.h"
 #include "ComponentRectTransform.h"
+#include "ComponentCanvasScaler.h"
 #include "ImGuizmo/ImGuizmo.h"
 
 #include <fstream>
@@ -408,6 +409,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 	// Set a RectTransform more likely for text
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
+	ComponentCanvasScaler* canvas_scaler = (ComponentCanvasScaler*)cmp_canvas->GetGameObject()->GetComponent(CMP_CANVASSCALER);
+
+	//For the creating the element with the right size
 
 	switch (widdget)
 	{
@@ -417,7 +421,19 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img->GetImage()->SetCanvas(canvas_container);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);
+		float2 size;
+		switch (canvas_scaler->GetScaleType())
+		{
+		case ST_CONSTANT:
+			size = img->default_size;
+			break;
+		case ST_SCREEN_SIZE:
+			size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);;
+			break;
+		default:
+			break;
+		}
+
 		rtransform->Resize(size); 
 
 		if (add_to_scene)
