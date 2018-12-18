@@ -17,6 +17,7 @@
 #include "ComponentTextInput.h"
 #include "ComponentImage.h"
 #include "ComponentMesh.h"
+#include "ComponentCanvasScaler.h"
 
 #include "ComponentMaterial.h"
 
@@ -295,6 +296,10 @@ Component* GameObject::AddComponent(CompType new_type)
 			case CMP_TEXTINPUT:
 				new_cmp = new ComponentTextInput(this);
 				break;
+
+			case CMP_CANVASSCALER:
+				new_cmp = new ComponentCanvasScaler(this);
+				break;
 		}
 
 		if (new_cmp->GetType() == CMP_MATERIAL)
@@ -321,6 +326,11 @@ Component* GameObject::AddComponent(CompType new_type)
 					return false;
 				}
 			}
+		}
+
+		if (new_cmp->GetType() == CMP_CANVAS)
+		{
+			new_cmp->GetGameObject()->AddComponent(CMP_CANVASSCALER);
 		}
 	}
 

@@ -156,8 +156,6 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 		 
 			ui_render_box.minPoint = min; 
 			ui_render_box.maxPoint = max;
-
-				
 		}
 		
 		//App->renderer3D->UseDebugRenderSettings();
