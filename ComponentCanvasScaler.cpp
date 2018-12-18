@@ -1,11 +1,16 @@
 #include "ComponentCanvasScaler.h"
+#include "ComponentRectTransform.h"
+#include "Application.h"
+#include "UI_Canvas.h"
 
 
 
-ComponentCanvasScaler::ComponentCanvasScaler()
+ComponentCanvasScaler::ComponentCanvasScaler(GameObject* parent)
 {
+	component_type = CMP_CANVASSCALER;
+	gameobject = parent;
+	scale_type = ST_CONSTANT;
 }
-
 
 ComponentCanvasScaler::~ComponentCanvasScaler()
 {
@@ -13,17 +18,18 @@ ComponentCanvasScaler::~ComponentCanvasScaler()
 
 bool ComponentCanvasScaler::Start()
 {
-	return false;
+
+	return true;
 }
 
 bool ComponentCanvasScaler::Update()
 {
-	return false;
+	return true;
 }
 
 bool ComponentCanvasScaler::CleanUp()
 {
-	return false;
+	return true;
 }
 
 float ComponentCanvasScaler::GetScaleFactor()
@@ -34,4 +40,14 @@ float ComponentCanvasScaler::GetScaleFactor()
 void ComponentCanvasScaler::SetScaleFactor(float newValue)
 {
 	scale_factor = newValue; 
+}
+
+void ComponentCanvasScaler::SetScaleType(Scale_Type new_type)
+{
+	scale_type = new_type;
+}
+
+Scale_Type ComponentCanvasScaler::GetScaleType() const
+{
+	return scale_type;
 }

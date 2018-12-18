@@ -35,6 +35,7 @@ private:
 	void PrintButtonProperties();
 	void PrintMeshProperties(); 
 	void PrintMaterialProperties();
+	void PrintCanvasScalerProperties();
 
 	void DeleteElement(CompType type);
 

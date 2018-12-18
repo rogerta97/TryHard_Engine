@@ -669,9 +669,6 @@
     <ClInclude Include="ComponentCamera.h">
       <Filter>Sources\GameObject\Components\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentCanvasScaler.h">
-      <Filter>Sources\GameObject\Components\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentMaterial.h">
       <Filter>Sources\GameObject\Components\Components</Filter>
     </ClInclude>
@@ -680,6 +677,9 @@
     </ClInclude>
     <ClInclude Include="ComponentTransform.h">
       <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCanvasScaler.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1013,9 +1013,6 @@
     <ClCompile Include="ComponentCamera.cpp">
       <Filter>Sources\GameObject\Components\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentCanvasScaler.cpp">
-      <Filter>Sources\GameObject\Components\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentMaterial.cpp">
       <Filter>Sources\GameObject\Components\Components</Filter>
     </ClCompile>
@@ -1024,6 +1021,9 @@
     </ClCompile>
     <ClCompile Include="ComponentTransform.cpp">
       <Filter>Sources\GameObject\Components\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvasScaler.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@
 #include "ComponentTextInput.h"
 #include "ComponentImage.h"
 #include "ComponentCamera.h"
+#include "ComponentCanvasScaler.h"
 
 #include "MaterialImporter.h"
 #include "MeshImporter.h"
@@ -252,6 +253,9 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 		PrintInputFieldProperties();
 		break;
 
+	case CMP_CANVASSCALER:
+		PrintCanvasScalerProperties();
+		break;
 	}
 }
 
@@ -808,6 +812,32 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Spacing();
 	}		
+}
+
+void UI_InspectorPanel::PrintCanvasScalerProperties()
+{
+	ComponentCanvasScaler* canvas_scaler = (ComponentCanvasScaler*)GetGameObject()->GetComponent(CMP_CANVASSCALER);
+
+	int selected_scaler_type = canvas_scaler->GetScaleType();
+	std::string label = "Scale Type##";
+
+	if (ImGui::CollapsingHeader("Canvas Scaler"))
+	{
+		if (ImGui::Combo(label.c_str(), &selected_scaler_type, "Constant\0Screen size"))
+		{
+			switch (selected_scaler_type)
+			{
+			case 0:
+				canvas_scaler->SetScaleType(ST_CONSTANT);
+				break;
+
+			case 1:
+				canvas_scaler->SetScaleType(ST_SCREEN_SIZE);
+				break;
+			}
+
+		}
+	}
 }
 
 void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)

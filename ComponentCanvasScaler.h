@@ -3,10 +3,12 @@
 
 #include "Transform.h"
 
+enum Scale_Type {ST_CONSTANT,ST_SCREEN_SIZE};
+
 class ComponentCanvasScaler : public Component
 {
 public:
-	ComponentCanvasScaler();
+	ComponentCanvasScaler(GameObject* parent);
 	~ComponentCanvasScaler();
 
 	bool Start();
@@ -16,7 +18,11 @@ public:
 	float GetScaleFactor(); 
 	void SetScaleFactor(float newValue); 
 
+	Scale_Type GetScaleType() const;
+	void SetScaleType(Scale_Type new_type);
+
 private:
 	float scale_factor; 
+	Scale_Type scale_type;
 };
 
