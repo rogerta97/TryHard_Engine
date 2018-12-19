@@ -10,6 +10,7 @@ ComponentCanvasScaler::ComponentCanvasScaler(GameObject* parent)
 	component_type = CMP_CANVASSCALER;
 	gameobject = parent;
 	scale_type = ST_CONSTANT;
+	relative_pos_scaler = 0.01;
 }
 
 ComponentCanvasScaler::~ComponentCanvasScaler()

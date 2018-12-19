@@ -22,6 +22,8 @@ public:
 	Scale_Type GetScaleType() const;
 	void SetScaleType(Scale_Type new_type);
 
+	float relative_pos_scaler;
+
 private:
 	float scale_factor; 
 	Scale_Type scale_type;

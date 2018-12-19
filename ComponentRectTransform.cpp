@@ -53,22 +53,20 @@ bool ComponentRectTransform::Start()
 
 bool ComponentRectTransform::Update()
 {
-
-	UpdateRectWithAnchors();
-
 	if (gameobject->GetComponent(CMP_CANVAS))
 		return true;
 
 	GameObject* parent_canvas = GetFirstCanvasParent();
 
 	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
-	
 
 	if (canvas->GetScaleType() == ST_SCREEN_SIZE)
 	{
 		float2 new_size = GetSizeFromCanvasPercentage(percentage_size);
 		Resize(new_size);
 	}
+
+	UpdateRectWithAnchors();
 
 	return true;
 }
@@ -305,6 +303,10 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 	ComponentRectTransform* parent_rect = nullptr;
 	ComponentTransform* parent_transform = nullptr;
 
+	GameObject* parent_canvas = GetFirstCanvasParent();
+
+	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
+
 	if (gameobject->parent)
 		parent_rect = gameobject->parent->rect_transform;
 
@@ -323,15 +325,32 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 			};
 		}
 		else {
-			start_pos = {
-			parent_pos.x - parent_rect->width / 2,
-			parent_pos.y - parent_rect->height / 2
-			};
+			if (canvas->GetScaleType() == ST_CONSTANT)
+			{
+				start_pos = {
+				parent_pos.x - parent_rect->width / 2,
+				parent_pos.y - parent_rect->height / 2
+				};
+			}
+			else
+			{
+				start_pos = {
+				parent_pos.x - parent_rect->width / 2,
+				parent_pos.y - parent_rect->height / 2
+				};
+			}
 		}
 
-
-		real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
-		real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
+		if (canvas->GetScaleType() == ST_CONSTANT)
+		{
+			real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + relative_pos.y);
+			real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + relative_pos.x);
+		}
+		else
+		{
+			real_pos.x = (start_pos.x + (anchor.min_x * parent_rect->width) + (relative_pos.x * width * canvas->relative_pos_scaler));
+			real_pos.y = (start_pos.y + (anchor.min_y * parent_rect->height) + (relative_pos.y * height * canvas->relative_pos_scaler));
+		}
 
 
 		//to prevent positions accumulating
@@ -350,6 +369,11 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 
 			}
 		}
+
+		//if (gameobject->GetComponent(CMP_TEXT))
+		//{
+		//	real_pos.x -= width;
+		//}
 
 		transform_part->SetPosition(real_pos);
 	}
@@ -504,8 +528,8 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	std::string resource_name = json_object_dotget_string(json_obj, "ComponentMesh.MeshName");	//As it's UI, it will always be the plane
 
 	Mesh* plane_mesh = new Mesh();
-	plane_mesh->SetVertPlaneData(); 
-	plane_mesh->LoadToMemory(); 
+	plane_mesh->SetVertPlaneData();
+	plane_mesh->LoadToMemory();
 
 	quad_mesh->SetMesh(plane_mesh);
 
@@ -516,7 +540,7 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	float3 pos = float3::zero;
 	float3 rot = float3::zero;
 	float3 scale = float3::zero;
-	float2 tmp_relative_pos = float2::zero; 
+	float2 tmp_relative_pos = float2::zero;
 
 	pos.x = json_object_dotget_number(json_obj, "ComponentTransform.PositionX");
 	pos.y = json_object_dotget_number(json_obj, "ComponentTransform.PositionY");
