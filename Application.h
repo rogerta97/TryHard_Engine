@@ -60,10 +60,14 @@ public:
 	ModuleTime* time_manager;
 	ModuleScripting* script; 
 
-	GameState current_game_state = STOPPED;
+	void SetGameState(const GameState& new_gs);
+	GameState& GetGameState(); 
+
 
 private:
 	
+	GameState current_game_state = STOPPED;
+
 	std::string name;
 	std::string org;
 

@@ -214,6 +214,11 @@ void UI_Label::CreateCharacterPlane(const char * character, float3 position)
 	text_planes.push_back(new_char_img);
 }
 
+void UI_Label::CleanText()
+{
+	SetText(""); 
+}
+
 string UI_Label::GetText() const
 {
 	return text;
@@ -234,6 +239,18 @@ void UI_Label::TranslateOrigin(float2 increment)
 	text_origin += increment;
 }
 
+void UI_Label::AdvanceSection()
+{
+	if (section.y < text.size() - 1)
+		section += {1, 1}; 
+}
+
+void UI_Label::RegressSection()
+{
+	if (section.x > 0)
+		section -= {1, 1};
+}
+
 void UI_Label::SetText(const char * new_text)
 {
 	text = new_text; 
@@ -241,7 +258,7 @@ void UI_Label::SetText(const char * new_text)
 
 	FillTextPlanes();
 	
-	if(text != "") //Adjust the container plane to the new text size 
+	if(text.size() != 0) //Adjust the container plane to the new text size 
 		CreateEnclosedPlane(cmp_container->container_plane_vertices);
 }
 

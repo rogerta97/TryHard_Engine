@@ -286,8 +286,6 @@ void ComponentRectTransform::SetRelativePos(float2 new_pos)
 {
 	relative_pos = new_pos;
 	quad_mesh->UpdateBoundingBox(GetTransform());
-
-	ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 }
 
 Mesh * ComponentRectTransform::GetRectQuad() const
@@ -518,6 +516,7 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	float3 pos = float3::zero;
 	float3 rot = float3::zero;
 	float3 scale = float3::zero;
+	float2 tmp_relative_pos = float2::zero; 
 
 	pos.x = json_object_dotget_number(json_obj, "ComponentTransform.PositionX");
 	pos.y = json_object_dotget_number(json_obj, "ComponentTransform.PositionY");
@@ -531,9 +530,14 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	scale.y = json_object_dotget_number(json_obj, "ComponentTransform.ScaleY");
 	scale.z = json_object_dotget_number(json_obj, "ComponentTransform.ScaleZ");
 
+	tmp_relative_pos.x = json_object_dotget_number(json_obj, "RelativePos.X");
+	tmp_relative_pos.y = json_object_dotget_number(json_obj, "RelativePos.Y");
+
 	transform_part->SetPosition(pos);
 	transform_part->SetRotationEuler(rot);
 	transform_part->SetScale(scale);
+
+	SetRelativePos(tmp_relative_pos);
 
 }
 
@@ -554,6 +558,9 @@ void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
 
 	json_object_dotset_number(json_obj, width_name.c_str(), width);
 	json_object_dotset_number(json_obj, height_name.c_str(), height);
+
+	json_object_dotset_number(json_obj, std::string(node_name + ".RelativePos.X").c_str(), relative_pos.x);
+	json_object_dotset_number(json_obj, std::string(node_name + ".RelativePos.Y").c_str(), relative_pos.y);
 }
 
 

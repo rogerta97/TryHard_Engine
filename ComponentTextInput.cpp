@@ -1,5 +1,7 @@
 #include "ComponentTextInput.h"
 #include "GameObject.h"
+#include "UI_Label.h"
+#include "ComponentText.h"
 #include "Application.h"
 #include "UI_TextInput.h"
 
@@ -57,22 +59,27 @@ void ComponentTextInput::Save(JSON_Object * json_obj, const char * root)
 
 void ComponentTextInput::OnEvent(const Event & new_event)
 {
+	ComponentText* cmp_txt_show = nullptr; 
+
+	if(GetInputField()->GetShowText())
+		cmp_txt_show = (ComponentText*)GetInputField()->GetShowText()->GetComponent(CMP_TEXT);
+
 	switch (new_event.type)
 	{
 	case EventType::PLAY:
 
-		CONSOLE_LOG("IM THE BUTTON AND RECEIVED THE EVENT");
+		cmp_txt_show->GetLabel()->CleanText();
+		GetInputField()->GetShowText()->SetActive(true);
 
-		switch (App->current_game_state)
-		{
-		case GameState::RUNNING:
-			GetInputField()->GetPlaceHolderText()->SetActive(false);
-			break;
+		break;
 
-		case GameState::STOPPED:
-			GetInputField()->GetPlaceHolderText()->SetActive(true);
-			break;
-		}
+	case EventType::STOP:
+
+		cmp_txt_show->GetLabel()->CleanText();
+		GetInputField()->GetShowText()->SetActive(false);
+		GetInputField()->GetPlaceHolderText()->SetActive(true);
+
+		break;
 	}
 }
 

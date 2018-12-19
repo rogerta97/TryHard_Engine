@@ -37,9 +37,13 @@ public:
 	void SetOrigin(const float2 new_origin);
 	void TranslateOrigin(float2 increment);
 
+	void AdvanceSection(); 
+	void RegressSection(); 
+
 	ComponentText* cmp_container; 
 	float3 color;
 
+	void CleanText(); 
 	string GetText() const;
 	void SetText(const char* new_text);
 	void SetFont(string font_name);

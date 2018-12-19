@@ -21,8 +21,8 @@ ModuleTime::~ModuleTime()
 
 void ModuleTime::Pause()
 {
-	GameState& current_state = App->current_game_state;
-	switch (current_state)
+
+	switch (App->GetGameState())
 	{
 	case RUNNING:
 		game_timer.Stop();
@@ -42,8 +42,7 @@ void ModuleTime::Pause()
 
 void ModuleTime::Play()
 {
-	GameState& current_state = App->current_game_state;
-	switch (current_state)
+	switch (App->GetGameState())
 	{
 	case RUNNING:
 
@@ -60,7 +59,7 @@ void ModuleTime::Play()
 		break;
 
 	case PAUSED:
-		current_state = STOPPED;
+		App->SetGameState(STOPPED);
 		game_timer.Start();
 		game_timer.Stop();
 		break;
@@ -72,8 +71,8 @@ void ModuleTime::Play()
 
 update_status ModuleTime::Update(float dt)
 {
-	GameState& current_state = App->current_game_state;
-	if (current_state != PAUSED && current_state != STOPPED) {
+
+	if (App->GetGameState() != PAUSED && App->GetGameState() != STOPPED) {
 		game_dt = (SDL_GetTicks() - last_frame_time)* time_scale;
 		game_time += game_dt;
 		frame_count++;

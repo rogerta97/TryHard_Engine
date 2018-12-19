@@ -514,6 +514,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
 		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
+		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
+		button_cmp->GetButton()->SetCanvas(canvas_container);
+
 		img_cmp->GetImage()->SetPercentage(0.30f); 
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
