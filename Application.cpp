@@ -364,10 +364,6 @@ bool Application::CleanUp()
 
 void Application::BroadCastEvent(const Event & event)
 {
-	for (auto item = list_modules.begin(); item != list_modules.end(); item++)
-	{
-		(*item)->RecieveEvent(event);
-	}
 
 	//After all the modules we manage the state
 
@@ -381,6 +377,11 @@ void Application::BroadCastEvent(const Event & event)
 		break;
 	default:
 		break;
+	}
+
+	for (auto item = list_modules.begin(); item != list_modules.end(); item++)
+	{
+		(*item)->RecieveEvent(event);
 	}
 }
 

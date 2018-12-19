@@ -549,6 +549,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			AddGameObjectToScene(text_go);
 			cmp_canvas->AddElement(text_go);
 		}
+
+		text_go->SetActive(false); 
 			
 		break;
 	}
