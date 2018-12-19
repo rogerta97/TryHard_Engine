@@ -65,6 +65,14 @@ void ComponentButton::FitToRect()
 	button->GetArea()->Resize(rtransform->width, rtransform->height);
 }
 
+void ComponentButton::OnEvent(const Event & new_event)
+{
+	if (new_event.type == EventType::PLAY)
+	{
+		CONSOLE_LOG("Im the button and received the event"); 
+	}
+}
+
 void ComponentButton::Load(JSON_Object * json_obj)
 {
 	ComponentCanvas* cmp_canvas = nullptr;

@@ -366,7 +366,6 @@ void Application::BroadCastEvent(const Event & event)
 {
 
 	//After all the modules we manage the state
-
 	switch (event.type)
 	{
 	case PLAY:
