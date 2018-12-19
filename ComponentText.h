@@ -45,6 +45,8 @@ public:
 
 	// Utility ---------------------
 
+	float3 GetCursorPosFromLetter(const int& pos);
+
 	UI_Label* GetLabel() const;
 
 	ClipTextType GetClipping() const; 

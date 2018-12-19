@@ -466,6 +466,23 @@ void UI_Label::UpdateContainerPlane()
 	CreateEnclosedPlane(cmp_container->container_plane_vertices);
 }
 
+std::vector<float3>& UI_Label::GetOffsetList()
+{
+	return offset_planes;
+}
+
+float3 UI_Label::GetOffsetListValue(const int & index)
+{
+	int counter = 0; 
+	for (auto it = offset_planes.begin(); it != offset_planes.end(); it++)
+	{
+		if (counter++ == index)
+			return (*it); 
+	}
+
+	return { 0,0,0 }; 
+}
+
 GameObject * UI_Label::GetParentGameObject()
 {
 	GameObject* go = nullptr; 

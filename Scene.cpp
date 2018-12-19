@@ -537,7 +537,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
-		text_cmp->GetLabel()->SetText("");
+		text_cmp->GetLabel()->SetText("Test");
 
 		input_cmp->GetInputField()->SetPlaceHolderText(placeholder_text_go);
 		input_cmp->GetInputField()->SetShowText(text_go);

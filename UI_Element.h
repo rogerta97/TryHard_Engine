@@ -36,7 +36,7 @@ public:
 	virtual void Draw(); 
 
 	UI_Widgget_Type GetType() const;
-	void SetType(UI_Widgget_Type new_type);
+	void SetType(const UI_Widgget_Type& new_type);
 
 	float GetPercentage() const;
 	void SetPercentage(float new_num);
@@ -48,10 +48,15 @@ public:
 	UI_Canvas* GetCanvas() const;
 	void SetCanvas(UI_Canvas* new_ray);
 
-	void SetState(const UI_ElementState new_state); 
+	void SetState(const UI_ElementState& new_state); 
 	UI_ElementState GetState() const;
 
+	void SetSelected(const bool& new_state);
+	bool GetSelected() const;
+
 private:
+
+	bool selected = false;									// Is element selected
 
 	UI_ElementState state = UI_ElementState::ELM_IDLE;		// State of the element 
 	UI_Widgget_Type wid_type;								// Type of UI element 
