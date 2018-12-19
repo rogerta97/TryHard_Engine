@@ -33,12 +33,24 @@ bool ComponentTextInput::Start()
 
 bool ComponentTextInput::Update()
 {
-	//The only way to click elements :) 
+	//The only way to click elements for now -------------
+
 	if (App->GetGameState() == RUNNING)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
 			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
 	}
+
+	// ---------------------------------------------------
+
+	if (GetButtonField()->GetButton()->GetState() == ELM_PRESSED)
+	{
+		CONSOLE_LOG("BUTTON HAS BEEN PRESSED"); 
+
+		GetButtonField()->GetButton()->SetState(ELM_IDLE);
+	}
+
+
 	
 	return false;
 }

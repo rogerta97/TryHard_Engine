@@ -932,7 +932,7 @@ update_status Scene::Update(float dt)
 {
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
-		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
+		if ((*it)->GetParent() == nullptr && ((*it)->GetIsUI() == false) || (*it)->GetComponent(CMP_CANVAS) == nullptr)
 		{
 			(*it)->Update();
 		}
