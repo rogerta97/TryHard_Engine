@@ -623,7 +623,7 @@ void UI_InspectorPanel::PrintInputFieldProperties()
 		ImGui::Text("PlaceHolder: "); ImGui::SameLine();
 
 		if (place_holder_go != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName()); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName().c_str()); 
 		else
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
@@ -631,7 +631,7 @@ void UI_InspectorPanel::PrintInputFieldProperties()
 		ImGui::Text("Text: "); ImGui::SameLine();
 
 		if (text_go != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", text_go->GetName());
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", text_go->GetName().c_str());
 		else
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 

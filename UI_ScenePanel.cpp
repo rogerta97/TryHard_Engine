@@ -104,7 +104,7 @@ bool UI_ScenePanel::Update()
 			if (ImGui::IsItemClicked())
 			{
 				play = !play;
-				App->BroadCastEvent(Event(PLAY));
+				App->BroadCastEvent(Event(STOP));
 			}
 
 			ImGui::ImageButton((ImTextureID)pause_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);

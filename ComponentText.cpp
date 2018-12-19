@@ -1,9 +1,11 @@
 #include "ComponentText.h"
 #include "UI_Label.h"
+#include "UI_TextInput.h"
 #include "DebugDraw.h"
 #include "Font.h"
 
 #include "ComponentCanvas.h"
+#include "ComponentTextInput.h"
 #include "ComponentRectTransform.h"
 #include "UI_Canvas.h"
 
@@ -90,6 +92,8 @@ void ComponentText::Load(JSON_Object * json_obj)
 	draw_color.y = json_object_dotget_number(json_obj, "Color.G");
 	draw_color.z = json_object_dotget_number(json_obj, "Color.B");
 
+	GetLabel()->color = draw_color; 
+
 	int type = json_object_dotget_number(json_obj, "HorizontalOverflow");
 	horizontal_overflow = (horizontalTextOverflow)type; 
 
@@ -98,6 +102,16 @@ void ComponentText::Load(JSON_Object * json_obj)
 
 	type = json_object_dotget_number(json_obj, "Clipping");
 	clipping = (ClipTextType)type;
+
+	UID input_parent_uid = json_object_dotget_number(json_obj, "ParentInputUID");
+
+	ComponentTextInput* cmp_ti = (ComponentTextInput*)App->scene->GetGameObjectByID(input_parent_uid)->GetComponent(CMP_TEXTINPUT);
+
+	if (cmp_ti->GetPlaceHolderUID() == GetGameObject()->unique_id)
+		cmp_ti->GetInputField()->SetPlaceHolderText(GetGameObject());
+
+	if (cmp_ti->GetShowTextUID() == GetGameObject()->unique_id)
+		cmp_ti->GetInputField()->SetShowText(GetGameObject());
 
 	std::string font_name = json_object_dotget_string(json_obj, "FontName");
 	label->text_size = json_object_dotget_number(json_obj, "Size");
@@ -116,14 +130,16 @@ void ComponentText::Save(JSON_Object * json_obj, const char * root)
 	json_object_dotset_number(json_obj, std::string(item_name + ".Section.X").c_str(), section.x);
 	json_object_dotset_number(json_obj, std::string(item_name + ".Section.Y").c_str(), section.y);
 
-	json_object_dotset_number(json_obj, std::string(item_name + ".Color.R").c_str(), draw_color.x);
-	json_object_dotset_number(json_obj, std::string(item_name + ".Color.G").c_str(), draw_color.y);
-	json_object_dotset_number(json_obj, std::string(item_name + ".Color.B").c_str(), draw_color.z);
+	json_object_dotset_number(json_obj, std::string(item_name + ".Color.R").c_str(), GetLabel()->color.x);
+	json_object_dotset_number(json_obj, std::string(item_name + ".Color.G").c_str(), GetLabel()->color.y);
+	json_object_dotset_number(json_obj, std::string(item_name + ".Color.B").c_str(), GetLabel()->color.z);
 
 	json_object_dotset_number(json_obj, std::string(item_name + ".HorizontalOverflow").c_str(), horizontal_overflow);
 	json_object_dotset_number(json_obj, std::string(item_name + ".VerticalOverflow").c_str(), vertical_overflow);
 
 	json_object_dotset_number(json_obj, std::string(item_name + ".Clipping").c_str(), clipping);
+
+	json_object_dotset_number(json_obj, std::string(item_name + ".ParentInputUID").c_str(), GetParentTextInputUID());
 
 	json_object_dotset_string(json_obj, std::string(item_name + ".Text").c_str(), label->GetText().c_str());
 
@@ -292,6 +308,16 @@ verticalTextOverflow ComponentText::GetVerticalOverflow() const
 void ComponentText::SetVerticalOverflow(const verticalTextOverflow new_ov)
 {
 	vertical_overflow = new_ov;
+}
+
+UID ComponentText::GetParentTextInputUID() const
+{
+	return text_input_ID;
+}
+
+void ComponentText::SetParentTextInputUID(const UID & new_ov)
+{
+	text_input_ID = new_ov; 
 }
 
 ClipTextType ComponentText::GetClipping() const

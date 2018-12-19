@@ -70,6 +70,9 @@ public:
 	verticalTextOverflow GetVerticalOverflow() const;
 	void SetVerticalOverflow(const verticalTextOverflow new_ov);
 
+	UID GetParentTextInputUID() const;
+	void SetParentTextInputUID(const UID& new_ov);
+
 	float3 container_plane_vertices[4];
 	int line_spacing = 0;
 
@@ -78,10 +81,12 @@ private:
 	horizontalTextOverflow horizontal_overflow = HORIZONTAL_OVERFLOW;	// Horizontal text wrapping
 	verticalTextOverflow vertical_overflow = VERTICAL_OVERFLOW;			// vertical text wrapping	
 	
-	float2 text_origin; 
-	float2 section;														// Section of the text that will be rendered (normally used for text input)
-	UI_Label * label;
-	float3 draw_color; 
+	UID text_input_ID = 0; 
+
+	float2 text_origin = {0,0};
+	float2 section = {0,0};														// Section of the text that will be rendered (normally used for text input)
+	UI_Label * label = nullptr;
+	float3 draw_color = {0,0,0};
 	ClipTextType clipping = ClipTextType::CLIP_BOTTOMLEFT; 
 };
 
