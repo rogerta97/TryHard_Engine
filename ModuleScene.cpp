@@ -465,22 +465,22 @@ void ModuleScene::Pause()
 
 void ModuleScene::Play()
 {
-	switch (App->GetGameState())
-	{
-	case RUNNING:
-		CleanAndLoadScene("temp_scene");
-		break;
+	//switch (App->GetGameState())
+	//{
+	//case RUNNING:
+	//	CleanAndLoadScene("temp_scene");
+	//	break;
 
-	case STOPPED:
-		SaveScene("temp_scene");
-		break;
-	case PAUSED:
+	//case STOPPED:
+	//	SaveScene("temp_scene");
+	//	break;
+	//case PAUSED:
 
-		break;
+	//	break;
 
-	default:
-		break;
-	}
+	//default:
+	//	break;
+	//}
 }
 
 Scene * ModuleScene::GetCurrentScene()

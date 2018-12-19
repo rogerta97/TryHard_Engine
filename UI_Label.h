@@ -37,6 +37,9 @@ public:
 	void SetOrigin(const float2 new_origin);
 	void TranslateOrigin(float2 increment);
 
+	void AdvanceSection(); 
+	void RegressSection(); 
+
 	ComponentText* cmp_container; 
 	float3 color;
 

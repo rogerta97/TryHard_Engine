@@ -17,10 +17,10 @@ ComponentText::ComponentText(GameObject* parent)
 	gameobject = parent;
 
 	label = new UI_Label(this); 
-	label->SetText("mum"); 
+	label->SetText("SuperCaliFragiListiQuospiAlisosdfad"); 
 
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
-	section = { 0,0 };
+	label->section = { 0,3 };
 	draw_color = { 0,0,0 }; 
 }	
 

@@ -69,7 +69,7 @@ void ComponentButton::OnEvent(const Event & new_event)
 {
 	if (new_event.type == EventType::PLAY)
 	{
-		CONSOLE_LOG("Im the button and received the event"); 
+		
 	}
 }
 
@@ -104,7 +104,6 @@ void ComponentButton::Save(JSON_Object * json_obj, const char * root)
 	UID uid = GetButton()->GetContainerCanvasGO()->unique_id;
 
 	json_object_dotset_number(json_obj, std::string(item_name + ".CanvasContainer").c_str(), uid);
-
 
 	json_object_dotset_number(json_obj, std::string(item_name + ".AreaSize.X").c_str(), rtransform->width);
 	json_object_dotset_number(json_obj, std::string(item_name + ".AreaSize.Y").c_str(), rtransform->height);

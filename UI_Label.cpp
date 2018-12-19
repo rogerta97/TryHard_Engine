@@ -234,6 +234,18 @@ void UI_Label::TranslateOrigin(float2 increment)
 	text_origin += increment;
 }
 
+void UI_Label::AdvanceSection()
+{
+	if (section.y < text.size() - 1)
+		section += {1, 1}; 
+}
+
+void UI_Label::RegressSection()
+{
+	if (section.x > 0)
+		section -= {1, 1};
+}
+
 void UI_Label::SetText(const char * new_text)
 {
 	text = new_text; 
