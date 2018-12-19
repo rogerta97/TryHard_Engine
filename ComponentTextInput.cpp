@@ -33,6 +33,12 @@ bool ComponentTextInput::Start()
 
 bool ComponentTextInput::Update()
 {
+	//The only way to click elements :) 
+	if (App->GetGameState() == RUNNING)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
+			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
+	}
 	
 	return false;
 }
@@ -44,6 +50,8 @@ bool ComponentTextInput::CleanUp()
 
 void ComponentTextInput::Draw(bool is_editor)
 {
+
+	//Draw the button inside ComponentText for debugging
 	App->renderer3D->UseDebugRenderSettings();
 
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
