@@ -27,6 +27,7 @@ ComponentTextInput::ComponentTextInput(GameObject* parent)
 
 	cursor_color = { 0,0,0 };
 	draw_cursor = false; 
+	cursor_pos = 0; 
 }
 
 
@@ -58,6 +59,13 @@ bool ComponentTextInput::Update()
 
 		GetButtonField()->GetButton()->SetState(ELM_IDLE);
 	}
+
+	if(draw_cursor && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		CursorForward();
+
+	if (draw_cursor && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		CursorBackwards();
+
 	
 	return false;
 }
@@ -110,6 +118,26 @@ void ComponentTextInput::DrawButtonFrame()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)view_mat.v);
 	}
+}
+
+void ComponentTextInput::CursorForward()
+{
+	ComponentText* show_text_cmp = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
+	int text_lenght = show_text_cmp->GetLabel()->GetText().size(); 
+
+	if (cursor_pos == text_lenght - 1)
+		return;
+	else
+		cursor_pos++;		
+}
+
+void ComponentTextInput::CursorBackwards()
+{
+
+	if (cursor_pos == 0)
+		return;
+	else
+		cursor_pos--;
 }
 
 void ComponentTextInput::SetDrawCursor(const bool & newValue)
@@ -171,12 +199,12 @@ void ComponentTextInput::DrawCursor()
 
 	// Get Cursor Pos
 	ComponentText* text_cmp = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
-	float3 cursor_pos = text_cmp->GetCursorPosFromLetter(1);
-	cursor_pos.x += text_cmp->GetLabel()->GetOrigin().x;
+	float3 cursor_world_pos = text_cmp->GetCursorPosFromLetter(cursor_pos);
+	cursor_world_pos.x += text_cmp->GetLabel()->GetOrigin().x;
 
 	//Generate Matrix
 	float4x4 global_cursor_mat = float4x4::identity;
-	global_cursor_mat.SetTranslatePart(cursor_pos); 
+	global_cursor_mat.SetTranslatePart(cursor_world_pos);
 
 	float4x4 view_mat = float4x4::identity;
 

@@ -25,6 +25,9 @@ public:
 	void DrawCursor();
 	void DrawButtonFrame();
 
+	void CursorForward();
+	void CursorBackwards(); 
+
 	void SetDrawCursor(const bool& newValue); 
 
 	void OnEvent(const Event& new_event);
