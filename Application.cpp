@@ -7,6 +7,16 @@
 
 #include "mmgr\mmgr.h"
 
+void Application::SetGameState(const GameState & new_gs)
+{
+	current_game_state = new_gs; 
+}
+
+GameState & Application::GetGameState()
+{
+	return current_game_state; 
+}
+
 Application::Application()
 {
 	window = new ModuleWindow();
@@ -364,20 +374,6 @@ bool Application::CleanUp()
 
 void Application::BroadCastEvent(const Event & event)
 {
-
-	//After all the modules we manage the state
-	switch (event.type)
-	{
-	case PLAY:
-		Play();
-		break;
-	case PAUSE:
-		Pause();
-		break;
-	default:
-		break;
-	}
-
 	for (auto item = list_modules.begin(); item != list_modules.end(); item++)
 	{
 		(*item)->RecieveEvent(event);

@@ -89,44 +89,54 @@ bool UI_ScenePanel::Update()
 
 		//Buttons
 		ImGui::SetCursorPos({ region_size.x / 2 - 30,5 });
-		if (App->current_game_state == RUNNING)
-		{
-			ImGui::ImageButton((ImTextureID)play_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3); ImGui::SameLine();
 
-			if (ImGui::IsItemClicked())
-			{
-				play = !play;
-				App->BroadCastEvent(Event(PLAY));
-			}
-
-			ImGui::ImageButton((ImTextureID)stop_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3); ImGui::SameLine();
-
-			if (ImGui::IsItemClicked())
-			{
-				play = !play;
-				App->BroadCastEvent(Event(PLAY));
-			}
-
-			ImGui::ImageButton((ImTextureID)pause_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
-
-			if (ImGui::IsItemClicked())
-			{
-				play = !play;
-				App->BroadCastEvent(Event(PAUSE));
-			}
-		}
+		if(play)
+			ImGui::ImageButton((ImTextureID)play_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
 		else
+			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		ImGui::SameLine();
+
+		if (ImGui::IsItemClicked())
 		{
-			ImGui::ImageButton((ImTextureID)play_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3); ImGui::SameLine();
-
-			if (ImGui::IsItemClicked())
+			if (App->GetGameState() == RUNNING)
 			{
-				play = !play;
-				App->BroadCastEvent(Event(PLAY));
+				play = false; 
+				App->BroadCastEvent(Event(STOP));
+				App->SetGameState(GameState::STOPPED);
 			}
+			else if (App->GetGameState() == STOPPED)
+			{
+				play = true;
+				App->BroadCastEvent(Event(PLAY));
+				App->SetGameState(GameState::RUNNING);
+			}		
+		}
 
-			ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3); ImGui::SameLine();
+		if (play)
+			ImGui::ImageButton((ImTextureID)stop_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+		else
+			ImGui::ImageButton((ImTextureID)stop_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		ImGui::SameLine();
+
+		if (ImGui::IsItemClicked())
+		{
+			play = !play;
+			App->BroadCastEvent(Event(PLAY));
+		}
+
+		if (play)
+			ImGui::ImageButton((ImTextureID)pause_icon_pressed->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+		else
 			ImGui::ImageButton((ImTextureID)pause_icon->GetDiffuseTexture()->GetTextureID(), ImVec2(20, 20), ImVec2(0, 0), ImVec2(1, 1), 3);
+
+		ImGui::SameLine();
+
+		if (ImGui::IsItemClicked())
+		{
+			play = !play;
+			App->BroadCastEvent(Event(PAUSE));
 		}
 
 		ImGui::SetCursorPos({ 0,0 });

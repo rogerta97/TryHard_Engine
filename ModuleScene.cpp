@@ -448,11 +448,11 @@ void ModuleScene::RecieveEvent(const Event & event)
 {
 	switch (event.type)
 	{
-	case PLAY:
-		Play();
+	case EventType::PLAY:
+		SaveScene("temp_scene");
 		break;
-	case PAUSE:
-		Pause();
+	case EventType::STOP:
+		CleanAndLoadScene("temp_scene");
 		break;
 	default:
 		break;
@@ -465,8 +465,7 @@ void ModuleScene::Pause()
 
 void ModuleScene::Play()
 {
-	GameState& current_state = App->current_game_state;
-	switch (current_state)
+	switch (App->GetGameState())
 	{
 	case RUNNING:
 		CleanAndLoadScene("temp_scene");

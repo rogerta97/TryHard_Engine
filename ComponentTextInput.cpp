@@ -60,19 +60,12 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 	switch (new_event.type)
 	{
 	case EventType::PLAY:
+		GetInputField()->GetPlaceHolderText()->SetActive(false);
+		break;
 
-		CONSOLE_LOG("IM THE BUTTON AND RECEIVED THE EVENT");
-
-		switch (App->current_game_state)
-		{
-		case GameState::RUNNING:
-			GetInputField()->GetPlaceHolderText()->SetActive(false);
-			break;
-
-		case GameState::STOPPED:
-			GetInputField()->GetPlaceHolderText()->SetActive(true);
-			break;
-		}
+	case EventType::STOP:
+		GetInputField()->GetPlaceHolderText()->SetActive(true);
+		break;
 	}
 }
 
