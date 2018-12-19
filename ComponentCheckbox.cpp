@@ -51,6 +51,16 @@ void ComponentCheckBox::Save(JSON_Object * json_obj, const char * root)
 {
 }
 
+float ComponentCheckBox::GetBackgroundDistancePercentage()
+{
+	return background_img_pos_percentage;
+}
+
+float ComponentCheckBox::GetLabelPercentage()
+{
+	return label_origin_pos_percentage;
+}
+
 UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 {
 	return checkbox;

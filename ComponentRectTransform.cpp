@@ -259,7 +259,7 @@ float2 ComponentRectTransform::GetSizeFromPercentage(float value, UI_Widgget_Typ
 	return ret_size;
 }
 
-float2 ComponentRectTransform::GetSizeFromCanvasPercentage(float percentage)
+float2 ComponentRectTransform::GetSizeFromCanvasPercentage(const float& percentage)
 {
 	float2 ret_size;
 
@@ -271,6 +271,19 @@ float2 ComponentRectTransform::GetSizeFromCanvasPercentage(float percentage)
 	ret_size.y = canvas->width * percentage * rel_size.y;
 
 	return ret_size;
+}
+
+float3 ComponentRectTransform::GetPointFromCanvasPercentage(const float& percentage)
+{
+	return { GetSize().x * percentage, GetRectCenter().y, 0 };
+}
+
+float3 ComponentRectTransform::GetRectCenter()
+{
+	float3 return_value = { GetSize().x / 2.0f, GetSize().y / 2.0f,  0 }; 
+	return_value += GetGlobalPosition();
+
+	return return_value;
 }
 
 void ComponentRectTransform::CompensateParentRelativePos()
@@ -286,6 +299,12 @@ float2 ComponentRectTransform::GetRelativePos() const
 void ComponentRectTransform::SetRelativePos(float2 new_pos)
 {
 	relative_pos = new_pos;
+	quad_mesh->UpdateBoundingBox(GetTransform());
+}
+
+void ComponentRectTransform::TranslateRelativePos(float2 new_pos)
+{
+	relative_pos += new_pos;
 	quad_mesh->UpdateBoundingBox(GetTransform());
 }
 

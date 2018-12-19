@@ -25,6 +25,9 @@ public:
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
 
+	float GetBackgroundDistancePercentage(); 
+	float GetLabelPercentage();
+
 	UI_CheckBox* GetCheckBox() const;
 
 	UICallbackSystem* callback_system;

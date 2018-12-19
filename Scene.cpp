@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include "Globals.h"
+#include "Material.h"
 #include "Application.h"
 #include "Scene.h"
 #include "UI_InspectorPanel.h"
@@ -582,18 +583,32 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentImage* img_check_cmp = (ComponentImage*)checkmark_go->AddComponent(CMP_IMAGE);
 		img_check_cmp->GetImage()->SetCanvas(canvas_container);
 
+		// Set CheckMark Image
+		Material* checkmark_material = (Material*)App->resources->Get(RES_MATERIAL, "Check_Mark");
+	
+		if (checkmark_material->reference_counting == 0)
+			checkmark_material->LoadToMemory();
+
+		checkmark_material->reference_counting++; 
+		img_check_cmp->GetImage()->SetMaterial(checkmark_material);
+
+		// Make image smaller
 		ComponentRectTransform* check_rtransform = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
-		check_rtransform->Resize({ size.y - 5, size.y - 5});
+		check_rtransform->Resize({ size.y - 8, size.y - 8});
+
+		//Move image needed offset
+		float3 point = check_rtransform->GetPointFromCanvasPercentage(check_cmp->GetBackgroundDistancePercentage());
+		check_rtransform->TranslateRelativePos(float2(point.x, point.y));
 
 		// Labbel ----------------
 		GameObject* label_go = new GameObject("Label", true);
 		label_go->SetParent(new_ui_go);
 
-		ComponentText* cmp_txt = (ComponentText*)background_go->AddComponent(CMP_TEXT);
+		ComponentText* cmp_txt = (ComponentText*)label_go->AddComponent(CMP_TEXT);
 		cmp_txt->GetLabel()->SetCanvas(canvas_container);
 
 		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
-		labbel_rtransform->Resize({ size.y - 5 , size.x * 0.66f});
+		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});
 	
 		 //Create the child with the text
 		if (add_to_scene)
@@ -602,7 +617,13 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			AddGameObjectToScene(new_ui_go);
 
 			cmp_canvas->AddElement(background_go);
-			AddGameObjectToScene(background_go);		
+			AddGameObjectToScene(background_go);
+
+			cmp_canvas->AddElement(label_go);
+			AddGameObjectToScene(label_go);
+
+			cmp_canvas->AddElement(checkmark_go);
+			AddGameObjectToScene(checkmark_go);
 		}
 
 
