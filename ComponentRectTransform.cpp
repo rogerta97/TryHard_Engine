@@ -5,6 +5,7 @@
 #include "UI_GamePanel.h"
 #include "DebugDraw.h"
 #include "ComponentMesh.h"
+#include "ComponentCanvasScaler.h"
 #include "Mesh.h"
 #include "OpenGL.h"
 #include "ModuleUserInterface.h"
@@ -33,6 +34,8 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	CreateRectQuad();
 	Resize({ 1,1 });
 	edited = false;
+
+	percentage_size = 0.1;
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -52,6 +55,20 @@ bool ComponentRectTransform::Update()
 {
 
 	UpdateRectWithAnchors();
+
+	if (gameobject->GetComponent(CMP_CANVAS))
+		return true;
+
+	GameObject* parent_canvas = GetFirstCanvasParent();
+
+	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
+	
+
+	if (canvas->GetScaleType() == ST_SCREEN_SIZE)
+	{
+		float2 new_size = GetSizeFromCanvasPercentage(percentage_size);
+		Resize(new_size);
+	}
 
 	return true;
 }
@@ -237,6 +254,20 @@ float2 ComponentRectTransform::GetSizeFromPercentage(float value, UI_Widgget_Typ
 
 	if (type == UI_Widgget_Type::UI_LABEL || type == UI_Widgget_Type::UI_INPUTFIELD)
 		ret_size.y = ret_size.x * 0.25f;
+
+	return ret_size;
+}
+
+float2 ComponentRectTransform::GetSizeFromCanvasPercentage(float percentage)
+{
+	float2 ret_size;
+
+	GameObject* parent_canvas = GetFirstCanvasParent();
+
+	ComponentRectTransform* canvas = (ComponentRectTransform*)parent_canvas->GetComponent(CMP_RECTTRANSFORM);
+
+	ret_size.x = canvas->width * percentage;
+	ret_size.y = canvas->width * percentage;
 
 	return ret_size;
 }
@@ -441,6 +472,17 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 	return ret;
 }
 
+GameObject * ComponentRectTransform::GetFirstCanvasParent()
+{
+	GameObject* parent_canvas = gameobject;
+
+	while (!parent_canvas->GetComponent(CMP_CANVAS)) {
+		parent_canvas = parent_canvas->parent;
+	}
+
+	return parent_canvas;
+}
+
 void ComponentRectTransform::FitToParentRect()
 {
 	float2 parent_size = parent->GetSize();
@@ -450,6 +492,10 @@ void ComponentRectTransform::FitToParentRect()
 float2 ComponentRectTransform::GetSize() const
 {
 	return { width, height };
+}
+
+void ComponentRectTransform::ResizeWithPercentage()
+{
 }
 
 void ComponentRectTransform::Load(JSON_Object * json_obj)
@@ -528,6 +574,9 @@ void ComponentRectTransform::SetAnchorPoint(float min_x, float min_y, float max_
 
 	if (gameobject->parent)
 		parent_rect = gameobject->parent->rect_transform;
+
+	if (!parent_rect)
+		return;
 
 	float x_diff = (min_x - anchor.min_x) * parent_rect->width;
 	float y_diff = (min_y - anchor.min_y) * parent_rect->height;

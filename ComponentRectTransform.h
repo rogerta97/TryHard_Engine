@@ -43,6 +43,8 @@ public:
 	void DebugDrawRectSize();											// The difference is that this rect is to debug the width and height
 	void Resize(float2 new_size);										// Will resize the rectangle at the values sended
 	float2 GetSizeFromPercentage(float value, UI_Widgget_Type type);	// Returns the size of the percentage sended. ex. 0.2 would output the 20%
+	float2 GetSizeFromCanvasPercentage(float percentage);
+
 
 	void CompensateParentRelativePos();
 
@@ -53,6 +55,8 @@ public:
 	ComponentMesh* GetRectQuadComponent() const;
 	float2 GetSize() const; 
 
+	void ResizeWithPercentage();
+
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
 
@@ -60,6 +64,8 @@ public:
 
 	bool GetClosestIntersectionPoint(LineSegment line, float3 &closest_point, float & distance); //For mousepicking
 	bool GetClosestIntersectionPointForGame(LineSegment line, float3 &closest_point, float & distance);
+
+	GameObject* GetFirstCanvasParent();
 
 	// ----------------------
 
@@ -77,6 +83,8 @@ public:
 	float width, height;
 	float3 scale_to_show; 
 	bool edited = false;
+
+	float percentage_size;
 
 private:
 
