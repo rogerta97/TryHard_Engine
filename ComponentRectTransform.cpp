@@ -492,7 +492,6 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	transform_part->SetScale(scale);
 
 	SetRelativePos(tmp_relative_pos);
-
 }
 
 void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)

@@ -504,23 +504,24 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 
 	case UI_Widgget_Type::UI_INPUTFIELD:
-
 	{
 		new_ui_go->SetName("Input Field");
 
 		ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img_cmp->GetImage()->SetCanvas(canvas_container);
 
-		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
-		input_cmp->GetInputField()->SetCanvas(canvas_container);
-
-		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
-		button_cmp->GetButton()->SetCanvas(canvas_container);
-
-		img_cmp->GetImage()->SetPercentage(0.30f); 
+		img_cmp->GetImage()->SetPercentage(0.30f);
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
 		rtransform->Resize(size);
+
+		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
+		input_cmp->GetInputField()->SetCanvas(canvas_container);
+
+		//ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
+		//button_cmp->GetButton()->SetCanvas(canvas_container);
+
+	
 
 		//Create 2 text childs 
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false); 
@@ -610,15 +611,16 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 
 	auto go_iterator = scene_gameobjects.begin();
 
-	while (go_iterator != scene_gameobjects.end()) {
+	while (go_iterator != scene_gameobjects.end()) 
+	{
 		GameObject* go = (*go_iterator);
-
-
 		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+
 		if (rect_trans)
 		{
 			intersected_list.push_back(go);
 		}
+
 		go_iterator++;
 	}
 
@@ -635,6 +637,20 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 		}
 		else {
 			button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
+		}
+	}
+
+
+	ComponentTextInput* inputfield_cmp = (ComponentTextInput*)closestGo->GetComponent(CMP_TEXTINPUT);
+	if (inputfield_cmp)
+	{
+		ComponentButton* inputtext_button = inputfield_cmp->GetButtonField(); 
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+			inputtext_button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
+		}
+		else {
+			inputtext_button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
 		}
 	}
 

@@ -36,6 +36,8 @@ void UI_Button::Update()
 
 	if (GetState() == ELM_PRESSED)
 	{
+		CONSOLE_LOG("Impressed"); 
+
 		if(!component_container->OnMousePressed.empty())
 			for (auto it = component_container->OnMousePressed.begin(); it != component_container->OnMousePressed.end(); it++)
 			{

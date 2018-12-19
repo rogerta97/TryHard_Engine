@@ -1,7 +1,12 @@
 #include "ComponentTextInput.h"
+#include "ComponentRectTransform.h"
 #include "GameObject.h"
 #include "UI_Label.h"
+#include "UI_Plane.h"
+#include "UI_Button.h"
 #include "ComponentText.h"
+#include "DebugDraw.h"
+#include "ComponentButton.h"
 #include "Application.h"
 #include "UI_TextInput.h"
 
@@ -10,6 +15,10 @@ ComponentTextInput::ComponentTextInput(GameObject* parent)
 	gameobject = parent; 
 	component_type = CMP_TEXTINPUT; 
 	input_field = new UI_TextInput(this); 
+	input_button = new ComponentButton(nullptr); 
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
+	input_button->GetButton()->GetArea()->Resize(rtransform->width, rtransform->height);
 }
 
 
@@ -24,6 +33,7 @@ bool ComponentTextInput::Start()
 
 bool ComponentTextInput::Update()
 {
+	
 	return false;
 }
 
@@ -34,6 +44,49 @@ bool ComponentTextInput::CleanUp()
 
 void ComponentTextInput::Draw(bool is_editor)
 {
+	App->renderer3D->UseDebugRenderSettings();
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
+	ComponentTransform* trans = rtransform->GetTransform(); 
+
+	float4x4 view_mat = float4x4::identity;
+
+	if (trans)
+	{
+		GLfloat matrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+		view_mat.Set((float*)matrix);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)((trans->GetGlobalViewMatrix()).Transposed() * view_mat).v);
+	}
+
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 0.0f, 0.0f);
+
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[0].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].z);
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[1].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].z);
+
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[0].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].z);
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[2].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].z);
+
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[2].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].z);
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[3].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].z);
+
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[3].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].z);
+	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[1].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].z);
+
+	glEnd();
+
+
+	if (trans)
+	{
+		trans->DrawAxis();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf((GLfloat*)view_mat.v);
+	}
+
+	
 }
 
 void ComponentTextInput::Load(JSON_Object * json_obj)
@@ -86,6 +139,11 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 UI_TextInput * ComponentTextInput::GetInputField() const
 {
 	return input_field;
+}
+
+ComponentButton * ComponentTextInput::GetButtonField() const
+{
+	return input_button;
 }
 
 UID ComponentTextInput::GetPlaceHolderUID() const

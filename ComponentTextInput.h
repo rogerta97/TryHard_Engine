@@ -4,6 +4,7 @@
 
 class GameObject; 
 class UI_TextInput; 
+class ComponentButton; 
 
 class ComponentTextInput : public Component
 {
@@ -22,6 +23,7 @@ public:
 	void OnEvent(const Event& new_event);
 
 	UI_TextInput* GetInputField() const;
+	ComponentButton* GetButtonField() const;
 
 	UID GetPlaceHolderUID() const;
 	UID GetShowTextUID() const;
@@ -32,5 +34,6 @@ private:
 	UID showtext_uid; 
 
 	UI_TextInput * input_field; 
+	ComponentButton * input_button; 
 };
 
