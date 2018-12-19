@@ -20,7 +20,7 @@ ComponentText::ComponentText(GameObject* parent)
 	label->SetText("SuperCaliFragiListiQuospiAlisosdfad"); 
 
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
-	label->section = { 0,3 };
+	label->section = { -1, -1 };
 	draw_color = { 0,0,0 }; 
 }	
 

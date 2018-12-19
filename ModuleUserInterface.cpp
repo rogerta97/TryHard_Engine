@@ -29,7 +29,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
 
-	LoadNewFont("Antonio-Regular", 30); 
+	LoadNewFont("Antonio-Regular", 23); 
 
 	return true;
 }
@@ -191,7 +191,20 @@ void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 
 void ModuleUserInterface::AddCanvas(GameObject* canvas_go)
 {
-	go_with_canvas.push_back(canvas_go); 
+	bool add = true; 
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		if (canvas_go == (*it))
+		{
+			add = false;
+			break; 
+		}
+		
+	}
+
+	if(add)
+		go_with_canvas.push_back(canvas_go);
+
 }
 
 void ModuleUserInterface::DeleteCanvas(GameObject * go)
