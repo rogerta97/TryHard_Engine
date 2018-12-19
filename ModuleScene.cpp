@@ -361,7 +361,7 @@ void ModuleScene::CleanAndLoadScene(const char * scene_path)
 	LoadScene(scene_path); 
 }
 
-void ModuleScene::LoadScene(const char * scene_name)
+void ModuleScene::LoadScene(const char* scene_name)
 {
 	string name_w_termination = scene_name + string(".json");
 

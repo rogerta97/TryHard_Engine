@@ -850,7 +850,7 @@ void Scene::SaveScene(const char* scene_name)
 
 }
 
-void Scene::LoadScene(const char * scene_path, bool clean)
+void Scene::LoadScene(const char* scene_path, bool clean)
 {
 	string name_w_termination = scene_path;
 

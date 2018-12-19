@@ -111,8 +111,8 @@ void ModuleScripting::FillFunctionList()
 		{
 			if (func_name == "LoadScene")
 			{			
-				/*std::function<void(const char*)> callback = App->scene->LoadScene;
-				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("CapFPS", callback));*/
+				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->LoadScene(scene_name); };
+				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene", callback));
 			}
 		}
 	}
@@ -169,11 +169,12 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 				if (ImGui::Selectable(curr_name.c_str()))
 				{
 					agent->action_char = (*it).second;
-					agent->name = curr_name;
+					agent->name = (*it).first;
 
 					ImGui::EndMenu();
 					ImGui::EndPopup();
 					agent->show_function_list = false;
+
 
 					return;
 				}

@@ -29,7 +29,7 @@ void UI_Button::Start()
 void UI_Button::Update()
 {
 	// Force state
-	if (App->input->GetKey(SDL_SCANCODE_M))
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
 		SetState(ELM_PRESSED); 
 	}

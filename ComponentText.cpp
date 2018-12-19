@@ -105,13 +105,17 @@ void ComponentText::Load(JSON_Object * json_obj)
 
 	UID input_parent_uid = json_object_dotget_number(json_obj, "ParentInputUID");
 
-	ComponentTextInput* cmp_ti = (ComponentTextInput*)App->scene->GetGameObjectByID(input_parent_uid)->GetComponent(CMP_TEXTINPUT);
+	if (App->scene->GetGameObjectByID(input_parent_uid))
+	{
+		ComponentTextInput* cmp_ti = (ComponentTextInput*)App->scene->GetGameObjectByID(input_parent_uid)->GetComponent(CMP_TEXTINPUT);
 
-	if (cmp_ti->GetPlaceHolderUID() == GetGameObject()->unique_id)
-		cmp_ti->GetInputField()->SetPlaceHolderText(GetGameObject());
+		if (cmp_ti->GetPlaceHolderUID() == GetGameObject()->unique_id)
+			cmp_ti->GetInputField()->SetPlaceHolderText(GetGameObject());
 
-	if (cmp_ti->GetShowTextUID() == GetGameObject()->unique_id)
-		cmp_ti->GetInputField()->SetShowText(GetGameObject());
+		if (cmp_ti->GetShowTextUID() == GetGameObject()->unique_id)
+			cmp_ti->GetInputField()->SetShowText(GetGameObject());
+	}
+		
 
 	std::string font_name = json_object_dotget_string(json_obj, "FontName");
 	label->text_size = json_object_dotget_number(json_obj, "Size");

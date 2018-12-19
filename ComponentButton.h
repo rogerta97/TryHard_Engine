@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <list>
+#include <vector>
 
 class UI_Button;
 class UICallbackSystem; 
@@ -29,7 +30,7 @@ public:
 
 	void BindCallbackFunctions(); 
 
-	std::list<std::function<void()>> OnMousePressed; 
+	std::vector<std::function<void()>> OnMousePressed; 
 
 private:
 	UI_Button * button;

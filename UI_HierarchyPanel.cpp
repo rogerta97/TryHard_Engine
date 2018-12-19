@@ -155,6 +155,13 @@ bool UI_HierarchyPanel::Update()
 						App->scene->CreateUIElement(UI_LABEL, App->scene->GetSelectedGameObject());
 					}
 
+					ImGui::MenuItem("Input Text");
+
+					if (ImGui::IsItemClicked())
+					{
+						App->scene->CreateUIElement(UI_INPUTFIELD, App->scene->GetSelectedGameObject());
+					}
+
 					ImGui::EndMenu();
 				}
 			

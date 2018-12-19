@@ -97,7 +97,6 @@ void UI_CallbackAgent::CleanAgent()
 void UI_CallbackAgent::PrintAgentUI(int index)
 {
 
-	ImGui::Separator();
 	ImGui::Text("Target: "); ImGui::SameLine();
 
 	if (parent)
@@ -124,7 +123,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	ImGui::Text("Action: "); ImGui::SameLine();
 
-	if (action)
+	if (action || action_char)
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", name.c_str());
 	else
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
@@ -152,7 +151,12 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	if (action_char != nullptr)
 	{
-		ImGui::InputText("Value", (char*)value_char, 256);
+		ImGui::SameLine();
+
+		static std::string value_char_cpy(value_char); 
+
+		if (ImGui::InputText("Value", (char*)value_char_cpy.c_str(), 256))
+			value_char = value_char_cpy.c_str(); 
 	}
 					
 	if (show_function_list)
@@ -161,9 +165,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 	}
 
 	if (show_function_list && ImGui::IsMouseClicked(0) && ImGui::IsMouseHoveringWindow() && !ImGui::IsAnyItemHovered())
-		show_function_list = false; 
-		
-	ImGui::Separator();
+		show_function_list = false; 		
 
 }
 

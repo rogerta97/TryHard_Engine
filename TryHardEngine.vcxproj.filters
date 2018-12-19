@@ -681,6 +681,9 @@
     <ClInclude Include="ComponentCanvasScaler.h">
       <Filter>Sources\GameObject\Components\UIComponents</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentCheckbox.h">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -1023,6 +1026,9 @@
       <Filter>Sources\GameObject\Components\Components</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCanvasScaler.cpp">
+      <Filter>Sources\GameObject\Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCheckbox.cpp">
       <Filter>Sources\GameObject\Components\UIComponents</Filter>
     </ClCompile>
   </ItemGroup>

@@ -69,7 +69,7 @@ void ComponentButton::OnEvent(const Event & new_event)
 {
 	if (new_event.type == EventType::PLAY)
 	{
-		
+		BindCallbackFunctions(); 
 	}
 }
 
@@ -133,12 +133,14 @@ UI_Button * ComponentButton::GetButton() const
 
 void ComponentButton::BindCallbackFunctions()
 {
-	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
+	int counter = 0; 
+	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++, counter++)
 	{
 		if ((*it)->action_char != nullptr)
 		{
 			std::function<void()> binded_func = std::bind((*it)->action_char, (*it)->value_char);
-			OnMousePressed.push_back(binded_func);
+			(*it)->action = binded_func; 
+			OnMousePressed[counter] = (*it)->action;
 		}
 	}
 }

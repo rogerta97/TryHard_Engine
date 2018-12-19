@@ -1,1 +1,1 @@
-{"Function1":{"name":"EnableWireframe","args":"void"},"Function2":{"name":"DisableWireframe","args":"void"},"Function3":{"name":"CapFPS","args":"int"},"Info":{"num":3}}
+{"Function1":{"name":"EnableWireframe","args":"void"},"Function2":{"name":"DisableWireframe","args":"void"},"Function3":{"name":"LoadScene","args":"const char*"},"Info":{"num":3}}
