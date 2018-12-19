@@ -23,6 +23,7 @@ public:
 	bool Init(JSON_Object* config);
 	bool Start();
 	update_status Update(float dt);
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void CleanCanvasList(); 
@@ -34,7 +35,10 @@ public:
 	void DeleteFont(std::string name); 
 
 	// -----------------
+
 	void RecieveEvent(const Event & curr_event);
+	void SendInput(SDL_Event* e);							//Will get the event and store the clicked buttons to a list
+	std::list<char>& GetInputLastFrame();					// Get the buttons pressed las frame
 
 	// Utility ---------
 
@@ -50,6 +54,8 @@ public:
 	// ----------------
 
 private:
+
+	std::list<char> buttons_pressed; 
 	std::list<GameObject*> go_with_canvas; 
 	AABB ui_render_box;
 
