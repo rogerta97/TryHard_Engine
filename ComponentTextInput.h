@@ -21,6 +21,9 @@ public:
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
 
+	void AddTextOnCursorPos(const char& new_letter);
+	void DeleteTextOnCursorPos();
+
 	void UpdateCursorSize(); 
 	void DrawCursor();
 	void DrawButtonFrame();

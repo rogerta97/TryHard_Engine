@@ -1,7 +1,9 @@
 #include "ComponentTextInput.h"
 #include "ComponentRectTransform.h"
+#include "ComponentText.h"
 #include "GameObject.h"
 #include "UI_Label.h"
+#include "UI_TextInput.h"
 #include "UI_Plane.h"
 #include "UI_Button.h"
 #include "Mesh.h"
@@ -10,6 +12,7 @@
 #include "ComponentButton.h"
 #include "Application.h"
 #include "UI_TextInput.h"
+#include <string>
 
 ComponentTextInput::ComponentTextInput(GameObject* parent)
 {
@@ -60,20 +63,36 @@ bool ComponentTextInput::Update()
 		GetButtonField()->GetButton()->SetState(ELM_IDLE);
 	}
 
-	if (!App->user_interface->GetInputLastFrame().empty())
+
+	if (draw_cursor)
 	{
-		for(auto it = App->user_interface->GetInputLastFrame().begin(); it != App->user_interface->GetInputLastFrame().end(); it++)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			CursorForward();
+
+		else if (draw_cursor && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			CursorBackwards();
+
+		else if (!App->user_interface->GetInputLastFrame().empty())
 		{
-			char* letter = &(*it); 
-			CONSOLE_LOG("%s", letter);
+			for (auto it = App->user_interface->GetInputLastFrame().begin(); it != App->user_interface->GetInputLastFrame().end(); it++)
+			{
+				if ((*it) == '\0')
+					continue; 
+
+				if ((*it) == '\x1')
+				{
+					DeleteTextOnCursorPos();
+					continue; 
+				}
+				
+				AddTextOnCursorPos((*it));
+			
+			}
+				
 		}
-	}
+	} 
 
-	if(draw_cursor && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-		CursorForward();
-
-	if (draw_cursor && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		CursorBackwards();
+	
 
 	
 	return false;
@@ -82,6 +101,37 @@ bool ComponentTextInput::Update()
 bool ComponentTextInput::CleanUp()
 {
 	return false;
+}
+
+void ComponentTextInput::AddTextOnCursorPos(const char& new_letter)
+{
+	ComponentText* cmp_txt = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
+	std::string curr_text = cmp_txt->GetLabel()->GetText(); 
+
+	std::string new_string = curr_text.substr(0, cursor_pos); 
+	new_string += new_letter; 
+	new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
+
+	cmp_txt->GetLabel()->SetText(new_string.c_str());
+
+	cursor_pos++; 
+}
+
+void ComponentTextInput::DeleteTextOnCursorPos()
+{
+	ComponentText* cmp_txt = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
+	std::string curr_text = cmp_txt->GetLabel()->GetText();
+
+	if (curr_text == "" || cursor_pos == 0)
+		return; 
+
+	std::string new_string = curr_text.substr(0, cursor_pos - 1);
+	new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
+
+	cmp_txt->GetLabel()->SetText(new_string.c_str());
+
+	cursor_pos--;
+
 }
 
 void ComponentTextInput::DrawButtonFrame()
@@ -134,7 +184,7 @@ void ComponentTextInput::CursorForward()
 	ComponentText* show_text_cmp = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
 	int text_lenght = show_text_cmp->GetLabel()->GetText().size(); 
 
-	if (cursor_pos == text_lenght - 1)
+	if (cursor_pos == text_lenght)
 		return;
 	else
 		cursor_pos++;		

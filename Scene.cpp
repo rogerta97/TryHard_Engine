@@ -512,11 +512,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
 		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
-		//ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
-		//button_cmp->GetButton()->SetCanvas(canvas_container);
-
-
-
 		//Create 2 text childs 
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 		placeholder_text_go->SetName("PlaceHolder");
@@ -531,7 +526,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
-		text_cmp->GetLabel()->SetText("Test");
+		text_cmp->GetLabel()->SetText("Eo");
 
 		input_cmp->GetInputField()->SetPlaceHolderText(placeholder_text_go);
 		input_cmp->GetInputField()->SetShowText(text_go);

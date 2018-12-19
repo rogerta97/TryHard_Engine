@@ -134,9 +134,16 @@ void ModuleUserInterface::RecieveEvent(const Event & new_event)
 
 void ModuleUserInterface::SendInput(SDL_Event * e)
 {
-	if (e->type == SDL_TEXTINPUT)
+	if (e->type == SDL_TEXTINPUT && *e->text.text != '8')
 	{
 		buttons_pressed.push_back(*e->text.text);
+		return;
+	}
+
+	if (e->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
+	{
+		buttons_pressed.push_back(*e->text.text);
+		return; 
 	}
 }
 
