@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ComponentRectTransform.h"
 #include "ComponentCamera.h"
+#include "SDL\include\SDL_events.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "Application.h"
@@ -45,6 +46,12 @@ bool ModuleUserInterface::Start()
 update_status ModuleUserInterface::Update(float dt)
 {
 	return UPDATE_CONTINUE;
+}
+
+update_status ModuleUserInterface::PostUpdate(float dt)
+{
+	buttons_pressed.clear(); 
+	return update_status::UPDATE_CONTINUE;
 }
 
 
@@ -125,6 +132,16 @@ void ModuleUserInterface::RecieveEvent(const Event & new_event)
 	}
 }
 
+void ModuleUserInterface::SendInput(SDL_Event * e)
+{
+	if(e->type == SDL_KEYDOWN)
+		buttons_pressed.push_back(*e->text.text); 
+}
+
+std::list<GLchar>& ModuleUserInterface::GetInputLastFrame()
+{
+	return buttons_pressed; 
+}
 
 void ModuleUserInterface::DrawSceneUI(GameObject* camera)
 {

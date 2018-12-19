@@ -135,6 +135,7 @@ update_status ModuleInput::PreUpdate(float dt)
 	while (SDL_PollEvent(&e))
 	{
 		App->imgui->SendInput(&e);
+		App->user_interface->SendInput(&e);
 
 		switch (e.type)
 		{
