@@ -39,7 +39,7 @@ UI_Widgget_Type UI_Element::GetType() const
 	return wid_type;
 }
 
-void UI_Element::SetType(UI_Widgget_Type new_type)
+void UI_Element::SetType(const UI_Widgget_Type& new_type)
 {
 	wid_type = new_type;
 }
@@ -79,7 +79,7 @@ void UI_Element::SetCanvas(UI_Canvas * new_canvas)
 	canvas = new_canvas;
 }
 
-void UI_Element::SetState(const UI_ElementState new_state)
+void UI_Element::SetState(const UI_ElementState& new_state)
 {
 	state = new_state; 
 }
@@ -87,4 +87,14 @@ void UI_Element::SetState(const UI_ElementState new_state)
 UI_ElementState UI_Element::GetState() const
 {
 	return state;
+}
+
+void UI_Element::SetSelected(const bool & new_state)
+{
+	selected = new_state; 
+}
+
+bool UI_Element::GetSelected() const
+{
+	return selected;
 }

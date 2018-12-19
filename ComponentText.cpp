@@ -260,6 +260,35 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 
 
 
+float3 ComponentText::GetCursorPosFromLetter(const int& pos)
+{
+	float3 return_pos = {0,0,0};
+
+	std::vector<float3> offset_list = label->GetOffsetList();
+
+	int counter = 0; 
+	for (auto it = offset_list.begin(); it != offset_list.end(); it++)
+	{
+		return_pos += (*it); 
+
+		if (counter++ == pos) //We reached the letter we want to lay
+		{
+			std::string text = label->GetText();
+			Character* curr_char = label->GetFont().GetCharacter(text[pos]);
+			return_pos.x += curr_char->Advance / 2.0f;
+			break;
+		}
+	}
+
+	return_pos.y = 0; 
+
+	//We add the text transform position to send the point in global coords 
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
+	return_pos += rtransform->GetGlobalPosition(); 
+
+	return return_pos;
+}
+
 UI_Label * ComponentText::GetLabel() const
 {
 	return label;

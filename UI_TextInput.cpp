@@ -47,6 +47,8 @@ void UI_TextInput::SetShowText(GameObject * new_show)
 
 	if (cmp_txt)
 		cmp_txt->SetParentTextInputUID(parent_uid);
+
+	parent_cmp->UpdateCursorSize();
 }
 
 GameObject * UI_TextInput::GetShowText() const
