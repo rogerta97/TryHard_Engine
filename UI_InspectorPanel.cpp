@@ -388,6 +388,19 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			rtransform->Resize({ rtransform->width, rtransform->height });
 			rtransform->edited = true;
 		}
+
+
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		float show_rel_size[2] = { rtransform->rel_size.x, rtransform->rel_size.y };
+
+		if (ImGui::DragFloat2("Relative Size", show_rel_size,0.1f))
+		{
+			rtransform->rel_size.x = show_rel_size[0];
+			rtransform->rel_size.y = show_rel_size[1];
+			move_container = true;
+		}
 			
 
 		ImGui::Spacing();

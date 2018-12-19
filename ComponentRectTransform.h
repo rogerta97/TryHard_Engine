@@ -83,6 +83,7 @@ public:
 	float width, height;
 	float3 scale_to_show; 
 	bool edited = false;
+	float2 rel_size;
 
 	float percentage_size;
 

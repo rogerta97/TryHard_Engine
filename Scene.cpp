@@ -108,7 +108,7 @@ void Scene::DrawSceneGameObjects(GameObject* camera)
 	//Draw normal GameObjects
 	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
 	{
-		if((*it)->GetIsUI() == false)
+		if ((*it)->GetIsUI() == false)
 			(*it)->Draw(editor_cam);
 	}
 
@@ -185,12 +185,12 @@ void Scene::AddGameObjectToDeleteList(GameObject * to_del)
 
 void Scene::AddGameObjectToTransparencyList(GameObject * to_add)
 {
-	transparent_gameobjects.push_back(to_add); 
+	transparent_gameobjects.push_back(to_add);
 }
 
 std::map<float, GameObject*> Scene::GetSortedGOList(GameObject * new_go)
 {
-	std::map<float, GameObject*> list_to_ret; 
+	std::map<float, GameObject*> list_to_ret;
 
 	return list_to_ret;
 }
@@ -362,17 +362,17 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 {
 	// Find a parent for the new UI Element
 	GameObject* UI_parent = nullptr;
-	UI_Canvas* canvas_container = nullptr; 
-	ComponentCanvas* cmp_canvas = nullptr; 
-	ComponentRectTransform* canvas_rtransform = nullptr; 
+	UI_Canvas* canvas_container = nullptr;
+	ComponentCanvas* cmp_canvas = nullptr;
+	ComponentRectTransform* canvas_rtransform = nullptr;
 
 	if (force_parent != nullptr && force_parent->GetIsUI())
 	{
 		UI_parent = force_parent;
-		cmp_canvas = (ComponentCanvas*)UI_parent->GetFirstParentWith(CMP_CANVAS)->GetComponent(CMP_CANVAS); 
+		cmp_canvas = (ComponentCanvas*)UI_parent->GetFirstParentWith(CMP_CANVAS)->GetComponent(CMP_CANVAS);
 		canvas_container = cmp_canvas->GetCanvas();
 	}
-		
+
 	else
 	{
 		UI_parent = App->user_interface->GetLastCanvas();
@@ -382,9 +382,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			cmp_canvas = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
 			canvas_container = cmp_canvas->GetCanvas();
 		}
-		
+
 	}
-		
+
 	if (UI_parent == nullptr)
 	{
 		// If there is no canvas in the scene we create a default one 
@@ -394,14 +394,14 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		App->user_interface->AddaptCanvasToScreen();
 		App->scene->AddGameObjectToScene(parent_canvas);
 
-		UI_parent = parent_canvas; 
+		UI_parent = parent_canvas;
 
 		cmp_canvas = (ComponentCanvas*)UI_parent->GetComponent(CMP_CANVAS);
 		canvas_container = cmp_canvas->GetCanvas();
 	}
 
-	canvas_rtransform = (ComponentRectTransform*)cmp_canvas->GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
-	
+	canvas_rtransform = (ComponentRectTransform*)cmp_canvas->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+
 	// Create the UI Element
 	const char* name = "";
 	GameObject* new_ui_go = new GameObject("PlaceHold", true);
@@ -422,31 +422,23 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		img->GetImage()->SetCanvas(canvas_container);
 
 		float2 size;
-		switch (canvas_scaler->GetScaleType())
-		{
-		case ST_CONSTANT:
-			size = img->default_size;
-			break;
-		case ST_SCREEN_SIZE:
-			size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_IMAGE);;
-			break;
-		default:
-			break;
-		}
 
-		rtransform->Resize(size); 
+		size = img->default_size;
+
+
+		rtransform->Resize(size);
 
 		if (add_to_scene)
 		{
 			cmp_canvas->AddElement(new_ui_go);
 			AddGameObjectToScene(new_ui_go);
 		}
-			
+
 		break;
 	}
-	
+
 	case UI_Widgget_Type::UI_BUTTON:
-	
+
 	{
 		// Create the text of the button as child
 		GameObject* button_text = nullptr;
@@ -458,15 +450,17 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
-		img->GetImage()->SetPercentage(0.30f); 
+		img->GetImage()->SetPercentage(0.30f);
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
+
+		rtransform->rel_size = float2(2.5, 0.7);
 
 		button_text = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
-		text_cmp->GetLabel()->SetText("Button"); 
-		text_cmp->SetClipping(CLIP_CENTER); 
+		text_cmp->GetLabel()->SetText("Button");
+		text_cmp->SetClipping(CLIP_CENTER);
 
 		if (add_to_scene)
 		{
@@ -475,12 +469,12 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			AddGameObjectToScene(new_ui_go);
 			AddGameObjectToScene(button_text);
 		}
-		
+
 		break;
 	}
-		
-	
-		
+
+
+
 	case UI_Widgget_Type::UI_LABEL:
 	{
 		new_ui_go->SetName("Text");
@@ -497,7 +491,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			cmp_canvas->AddElement(new_ui_go);
 			AddGameObjectToScene(new_ui_go);
 		}
-			
+
 
 		break;
 	}
@@ -521,17 +515,17 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		//ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		//button_cmp->GetButton()->SetCanvas(canvas_container);
 
-	
+
 
 		//Create 2 text childs 
-		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false); 
+		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 		placeholder_text_go->SetName("PlaceHolder");
 
-		ComponentText* text_cmp = nullptr; 
+		ComponentText* text_cmp = nullptr;
 		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
-		text_cmp->SetClipping(CLIP_MIDDLELEFT); 
+		text_cmp->SetClipping(CLIP_MIDDLELEFT);
 		text_cmp->GetLabel()->SetText("Text here...");
-		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f }; 
+		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f };
 
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 
@@ -554,11 +548,11 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 			cmp_canvas->AddElement(text_go);
 		}
 
-		text_go->SetActive(false); 
-			
+		text_go->SetActive(false);
+
 		break;
 	}
-	
+
 	}
 	new_ui_go->Start();
 
@@ -611,7 +605,7 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 
 	auto go_iterator = scene_gameobjects.begin();
 
-	while (go_iterator != scene_gameobjects.end()) 
+	while (go_iterator != scene_gameobjects.end())
 	{
 		GameObject* go = (*go_iterator);
 		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
@@ -644,7 +638,7 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 	ComponentTextInput* inputfield_cmp = (ComponentTextInput*)closestGo->GetComponent(CMP_TEXTINPUT);
 	if (inputfield_cmp)
 	{
-		ComponentButton* inputtext_button = inputfield_cmp->GetButtonField(); 
+		ComponentButton* inputtext_button = inputfield_cmp->GetButtonField();
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 			inputtext_button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
@@ -659,7 +653,7 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 void Scene::DrawGuizmo()
 {
 	if (selected_go == nullptr)
-		return; 
+		return;
 
 	ImVec2 scene_pos = App->imgui->scene_panel->GetPos();
 	ImVec2 scene_size = App->imgui->scene_panel->GetSize();
@@ -673,11 +667,11 @@ void Scene::DrawGuizmo()
 	else
 	{
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
-		
-		trans = rtransform->GetTransform(); 
+
+		trans = rtransform->GetTransform();
 		if (trans == nullptr)
 		{
-			CONSOLE_ERROR("Transform in RectTransform is NULLPTR"); 
+			CONSOLE_ERROR("Transform in RectTransform is NULLPTR");
 			return;
 		}
 	}
@@ -698,7 +692,7 @@ void Scene::DrawGuizmo()
 	object_matrix.Transpose();
 
 	ComponentRectTransform* rect_trans = (ComponentRectTransform*)selected_go->GetComponent(CMP_RECTTRANSFORM);
-	
+
 	if (!ImGuizmo::IsUsing())
 		return;
 
@@ -851,14 +845,14 @@ void Scene::SetDefaultScene()
 	cam->is_editor = false;
 
 	// Try to create a canvas GO
-	GameObject* parent_canvas = new GameObject("Canvas", true); 
+	GameObject* parent_canvas = new GameObject("Canvas", true);
 	parent_canvas->AddComponent(CMP_CANVAS);
-	AddGameObjectToScene(parent_canvas); 
+	AddGameObjectToScene(parent_canvas);
 }
 
 void Scene::SaveScene(const char* scene_name)
 {
-	
+
 }
 
 void Scene::LoadScene(const char * scene_path, bool clean)

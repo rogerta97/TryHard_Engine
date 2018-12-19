@@ -36,6 +36,8 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	edited = false;
 
 	percentage_size = 0.1;
+
+	rel_size = float2(1, 1);
 }
 
 ComponentRectTransform::~ComponentRectTransform()
@@ -45,9 +47,6 @@ ComponentRectTransform::~ComponentRectTransform()
 
 bool ComponentRectTransform::Start()
 {
-
-	scale_to_show = { 1,1,1 };
-
 	return true;
 }
 
@@ -264,8 +263,8 @@ float2 ComponentRectTransform::GetSizeFromCanvasPercentage(float percentage)
 
 	ComponentRectTransform* canvas = (ComponentRectTransform*)parent_canvas->GetComponent(CMP_RECTTRANSFORM);
 
-	ret_size.x = canvas->width * percentage;
-	ret_size.y = canvas->width * percentage;
+	ret_size.x = canvas->width * percentage * rel_size.x;
+	ret_size.y = canvas->width * percentage * rel_size.y;
 
 	return ret_size;
 }
