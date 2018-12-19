@@ -86,7 +86,10 @@ void ComponentRectTransform::Draw(bool is_editor)
 
 		if (gameobject->parent)
 		{
-			parent_rect = gameobject->parent->rect_transform;
+			GameObject* parent_canvas = GetFirstCanvasParent();
+
+			
+			parent_rect = (ComponentRectTransform*)parent_canvas->GetComponent(CMP_RECTTRANSFORM);;
 
 			float3 parent_pos = parent_rect->GetTransform()->GetPosition();
 
@@ -96,18 +99,19 @@ void ComponentRectTransform::Draw(bool is_editor)
 				parent_pos.z
 			};
 
+			if (gameobject->selected) {
+				float3 anchor_min_x_pos, anchor_min_y_pos;
 
-			float3 anchor_min_x_pos, anchor_min_y_pos;
+				anchor_min_x_pos = start_pos;
+				anchor_min_x_pos.x += parent_rect->width * anchor.min_x;
 
-			anchor_min_x_pos = start_pos;
-			anchor_min_x_pos.x += parent_rect->width * anchor.min_x;
+				DrawAnchorPoint(anchor_min_x_pos, { 10,10 });
 
-			DrawAnchorPoint(anchor_min_x_pos, { 10,10 });
+				anchor_min_y_pos = start_pos;
+				anchor_min_y_pos.y += parent_rect->height * anchor.min_y;
 
-			anchor_min_y_pos = start_pos;
-			anchor_min_y_pos.y += parent_rect->height * anchor.min_y;
-
-			DrawAnchorPoint(anchor_min_y_pos, { -10,-10 });
+				DrawAnchorPoint(anchor_min_y_pos, { -10,-10 });
+			}
 		}
 
 		DebugDrawRectSize();
@@ -324,20 +328,10 @@ void ComponentRectTransform::UpdateRectWithAnchors()
 			};
 		}
 		else {
-			if (canvas->GetScaleType() == ST_CONSTANT)
-			{
-				start_pos = {
-				parent_pos.x - parent_rect->width / 2,
-				parent_pos.y - parent_rect->height / 2
-				};
-			}
-			else
-			{
-				start_pos = {
-				parent_pos.x - parent_rect->width / 2,
-				parent_pos.y - parent_rect->height / 2
-				};
-			}
+			start_pos = {
+			parent_pos.x - parent_rect->width / 2,
+			parent_pos.y - parent_rect->height / 2
+			};
 		}
 
 		if (canvas->GetScaleType() == ST_CONSTANT)
