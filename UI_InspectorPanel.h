@@ -30,6 +30,7 @@ private:
 	void PrintRectTransformProperties();
 	void PrintCanvasProperties();
 	void PrintTextProperties();
+	void PrintCheckBoxProperties();
 	void PrintImageProperties();
 	void PrintInputFieldProperties();
 	void PrintButtonProperties();

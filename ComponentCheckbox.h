@@ -7,11 +7,13 @@
 class UI_CheckBox;
 class UICallbackSystem;
 
-class ComponentCheckbox :public Component
+class GameObject; 
+
+class ComponentCheckBox :public Component
 {
 public:
-	ComponentCheckbox();
-	~ComponentCheckbox();
+	ComponentCheckBox(GameObject* parent);
+	~ComponentCheckBox();
 
 	bool Start();
 	bool Update();
@@ -29,7 +31,7 @@ public:
 
 	void BindCallbackFunctions();
 
-	std::list<std::function<void()>> OnMousePressed;
+	std::list<std::function<void(bool)>> OnCheckBoxPressed; // CheckBox will only accept true/false functions
 
 private:
 

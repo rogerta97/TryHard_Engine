@@ -6,8 +6,9 @@
 
 class GameObject; 
 class ComponentButton; 
+class ComponentCheckBox; 
 class UICallbackSystem;
-
+class Component;
 
 struct UI_CallbackAgent
 {
@@ -28,8 +29,9 @@ public:
 	UICallbackSystem* system_container; 
 
 	std::function<void()> action;
-
 	std::function<void(const char*)> action_char;
+	std::function<void(const char*)> action_bool;
+
 	const char* value_char = "";
 
 	bool show_function_list; 
@@ -39,6 +41,7 @@ class UICallbackSystem
 {
 public:
 	UICallbackSystem(ComponentButton* attached);
+	UICallbackSystem(ComponentCheckBox* attached);
 	~UICallbackSystem();
 	
 	void CleanSystem(); 
@@ -48,8 +51,10 @@ public:
 
 	std::list<UI_CallbackAgent*>& GetCallbacks(); 
 
-	ComponentButton* GetSystemOwner() const; 
-	void SetSystemOwner(ComponentButton* new_owner);
+	Component* GetSystemOwner() const; 
+
+	void SetSystemOwnerButton(ComponentButton* new_owner);
+	void SetSystemOwnerCheckBox(ComponentCheckBox* new_owner);
 
 	bool show_function_list; 
 
@@ -57,6 +62,7 @@ private:
 
 	std::list<UI_CallbackAgent*> callbacks_list;
 	ComponentButton* button_cmp_attached;
+	ComponentCheckBox* checkbox_cmp_attached; 
 
 };
 

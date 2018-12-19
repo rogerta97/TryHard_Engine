@@ -67,6 +67,9 @@ void ModuleScripting::FillFunctionList()
 		json_object_dotset_string(scene_obj, "Function3.name", "LoadScene");
 		json_object_dotset_string(scene_obj, "Function3.args", "const char*");
 
+		json_object_dotset_string(scene_obj, "Function4.name", "SetVsync");
+		json_object_dotset_string(scene_obj, "Function4.args", "bool");
+
 		json_object_dotset_number(scene_obj, "Info.num", 3);
 
 		json_serialize_to_file(scene_v, script_path.c_str());
@@ -115,6 +118,16 @@ void ModuleScripting::FillFunctionList()
 				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene", callback));
 			}
 		}
+
+
+		if (type == "bool")
+		{
+			if (func_name == "SetVsync")
+			{
+				std::function<void(bool)> callback = [](bool newValue) { App->SetVsync(newValue); };
+				function_bool_list.insert(std::pair<const char*, std::function<void(bool)>>("SetVsync", callback));
+			}
+		}
 	}
 
 	stream.close();
@@ -145,7 +158,9 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 					agent->show_function_list = false; 
 
 					int i = 0; 
-					for (auto it2 = agent->system_container->GetSystemOwner()->OnMousePressed.begin(); it2 != agent->system_container->GetSystemOwner()->OnMousePressed.end(); it2++)
+					ComponentButton* owner = (ComponentButton*)agent->system_container->GetSystemOwner(); 
+
+					for (auto it2 = owner->OnMousePressed.begin(); it2 != owner->OnMousePressed.end(); it2++)
 					{
 						if (i++ == index)
 							(*it2) = (*it).second; 			

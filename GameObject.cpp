@@ -13,6 +13,7 @@
 #include "ComponentText.h"
 #include "ComponentButton.h"
 #include "ComponentCanvas.h"
+#include "ComponentCheckbox.h"
 #include "ComponentTextInput.h"
 #include "ComponentImage.h"
 #include "ComponentMesh.h"
@@ -304,6 +305,10 @@ Component* GameObject::AddComponent(CompType new_type)
 
 			case CMP_CANVASSCALER:
 				new_cmp = new ComponentCanvasScaler(this);
+				break;
+
+			case CMP_CHECKBOX:
+				new_cmp = new ComponentCheckBox(this);
 				break;
 		}
 

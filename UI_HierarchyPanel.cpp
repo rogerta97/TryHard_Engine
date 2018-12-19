@@ -219,6 +219,10 @@ bool UI_HierarchyPanel::Update()
 				ImGui::MenuItem("Input Field");
 				if (ImGui::IsItemClicked())
 					App->scene->CreateUIElement(UI_INPUTFIELD);
+
+				ImGui::MenuItem("CheckBox");
+				if (ImGui::IsItemClicked())
+					App->scene->CreateUIElement(UI_CHECKBOX);
 				
 				ImGui::EndMenu();
 			}

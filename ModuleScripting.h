@@ -25,5 +25,6 @@ public:
 	
 	std::map<const char*, std::function<void()>> function_list;
 	std::map<const char*, std::function<void(const char*)>> function_string_list;
+	std::map<const char*, std::function<void(bool)>> function_bool_list;
 };
 

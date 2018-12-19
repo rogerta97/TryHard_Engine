@@ -3,13 +3,23 @@
 #include "GameObject.h"
 #include "UICallbackSystem.h"
 #include "ComponentButton.h"
+#include "ComponentCheckbox.h"
 #include "Application.h"
 
 UICallbackSystem::UICallbackSystem(ComponentButton* cmp)
 {
+	checkbox_cmp_attached = nullptr;
 	button_cmp_attached = cmp; 
 	show_function_list = false; 
 }
+
+UICallbackSystem::UICallbackSystem(ComponentCheckBox* cmp)
+{
+	button_cmp_attached = nullptr;
+	checkbox_cmp_attached = cmp;
+	show_function_list = false;
+}
+
 
 UICallbackSystem::~UICallbackSystem()
 {
@@ -33,13 +43,12 @@ void UICallbackSystem::PrintSystemUI()
 	ImGui::Text("On Click Actions"); 
 	ImGui::SameLine(); 
 
-	if (ImGui::Button("+##AddObject"))
+	if (ImGui::Button("Add Action##AddObject"))
 	{
 		UI_CallbackAgent* new_agent = CreateEmptyAgent();
 		new_agent->system_container->button_cmp_attached->OnMousePressed.push_back(new_agent->action);	
 	}
 		
-
 	ImGui::SameLine();
 	ImGui::Button("-");
 
@@ -63,14 +72,23 @@ std::list<UI_CallbackAgent*>& UICallbackSystem::GetCallbacks()
 	return callbacks_list;
 }
 
-ComponentButton * UICallbackSystem::GetSystemOwner() const
+Component* UICallbackSystem::GetSystemOwner() const
 {
-	return button_cmp_attached;
+	if(button_cmp_attached)
+		return button_cmp_attached;
+
+	else if (checkbox_cmp_attached)
+		return checkbox_cmp_attached;
 }
 
-void UICallbackSystem::SetSystemOwner(ComponentButton * new_owner)
+void UICallbackSystem::SetSystemOwnerButton(ComponentButton * new_owner)
 {
 	button_cmp_attached = new_owner; 
+}
+
+void UICallbackSystem::SetSystemOwnerCheckBox(ComponentCheckBox * new_owner)
+{
+	checkbox_cmp_attached = new_owner;
 }
 
 UI_CallbackAgent::UI_CallbackAgent(UICallbackSystem* system_container)

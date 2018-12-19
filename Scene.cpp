@@ -8,6 +8,7 @@
 #include "UI_TagPanel.h"
 #include "UI_Button.h"
 #include "UI_Label.h"
+#include "UI_CheckBox.h"
 #include "UI_TextInput.h"
 #include "Primitive.h"
 #include "OpenGL.h"
@@ -21,6 +22,7 @@
 #include "ComponentText.h"
 #include "ComponentImage.h"
 #include "ComponentCanvas.h"
+#include "ComponentCheckbox.h"
 #include "ComponentTextInput.h"
 #include "ComponentRectTransform.h"
 #include "ComponentCanvasScaler.h"
@@ -544,6 +546,25 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		}
 
 		text_go->SetActive(false);
+
+		break;
+	}
+
+	case UI_Widgget_Type::UI_CHECKBOX:
+	{
+		new_ui_go->SetName("CheckBox");
+		ComponentCheckBox* check_cmp = (ComponentCheckBox*)new_ui_go->AddComponent(CMP_CHECKBOX);
+		check_cmp->GetCheckBox()->SetCanvas(canvas_container);
+
+		float2 size = canvas_rtransform->GetSizeFromPercentage(check_cmp->GetCheckBox()->GetPercentage(), UI_LABEL);
+		rtransform->Resize(size);
+
+		if (add_to_scene)
+		{
+			cmp_canvas->AddElement(new_ui_go);
+			AddGameObjectToScene(new_ui_go);
+		}
+
 
 		break;
 	}

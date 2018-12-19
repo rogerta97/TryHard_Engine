@@ -124,6 +124,11 @@ bool Application::Init()
 	return ret;
 }
 
+void Application::SetVsync(bool newValue)
+{
+	vsync.is_active = newValue; 
+}
+
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {

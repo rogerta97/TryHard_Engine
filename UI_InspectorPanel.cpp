@@ -14,6 +14,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentText.h"
 #include "ComponentButton.h"
+#include "ComponentCheckbox.h"
 #include "ComponentTextInput.h"
 #include "ComponentImage.h"
 #include "ComponentCamera.h"
@@ -256,6 +257,10 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 	case CMP_CANVASSCALER:
 		PrintCanvasScalerProperties();
 		break;
+
+	case CMP_CHECKBOX:
+		PrintCheckBoxProperties();
+		break;
 	}
 }
 
@@ -492,6 +497,16 @@ void UI_InspectorPanel::PrintCanvasProperties()
 	if (ImGui::CollapsingHeader("Canvas"))
 	{
 
+	}
+}
+
+void UI_InspectorPanel::PrintCheckBoxProperties()
+{
+	if (ImGui::CollapsingHeader("CheckBox (UI)"))
+	{
+		ComponentCheckBox* cmp_check = (ComponentCheckBox*)gameobject->GetComponent(CMP_CHECKBOX);
+
+		cmp_check->callback_system->PrintSystemUI(); 
 	}
 }
 

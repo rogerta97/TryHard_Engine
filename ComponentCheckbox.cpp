@@ -1,56 +1,58 @@
-#include "ComponentCheckbox.h"
+#include "ComponentCheckBox.h"
+#include "UI_CheckBox.h"
+#include "GameObject.h"
 
+ComponentCheckBox::ComponentCheckBox(GameObject* parent)
+{
+	gameobject = parent; 
+	component_type = CMP_CHECKBOX; 
+	checkbox = new UI_CheckBox(this); 
+}
 
-
-ComponentCheckbox::ComponentCheckbox()
+ComponentCheckBox::~ComponentCheckBox()
 {
 }
 
-
-ComponentCheckbox::~ComponentCheckbox()
-{
-}
-
-bool ComponentCheckbox::Start()
-{
-	return false;
-}
-
-bool ComponentCheckbox::Update()
+bool ComponentCheckBox::Start()
 {
 	return false;
 }
 
-bool ComponentCheckbox::CleanUp()
+bool ComponentCheckBox::Update()
 {
 	return false;
 }
 
-void ComponentCheckbox::Draw(bool is_editor)
+bool ComponentCheckBox::CleanUp()
+{
+	return false;
+}
+
+void ComponentCheckBox::Draw(bool is_editor)
 {
 }
 
-void ComponentCheckbox::FitToRect()
+void ComponentCheckBox::FitToRect()
 {
 }
 
-void ComponentCheckbox::OnEvent(const Event & new_event)
+void ComponentCheckBox::OnEvent(const Event & new_event)
 {
 }
 
-void ComponentCheckbox::Load(JSON_Object * json_obj)
+void ComponentCheckBox::Load(JSON_Object * json_obj)
 {
 }
 
-void ComponentCheckbox::Save(JSON_Object * json_obj, const char * root)
+void ComponentCheckBox::Save(JSON_Object * json_obj, const char * root)
 {
 }
 
-UI_CheckBox * ComponentCheckbox::GetCheckBox() const
+UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 {
 	return checkbox;
 }
 
-void ComponentCheckbox::BindCallbackFunctions()
+void ComponentCheckBox::BindCallbackFunctions()
 {
 }

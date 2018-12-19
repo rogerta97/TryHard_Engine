@@ -63,6 +63,7 @@ public:
 	void SetGameState(const GameState& new_gs);
 	GameState& GetGameState(); 
 
+	void SetVsync(bool vsync_active);
 
 private:
 	
