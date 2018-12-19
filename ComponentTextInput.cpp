@@ -60,6 +60,15 @@ bool ComponentTextInput::Update()
 		GetButtonField()->GetButton()->SetState(ELM_IDLE);
 	}
 
+	if (!App->user_interface->GetInputLastFrame().empty())
+	{
+		for(auto it = App->user_interface->GetInputLastFrame().begin(); it != App->user_interface->GetInputLastFrame().end(); it++)
+		{
+			char* letter = &(*it); 
+			CONSOLE_LOG("%s", letter);
+		}
+	}
+
 	if(draw_cursor && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		CursorForward();
 

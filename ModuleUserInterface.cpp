@@ -134,11 +134,13 @@ void ModuleUserInterface::RecieveEvent(const Event & new_event)
 
 void ModuleUserInterface::SendInput(SDL_Event * e)
 {
-	if(e->type == SDL_KEYDOWN)
-		buttons_pressed.push_back(*e->text.text); 
+	if (e->type == SDL_TEXTINPUT)
+	{
+		buttons_pressed.push_back(*e->text.text);
+	}
 }
 
-std::list<GLchar>& ModuleUserInterface::GetInputLastFrame()
+std::list<char>& ModuleUserInterface::GetInputLastFrame()
 {
 	return buttons_pressed; 
 }
