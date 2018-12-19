@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "JSON\parson.h"
 #include "Module.h"
+#include "MathGeoLib\MathGeoLib.h"
 
 enum CompType {CMP_TRANSFORM = 0, CMP_MESH, CMP_MATERIAL, CMP_CAMERA, CMP_CANVAS, CMP_RECTTRANSFORM, CMP_IMAGE, CMP_BUTTON, CMP_TEXT, CMP_TEXTINPUT, CMP_CANVASSCALER};
 
@@ -35,6 +36,8 @@ public:
 
 	bool active;
 	UID unique_id; 
+
+	float2 default_size;
 
 protected:
 

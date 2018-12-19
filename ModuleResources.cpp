@@ -258,7 +258,7 @@ void ModuleResources::RecieveEvent(const Event & curr_event)
 {
 	switch (curr_event.type)
 		{
-			case Event::FILE_DROPED:
+			case FILE_DROPED:
 				ManageDropedFile();
 				break; 
 		}
