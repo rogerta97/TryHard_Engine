@@ -17,7 +17,7 @@ ComponentText::ComponentText(GameObject* parent)
 	gameobject = parent;
 
 	label = new UI_Label(this); 
-	label->SetText("SuperCaliFragiListiQuospiAlisosdfad"); 
+	label->SetText("SampleText"); 
 
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
 	label->section = { -1, -1 };

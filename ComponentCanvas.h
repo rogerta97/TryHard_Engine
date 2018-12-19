@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_CANVAS_H_
+#define _COMPONENT_CANVAS_H_
+
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
 #include "SDL\include\SDL_rect.h"
@@ -33,10 +35,6 @@ public:
 
 	UI_Canvas* GetCanvas() const; 
 	void SetCanvas(UI_Canvas* new_cnv); 
-	
-	// Creates GameObject with the UI element specified, by default it will add a child in the last canvas of the scene. 
-
-	// Warning: Forcing a parent which is not UI will set the default behaviour. 
 
 	// ---------------------- 
 
@@ -44,4 +42,6 @@ private:
 
 	UI_Canvas * canvas; 
 };
+
+#endif
 

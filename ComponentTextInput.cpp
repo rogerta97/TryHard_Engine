@@ -207,7 +207,7 @@ void ComponentTextInput::SetDrawCursor(const bool & newValue)
 void ComponentTextInput::Draw(bool is_editor)
 {
 	//Draw the button inside ComponentText for debugging	
-	DrawButtonFrame();
+	//DrawButtonFrame();
 	DrawCursor(); 	
 }
 

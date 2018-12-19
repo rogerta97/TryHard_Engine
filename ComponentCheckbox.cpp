@@ -7,6 +7,9 @@ ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 	gameobject = parent; 
 	component_type = CMP_CHECKBOX; 
 	checkbox = new UI_CheckBox(this); 
+
+	background_img_pos_percentage = 0.2f;
+	label_origin_pos_percentage = 0.35f;
 }
 
 ComponentCheckBox::~ComponentCheckBox()

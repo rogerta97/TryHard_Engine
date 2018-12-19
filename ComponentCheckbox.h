@@ -35,7 +35,10 @@ public:
 
 private:
 
-	UI_CheckBox* checkbox;
+	float background_img_pos_percentage = 0.0f; 
+	float label_origin_pos_percentage = 0.0f;
+
+	UI_CheckBox* checkbox = nullptr;
 };
 
 #endif // ! _COMPONENT_CHECKBOX_H_

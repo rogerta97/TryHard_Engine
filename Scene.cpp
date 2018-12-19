@@ -553,16 +553,56 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	case UI_Widgget_Type::UI_CHECKBOX:
 	{
 		new_ui_go->SetName("CheckBox");
+
 		ComponentCheckBox* check_cmp = (ComponentCheckBox*)new_ui_go->AddComponent(CMP_CHECKBOX);
 		check_cmp->GetCheckBox()->SetCanvas(canvas_container);
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(check_cmp->GetCheckBox()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
+		// Create the child with the button and the image 
+
+		// Button ---------------
+		GameObject* background_go = new GameObject("Background", true);
+		background_go->SetParent(new_ui_go);
+
+		ComponentImage* img_cmp = (ComponentImage*)background_go->AddComponent(CMP_IMAGE);
+		img_cmp->GetImage()->SetCanvas(canvas_container);
+
+		ComponentButton* button_cmp = (ComponentButton*)background_go->AddComponent(CMP_BUTTON);
+		button_cmp->GetButton()->SetCanvas(canvas_container);
+
+		ComponentRectTransform* background_rtransform = (ComponentRectTransform*)background_go->GetComponent(CMP_RECTTRANSFORM); 
+		background_rtransform->Resize({ size.y, size.y });
+
+		// Checkmark -------------
+		GameObject* checkmark_go = new GameObject("Checkmark", true);
+		checkmark_go->SetParent(background_go);
+
+		ComponentImage* img_check_cmp = (ComponentImage*)checkmark_go->AddComponent(CMP_IMAGE);
+		img_check_cmp->GetImage()->SetCanvas(canvas_container);
+
+		ComponentRectTransform* check_rtransform = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
+		check_rtransform->Resize({ size.y - 5, size.y - 5});
+
+		// Labbel ----------------
+		GameObject* label_go = new GameObject("Label", true);
+		label_go->SetParent(new_ui_go);
+
+		ComponentText* cmp_txt = (ComponentText*)background_go->AddComponent(CMP_TEXT);
+		cmp_txt->GetLabel()->SetCanvas(canvas_container);
+
+		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
+		labbel_rtransform->Resize({ size.y - 5 , size.x * 0.66f});
+	
+		 //Create the child with the text
 		if (add_to_scene)
 		{
 			cmp_canvas->AddElement(new_ui_go);
 			AddGameObjectToScene(new_ui_go);
+
+			cmp_canvas->AddElement(background_go);
+			AddGameObjectToScene(background_go);		
 		}
 
 
