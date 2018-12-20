@@ -11,6 +11,7 @@ UICallbackSystem::UICallbackSystem(ComponentButton* cmp)
 	checkbox_cmp_attached = nullptr;
 	button_cmp_attached = cmp; 
 	show_function_list = false; 
+	attached_to = UI_BUTTON;
 }
 
 UICallbackSystem::UICallbackSystem(ComponentCheckBox* cmp)
@@ -18,6 +19,7 @@ UICallbackSystem::UICallbackSystem(ComponentCheckBox* cmp)
 	button_cmp_attached = nullptr;
 	checkbox_cmp_attached = cmp;
 	show_function_list = false;
+	attached_to = UI_CHECKBOX; 
 }
 
 
@@ -40,17 +42,36 @@ void UICallbackSystem::CleanSystem()
 void UICallbackSystem::PrintSystemUI()
 {
 	ImGui::Spacing();
-	ImGui::Text("On Click Actions"); 
-	ImGui::SameLine(); 
 
-	if (ImGui::Button("Add Action##AddObject"))
+	if (attached_to == UI_BUTTON)
+		ImGui::Text("On Click Actions: ");
+
+	else if (attached_to == UI_CHECKBOX)
+		ImGui::Text("Function To Toggle: "); 
+
+	ImGui::SameLine(); 
+	if (ImGui::SmallButton("Add Item##AddObject"))
 	{
 		UI_CallbackAgent* new_agent = CreateEmptyAgent();
-		new_agent->system_container->button_cmp_attached->OnMousePressed.push_back(new_agent->action);	
+
+		switch (attached_to)
+		{
+		case UI_Widgget_Type::UI_BUTTON:
+			new_agent->system_container->button_cmp_attached->OnMousePressed.push_back(new_agent->action);
+			break;
+
+		case UI_Widgget_Type::UI_CHECKBOX:
+			new_agent->system_container->checkbox_cmp_attached->ButtonOnAction.push_back(new_agent->action);
+			new_agent->system_container->checkbox_cmp_attached->ButtonOffAction.push_back(new_agent->action);
+			break; 
+		}
+		
 	}
 		
 	ImGui::SameLine();
-	ImGui::Button("-");
+	ImGui::SmallButton("Delete Item");
+
+	SEPARATE_WITH_SPACE
 
 	int index = 0; 
 	for (auto it = callbacks_list.begin(); it != callbacks_list.end(); it++)	
@@ -115,23 +136,24 @@ void UI_CallbackAgent::CleanAgent()
 void UI_CallbackAgent::PrintAgentUI(int index)
 {
 
-	ImGui::Text("Target: "); ImGui::SameLine();
+	//ImGui::Text("Target: "); ImGui::SameLine();
 
-	if (parent)
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", parent->GetName().c_str());
-	else
-		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
+	//if (parent)
+	//	ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", parent->GetName().c_str());
+	//else
+	//	ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
-	ImGui::SameLine();
+	//ImGui::SameLine();
 
-	string curr_label_name = "+##Target" + to_string(index);
-	if (ImGui::Button(curr_label_name.c_str()))
-	{
+	string curr_label_name = "";
+	/* = "+ Target##Target" + to_string(index);*/
+	//if (ImGui::Button(curr_label_name.c_str()))
+	//{
 
-	}
+	//}
 
-	ImGui::SameLine();
-	ImGui::Button("-##Target");
+	//ImGui::SameLine();
+	//ImGui::Button("- Target##Target");
 
 
 	if (ImGui::IsItemClicked(0))
@@ -141,14 +163,14 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	ImGui::Text("Action: "); ImGui::SameLine();
 
-	if (action || action_char)
+	if (action || action_char || action_bool)
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", name.c_str());
 	else
 		ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
 	ImGui::SameLine();
 
-	curr_label_name = "+##Action" + to_string(index);
+	curr_label_name = "+ Action##Action" + to_string(index);
 	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
@@ -159,7 +181,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	ImGui::SameLine();
 
-	curr_label_name = "-##Action" + to_string(index);
+	curr_label_name = "- Action##Action" + to_string(index);
 	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
@@ -167,15 +189,30 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 		SetEmpty(); 
 	}
 
+	string label = "";
+
 	if (action_char != nullptr)
 	{
 		ImGui::SameLine();
 
 		static std::string value_char_cpy(value_char); 
 
-		if (ImGui::InputText("Value", (char*)value_char_cpy.c_str(), 256))
+		label = "Value##S" + to_string(index);
+		if (ImGui::InputText(label.c_str(), (char*)value_char_cpy.c_str(), 256))
 			value_char = value_char_cpy.c_str(); 
 	}
+
+	if (action_bool != nullptr)
+	{
+		ImGui::SameLine();
+		static bool send_value = true;
+		label = "Value##C" + to_string(index);
+		if (ImGui::Checkbox(label.c_str() , &send_value))
+		{
+
+		}
+	}
+
 					
 	if (show_function_list)
 	{

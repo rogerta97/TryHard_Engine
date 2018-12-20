@@ -131,11 +131,8 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 	string path = App->file_system->GetFontsPath() + "\\" + font_name + ".ttf"; 
 	FT_Error error = FT_New_Face(ft_library, path.c_str(), 0, &font_to_add->text_font);
 
-	if (error)
-	{
-		CONSOLE_ERROR("An Error has occurred loading the font '%s'", font_name.c_str()); 
-		return nullptr;
-	}
+	if (error)	
+		return nullptr;	
 	else
 	{
 		if (FT_HAS_VERTICAL(font_to_add->text_font))

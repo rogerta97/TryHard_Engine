@@ -1,12 +1,14 @@
 #include "ComponentCheckBox.h"
 #include "UI_CheckBox.h"
 #include "GameObject.h"
-
+#include "UICallbackSystem.h"
 ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 {
 	gameobject = parent; 
 	component_type = CMP_CHECKBOX; 
 	checkbox = new UI_CheckBox(this); 
+
+	callback_system = new UICallbackSystem(this); 
 
 	background_img_pos_percentage = 0.2f;
 	label_origin_pos_percentage = 0.35f;
@@ -68,4 +70,5 @@ UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 
 void ComponentCheckBox::BindCallbackFunctions()
 {
+
 }

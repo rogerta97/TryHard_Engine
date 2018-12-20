@@ -2,6 +2,7 @@
 #define _UI_CALLBACK_SYSTEM_
 
 #include <functional>
+#include "UI_Element.h"
 #include <list>
 
 class GameObject; 
@@ -57,6 +58,8 @@ public:
 	void SetSystemOwnerCheckBox(ComponentCheckBox* new_owner);
 
 	bool show_function_list; 
+
+	UI_Widgget_Type attached_to = UI_Widgget_Type::UI_NULL; 
 
 private:
 
