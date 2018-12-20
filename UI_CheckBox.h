@@ -31,7 +31,7 @@ public:
 
 	bool GetIsOn() const;
 	void SetIsOn(const bool& is_on); 
-	void Toggle();						//Toggle is_on boolean
+	bool Toggle();						//Toggle is_on boolean
 
 	void SetImageVisible(const bool& value);
 

@@ -28,11 +28,25 @@ enum GameState {RUNNING, PAUSED, STOPPED};
 
 struct Vsync
 {
-	bool	is_active = false;
-	uint	vsync_lvl = 0;
+	void SetActive(const bool& active)
+	{
+		is_active = active;
 
-	void SetActive(bool active) { is_active = active; };
-	void SetLevel(uint lvl) { vsync_lvl = lvl; };
+		if (is_active)
+			SDL_GL_SetSwapInterval(1);
+		else
+			SDL_GL_SetSwapInterval(0);
+	};
+
+	bool GetActive()
+	{
+		return is_active; 
+	}
+
+private:
+
+	bool is_active = false;
+
 };
 
 enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED };

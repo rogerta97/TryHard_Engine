@@ -1,6 +1,7 @@
 #include "ComponentCheckBox.h"
 #include "UI_CheckBox.h"
 #include "UI_Button.h"
+#include "Application.h"
 #include "GameObject.h"
 #include "UICallbackSystem.h"
 
@@ -31,7 +32,10 @@ bool ComponentCheckBox::Update()
 	if (GetCheckBox()->GetChildButton() != nullptr)
 	{
 		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_PRESSED)
+		{
 			GetCheckBox()->Toggle();
+		}
+			
 	}
 
 
@@ -53,6 +57,13 @@ void ComponentCheckBox::FitToRect()
 
 void ComponentCheckBox::OnEvent(const Event & new_event)
 {
+	switch (new_event.type)
+	{
+	case EventType::PLAY:
+		BindCallbackFunctions(); 
+		break; 
+
+	}
 }
 
 void ComponentCheckBox::Load(JSON_Object * json_obj)
@@ -80,5 +91,21 @@ UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 
 void ComponentCheckBox::BindCallbackFunctions()
 {
+	int counter = 0;
+	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
+	{
+		if ((*it)->action_bool != nullptr)
+		{
+			bool init_toggle_value = (*it)->value_bool; 
 
+			std::function<void()> on_binded_func = std::bind((*it)->action_bool, (*it)->value_bool);
+			std::function<void()> off_binded_func = std::bind((*it)->action_bool, !(*it)->value_bool);
+
+			(*it)->action = on_binded_func;
+
+			ButtonOnAction[counter] = on_binded_func;
+			ButtonOffAction[counter] = off_binded_func;
+			++counter; 
+		}
+	}
 }

@@ -98,8 +98,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = false;
-	vsync.vsync_lvl = 0;
+	vsync.SetActive(false);
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
 	if (cap_fps)
@@ -126,7 +125,7 @@ bool Application::Init()
 
 void Application::SetVsync(bool newValue)
 {
-	vsync.is_active = newValue; 
+	vsync.SetActive(newValue); 
 }
 
 // ---------------------------------------------
@@ -188,7 +187,7 @@ void Application::FinishUpdate()
 	}
 
 
-	if (vsync.is_active)
+	if (vsync.GetActive())
 	{
 		//Use Vsync		
 		if (GetLastSecFramerate() > 60)
@@ -434,7 +433,9 @@ void Application::DisplayConfigData()
 
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
 
-		ImGui::Checkbox("VSYNC", &vsync.is_active);
+		bool vsync_active = vsync.GetActive(); 
+		if (ImGui::Checkbox("VSYNC", &vsync_active))
+			vsync.SetActive(vsync_active); 
 
 		if (cap_fps)
 		{

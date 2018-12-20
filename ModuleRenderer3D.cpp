@@ -47,24 +47,7 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 	if(ret == true)
 	{
 		ImGui::CreateContext();
-
-
-		//Use Vsync
-		if (App->GetVsync().is_active)
-		{
-			if (App->GetLastSecFramerate() < 60 && App->GetLastSecFramerate() > 30)
-				App->GetVsync().SetLevel(1);
-			else if (App->GetLastSecFramerate() < 30 && App->GetLastSecFramerate() > 16)
-				App->GetVsync().SetLevel(2);
-		} 
-		else
-		{
-			App->GetVsync().SetLevel(0); 
-		}
-
-		if (VSYNC && SDL_GL_SetSwapInterval(0) < 0)
-			CONSOLE_LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-			
+		 			
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();

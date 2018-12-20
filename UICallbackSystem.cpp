@@ -61,9 +61,11 @@ void UICallbackSystem::PrintSystemUI()
 			break;
 
 		case UI_Widgget_Type::UI_CHECKBOX:
+		{
 			new_agent->system_container->checkbox_cmp_attached->ButtonOnAction.push_back(new_agent->action);
-			new_agent->system_container->checkbox_cmp_attached->ButtonOffAction.push_back(new_agent->action);
-			break; 
+			break;
+		}
+		
 		}
 		
 	}
@@ -231,7 +233,29 @@ void UI_CallbackAgent::SetEmpty()
 	
 	action = nullptr; 
 	action_char = nullptr; 
+	action_bool = nullptr; 
 
 	value_char = ""; 
+	value_bool = true; 
+
 	show_function_list = false; 
+}
+
+UI_CallbackAgent * UI_CallbackAgent::Duplicate()
+{
+	UI_CallbackAgent* new_agent = new UI_CallbackAgent(system_container);
+
+	new_agent->parent = parent; 
+	new_agent->name = name;
+
+	new_agent->action = action;
+	new_agent->action_char = action_char;
+	new_agent->action_bool = action_bool;
+
+	new_agent->value_char = value_char;
+	new_agent->value_bool = value_bool;
+
+	new_agent->show_function_list = false; 
+
+	return new_agent;
 }

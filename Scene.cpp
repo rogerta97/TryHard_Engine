@@ -619,7 +619,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
 		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});
 
-	
+		cmp_txt->SetClipping(CLIP_MIDDLELEFT);
 	
 		 //Create the child with the text
 		if (add_to_scene)

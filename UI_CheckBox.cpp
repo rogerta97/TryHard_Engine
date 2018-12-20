@@ -43,10 +43,11 @@ void UI_CheckBox::SetIsOn(const bool & is_on)
 	this->is_on = is_on; 
 }
 
-void UI_CheckBox::Toggle()
+bool UI_CheckBox::Toggle()
 {
 	is_on = !is_on;
 	SetImageVisible(is_on); 
+	return is_on; 
 }
 
 void UI_CheckBox::SetImageVisible(const bool& value)

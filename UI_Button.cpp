@@ -35,7 +35,7 @@ void UI_Button::Update()
 		SetState(ELM_IDLE);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->GetGameState() == RUNNING)
 	{
 		SetState(ELM_PRESSED); 
 	}
