@@ -3,7 +3,9 @@
 
 #include "UI_Label.h"
 #include "UI_Button.h"
+#include "UI_CheckBox.h"
 #include "UI_TextInput.h"
+#include "UI_Canvas.h"
 
 #include "Application.h"
 #include "imgui_dock.h"
@@ -14,6 +16,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentText.h"
 #include "ComponentButton.h"
+#include "ComponentCanvas.h"
 #include "ComponentCheckbox.h"
 #include "ComponentTextInput.h"
 #include "ComponentImage.h"
@@ -496,7 +499,15 @@ void UI_InspectorPanel::PrintCanvasProperties()
 {
 	if (ImGui::CollapsingHeader("Canvas"))
 	{
+		ComponentCanvas* canvas_cmp = (ComponentCanvas*)gameobject->GetComponent(CMP_CANVAS); 
 
+		ImGui::Text("UI Elements in Canvas: "); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(), "%d", canvas_cmp->GetCanvas()->elements_in_canvas.size()); 
+
+		for (auto it = canvas_cmp->GetCanvas()->elements_in_canvas.begin(); it != canvas_cmp->GetCanvas()->elements_in_canvas.end(); it++)
+		{
+			ImGui::TextColored(ImVec4(1,1,0,1), "%s", (*it)->GetName().c_str()); 
+		}
 	}
 }
 
@@ -504,9 +515,36 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 {
 	if (ImGui::CollapsingHeader("CheckBox (UI)"))
 	{
+		ImGui::Spacing(); 
+
 		ComponentCheckBox* cmp_check = (ComponentCheckBox*)gameobject->GetComponent(CMP_CHECKBOX);
 
-		cmp_check->callback_system->PrintSystemUI(); 
+		static int combo_value = 0; 
+		if (ImGui::Combo("Runtime Behaviour", &combo_value, "Toggle Boolean\0Custom"))
+		{
+			cmp_check->GetCheckBox()->SetType((CheckBoxType)combo_value);
+		}
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		switch (cmp_check->GetCheckBox()->GetType())
+		{
+		case CheckBoxType::CHT_TOGGLE_BOOL:	
+			cmp_check->callback_system->PrintSystemUI();
+			break;
+
+		case CheckBoxType::CHT_CUSTOM:
+			break;
+
+		}
+
+		SEPARATE_WITH_SPACE
+
+		bool is_on = cmp_check->GetCheckBox()->GetIsOn();
+		if (ImGui::Checkbox("Is On", &is_on))
+			cmp_check->GetCheckBox()->SetIsOn(is_on); 				
 	}
 }
 

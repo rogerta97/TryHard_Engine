@@ -70,7 +70,7 @@ void ModuleScripting::FillFunctionList()
 		json_object_dotset_string(scene_obj, "Function4.name", "SetVsync");
 		json_object_dotset_string(scene_obj, "Function4.args", "bool");
 
-		json_object_dotset_number(scene_obj, "Info.num", 3);
+		json_object_dotset_number(scene_obj, "Info.num", 4);
 
 		json_serialize_to_file(scene_v, script_path.c_str());
 	}
@@ -100,13 +100,13 @@ void ModuleScripting::FillFunctionList()
 			if (func_name == "EnableWireframe")
 			{
 				std::function<void()> callback = []() {App->renderer3D->render_settings.EnableWireframe(); App->renderer3D->UseCurrentRenderSettings(); };
-				function_list.insert(std::pair<const char*, std::function<void()>>("EnableWireframe", callback));
+				function_list.insert(std::pair<const char*, std::function<void()>>("EnableWireframe()", callback));
 			}
 
 			if (func_name == "DisableWireframe")
 			{
 				std::function<void()> callback = []() {App->renderer3D->render_settings.DisableWireframe();  App->renderer3D->UseCurrentRenderSettings(); };
-				function_list.insert(std::pair<const char*, std::function<void()>>("DisableWireframe", callback));
+				function_list.insert(std::pair<const char*, std::function<void()>>("DisableWireframe()", callback));
 			}
 		}
 
@@ -115,7 +115,7 @@ void ModuleScripting::FillFunctionList()
 			if (func_name == "LoadScene")
 			{			
 				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->LoadScene(scene_name); };
-				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene", callback));
+				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene(string)", callback));
 			}
 		}
 
@@ -125,7 +125,7 @@ void ModuleScripting::FillFunctionList()
 			if (func_name == "SetVsync")
 			{
 				std::function<void(bool)> callback = [](bool newValue) { App->SetVsync(newValue); };
-				function_bool_list.insert(std::pair<const char*, std::function<void(bool)>>("SetVsync", callback));
+				function_bool_list.insert(std::pair<const char*, std::function<void(bool)>>("SetVsync(bool)", callback));
 			}
 		}
 	}
@@ -138,8 +138,10 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 {
 	if (ImGui::BeginPopup("select_callback"))
 	{
+		UI_Widgget_Type attached_widdget = agent->system_container->attached_to; 
+
 		string label_name = "Void##" + to_string(index); 
-		if (ImGui::BeginMenu(label_name.c_str()))
+		if (attached_widdget != UI_CHECKBOX && ImGui::BeginMenu(label_name.c_str()))
 		{
 			int i = 0;
 			for (auto it = function_list.begin(); it != function_list.end(); it++, i++)
@@ -173,8 +175,8 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 			ImGui::EndMenu();
 		}
 			
-		label_name = "Char##" + to_string(index);
-		if (ImGui::BeginMenu(label_name.c_str()))
+		label_name = "String##" + to_string(index);
+		if (attached_widdget != UI_CHECKBOX && ImGui::BeginMenu(label_name.c_str()))
 		{
 			int i = 0;
 			for (auto it = function_string_list.begin(); it != function_string_list.end(); it++, i++)
@@ -191,6 +193,30 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 					agent->show_function_list = false;
 
 
+					return;
+				}
+			}
+
+			ImGui::EndMenu();
+		}
+
+		label_name = "Boolean##" + to_string(index);
+		if (ImGui::BeginMenu(label_name.c_str()))
+		{
+			int i = 0;
+			for (auto it = function_bool_list.begin(); it != function_bool_list.end(); it++, i++)
+			{
+				string curr_name = (*it).first;
+
+				if (ImGui::Selectable(curr_name.c_str()))
+				{
+					agent->action_bool = (*it).second;
+					agent->name = (*it).first;
+
+					ImGui::EndMenu();
+					ImGui::EndPopup();
+
+					agent->show_function_list = false;
 					return;
 				}
 			}

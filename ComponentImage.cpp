@@ -74,7 +74,18 @@ void ComponentImage::Load(JSON_Object * json_obj)
 	}
 					
 	float2 size = { (float)json_object_dotget_number(json_obj, "PlaneSize.X"), (float)json_object_dotget_number(json_obj, "PlaneSize.Y") };
+
 	std::string mat_name = json_object_dotget_string(json_obj, "MaterialName");
+
+	Material* img_mat = (Material*)App->resources->Get(RES_MATERIAL, mat_name.c_str());
+
+	if (img_mat->reference_counting == 0)
+	{
+		img_mat->LoadToMemory();
+	}
+	img_mat->reference_counting++; 
+
+	GetImage()->SetMaterial(img_mat);
 
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
 	rtransform->Resize(size); 

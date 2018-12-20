@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include <functional>
+#include <vector>
 
 class UI_CheckBox;
 class UICallbackSystem;
@@ -34,7 +35,8 @@ public:
 
 	void BindCallbackFunctions();
 
-	std::list<std::function<void(bool)>> OnCheckBoxPressed; // CheckBox will only accept true/false functions
+	std::vector<std::function<void()>> ButtonOnAction;
+	std::vector<std::function<void()>> ButtonOffAction;
 
 private:
 
