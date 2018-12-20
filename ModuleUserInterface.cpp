@@ -51,17 +51,6 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
-
-	//if (App->imgui->game_panel->is_mouse_inside)
-	//{
-	//	float2 norm_mouse_pos = //function that gets the position (0-1)
-	//		//GetLastObjectWithCanvas
-	//		//ComponentCanvas ----- Getcomponent(CMP_RectTransform)
-	//		//GetPointFromCanvasPercentage(0.5f) -> 150 if with 300
-	//		//mouse_pos = X
-
-	//}
-
 	if (App->imgui->game_panel->is_mouse_in)
 	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
@@ -101,8 +90,22 @@ update_status ModuleUserInterface::Update(float dt)
 					inside = false;
 
 				if (inside)
-					CONSOLE_LOG("IN");
+				{
+					//CONSOLE_LOG("IN");
+					intersected_elements.push_back((*ui_iterator));
+				}
+
 			}
+
+			//auto last_list_item = intersected_elements.back();
+			
+			GameObject* element_on_top = nullptr;
+			
+			if (intersected_elements.size() > 0)
+				element_on_top = intersected_elements.back();
+
+			if (element_on_top)
+				CONSOLE_LOG(element_on_top->name.c_str());
 		}
 	}
 
