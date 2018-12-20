@@ -100,7 +100,7 @@ void UI_Label::RenderText()
 
 		if (next_caracter == nullptr)
 		{
-			CONSOLE_ERROR("Trying to pick a null font texture");
+			
 			return;
 		}
 

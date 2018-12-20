@@ -29,6 +29,8 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 	{
 		CONSOLE_ERROR("... an error occurred during FONT library initialization ..."); 
 	}
+	
+	LoadAllFonts(); 
 
 	LoadNewFont("Antonio-Regular", 23); 
 
@@ -110,6 +112,19 @@ Font* ModuleUserInterface::LoadNewFont(std::string font_name, int size)
 
 	FT_Done_Face(font_to_add->text_font);
 	FT_Done_FreeType(ft_library);
+}
+
+void ModuleUserInterface::LoadAllFonts()
+{
+	std::vector<std::string> font_files_name = std::vector<std::string>();
+	App->file_system->GetFilesInDirectory(App->file_system->GetFontsPath().c_str(), font_files_name, false, false);
+
+	for (auto it = font_files_name.begin(); it != font_files_name.end(); it++)
+	{
+		std::string name = App->file_system->DeleteFileExtension((*it).c_str());
+		name = App->file_system->GetLastPathItem(name.c_str());
+		LoadNewFont(name.c_str(), 25);
+	}
 }
 
 void ModuleUserInterface::DeleteFont(std::string name)
