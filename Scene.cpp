@@ -8,6 +8,7 @@
 #include "UI_ScenePanel.h"
 #include "UI_TagPanel.h"
 #include "UI_Button.h"
+#include "UI_GamePanel.h"
 #include "UI_Label.h"
 #include "UI_CheckBox.h"
 #include "UI_TextInput.h"
@@ -28,6 +29,8 @@
 #include "ComponentRectTransform.h"
 #include "ComponentCanvasScaler.h"
 #include "ImGuizmo/ImGuizmo.h"
+
+#include "ModuleImGui.h"
 
 #include <fstream>
 #include <vector> 
@@ -457,7 +460,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
-		rtransform->rel_size = float2(2.5, 0.7);
+		//rtransform->rel_size = float2(2.5, 0.7);
 
 		button_text = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
@@ -596,10 +599,6 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentRectTransform* check_rtransform = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
 		check_rtransform->Resize({ size.y - 8, size.y - 8});
 
-		//Move image needed offset
-		float3 point = check_rtransform->GetPointFromCanvasPercentage(check_cmp->GetBackgroundDistancePercentage());
-		check_rtransform->TranslateRelativePos(float2(point.x, point.y));
-
 		// Labbel ----------------
 		GameObject* label_go = new GameObject("Label", true);
 		label_go->SetParent(new_ui_go);
@@ -678,7 +677,11 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 {
-	list<GameObject*> intersected_list;
+	//ImVec2 mouse_pos = App->imgui->game_panel->GetMousePosInDockNormalized();
+
+	//CONSOLE_LOG("X: %d, Y: %d", mouse_pos.x, mouse_pos.y); 
+
+	/*list<GameObject*> intersected_list;
 
 	auto go_iterator = scene_gameobjects.begin();
 
@@ -697,33 +700,40 @@ void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 
 	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
+	if (closestGo != nullptr)
+	{
+		CONSOLE_LOG("%s", closestGo->name.c_str());
+	}
+
 	if (!closestGo)
 		return;
 
 	ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
 	if (button)
 	{
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) 
+		{
 			button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
 		}
-		else {
+		else 
+		{
 			button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
 		}
 	}
 
+*/
+	//ComponentTextInput* inputfield_cmp = (ComponentTextInput*)closestGo->GetComponent(CMP_TEXTINPUT);
+	//if (inputfield_cmp)
+	//{
+	//	ComponentButton* inputtext_button = inputfield_cmp->GetButtonField();
 
-	ComponentTextInput* inputfield_cmp = (ComponentTextInput*)closestGo->GetComponent(CMP_TEXTINPUT);
-	if (inputfield_cmp)
-	{
-		ComponentButton* inputtext_button = inputfield_cmp->GetButtonField();
-
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
-			inputtext_button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
-		}
-		else {
-			inputtext_button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
-		}
-	}
+	//	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+	//		inputtext_button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
+	//	}
+	//	else {
+	//		inputtext_button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
+	//	}
+	//}
 
 }
 
