@@ -71,7 +71,7 @@ update_status ModuleUserInterface::Update(float dt)
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			CONSOLE_LOG("x:%f, y:%f", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y);
+			//CONSOLE_LOG("x:%f, y:%f", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y);
 			ComponentCanvas* cmp_canvas = (ComponentCanvas*)canvas_go->GetComponent(CMP_CANVAS);
 
 			std::list<GameObject*> intersected_elements;
@@ -80,11 +80,29 @@ update_status ModuleUserInterface::Update(float dt)
 			ui_canvas->elements_in_canvas;
 
 
-			//for (auto ui_iterator = ui_canvas->elements_in_canvas.begin(); ui_iterator != ui_canvas->elements_in_canvas.end(); ui_iterator++)
-			//{
-			//	ComponentRectTransform* elem_rect = (ComponentRectTransform*)(*ui_iterator)->GetComponent(CMP_RECTTRANSFORM);
-			//	if (mouse_pos_in_canvas > elem_rect.getp)
-			//}
+			for (auto ui_iterator = ui_canvas->elements_in_canvas.begin(); ui_iterator != ui_canvas->elements_in_canvas.end(); ui_iterator++)
+			{
+				ComponentRectTransform* elem_rect = (ComponentRectTransform*)(*ui_iterator)->GetComponent(CMP_RECTTRANSFORM);
+
+				bool inside = true;
+
+				//min x
+				if (mouse_pos_in_canvas.x < (elem_rect->GetGlobalPosition().x - elem_rect->width / 2))
+					inside = false;
+				//max x
+				if (mouse_pos_in_canvas.x > (elem_rect->GetGlobalPosition().x + elem_rect->width / 2))
+					inside = false;
+
+				//min y
+				if (mouse_pos_in_canvas.y < (elem_rect->GetGlobalPosition().y - elem_rect->height / 2))
+					inside = false;
+				//max y
+				if (mouse_pos_in_canvas.y > (elem_rect->GetGlobalPosition().y + elem_rect->height / 2))
+					inside = false;
+
+				if (inside)
+					CONSOLE_LOG("IN");
+			}
 		}
 	}
 
