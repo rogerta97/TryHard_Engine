@@ -63,7 +63,6 @@ public:
 	void GetGOAmount(int& counter);
 
 	// UI Utility 
-
 	GameObject* GetFirstParentWith(CompType type);
 
 	//Getters & Setters
