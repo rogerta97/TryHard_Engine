@@ -67,9 +67,6 @@ void UI_Label::RenderText()
 	float line_distance = 0; 
 	float init_offset = text_origin.x; 
 
-	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_UP)
-		section += {1, 1}; 
-
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
 		if (draw_section && (counter < section.x || counter > section.y))
@@ -97,12 +94,6 @@ void UI_Label::RenderText()
 			next_caracter = font.GetCharacter((GLchar)text[counter + 1]);
 		else
 			next_caracter = font.GetCharacter((GLchar)"");
-
-		if (next_caracter == nullptr)
-		{
-			
-			return;
-		}
 
 		cursor.x += offset_planes[counter].x;
 		cursor.y = text_origin.y + offset_planes[counter].y + -current_line*cmp_container->line_spacing;
