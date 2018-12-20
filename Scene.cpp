@@ -577,7 +577,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
 		ComponentRectTransform* background_rtransform = (ComponentRectTransform*)background_go->GetComponent(CMP_RECTTRANSFORM); 
-		background_rtransform->Resize({ size.y, size.y });
+		background_rtransform->Resize({ size.y - 5, size.y  - 5});
 
 		// Checkmark -------------
 		GameObject* checkmark_go = new GameObject("Checkmark", true);
@@ -597,9 +597,14 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		// Make image smaller
 		ComponentRectTransform* check_rtransform = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
-		check_rtransform->Resize({ size.y - 8, size.y - 8});
+		check_rtransform->Resize({ size.y - 15, size.y - 15});
 
-		// Labbel ----------------
+		//float3 pos = rtransform->GetPointFromPercentage(check_cmp->GetBackgroundDistancePercentage());
+		//pos += rtransform->GetGlobalPosition(); 
+
+		//background_rtransform->SetRelativePos(background_rtransform->GetRelativePos() + float2(pos.x, 0));
+		
+		// Label ----------------
 		GameObject* label_go = new GameObject("Label", true);
 		label_go->SetParent(new_ui_go);
 
@@ -608,6 +613,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
 		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});
+
+	
 	
 		 //Create the child with the text
 		if (add_to_scene)
