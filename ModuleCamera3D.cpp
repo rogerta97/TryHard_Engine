@@ -111,13 +111,9 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 	///For the game
 	else if (App->imgui->game_panel->is_mouse_in) {
-		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockNormalized();
+		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockZeroOne();
+		CONSOLE_LOG("X: %f, Y: %f", mouse_pos_norm.x, mouse_pos_norm.y);
 
-		if (mouse_pos_norm.x > -1 && mouse_pos_norm.x < 1)
-			if (mouse_pos_norm.y > -1 && mouse_pos_norm.y < 1)
-				game_picking_ray = ui_frustum.UnProjectLineSegment(mouse_pos_norm.x, mouse_pos_norm.y); // Fustum needed
-		if (game_picking_ray.Length() != 0)
-			App->scene->TestLineAgainstUIGOs(game_picking_ray);
 	}
 
 	cam->CalculateViewMatrix();

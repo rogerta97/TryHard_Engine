@@ -677,51 +677,62 @@ void Scene::TestLineAgainstGOs(LineSegment line)
 
 void Scene::TestLineAgainstUIGOsForGame(LineSegment line)
 {
-	//ImVec2 mouse_pos = App->imgui->game_panel->GetMousePosInDockNormalized();
+	ImVec2 mouse_pos = App->imgui->game_panel->GetMousePosInDockNormalized();
 
-	//CONSOLE_LOG("X: %d, Y: %d", mouse_pos.x, mouse_pos.y); 
 
-	/*list<GameObject*> intersected_list;
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		list<GameObject*> intersected_list;
 
-	auto go_iterator = scene_gameobjects.begin();
+		auto go_iterator = scene_gameobjects.begin();
 
-	while (go_iterator != scene_gameobjects.end())
-	{
-		GameObject* go = (*go_iterator);
-		ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
-
-		if (rect_trans)
+		while (go_iterator != scene_gameobjects.end())
 		{
-			intersected_list.push_back(go);
+			GameObject* go = (*go_iterator);
+			ComponentRectTransform* rect_trans = (ComponentRectTransform*)go->GetComponent(CMP_RECTTRANSFORM);
+
+			if (rect_trans)
+			{
+				intersected_list.push_back(go);
+			}
+
+			go_iterator++;
 		}
 
-		go_iterator++;
-	}
+		GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
 
-	GameObject* closestGo = GetClosestUIGOinGame(line, intersected_list);
+		auto go_intersected_iterator = intersected_list.begin();
+		while (go_intersected_iterator != intersected_list.end()) {
+			GameObject* go = (*go_intersected_iterator);
 
-	if (closestGo != nullptr)
-	{
-		CONSOLE_LOG("%s", closestGo->name.c_str());
-	}
-
-	if (!closestGo)
-		return;
-
-	ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
-	if (button)
-	{
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) 
-		{
-			button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
-		}
-		else 
-		{
-			button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
+				CONSOLE_LOG("%s", go->name.c_str());
+			
+			go_intersected_iterator++;
 		}
 	}
+	//if (closestGo != nullptr)
+	//{
+	//	CONSOLE_LOG("%s", closestGo->name.c_str());
+	//}
 
-*/
+	//if (!closestGo)
+	//	return;
+
+	//ComponentButton* button = (ComponentButton*)closestGo->GetComponent(CMP_BUTTON);
+	//if (button)
+	//{
+	//	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) 
+	//	{
+	//		button->GetButton()->SetState(UI_ElementState::ELM_PRESSED);
+	//		CONSOLE_LOG("PRESSED");
+	//	}
+	//	else 
+	//	{
+	//		button->GetButton()->SetState(UI_ElementState::ELM_HOVERED);
+	//		CONSOLE_LOG("HOVER");
+	//	}
+	//}
+
+
 	//ComponentTextInput* inputfield_cmp = (ComponentTextInput*)closestGo->GetComponent(CMP_TEXTINPUT);
 	//if (inputfield_cmp)
 	//{

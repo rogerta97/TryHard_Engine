@@ -47,6 +47,17 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
+
+	//if (App->imgui->game_panel->is_mouse_inside)
+	//{
+	//	float2 norm_mouse_pos = //function that gets the position (0-1)
+	//		//GetLastObjectWithCanvas
+	//		//ComponentCanvas ----- Getcomponent(CMP_RectTransform)
+	//		//GetPointFromCanvasPercentage(0.5f) -> 150 if with 300
+	//		//mouse_pos = X
+
+	//}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -291,4 +302,14 @@ GameObject* ModuleUserInterface::GetLastCanvas() const
 AABB ModuleUserInterface::GetRenderBox() const
 {
 	return ui_render_box;
+}
+
+float3 ModuleUserInterface::GetMousePos() const
+{
+	return mouse_game_pos;
+}
+
+void ModuleUserInterface::SetMousePos(const float3 & new_pos)
+{
+	mouse_game_pos = new_pos;
 }

@@ -21,6 +21,7 @@ public:
 
 	ImVec2 GetMousePosInDock();
 	ImVec2 GetMousePosInDockNormalized();
+	ImVec2 GetMousePosInDockZeroOne();
 
 public:
 	ImVec2 pos;
