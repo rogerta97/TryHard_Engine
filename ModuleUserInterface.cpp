@@ -2,6 +2,8 @@
 #include "UI_Image.h"
 #include "GameObject.h"
 #include "ComponentRectTransform.h"
+#include "ModuleImGui.h"
+#include "UI_GamePanel.h"
 #include "ComponentCamera.h"
 #include "SDL\include\SDL_events.h"
 #include "ComponentMesh.h"
@@ -57,6 +59,13 @@ update_status ModuleUserInterface::Update(float dt)
 	//		//mouse_pos = X
 
 	//}
+
+	if (App->imgui->game_panel->is_mouse_in)
+	{
+		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
+		GameObject* canvas_go = GetLastCanvas();
+		ComponentRectTransform* canvas_rect_trans = (ComponentRectTransform*)canvas_go->GetComponent(CMP_RECTTRANSFORM);
+	}
 
 	return UPDATE_CONTINUE;
 }

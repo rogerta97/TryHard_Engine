@@ -231,10 +231,10 @@ ImVec2 UI_GamePanel::GetMousePosInDockNormalized()
 	return mouse_normalized;
 }
 
-ImVec2 UI_GamePanel::GetMousePosInDockZeroOne()
+float2 UI_GamePanel::GetMousePosInDockZeroOne()
 {
 	ImVec2 mouse_in_dock_pos = GetMousePosInDock();
-	ImVec2 mouse_normalized;
+	float2 mouse_normalized;
 
 	mouse_normalized.x = mouse_in_dock_pos.x / game_size.x;
 	mouse_normalized.y = mouse_in_dock_pos.y / game_size.y;
