@@ -335,7 +335,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
-		float show_scale[3] = { rtransform->scale_to_show.x,rtransform->scale_to_show.y, rtransform->scale_to_show.z };
+		float show_scale[3] = { rtransform->scale_to_show.x, rtransform->scale_to_show.y, rtransform->scale_to_show.z };
 		bool move_container = false; 
 
 		ImGui::Spacing();

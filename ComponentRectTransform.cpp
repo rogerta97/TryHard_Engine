@@ -21,6 +21,8 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	transform_part->transform.rotation = Quat::identity;
 	transform_part->transform.scale = { 1,1,1 };
 
+	scale_to_show = transform_part->transform.scale; 
+
 	anchor.min_x = 0.5;
 	anchor.min_y = 0.5;
 	anchor.max_x = 0.5;
