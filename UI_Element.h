@@ -54,9 +54,13 @@ public:
 	void SetSelected(const bool& new_state);
 	bool GetSelected() const;
 
+	bool IsRenderElement() const; 
+	void SetRenderElement(const bool& re); 
+
 private:
 
 	bool selected = false;									// Is element selected
+	bool render_element = true;								// Element should be rendered
 
 	UI_ElementState state = UI_ElementState::ELM_IDLE;		// State of the element 
 	UI_Widgget_Type wid_type;								// Type of UI element 

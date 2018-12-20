@@ -1,7 +1,9 @@
 #include "ComponentCheckBox.h"
 #include "UI_CheckBox.h"
+#include "UI_Button.h"
 #include "GameObject.h"
 #include "UICallbackSystem.h"
+
 ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 {
 	gameobject = parent; 
@@ -25,6 +27,14 @@ bool ComponentCheckBox::Start()
 
 bool ComponentCheckBox::Update()
 {
+	//Check if the child button is pressed, in that case, we switch is_on
+	if (GetCheckBox()->GetChildButton() != nullptr)
+	{
+		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_PRESSED)
+			GetCheckBox()->Toggle();
+	}
+
+
 	return false;
 }
 

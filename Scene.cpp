@@ -449,10 +449,11 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// Create the text of the button as child
 		GameObject* button_text = nullptr;
 		new_ui_go->SetName("Button");
-
+		// Img background ------
 		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img->GetImage()->SetCanvas(canvas_container);
 
+		// Button -------------- 
 		ComponentButton* button_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
@@ -461,6 +462,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		rtransform->Resize(size);
 
 		//rtransform->rel_size = float2(2.5, 0.7);
+		
+		// Child Text -----------
 
 		button_text = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_cmp = (ComponentText*)button_text->AddComponent(CMP_TEXT);
@@ -507,6 +510,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	{
 		new_ui_go->SetName("Input Field");
 
+		// Background image -----------------------------
 		ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img_cmp->GetImage()->SetCanvas(canvas_container);
 
@@ -518,7 +522,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
 		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
-		//Create 2 text childs 
+		// Create 2 text childs ---------------------------
+		// 1 ---
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 		placeholder_text_go->SetName("PlaceHolder");
 
@@ -528,6 +533,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		text_cmp->GetLabel()->SetText("Text here...");
 		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f };
 
+		// 2 ---
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 
 		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
@@ -599,10 +605,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentRectTransform* check_rtransform = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
 		check_rtransform->Resize({ size.y - 15, size.y - 15});
 
-		//float3 pos = rtransform->GetPointFromPercentage(check_cmp->GetBackgroundDistancePercentage());
-		//pos += rtransform->GetGlobalPosition(); 
-
-		//background_rtransform->SetRelativePos(background_rtransform->GetRelativePos() + float2(pos.x, 0));
+		// Assign checkbox data 
+		check_cmp->GetCheckBox()->SetChildButton(button_cmp->GetButton());
+		check_cmp->GetCheckBox()->SetToggleImage(img_check_cmp->GetImage());
 		
 		// Label ----------------
 		GameObject* label_go = new GameObject("Label", true);
