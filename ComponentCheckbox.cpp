@@ -13,8 +13,8 @@ ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 
 	callback_system = new UICallbackSystem(this); 
 
-	background_img_pos_percentage = 0.2f;
-	label_origin_pos_percentage = 0.35f;
+	background_img_pos_percentage = { 0.15f, 0.50f };
+	label_origin_pos_percentage = { 0.35f , 0.50f};
 }
 
 ComponentCheckBox::~ComponentCheckBox()
@@ -74,12 +74,12 @@ void ComponentCheckBox::Save(JSON_Object * json_obj, const char * root)
 {
 }
 
-float ComponentCheckBox::GetBackgroundDistancePercentage()
+float2 ComponentCheckBox::GetBackgroundDistancePercentage()
 {
 	return background_img_pos_percentage;
 }
 
-float ComponentCheckBox::GetLabelPercentage()
+float2 ComponentCheckBox::GetLabelPercentage()
 {
 	return label_origin_pos_percentage;
 }

@@ -608,6 +608,10 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// Assign checkbox data 
 		check_cmp->GetCheckBox()->SetChildButton(button_cmp->GetButton());
 		check_cmp->GetCheckBox()->SetToggleImage(img_check_cmp->GetImage());
+
+		float3 draw_point = rtransform->GetPointFromPercentage(check_cmp->GetBackgroundDistancePercentage());
+		float real_x_position = (-rtransform->width / 2.0f) + draw_point.x;
+		background_rtransform->SetRelativePos(float2(real_x_position, 0));
 		
 		// Label ----------------
 		GameObject* label_go = new GameObject("Label", true);
@@ -620,6 +624,10 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});
 
 		cmp_txt->SetClipping(CLIP_MIDDLELEFT);
+
+		draw_point = rtransform->GetPointFromPercentage(check_cmp->GetLabelPercentage());
+		real_x_position = (-rtransform->width / 2.0f) + draw_point.x - cmp_txt->GetLabel()->GetOrigin().x;
+		labbel_rtransform->SetRelativePos(float2(real_x_position, 0));
 	
 		 //Create the child with the text
 		if (add_to_scene)
