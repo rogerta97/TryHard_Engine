@@ -1,5 +1,6 @@
 #pragma once
 #include "UI_Panel.h"
+#include "MathGeoLib\MathGeoLib.h"
 enum ar_type { STANDARD, SQUARED, FREE_AR };
 enum margin {NONE, VERTICAL, HORIZONTAL};
 
@@ -21,7 +22,7 @@ public:
 
 	ImVec2 GetMousePosInDock();
 	ImVec2 GetMousePosInDockNormalized();
-	ImVec2 GetMousePosInDockZeroOne();
+	float2 GetMousePosInDockZeroOne();
 
 public:
 	ImVec2 pos;

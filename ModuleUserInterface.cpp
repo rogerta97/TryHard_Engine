@@ -12,6 +12,8 @@
 #include "OpenGL.h"
 #include "DebugDraw.h"
 #include "Font.h"
+#include "ComponentCanvas.h"
+#include "UI_Canvas.h"
 
 
 ModuleUserInterface::ModuleUserInterface()
@@ -65,6 +67,25 @@ update_status ModuleUserInterface::Update(float dt)
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
 		GameObject* canvas_go = GetLastCanvas();
 		ComponentRectTransform* canvas_rect_trans = (ComponentRectTransform*)canvas_go->GetComponent(CMP_RECTTRANSFORM);
+		float2 mouse_pos_in_canvas = float2(canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).x, canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).y);
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			CONSOLE_LOG("x:%f, y:%f", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y);
+			ComponentCanvas* cmp_canvas = (ComponentCanvas*)canvas_go->GetComponent(CMP_CANVAS);
+
+			std::list<GameObject*> intersected_elements;
+
+			UI_Canvas* ui_canvas = cmp_canvas->GetCanvas();
+			ui_canvas->elements_in_canvas;
+
+
+			//for (auto ui_iterator = ui_canvas->elements_in_canvas.begin(); ui_iterator != ui_canvas->elements_in_canvas.end(); ui_iterator++)
+			//{
+			//	ComponentRectTransform* elem_rect = (ComponentRectTransform*)(*ui_iterator)->GetComponent(CMP_RECTTRANSFORM);
+			//	if (mouse_pos_in_canvas > elem_rect.getp)
+			//}
+		}
 	}
 
 	return UPDATE_CONTINUE;

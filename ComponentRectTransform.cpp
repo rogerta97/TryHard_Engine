@@ -275,10 +275,10 @@ float2 ComponentRectTransform::GetSizeFromCanvasPercentage(const float& percenta
 	return ret_size;
 }
 
-float3 ComponentRectTransform::GetPointFromPercentage(const float& percentage)
+float3 ComponentRectTransform::GetPointFromPercentage(const float2& percentage)
 {
-	float point_x =  GetSize().x * percentage;
-	float point_y =  GetSize().y * percentage;
+	float point_x =  GetSize().x * percentage.x;
+	float point_y =  GetSize().y * percentage.y;
 
 	return { point_x, point_y, 0 };
 }

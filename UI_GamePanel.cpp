@@ -241,7 +241,7 @@ float2 UI_GamePanel::GetMousePosInDockZeroOne()
 
 	mouse_normalized.y = 1 - mouse_normalized.y;
 
-	CONSOLE_LOG("x:%f, y:%f", mouse_normalized.x, mouse_normalized.y);
+	//CONSOLE_LOG("x:%f, y:%f", mouse_normalized.x, mouse_normalized.y);
 
 	return mouse_normalized;
 }

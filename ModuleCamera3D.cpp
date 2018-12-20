@@ -109,12 +109,6 @@ update_status ModuleCamera3D::Update(float dt)
 		if (mouse_picking_ray.Length() != 0)
 			App->scene->TestLineAgainstGOs(mouse_picking_ray);
 	}
-	///For the game
-	else if (App->imgui->game_panel->is_mouse_in) {
-		ImVec2 mouse_pos_norm = App->imgui->game_panel->GetMousePosInDockZeroOne();
-		CONSOLE_LOG("X: %f, Y: %f", mouse_pos_norm.x, mouse_pos_norm.y);
-
-	}
 
 	cam->CalculateViewMatrix();
 
