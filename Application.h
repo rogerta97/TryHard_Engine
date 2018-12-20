@@ -30,12 +30,7 @@ struct Vsync
 {
 	void SetActive(const bool& active)
 	{
-		is_active = active;
-
-		if (is_active)
-			SDL_GL_SetSwapInterval(1);
-		else
-			SDL_GL_SetSwapInterval(0);
+		is_active = active;	
 	};
 
 	bool GetActive()
@@ -43,9 +38,35 @@ struct Vsync
 		return is_active; 
 	}
 
+	void ControlVsync()
+	{
+		if (is_active)
+		{
+			if (frame_time.Read() < 16)
+			{
+				int time_to_wait = 16 - frame_time.Read();
+				SDL_Delay(time_to_wait);
+			}
+
+			else if (frame_time.Read() < 33)
+			{
+				int time_to_wait = 33 - frame_time.Read();
+				SDL_Delay(time_to_wait);
+			}
+		}
+
+		BeginTime(); 
+	}
+
+	void BeginTime()
+	{
+		frame_time.Start();
+	}
+
 private:
 
 	bool is_active = false;
+	Timer frame_time; 
 
 };
 

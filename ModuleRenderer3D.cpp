@@ -44,6 +44,8 @@ bool ModuleRenderer3D::Init(JSON_Object* config)
 
 	glewInit(); 
 
+	SDL_GL_SetSwapInterval(0); 
+
 	if(ret == true)
 	{
 		ImGui::CreateContext();

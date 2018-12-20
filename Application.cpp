@@ -187,27 +187,7 @@ void Application::FinishUpdate()
 	}
 
 
-	if (vsync.GetActive())
-	{
-		//Use Vsync		
-		if (GetLastSecFramerate() > 60)
-		{
-			cap_fps = true; 
-			max_fps = 60; 
-		}
 
-		else if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-		{
-			cap_fps = true;
-			max_fps = 30;
-		}
-
-		else if(GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-		{
-			cap_fps = true;
-			max_fps = 60;
-		}
-	}
 }
 
 void Application::GetHardWareData()
@@ -324,6 +304,8 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 
+	vsync.ControlVsync(); 
+
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
@@ -420,11 +402,6 @@ void Application::DisplayConfigData()
 
 		ImGui::InputText("Organization", (char*)org.c_str(), org.size());
 
-		//if (ImGui::IsInputTextFocused())
-		//{
-		//	App->camera->LockCamera();
-		//	is_out = false; 
-		//}
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{

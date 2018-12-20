@@ -122,17 +122,6 @@ update_status ModuleImGui::PreUpdate(float dt)
 
 update_status ModuleImGui::Update(float dt)
 {
-
-	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-	{
-		App->SetVsync(true); 
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		App->SetVsync(false);
-	}
-
 	if (DrawTopBar() != update_status::UPDATE_CONTINUE)
 		return update_status::UPDATE_STOP;
 
