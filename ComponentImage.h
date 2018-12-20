@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_IMAGE_H_
+#define _COMPONENT_IMAGE_H_
+
 #include "Component.h"
 #include "UI_Image.h"
 
@@ -23,4 +25,6 @@ public:
 private:
 	UI_Image * image; 
 };
+
+#endif
 

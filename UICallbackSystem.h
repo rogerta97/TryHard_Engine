@@ -21,7 +21,7 @@ public:
 	void CleanAgent(); 
 	void PrintAgentUI(int index);
 	void SetEmpty(); 
-
+	UI_CallbackAgent* Duplicate(); 
 
 public:
 
@@ -31,9 +31,10 @@ public:
 
 	std::function<void()> action;
 	std::function<void(const char*)> action_char;
-	std::function<void(const char*)> action_bool;
+	std::function<void(bool)> action_bool;
 
 	const char* value_char = "";
+	bool value_bool = true;
 
 	bool show_function_list; 
 };

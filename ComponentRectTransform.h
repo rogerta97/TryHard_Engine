@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_RECTTRANSFORM_H_
+#define _COMPONENT_RECTTRANSFORM_H_
+
 #include "Component.h"
 #include "Transform.h"
 #include "SDL\include\SDL_rect.h"
@@ -100,6 +102,8 @@ private:
 	ComponentRectTransform* parent;
 	
 };
+
+#endif
 
 
 

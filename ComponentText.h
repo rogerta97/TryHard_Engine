@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_TEXT_H_
+#define _COMPONENT_TEXT_H_
+
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
 
@@ -91,4 +93,6 @@ private:
 	float3 draw_color = {0,0,0};
 	ClipTextType clipping = ClipTextType::CLIP_BOTTOMLEFT; 
 };
+
+#endif
 

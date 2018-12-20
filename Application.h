@@ -28,11 +28,46 @@ enum GameState {RUNNING, PAUSED, STOPPED};
 
 struct Vsync
 {
-	bool	is_active = false;
-	uint	vsync_lvl = 0;
+	void SetActive(const bool& active)
+	{
+		is_active = active;	
+	};
 
-	void SetActive(bool active) { is_active = active; };
-	void SetLevel(uint lvl) { vsync_lvl = lvl; };
+	bool GetActive()
+	{
+		return is_active; 
+	}
+
+	void ControlVsync()
+	{
+		if (is_active)
+		{
+			if (frame_time.Read() < 16)
+			{
+				int time_to_wait = 16 - frame_time.Read();
+				SDL_Delay(time_to_wait);
+			}
+
+			else if (frame_time.Read() < 33)
+			{
+				int time_to_wait = 33 - frame_time.Read();
+				SDL_Delay(time_to_wait);
+			}
+		}
+
+		BeginTime(); 
+	}
+
+	void BeginTime()
+	{
+		frame_time.Start();
+	}
+
+private:
+
+	bool is_active = false;
+	Timer frame_time; 
+
 };
 
 enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED };

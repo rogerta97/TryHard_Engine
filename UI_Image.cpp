@@ -70,6 +70,9 @@ void UI_Image::CreateDrawSpace()
 
 void UI_Image::DrawImage()
 {
+	if (!IsRenderElement())
+		return; 
+
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 

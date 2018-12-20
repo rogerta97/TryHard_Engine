@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_CANVASSCALER_H_
+#define _COMPONENT_CANVASSCALER_H_
+
 #include "Component.h"
 
 #include "Transform.h"
@@ -29,3 +31,4 @@ private:
 	Scale_Type scale_type;
 };
 
+#endif

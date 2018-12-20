@@ -98,8 +98,7 @@ bool Application::Init()
 
 	config = json_object_get_object(config, "App");
 
-	vsync.is_active = false;
-	vsync.vsync_lvl = 0;
+	vsync.SetActive(false);
 
 	cap_fps = json_object_get_boolean(config, "cap_fps");
 	if (cap_fps)
@@ -126,7 +125,7 @@ bool Application::Init()
 
 void Application::SetVsync(bool newValue)
 {
-	vsync.is_active = newValue; 
+	vsync.SetActive(newValue); 
 }
 
 // ---------------------------------------------
@@ -188,27 +187,7 @@ void Application::FinishUpdate()
 	}
 
 
-	if (vsync.is_active)
-	{
-		//Use Vsync		
-		if (GetLastSecFramerate() > 60)
-		{
-			cap_fps = true; 
-			max_fps = 60; 
-		}
 
-		else if (GetLastSecFramerate() < 60 && GetLastSecFramerate() > 30)
-		{
-			cap_fps = true;
-			max_fps = 30;
-		}
-
-		else if(GetLastSecFramerate() < 30 && GetLastSecFramerate() > 16)
-		{
-			cap_fps = true;
-			max_fps = 60;
-		}
-	}
 }
 
 void Application::GetHardWareData()
@@ -325,6 +304,8 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 
+	vsync.ControlVsync(); 
+
 	std::list<Module*>::iterator item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
@@ -421,11 +402,6 @@ void Application::DisplayConfigData()
 
 		ImGui::InputText("Organization", (char*)org.c_str(), org.size());
 
-		//if (ImGui::IsInputTextFocused())
-		//{
-		//	App->camera->LockCamera();
-		//	is_out = false; 
-		//}
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
@@ -434,7 +410,9 @@ void Application::DisplayConfigData()
 
 		ImGui::Checkbox("Cap FPS", &cap_fps); ImGui::SameLine();
 
-		ImGui::Checkbox("VSYNC", &vsync.is_active);
+		bool vsync_active = vsync.GetActive(); 
+		if (ImGui::Checkbox("VSYNC", &vsync_active))
+			vsync.SetActive(vsync_active); 
 
 		if (cap_fps)
 		{

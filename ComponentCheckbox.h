@@ -26,8 +26,8 @@ public:
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
 
-	float GetBackgroundDistancePercentage(); 
-	float GetLabelPercentage();
+	float2 GetBackgroundDistancePercentage(); 
+	float2 GetLabelPercentage();
 
 	UI_CheckBox* GetCheckBox() const;
 
@@ -40,8 +40,8 @@ public:
 
 private:
 
-	float background_img_pos_percentage = 0.0f; 
-	float label_origin_pos_percentage = 0.0f;
+	float2 background_img_pos_percentage = float2::zero;
+	float2 label_origin_pos_percentage = float2::zero;
 
 	UI_CheckBox* checkbox = nullptr;
 };

@@ -11,6 +11,7 @@ UI_Element::UI_Element()
 UI_Element::UI_Element(UI_Widgget_Type type)
 {
 	wid_type = type; 
+	render_element = true; 
 }
 
 UI_Element::~UI_Element()
@@ -97,4 +98,14 @@ void UI_Element::SetSelected(const bool & new_state)
 bool UI_Element::GetSelected() const
 {
 	return selected;
+}
+
+bool UI_Element::IsRenderElement() const
+{
+	return render_element;
+}
+
+void UI_Element::SetRenderElement(const bool & re)
+{
+	render_element = re; 
 }

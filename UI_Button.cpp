@@ -29,7 +29,13 @@ void UI_Button::Start()
 void UI_Button::Update()
 {
 	// Force state
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+
+	if (GetState() == ELM_PRESSED)
+	{
+		SetState(ELM_IDLE);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->GetGameState() == RUNNING)
 	{
 		SetState(ELM_PRESSED); 
 	}
@@ -43,9 +49,7 @@ void UI_Button::Update()
 			{
 				std::function<void()> curr_func = (*it); 
 				curr_func(); 
-			}
-			
-		SetState(ELM_IDLE); 
+			}		
 	}
 }
 

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_BUTTON_H_
+#define _COMPONENT_BUTTON_H_
+
 #include "Component.h"
 
 #include <functional>
@@ -35,4 +37,6 @@ public:
 private:
 	UI_Button * button;
 };
+
+#endif
 
