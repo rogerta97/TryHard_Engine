@@ -15,6 +15,8 @@ ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 
 	background_img_pos_percentage = { 0.15f, 0.50f };
 	label_origin_pos_percentage = { 0.35f , 0.50f};
+
+	toggle_done = false; 
 }
 
 ComponentCheckBox::~ComponentCheckBox()
@@ -28,12 +30,24 @@ bool ComponentCheckBox::Start()
 
 bool ComponentCheckBox::Update()
 {
+	if (App->GetGameState() != GameState::RUNNING)
+		return false; 
+
 	//Check if the child button is pressed, in that case, we switch is_on
 	if (GetCheckBox()->GetChildButton() != nullptr)
 	{
 		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_PRESSED)
 		{
-			GetCheckBox()->Toggle();
+			if (!toggle_done)
+			{
+				GetCheckBox()->Toggle();
+				toggle_done = true; 
+			}	
+		}
+
+		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_UP)
+		{		
+			toggle_done = false;
 		}
 			
 	}

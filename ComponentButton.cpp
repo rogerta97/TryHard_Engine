@@ -71,6 +71,16 @@ void ComponentButton::OnEvent(const Event & new_event)
 	{
 		BindCallbackFunctions(); 
 	}
+
+	if (new_event.type == EventType::BUTTON_DOWN && new_event.button.but == GetButton())
+	{
+		GetButton()->SetState(ELM_PRESSED); 
+	}
+
+	if (new_event.type == EventType::BUTTON_UP && new_event.button.but == GetButton())
+	{
+		GetButton()->SetState(ELM_UP);
+	}
 }
 
 void ComponentButton::Load(JSON_Object * json_obj)

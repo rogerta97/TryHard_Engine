@@ -15,6 +15,8 @@ UI_Button::UI_Button(ComponentButton* container)
 
 	transition_type = TRANSITION_ANY;
 	button_state = BUTTON_IDLE; 
+
+	action_done = false;
 }
 
 
@@ -29,28 +31,29 @@ void UI_Button::Start()
 void UI_Button::Update()
 {
 	// Force state
-
+	if (App->GetGameState() != GameState::RUNNING)
+		return;
+	
 	if (GetState() == ELM_PRESSED)
 	{
-		SetState(ELM_IDLE);
+		if (!action_done)
+		{
+			if (!component_container->OnMousePressed.empty())
+				for (auto it = component_container->OnMousePressed.begin(); it != component_container->OnMousePressed.end(); it++)
+				{
+					std::function<void()> curr_func = (*it);
+					curr_func();
+				}
+
+			action_done = true;
+		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->GetGameState() == RUNNING)
+	if (GetState() == ELM_UP)
 	{
-		SetState(ELM_PRESSED); 
+		action_done = false;
 	}
-
-	if (GetState() == ELM_PRESSED)
-	{
-		CONSOLE_LOG("Impressed"); 
-
-		if(!component_container->OnMousePressed.empty())
-			for (auto it = component_container->OnMousePressed.begin(); it != component_container->OnMousePressed.end(); it++)
-			{
-				std::function<void()> curr_func = (*it); 
-				curr_func(); 
-			}		
-	}
+	
 }
 
 void UI_Button::CleanUp()

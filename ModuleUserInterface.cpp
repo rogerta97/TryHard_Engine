@@ -85,8 +85,6 @@ update_status ModuleUserInterface::Update(float dt)
 
 			if (inside && (*ui_iterator)->GetComponent(CMP_BUTTON))			
 				intersected_elements.push_back((*ui_iterator));
-			
-
 		}
 
 		//auto last_list_item = intersected_elements.back();
@@ -106,11 +104,20 @@ update_status ModuleUserInterface::Update(float dt)
 
 				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 				{
-					button->SetState(ELM_PRESSED);
-					CONSOLE_LOG("CLICK"); 
+					Event new_event; 
+					new_event.type = BUTTON_DOWN; 
+					new_event.button.but = button; 
+					
+					App->BroadCastEvent(new_event); 
 				}
-				else
-					button->SetState(ELM_HOVERED);
+				else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+				{
+					Event new_event;
+					new_event.type = BUTTON_UP;
+					new_event.button.but = button;
+
+					App->BroadCastEvent(new_event);
+				}
 			}
 		}
 

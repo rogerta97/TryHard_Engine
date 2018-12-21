@@ -49,7 +49,6 @@ private:
 	uint cursor_pos = 0; 
 
 	UI_TextInput * input_field = nullptr; 
-	ComponentButton * input_button = nullptr; 
 	Mesh* cursor_mesh = nullptr;
 	float3 cursor_color = { 0,0,0 }; 
 };

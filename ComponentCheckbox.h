@@ -40,6 +40,8 @@ public:
 
 private:
 
+	bool toggle_done = false; 
+
 	float2 background_img_pos_percentage = float2::zero;
 	float2 label_origin_pos_percentage = float2::zero;
 

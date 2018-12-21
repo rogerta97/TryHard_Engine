@@ -19,10 +19,9 @@ ComponentTextInput::ComponentTextInput(GameObject* parent)
 	gameobject = parent; 
 	component_type = CMP_TEXTINPUT; 
 	input_field = new UI_TextInput(this); 
-	input_button = new ComponentButton(nullptr); 
 
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM); 
-	input_button->GetButton()->GetArea()->Resize(rtransform->width, rtransform->height);
+	GetButtonField()->GetButton()->GetArea()->Resize(rtransform->width, rtransform->height);
 
 	cursor_mesh = new Mesh();
 	cursor_mesh->SetVertPlaneData(); 
@@ -47,11 +46,8 @@ bool ComponentTextInput::Update()
 {
 	//The only way to click elements for now -------------
 
-	if (App->GetGameState() == RUNNING)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
-	}
+	if (App->GetGameState() != RUNNING)
+		return false; 
 
 	// ---------------------------------------------------
 
@@ -156,17 +152,17 @@ void ComponentTextInput::DrawButtonFrame()
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f);
 
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[0].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].z);
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[1].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].z);
-
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[0].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[0].z);
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[2].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].z);
-
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[2].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[2].z);
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[3].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].z);
-
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[3].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[3].z);
-	glVertex3f(input_button->GetButton()->GetArea()->GetMesh()->vertices[1].x, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].y, input_button->GetButton()->GetArea()->GetMesh()->vertices[1].z);
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].z);
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].z);
+																				   																	 
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[0].z);
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].z);
+																				  																	  
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[2].z);
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].z);
+																																					  
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[3].z);
+	glVertex3f(GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].x, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].y, GetButtonField()->GetButton()->GetArea()->GetMesh()->vertices[1].z);
 
 	glEnd();
 
@@ -323,6 +319,14 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 		GetInputField()->GetPlaceHolderText()->SetActive(true);
 
 		break;
+
+	case EventType::BUTTON_DOWN:
+
+		//cmp_txt_show->GetLabel()->CleanText();
+		if(new_event.button.but == GetButtonField()->GetButton())
+			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
+
+		break;
 	}
 }
 
@@ -333,7 +337,7 @@ UI_TextInput * ComponentTextInput::GetInputField() const
 
 ComponentButton * ComponentTextInput::GetButtonField() const
 {
-	return input_button;
+	return (ComponentButton*)gameobject->GetComponent(CMP_BUTTON);
 }
 
 UID ComponentTextInput::GetPlaceHolderUID() const
