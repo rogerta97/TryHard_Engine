@@ -621,8 +621,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		check_rtransform->Resize({ size.y - 15, size.y - 15});
 
 		// Assign checkbox data 
-		check_cmp->GetCheckBox()->SetChildButton(button_cmp->GetButton());
-		check_cmp->GetCheckBox()->SetToggleImage(img_check_cmp->GetImage());
+		check_cmp->GetCheckBox()->SetChildButton(button_cmp->GetGameObject());
+		check_cmp->GetCheckBox()->SetToggleImage(img_check_cmp->GetGameObject());
 
 		float3 draw_point = rtransform->GetPointFromPercentage(check_cmp->GetBackgroundDistancePercentage());
 		float real_x_position = (-rtransform->width / 2.0f) + draw_point.x;

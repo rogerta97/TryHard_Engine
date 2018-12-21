@@ -38,16 +38,19 @@ public:
 	CheckBoxType GetType() const;
 	void SetType(const CheckBoxType& is_on);
 
-	UI_Button* GetChildButton() const;
-	void SetChildButton(UI_Button* is_on);
+	GameObject* GetChildButton() const;
+	void SetChildButton(GameObject* is_on);
 
-	UI_Image* GetToggleImage() const;
-	void SetToggleImage(UI_Image* is_on);
+	GameObject* GetToggleImage() const;
+	void SetToggleImage(GameObject* is_on);
+
+	UID child_button_uid = 0;
+	UID img_to_toggle_uid = 0;
 
 private:
 
-	UI_Button * child_button = nullptr; 
-	UI_Image * img_to_toggle = nullptr;
+	GameObject * child_button = nullptr; 
+	GameObject * img_to_toggle = nullptr;
 
 	bool is_on = true; 
 	CheckBoxType checkbox_type = CHT_TOGGLE_BOOL; 

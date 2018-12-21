@@ -5,6 +5,7 @@
 #include "ComponentCanvas.h"
 #include "Application.h"
 #include "GameObject.h"
+#include "ComponentButton.h"
 #include "UICallbackSystem.h"
 
 ComponentCheckBox::ComponentCheckBox(GameObject* parent)
@@ -38,7 +39,9 @@ bool ComponentCheckBox::Update()
 	//Check if the child button is pressed, in that case, we switch is_on
 	if (GetCheckBox()->GetChildButton() != nullptr)
 	{
-		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_PRESSED)
+		ComponentButton* button = (ComponentButton*)GetCheckBox()->GetChildButton()->GetComponent(CMP_BUTTON);
+
+		if (button->GetButton()->GetState() == UI_ElementState::ELM_PRESSED)
 		{
 			if (!toggle_done)
 			{
@@ -49,7 +52,7 @@ bool ComponentCheckBox::Update()
 			DoActions();
 		}
 
-		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_UP)
+		if (button->GetButton()->GetState() == UI_ElementState::ELM_UP)
 		{		
 			toggle_done = false;
 		}
@@ -107,6 +110,9 @@ void ComponentCheckBox::Load(JSON_Object * json_obj)
 
 	checkbox->SetIsOn(json_object_dotget_boolean(json_obj, "IsOn"));
 
+	checkbox->child_button_uid = json_object_dotget_number(json_obj, "ButtonUID");
+	checkbox->img_to_toggle_uid = json_object_dotget_number(json_obj, "ImageUID");
+
 	int num_actions = json_object_dotget_number(json_obj, "NumActions");
 
 	for (int i = 0; i < num_actions; i++)
@@ -145,6 +151,9 @@ void ComponentCheckBox::Save(JSON_Object * json_obj, const char * root)
 	json_object_dotset_number(json_obj, std::string(item_name + ".CanvasContainer").c_str(), uid);
 
 	json_object_dotset_boolean(json_obj, std::string(item_name + ".IsOn").c_str(), checkbox->GetIsOn());
+
+	json_object_dotset_number(json_obj, std::string(item_name + ".ButtonUID").c_str(), checkbox->GetChildButton()->unique_id);
+	json_object_dotset_number(json_obj, std::string(item_name + ".ImageUID").c_str(), checkbox->GetToggleImage()->unique_id);
 
 	json_object_dotset_number(json_obj, std::string(item_name + ".NumActions").c_str(), callback_system->GetCallbacks().size());
 

@@ -679,8 +679,10 @@ bool GameObject::Load(JSON_Object* scene_obj, int index, std::map<UID, GameObjec
 
 		if (parent)
 			SetParent(parent);
-		else
+
+		if(parent == nullptr || is_ui)
 			list.insert(std::pair<UID, GameObject*>(parent_id, this));
+
 	}
 		
 	//Load Components, if it has any

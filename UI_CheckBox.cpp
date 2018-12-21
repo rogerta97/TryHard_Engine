@@ -1,5 +1,6 @@
 #include "UI_CheckBox.h"
 #include "UI_Image.h"
+#include "ComponentImage.h"
 
 
 UI_CheckBox::UI_CheckBox(ComponentCheckBox* parent_cmp)
@@ -52,7 +53,8 @@ bool UI_CheckBox::Toggle()
 
 void UI_CheckBox::SetImageVisible(const bool& value)
 {
-	img_to_toggle->SetRenderElement(value);
+	ComponentImage* cm_img = (ComponentImage*)img_to_toggle->GetComponent(CMP_IMAGE); 
+	cm_img->GetImage()->SetRenderElement(value);
 }
 
 CheckBoxType UI_CheckBox::GetType() const
@@ -65,22 +67,22 @@ void UI_CheckBox::SetType(const CheckBoxType & is_on)
 	checkbox_type = is_on; 
 }
 
-UI_Button * UI_CheckBox::GetChildButton() const
+GameObject * UI_CheckBox::GetChildButton() const
 {
 	return child_button;
 }
 
-void UI_CheckBox::SetChildButton(UI_Button * is_on)
+void UI_CheckBox::SetChildButton(GameObject * is_on)
 {
 	child_button = is_on; 
 }
 
-UI_Image * UI_CheckBox::GetToggleImage() const
+GameObject * UI_CheckBox::GetToggleImage() const
 {
 	return img_to_toggle;
 }
 
-void UI_CheckBox::SetToggleImage(UI_Image * img)
+void UI_CheckBox::SetToggleImage(GameObject * img)
 {
 	img_to_toggle = img;
 }

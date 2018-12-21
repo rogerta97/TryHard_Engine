@@ -4,8 +4,10 @@
 #include "UI_InspectorPanel.h"
 #include "UI_ScenePanel.h"
 #include "UI_TagPanel.h"
+#include "ComponentCheckbox.h"
 #include "Primitive.h"
 #include "OpenGL.h"
+#include "UI_CheckBox.h"
 #include "DebugDraw.h"
 
 #include "GameObject.h"
@@ -424,7 +426,18 @@ void ModuleScene::LoadScene(const char* scene_name)
 			App->camera->SetGameCamera(App->scene->GetGameObjectByID(main_cam_uid));
 
 		for (auto it = parenting_candidates.begin(); it != parenting_candidates.end(); it++)
+		{
 			(*it).second->SetParent(App->scene->GetGameObjectByID((*it).first));
+
+			if ((*it).second->GetIsUI() && (*it).second->GetComponent(CMP_CHECKBOX))
+			{
+				ComponentCheckBox* cmp_ch = (ComponentCheckBox*)(*it).second->GetComponent(CMP_CHECKBOX); 
+				GameObject* o1 = App->scene->GetGameObjectByID(cmp_ch->GetCheckBox()->child_button_uid);
+				cmp_ch->GetCheckBox()->SetChildButton(o1);
+				cmp_ch->GetCheckBox()->SetToggleImage(App->scene->GetGameObjectByID(cmp_ch->GetCheckBox()->img_to_toggle_uid));
+			}
+		}
+			
 		
 		
 		SetSceneName(name_w_termination.c_str());
