@@ -104,6 +104,7 @@ public:
 	ComponentRectTransform* rect_transform;
 
 private:
+
 	std::list<GameObject*> child_list; 
 	bool active; 
 	bool is_ui; 

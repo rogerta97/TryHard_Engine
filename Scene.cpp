@@ -63,8 +63,6 @@ bool Scene::Start()
 	octree = new Octree();
 	octree->draw = false;
 
-	App->imgui->tag_panel->AddTag("Untagged");
-
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
 	guizmo_mode = TRANSLATE;
@@ -201,7 +199,18 @@ std::map<float, GameObject*> Scene::GetSortedGOList(GameObject * new_go)
 	return list_to_ret;
 }
 
+std::list<GameObject*> Scene::GetAllObjectsWithTag(const std::string & tag_to_search)
+{
+	std::list<GameObject*> to_ret_list = std::list<GameObject*>(); 
 
+	for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
+	{
+		if ((*it)->GetTag() == tag_to_search)
+			to_ret_list.push_back((*it)); 
+	}
+
+	return to_ret_list; 
+}
 
 void Scene::AddGOToStaticList(GameObject * go)
 {
@@ -976,6 +985,7 @@ void Scene::SetDefaultScene()
 {
 	//Create Empty GO with a camera
 	GameObject* main_cam = CreateGameObject("Main Camera");
+	main_cam->SetTag("Main Camera"); 
 
 	ComponentCamera* cam = (ComponentCamera*)main_cam->AddComponent(CMP_CAMERA);
 	cam->camera->frustum.farPlaneDistance = 1000;

@@ -49,6 +49,9 @@ bool ModuleScene::Start()
 	current_scene->octree->draw = false;
 
 	App->imgui->tag_panel->AddTag("Untagged");
+	App->imgui->tag_panel->AddTag("UI");
+	App->imgui->tag_panel->AddTag("Canvas");
+	App->imgui->tag_panel->AddTag("Main Camera");
 
 	App->camera->SetGameCamera(App->scene->GetGameObject("Main Camera"));
 
@@ -85,6 +88,11 @@ void ModuleScene::CleanScene()
 void ModuleScene::AddGameObjectToDeleteList(GameObject * to_del)
 {
 	current_scene->AddGameObjectToDeleteList(to_del); 
+}
+
+std::list<GameObject*> ModuleScene::GetAllObjectsWithTag(const std::string & tag_to_search)
+{
+	return current_scene->GetAllObjectsWithTag(tag_to_search);
 }
 
 void ModuleScene::AddGOToStaticList(GameObject * go)

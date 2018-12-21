@@ -26,6 +26,8 @@ public:
 	void CleanScene();
 	void AddGameObjectToDeleteList(GameObject* to_del);
 
+	std::list<GameObject*> GetAllObjectsWithTag(const std::string& tag_to_search);
+
 	void AddGOToStaticList(GameObject* go);
 	void DeleteGOFromStaticList(GameObject* go);
 

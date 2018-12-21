@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _SCENE_H_
+#define _SCENE_H_
+
 #include "Resource.h"
 #include "Component.h"
 #include "MathGeoLib\MathGeoLib.h"
@@ -35,6 +37,8 @@ public:
 	void AddGameObjectToDeleteList(GameObject* to_del);
 	void AddGameObjectToTransparencyList(GameObject* to_add);
 	std::map<float, GameObject*> GetSortedGOList(GameObject* new_go);
+
+	std::list<GameObject*> GetAllObjectsWithTag(const std::string& tag_to_search);
 
 	void AddGOToStaticList(GameObject* go);
 	void DeleteGOFromStaticList(GameObject* go);
@@ -88,4 +92,6 @@ public:
 
 	OPERATION guizmo_mode;
 };
+
+#endif
 
