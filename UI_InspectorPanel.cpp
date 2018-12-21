@@ -519,15 +519,15 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 
 		ComponentCheckBox* cmp_check = (ComponentCheckBox*)gameobject->GetComponent(CMP_CHECKBOX);
 
-		static int combo_value = 0; 
-		if (ImGui::Combo("Runtime Behaviour", &combo_value, "Toggle Boolean\0Custom"))
-		{
-			cmp_check->GetCheckBox()->SetType((CheckBoxType)combo_value);
-		}
+		//static int combo_value = 0; 
+		//if (ImGui::Combo("Runtime Behaviour", &combo_value, "Toggle Boolean\0Custom"))
+		//{
+		//	cmp_check->GetCheckBox()->SetType((CheckBoxType)combo_value);
+		//}
 
-		ImGui::Spacing();
-		ImGui::Separator();
-		ImGui::Spacing();
+		//ImGui::Spacing();
+		//ImGui::Separator();
+		//ImGui::Spacing();
 
 		switch (cmp_check->GetCheckBox()->GetType())
 		{
@@ -556,10 +556,8 @@ void UI_InspectorPanel::PrintTextProperties()
 
 		ImGui::Spacing();
 
-		string tmp_txt = cmp_text->GetLabel()->GetText();
-
-		if (ImGui::InputText("Text", (char*)tmp_txt.c_str(), 256))
-			cmp_text->GetLabel()->SetText(tmp_txt.c_str());
+		if (ImGui::InputText("Text", cmp_text->GetLabel()->inspector_text, 256))
+			cmp_text->GetLabel()->SetText(cmp_text->GetLabel()->inspector_text);
 
 		
 		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))

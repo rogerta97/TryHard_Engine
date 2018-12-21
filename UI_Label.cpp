@@ -251,6 +251,8 @@ void UI_Label::SetText(const char * new_text)
 	
 	if(text.size() != 0) //Adjust the container plane to the new text size 
 		CreateEnclosedPlane(cmp_container->container_plane_vertices);
+
+	strcpy(inspector_text, text.c_str());
 }
 
 void UI_Label::SetFont(string font_name)
