@@ -219,14 +219,25 @@ void Mesh::CleanMeshData()
 	{
 		if (vertices_id != 0)
 		{
+			delete[] vertices;
 			glDeleteBuffers(1, &vertices_id);
+			
 			vertices_id = 0; 
 		}
 
 		if (indices_id != 0)
 		{
+			delete[] indices;
 			glDeleteBuffers(1, &indices_id);
+			
 			indices_id = 0; 
+		}
+
+		if (uvs_id != 0)
+		{
+			delete[] uvs_cords;
+			glDeleteBuffers(1, &uvs_id);			
+			indices_id = 0;
 		}
 	}
 

@@ -54,7 +54,7 @@ void UICallbackSystem::PrintSystemUI()
 	{
 		UI_CallbackAgent* new_agent = CreateEmptyAgent();
 
-		switch (attached_to)
+		/*switch (attached_to)
 		{
 		case UI_Widgget_Type::UI_BUTTON:
 			new_agent->system_container->button_cmp_attached->OnMousePressed.push_back(new_agent->action);
@@ -66,7 +66,7 @@ void UICallbackSystem::PrintSystemUI()
 			break;
 		}
 		
-		}
+		}*/
 		
 	}
 		
