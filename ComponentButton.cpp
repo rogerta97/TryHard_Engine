@@ -132,6 +132,48 @@ void ComponentButton::Load(JSON_Object * json_obj)
 	
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
 	rtransform->Resize(size);
+
+	int num_actions = json_object_dotget_number(json_obj, "NumActions"); 
+
+	for (int i = 0; i < num_actions; i++)
+	{
+		string action_name = json_object_dotget_string(json_obj, string("Actions.ActionName_" + to_string(i)).c_str());
+		string action_type = json_object_dotget_string(json_obj, string("Actions.ActionArg_" + to_string(i)).c_str());
+
+		UI_CallbackAgent* new_agent = new UI_CallbackAgent(callback_system); 
+		new_agent->SetEmpty(); 
+
+		if (action_type == "Boolean")
+		{
+			bool value = json_object_dotget_boolean(json_obj, string("Actions.ActionValue_" + to_string(i)).c_str());
+			new_agent->value_bool = value; 
+
+			if (action_name == "SetVsync(bool)")
+				new_agent->action_bool = [](bool newValue) { App->SetVsync(newValue); };
+		}
+		else if (action_type == "const char*")
+		{
+			const char* value = json_object_dotget_string(json_obj, string("Actions.ActionValue_" + to_string(i)).c_str());
+			new_agent->value_char = value;
+
+			if (action_name == "LoadScene(string)")
+				new_agent->action_char = [](const char* newValue) { App->scene->LoadScene(newValue); };
+		}
+		else
+		{
+			if (action_name == "EnableWireframe()")
+				new_agent->action = []() {App->renderer3D->render_settings.EnableWireframe();  App->renderer3D->UseCurrentRenderSettings(); };
+
+			if (action_name == "DisableWireframe()")
+				new_agent->action = []() {App->renderer3D->render_settings.DisableWireframe();  App->renderer3D->UseCurrentRenderSettings(); };
+		}
+
+		new_agent->name = action_name; 
+		callback_system->AddAgent(new_agent); 
+	
+	}
+
+
 }
 
 void ComponentButton::Save(JSON_Object * json_obj, const char * root)
@@ -150,17 +192,40 @@ void ComponentButton::Save(JSON_Object * json_obj, const char * root)
 
 	item_name += ".Actions"; 
 
+	int counter = 0; 
 	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
 	{
+		
 		if((*it)->parent != nullptr)
-			json_object_dotset_number(json_obj, std::string(item_name + ".Target").c_str(), (*it)->parent->unique_id);
+			json_object_dotset_number(json_obj, std::string(item_name + ".Target_" + to_string(counter)).c_str(), (*it)->parent->unique_id);
 		else
-			json_object_dotset_number(json_obj, std::string(item_name + ".Target").c_str(), 0);
+			json_object_dotset_number(json_obj, std::string(item_name + ".Target_" + to_string(counter)).c_str(), 0);
 
-		if((*it)->action != nullptr)
-			json_object_dotset_string(json_obj, std::string(item_name + ".Action").c_str(), (*it)->name.c_str());
+		json_object_dotset_string(json_obj, std::string(item_name + ".ActionName_" + to_string(counter)).c_str(), (*it)->name.c_str());
+
+		if ((*it)->action_bool != nullptr)
+		{
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "Boolean");
+			json_object_dotset_boolean(json_obj, std::string(item_name + ".ActionValue_" + to_string(counter)).c_str(), (*it)->value_bool);
+		}
+			
+		else if ((*it)->action_char != nullptr)
+		{
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "const char*");
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionValue_" + to_string(counter)).c_str(), (*it)->value_char);
+		}
+		
+		else if((*it)->action != nullptr)
+		{
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "void");
+		}
+				
 		else
-			json_object_dotset_string(json_obj, std::string(item_name + ".Action").c_str(), "Empty");
+		{
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionName_" + to_string(counter)).c_str(), "Empty");
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "Empty");
+		}
+			
 	}
 }
 
@@ -177,9 +242,16 @@ void ComponentButton::BindCallbackFunctions()
 		if ((*it)->action_char != nullptr)
 		{
 			std::function<void()> binded_func = std::bind((*it)->action_char, (*it)->value_char);
-			(*it)->action = binded_func; 
-			OnMousePressed[counter] = (*it)->action;
+			(*it)->action = binded_func; 			
 		}
+		else if ((*it)->action_bool != nullptr)
+		{
+			std::function<void()> binded_func = std::bind((*it)->action_bool, (*it)->value_bool);
+			(*it)->action = binded_func;
+		}
+
+		OnMousePressed.push_back((*it)->action);
+		
 	}
 }
 

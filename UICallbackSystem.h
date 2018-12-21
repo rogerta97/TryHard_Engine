@@ -51,6 +51,8 @@ public:
 	void PrintSystemUI(); 
 	UI_CallbackAgent* CreateEmptyAgent();
 
+	void AddAgent(UI_CallbackAgent* new_agent);
+
 	std::list<UI_CallbackAgent*>& GetCallbacks(); 
 
 	Component* GetSystemOwner() const; 

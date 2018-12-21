@@ -239,12 +239,12 @@ void ComponentRectTransform::Resize(float2 new_size)
 	{
 		(*it)->FitToRect();
 
-		/*if ((*it)->GetType() == CMP_TEXT)
+		if ((*it)->GetType() == CMP_TEXT)
 		{
 			ComponentText* cmp_txt = (ComponentText*)(*it);
 			cmp_txt->GetLabel()->text_size = GetFontSizeFromRectSize(); 
 			cmp_txt->GetLabel()->ResizeFont(); 
-		}*/
+		}
 	}
 		
 

@@ -90,6 +90,11 @@ UI_CallbackAgent * UICallbackSystem::CreateEmptyAgent()
 	return new_agent;
 }
 
+void UICallbackSystem::AddAgent(UI_CallbackAgent * new_agent)
+{
+	callbacks_list.push_back(new_agent); 
+}
+
 std::list<UI_CallbackAgent*>& UICallbackSystem::GetCallbacks()
 {
 	return callbacks_list;
@@ -148,6 +153,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 	//ImGui::SameLine();
 
 	string curr_label_name = "";
+
 	/* = "+ Target##Target" + to_string(index);*/
 	//if (ImGui::Button(curr_label_name.c_str()))
 	//{

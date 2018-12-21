@@ -153,6 +153,10 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 				if (ImGui::IsItemClicked(0))
 				{
 					agent->action = (*it).second; 
+
+					agent->action_char = nullptr;
+					agent->action_bool = nullptr;
+
 					agent->name = curr_name;
 
 					ImGui::EndMenu();
@@ -186,6 +190,10 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 				if (ImGui::Selectable(curr_name.c_str()))
 				{
 					agent->action_char = (*it).second;
+
+					agent->action = nullptr; 
+					agent->action_bool = nullptr; 
+
 					agent->name = (*it).first;
 
 					ImGui::EndMenu();
@@ -211,6 +219,10 @@ void ModuleScripting::PrintFunctionsList(UI_CallbackAgent* agent, int index)
 				if (ImGui::Selectable(curr_name.c_str()))
 				{
 					agent->action_bool = (*it).second;
+
+					agent->action = nullptr;
+					agent->action_char = nullptr;
+
 					agent->name = (*it).first;
 
 					ImGui::EndMenu();
