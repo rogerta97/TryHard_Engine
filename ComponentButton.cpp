@@ -94,7 +94,7 @@ void ComponentButton::OnEvent(const Event & new_event)
 			break;
 
 		case EventType::UI_ELEMENT_UP:
-			GetButton()->SetState(ELM_HOVERED);
+			GetButton()->SetState(ELM_UP);
 			SetImageColor(hover_color);
 			break;
 
@@ -190,8 +190,7 @@ float3 ComponentButton::GetHoverColor() const
 
 void ComponentButton::SetHoverColor(const float3 & new_color)
 {	
-	hover_color = new_color; 
-	
+	hover_color = new_color; 	
 }
 
 float3 ComponentButton::GetPressedColor() const
@@ -202,7 +201,6 @@ float3 ComponentButton::GetPressedColor() const
 void ComponentButton::SetPressedColor(const float3 & new_color)
 {
 	pressed_color = new_color; 
-	SetImageColor(pressed_color);
 }
 
 void ComponentButton::SetImageColor(const float3 & new_color)
