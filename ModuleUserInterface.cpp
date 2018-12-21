@@ -53,8 +53,8 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
-	if (App->imgui->game_panel->is_mouse_in)
-	{
+	/*if (App->imgui->game_panel->is_mouse_in)
+	{*/
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
 		GameObject* canvas_go = GetLastCanvas();
 		ComponentRectTransform* canvas_rect_trans = (ComponentRectTransform*)canvas_go->GetComponent(CMP_RECTTRANSFORM);
@@ -69,38 +69,23 @@ update_status ModuleUserInterface::Update(float dt)
 		UI_Canvas* ui_canvas = cmp_canvas->GetCanvas();
 		ui_canvas->elements_in_canvas;
 
-
 		for (auto ui_iterator = ui_canvas->elements_in_canvas.begin(); ui_iterator != ui_canvas->elements_in_canvas.end(); ui_iterator++)
 		{
 			ComponentRectTransform* elem_rect = (ComponentRectTransform*)(*ui_iterator)->GetComponent(CMP_RECTTRANSFORM);
 
 			bool inside = true;
 
-			//min x
-			if (mouse_pos_in_canvas.x < (elem_rect->GetGlobalPosition().x - elem_rect->width / 2))
-				inside = false;
-			//max x
-			if (mouse_pos_in_canvas.x > (elem_rect->GetGlobalPosition().x + elem_rect->width / 2))
-				inside = false;
+			// Get max and min X and Y of the recttransform 
 
-			//min y
-			if (mouse_pos_in_canvas.y < (elem_rect->GetGlobalPosition().y - elem_rect->height / 2))
-				inside = false;
-			//max y
-			if (mouse_pos_in_canvas.y > (elem_rect->GetGlobalPosition().y + elem_rect->height / 2))
+			if (mouse_pos_in_canvas.x < (elem_rect->GetGlobalPosition().x - elem_rect->width / 2) ||
+				mouse_pos_in_canvas.x >(elem_rect->GetGlobalPosition().x + elem_rect->width / 2) ||
+				mouse_pos_in_canvas.y < (elem_rect->GetGlobalPosition().y - elem_rect->height / 2) ||
+				mouse_pos_in_canvas.y >(elem_rect->GetGlobalPosition().y + elem_rect->height / 2))
 				inside = false;
 
-			if (inside)
-			{
-				//CONSOLE_LOG("IN");
-				bool should_be_ignored = false;
-
-				if ((*ui_iterator)->GetComponent(CMP_TEXT))
-					should_be_ignored = true;
-
-				if (!should_be_ignored)
-					intersected_elements.push_back((*ui_iterator));
-			}
+			if (inside && (*ui_iterator)->GetComponent(CMP_BUTTON))			
+				intersected_elements.push_back((*ui_iterator));
+			
 
 		}
 
@@ -122,13 +107,14 @@ update_status ModuleUserInterface::Update(float dt)
 				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 				{
 					button->SetState(ELM_PRESSED);
+					CONSOLE_LOG("CLICK"); 
 				}
 				else
 					button->SetState(ELM_HOVERED);
 			}
 		}
 
-	}
+	//}
 
 	return UPDATE_CONTINUE;
 }
