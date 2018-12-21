@@ -722,11 +722,14 @@ void UI_InspectorPanel::PrintButtonProperties()
 		{
 		case Button_Transition::TRANSITION_COLOR:
 		{
-			static float tes2[3] = { 12,12,12 };
-			ImGui::ColorEdit3("Hover Tint", tes2);
+			float hover_c[3] = { button_cmp->GetHoverColor().x, button_cmp->GetHoverColor().y, button_cmp->GetHoverColor().z };
+			float pressed_c[3] = { button_cmp->GetPressedColor().x, button_cmp->GetPressedColor().y, button_cmp->GetPressedColor().z };
 
-			static float tes3[3] = { 20, 0 ,12 };
-			ImGui::ColorEdit3("Click Tint", tes3);
+			if (ImGui::ColorEdit3("Hover Tint", hover_c))
+				button_cmp->SetHoverColor(float3(hover_c[0], hover_c[1], hover_c[2]));
+
+			if (ImGui::ColorEdit3("Click Tint", pressed_c))
+				button_cmp->SetPressedColor(float3(pressed_c[0], pressed_c[1], pressed_c[2]));
 
 			break;
 		}
@@ -736,6 +739,8 @@ void UI_InspectorPanel::PrintButtonProperties()
 			break;
 
 		}
+
+		SEPARATE_WITH_SPACE
 
 		button_cmp->callback_system->PrintSystemUI(); 
 	}

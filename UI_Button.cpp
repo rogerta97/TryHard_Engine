@@ -14,7 +14,6 @@ UI_Button::UI_Button(ComponentButton* container)
 	clickable_area = new UI_Plane(); 
 
 	transition_type = TRANSITION_ANY;
-	button_state = BUTTON_IDLE; 
 
 	action_done = false;
 }
@@ -69,7 +68,7 @@ void UI_Button::Draw(bool is_editor)
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)component_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentTransform* trans = rtransform->GetTransform();
 
-	App->renderer3D->UseImGuiRenderSettings();
+	App->renderer3D->UseUIRenderSettings();
 
 	float4x4 view_mat = float4x4::identity;
 
@@ -90,7 +89,15 @@ void UI_Button::Draw(bool is_editor)
 	glBindBuffer(GL_ARRAY_BUFFER, clickable_area->GetMesh()->vertices_id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	glColor3f(255.0f, 0.0f, 0.0f); 
+	// Apply color tint 
+	if(GetState() == ELM_HOVERED)
+		glColor3f(component_container->GetHoverColor().x, component_container->GetHoverColor().y, component_container->GetHoverColor().z);
+
+	else if(GetState() == ELM_PRESSED)
+		glColor3f(component_container->GetPressedColor().x, component_container->GetPressedColor().y, component_container->GetPressedColor().z);
+	else
+		glColor3f(255.0f, 0.0f, 0.0f);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, clickable_area->GetMesh()->indices_id);
 	glDrawElements(GL_TRIANGLES, clickable_area->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 

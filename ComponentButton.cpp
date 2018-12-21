@@ -1,6 +1,7 @@
 #include "ComponentButton.h"
 #include "ComponentRectTransform.h"
 #include "ComponentCanvas.h"
+#include "ComponentImage.h"
 #include "UICallbackSystem.h"
 
 #include "Application.h"
@@ -16,6 +17,11 @@ ComponentButton::ComponentButton(GameObject * parent)
 	component_type = CMP_BUTTON; 
 	button = new UI_Button(this); 
 	callback_system = new UICallbackSystem(this); 
+
+	has_mouse_entered = false; 
+
+	hover_color = { 0.9f, 0.9f, 0.9f }; 
+	pressed_color = { 0.7f, 0.7f, 0.7f };
 }
 
 ComponentButton::~ComponentButton()
@@ -72,14 +78,36 @@ void ComponentButton::OnEvent(const Event & new_event)
 		BindCallbackFunctions(); 
 	}
 
-	if (new_event.type == EventType::BUTTON_DOWN && new_event.button.but == GetButton())
+	if (App->GetGameState() != RUNNING)
 	{
-		GetButton()->SetState(ELM_PRESSED); 
+		SetImageColor({ 1,1,1 });
+		return;
 	}
-
-	if (new_event.type == EventType::BUTTON_UP && new_event.button.but == GetButton())
+		
+	if (new_event.button.but == GetButton())
 	{
-		GetButton()->SetState(ELM_UP);
+		switch (new_event.type)
+		{
+		case EventType::UI_ELEMENT_DOWN:
+			GetButton()->SetState(ELM_PRESSED);
+			SetImageColor(pressed_color);
+			break;
+
+		case EventType::UI_ELEMENT_UP:
+			GetButton()->SetState(ELM_HOVERED);
+			SetImageColor(hover_color);
+			break;
+
+		case EventType::UI_ELEMENT_ENTER:
+			GetButton()->SetState(ELM_HOVERED);
+			SetImageColor(hover_color);
+			break;
+
+		case EventType::UI_ELEMENT_OUT:
+			GetButton()->SetState(ELM_IDLE);
+			SetImageColor({1,1,1});
+			break;
+		}
 	}
 }
 
@@ -153,4 +181,34 @@ void ComponentButton::BindCallbackFunctions()
 			OnMousePressed[counter] = (*it)->action;
 		}
 	}
+}
+
+float3 ComponentButton::GetHoverColor() const
+{
+	return hover_color;
+}
+
+void ComponentButton::SetHoverColor(const float3 & new_color)
+{	
+	hover_color = new_color; 
+	
+}
+
+float3 ComponentButton::GetPressedColor() const
+{
+	return pressed_color;
+}
+
+void ComponentButton::SetPressedColor(const float3 & new_color)
+{
+	pressed_color = new_color; 
+	SetImageColor(pressed_color);
+}
+
+void ComponentButton::SetImageColor(const float3 & new_color)
+{
+	ComponentImage* cmp_img = (ComponentImage*)gameobject->GetComponent(CMP_IMAGE);
+
+	if (cmp_img)
+		cmp_img->GetImage()->image_color = new_color;
 }

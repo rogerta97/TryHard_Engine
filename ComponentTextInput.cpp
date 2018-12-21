@@ -320,7 +320,7 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 
 		break;
 
-	case EventType::BUTTON_DOWN:
+	case EventType::UI_ELEMENT_DOWN:
 
 		//cmp_txt_show->GetLabel()->CleanText();
 		if(new_event.button.but == GetButtonField()->GetButton())

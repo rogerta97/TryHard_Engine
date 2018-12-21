@@ -61,6 +61,7 @@ private:
 
 	std::list<char> buttons_pressed = std::list<char>();
 	std::list<GameObject*> go_with_canvas = std::list<GameObject*>();
+	std::vector<GameObject*> last_intersected_elements = std::vector<GameObject*>();
 	AABB ui_render_box = AABB();
 
 	FT_Library ft_library = FT_Library();

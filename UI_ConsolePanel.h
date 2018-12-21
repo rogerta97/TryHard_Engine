@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _UI_CONSOLE_PANEL_H_
+#define _UI_CONSOLE_PANEL_H_
 
 #include "UI_Panel.h"
 
@@ -22,4 +23,6 @@ private:
 	ImVec4 error_color;
 
 };
+
+#endif
 
