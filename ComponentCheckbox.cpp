@@ -2,6 +2,7 @@
 #include "UI_CheckBox.h"
 #include "UI_Button.h"
 #include "UI_Canvas.h"
+#include "ComponentCanvas.h"
 #include "Application.h"
 #include "GameObject.h"
 #include "UICallbackSystem.h"
@@ -89,10 +90,88 @@ void ComponentCheckBox::OnEvent(const Event & new_event)
 
 void ComponentCheckBox::Load(JSON_Object * json_obj)
 {
+	ComponentCanvas* cmp_canvas = nullptr;
+
+	UID canvas_go_uid = json_object_dotget_number(json_obj, "CanvasContainer");
+	GameObject* container_canvas_go = App->scene->GetGameObjectByID(canvas_go_uid);
+
+	if (container_canvas_go)
+	{
+		cmp_canvas = (ComponentCanvas*)container_canvas_go->GetComponent(CMP_CANVAS);
+		if (cmp_canvas)
+		{
+			GetCheckBox()->SetCanvas(cmp_canvas->GetCanvas());
+			cmp_canvas->AddElement(gameobject);
+		}
+	}
+
+	checkbox->SetIsOn(json_object_dotget_boolean(json_obj, "IsOn"));
+
+	int num_actions = json_object_dotget_number(json_obj, "NumActions");
+
+	for (int i = 0; i < num_actions; i++)
+	{
+		string action_name = json_object_dotget_string(json_obj, string("Actions.ActionName_" + to_string(i)).c_str());
+
+		UI_CallbackAgent* new_agent = new UI_CallbackAgent(callback_system);
+		new_agent->SetEmpty();
+
+		bool value = json_object_dotget_boolean(json_obj, string("Actions.ActionValue_" + to_string(i)).c_str());
+		new_agent->value_bool = value;
+
+		if (action_name == "SetVsync(bool)")
+			new_agent->action_bool = [](bool newValue) { App->SetVsync(newValue); };
+
+		new_agent->name = action_name; 
+
+		//Create true & false version
+		std::function<void()> binded_func = std::bind(new_agent->action_bool, new_agent->value_bool);
+		ButtonOnAction.push_back(binded_func);
+
+		binded_func = std::bind(new_agent->action_bool, !new_agent->value_bool);
+		ButtonOffAction.push_back(binded_func);
+
+		callback_system->AddAgent(new_agent);
+	}
 }
 
 void ComponentCheckBox::Save(JSON_Object * json_obj, const char * root)
 {
+	std::string item_name = root + std::string(".ComponentCheckBox");
+
+	ComponentRectTransform* rtransform = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+	int uid = GetCheckBox()->GetContainerCanvasGO()->unique_id;
+
+	json_object_dotset_number(json_obj, std::string(item_name + ".CanvasContainer").c_str(), uid);
+
+	json_object_dotset_boolean(json_obj, std::string(item_name + ".IsOn").c_str(), checkbox->GetIsOn());
+
+	json_object_dotset_number(json_obj, std::string(item_name + ".NumActions").c_str(), callback_system->GetCallbacks().size());
+
+	item_name += ".Actions";
+
+	int counter = 0;
+	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
+	{
+		if ((*it)->parent != nullptr)
+			json_object_dotset_number(json_obj, std::string(item_name + ".Target_" + to_string(counter)).c_str(), (*it)->parent->unique_id);
+		else
+			json_object_dotset_number(json_obj, std::string(item_name + ".Target_" + to_string(counter)).c_str(), 0);
+
+		json_object_dotset_string(json_obj, std::string(item_name + ".ActionName_" + to_string(counter)).c_str(), (*it)->name.c_str());
+
+		if ((*it)->action_bool != nullptr)
+		{
+			json_object_dotset_boolean(json_obj, std::string(item_name + ".ActionValue_" + to_string(counter)).c_str(), (*it)->value_bool);
+		}
+		else
+		{
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionName_" + to_string(counter)).c_str(), "Empty");
+			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "Empty");
+		}
+
+	}
+
 }
 
 float2 ComponentCheckBox::GetBackgroundDistancePercentage()
