@@ -37,7 +37,7 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	Resize({ 1,1 });
 	edited = false;
 
-	percentage_size = 0.1;
+	percentage_size = 0.035;
 
 	rel_size = float2(1, 1);
 }

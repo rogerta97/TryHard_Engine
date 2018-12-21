@@ -461,7 +461,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
-		//rtransform->rel_size = float2(2.5, 0.7);
+		rtransform->rel_size = float2(4.5, 1.7);
 		
 		// Child Text -----------
 
@@ -492,6 +492,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
+		rtransform->rel_size = float2(6, 1);
 
 		text_cmp->SetClipping(CLIP_TOPLEFT);
 
@@ -519,6 +520,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
 		rtransform->Resize(size);
 
+		rtransform->rel_size = float2(7.5, 2.0);
+
 		ComponentTextInput* input_cmp = (ComponentTextInput*)new_ui_go->AddComponent(CMP_TEXTINPUT);
 		input_cmp->GetInputField()->SetCanvas(canvas_container);
 
@@ -526,6 +529,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// 1 ---
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 		placeholder_text_go->SetName("PlaceHolder");
+
+		ComponentRectTransform* text_r_trans = (ComponentRectTransform*)placeholder_text_go->GetComponent(CMP_RECTTRANSFORM);
+		text_r_trans->rel_size = float2(2.5, 0.3);
 
 		ComponentText* text_cmp = nullptr;
 		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
@@ -622,6 +628,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
 		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});
+
+		labbel_rtransform->rel_size = float2(6.1, 0.3);
 
 		cmp_txt->SetClipping(CLIP_MIDDLELEFT);
 
