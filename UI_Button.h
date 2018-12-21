@@ -44,6 +44,8 @@ public:
 
 private: 
 
+	bool action_done = false; 
+
 	UI_Plane* clickable_area;		//We will just use the plane for the clicking area. 
 
 	Button_Transition transition_type; 

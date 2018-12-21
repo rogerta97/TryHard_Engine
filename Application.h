@@ -26,6 +26,8 @@
 
 enum GameState {RUNNING, PAUSED, STOPPED};
 
+class UI_Button; 
+
 struct Vsync
 {
 	void SetActive(const bool& active)
@@ -70,11 +72,27 @@ private:
 
 };
 
-enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED };
+enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED, BUTTON_DOWN, BUTTON_UP };
 
 struct Event {
 	EventType type;
-	const char* ptr;
+
+	union
+	{
+		struct
+		{
+			const char* ptr;
+		} string;
+		struct
+		{
+			int x, y;
+		} point2d;
+		struct
+		{
+			UI_Button* but;
+
+		} button;
+	};
 
 	Event() {};
 	Event(EventType type) :type(type) {};

@@ -18,6 +18,7 @@ enum UI_Widgget_Type
 enum UI_ElementState
 {
 	ELM_PRESSED,
+	ELM_UP,
 	ELM_IDLE,
 	ELM_HOVERED,
 	ELM_ANY,

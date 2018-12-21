@@ -513,12 +513,15 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		new_ui_go->SetName("Input Field");
 
 		// Background image -----------------------------
+		ComponentButton* but_cmp = (ComponentButton*)new_ui_go->AddComponent(CMP_BUTTON);
+		but_cmp->GetButton()->SetCanvas(canvas_container);
+		but_cmp->GetButton()->SetPercentage(0.30f);
+
 		ComponentImage* img_cmp = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img_cmp->GetImage()->SetCanvas(canvas_container);
-
 		img_cmp->GetImage()->SetPercentage(0.30f);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(img_cmp->GetImage()->GetPercentage(), UI_INPUTFIELD);
+		float2 size = canvas_rtransform->GetSizeFromPercentage(but_cmp->GetButton()->GetPercentage(), UI_INPUTFIELD);
 		rtransform->Resize(size);
 
 		rtransform->rel_size = float2(7.5, 2.0);
@@ -630,6 +633,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		ComponentText* cmp_txt = (ComponentText*)label_go->AddComponent(CMP_TEXT);
 		cmp_txt->GetLabel()->SetCanvas(canvas_container);
+
+		cmp_txt->GetLabel()->SetText("CheckBox"); 
 
 		ComponentRectTransform* labbel_rtransform = (ComponentRectTransform*)label_go->GetComponent(CMP_RECTTRANSFORM);
 		labbel_rtransform->Resize({ size.x * 0.66f , size.y * 0.75f});

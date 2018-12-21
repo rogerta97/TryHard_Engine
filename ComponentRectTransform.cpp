@@ -582,13 +582,16 @@ void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
 	GetRectQuadComponent()->Save(json_obj, node_name.c_str());
 
 	std::string width_name = node_name + ".Width";
-	std::string height_name = node_name += ".Height";
+	std::string height_name = node_name + ".Height";
 
 	json_object_dotset_number(json_obj, width_name.c_str(), width);
 	json_object_dotset_number(json_obj, height_name.c_str(), height);
 
-	json_object_dotset_number(json_obj, std::string(node_name + ".RelativePos.X").c_str(), relative_pos.x);
-	json_object_dotset_number(json_obj, std::string(node_name + ".RelativePos.Y").c_str(), relative_pos.y);
+	std::string rel_x = node_name + ".RelativePos.X";
+	std::string rel_y = node_name + ".RelativePos.Y";
+
+	json_object_dotset_number(json_obj, rel_x.c_str(), GetRelativePos().x);
+	json_object_dotset_number(json_obj, rel_y.c_str(), GetRelativePos().y);
 }
 
 
