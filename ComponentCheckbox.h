@@ -20,6 +20,7 @@ public:
 	bool Update();
 	bool CleanUp();
 	void Draw(bool is_editor);
+
 	void FitToRect();
 	void OnEvent(const Event& new_event);
 
@@ -37,6 +38,8 @@ public:
 
 	std::vector<std::function<void()>> ButtonOnAction;
 	std::vector<std::function<void()>> ButtonOffAction;
+
+	void DoActions();
 
 private:
 

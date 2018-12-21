@@ -43,6 +43,8 @@ bool ComponentCheckBox::Update()
 				GetCheckBox()->Toggle();
 				toggle_done = true; 
 			}	
+
+			DoActions();
 		}
 
 		if (GetCheckBox()->GetChildButton()->GetState() == UI_ElementState::ELM_UP)
@@ -118,8 +120,31 @@ void ComponentCheckBox::BindCallbackFunctions()
 			(*it)->action = on_binded_func;
 
 			ButtonOnAction[counter] = on_binded_func;
-			ButtonOffAction[counter] = off_binded_func;
+			ButtonOffAction.push_back(off_binded_func);
 			++counter; 
 		}
 	}
+}
+
+void ComponentCheckBox::DoActions()
+{
+	if (GetCheckBox()->GetIsOn() && !ButtonOnAction.empty())
+	{
+		for (auto it = ButtonOnAction.begin(); it != ButtonOnAction.end(); it++)
+		{
+			std::function<void()> curr_func = (*it);
+			curr_func();
+		}
+	}
+	else if(!ButtonOffAction.empty())
+	{		
+		for (auto it = ButtonOffAction.begin(); it != ButtonOffAction.end(); it++)
+		{
+			std::function<void()> curr_func = (*it);
+			curr_func();
+		}
+	}
+		
+	
+
 }

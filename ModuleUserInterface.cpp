@@ -53,10 +53,14 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
-	/*if (App->imgui->game_panel->is_mouse_in)
-	{*/
+	if (App->imgui->game_panel->is_mouse_in)
+	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
 		GameObject* canvas_go = GetLastCanvas();
+
+		if (canvas_go == nullptr)
+			return UPDATE_CONTINUE; 
+
 		ComponentRectTransform* canvas_rect_trans = (ComponentRectTransform*)canvas_go->GetComponent(CMP_RECTTRANSFORM);
 		float2 mouse_pos_in_canvas = float2(canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).x, canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).y);
 
@@ -64,7 +68,7 @@ update_status ModuleUserInterface::Update(float dt)
 		//CONSOLE_LOG("x:%f, y:%f", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y);
 		ComponentCanvas* cmp_canvas = (ComponentCanvas*)canvas_go->GetComponent(CMP_CANVAS);
 
-		std::list<GameObject*> intersected_elements;
+		std::vector<GameObject*> intersected_elements;
 
 		UI_Canvas* ui_canvas = cmp_canvas->GetCanvas();
 		ui_canvas->elements_in_canvas;
@@ -97,15 +101,25 @@ update_status ModuleUserInterface::Update(float dt)
 		if (element_on_top)
 		{
 			//CONSOLE_LOG(element_on_top->name.c_str());
+			ComponentButton* cmp_button = (ComponentButton*)element_on_top->GetComponent(CMP_BUTTON);
+			UI_Button* button = cmp_button->GetButton();
+
 			if (element_on_top->GetComponent(CMP_BUTTON))
 			{
-				ComponentButton* cmp_button = (ComponentButton*)element_on_top->GetComponent(CMP_BUTTON);
-				UI_Button* button = cmp_button->GetButton();
+				if (cmp_button->has_mouse_entered == false)
+				{
+					Event new_event;
+					new_event.type = UI_ELEMENT_ENTER;
+					new_event.button.but = button;
+
+					App->BroadCastEvent(new_event);
+					cmp_button->has_mouse_entered = true; 
+				}
 
 				if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 				{
 					Event new_event; 
-					new_event.type = BUTTON_DOWN; 
+					new_event.type = UI_ELEMENT_DOWN;
 					new_event.button.but = button; 
 					
 					App->BroadCastEvent(new_event); 
@@ -113,7 +127,7 @@ update_status ModuleUserInterface::Update(float dt)
 				else if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 				{
 					Event new_event;
-					new_event.type = BUTTON_UP;
+					new_event.type = UI_ELEMENT_UP;
 					new_event.button.but = button;
 
 					App->BroadCastEvent(new_event);
@@ -121,7 +135,27 @@ update_status ModuleUserInterface::Update(float dt)
 			}
 		}
 
-	//}
+		if (intersected_elements.size() < last_intersected_elements.size()) //this mean some gameobject is not under the mouse any more 
+		{
+			int max_size = last_intersected_elements.size(); 
+
+			for (int i = intersected_elements.size() <= 0 ? 0: intersected_elements.size() - 1; i < last_intersected_elements.size(); i++)
+			{
+				ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
+				
+				Event new_event;
+				new_event.type = UI_ELEMENT_OUT;
+				new_event.button.but = cmp_button->GetButton();
+
+				cmp_button->has_mouse_entered = false;
+
+				App->BroadCastEvent(new_event);
+			}	
+		}
+
+		last_intersected_elements = intersected_elements;
+
+	}
 
 	return UPDATE_CONTINUE;
 }

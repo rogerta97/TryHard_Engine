@@ -519,15 +519,15 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 
 		ComponentCheckBox* cmp_check = (ComponentCheckBox*)gameobject->GetComponent(CMP_CHECKBOX);
 
-		static int combo_value = 0; 
-		if (ImGui::Combo("Runtime Behaviour", &combo_value, "Toggle Boolean\0Custom"))
-		{
-			cmp_check->GetCheckBox()->SetType((CheckBoxType)combo_value);
-		}
+		//static int combo_value = 0; 
+		//if (ImGui::Combo("Runtime Behaviour", &combo_value, "Toggle Boolean\0Custom"))
+		//{
+		//	cmp_check->GetCheckBox()->SetType((CheckBoxType)combo_value);
+		//}
 
-		ImGui::Spacing();
-		ImGui::Separator();
-		ImGui::Spacing();
+		//ImGui::Spacing();
+		//ImGui::Separator();
+		//ImGui::Spacing();
 
 		switch (cmp_check->GetCheckBox()->GetType())
 		{
@@ -556,10 +556,8 @@ void UI_InspectorPanel::PrintTextProperties()
 
 		ImGui::Spacing();
 
-		string tmp_txt = cmp_text->GetLabel()->GetText();
-
-		if (ImGui::InputText("Text", (char*)tmp_txt.c_str(), 256))
-			cmp_text->GetLabel()->SetText(tmp_txt.c_str());
+		if (ImGui::InputText("Text", cmp_text->GetLabel()->inspector_text, 256))
+			cmp_text->GetLabel()->SetText(cmp_text->GetLabel()->inspector_text);
 
 		
 		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))
@@ -722,11 +720,14 @@ void UI_InspectorPanel::PrintButtonProperties()
 		{
 		case Button_Transition::TRANSITION_COLOR:
 		{
-			static float tes2[3] = { 12,12,12 };
-			ImGui::ColorEdit3("Hover Tint", tes2);
+			float hover_c[3] = { button_cmp->GetHoverColor().x, button_cmp->GetHoverColor().y, button_cmp->GetHoverColor().z };
+			float pressed_c[3] = { button_cmp->GetPressedColor().x, button_cmp->GetPressedColor().y, button_cmp->GetPressedColor().z };
 
-			static float tes3[3] = { 20, 0 ,12 };
-			ImGui::ColorEdit3("Click Tint", tes3);
+			if (ImGui::ColorEdit3("Hover Tint", hover_c))
+				button_cmp->SetHoverColor(float3(hover_c[0], hover_c[1], hover_c[2]));
+
+			if (ImGui::ColorEdit3("Click Tint", pressed_c))
+				button_cmp->SetPressedColor(float3(pressed_c[0], pressed_c[1], pressed_c[2]));
 
 			break;
 		}
@@ -736,6 +737,8 @@ void UI_InspectorPanel::PrintButtonProperties()
 			break;
 
 		}
+
+		SEPARATE_WITH_SPACE
 
 		button_cmp->callback_system->PrintSystemUI(); 
 	}

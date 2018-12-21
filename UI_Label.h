@@ -50,7 +50,6 @@ public:
 	float3 color;
 
 	//Text Utility
-
 	void CleanText(); 
 	string GetText() const;
 	void SetText(const char* new_text);
@@ -72,8 +71,10 @@ public:
 
 	int text_size = 0;
 	float2 section = {-1,-1};
+	char inspector_text[255];
 
-private: 								
+private: 			
+
 	string text;
 	Font font;
 
