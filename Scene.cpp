@@ -433,6 +433,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 
 		rtransform->Resize(size);
+		rtransform->rel_size = float2(2.5, 2.5);
 
 		if (add_to_scene)
 		{
@@ -461,7 +462,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
 		rtransform->Resize(size);
 
-		rtransform->rel_size = float2(4.5, 1.7);
+		rtransform->rel_size = float2(8.0, 2.0);
 		
 		// Child Text -----------
 
@@ -590,6 +591,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		ComponentRectTransform* background_rtransform = (ComponentRectTransform*)background_go->GetComponent(CMP_RECTTRANSFORM); 
 		background_rtransform->Resize({ size.y - 5, size.y  - 5});
+		background_rtransform->rel_size = float2(2, 2);
 
 		// Checkmark -------------
 		GameObject* checkmark_go = new GameObject("Checkmark", true);
@@ -597,6 +599,9 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		ComponentImage* img_check_cmp = (ComponentImage*)checkmark_go->AddComponent(CMP_IMAGE);
 		img_check_cmp->GetImage()->SetCanvas(canvas_container);
+
+		ComponentRectTransform* chekmark_rt = (ComponentRectTransform*)checkmark_go->GetComponent(CMP_RECTTRANSFORM);
+		chekmark_rt->rel_size = float2(2, 2);
 
 		// Set CheckMark Image
 		Material* checkmark_material = (Material*)App->resources->Get(RES_MATERIAL, "Check_Mark");

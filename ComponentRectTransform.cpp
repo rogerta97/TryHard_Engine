@@ -212,18 +212,6 @@ void ComponentRectTransform::DebugDrawRectSize()
 		real_pos.x += parent_rect->width / 2;
 		real_pos.y += parent_rect->height / 2;
 	}
-
-
-	glLineWidth(5.0f);
-
-	glBegin(GL_LINES);
-
-	glColor4f(1.0f, 0.0f, 0.5f, 1.0f);
-
-	glVertex3f(real_pos.x, real_pos.y, real_pos.z);
-	glVertex3f(real_pos.x, real_pos.y, real_pos.z + 100);
-
-	glEnd();
 }
 
 void ComponentRectTransform::Resize(float2 new_size)
