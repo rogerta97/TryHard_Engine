@@ -62,7 +62,7 @@ public:
 
 	void CreateEnclosedPlane(float3* points);							// Update Enclosed Plane (Delete and create a new one)
 	float3 GetValueFromRenderedText(const char* point);					// Get highest/lowest x/y from the rendered text in world space
-	float3 GetContainerPlanePoint(ClipTextType clipping);				// Get the clipping point in world space 
+	float3 GetContainerPlanePoint(ClipTextCorner clipping);				// Get the clipping point in world space 
 	void UpdateContainerPlane();										// Fits the container plane to the text, and clip it 
 
 	//Setters & Getters

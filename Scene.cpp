@@ -413,7 +413,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 	GameObject* new_ui_go = new GameObject("PlaceHold", true);
 	new_ui_go->SetParent(UI_parent);
 
-	// Set a RectTransform more likely for text
+	// Get the own recttransform & canvas
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)new_ui_go->GetComponent(CMP_RECTTRANSFORM);
 	ComponentCanvasScaler* canvas_scaler = (ComponentCanvasScaler*)cmp_canvas->GetGameObject()->GetComponent(CMP_CANVASSCALER);
 
@@ -450,6 +450,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// Create the text of the button as child
 		GameObject* button_text = nullptr;
 		new_ui_go->SetName("Button");
+
 		// Img background ------
 		ComponentImage* img = (ComponentImage*)new_ui_go->AddComponent(CMP_IMAGE);
 		img->GetImage()->SetCanvas(canvas_container);

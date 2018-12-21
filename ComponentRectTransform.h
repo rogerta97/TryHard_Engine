@@ -48,6 +48,7 @@ public:
 	float2 GetSizeFromCanvasPercentage(const float& percentage);
 	float3 GetPointFromPercentage(const float2& percentage); 
 	float3 GetRectCenter();
+	int GetFontSizeFromRectSize(); 
 
 	void CompensateParentRelativePos();
 
