@@ -72,6 +72,10 @@ public:
 
 	GameObject* GetFirstCanvasParent();
 
+	void ManageDrag();
+
+	bool isMouseInsideRect(float2 mouse_pos_in_canvas);
+
 	// ----------------------
 
 	void FitToParentRect();
@@ -92,6 +96,7 @@ public:
 
 	float percentage_size;
 
+	bool draggable = false;
 private:
 
 	ComponentMesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
@@ -101,6 +106,9 @@ private:
 	float2 relative_pos;
 
 	ComponentRectTransform* parent;
+
+	float x_motion, y_motion, last_x, last_y;
+
 	
 };
 

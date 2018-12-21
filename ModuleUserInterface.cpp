@@ -79,15 +79,7 @@ update_status ModuleUserInterface::Update(float dt)
 		{
 			ComponentRectTransform* elem_rect = (ComponentRectTransform*)(*ui_iterator)->GetComponent(CMP_RECTTRANSFORM);
 
-			bool inside = true;
-
-			// Get max and min X and Y of the recttransform 
-
-			if (mouse_pos_in_canvas.x < (elem_rect->GetGlobalPosition().x - elem_rect->width / 2) ||
-				mouse_pos_in_canvas.x >(elem_rect->GetGlobalPosition().x + elem_rect->width / 2) ||
-				mouse_pos_in_canvas.y < (elem_rect->GetGlobalPosition().y - elem_rect->height / 2) ||
-				mouse_pos_in_canvas.y >(elem_rect->GetGlobalPosition().y + elem_rect->height / 2))
-				inside = false;
+			bool inside = elem_rect->isMouseInsideRect(mouse_pos_in_canvas);
 
 			if (inside && (*ui_iterator)->GetComponent(CMP_BUTTON))			
 				intersected_elements.push_back((*ui_iterator));

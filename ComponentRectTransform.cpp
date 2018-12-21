@@ -40,6 +40,8 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	Resize({ 1,1 });
 	edited = false;
 
+	draggable = true;
+
 	percentage_size = 0.035;
 
 	rel_size = float2(1, 1);
@@ -61,7 +63,6 @@ bool ComponentRectTransform::Update()
 		return true;
 
 	GameObject* parent_canvas = GetFirstCanvasParent();
-
 	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
 
 	if (canvas->GetScaleType() == ST_SCREEN_SIZE && App->imgui->game_panel->size_changed_last_frame)
@@ -71,6 +72,14 @@ bool ComponentRectTransform::Update()
 	}
 
 	UpdateRectWithAnchors();
+
+	if (gameobject->parent->GetComponent(CMP_CANVAS))
+	{
+
+		if (draggable)
+			ManageDrag();
+
+	}
 
 	return true;
 }
@@ -530,6 +539,52 @@ GameObject * ComponentRectTransform::GetFirstCanvasParent()
 	}
 
 	return parent_canvas;
+}
+
+void ComponentRectTransform::ManageDrag()
+{
+	float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
+	GameObject* canvas_go = GetFirstCanvasParent();
+
+	if (canvas_go == nullptr)
+		return;
+
+	ComponentRectTransform* canvas_rect_trans = (ComponentRectTransform*)canvas_go->GetComponent(CMP_RECTTRANSFORM);
+	float2 mouse_pos_in_canvas = float2(canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).x, canvas_rect_trans->GetPointFromPercentage(norm_mouse_pos).y);
+
+
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && isMouseInsideRect(mouse_pos_in_canvas))
+	{
+		int dx = App->input->GetMouseXMotion();
+		int dy = App->input->GetMouseYMotion();
+
+		if (dx == 0 && dy == 0)
+			return;
+
+		SetRelativePos({ relative_pos.x + (mouse_pos_in_canvas.x - last_x), relative_pos.y + (mouse_pos_in_canvas.y - last_y) });
+	}
+
+
+	last_x = mouse_pos_in_canvas.x;
+	last_y = mouse_pos_in_canvas.y;
+
+
+}
+
+bool ComponentRectTransform::isMouseInsideRect(float2 mouse_pos_in_canvas)
+{
+	bool inside = true;
+
+	// Get max and min X and Y of the recttransform 
+
+	if (mouse_pos_in_canvas.x < (GetGlobalPosition().x - width / 2) ||
+		mouse_pos_in_canvas.x >(GetGlobalPosition().x + width / 2) ||
+		mouse_pos_in_canvas.y < (GetGlobalPosition().y - height / 2) ||
+		mouse_pos_in_canvas.y >(GetGlobalPosition().y + height / 2))
+		inside = false;
+
+	return inside;
 }
 
 void ComponentRectTransform::FitToParentRect()

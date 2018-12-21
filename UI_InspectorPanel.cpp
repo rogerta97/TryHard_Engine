@@ -492,6 +492,9 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		}
 
 		ImGui::Spacing();
+
+		ImGui::Checkbox("Enable Drag", &rtransform->draggable);
+
 	}
 }
 
