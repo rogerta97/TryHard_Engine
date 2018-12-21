@@ -211,33 +211,6 @@ float3 ComponentText::GetClippingDistance(const ClipTextType new_clip)
 
 	break;
 
-	case ClipTextType::CLIP_BOTTOMLEFT:
-	{
-		p1 = rtransform->GetGlobalPosition() + float3({ -rtransform->width / 2, -rtransform->height / 2, 0 });
-		p2 = container_plane_vertices[2];
-		translation = p1 - p2;
-	}
-
-	break;
-
-	case ClipTextType::CLIP_TOPRIGHT:
-	{
-		p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, rtransform->height / 2, 0 });
-		p2 = container_plane_vertices[1];
-		translation = p1 - p2;
-	}
-
-	break;
-
-	case ClipTextType::CLIP_BOTTOMRIGHT:
-	{
-		p1 = rtransform->GetGlobalPosition() + float3({ rtransform->width / 2, -rtransform->height / 2, 0 });
-		p2 = container_plane_vertices[3];
-		translation = p1 - p2;
-	}
-
-	break;
-
 	case ClipTextType::CLIP_CENTER:
 	{
 		p1 = rtransform->GetGlobalPosition();

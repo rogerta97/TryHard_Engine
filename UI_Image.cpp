@@ -61,6 +61,7 @@ void UI_Image::Resize(float2 size)
 void UI_Image::CleanUp()
 {
 	plane->CleanUp();
+	draw_material->CleanUp();
 }
 
 void UI_Image::CreateDrawSpace()

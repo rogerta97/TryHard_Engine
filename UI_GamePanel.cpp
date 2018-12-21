@@ -14,6 +14,7 @@ UI_GamePanel::UI_GamePanel()
 	game_size.x = 0;
 	game_size.y = 0;
 	size_changed = false;
+	size_changed_last_frame = false;
 	margin_type = NONE;
 }
 
@@ -36,6 +37,8 @@ bool UI_GamePanel::Update()
 	ImGuiWindowFlags flags = NULL;
 	flags = flags | ImGuiWindowFlags_NoScrollWithMouse;
 	flags = flags | ImGuiWindowFlags_NoScrollbar;
+
+	size_changed_last_frame = false; 
 
 	if (ImGui::Begin("Game", &show,flags))
 	{
@@ -60,6 +63,7 @@ bool UI_GamePanel::Update()
 			if (game_size.x != size.x || game_size.y != size.y)
 			{
 				size_changed = true;
+				size_changed_last_frame = true; 
 			}			
 			else
 				size_changed = false;

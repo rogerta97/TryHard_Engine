@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _UI_GAME_PANEL_H_
+#define _UI_GAME_PANEL_H_
+
 #include "UI_Panel.h"
 #include "MathGeoLib\MathGeoLib.h"
 enum ar_type { STANDARD, SQUARED, FREE_AR };
@@ -37,9 +39,12 @@ public:
 	ar_type ar;
 
 	bool size_changed;
+	bool size_changed_last_frame = false; 
 
 	float game_ar;
 
 	bool is_mouse_in;
 };
+
+#endif
 

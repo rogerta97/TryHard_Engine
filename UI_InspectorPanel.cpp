@@ -566,7 +566,7 @@ void UI_InspectorPanel::PrintTextProperties()
 		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))
 		{
 			if (cmp_text->GetLabel()->text_size < 1) cmp_text->GetLabel()->text_size = 1; 
-			cmp_text->GetLabel()->ResizeFont(); 
+				cmp_text->GetLabel()->ResizeFont(); 
 		}
 
 		float tmp_col[3] = { cmp_text->GetLabel()->color.x, cmp_text->GetLabel()->color.y, cmp_text->GetLabel()->color.z };
@@ -576,7 +576,7 @@ void UI_InspectorPanel::PrintTextProperties()
 		//Clipping
 		int curr_type = cmp_text->GetClipping(); 
 
-		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Bottom Left\0Top Right\0Bottom Right\0Center\0Middle Left"))
+		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Center\0Middle Left"))
 		{
 			cmp_text->SetClipping((ClipTextType)curr_type); 
 		}

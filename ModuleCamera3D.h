@@ -33,6 +33,9 @@ public:
 
 	void DrawMouseRay() const;
 
+	void SetLocked(const bool& locked); 
+	bool IsLocked();
+
 
 public:
 		
@@ -42,6 +45,8 @@ public:
 
 	float3 Rotate(const float3 &u, float angle, const float3 &v);
 	GameObject* GetCameraGO() const;
+
+	bool lock = false; 
 	
 private:
 

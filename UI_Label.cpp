@@ -245,6 +245,13 @@ void UI_Label::RegressSection()
 void UI_Label::SetText(const char * new_text)
 {
 	text = new_text; 
+
+	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
+	{
+		(*it)->CleanUp();
+		delete(*it); 
+	}
+
 	text_planes.clear();
 
 	FillTextPlanes();
@@ -278,13 +285,12 @@ void UI_Label::ResizeFont()
 
 bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const float2 init_offset)
 {
-
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 
 	float total_x_ammount_center = 0; 
 
 	current_line++;
-	if (clipping_type == ClipTextType::CLIP_TOPLEFT || clipping_type == ClipTextType::CLIP_TOPRIGHT)
+	if (clipping_type == ClipTextType::CLIP_TOPLEFT || clipping_type == ClipTextType::CLIP_MIDDLELEFT)
 	{
 		cursor.x = init_offset.x;
 		cursor.y = offset_planes[counter].y + init_offset.y + -current_line * cmp_container->line_spacing;
@@ -293,7 +299,10 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 	{
 		total_x_ammount_center = offset_planes[counter].x;
 
-		cursor.x = -total_x_ammount_center;
+		float2 curr_origin = GetOrigin(); 
+		curr_origin.x = -total_x_ammount_center;
+		SetOrigin(curr_origin); 
+
 		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
 	}
 
@@ -307,16 +316,16 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 void UI_Label::CreateEnclosedPlane(float3* points)
 {
 	// Get Top-Left point
-	points[0] = GetContainerPlanePoint(CLIP_TOPLEFT);
+	points[0] = GetContainerPlanePoint(CORNER_TOPLEFT);
 
 	// Get Bottom-Left point
-	points[1] = GetContainerPlanePoint(CLIP_TOPRIGHT);
+	points[1] = GetContainerPlanePoint(CORNER_TOPROGHT);
 
 	// Get Top-Right point
-	points[2] = GetContainerPlanePoint(CLIP_BOTTOMLEFT);
+	points[2] = GetContainerPlanePoint(CORNER_BOTTOMLEFT);
 
 	// Get Top-Right point
-	points[3] = GetContainerPlanePoint(CLIP_BOTTOMRIGHT);
+	points[3] = GetContainerPlanePoint(CORNER_BOTTOMRIGHT);
 }
 
 float3 UI_Label::GetValueFromRenderedText(const char * point)
@@ -421,7 +430,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 	return return_value;
 }
 
-float3 UI_Label::GetContainerPlanePoint(ClipTextType clipping)
+float3 UI_Label::GetContainerPlanePoint(ClipTextCorner clipping)
 {
 	float3 ret_point; 
 
@@ -429,22 +438,22 @@ float3 UI_Label::GetContainerPlanePoint(ClipTextType clipping)
 
 	switch (clipping)
 	{
-	case ClipTextType::CLIP_TOPLEFT:
+	case ClipTextCorner::CORNER_TOPLEFT:
 		p1 = GetValueFromRenderedText("XMin"); 
 		p2 = GetValueFromRenderedText("YMax");
 		break; 
 
-	case ClipTextType::CLIP_BOTTOMLEFT:
+	case ClipTextCorner::CORNER_BOTTOMLEFT:
 		p1 = GetValueFromRenderedText("XMin");
 		p2 = GetValueFromRenderedText("YMin");
 		break;
 
-	case ClipTextType::CLIP_TOPRIGHT:
+	case ClipTextCorner::CORNER_TOPROGHT:
 		p1 = GetValueFromRenderedText("XMax");
 		p2 = GetValueFromRenderedText("YMax");
 		break;
 
-	case ClipTextType::CLIP_BOTTOMRIGHT:
+	case ClipTextCorner::CORNER_BOTTOMRIGHT:
 		p1 = GetValueFromRenderedText("XMax");
 		p2 = GetValueFromRenderedText("YMin");
 		break;

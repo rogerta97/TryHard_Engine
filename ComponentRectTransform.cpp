@@ -1,6 +1,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentTransform.h"
 #include "Application.h"
+#include "UI_Label.h"
 #include "ComponentText.h"
 #include "UI_GamePanel.h"
 #include "DebugDraw.h"
@@ -9,6 +10,8 @@
 #include "Mesh.h"
 #include "OpenGL.h"
 #include "ModuleUserInterface.h"
+
+#define CANVAS_FONT_REL 6
 
 ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 {
@@ -62,7 +65,7 @@ bool ComponentRectTransform::Update()
 	GameObject* parent_canvas = GetFirstCanvasParent();
 	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
 
-	if (canvas->GetScaleType() == ST_SCREEN_SIZE)
+	if (canvas->GetScaleType() == ST_SCREEN_SIZE && App->imgui->game_panel->size_changed_last_frame)
 	{
 		float2 new_size = GetSizeFromCanvasPercentage(percentage_size);
 		Resize(new_size);
@@ -226,6 +229,7 @@ void ComponentRectTransform::DebugDrawRectSize()
 void ComponentRectTransform::Resize(float2 new_size)
 {
 	float2 half_size = new_size / 2;
+	float2 prev_size = { width, height }; 
 
 	quad_mesh->GetMesh()->vertices[0] = { -half_size.x, half_size.y, 0 };
 	quad_mesh->GetMesh()->vertices[1] = { half_size.x, half_size.y, 0 };
@@ -241,7 +245,17 @@ void ComponentRectTransform::Resize(float2 new_size)
 
 	// Addapt plane components if needed
 	for (auto it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
+	{
 		(*it)->FitToRect();
+
+		/*if ((*it)->GetType() == CMP_TEXT)
+		{
+			ComponentText* cmp_txt = (ComponentText*)(*it);
+			cmp_txt->GetLabel()->text_size = GetFontSizeFromRectSize(); 
+			cmp_txt->GetLabel()->ResizeFont(); 
+		}*/
+	}
+		
 
 }
 
@@ -286,6 +300,12 @@ float3 ComponentRectTransform::GetRectCenter()
 	return_value += GetGlobalPosition();
 
 	return return_value;
+}
+
+int ComponentRectTransform::GetFontSizeFromRectSize()
+{
+	int font_size = width / CANVAS_FONT_REL;
+	return font_size;
 }
 
 void ComponentRectTransform::CompensateParentRelativePos()

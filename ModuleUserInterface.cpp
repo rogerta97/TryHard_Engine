@@ -17,6 +17,8 @@
 #include "UI_Canvas.h"
 #include "UI_Button.h"
 
+#include "mmgr\mmgr.h"
+
 
 ModuleUserInterface::ModuleUserInterface()
 {
@@ -38,7 +40,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 	LoadAllFonts();
 
-	LoadNewFont("Antonio-Regular", 23);
+	LoadNewFont("Antonio-Regular", 20);
 
 	return true;
 }
@@ -113,6 +115,8 @@ update_status ModuleUserInterface::Update(float dt)
 					Event new_event; 
 					new_event.type = UI_ELEMENT_DOWN;
 					new_event.button.but = button; 
+
+					App->camera->SetLocked(true); 
 					
 					App->BroadCastEvent(new_event); 
 				}
@@ -232,7 +236,9 @@ void ModuleUserInterface::DeleteFont(std::string name)
 	{
 		if ((*it)->name == name)
 		{
-			fonts_face_list.erase(it);
+			(*it)->CleanCharacterList();
+			delete (*it); 
+			fonts_face_list.erase(it); 
 			return;
 		}
 	}

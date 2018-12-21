@@ -26,6 +26,7 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled)
 	ecam_go = nullptr;
 	frustum_culling = false;
 	is_ghost_camera = false;
+	lock = false; 
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -333,6 +334,9 @@ void ModuleCamera3D::SetGhostCamera(bool value)
 
 void ModuleCamera3D::ManageMovement()
 {
+	if (IsLocked())
+		return; 
+
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
 	if (ecam_go != nullptr && cam != nullptr)
@@ -492,5 +496,15 @@ void ModuleCamera3D::DrawMouseRay() const
 	DebugDraw(mouse_picking_ray, Color(1.0f, 0.0f, 1.0f), false, float4x4::identity, 3.0f);
 
 	App->renderer3D->UseCurrentRenderSettings();
+}
+
+void ModuleCamera3D::SetLocked(const bool & locked)
+{
+	lock = locked;
+}
+
+bool ModuleCamera3D::IsLocked()
+{
+	return lock;
 }
 

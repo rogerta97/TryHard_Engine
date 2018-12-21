@@ -1,6 +1,7 @@
 #include "ComponentCheckBox.h"
 #include "UI_CheckBox.h"
 #include "UI_Button.h"
+#include "UI_Canvas.h"
 #include "Application.h"
 #include "GameObject.h"
 #include "UICallbackSystem.h"
@@ -60,11 +61,15 @@ bool ComponentCheckBox::Update()
 
 bool ComponentCheckBox::CleanUp()
 {
+	UI_Canvas* canvas_container = checkbox->GetCanvas();
+	canvas_container->DeleteElementByUID(gameobject->unique_id);
+
 	return false;
 }
 
 void ComponentCheckBox::Draw(bool is_editor)
 {
+
 }
 
 void ComponentCheckBox::FitToRect()

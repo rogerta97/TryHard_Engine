@@ -9,12 +9,17 @@ class UI_Label;
 enum ClipTextType
 {
 	CLIP_TOPLEFT,
-	CLIP_BOTTOMLEFT,
-	CLIP_TOPRIGHT,
-	CLIP_BOTTOMRIGHT,
 	CLIP_CENTER,
 	CLIP_MIDDLELEFT,
 	CLIP_NONE, 
+};
+
+enum ClipTextCorner
+{
+	CORNER_TOPLEFT,
+	CORNER_BOTTOMLEFT,
+	CORNER_TOPROGHT,
+	CORNER_BOTTOMRIGHT,
 };
 
 
@@ -91,7 +96,7 @@ private:
 	float2 section = {0,0};														// Section of the text that will be rendered (normally used for text input)
 	UI_Label * label = nullptr;
 	float3 draw_color = {0,0,0};
-	ClipTextType clipping = ClipTextType::CLIP_BOTTOMLEFT; 
+	ClipTextType clipping = ClipTextType::CLIP_CENTER; 
 };
 
 #endif
