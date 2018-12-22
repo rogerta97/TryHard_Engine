@@ -143,19 +143,21 @@ update_status ModuleUserInterface::Update(float dt)
 
 			for (int i = intersected_elements.size() <= 0 ? 0: intersected_elements.size() - 1; i < last_intersected_elements.size(); i++)
 			{
-				ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
-				
-				if (cmp_button)
+				if (last_intersected_elements[i])
 				{
-					Event new_event;
-					new_event.type = UI_ELEMENT_OUT;
-					new_event.button.but = cmp_button->GetButton();
+					ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
 
-					cmp_button->has_mouse_entered = false;
+					if (cmp_button)
+					{
+						Event new_event;
+						new_event.type = UI_ELEMENT_OUT;
+						new_event.button.but = cmp_button->GetButton();
 
-					App->BroadCastEvent(new_event);
-				}
-			
+						cmp_button->has_mouse_entered = false;
+
+						App->BroadCastEvent(new_event);
+					}
+				}	
 			}	
 		}
 
