@@ -197,8 +197,7 @@ void ComponentButton::Save(JSON_Object * json_obj, const char * root)
 
 	int counter = 0; 
 	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
-	{
-		
+	{		
 		if((*it)->parent != nullptr)
 			json_object_dotset_number(json_obj, std::string(item_name + ".Target_" + to_string(counter)).c_str(), (*it)->parent->unique_id);
 		else
@@ -228,6 +227,8 @@ void ComponentButton::Save(JSON_Object * json_obj, const char * root)
 			json_object_dotset_string(json_obj, std::string(item_name + ".ActionName_" + to_string(counter)).c_str(), "Empty");
 			json_object_dotset_string(json_obj, std::string(item_name + ".ActionArg_" + to_string(counter)).c_str(), "Empty");
 		}
+		
+		counter++;
 			
 	}
 }

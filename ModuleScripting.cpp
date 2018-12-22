@@ -123,7 +123,7 @@ void ModuleScripting::FillFunctionList()
 		{
 			if (func_name == "LoadScene")
 			{			
-				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->CleanAndLoadScene(scene_name); };
+				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->LoadScene(scene_name); };
 				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene(string)", callback));
 			}
 		}

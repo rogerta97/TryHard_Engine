@@ -365,23 +365,20 @@ void ModuleScene::SaveScene(const char* scene_name)
 	}
 }
 
-void ModuleScene::CleanAndLoadScene(const char * scene_path, bool interpolate_ui)
+void ModuleScene::CleanAndLoadScene(const char * scene_path)
 {	
-	if (interpolate_ui && !App->user_interface->IsInterpolating())
-	{
-		App->user_interface->SetInterpolation(true, 1.0f); 
-	}
-
-	if (interpolate_ui && App->user_interface->HasInterpolationEnded())
-	{
-		CleanScene();
-		LoadScene(scene_path);
-	}
-
+	CleanScene();
+	LoadScene(scene_path);
 }
 
 void ModuleScene::LoadScene(const char* scene_name)
 {
+	if (App->user_interface->IsInterpolating()) // If the UI is interpolating, we should save the name of the scene to load and load it once it's finished
+	{
+		load_when_interpolation_ends = true; 
+		scene_to_load = scene_name;
+	}
+
 	string name_w_termination = scene_name + string(".json");
 
 	if (App->file_system->GetFileExtension(name_w_termination) != FX_JSON)
@@ -524,72 +521,16 @@ void ModuleScene::SetCurrentScene(Scene* scene)
 // Update
 update_status ModuleScene::Update(float dt)
 {
+	if (load_when_interpolation_ends)
+	{
+		if (App->user_interface->HasInterpolationEnded())
+			LoadScene(scene_to_load);
+
+		load_when_interpolation_ends = false; 
+	}
+
 	current_scene->Update(dt);
-
-	/*for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-	{
-		if ((*it)->GetParent() == nullptr || (*it)->IsActive() == false)
-		{
-			(*it)->Update();
-		}
-	}
-
-
-	if (App->camera->frustum_culling) {
-
-		std::list<UID> intersections_list_uid;
-
-		if (octree->GetRoot() != nullptr && App->scene->go_to_delete.empty())
-		{
-			octree->GetIntersections(intersections_list_uid, *App->camera->GetGameCamera()->GetFrustum());
-
-			intersections_list_uid.sort();
-			intersections_list_uid.unique();
-
-			CONSOLE_LOG("INTERSECTIONS: %d", intersections_list_uid.size());
-
-			for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-			{
-				ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
-
-				if (!mesh)
-					continue;
-
-				mesh->frustum_col_type = OUTSIDE_FRUSTUM;
-			}
-
-			for (auto it = intersections_list_uid.begin(); it != intersections_list_uid.end(); it++)
-			{
-				ComponentMesh* mesh = (ComponentMesh*)App->scene->GetGameObjectByID((*it))->GetComponent(CMP_MESH);
-
-				if (!mesh)
-					continue;
-
-
-				mesh->frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(mesh->bounding_box);
-			}
-		}
-	}
-	else
-	{
-		for (auto it = scene_gameobjects.begin(); it != scene_gameobjects.end(); it++)
-		{
-			ComponentMesh* mesh = (ComponentMesh*)(*it)->GetComponent(CMP_MESH);
-
-			if (!mesh)
-				continue;
-
-			if (App->camera->frustum_culling)
-				mesh->frustum_col_type = App->camera->GetGameCamera()->camera->IsAABBInside(mesh->bounding_box);
-			else
-				mesh->frustum_col_type = INSIDE_FRUSTUM;
-		}
-	}
-
-
-	if (go_to_delete.size() != 0)
-		DeleteGameObjectsNow();
-*/
+	
 	return UPDATE_CONTINUE;
 }
 
