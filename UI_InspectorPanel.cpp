@@ -336,7 +336,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 	{
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
 
-		float show_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
+		
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
 		float show_scale[3] = { rtransform->scale_to_show.x, rtransform->scale_to_show.y, rtransform->scale_to_show.z };
 		bool move_container = false; 
@@ -359,9 +359,12 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		SEPARATE_WITH_SPACE
 
+			float show_pos[3] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y, rtransform->GetTransform()->transform.position.z };
+
 		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
 		{
-			rtransform->GetTransform()->SetPosition(float3(show_pos[0], show_pos[1], show_pos[2]));
+			rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().x, show_pos[2]));
+			rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
 			move_container = true; 
 		}
 				
@@ -382,48 +385,41 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
-		ImGui::Separator(); 
-
-		if (ImGui::DragFloat("Width", &rtransform->width))
-		{
-			rtransform->Resize({ rtransform->width, rtransform->height });
-			rtransform->edited = true;
-		}
-			
-
-		if (ImGui::DragFloat("Height", &rtransform->height))
-		{
-			rtransform->Resize({ rtransform->width, rtransform->height });
-			rtransform->edited = true;
-		}
-
+		ComponentCanvasScaler* c_scaler = (ComponentCanvasScaler*)rtransform->GetFirstCanvasParent()->GetComponent(CMP_CANVASSCALER);
 
 		ImGui::Separator();
 		ImGui::Spacing();
 
-		float show_rel_size[2] = { rtransform->rel_size.x, rtransform->rel_size.y };
-
-		if (ImGui::DragFloat2("Relative Size", show_rel_size,0.1f))
+		if (c_scaler->GetScaleType() == ST_CONSTANT)
 		{
-			rtransform->rel_size.x = show_rel_size[0];
-			rtransform->rel_size.y = show_rel_size[1];
-			move_container = true;
+
+			if (ImGui::DragFloat("Width", &rtransform->width))
+			{
+				rtransform->Resize({ rtransform->width, rtransform->height });
+				rtransform->edited = true;
+			}
+
+
+			if (ImGui::DragFloat("Height", &rtransform->height))
+			{
+				rtransform->Resize({ rtransform->width, rtransform->height });
+				rtransform->edited = true;
+			}
 		}
-			
-
-		ImGui::Spacing();
-		ImGui::Text("Relative pos:");
-		ImGui::Separator();
-		ImGui::Spacing();
-
-		float show_rel_pos[2] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y };
-
-		if (ImGui::DragFloat2("Pos", show_rel_pos))
+		else //SCREEN SIZE
 		{
-			rtransform->SetRelativePos(float2(show_rel_pos[0], show_rel_pos[1]));
-			move_container = true; 
+
+
+
+			float show_rel_size[2] = { rtransform->rel_size.x, rtransform->rel_size.y };
+
+			if (ImGui::DragFloat2("Relative Size", show_rel_size, 0.1f))
+			{
+				rtransform->rel_size.x = show_rel_size[0];
+				rtransform->rel_size.y = show_rel_size[1];
+				move_container = true;
+			}
 		}
-			
 
 		ImGui::Text("Anchors:");
 		ImGui::Separator();
@@ -431,12 +427,11 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		//ANCHOR
 
-		float show_anchor[4];
+		float show_anchor[2];
 		
 		show_anchor[0] = rtransform->GetAnchorPoint().min_x;
 		show_anchor[1] = rtransform->GetAnchorPoint().min_y;
-		show_anchor[2] = rtransform->GetAnchorPoint().max_x;
-		show_anchor[3] = rtransform->GetAnchorPoint().max_y;
+
 		
 
 		ImGui::Columns(3, "", false);
@@ -454,18 +449,6 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::NextColumn();
-
-		ImGui::Text("Max");
-
-		ImGui::NextColumn();
-
-		if (ImGui::DragFloat("X", &show_anchor[2], 0.01f,0.0f,1.0f))
-			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
-
-		ImGui::NextColumn();
-
-		if (ImGui::DragFloat("Y", &show_anchor[3], 0.01f, 0.0f, 1.0f))
-			rtransform->SetAnchorPoint(show_anchor[0], show_anchor[1], show_anchor[2], show_anchor[3]);
 
 		ImGui::Columns(1);
 
