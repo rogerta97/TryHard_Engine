@@ -1,5 +1,6 @@
 #include "ModuleUserInterface.h"
 #include "UI_Image.h"
+#include "ModuleInput.h"
 #include "GameObject.h"
 #include "ComponentRectTransform.h"
 #include "ModuleImGui.h"
@@ -40,7 +41,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 	LoadAllFonts();
 
-	LoadNewFont("Antonio-Regular", 20);
+	interpolating = false; 
 
 	return true;
 }
@@ -55,6 +56,10 @@ bool ModuleUserInterface::Start()
 
 update_status ModuleUserInterface::Update(float dt)
 {
+
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		SetInterpolation(true, 1.0f); 
+
 	if (App->imgui->game_panel->is_mouse_in)
 	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
@@ -152,6 +157,12 @@ update_status ModuleUserInterface::Update(float dt)
 		last_intersected_elements = intersected_elements;
 
 	}
+
+	//Alpha interpolation
+
+	if (IsInterpolating())
+		InterpolateAlpha(); 
+
 
 	return UPDATE_CONTINUE;
 }
@@ -406,4 +417,47 @@ float3 ModuleUserInterface::GetMousePos() const
 void ModuleUserInterface::SetMousePos(const float3 & new_pos)
 {
 	mouse_game_pos = new_pos;
+}
+
+void ModuleUserInterface::InterpolateAlpha()
+{
+	if (interpolating && !finished_interpolation)
+	{
+		float alpha_percentage = (interpolation_timer.Read() / (interpolate_in*1000)); 
+		CONSOLE_LOG("Alpha Value: %f", alpha_percentage); 
+
+		if (alpha_percentage >= 1.0f)
+		{
+			finished_interpolation = true;
+			interpolating = false; 
+		}
+
+		Event alpha_event;
+
+		alpha_event.type = INTERPOLATE_ALPHA; 
+		alpha_event.alpha_lvl.percentage = (1 - alpha_percentage); 
+
+		App->BroadCastEvent(alpha_event);
+	}
+
+}
+
+void ModuleUserInterface::SetInterpolation(bool value, float time)
+{
+	interpolating = value;
+	interpolate_in = time; 
+	
+	if(interpolating)
+		interpolation_timer.Start();
+
+}
+
+bool ModuleUserInterface::IsInterpolating()
+{
+	return interpolating; 
+}
+
+bool ModuleUserInterface::HasInterpolationEnded()
+{
+	return finished_interpolation;
 }

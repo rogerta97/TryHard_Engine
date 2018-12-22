@@ -63,7 +63,12 @@ void ComponentText::Draw(bool is_editor)
 
 void ComponentText::OnEvent(const Event & new_event)
 {
-	
+	switch (new_event.type)
+	{
+	case EventType::INTERPOLATE_ALPHA:
+		GetLabel()->SetAlphaPercentage(new_event.alpha_lvl.percentage);
+		break;
+	}
 }
 
 void ComponentText::Load(JSON_Object * json_obj)

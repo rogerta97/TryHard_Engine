@@ -365,10 +365,19 @@ void ModuleScene::SaveScene(const char* scene_name)
 	}
 }
 
-void ModuleScene::CleanAndLoadScene(const char * scene_path)
+void ModuleScene::CleanAndLoadScene(const char * scene_path, bool interpolate_ui)
 {	
-	CleanScene();
-	LoadScene(scene_path); 
+	if (interpolate_ui && !App->user_interface->IsInterpolating())
+	{
+		App->user_interface->SetInterpolation(true, 1.0f); 
+	}
+
+	if (interpolate_ui && App->user_interface->HasInterpolationEnded())
+	{
+		CleanScene();
+		LoadScene(scene_path);
+	}
+
 }
 
 void ModuleScene::LoadScene(const char* scene_name)
@@ -445,9 +454,7 @@ void ModuleScene::LoadScene(const char* scene_name)
 				cmp_ch->GetCheckBox()->SetToggleImage(App->scene->GetGameObjectByID(cmp_ch->GetCheckBox()->img_to_toggle_uid));
 			}
 		}
-			
-		
-		
+				
 		SetSceneName(name_w_termination.c_str());
 		stream.close();
 	}

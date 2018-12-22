@@ -24,7 +24,7 @@ public:
 	UI_Label(ComponentText* cmp_container);
 	~UI_Label();
 
-	ComponentText* cmp_container;
+	ComponentText* cmp_container = nullptr;
 	
 	void Start();
 	void Update();
@@ -75,11 +75,11 @@ public:
 
 private: 			
 
-	string text;
-	Font font;
+	string text = "";
+	Font font = Font();
 
 	float2 text_origin = {0,0};
-	std::list<UI_Image*> text_planes; 
-	std::vector<float3> offset_planes; 
+	std::list<UI_Image*> text_planes = std::list<UI_Image*>();
+	std::vector<float3> offset_planes = std::vector<float3>();
 };
 

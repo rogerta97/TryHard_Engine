@@ -64,13 +64,16 @@ void ModuleScripting::FillFunctionList()
 		json_object_dotset_string(scene_obj, "Function2.name", "DisableWireframe");
 		json_object_dotset_string(scene_obj, "Function2.args", "void");
 
-		json_object_dotset_string(scene_obj, "Function3.name", "LoadScene");
-		json_object_dotset_string(scene_obj, "Function3.args", "const char*");
+		json_object_dotset_string(scene_obj, "Function3.name", "InterpolateAlpha");
+		json_object_dotset_string(scene_obj, "Function3.args", "void");
 
-		json_object_dotset_string(scene_obj, "Function4.name", "SetVsync");
-		json_object_dotset_string(scene_obj, "Function4.args", "bool");
+		json_object_dotset_string(scene_obj, "Function4.name", "LoadScene");
+		json_object_dotset_string(scene_obj, "Function4.args", "const char*");
 
-		json_object_dotset_number(scene_obj, "Info.num", 4);
+		json_object_dotset_string(scene_obj, "Function5.name", "SetVsync");
+		json_object_dotset_string(scene_obj, "Function5.args", "bool");
+
+		json_object_dotset_number(scene_obj, "Info.num", 5);
 
 		json_serialize_to_file(scene_v, script_path.c_str());
 	}
@@ -108,13 +111,19 @@ void ModuleScripting::FillFunctionList()
 				std::function<void()> callback = []() {App->renderer3D->render_settings.DisableWireframe();  App->renderer3D->UseCurrentRenderSettings(); };
 				function_list.insert(std::pair<const char*, std::function<void()>>("DisableWireframe()", callback));
 			}
+
+			if (func_name == "InterpolateAlpha")
+			{
+				std::function<void()> callback = []() {App->user_interface->SetInterpolation(true, 1.0f);};
+				function_list.insert(std::pair<const char*, std::function<void()>>("InterpolateAlpha()", callback));
+			}
 		}
 
 		if (type == "const char*")
 		{
 			if (func_name == "LoadScene")
 			{			
-				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->LoadScene(scene_name); };
+				std::function<void(const char*)> callback = [](const char* scene_name) { App->scene->CleanAndLoadScene(scene_name); };
 				function_string_list.insert(std::pair<const char*, std::function<void(const char*)>>("LoadScene(string)", callback));
 			}
 		}

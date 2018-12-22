@@ -72,7 +72,7 @@ private:
 
 };
 
-enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED, UI_ELEMENT_DOWN, UI_ELEMENT_UP, UI_ELEMENT_ENTER, UI_ELEMENT_OUT
+enum EventType { PLAY, PAUSE, STOP, FILE_DROPED, RECTTRANSFORM_RESIZED, UI_ELEMENT_DOWN, UI_ELEMENT_UP, UI_ELEMENT_ENTER, UI_ELEMENT_OUT, INTERPOLATE_ALPHA
 };
 
 struct Event {
@@ -93,6 +93,10 @@ struct Event {
 			UI_Button* but;
 
 		} button;
+		struct
+		{
+			float percentage;
+		} alpha_lvl;
 	};
 
 	Event() {};

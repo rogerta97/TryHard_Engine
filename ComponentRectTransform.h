@@ -89,27 +89,26 @@ public:
 
 	// ----------------------
 
-	float width, height;
-	float3 scale_to_show; 
+	float width = 0, height = 0;
+	float3 scale_to_show = {0,0};
 	bool edited = false;
-	float2 rel_size;
+	float2 rel_size = {0,0};
 
-	float percentage_size;
+	float percentage_size = 0.0f;
 
 	bool draggable = false;
 private:
 
-	ComponentMesh * quad_mesh;						//This is the mesh of the canvas, it will be drawn automatically
-	ComponentTransform* transform_part; 
+	ComponentMesh * quad_mesh = nullptr;						//This is the mesh of the canvas, it will be drawn automatically
+	ComponentTransform* transform_part = nullptr;
 	
-	AnchorPoints anchor;
-	float2 relative_pos;
+	AnchorPoints anchor = AnchorPoints();
+	float2 relative_pos = {0,0};
 
-	ComponentRectTransform* parent;
+	ComponentRectTransform* parent = nullptr;
 
-	float x_motion, y_motion, last_x, last_y;
+	float x_motion = 0, y_motion = 0, last_x = 0, last_y = 0;
 
-	
 };
 
 #endif

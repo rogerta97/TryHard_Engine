@@ -54,6 +54,12 @@ void ComponentImage::Draw(bool is_editor)
 
 void ComponentImage::OnEvent(const Event & new_event)
 {
+	switch (new_event.type)
+	{
+	case EventType::INTERPOLATE_ALPHA:
+		GetImage()->SetAlphaPercentage(new_event.alpha_lvl.percentage);
+		break;
+	}
 }
 
 void ComponentImage::Load(JSON_Object * json_obj)
