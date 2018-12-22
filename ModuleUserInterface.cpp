@@ -57,6 +57,10 @@ bool ModuleUserInterface::Start()
 update_status ModuleUserInterface::Update(float dt)
 {
 
+	if (IsKeyPressed('\x2')) { //If f1 is pressed we enable UI
+		App->user_interface->EnableUI(true); 
+	}
+
 	if (App->imgui->game_panel->is_mouse_in)
 	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
@@ -270,6 +274,17 @@ void ModuleUserInterface::RecieveEvent(const Event & new_event)
 	}
 }
 
+bool ModuleUserInterface::IsKeyPressed(char key)
+{
+	for (auto it = buttons_pressed.begin(); it != buttons_pressed.end(); it++)
+	{
+		if ((*it) == key)
+			return true;
+	}
+
+	return false; 
+}
+
 void ModuleUserInterface::SendInput(SDL_Event * e)
 {
 	if (e->type == SDL_TEXTINPUT && *e->text.text != '8')
@@ -280,7 +295,13 @@ void ModuleUserInterface::SendInput(SDL_Event * e)
 
 	if (e->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
 	{
-		buttons_pressed.push_back(*e->text.text);
+		buttons_pressed.push_back('\x1');
+		return;
+	}
+
+	if (e->key.keysym.scancode == SDL_SCANCODE_F1)
+	{
+		buttons_pressed.push_back('\x2');
 		return;
 	}
 }
