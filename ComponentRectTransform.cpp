@@ -40,7 +40,7 @@ ComponentRectTransform::ComponentRectTransform(GameObject* parent)
 	Resize({ 1,1 });
 	edited = false;
 
-	draggable = true;
+	draggable = false;
 
 	percentage_size = 0.035;
 
@@ -65,8 +65,9 @@ bool ComponentRectTransform::Update()
 	GameObject* parent_canvas = GetFirstCanvasParent();
 	ComponentCanvasScaler* canvas = (ComponentCanvasScaler*)parent_canvas->GetComponent(CMP_CANVASSCALER);
 
-	if (canvas->GetScaleType() == ST_SCREEN_SIZE && App->imgui->game_panel->size_changed_last_frame)
+	if (canvas->GetScaleType() == ST_SCREEN_SIZE)
 	{
+		canvas->CalculatePosScaler();
 		float2 new_size = GetSizeFromCanvasPercentage(percentage_size);
 		Resize(new_size);
 	}

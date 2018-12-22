@@ -19,6 +19,8 @@ ComponentCheckBox::ComponentCheckBox(GameObject* parent)
 	background_img_pos_percentage = { 0.15f, 0.50f };
 	label_origin_pos_percentage = { 0.35f , 0.50f};
 
+	default_size = { 200,50 };
+
 	toggle_done = false; 
 }
 

@@ -22,6 +22,8 @@ ComponentButton::ComponentButton(GameObject * parent)
 
 	hover_color = { 0.9f, 0.9f, 0.9f }; 
 	pressed_color = { 0.7f, 0.7f, 0.7f };
+
+	default_size = { 160,50 };
 }
 
 ComponentButton::~ComponentButton()

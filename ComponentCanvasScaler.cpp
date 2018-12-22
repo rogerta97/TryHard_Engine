@@ -10,7 +10,7 @@ ComponentCanvasScaler::ComponentCanvasScaler(GameObject* parent)
 	component_type = CMP_CANVASSCALER;
 	gameobject = parent;
 	scale_type = ST_CONSTANT;
-	relative_pos_scaler = 0.01;
+	relative_pos_scaler = 1;// 0.02;  //Not casual, calculated empirically to keep positions equal in ST_SCREENSIZE and ST_CONSTANT
 }
 
 ComponentCanvasScaler::~ComponentCanvasScaler()
@@ -23,7 +23,7 @@ bool ComponentCanvasScaler::Start()
 	return true;
 }
 
-bool ComponentCanvasScaler::Update()
+bool ComponentCanvasScaler::Update() 
 {
 	return true;
 }
@@ -50,6 +50,12 @@ void ComponentCanvasScaler::SetScaleFactor(float newValue)
 void ComponentCanvasScaler::SetScaleType(Scale_Type new_type)
 {
 	scale_type = new_type;
+}
+
+void ComponentCanvasScaler::CalculatePosScaler()
+{
+	ComponentRectTransform* canvas_rt = (ComponentRectTransform*)gameobject->GetComponent(CMP_RECTTRANSFORM);
+	relative_pos_scaler = (1/87.4) * (1000/canvas_rt->width);
 }
 
 Scale_Type ComponentCanvasScaler::GetScaleType() const

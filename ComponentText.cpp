@@ -22,6 +22,7 @@ ComponentText::ComponentText(GameObject* parent)
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
 	label->section = { -1, -1 };
 	draw_color = { 0,0,0 }; 
+	default_size = { 120,50 };
 }	
 
 

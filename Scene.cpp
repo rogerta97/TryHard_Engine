@@ -469,7 +469,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		button_cmp->GetButton()->SetCanvas(canvas_container);
 
 		img->GetImage()->SetPercentage(0.30f);
-		float2 size = canvas_rtransform->GetSizeFromPercentage(img->GetImage()->GetPercentage(), UI_LABEL);
+		float2 size = button_cmp->default_size;
 		rtransform->Resize(size);
 
 		rtransform->rel_size = float2(8.0, 2.0);
@@ -501,7 +501,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentText* text_cmp = (ComponentText*)new_ui_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(text_cmp->GetLabel()->GetPercentage(), UI_LABEL);
+		float2 size = text_cmp->default_size;
 		rtransform->Resize(size);
 		rtransform->rel_size = float2(6, 1);
 
@@ -531,7 +531,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		img_cmp->GetImage()->SetCanvas(canvas_container);
 		img_cmp->GetImage()->SetPercentage(0.30f);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(but_cmp->GetButton()->GetPercentage(), UI_INPUTFIELD);
+		float2 size = but_cmp->default_size;
 		rtransform->Resize(size);
 
 		rtransform->rel_size = float2(7.5, 2.0);
@@ -586,7 +586,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentCheckBox* check_cmp = (ComponentCheckBox*)new_ui_go->AddComponent(CMP_CHECKBOX);
 		check_cmp->GetCheckBox()->SetCanvas(canvas_container);
 
-		float2 size = canvas_rtransform->GetSizeFromPercentage(check_cmp->GetCheckBox()->GetPercentage(), UI_LABEL);
+		float2 size = check_cmp->default_size;
 		rtransform->Resize(size);
 
 		// Create the child with the button and the image 
