@@ -377,6 +377,7 @@ void ModuleScene::LoadScene(const char* scene_name)
 	{
 		load_when_interpolation_ends = true; 
 		scene_to_load = scene_name;
+		return;
 	}
 
 	string name_w_termination = scene_name + string(".json");
@@ -524,9 +525,11 @@ update_status ModuleScene::Update(float dt)
 	if (load_when_interpolation_ends)
 	{
 		if (App->user_interface->HasInterpolationEnded())
+		{
+			CleanScene();
 			LoadScene(scene_to_load);
-
-		load_when_interpolation_ends = false; 
+			load_when_interpolation_ends = false;
+		}		
 	}
 
 	current_scene->Update(dt);
