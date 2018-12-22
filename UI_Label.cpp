@@ -65,7 +65,7 @@ void UI_Label::RenderText()
 	//Wrapping
 	int current_line = 0; 
 	float line_distance = 0; 
-	float init_offset = text_origin.x; 
+	float2 init_offset = text_origin;
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++, counter++)
 	{
@@ -97,10 +97,15 @@ void UI_Label::RenderText()
 			next_caracter = font.GetCharacter((GLchar)"");
 
 		cursor.x += offset_planes[counter].x;
-		cursor.y = text_origin.y + offset_planes[counter].y + -current_line*cmp_container->line_spacing;
+		cursor.y = text_origin.y + offset_planes[counter].y;
+
+		if(cmp_container->GetHorizontalOverflow() != HORIZONTAL_OVERFLOW)
+			cursor.y += -current_line*cmp_container->line_spacing;
 
 		if (draw_section && letters_drawn == 1)
 			cursor.x -= offset_planes[counter].x;
+
+		// Calculate the total width that the planes take
 
 		if (counter == 0)
 		{
@@ -111,14 +116,20 @@ void UI_Label::RenderText()
 				
 		if (counter == text_planes.size() - 1)		
 			line_distance += curr_caracter->Size.x / 2.0f;
-			
-		if (line_distance > rtransform->width)
-		{
-			if(ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter, text_origin) == false)
-				return; 
 
-			line_distance = 0; 	
+		// Apply line separation if necessary
+		
+		if (cmp_container->GetHorizontalOverflow() != HORIZONTAL_OVERFLOW)
+		{
+			if (line_distance > rtransform->width)
+			{
+				if (ControlNewLine(cursor, offset_planes, cmp_container->GetClipping(), current_line, counter, text_origin) == false)
+					return;
+
+				line_distance = 0;
+			}
 		}
+		
 
 		increment.SetTranslatePart(cursor);
 
@@ -286,6 +297,8 @@ void UI_Label::ResizeFont()
 
 bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes, const ClipTextType clipping_type, int& current_line, const int counter, const float2 init_offset)
 {
+	
+
 	ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 
 	float total_x_ammount_center = 0; 
@@ -307,7 +320,7 @@ bool UI_Label::ControlNewLine(float3& cursor, std::vector<float3>& offset_planes
 		cursor.y = offset_planes[counter].y + -current_line * cmp_container->line_spacing;
 	}
 
-	if (cursor.y - VERTICAL_LIMIT_OFFSET <= rtransform->GetRectQuad()->vertices[2].y)
+	if (cursor.y - VERTICAL_LIMIT_OFFSET <= rtransform->GetRectQuad()->vertices[2].y && cmp_container->GetVerticalOverflow() == VERTICAL_TRUNCATE)
 		return false;
 
 	return true; 
