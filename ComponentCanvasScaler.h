@@ -14,7 +14,7 @@ public:
 	~ComponentCanvasScaler();
 
 	bool Start();
-	bool Update();
+	bool Update() override;
 	bool CleanUp();
 	void OnEvent(const Event& new_event);
 
@@ -23,6 +23,8 @@ public:
 
 	Scale_Type GetScaleType() const;
 	void SetScaleType(Scale_Type new_type);
+
+	void CalculatePosScaler();
 
 	float relative_pos_scaler;
 
