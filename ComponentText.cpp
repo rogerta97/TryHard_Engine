@@ -249,9 +249,7 @@ float3 ComponentText::GetCursorPosFromLetter(const int& pos)
 	float3 return_pos = { 0,0,0 };
 	std::vector<float3> offset_list = label->GetOffsetList();
 
-	if (label->GetText() == "")
-		return_pos = float3(GetLabel()->GetOrigin().x, GetLabel()->GetOrigin().y, 0);
-	else
+	if (label->GetText() != "")
 	{
 		int counter = 0;
 		bool entered = false;
@@ -276,7 +274,8 @@ float3 ComponentText::GetCursorPosFromLetter(const int& pos)
 		}
 
 	}
-	
+
+	return_pos += float3(GetLabel()->GetOrigin().x, GetLabel()->GetOrigin().y, 0);
 	return_pos.y = 0;
 
 	//We add the text transform position to send the point in global coords 

@@ -249,8 +249,8 @@ void UI_Label::SetText(const char * new_text)
 
 	for (auto it = text_planes.begin(); it != text_planes.end(); it++)
 	{
-		(*it)->CleanUp();
-		delete(*it); 
+	/*	(*it)->CleanUp();
+		delete (*it); */
 	}
 
 	text_planes.clear();

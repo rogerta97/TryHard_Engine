@@ -121,10 +121,10 @@ void ComponentTextInput::DeleteTextOnCursorPos()
 	if (curr_text == "" || cursor_pos == 0)
 		return; 
 
-	//std::string new_string = curr_text.substr(0, cursor_pos - 1);
-	//new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
+	std::string new_string = curr_text.substr(0, cursor_pos - 1);
+	new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
 
-	//cmp_txt->GetLabel()->SetText(new_string.c_str());
+	cmp_txt->GetLabel()->SetText(new_string.c_str());
 
 	cursor_pos--;
 
@@ -255,7 +255,9 @@ void ComponentTextInput::DrawCursor()
 	// Get Cursor Pos
 	ComponentText* text_cmp = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
 	float3 cursor_world_pos = text_cmp->GetCursorPosFromLetter(cursor_pos);
-	cursor_world_pos.x += text_cmp->GetLabel()->GetOrigin().x;
+
+
+		
 
 	//Generate Matrix
 	float4x4 global_cursor_mat = float4x4::identity;
