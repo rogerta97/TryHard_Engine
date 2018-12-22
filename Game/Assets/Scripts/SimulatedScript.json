@@ -1,1 +1,1 @@
-{"Function1":{"name":"EnableWireframe","args":"void"},"Function2":{"name":"DisableWireframe","args":"void"},"Function3":{"name":"LoadScene","args":"const char*"},"Function4":{"name":"SetVsync","args":"bool"},"Info":{"num":4}}
+{"Function1":{"name":"EnableWireframe","args":"void"},"Function2":{"name":"DisableWireframe","args":"void"},"Function3":{"name":"InterpolateAlpha","args":"void"},"Function4":{"name":"LoadScene","args":"const char*"},"Function5":{"name":"SetVsync","args":"bool"},"Info":{"num":5}}

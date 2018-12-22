@@ -64,7 +64,7 @@ public:
 
 	//Load & Save
 	void SaveScene(const char* scene_name);
-	void CleanAndLoadScene(const char* scene_path); 
+	void CleanAndLoadScene(const char* scene_path, bool interpolate_ui = true);
 	void LoadScene(const char* scene_path);
 
 	const char* GetSceneName() const;

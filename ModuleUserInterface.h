@@ -55,14 +55,19 @@ public:
 	float3 GetMousePos() const;
 	void SetMousePos(const float3& new_pos);
 
-	void InterpolateAlpha(float time);						// Will interpolate the alpha of the UI elements 
+	void InterpolateAlpha();						// Will interpolate the alpha of the UI elements 
 
 	// ----------------
 
-	void SetInterpolation(bool value); 
+	void SetInterpolation(bool value, float time = 0.0f);
+	bool IsInterpolating(); 
+	bool HasInterpolationEnded();
 
 private:
+
 	bool interpolating = false;
+	bool finished_interpolation = false;
+	float interpolate_in = 0.0f;
 	Timer interpolation_timer = Timer();
 
 	std::list<char> buttons_pressed = std::list<char>();

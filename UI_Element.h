@@ -60,7 +60,7 @@ public:
 	void SetRenderElement(const bool& re); 
 
 	float GetAlphaPercentage() const;
-	void SetAlphaPercentage(const float& re);
+	void SetAlphaPercentage(const float& alpha);
 
 private:
 

@@ -132,7 +132,7 @@ void UI_Label::RenderText()
 		glBindTexture(GL_TEXTURE_2D, (*it)->GetImgID());
 		glTexCoordPointer(3, GL_FLOAT, 0, NULL);
 
-		glColor3f(color.x, color.y, color.z);
+		glColor4f(color.x, color.y, color.z, GetAlphaPercentage());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->GetPlane()->GetMesh()->indices_id);
 
 		glDrawElements(GL_TRIANGLES, (*it)->GetPlane()->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);

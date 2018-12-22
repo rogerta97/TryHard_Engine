@@ -106,8 +106,7 @@ void UI_Image::DrawImage()
 	else
 		glDisable(GL_TEXTURE_2D); 
 
-	glColor4f(image_color.x, image_color.y, image_color.z, 0.5f);
-
+	glColor4f(image_color.x, image_color.y, image_color.z, GetAlphaPercentage());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane->GetMesh()->indices_id);
 	glDrawElements(GL_TRIANGLES, plane->GetMesh()->num_indices, GL_UNSIGNED_INT, NULL);
 
