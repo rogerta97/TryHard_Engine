@@ -213,11 +213,13 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 	if (action_bool != nullptr)
 	{
 		ImGui::SameLine();
+
 		static bool send_value = true;
 		label = "Value##C" + to_string(index);
+
 		if (ImGui::Checkbox(label.c_str() , &send_value))
 		{
-
+			value_bool = send_value; 
 		}
 	}
 

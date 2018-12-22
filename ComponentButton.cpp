@@ -152,6 +152,9 @@ void ComponentButton::Load(JSON_Object * json_obj)
 
 			if (action_name == "SetVsync(bool)")
 				new_agent->action_bool = [](bool newValue) { App->SetVsync(newValue); };
+
+			if (action_name == "EnableUI(bool)")
+				new_agent->action_bool = [](bool newValue) { App->user_interface->EnableUI(newValue); };
 		}
 		else if (action_type == "const char*")
 		{

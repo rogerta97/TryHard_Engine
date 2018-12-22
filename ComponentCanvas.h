@@ -27,6 +27,8 @@ public:
 	void Load(JSON_Object* json_obj);
 	void Save(JSON_Object* json_obj, const char* root);
 
+	void SetRenderElements(const bool& newValue);
+
 	//Utility functions -----
 
 	void AddElement(GameObject* new_element); 
@@ -41,6 +43,8 @@ public:
 private:
 
 	UI_Canvas * canvas; 
+
+	bool render_elements = true; 
 };
 
 #endif

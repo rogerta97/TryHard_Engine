@@ -7,6 +7,7 @@ ComponentCanvas::ComponentCanvas(GameObject* parent)
 {
 	component_type = CMP_CANVAS;
 	gameobject = parent; 
+	render_elements = true; 
 }
 
 
@@ -38,6 +39,9 @@ bool ComponentCanvas::CleanUp()
 
 void ComponentCanvas::Draw(bool is_editor)
 {
+	if (!render_elements)
+		return; 
+
 	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -78,6 +82,11 @@ void ComponentCanvas::Save(JSON_Object * json_obj, const char * root)
 	{
 	
 	}
+}
+
+void ComponentCanvas::SetRenderElements(const bool & newValue)
+{
+	render_elements = newValue; 
 }
 
 void ComponentCanvas::AddElement(GameObject * new_element)

@@ -28,6 +28,8 @@ public:
 
 	void CleanCanvasList(); 
 
+	void EnableUI(bool new_value); 
+
 	// Fonts -----------
 
 	Font GetFont(std::string font_name) const; 

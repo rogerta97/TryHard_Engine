@@ -73,7 +73,10 @@ void ModuleScripting::FillFunctionList()
 		json_object_dotset_string(scene_obj, "Function5.name", "SetVsync");
 		json_object_dotset_string(scene_obj, "Function5.args", "bool");
 
-		json_object_dotset_number(scene_obj, "Info.num", 5);
+		json_object_dotset_string(scene_obj, "Function6.name", "EnableUI");
+		json_object_dotset_string(scene_obj, "Function6.args", "bool");
+
+		json_object_dotset_number(scene_obj, "Info.num", 6);
 
 		json_serialize_to_file(scene_v, script_path.c_str());
 	}
@@ -135,6 +138,12 @@ void ModuleScripting::FillFunctionList()
 			{
 				std::function<void(bool)> callback = [](bool newValue) { App->SetVsync(newValue); };
 				function_bool_list.insert(std::pair<const char*, std::function<void(bool)>>("SetVsync(bool)", callback));
+			}
+
+			if (func_name == "EnableUI")
+			{
+				std::function<void(bool)> callback = [](bool newValue) { App->user_interface->EnableUI(newValue); };
+				function_bool_list.insert(std::pair<const char*, std::function<void(bool)>>("EnableUI(bool)", callback));
 			}
 		}
 	}

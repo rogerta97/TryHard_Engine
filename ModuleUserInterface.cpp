@@ -184,6 +184,15 @@ void ModuleUserInterface::CleanCanvasList()
 	go_with_canvas.clear();
 }
 
+void ModuleUserInterface::EnableUI(bool new_value)
+{
+	for (auto it = go_with_canvas.begin(); it != go_with_canvas.end(); it++)
+	{
+		ComponentCanvas* cmp_canvas = (ComponentCanvas*)(*it)->GetComponent(CMP_CANVAS);
+		cmp_canvas->SetRenderElements(new_value); 
+	}
+}
+
 Font ModuleUserInterface::GetFont(std::string font_name) const
 {
 	for (auto it = fonts_face_list.begin(); it != fonts_face_list.end(); it++)
