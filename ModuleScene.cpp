@@ -522,17 +522,20 @@ void ModuleScene::SetCurrentScene(Scene* scene)
 // Update
 update_status ModuleScene::Update(float dt)
 {
+	current_scene->Update(dt);
+
 	if (load_when_interpolation_ends)
 	{
 		if (App->user_interface->HasInterpolationEnded())
 		{
+			App->user_interface->SetInterpolation(false); 
 			CleanScene();
 			LoadScene(scene_to_load);
 			load_when_interpolation_ends = false;
 		}		
 	}
 
-	current_scene->Update(dt);
+
 	
 	return UPDATE_CONTINUE;
 }

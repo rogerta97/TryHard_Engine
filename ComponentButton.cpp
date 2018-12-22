@@ -243,6 +243,7 @@ UI_Button * ComponentButton::GetButton() const
 void ComponentButton::BindCallbackFunctions()
 {
 	int counter = 0; 
+	OnMousePressed.clear(); 
 	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++, counter++)
 	{
 		if ((*it)->action_char != nullptr)

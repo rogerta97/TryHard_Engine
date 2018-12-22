@@ -141,13 +141,17 @@ update_status ModuleUserInterface::Update(float dt)
 			{
 				ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
 				
-				Event new_event;
-				new_event.type = UI_ELEMENT_OUT;
-				new_event.button.but = cmp_button->GetButton();
+				if (cmp_button)
+				{
+					Event new_event;
+					new_event.type = UI_ELEMENT_OUT;
+					new_event.button.but = cmp_button->GetButton();
 
-				cmp_button->has_mouse_entered = false;
+					cmp_button->has_mouse_entered = false;
 
-				App->BroadCastEvent(new_event);
+					App->BroadCastEvent(new_event);
+				}
+			
 			}	
 		}
 
@@ -156,10 +160,7 @@ update_status ModuleUserInterface::Update(float dt)
 	}
 
 	//Alpha interpolation
-
-	if (IsInterpolating())
-		InterpolateAlpha(); 
-
+	InterpolateAlpha(); 
 
 	return UPDATE_CONTINUE;
 }
@@ -418,10 +419,9 @@ void ModuleUserInterface::SetMousePos(const float3 & new_pos)
 
 void ModuleUserInterface::InterpolateAlpha()
 {
-	if (interpolating && !finished_interpolation)
+	if (interpolating)
 	{
 		float alpha_percentage = (interpolation_timer.Read() / (interpolate_in*1000)); 
-		CONSOLE_LOG("Alpha Value: %f", alpha_percentage); 
 
 		if (alpha_percentage >= 1.0f)
 		{
@@ -443,10 +443,8 @@ void ModuleUserInterface::SetInterpolation(bool value, float time)
 {
 	interpolating = value;
 	interpolate_in = time; 
-	
-	if(interpolating)
-		interpolation_timer.Start();
-
+	finished_interpolation = false; 
+	interpolation_timer.Start();
 }
 
 bool ModuleUserInterface::IsInterpolating()

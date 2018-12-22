@@ -202,7 +202,6 @@ UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 
 void ComponentCheckBox::BindCallbackFunctions()
 {
-	int counter = 0;
 	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
 	{
 		if ((*it)->action_bool != nullptr)
@@ -214,9 +213,8 @@ void ComponentCheckBox::BindCallbackFunctions()
 
 			(*it)->action = on_binded_func;
 
-			ButtonOnAction[counter] = on_binded_func;
+			ButtonOnAction.push_back(on_binded_func);
 			ButtonOffAction.push_back(off_binded_func);
-			++counter; 
 		}
 	}
 }
