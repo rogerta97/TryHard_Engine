@@ -44,9 +44,9 @@ public:
 
 private: 
 
-	UI_Plane* plane;					//	Plane where the texture (if it has) is going to be displayed
-	Material* draw_material;			//  Texture that is going to be shown in the image 
-	uint	  img_textureID; 
+	UI_Plane* plane = nullptr;					//	Plane where the texture (if it has) is going to be displayed
+	Material* draw_material = nullptr;			//  Texture that is going to be shown in the image 
+	uint	  img_textureID = 0; 
  
 };
 

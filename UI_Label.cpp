@@ -43,7 +43,7 @@ void UI_Label::Draw(bool is_editor)
 {
 	App->renderer3D->UseUIRenderSettings();
 
-	if(text != "")
+	//if(text != "")
 		RenderText(); 
 }
 

@@ -289,6 +289,7 @@ bool ModuleUserInterface::IsKeyPressed(char key)
 
 void ModuleUserInterface::SendInput(SDL_Event * e)
 {
+	
 	if (e->type == SDL_TEXTINPUT && *e->text.text != '8')
 	{
 		buttons_pressed.push_back(*e->text.text);

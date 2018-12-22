@@ -543,6 +543,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		// 1 ---
 
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
+		placeholder_text_go->SetName("PlaceHolder"); 
+
 		ComponentText* text_cmp = (ComponentText*)placeholder_text_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
 		text_cmp->GetLabel()->SetText("Text Here...");

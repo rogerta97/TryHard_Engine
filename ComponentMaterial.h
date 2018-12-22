@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENTMATERIAL_H_
+#define _COMPONENTMATERIAL_H_
+
 #include "Component.h"
 #include "Texture.h"
 #include "Material.h"
@@ -26,4 +28,6 @@ private:
 	bool is_just_color;
 
 };
+
+#endif
 

@@ -78,7 +78,7 @@ bool ComponentTextInput::Update()
 				if ((*it) == '\x1')
 				{
 					DeleteTextOnCursorPos();
-					continue; 
+					break; 
 				}
 				
 				AddTextOnCursorPos((*it));
@@ -114,17 +114,17 @@ void ComponentTextInput::AddTextOnCursorPos(const char& new_letter)
 }
 
 void ComponentTextInput::DeleteTextOnCursorPos()
-{
+{	
 	ComponentText* cmp_txt = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
 	std::string curr_text = cmp_txt->GetLabel()->GetText();
 
 	if (curr_text == "" || cursor_pos == 0)
 		return; 
 
-	std::string new_string = curr_text.substr(0, cursor_pos - 1);
-	new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
+	//std::string new_string = curr_text.substr(0, cursor_pos - 1);
+	//new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
 
-	cmp_txt->GetLabel()->SetText(new_string.c_str());
+	//cmp_txt->GetLabel()->SetText(new_string.c_str());
 
 	cursor_pos--;
 
@@ -304,11 +304,11 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 	{
 	case EventType::PLAY:
 
-		//cmp_txt_show->GetLabel()->CleanText();
-		GetInputField()->GetShowText()->SetActive(true);
+		////cmp_txt_show->GetLabel()->CleanText();
+		//GetInputField()->GetShowText()->SetActive(true);
 
-		if(cmp_txt_show->GetLabel()->GetText().size() > 0)
-			GetInputField()->GetPlaceHolderText()->SetActive(false);
+		//if(cmp_txt_show->GetLabel()->GetText().size() > 0)
+		//	GetInputField()->GetPlaceHolderText()->SetActive(false);
 
 		break;
 
@@ -323,8 +323,13 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 	case EventType::UI_ELEMENT_DOWN:
 
 		//cmp_txt_show->GetLabel()->CleanText();
-		if(new_event.button.but == GetButtonField()->GetButton())
+		if (new_event.button.but == GetButtonField()->GetButton())
+		{
 			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
+			GetInputField()->GetPlaceHolderText()->SetActive(false);
+			GetInputField()->GetShowText()->SetActive(true);
+		}
+			
 
 		break;
 	}
