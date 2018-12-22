@@ -660,7 +660,7 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 	
 }
 
-bool GameObject::Load(JSON_Object* scene_obj, int index, std::map<UID, GameObject*>& list, UID prefab_uid)
+bool GameObject::Load(JSON_Object* scene_obj, int index, std::multimap<UID, GameObject*>& list, UID prefab_uid)
 {
 	//Load basic GO info
 	string node_name = "GameObject_" + to_string(index);

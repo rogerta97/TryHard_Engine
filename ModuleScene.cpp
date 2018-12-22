@@ -419,7 +419,7 @@ void ModuleScene::LoadScene(const char* scene_name)
 		int obj_ammount = json_object_dotget_number(root_obj, "Scene.obj_num");
 		UID main_cam_uid = json_object_dotget_number(root_obj, "Scene.main_camera_uid");
 
-		std::map<UID, GameObject*> parenting_candidates = std::map<UID, GameObject*>();
+		std::multimap<UID, GameObject*> parenting_candidates = std::multimap<UID, GameObject*>();
 
 		int i = 0;
 		while (i < obj_ammount)

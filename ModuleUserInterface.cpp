@@ -57,9 +57,6 @@ bool ModuleUserInterface::Start()
 update_status ModuleUserInterface::Update(float dt)
 {
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-		SetInterpolation(true, 1.0f); 
-
 	if (App->imgui->game_panel->is_mouse_in)
 	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();

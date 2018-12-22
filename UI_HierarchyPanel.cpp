@@ -162,6 +162,13 @@ bool UI_HierarchyPanel::Update()
 						App->scene->CreateUIElement(UI_INPUTFIELD, App->scene->GetSelectedGameObject());
 					}
 
+					ImGui::MenuItem("CheckBox");
+
+					if (ImGui::IsItemClicked())
+					{
+						App->scene->CreateUIElement(UI_CHECKBOX, App->scene->GetSelectedGameObject());
+					}
+
 					ImGui::EndMenu();
 				}
 			

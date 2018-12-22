@@ -50,7 +50,7 @@ public:
 	//Save & Load
 	void Save(JSON_Object* scene_obj, int index);
 	void SaveRecursive(JSON_Object* scene_obj, int& index); 
-	bool Load(JSON_Object* scene_obj, int index, std::map<UID, GameObject*>& list = std::map<UID, GameObject*>(), UID prefab_uid = 0);
+	bool Load(JSON_Object* scene_obj, int index, std::multimap<UID, GameObject*>& list = std::multimap<UID, GameObject*>(), UID prefab_uid = 0);
 
 	void SaveAsPrefab(); 
 	void LoadPrefab(const char* prefab_name); 

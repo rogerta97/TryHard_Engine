@@ -125,7 +125,7 @@ void Prefab::LoadPrefabData(JSON_Object* gameobject_obj)
 	for (int i = 0; i < obj_ammount; i++)
 	{
 		GameObject* new_go = new GameObject("", false);
-		new_go->Load(gameobject_obj, i, std::map<UID, GameObject*>(), prefab_uid);
+		new_go->Load(gameobject_obj, i, std::multimap<UID, GameObject*>(), prefab_uid);
 		App->scene->AddGameObjectToScene(new_go);
 		obj_list.push_back(new_go);
 	}
