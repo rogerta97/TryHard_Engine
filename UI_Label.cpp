@@ -181,6 +181,9 @@ void UI_Label::FillTextPlanes()
 		if (prev_character)
 			distancex = prev_character->Advance / 2.0;
 
+		if (curr_character == nullptr)
+			return; 
+
 		distancex += curr_character->Advance / 2.0;
 
 		//Y offset

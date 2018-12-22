@@ -19,6 +19,9 @@ ComponentText::ComponentText(GameObject* parent)
 	label = new UI_Label(this); 
 	label->SetText("SampleText"); 
 
+	horizontal_overflow = HORIZONTAL_WRAP;
+	vertical_overflow = VERTICAL_TRUNCATE; 
+
 	line_spacing = GetContainerPlaneSize().y * 1.25f;
 	label->section = { -1, -1 };
 	draw_color = { 0,0,0 }; 

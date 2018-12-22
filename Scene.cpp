@@ -548,6 +548,7 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		ComponentText* text_cmp = (ComponentText*)placeholder_text_go->AddComponent(CMP_TEXT);
 		text_cmp->GetLabel()->SetCanvas(canvas_container);
 		text_cmp->GetLabel()->SetText("Text Here...");
+		text_cmp->GetLabel()->section = { 0, 12 }; 
 		text_cmp->SetClipping(CLIP_MIDDLELEFT);
 		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f };
 
@@ -558,7 +559,8 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
 		ComponentText* text_show_cmp = (ComponentText*)text_go->AddComponent(CMP_TEXT);
 		text_show_cmp->GetLabel()->SetCanvas(canvas_container);
-		text_show_cmp->GetLabel()->SetText("Text");
+		text_show_cmp->GetLabel()->SetText("");
+		text_show_cmp->GetLabel()->section = { 0, 12 };
 		text_show_cmp->SetClipping(CLIP_MIDDLELEFT);
 
 		input_cmp->GetInputField()->SetPlaceHolderText(placeholder_text_go);

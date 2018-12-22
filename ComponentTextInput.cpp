@@ -256,9 +256,6 @@ void ComponentTextInput::DrawCursor()
 	ComponentText* text_cmp = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
 	float3 cursor_world_pos = text_cmp->GetCursorPosFromLetter(cursor_pos);
 
-
-		
-
 	//Generate Matrix
 	float4x4 global_cursor_mat = float4x4::identity;
 	global_cursor_mat.SetTranslatePart(cursor_world_pos);
@@ -306,12 +303,6 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 	{
 	case EventType::PLAY:
 
-		////cmp_txt_show->GetLabel()->CleanText();
-		//GetInputField()->GetShowText()->SetActive(true);
-
-		//if(cmp_txt_show->GetLabel()->GetText().size() > 0)
-		//	GetInputField()->GetPlaceHolderText()->SetActive(false);
-
 		break;
 
 	case EventType::STOP:
@@ -327,9 +318,15 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 		//cmp_txt_show->GetLabel()->CleanText();
 		if (new_event.button.but == GetButtonField()->GetButton())
 		{
-			GetButtonField()->GetButton()->SetState(ELM_PRESSED);
-			GetInputField()->GetPlaceHolderText()->SetActive(false);
-			GetInputField()->GetShowText()->SetActive(true);
+			if (App->GetGameState() == RUNNING)
+			{
+				GetButtonField()->GetButton()->SetState(ELM_PRESSED);
+				GetInputField()->GetPlaceHolderText()->SetActive(false);
+				GetInputField()->GetShowText()->SetActive(true);
+
+				App->camera->SetLocked(true); 
+			}
+	
 		}
 			
 

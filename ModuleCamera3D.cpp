@@ -334,8 +334,8 @@ void ModuleCamera3D::SetGhostCamera(bool value)
 
 void ModuleCamera3D::ManageMovement()
 {
-	//if (IsLocked())
-	//	return; 
+	if (IsLocked())
+		return; 
 
 	ComponentCamera* cam = (ComponentCamera*)ecam_go->GetComponent(CMP_CAMERA);
 
