@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULETIME_H_
+#define _MODULETIME_H_
+
 #include "Module.h"
 class ModuleTime :
 	public Module
@@ -26,4 +28,6 @@ public:
 	//Events
 	void RecieveEvent(const Event& event) override;
 };
+
+#endif
 

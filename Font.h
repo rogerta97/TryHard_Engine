@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _FONT_H_
+#define _FONT_H_
 
 #include "ModuleUserInterface.h"
 #include "OpenGL.h"
@@ -35,4 +36,6 @@ public:
 	bool loaded = false; 
 
 };
+
+#endif
 

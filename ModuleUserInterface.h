@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MODULEUSERINTERFACE_H_
+#define _MODULEUSERINTERFACE_H_
 
 #include "Module.h"
 #include <list>
@@ -82,3 +83,5 @@ private:
 
 	float3 mouse_game_pos; 
 };
+
+#endif

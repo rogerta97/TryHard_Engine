@@ -101,7 +101,12 @@ bool ComponentTextInput::CleanUp()
 
 void ComponentTextInput::AddTextOnCursorPos(const char& new_letter)
 {
+	ComponentRectTransform* cmp_txt_rtransform = (ComponentRectTransform*)input_field->GetShowText()->GetComponent(CMP_RECTTRANSFORM);
 	ComponentText* cmp_txt = (ComponentText*)input_field->GetShowText()->GetComponent(CMP_TEXT);
+
+	if (cmp_txt->GetContainerPlaneSize().x > cmp_txt_rtransform->width - 10)
+		return; 
+	
 	std::string curr_text = cmp_txt->GetLabel()->GetText(); 
 
 	std::string new_string = curr_text.substr(0, cursor_pos); 
@@ -109,8 +114,8 @@ void ComponentTextInput::AddTextOnCursorPos(const char& new_letter)
 	new_string = strcat((char*)new_string.c_str(), (char*)curr_text.substr(cursor_pos, curr_text.size() - cursor_pos).c_str());
 
 	cmp_txt->GetLabel()->SetText(new_string.c_str());
+	cursor_pos++;
 
-	cursor_pos++; 
 }
 
 void ComponentTextInput::DeleteTextOnCursorPos()

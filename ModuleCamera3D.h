@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULECAMERA_H_
+#define _MODULECAMERA_H_
+
 #include "Module.h"
 #include "Globals.h"
 #include "Timer.h"
@@ -61,3 +63,5 @@ private:
 
 	LineSegment game_picking_ray; //To be able to debug see both
 };
+
+#endif

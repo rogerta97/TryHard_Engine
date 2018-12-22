@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULEFILESYSTEM_H_
+#define _MODULEFILESYSTEM_H_
+
 #include "Module.h"
 
 #include "MonitorDirectory.h"
@@ -95,4 +97,6 @@ private:
 	string fonts_path; 
 	string textures_path;
 };
+
+#endif
 

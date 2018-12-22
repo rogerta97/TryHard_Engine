@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULEIMGUI_H_
+#define _MODULEIMGUI_H_
+
 #include "Module.h"
 #include "Globals.h"
 #include "Console.h"
@@ -97,3 +99,5 @@ private:
 	UI_PerformancePanel* performance_panel = nullptr;
 	UI_ClocksPanel* clocks_panel = nullptr;
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MODULERESOURCES_H_
+#define _MODULERESOURCES_H_
 
 #include "Module.h"
 #include <map>
@@ -52,7 +53,7 @@ private:
 	
 	std::map<UID, Resource*> resources;
 	std::vector<UID> to_del_list; 
-
-
 };
+
+#endif
 

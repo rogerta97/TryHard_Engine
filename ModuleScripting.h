@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULESCRIPTING_H_
+#define _MODULESCRIPTING_H_
+
 #include "Module.h"
 #include <map>
 #include <string>
@@ -27,4 +29,6 @@ public:
 	std::map<const char*, std::function<void(const char*)>> function_string_list;
 	std::map<const char*, std::function<void(bool)>> function_bool_list;
 };
+
+#endif
 

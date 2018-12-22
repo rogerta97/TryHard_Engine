@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULERENDERER3D_H_
+#define _MODULERENDERER3D_H_
+
 #include "Module.h"
 #include "Globals.h"
 #include "Light.h"
@@ -64,3 +66,5 @@ public:
 
 	std::list<ComponentCamera*> rendering_cameras; 
 };
+
+#endif
