@@ -15,6 +15,7 @@ ComponentImage::ComponentImage(GameObject* parent)
 {
 	gameobject = parent; 
 	component_type = CMP_IMAGE; 
+	image = new UI_Image(this);
 }
 
 ComponentImage::~ComponentImage()
@@ -24,8 +25,7 @@ ComponentImage::~ComponentImage()
 }
 
 bool ComponentImage::Start()
-{
-	image = new UI_Image(this); 
+{	
 	return false;
 }
 

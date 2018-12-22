@@ -57,6 +57,10 @@ bool ModuleUserInterface::Start()
 update_status ModuleUserInterface::Update(float dt)
 {
 
+	if (IsKeyPressed('\x2')) { //If f1 is pressed we enable UI
+		App->user_interface->EnableUI(true); 
+	}
+
 	if (App->imgui->game_panel->is_mouse_in)
 	{
 		float2 norm_mouse_pos = App->imgui->game_panel->GetMousePosInDockZeroOne();
@@ -139,19 +143,21 @@ update_status ModuleUserInterface::Update(float dt)
 
 			for (int i = intersected_elements.size() <= 0 ? 0: intersected_elements.size() - 1; i < last_intersected_elements.size(); i++)
 			{
-				ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
-				
-				if (cmp_button)
+				if (last_intersected_elements[i])
 				{
-					Event new_event;
-					new_event.type = UI_ELEMENT_OUT;
-					new_event.button.but = cmp_button->GetButton();
+					ComponentButton* cmp_button = (ComponentButton*)last_intersected_elements[i]->GetComponent(CMP_BUTTON);
 
-					cmp_button->has_mouse_entered = false;
+					if (cmp_button)
+					{
+						Event new_event;
+						new_event.type = UI_ELEMENT_OUT;
+						new_event.button.but = cmp_button->GetButton();
 
-					App->BroadCastEvent(new_event);
-				}
-			
+						cmp_button->has_mouse_entered = false;
+
+						App->BroadCastEvent(new_event);
+					}
+				}	
 			}	
 		}
 
@@ -270,8 +276,20 @@ void ModuleUserInterface::RecieveEvent(const Event & new_event)
 	}
 }
 
+bool ModuleUserInterface::IsKeyPressed(char key)
+{
+	for (auto it = buttons_pressed.begin(); it != buttons_pressed.end(); it++)
+	{
+		if ((*it) == key)
+			return true;
+	}
+
+	return false; 
+}
+
 void ModuleUserInterface::SendInput(SDL_Event * e)
 {
+	
 	if (e->type == SDL_TEXTINPUT && *e->text.text != '8')
 	{
 		buttons_pressed.push_back(*e->text.text);
@@ -280,7 +298,13 @@ void ModuleUserInterface::SendInput(SDL_Event * e)
 
 	if (e->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
 	{
-		buttons_pressed.push_back(*e->text.text);
+		buttons_pressed.push_back('\x1');
+		return;
+	}
+
+	if (e->key.keysym.scancode == SDL_SCANCODE_F1)
+	{
+		buttons_pressed.push_back('\x2');
 		return;
 	}
 }

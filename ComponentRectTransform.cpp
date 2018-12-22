@@ -638,6 +638,8 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 	tmp_relative_pos.x = json_object_dotget_number(json_obj, "RelativePos.X");
 	tmp_relative_pos.y = json_object_dotget_number(json_obj, "RelativePos.Y");
 
+	draggable = json_object_dotget_boolean(json_obj, "Draggable");
+
 	transform_part->SetPosition(pos);
 	transform_part->SetRotationEuler(rot);
 	transform_part->SetScale(scale);
@@ -668,6 +670,9 @@ void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
 
 	json_object_dotset_number(json_obj, rel_x.c_str(), GetRelativePos().x);
 	json_object_dotset_number(json_obj, rel_y.c_str(), GetRelativePos().y);
+
+	std::string drag_str = node_name + ".Draggable";
+	json_object_dotset_boolean(json_obj, drag_str.c_str(), draggable);
 }
 
 

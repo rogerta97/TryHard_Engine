@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COMPONENTMESH_H_
+#define _COMPONENTMESH_H_
 
 #include "Component.h"
 #include "ModuleRenderer3D.h"
@@ -67,4 +68,6 @@ private:
 	
 	bool					wireframe; 
 };
+
+#endif
 

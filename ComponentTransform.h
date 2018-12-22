@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COMPONENTTRANSFORM_H_
+#define _COMPONENTTRANSFORM_H_
 
 #include "Transform.h"
 #include "Component.h"
@@ -63,4 +64,6 @@ private:
 	float4x4 GlobalMatrix;
 	bool dirty; 
 };
+
+#endif
 

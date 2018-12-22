@@ -27,7 +27,7 @@ public:
 	bool CleanUp();
 
 	void CleanCanvasList(); 
-
+	bool IsKeyPressed(char key); 
 	void EnableUI(bool new_value); 
 
 	// Fonts -----------

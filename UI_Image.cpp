@@ -96,6 +96,8 @@ void UI_Image::DrawImage()
 
 	if (draw_material != nullptr)
 	{
+		glEnable(GL_TEXTURE_2D); 
+
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, plane->GetMesh()->uvs_id);
 
@@ -117,7 +119,6 @@ void UI_Image::DrawImage()
 
 	if (trans)
 	{
-		trans->DrawAxis();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf((GLfloat*)view_mat.v);
 	}

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COMPONENTCAMERA_H_
+#define _COMPONENTCAMERA_H_
 
 #include "Globals.h"
 #include "Component.h"
@@ -123,4 +124,6 @@ private:
 	bool					locked;
 	bool					orbit = true;
 };
+
+#endif
 

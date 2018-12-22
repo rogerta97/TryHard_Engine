@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MODULESCENE_H_
+#define _MODULESCENE_H_
+
 #include "Module.h"
 #include "Globals.h"
 #include "imgui.h"
@@ -83,6 +85,8 @@ public:
 	bool load_when_interpolation_ends = false;
 	const char* scene_to_load = "";
 
-	Scene * current_scene; 
+	Scene * current_scene = nullptr; 
 
 };
+
+#endif
