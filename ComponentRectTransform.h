@@ -90,7 +90,7 @@ public:
 	// ----------------------
 
 	float width = 0, height = 0;
-	float3 scale_to_show = {0,0};
+	float3 scale_to_show = {0,0,0};
 	bool edited = false;
 	float2 rel_size = {0,0};
 
