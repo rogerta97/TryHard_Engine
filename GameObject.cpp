@@ -642,6 +642,9 @@ void GameObject::SaveRecursive(JSON_Object* scene_obj, int& index)
 	item_name = node_name + ".IsUI";
 	json_object_dotset_boolean(scene_obj, item_name.c_str(), GetIsUI());
 
+	item_name = node_name + ".Tag";
+	json_object_dotset_string(scene_obj, item_name.c_str(), tag.c_str());
+
 	item_name = node_name + ".Parent";
 
 	if (GetParent() == nullptr)
@@ -675,7 +678,7 @@ bool GameObject::Load(JSON_Object* scene_obj, int index, std::multimap<UID, Game
 	name = json_object_dotget_string(scene_obj, "Name");
 	unique_id = json_object_dotget_number(scene_obj, "UID");
 	is_ui = json_object_dotget_boolean(scene_obj, "IsUI"); 
-	tag = json_object_dotget_string(scene_obj, "Tag");
+	//tag = json_object_dotget_string(scene_obj, "Tag");
 
 	UID parent_id = json_object_dotget_number(scene_obj, "Parent");
 
