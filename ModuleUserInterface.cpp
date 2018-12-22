@@ -40,7 +40,7 @@ bool ModuleUserInterface::Init(JSON_Object * config)
 
 	LoadAllFonts();
 
-	LoadNewFont("Antonio-Regular", 20);
+	interpolating = false; 
 
 	return true;
 }
@@ -406,4 +406,18 @@ float3 ModuleUserInterface::GetMousePos() const
 void ModuleUserInterface::SetMousePos(const float3 & new_pos)
 {
 	mouse_game_pos = new_pos;
+}
+
+void ModuleUserInterface::InterpolateAlpha(float time)
+{
+	if (interpolating)
+	{
+
+	}
+}
+
+void ModuleUserInterface::SetInterpolation(bool value)
+{
+	interpolating = true; 
+	interpolation_timer.Start();
 }

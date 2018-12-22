@@ -74,7 +74,8 @@ void UI_Label::RenderText()
 		else
 			letters_drawn++; 
 
-		ComponentRectTransform* rtransform = (ComponentRectTransform*)cmp_container->GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
+		GameObject* parent_go = cmp_container->GetGameObject(); 
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)parent_go->GetComponent(CMP_RECTTRANSFORM);
 		ComponentTransform* trans = rtransform->GetTransform();
 
 		// Get Parent Matrix

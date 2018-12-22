@@ -6,10 +6,12 @@
 
 UI_TextInput::UI_TextInput(ComponentTextInput* parent_cmp)
 {
-	placeholder_text = nullptr; 
-	show_text = nullptr; 
+
 	SetPercentage(0.30f); 
 	this->parent_cmp = parent_cmp; 
+
+	placeholder_text = nullptr;
+	show_text = nullptr;
 }
 
 

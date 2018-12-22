@@ -22,7 +22,7 @@ public:
 
 private:
 
-	GameObject * placeholder_text; 
-	GameObject * show_text; 
+	GameObject * placeholder_text = nullptr; 
+	GameObject * show_text = nullptr; 
 };
 

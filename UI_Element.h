@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _UI_ELEMENT_H_
+#define _UI_ELEMENT_H_
 
 #include "GameObject.h"
 
@@ -58,10 +59,15 @@ public:
 	bool IsRenderElement() const; 
 	void SetRenderElement(const bool& re); 
 
+	float GetAlphaPercentage() const;
+	void SetAlphaPercentage(const float& re);
+
 private:
 
 	bool selected = false;									// Is element selected
 	bool render_element = true;								// Element should be rendered
+
+	float alpha_percentage = 1.0f;							// Percentage of alpha (used for interpolation)
 
 	UI_ElementState state = UI_ElementState::ELM_IDLE;		// State of the element 
 	UI_Widgget_Type wid_type;								// Type of UI element 
@@ -69,4 +75,6 @@ private:
 	bool raycast;											// Make the canvas clickable
 	float canvas_percentage;								// For setting an initial size, representing the lenght of the top edge 
 };
+
+#endif
 

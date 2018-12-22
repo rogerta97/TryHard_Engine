@@ -541,24 +541,23 @@ GameObject * Scene::CreateUIElement(UI_Widgget_Type widdget, GameObject* force_p
 
 		// Create 2 text childs ---------------------------
 		// 1 ---
+
 		GameObject* placeholder_text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
-		placeholder_text_go->SetName("PlaceHolder");
+		ComponentText* text_cmp = (ComponentText*)placeholder_text_go->AddComponent(CMP_TEXT);
+		text_cmp->GetLabel()->SetCanvas(canvas_container);
+		text_cmp->GetLabel()->SetText("Text Here...");
+		text_cmp->SetClipping(CLIP_MIDDLELEFT);
+		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f };
 
 		ComponentRectTransform* text_r_trans = (ComponentRectTransform*)placeholder_text_go->GetComponent(CMP_RECTTRANSFORM);
 		text_r_trans->rel_size = float2(2.5, 0.3);
 
-		ComponentText* text_cmp = nullptr;
-		text_cmp = (ComponentText*)placeholder_text_go->GetComponent(CMP_TEXT);
-		text_cmp->SetClipping(CLIP_MIDDLELEFT);
-		text_cmp->GetLabel()->SetText("Text here...");
-		text_cmp->GetLabel()->color = { 0.3f, 0.3f, 0.3f };
-
 		// 2 ---
 		GameObject* text_go = CreateUIElement(UI_LABEL, new_ui_go, false);
-
-		text_cmp = (ComponentText*)text_go->GetComponent(CMP_TEXT);
-		text_cmp->SetClipping(CLIP_MIDDLELEFT);
-		text_cmp->GetLabel()->SetText("Eo");
+		ComponentText* text_show_cmp = (ComponentText*)text_go->AddComponent(CMP_TEXT);
+		text_show_cmp->GetLabel()->SetCanvas(canvas_container);
+		text_show_cmp->GetLabel()->SetText("Text");
+		text_show_cmp->SetClipping(CLIP_MIDDLELEFT);
 
 		input_cmp->GetInputField()->SetPlaceHolderText(placeholder_text_go);
 		input_cmp->GetInputField()->SetShowText(text_go);

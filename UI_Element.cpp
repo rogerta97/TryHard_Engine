@@ -109,3 +109,13 @@ void UI_Element::SetRenderElement(const bool & re)
 {
 	render_element = re; 
 }
+
+float UI_Element::GetAlphaPercentage() const
+{
+	return alpha_percentage;
+}
+
+void UI_Element::SetAlphaPercentage(const float & re)
+{
+	alpha_percentage = re;
+}
