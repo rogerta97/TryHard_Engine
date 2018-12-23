@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _APPLICATION_H_
+#define _APPLICATION_H_
 
 
 #include "Globals.h"
@@ -214,3 +215,5 @@ private:
 	std::vector<float>	ms_buffer;
 	std::vector<float>	memory;
 };
+
+#endif

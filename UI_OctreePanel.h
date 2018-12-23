@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_OCTREE_PANEL_H__
+#define __UI_OCTREE_PANEL_H_
+
 #include "UI_Panel.h"
 
 class Octree; 
@@ -16,4 +18,6 @@ public:
 	Octree* octree; 
 	float size; 
 };
+
+#endif
 

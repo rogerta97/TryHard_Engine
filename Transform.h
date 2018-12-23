@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __TRANSFORM_H__
+#define __TRANSFORM_H__
 #include "MathGeoLib\MathGeoLib.h"
 
 class Transform
@@ -17,3 +17,4 @@ public:
 	float3 X, Y, Z; //Axis
 };
 
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_HIERARCHY_PANEL_H__
+#define __UI_HIERARCHY_PANEL_H__
+
 #include "UI_Panel.h"
 
 class GameObject; 
@@ -24,3 +26,4 @@ public:
 	GameObject* dst_in_drag; 
 };
 
+#endif

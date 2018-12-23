@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MESH_H_
+#define _MESH_H_
 
 #include "MathGeoLib\MathGeoLib.h"
 #include "Globals.h"
@@ -54,3 +55,4 @@ public:
 	BasicMeshType type; 
 };
 
+#endif

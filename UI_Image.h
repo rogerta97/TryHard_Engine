@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UI_IMAGE_H__
+#define __UI_IMAGE_H__
 
 #include "UI_Element.h"
 
@@ -50,3 +51,4 @@ private:
  
 };
 
+#endif

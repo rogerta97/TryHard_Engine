@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UI_PANEL_H__
+#define __UI_PANEL_H__
 
 #include "imgui.h"
 #include "Globals.h"
@@ -29,3 +30,4 @@ public:
 	bool show;
 };
 
+#endif

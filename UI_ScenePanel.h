@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UI_SCENE_PANEL_H__
+#define __UI_SCENE_PANEL_H__
 
 #include "UI_Panel.h"
 
@@ -41,3 +42,4 @@ private:
 	bool pause;
 };
 
+#endif

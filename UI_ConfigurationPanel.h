@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_CONFIGURATION_PANEL_H__
+#define __UI_CONFIGURATION_PANEL_H__
+
 
 #include "UI_Panel.h"
 
@@ -18,4 +20,4 @@ public:
 
 };
 
-
+#endif

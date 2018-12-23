@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_EXPLORER_PANEL_H__
+#define __UI_EXPLORER_PANEL_H__
+
 #include "UI_Panel.h"
 #include "Texture.h"
 #include <string>
@@ -33,3 +35,5 @@ private:
 	Material* scene_mat;
 };
 
+
+#endif

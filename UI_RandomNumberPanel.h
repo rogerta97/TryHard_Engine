@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_RANDOM_NUMBER_PANEL_H__
+#define __UI_RANDOM_NUMBER_PANEL_H__
+
 #include "UI_Panel.h"
 
 enum RandomNumberType {RND_TYPE_INT, RND_TYPE_FLOAT};
@@ -23,3 +25,4 @@ private:
 	RandomNumberType random_type; 
 };
 
+#endif

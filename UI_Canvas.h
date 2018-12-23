@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_CANVAS_H__
+#define __UI_CANVAS_H__
+
 #include "GameObject.h"
 #include "SDL\include\SDL_rect.h"
 #include <list>
@@ -19,3 +21,4 @@ public:
 	std::list<GameObject*> elements_in_canvas;
 };
 
+#endif

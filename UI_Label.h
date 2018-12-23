@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_LABEL_H__
+#define __UI_LABEL_H__
+
 #include "UI_Element.h"
 
 #include <string>
@@ -83,3 +85,4 @@ private:
 	std::vector<float3> offset_planes = std::vector<float3>();
 };
 
+#endif

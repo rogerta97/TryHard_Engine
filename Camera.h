@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __CAMERA_H__
+#define __CAMERA_H__
+
 #include "Resource.h"
 #include "MathGeoLib\MathGeoLib.h"
 
@@ -42,3 +44,4 @@ public:
 	float2 size;
 };
 
+#endif

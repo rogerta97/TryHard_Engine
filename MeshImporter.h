@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MESH_IMPORTER_H
+#define _MESH_IMPORTER_H
 
 #include <list>
 #include "Mesh.h"
@@ -43,3 +44,4 @@ public:
 
 };
 
+#endif

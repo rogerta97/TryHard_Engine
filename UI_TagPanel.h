@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UI_TAG_PANEL_H__
+#define __UI_TAG_PANEL_H__
 
 #include  "UI_Panel.h"
 
@@ -24,3 +25,4 @@ public:
 	string tag_to_add; 
 };
 
+#endif

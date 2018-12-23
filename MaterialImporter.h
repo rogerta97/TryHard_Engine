@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MATERIAL_IMPORTER_H_
+#define _MATERIAL_IMPORTER_H_
 
 #include "Texture.h"
 #include "Importer.h"
@@ -48,3 +49,4 @@ private:
 
 };
 
+#endif

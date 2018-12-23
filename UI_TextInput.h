@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_TEXT_INPUT_H__
+#define __UI_TEXT_INPUT_H__
+
 #include "UI_Element.h"
 
 class UI_Label; 
@@ -26,3 +28,4 @@ private:
 	GameObject * show_text = nullptr; 
 };
 
+#endif

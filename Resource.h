@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __RESOURCE_H__
+#define __RESOURCE_H__
 
 #include "Globals.h"
 #include <string>
@@ -54,3 +55,5 @@ protected:
 	resource_type res_type; 
 	
 };
+
+#endif

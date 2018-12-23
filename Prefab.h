@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PREFAV_H_
+#define _PREFAV_H_
 
 #include "Resource.h"
 #include "GameObject.h"
@@ -24,3 +25,4 @@ private:
 	GameObject * root; 
 };
 
+#endif

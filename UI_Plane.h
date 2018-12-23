@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_PLANE_H__
+#define __UI_PLANE_H__
+
 #include "UI_Element.h"
 
 //Base element that can not be instantiated by itself, used for ease development. Equals to an image without texture.  
@@ -27,4 +29,6 @@ private:
 
 	Mesh * quad_plane_mesh; 
 };
+
+#endif
 

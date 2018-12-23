@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UI_PERFORMANCE_PANEL_H__
+#define __UI_PERFORMANCE_PANEL_H_
+
 #include "UI_Panel.h"
 class UI_PerformancePanel :
 	public UI_Panel
@@ -22,3 +24,4 @@ private:
 	std::list<Module*>::iterator module_iterator;
 };
 
+#endif

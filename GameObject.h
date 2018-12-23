@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _GAMEOBJECT_
+#define _GAMEOBJECT_
 
 #include <list>
 #include <map>
@@ -111,4 +112,6 @@ private:
 	bool is_static;
 	std::string tag; 
 };
+
+#endif
 

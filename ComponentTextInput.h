@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _COMPONENT_TEXT_INPUT_H_
+#define _COMPONENT_TEXT_INPUT_H_
+
 #include "Component.h"
 #include "Globals.h"
 
@@ -52,4 +54,6 @@ private:
 	Mesh* cursor_mesh = nullptr;
 	float3 cursor_color = { 0,0,0 }; 
 };
+
+#endif
 

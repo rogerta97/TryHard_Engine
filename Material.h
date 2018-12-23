@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MATERIAL_H_
+#define _MATERIAL_H_
 #include "Color.h"
 #include "Resource.h"
 
@@ -33,3 +34,4 @@ private:
 
 };
 
+#endif
