@@ -1,11 +1,10 @@
 # TryHard_Engine
 
-We are a pair of students on UPC Barcelona, developing our own 3D Engine, TryHard Engine. In this website all of our work will be explained and detailed. Development cycle took 5 months. 
-
+We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with OpenGL. TryHard Engine. In this website all of our work will be explained and detailed. Development cycle took 5 months. The Engine prototype contains just the basics for now, Gameobjects can be created and destroyed with its components.  
 
 # What we did? 
 
-## Roger Tello
+### Roger Tello
 
 - Component-based structure with gameobjects. 
 - Loading Geometry & Textures. 
@@ -20,25 +19,35 @@ We are a pair of students on UPC Barcelona, developing our own 3D Engine, TryHar
 - Multicamera render pipeline & Cam interpolation.
 - Prefab System.
 - Skybox. 
-
 - UI Elements: Canvas, Label, Image, Text, Checkbox...
 - Callback System for Buttons & Checkbox. 
 - Event System. 
 - Scene Interpolation.
 
-## New innovations:
+# Subsystem - UI - 
 
-- Any camera can be assigned as game camera and it can ve previewed in it's own dock
-- An octree instead of quadtree
-- A Skybox that moves with each camera
-- Resources built with a map
-- Guizmos
-- Drag and drop to assign parenting in the hierarchy
-- An explorer to select items to load
-- Any gameobject can have tags assigned
-- Prefabs can be created after editing a model
+For the last assigment we were asked to create our own system for user interface. We followed the structure of Unity Engine for that. The main pieces that form the High Level System are the following: 
 
-## How to use:
+  - Rect Transform Component: Component similar to the Transform Component, holding position, rotation and scale. Moreover this component contains a rectangle where the UI is going to lay, it also mean it has it's pivots and anchor points implemented. 
+  
+  - Component Canvas: A component that will contain all the gameobjects. 
+  
+  - Label: ui element to print text. Text can be changed in size and color, the clipping mode can also be modified as well as the horizontal and vertical overflow (when text overcomes the limits of the rect transform). 
+  
+  - Image: ui element to print images. Materials can be displayed in the plane of the UI image. The image can be tinted. 
+  
+  - Text Input: ui element to write text. It will hold 2 texts. One is the placeholder and the other one is the text showed when the input box is selected. 
+  
+  - Button: UI element that can be clicked. Some functions can be assigned to the button, when the button is pressed, those functions will be executed sequentially. The button will contain a child GameObject with a label.
+  
+  - CheckBox: UI element that will toggle a boolean of the function attached to it. 
+
+# New innovations:
+
+- Arguments can be sent to objects. 
+- Text Fits to the parent rect transform. 
+
+# How to use:
 
 ### Basics:
 
