@@ -182,6 +182,8 @@ bool UI_HierarchyPanel::Update()
 
 	}
 
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN && App->scene->GetGameObjectsAmmount() == 0)
+		App->imgui->hierarchy_panel->show_create_menu = true; 
 
 	if (App->imgui->hierarchy_panel->show_create_menu)
 	{

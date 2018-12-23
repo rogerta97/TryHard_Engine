@@ -81,7 +81,7 @@ bool ComponentRectTransform::Update()
 	if (gameobject->parent->GetComponent(CMP_CANVAS))
 	{
 
-		if (draggable)
+		if (draggable && App->GetGameState() == RUNNING)
 			ManageDrag();
 
 	}
@@ -537,6 +537,9 @@ GameObject * ComponentRectTransform::GetFirstCanvasParent()
 {
 	GameObject* parent_canvas = gameobject;
 
+	if (parent_canvas == nullptr)
+		return nullptr; 
+
 	while (!parent_canvas->GetComponent(CMP_CANVAS)) {
 		parent_canvas = parent_canvas->parent;
 	}
@@ -652,6 +655,11 @@ void ComponentRectTransform::Load(JSON_Object * json_obj)
 
 	draggable = json_object_dotget_boolean(json_obj, "Draggable");
 
+	anchor.min_x = json_object_dotget_number(json_obj, "MinX");
+	anchor.min_y = json_object_dotget_number(json_obj, "MinY");
+	anchor.max_x = json_object_dotget_number(json_obj, "MaxX");
+	anchor.max_y = json_object_dotget_number(json_obj, "MaxY");
+
 	transform_part->SetPosition(pos);
 	transform_part->SetRotationEuler(rot);
 	transform_part->SetScale(scale);
@@ -685,6 +693,20 @@ void ComponentRectTransform::Save(JSON_Object * json_obj, const char * root)
 
 	std::string drag_str = node_name + ".Draggable";
 	json_object_dotset_boolean(json_obj, drag_str.c_str(), draggable);
+
+	// Save Anchors 
+
+	std::string min_x = node_name + ".MinX";
+	json_object_dotset_number(json_obj, min_x.c_str(), anchor.min_x);
+
+	std::string min_y = node_name + ".MinY";
+	json_object_dotset_number(json_obj, min_y.c_str(), anchor.min_y);
+
+	std::string max_x = node_name + ".MaxX";
+	json_object_dotset_number(json_obj, max_x.c_str(), anchor.max_x);
+
+	std::string max_y = node_name + ".MaxY";
+	json_object_dotset_number(json_obj, max_y.c_str(), anchor.max_y);
 }
 
 

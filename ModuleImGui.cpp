@@ -337,6 +337,43 @@ update_status ModuleImGui::DrawTopBar()
 			App->scene->SetSelectedGameObject(new_go);
 		}
 
+		if (ImGui::BeginMenu("UI"))
+		{
+			ImGui::MenuItem("Canvas");
+
+			if (ImGui::IsItemClicked())
+			{
+				GameObject* parent_canvas = new GameObject("Canvas", true);
+				parent_canvas->AddComponent(CMP_CANVAS);
+
+				App->user_interface->AddaptCanvasToScreen();
+				App->scene->AddGameObjectToScene(parent_canvas);
+			}
+
+			ImGui::MenuItem("Image");
+			if (ImGui::IsItemClicked())
+				App->scene->CreateUIElement(UI_IMAGE);  //Create the element specified to the last canvas 
+
+			ImGui::MenuItem("Button");
+			if (ImGui::IsItemClicked())
+				App->scene->CreateUIElement(UI_BUTTON);  //Create the element specified to the last canvas //Force scale 
+
+			ImGui::MenuItem("Text");
+			if (ImGui::IsItemClicked())
+				App->scene->CreateUIElement(UI_LABEL);
+
+			ImGui::MenuItem("Input Field");
+			if (ImGui::IsItemClicked())
+				App->scene->CreateUIElement(UI_INPUTFIELD);
+
+			ImGui::MenuItem("CheckBox");
+			if (ImGui::IsItemClicked())
+				App->scene->CreateUIElement(UI_CHECKBOX);
+
+			ImGui::EndMenu(); 
+
+		}
+
 		ImGui::EndMenu();
 	}
 
