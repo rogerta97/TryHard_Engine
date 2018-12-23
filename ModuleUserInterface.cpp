@@ -137,7 +137,7 @@ update_status ModuleUserInterface::Update(float dt)
 			}
 		}
 
-		if (intersected_elements.size() < last_intersected_elements.size()) //this mean some gameobject is not under the mouse any more 
+		if (intersected_elements.size() < last_intersected_elements.size() && !App->user_interface->IsInterpolating()) //this mean some gameobject is not under the mouse any more 
 		{
 			int max_size = last_intersected_elements.size(); 
 
