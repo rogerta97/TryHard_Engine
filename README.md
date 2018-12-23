@@ -57,7 +57,7 @@ We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with O
 
 For the last assigment we were asked to create our own system for user interface. We followed the structure of Unity Engine for that. The main pieces that form the High Level System are the following: 
 
-  - Rect Transform Component: Component similar to the Transform Component, holding position, rotation and scale. Moreover this component contains a rectangle where the UI is going to lay, it also mean it has it's anchor points implemented. 
+  - Rect Transform Component: Component similar to the Transform Component, holding position, rotation and scale. Moreover this component contains a rectangle where the UI is going to lay. The component also manages the anchor points and the relative position.
   
   - Component Canvas: A component that will contain all the gameobjects. 
   
@@ -102,9 +102,9 @@ For the last assigment we were asked to create our own system for user interface
 ### Demonstrations
 
 ![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/2nd.gif)
-
+*First gif*
 ![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/3rd.gif)
-
+*Second gif*
 
 ### Test scene setup
 
