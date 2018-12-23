@@ -102,9 +102,9 @@ For the last assigment we were asked to create our own system for user interface
 ### Demonstrations
 
 ![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/2nd.gif)
-*First gif*
+
 ![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/3rd.gif)
-*Second gif*
+
 
 ### Test scene setup
 
