@@ -8,17 +8,20 @@ We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with O
 
 ![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/roger.jpg)
 
-- Component-based structure with gameobjects. 
+- Component-based structure.
+- GameObjects implementation.
 - Loading Geometry & Textures. 
 - Hierarchy panel & Gameobject parenting. 
 - Inspector panel to see object properties. 
-- Created components: Mesh, Material...
+- Created Base Components: Transform, Mesh, Material, Camera...
 - Octree for space partitioning.
+- Created All of the Engine UI using ImGui. 
 - Basic Resources Saved to binary.
-- Load & Save for gameobjects & components. 
+- Load & Save for gameobjects & components.
+- Load & Save for scenes. 
 - Resource Manager & browser. 
 - Basic structure for UI system. 
-- Multicamera render pipeline & Cam interpolation.
+- Multicamera & Cam interpolation.
 - Prefab System.
 - Skybox. 
 - UI Elements: Canvas, Label, Image, Text, Checkbox...
