@@ -69,9 +69,6 @@ void UICallbackSystem::PrintSystemUI()
 		}*/
 		
 	}
-		
-	ImGui::SameLine();
-	ImGui::SmallButton("Delete Item");
 
 	SEPARATE_WITH_SPACE
 
@@ -142,6 +139,7 @@ void UI_CallbackAgent::CleanAgent()
 
 void UI_CallbackAgent::PrintAgentUI(int index)
 {
+	ImGui::Separator(); 
 
 	//ImGui::Text("Target: "); ImGui::SameLine();
 
@@ -178,7 +176,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	ImGui::SameLine();
 
-	curr_label_name = "+ Action##Action" + to_string(index);
+	curr_label_name = "Add Action##Action" + to_string(index);
 	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
@@ -189,7 +187,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	ImGui::SameLine();
 
-	curr_label_name = "- Action##Action" + to_string(index);
+	curr_label_name = "Delete Action##Action" + to_string(index);
 	ImGui::Button(curr_label_name.c_str());
 
 	if (ImGui::IsItemClicked(0))
@@ -231,6 +229,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 	if (show_function_list && ImGui::IsMouseClicked(0) && ImGui::IsMouseHoveringWindow() && !ImGui::IsAnyItemHovered())
 		show_function_list = false; 		
 
+	ImGui::Separator();
 }
 
 void UI_CallbackAgent::SetEmpty()

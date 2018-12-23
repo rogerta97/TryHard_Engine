@@ -202,6 +202,9 @@ UI_CheckBox * ComponentCheckBox::GetCheckBox() const
 
 void ComponentCheckBox::BindCallbackFunctions()
 {
+	ButtonOnAction.clear();
+	ButtonOffAction.clear();
+
 	for (auto it = callback_system->GetCallbacks().begin(); it != callback_system->GetCallbacks().end(); it++)
 	{
 		if ((*it)->action_bool != nullptr)
