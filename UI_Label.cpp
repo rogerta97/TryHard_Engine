@@ -439,7 +439,7 @@ float3 UI_Label::GetValueFromRenderedText(const char * point)
 			}			
 		}
 
-		CONSOLE_LOG("%f", g_position.y); 
+		//CONSOLE_LOG("%f", g_position.y); 
 		return_value = { 0, min_y_plane->GetPlane()->GetMesh()->vertices[2].y + min_y + g_position.y + text_origin.y, 0 };
 		return return_value;
 	}
