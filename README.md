@@ -18,6 +18,7 @@ We are a pair of students on UPC Barcelona, developing our own 3D Engine, TryHar
 - Resource Manager & browser. 
 - Basic structure for UI system. 
 - Multicamera render pipeline & Cam interpolation.
+- Prefab System.
 - Skybox. 
 
 - UI Elements: Canvas, Label, Image, Text, Checkbox...
