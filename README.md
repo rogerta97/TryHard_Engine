@@ -1,14 +1,29 @@
 # TryHard_Engine
 
-We are a pair of students on UPC Barcelona, developing our own 3D Engine, the TryHard Engine. In this repo we will be uploading every update we do during the development of the Engine.
+We are a pair of students on UPC Barcelona, developing our own 3D Engine, TryHard Engine. In this website all of our work will be explained and detailed. Development cycle took 5 months. 
 
-### Github repository link: https://github.com/rogerta97/TryHard_Engine
 
-## Github of authors: 
+# What we did? 
 
-Pol Ferrando: https://github.com/polferrando98
+## Roger Tello
 
-Roger Tello: https://github.com/rogerta97
+- Component-based structure with gameobjects. 
+- Loading Geometry & Textures. 
+- Hierarchy panel & Gameobject parenting. 
+- Inspector panel to see object properties. 
+- Created components: Mesh, Material...
+- Octree for space partitioning.
+- Basic Resources Saved to binary.
+- Load & Save for gameobjects & components. 
+- Resource Manager & browser. 
+- Basic structure for UI system. 
+- Multicamera render pipeline & Cam interpolation.
+- Skybox. 
+
+- UI Elements: Canvas, Label, Image, Text, Checkbox...
+- Callback System for Buttons & Checkbox. 
+- Event System. 
+- Scene Interpolation.
 
 ## New innovations:
 
@@ -56,6 +71,7 @@ Roger Tello: https://github.com/rogerta97
 - F: camera focuses the last mesh.
 - R & F: move up and down the camera.
 - Alt + left mouse click: camera orbits around selected game object with mouse movement.
+- Supr: deletes the selected gameobject. 
 - Mouse wheel: zoom in and out.
 - Right Click: look in de direction of mouse movement.	
 - Import .FBX files: Drag and drop into the scene.
@@ -63,6 +79,12 @@ Roger Tello: https://github.com/rogerta97
 ## Warning
 
 This Release has a big size due to the size of the textures of the skybox and the t-rex.
+
+# Contacts
+
+Github repository link: https://github.com/rogerta97/TryHard_Engine
+Pol Ferrando: https://github.com/polferrando98
+Roger Tello: https://github.com/rogerta97
 
 ## License
 
