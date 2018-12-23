@@ -328,6 +328,7 @@ void ComponentTextInput::OnEvent(const Event & new_event)
 			{
 				GetButtonField()->GetButton()->SetState(ELM_PRESSED);
 				GetInputField()->GetPlaceHolderText()->SetActive(false);
+
 				GetInputField()->GetShowText()->SetActive(true);
 
 				App->camera->SetLocked(true); 

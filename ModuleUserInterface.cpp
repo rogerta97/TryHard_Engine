@@ -122,7 +122,8 @@ update_status ModuleUserInterface::Update(float dt)
 					new_event.type = UI_ELEMENT_DOWN;
 					new_event.button.but = button; 
 
-					App->camera->SetLocked(true); 
+					if(App->GetGameState() == RUNNING)
+						App->camera->SetLocked(true); 
 					
 					App->BroadCastEvent(new_event); 
 				}
