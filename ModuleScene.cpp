@@ -57,6 +57,9 @@ bool ModuleScene::Start()
 
 	current_scene->SetGuizmoMode(TRANSLATE);
 
+	//Load Delivery Scene
+	App->scene->CleanAndLoadScene("IntroScene");
+
 	return ret;
 }
 

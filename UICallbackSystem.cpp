@@ -201,7 +201,6 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 
 	if (action_char != nullptr)
 	{
-		ImGui::SameLine();
 
 		static std::string value_char_cpy(value_char); 
 
@@ -214,7 +213,7 @@ void UI_CallbackAgent::PrintAgentUI(int index)
 	{
 		ImGui::SameLine();
 
-		static bool send_value = true;
+		static bool send_value = value_bool;
 		label = "Value##C" + to_string(index);
 
 		if (ImGui::Checkbox(label.c_str() , &send_value))

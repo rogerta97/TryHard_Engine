@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _OCTREE_H_
+#define _OCTREE_H_
 
 #include <list>
 #include "MathGeoLib\MathGeoLib.h"
@@ -71,6 +72,8 @@ private:
 	int sub_limit;  
 	
 };
+
+#endif
 
 
 

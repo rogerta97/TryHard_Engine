@@ -494,8 +494,6 @@ bool ComponentRectTransform::GetClosestIntersectionPointForGame(LineSegment line
 	float4x4 gm = trans->GetGlobalViewMatrix();
 
 	//Find the canvas
-
-
 	line.a.x += 750 / 2;
 	line.b.x += 750 / 2;
 	line.a.y += 422 / 2;

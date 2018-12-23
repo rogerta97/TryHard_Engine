@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COMPONENT_H_
+#define _COMPONENT_H_
 
 #include "Globals.h"
 #include "JSON\parson.h"
@@ -45,3 +46,5 @@ protected:
 	CompType component_type; 
 	
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MONITOR_DIRECTORY_NODE_H_
+#define _MONITOR_DIRECTORY_NODE_H_
 
 #include <list>
 #include <vector>
@@ -39,4 +40,6 @@ private:
 	int file_ammount;
 	
 };
+
+#endif
 

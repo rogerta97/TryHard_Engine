@@ -181,6 +181,7 @@ void ComponentButton::Load(JSON_Object * json_obj)
 	
 	}
 
+	BindCallbackFunctions();
 
 }
 

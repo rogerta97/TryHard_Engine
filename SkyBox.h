@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SKYBOX_H_
+#define _SKYBOX_H_
 
 #include "Mesh.h"
 #include "Texture.h"
@@ -42,4 +43,6 @@ public:
 	float size; 
 
 };
+
+#endif
 

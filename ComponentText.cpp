@@ -60,7 +60,7 @@ void ComponentText::Draw(bool is_editor)
 	if (!is_editor)
 		return; 
 
-	RenderContainerPlane();
+	//RenderContainerPlane();
 
 }
 

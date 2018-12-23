@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MONITORDIRECTORY_H_
+#define _MONITORDIRECTORY_H_
 
 #include "Timer.h"
 #include <string>
@@ -31,4 +32,6 @@ private:
 	Timer update_timer; 
 	float update_rate;
 };
+
+#endif
 

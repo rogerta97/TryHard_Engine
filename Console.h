@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _CONSOLE_H_
+#define _CONSOLE_H_
 
 enum Console_Message_Type { CONSOLE_MLOG, CONSOLE_MDEBUG, CONSOLE_MERROR};
 
@@ -26,4 +27,6 @@ private:
 
 	unsigned int log_count, debug_count, error_count; 
 };
+
+#endif
 
