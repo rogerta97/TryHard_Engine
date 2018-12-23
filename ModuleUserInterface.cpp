@@ -76,7 +76,7 @@ update_status ModuleUserInterface::Update(float dt)
 		//CONSOLE_LOG("x:%f, y:%f", mouse_pos_in_canvas.x, mouse_pos_in_canvas.y);
 		ComponentCanvas* cmp_canvas = (ComponentCanvas*)canvas_go->GetComponent(CMP_CANVAS);
 
-		std::vector<GameObject*> intersected_elements;
+		std::vector<GameObject*> intersected_elements = std::vector<GameObject*>();
 
 		UI_Canvas* ui_canvas = cmp_canvas->GetCanvas();
 		ui_canvas->elements_in_canvas;
@@ -137,11 +137,12 @@ update_status ModuleUserInterface::Update(float dt)
 			}
 		}
 
-		if (intersected_elements.size() < last_intersected_elements.size() && !App->user_interface->IsInterpolating()) //this mean some gameobject is not under the mouse any more 
-		{
-			int max_size = last_intersected_elements.size(); 
 
-			for (int i = intersected_elements.size() <= 0 ? 0: intersected_elements.size() - 1; i < last_intersected_elements.size(); i++)
+		if (intersected_elements.size() < last_intersected_elements.size() && !App->user_interface->IsInterpolating() && App->user_interface->HasInterpolationEnded()) //this mean some gameobject is not under the mouse any more 
+		{
+			int max_size = last_intersected_elements.size();
+
+			for (int i = intersected_elements.size() <= 0 ? 0 : intersected_elements.size() - 1; i < last_intersected_elements.size(); i++)
 			{
 				if (last_intersected_elements[i])
 				{
@@ -157,12 +158,12 @@ update_status ModuleUserInterface::Update(float dt)
 
 						App->BroadCastEvent(new_event);
 					}
-				}	
-			}	
+				}
+			}
 		}
 
 		last_intersected_elements = intersected_elements;
-
+			
 	}
 
 	//Alpha interpolation
@@ -459,7 +460,6 @@ void ModuleUserInterface::InterpolateAlpha()
 		if (alpha_percentage >= 1.0f)
 		{
 			finished_interpolation = true;
-			interpolating = false; 
 		}
 
 		Event alpha_event;

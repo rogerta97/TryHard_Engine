@@ -117,7 +117,7 @@ void ModuleScripting::FillFunctionList()
 
 			if (func_name == "InterpolateAlpha")
 			{
-				std::function<void()> callback = []() {App->user_interface->SetInterpolation(true, 1.0f);};
+				std::function<void()> callback = []() {App->user_interface->SetInterpolation(true, 2.0f);};
 				function_list.insert(std::pair<const char*, std::function<void()>>("InterpolateAlpha()", callback));
 			}
 		}

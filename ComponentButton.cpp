@@ -173,7 +173,7 @@ void ComponentButton::Load(JSON_Object * json_obj)
 				new_agent->action = []() {App->renderer3D->render_settings.DisableWireframe();  App->renderer3D->UseCurrentRenderSettings(); };
 
 			if (action_name == "InterpolateAlpha()")
-				new_agent->action = []() {App->user_interface->SetInterpolation(true, 1.0f); };
+				new_agent->action = []() {App->user_interface->SetInterpolation(true, 2.0f); };
 		}
 
 		new_agent->name = action_name; 

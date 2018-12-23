@@ -741,8 +741,12 @@ void GameObject::ModifyIDSet()
 	if (!child_list.empty())
 		for (auto it = child_list.begin(); it != child_list.end(); it++)
 		{
-			(*it)->ModifyIDSet();
-			(*it)->SetParent(App->scene->GetGameObjectByID(unique_id));
+			if ((*it))
+			{
+				(*it)->ModifyIDSet();
+				(*it)->SetParent(App->scene->GetGameObjectByID(unique_id));
+			}
+	
 		}		
 }
 

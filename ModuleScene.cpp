@@ -535,6 +535,7 @@ update_status ModuleScene::Update(float dt)
 			CleanScene();
 			LoadScene(scene_to_load);
 			load_when_interpolation_ends = false;
+			App->user_interface->SetInterpolation(false);
 		}		
 	}
 
