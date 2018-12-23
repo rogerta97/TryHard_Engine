@@ -24,7 +24,15 @@ We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with O
 - Event System. 
 - Scene Interpolation.
 
-# Subsystem - UI - 
+### Pol Ferrando
+
+# Subsystem
+
+ - Importer: this system will take care of importing the resources when the user drops it into the folder. 
+ - Resource Manager: it will handle all .meta files and binarys. 
+ - User Interface: it will handle the creation of UI for the game.
+
+# UI Subsystem
 
 For the last assigment we were asked to create our own system for user interface. We followed the structure of Unity Engine for that. The main pieces that form the High Level System are the following: 
 
@@ -44,8 +52,10 @@ For the last assigment we were asked to create our own system for user interface
 
 # New innovations:
 
-- Arguments can be sent to objects. 
+- Arguments can be sent to button functions. 
 - Text Fits to the parent rect transform. 
+- Change Scene When pressing a button. 
+- Callbacks readed from simulated script + simulated module scripting. 
 
 # How to use:
 
