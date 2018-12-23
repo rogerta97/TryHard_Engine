@@ -743,9 +743,7 @@ void GameObject::ModifyIDSet()
 		{
 			(*it)->ModifyIDSet();
 			(*it)->SetParent(App->scene->GetGameObjectByID(unique_id));
-		}
-			
-			
+		}		
 }
 
 bool GameObject::HasComponents()  

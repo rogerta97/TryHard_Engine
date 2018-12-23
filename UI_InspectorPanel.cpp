@@ -334,8 +334,11 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 {
 	if (ImGui::CollapsingHeader("Rect Transform"))
 	{
+		bool lock = false; 
 		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 
+		if (GetGameObject()->GetComponent(CMP_CANVAS) != nullptr)
+			lock = true; 
 
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
 		float show_scale[3] = { rtransform->scale_to_show.x, rtransform->scale_to_show.y, rtransform->scale_to_show.z };
@@ -346,16 +349,25 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		SEPARATE_WITH_SPACE
 
-			if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
-				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
+		if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
+		{
+			App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
+		}
+			
 
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
+		{
 			App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
+		}
+			
 
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Scale", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::SCALE))
+		{
 			App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::SCALE);
+		}
+			
 
 		SEPARATE_WITH_SPACE
 
@@ -369,26 +381,41 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::Columns(3, "", false);
 
-		if (ImGui::DragFloat("Pos X", &show_pos[0]))
-			rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
+		if (ImGui::DragFloat("", &show_pos[0]))
+		{
+			if(!lock)
+				rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
+		}
+		
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("Pos Y", &show_pos[1]))
-			rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
+		if (ImGui::DragFloat("", &show_pos[1]))
+		{
+			if (!lock)
+				rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
+		}
+			
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("Pos Z", &show_pos[2]))
-			rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().y, show_pos[2]));
+		if (ImGui::DragFloat("", &show_pos[2]))
+		{
+			if (!lock)
+				rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().y, show_pos[2]));
+		}
+
+		ImGui::SameLine();
+		ImGui::Text("Position"); 
+			
 
 		ImGui::NextColumn();
 
 		ImGui::Columns(1);
 
-		SEPARATE_WITH_SPACE
-
-			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
+		if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
+		{
+			if (!lock)
 			{
 				if (rtransform->GetTransform()->GetRotationEuler().x != show_rot[0])
 					rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
@@ -398,8 +425,9 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 				if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
 					rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
-
 			}
+
+		}
 
 		//if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 		//	rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
@@ -411,18 +439,26 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		if (c_scaler->GetScaleType() == ST_CONSTANT)
 		{
-
-			if (ImGui::DragFloat("Width", &rtransform->width))
+			float tmp_width = rtransform->width;
+			if (ImGui::DragFloat("Width", &tmp_width))
 			{
-				rtransform->Resize({ rtransform->width, rtransform->height });
-				rtransform->edited = true;
+				if (!lock)
+				{
+					rtransform->Resize({ rtransform->width, rtransform->height });
+					rtransform->edited = true;
+				}
+				
 			}
 
-
-			if (ImGui::DragFloat("Height", &rtransform->height))
+			float tmp_height = rtransform->height;
+			if (ImGui::DragFloat("Height", &tmp_height))
 			{
-				rtransform->Resize({ rtransform->width, rtransform->height });
-				rtransform->edited = true;
+				if (!lock)
+				{
+					rtransform->Resize({ rtransform->width, rtransform->height });
+					rtransform->edited = true;
+				}
+			
 			}
 		}
 		else //SCREEN SIZE
@@ -434,9 +470,13 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 			if (ImGui::DragFloat2("Relative Size", show_rel_size, 0.1f))
 			{
-				rtransform->rel_size.x = show_rel_size[0];
-				rtransform->rel_size.y = show_rel_size[1];
-				move_container = true;
+				if (!lock)
+				{
+					rtransform->rel_size.x = show_rel_size[0];
+					rtransform->rel_size.y = show_rel_size[1];
+					move_container = true;
+				}
+	
 			}
 		}
 
