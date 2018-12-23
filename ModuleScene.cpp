@@ -383,6 +383,8 @@ void ModuleScene::LoadScene(const char* scene_name)
 		return;
 	}
 
+	App->camera->SetLocked(false);
+
 	string name_w_termination = scene_name + string(".json");
 
 	if (App->file_system->GetFileExtension(name_w_termination) != FX_JSON)
