@@ -6,6 +6,8 @@ We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with O
 
 ### Roger Tello
 
+![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/roger.jpg)
+
 - Component-based structure with gameobjects. 
 - Loading Geometry & Textures. 
 - Hierarchy panel & Gameobject parenting. 
@@ -25,6 +27,25 @@ We are a pair of students on UPC Barcelona, developing a 3D Engine in C++ with O
 - Scene Interpolation.
 
 ### Pol Ferrando
+
+![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/pol.jpg)
+
+- Display information about hardware
+- UI docking
+- Performance Panel with stats of each module 
+- Custom window title bar with manual drag
+- Custom textures for the engine
+- Basic save to json engine attributes
+- Transform component hierarchy based
+- Camera based on a frustum as a component and it's features
+- Mousepicking for 3d objects as well as UI
+- Time managment
+- Implemented Guizmos
+- Implemented game mode
+- Adapted UI rect transform to work with a relative pos and anchors
+- Implemented Screen mode where ui elements are rescaled based on screen size
+- Draggable ui items
+
 
 # Subsystem
 
@@ -77,6 +98,12 @@ For the last assigment we were asked to create our own system for user interface
 - Explorer: Select and load models
 - Tags: Manage the tags of the gameobjects
 - Clocks: See the real time and the game time, and accelerate or slow down game time with a slider
+
+### Demonstrations
+
+![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/2nd.gif)
+
+![](https://github.com/rogerta97/TryHard_Engine/blob/master/docs/3rd.gif)
 
 ### Help:
 
