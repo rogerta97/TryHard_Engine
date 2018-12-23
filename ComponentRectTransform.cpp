@@ -67,9 +67,13 @@ bool ComponentRectTransform::Update()
 
 	if (canvas->GetScaleType() == ST_SCREEN_SIZE)
 	{
-		canvas->CalculatePosScaler();
+
 		float2 new_size = GetSizeFromCanvasPercentage(percentage_size);
 		Resize(new_size);
+	}
+	else 
+	{
+		CalculateRelSizeWithSize();
 	}
 
 	UpdateRectWithAnchors();
@@ -586,6 +590,16 @@ bool ComponentRectTransform::isMouseInsideRect(float2 mouse_pos_in_canvas)
 		inside = false;
 
 	return inside;
+}
+
+void ComponentRectTransform::CalculateRelSizeWithSize()
+{
+	GameObject* parent_canvas = GetFirstCanvasParent();
+
+	ComponentRectTransform* canvas = (ComponentRectTransform*)parent_canvas->GetComponent(CMP_RECTTRANSFORM);
+
+	rel_size.x = width / (canvas->width * percentage_size);
+	rel_size.y = height / (canvas->width * percentage_size);
 }
 
 void ComponentRectTransform::FitToParentRect()

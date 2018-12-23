@@ -56,7 +56,7 @@ bool UI_InspectorPanel::Start()
 bool UI_InspectorPanel::Update()
 {
 	if (show == false)
-		return false; 
+		return false;
 
 	if (ImGui::Begin("Inspector", &show, NULL))
 	{
@@ -64,34 +64,34 @@ bool UI_InspectorPanel::Update()
 		if (gameobject == nullptr)
 		{
 			ImGui::Text("No GameObject is Selected");
-			ImGui::End();			
+			ImGui::End();
 			return false;
 		}
 
 		//Print common GO info  --------------------------------------
-		char* name_buf = (char*)gameobject->name.c_str(); 
+		char* name_buf = (char*)gameobject->name.c_str();
 
-		bool is_out = true; 
-		bool is_active = gameobject->IsActive(); 
+		bool is_out = true;
+		bool is_active = gameobject->IsActive();
 
 		ImGui::Spacing();
 
 		Material* go_image = (Material*)App->resources->Get(RES_MATERIAL, "GameObjectIcon");
-	
-		if(go_image != nullptr)
+
+		if (go_image != nullptr)
 			ImGui::Image((ImTextureID)go_image->GetDiffuseTexture()->GetTextureID(), ImVec2(22, 25), ImVec2(0, 1), ImVec2(1, 0));  ImGui::SameLine();
 
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 
-		ImGui::InputText("Name", name_buf, 50); 
+		ImGui::InputText("Name", name_buf, 50);
 
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 
-		if(ImGui::SmallButton("X"))
+		if (ImGui::SmallButton("X"))
 		{
-			gameobject->DeleteRecursive(); 
+			gameobject->DeleteRecursive();
 			ImGui::End();
-			return false; 
+			return false;
 		}
 
 		if (ImGui::Checkbox("Active", &is_active))
@@ -100,7 +100,7 @@ bool UI_InspectorPanel::Update()
 		ImGui::SameLine();
 
 		bool tmp_is_static = gameobject->GetIsStatic();
-		if (ImGui::Checkbox("Static", &tmp_is_static)) 
+		if (ImGui::Checkbox("Static", &tmp_is_static))
 		{
 			gameobject->SetStatic(tmp_is_static);
 			App->scene->current_scene->octree->Recalculate();
@@ -113,14 +113,14 @@ bool UI_InspectorPanel::Update()
 
 		if (ImGui::Button("+##TagButton"))
 		{
-			App->imgui->tag_panel->show = true; 
+			App->imgui->tag_panel->show = true;
 		}
 
-		ImGui::Spacing(); 
+		ImGui::Spacing();
 
-		ImGui::Separator(); ImGui::Separator(); 
+		ImGui::Separator(); ImGui::Separator();
 
-		ImGui::Spacing(); 
+		ImGui::Spacing();
 
 		if (is_out && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
@@ -128,7 +128,7 @@ bool UI_InspectorPanel::Update()
 		}
 
 		// ------------------------------------------------------------------------------------
-					 
+
 		if (gameobject->HasComponents())
 		{
 			for (std::list<Component*>::iterator it = gameobject->component_list.begin(); it != gameobject->component_list.end(); it++)
@@ -145,7 +145,7 @@ bool UI_InspectorPanel::Update()
 
 		if (show_addcmp_ui)
 		{
-				static int curr_selection = 0;
+			static int curr_selection = 0;
 			if (ImGui::Combo("CMP TYPE", &curr_selection, "Select Component\0Component Mesh\0Component Material\0Component Camera"))
 			{
 
@@ -156,14 +156,14 @@ bool UI_InspectorPanel::Update()
 
 				case 1:
 				{
-					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_MESH);					
+					ComponentMesh* cmp_mesh = (ComponentMesh*)gameobject->AddComponent(CMP_MESH);
 					break;
 				}
 
 
 				case 2:
 				{
-					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);			
+					ComponentMaterial * cmp_mat = (ComponentMaterial*)gameobject->AddComponent(CMP_MATERIAL);
 					break;
 				}
 
@@ -184,7 +184,7 @@ bool UI_InspectorPanel::Update()
 			{
 				show_addcmp_ui = true;
 			}
-		}		
+		}
 	}
 
 	ImGui::End();
@@ -194,15 +194,15 @@ bool UI_InspectorPanel::Update()
 
 void UI_InspectorPanel::SetGameObject(GameObject * new_go)
 {
-	
+
 	//Delete prev selected objects 
 	if (gameobject != nullptr)
-		gameobject->SetSelectedRecursive(false); 
+		gameobject->SetSelectedRecursive(false);
 
 	gameobject = new_go;
 
-	if(gameobject)
-		new_go->SetSelectedRecursive(true); 
+	if (gameobject)
+		new_go->SetSelectedRecursive(true);
 }
 
 GameObject * UI_InspectorPanel::GetGameObject() const
@@ -228,9 +228,9 @@ void UI_InspectorPanel::PrintProperties(CompType type)
 
 	case CMP_CAMERA:
 		if (ImGui::CollapsingHeader("Camera"))
-		{			
+		{
 			PrintCameraProperties((ComponentCamera*)GetGameObject()->GetComponent(CMP_CAMERA));
-		}	
+		}
 		break;
 
 	case CMP_RECTTRANSFORM:
@@ -277,7 +277,7 @@ void UI_InspectorPanel::PrintTransformProperties()
 		{
 			ImGui::Spacing();
 
-			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine(); 
+			ImGui::SmallButton("Local"); ImGui::SameLine(); ImGui::SmallButton("Global"); ImGui::SameLine();
 
 			if (ImGui::SmallButton("Reset"))
 			{
@@ -286,8 +286,8 @@ void UI_InspectorPanel::PrintTransformProperties()
 
 			SEPARATE_WITH_SPACE
 
-			if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
-				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
+				if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
+					App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
 			ImGui::SameLine();
 			if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
 				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
@@ -297,21 +297,21 @@ void UI_InspectorPanel::PrintTransformProperties()
 
 			SEPARATE_WITH_SPACE
 
-			float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
+				float show_pos[3] = { trans_cmp->GetPosition().x, trans_cmp->GetPosition().y, trans_cmp->GetPosition().z };
 			float show_rot[3] = { trans_cmp->GetRotationEuler().x, trans_cmp->GetRotationEuler().y, trans_cmp->GetRotationEuler().z };
 			float show_scale[3] = { trans_cmp->GetScale().x, trans_cmp->GetScale().y, trans_cmp->GetScale().z };
 
 			if (gameobject->GetIsStatic() == true)
 			{
-				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Transforms are disabled while GameObject is Static."); 
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Transforms are disabled while GameObject is Static.");
 			}
-		
-			if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)		
+
+			if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
 				trans_cmp->SetPosition({ show_pos[0], show_pos[1], show_pos[2] });
-						
+
 			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
 			{
-				if(trans_cmp->GetRotationEuler().x != show_rot[0])
+				if (trans_cmp->GetRotationEuler().x != show_rot[0])
 					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 
 				if (trans_cmp->GetRotationEuler().y != show_rot[1])
@@ -320,12 +320,12 @@ void UI_InspectorPanel::PrintTransformProperties()
 				if (trans_cmp->GetRotationEuler().z != show_rot[2])
 					trans_cmp->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
 			}
-				
 
-			if(ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
+
+			if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
 				trans_cmp->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
-			ImGui::Spacing(); 
+			ImGui::Spacing();
 		}
 	}
 }
@@ -334,12 +334,12 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 {
 	if (ImGui::CollapsingHeader("Rect Transform"))
 	{
-		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM); 
+		ComponentRectTransform* rtransform = (ComponentRectTransform*)GetGameObject()->GetComponent(CMP_RECTTRANSFORM);
 
-		
+
 		float show_rot[3] = { rtransform->GetTransform()->transform.euler_angles.x, rtransform->GetTransform()->transform.euler_angles.y, rtransform->GetTransform()->transform.euler_angles.z };
 		float show_scale[3] = { rtransform->scale_to_show.x, rtransform->scale_to_show.y, rtransform->scale_to_show.z };
-		bool move_container = false; 
+		bool move_container = false;
 
 		ImGui::Spacing();
 		ImGui::Text("Transform:");
@@ -349,41 +349,60 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			if (ImGui::RadioButton("Translate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::TRANSLATE))
 				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::TRANSLATE);
 
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
-				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Rotate", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::ROTATE))
+			App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::ROTATE);
 
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Scale", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::SCALE))
-				App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::SCALE);
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Scale", App->scene->current_scene->GetGuizmoMode() == ImGuizmo::SCALE))
+			App->scene->current_scene->SetGuizmoMode((OPERATION)ImGuizmo::SCALE);
 
 		SEPARATE_WITH_SPACE
 
-			float show_pos[3] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y, rtransform->GetTransform()->transform.position.z };
+			ImGui::Text("UI Position:");
 
-		if (ImGui::DragFloat3("Position", show_pos, 0.2f) && gameobject->GetIsStatic() == false)
-		{
-			rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().x, show_pos[2]));
+		float show_pos[3] = { rtransform->GetRelativePos().x, rtransform->GetRelativePos().y, rtransform->GetTransform()->transform.position.z };
+
+		//float show_real_pos[3] = { rtransform->GetTransform()->transform.position.x, rtransform->GetTransform()->transform.position.y, rtransform->GetTransform()->transform.position.z };
+
+		//ImGui::DragFloat3("Position", show_real_pos, 0.2f);
+
+		ImGui::Columns(3, "", false);
+
+		if (ImGui::DragFloat("Pos X", &show_pos[0]))
 			rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
-			move_container = true; 
-		}
-				
 
-		if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
-		{
-			if (rtransform->GetTransform()->GetRotationEuler().x != show_rot[0])
-				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+		ImGui::NextColumn();
 
-			if (rtransform->GetTransform()->GetRotationEuler().y != show_rot[1])
-				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+		if (ImGui::DragFloat("Pos Y", &show_pos[1]))
+			rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
 
-			if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
-				rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+		ImGui::NextColumn();
 
-		}
+		if (ImGui::DragFloat("Pos Z", &show_pos[2]))
+			rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().y, show_pos[2]));
 
-		if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
-			rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
+		ImGui::NextColumn();
+
+		ImGui::Columns(1);
+
+		SEPARATE_WITH_SPACE
+
+			if (ImGui::DragFloat3("Rotation", show_rot, 0.2f, -180.0f, 180.0f) && gameobject->GetIsStatic() == false)
+			{
+				if (rtransform->GetTransform()->GetRotationEuler().x != show_rot[0])
+					rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+				if (rtransform->GetTransform()->GetRotationEuler().y != show_rot[1])
+					rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+				if (rtransform->GetTransform()->GetRotationEuler().z != show_rot[2])
+					rtransform->GetTransform()->SetRotationEuler({ show_rot[0], show_rot[1], show_rot[2] });
+
+			}
+
+		//if (ImGui::DragFloat3("Scale", show_scale, 0.2f) && gameobject->GetIsStatic() == false)
+		//	rtransform->GetTransform()->SetScale({ show_scale[0], show_scale[1], show_scale[2] });
 
 		ComponentCanvasScaler* c_scaler = (ComponentCanvasScaler*)rtransform->GetFirstCanvasParent()->GetComponent(CMP_CANVASSCALER);
 
@@ -421,22 +440,22 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			}
 		}
 
-		ImGui::Text("Anchors:");
-		ImGui::Separator();
-		ImGui::Spacing();
 
+		SEPARATE_WITH_SPACE
+
+		ImGui::Text("Anchors:");
 		//ANCHOR
 
 		float show_anchor[2];
-		
+
 		show_anchor[0] = rtransform->GetAnchorPoint().min_x;
 		show_anchor[1] = rtransform->GetAnchorPoint().min_y;
 
-		
+
 
 		ImGui::Columns(3, "", false);
 
-		ImGui::Text("Min");
+		ImGui::Text("Position:");
 
 		ImGui::NextColumn();
 
@@ -454,7 +473,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		if (rtransform->edited || move_container)
 		{
-			
+
 			ComponentText* cmp_text = (ComponentText*)gameobject->GetComponent(CMP_TEXT);
 
 			if (cmp_text != nullptr)
@@ -464,17 +483,17 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 					cmp_text->SetClipping(cmp_text->GetClipping());
 					rtransform->edited = false;
 				}
-					
+
 				else if (move_container)
-				{				
+				{
 					cmp_text->GetLabel()->SetText(cmp_text->GetLabel()->GetText().c_str());
-					move_container = false; 
+					move_container = false;
 				}
-					
+
 			}
 		}
 
-		ImGui::Spacing();
+		SEPARATE_WITH_SPACE
 
 		ImGui::Checkbox("Enable Drag", &rtransform->draggable);
 
@@ -485,14 +504,14 @@ void UI_InspectorPanel::PrintCanvasProperties()
 {
 	if (ImGui::CollapsingHeader("Canvas"))
 	{
-		ComponentCanvas* canvas_cmp = (ComponentCanvas*)gameobject->GetComponent(CMP_CANVAS); 
+		ComponentCanvas* canvas_cmp = (ComponentCanvas*)gameobject->GetComponent(CMP_CANVAS);
 
 		ImGui::Text("UI Elements in Canvas: "); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(), "%d", canvas_cmp->GetCanvas()->elements_in_canvas.size()); 
+		ImGui::TextColored(ImVec4(), "%d", canvas_cmp->GetCanvas()->elements_in_canvas.size());
 
 		for (auto it = canvas_cmp->GetCanvas()->elements_in_canvas.begin(); it != canvas_cmp->GetCanvas()->elements_in_canvas.end(); it++)
 		{
-			ImGui::TextColored(ImVec4(1,1,0,1), "%s", (*it)->GetName().c_str()); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", (*it)->GetName().c_str());
 		}
 	}
 }
@@ -501,7 +520,7 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 {
 	if (ImGui::CollapsingHeader("CheckBox (UI)"))
 	{
-		ImGui::Spacing(); 
+		ImGui::Spacing();
 
 		ComponentCheckBox* cmp_check = (ComponentCheckBox*)gameobject->GetComponent(CMP_CHECKBOX);
 
@@ -517,7 +536,7 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 
 		switch (cmp_check->GetCheckBox()->GetType())
 		{
-		case CheckBoxType::CHT_TOGGLE_BOOL:	
+		case CheckBoxType::CHT_TOGGLE_BOOL:
 			cmp_check->callback_system->PrintSystemUI();
 			break;
 
@@ -528,9 +547,9 @@ void UI_InspectorPanel::PrintCheckBoxProperties()
 
 		SEPARATE_WITH_SPACE
 
-		bool is_on = cmp_check->GetCheckBox()->GetIsOn();
+			bool is_on = cmp_check->GetCheckBox()->GetIsOn();
 		if (ImGui::Checkbox("Is On", &is_on))
-			cmp_check->GetCheckBox()->SetIsOn(is_on); 				
+			cmp_check->GetCheckBox()->SetIsOn(is_on);
 	}
 }
 
@@ -545,23 +564,23 @@ void UI_InspectorPanel::PrintTextProperties()
 		if (ImGui::InputText("Text", cmp_text->GetLabel()->inspector_text, 256))
 			cmp_text->GetLabel()->SetText(cmp_text->GetLabel()->inspector_text);
 
-		
+
 		if (ImGui::InputInt("Size", &cmp_text->GetLabel()->text_size))
 		{
-			if (cmp_text->GetLabel()->text_size < 1) cmp_text->GetLabel()->text_size = 1; 
-				cmp_text->GetLabel()->ResizeFont(); 
+			if (cmp_text->GetLabel()->text_size < 1) cmp_text->GetLabel()->text_size = 1;
+			cmp_text->GetLabel()->ResizeFont();
 		}
 
 		float tmp_col[3] = { cmp_text->GetLabel()->color.x, cmp_text->GetLabel()->color.y, cmp_text->GetLabel()->color.z };
 		if (ImGui::ColorEdit3("Color", tmp_col))
-			cmp_text->GetLabel()->color = { tmp_col[0], tmp_col[1] , tmp_col[2] }; 
+			cmp_text->GetLabel()->color = { tmp_col[0], tmp_col[1] , tmp_col[2] };
 
 		//Clipping
-		int curr_type = cmp_text->GetClipping(); 
+		int curr_type = cmp_text->GetClipping();
 
 		if (ImGui::Combo("Clipping", &curr_type, "Top Left\0Center\0Middle Left"))
 		{
-			cmp_text->SetClipping((ClipTextType)curr_type); 
+			cmp_text->SetClipping((ClipTextType)curr_type);
 		}
 
 		curr_type = cmp_text->GetHorizontalOverflow();
@@ -596,24 +615,24 @@ void UI_InspectorPanel::PrintImageProperties()
 			img_cmp->GetImage()->SetRaycast(ray);
 
 		ImGui::Separator();
-		ImGui::Spacing(); 
+		ImGui::Spacing();
 
 
 		SEPARATE_WITH_SPACE
-		
-		float tmp_col[3] = { img_cmp->GetImage()->image_color.x, img_cmp->GetImage()->image_color.y, img_cmp->GetImage()->image_color.z };
+
+			float tmp_col[3] = { img_cmp->GetImage()->image_color.x, img_cmp->GetImage()->image_color.y, img_cmp->GetImage()->image_color.z };
 		if (ImGui::ColorPicker3("Color", tmp_col))
 			img_cmp->GetImage()->image_color = { tmp_col[0], tmp_col[1] , tmp_col[2] };
 
 		SEPARATE_WITH_SPACE
 
-		ImGui::BeginChild("c1", {75,75});
+			ImGui::BeginChild("c1", { 75,75 });
 
 		if (img_cmp->GetImage()->GetMaterial())
 		{
 			ImGui::Image((ImTextureID)img_cmp->GetImage()->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(75, 75), ImVec2(0, 1), ImVec2(1, 0));
 			ImGui::SameLine();
-		
+
 		}
 		else
 		{
@@ -623,8 +642,8 @@ void UI_InspectorPanel::PrintImageProperties()
 
 		ImGui::EndChild();
 		ImGui::SameLine();
-		ImGui::BeginChild("c2", {500, 100});
-			
+		ImGui::BeginChild("c2", { 500, 100 });
+
 		if (img_cmp->GetImage()->GetMaterial())
 		{
 			ImGui::Text("Material:"); ImGui::SameLine();
@@ -633,7 +652,7 @@ void UI_InspectorPanel::PrintImageProperties()
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", img_cmp->GetImage()->GetMaterial()->path.c_str());
 		}
 		else
-		{			
+		{
 			ImGui::Text("Material:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "NONE");
 			ImGui::Text("Path:"); ImGui::SameLine();
@@ -642,7 +661,7 @@ void UI_InspectorPanel::PrintImageProperties()
 
 		ImGui::Button("+");
 
-		if(ImGui::IsItemClicked(0))
+		if (ImGui::IsItemClicked(0))
 		{
 			ImGui::OpenPopup("select_texture");
 		}
@@ -658,7 +677,7 @@ void UI_InspectorPanel::PrintImageProperties()
 		}
 
 		ImGui::EndChild();
-		
+
 		ImGui::Spacing();
 	}
 }
@@ -673,7 +692,7 @@ void UI_InspectorPanel::PrintInputFieldProperties()
 		ImGui::Text("PlaceHolder: "); ImGui::SameLine();
 
 		if (place_holder_go != nullptr)
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName().c_str()); 
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", place_holder_go->GetName().c_str());
 		else
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Empty");
 
@@ -694,39 +713,39 @@ void UI_InspectorPanel::PrintButtonProperties()
 	{
 		ComponentButton* button_cmp = (ComponentButton*)GetGameObject()->GetComponent(CMP_BUTTON);
 
-		static int trans_type = 0; 
+		static int trans_type = 0;
 		if (ImGui::Combo("Transition Style", &trans_type, "Tint\0Swap Images"))
 		{
-			button_cmp->GetButton()->SetTransition((Button_Transition)trans_type); 
+			button_cmp->GetButton()->SetTransition((Button_Transition)trans_type);
 		}
 
 		SEPARATE_WITH_SPACE
 
-		switch (trans_type)
-		{
-		case Button_Transition::TRANSITION_COLOR:
-		{
-			float hover_c[3] = { button_cmp->GetHoverColor().x, button_cmp->GetHoverColor().y, button_cmp->GetHoverColor().z };
-			float pressed_c[3] = { button_cmp->GetPressedColor().x, button_cmp->GetPressedColor().y, button_cmp->GetPressedColor().z };
+			switch (trans_type)
+			{
+			case Button_Transition::TRANSITION_COLOR:
+			{
+				float hover_c[3] = { button_cmp->GetHoverColor().x, button_cmp->GetHoverColor().y, button_cmp->GetHoverColor().z };
+				float pressed_c[3] = { button_cmp->GetPressedColor().x, button_cmp->GetPressedColor().y, button_cmp->GetPressedColor().z };
 
-			if (ImGui::ColorEdit3("Hover Tint", hover_c))
-				button_cmp->SetHoverColor(float3(hover_c[0], hover_c[1], hover_c[2]));
+				if (ImGui::ColorEdit3("Hover Tint", hover_c))
+					button_cmp->SetHoverColor(float3(hover_c[0], hover_c[1], hover_c[2]));
 
-			if (ImGui::ColorEdit3("Click Tint", pressed_c))
-				button_cmp->SetPressedColor(float3(pressed_c[0], pressed_c[1], pressed_c[2]));
+				if (ImGui::ColorEdit3("Click Tint", pressed_c))
+					button_cmp->SetPressedColor(float3(pressed_c[0], pressed_c[1], pressed_c[2]));
 
-			break;
-		}
+				break;
+			}
 
-		case Button_Transition::TRANSITION_IMG_SWAP:
+			case Button_Transition::TRANSITION_IMG_SWAP:
 
-			break;
+				break;
 
-		}
+			}
 
 		SEPARATE_WITH_SPACE
 
-		button_cmp->callback_system->PrintSystemUI(); 
+			button_cmp->callback_system->PrintSystemUI();
 	}
 }
 
@@ -746,24 +765,24 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::TextColored(ImVec4(1, 0, 0, 1), "INACTIVE");
 		}
 
-		ImGui::Separator(); 
+		ImGui::Separator();
 
 		ImGui::Spacing();
 
-		ImGui::Text("Current Mesh:"); 
+		ImGui::Text("Current Mesh:");
 
 		if (mesh_cmp->GetMesh() != nullptr)
 		{
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mesh_cmp->GetMesh()->name.c_str());
 
-			ImGui::SameLine(); 
+			ImGui::SameLine();
 			if (ImGui::SmallButton("+"))
 			{
 				ImGui::OpenPopup("select_mesh");
 			}
 
-			App->resources->mesh_importer->DrawMeshList(); 
+			App->resources->mesh_importer->DrawMeshList();
 
 			if (ImGui::TreeNode("UID"))
 			{
@@ -771,7 +790,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "'%d'", mesh_cmp->GetMesh()->GetUID());
 				ImGui::TreePop();
 			}
-			
+
 			ImGui::Spacing();
 
 			ImGui::Separator();
@@ -785,7 +804,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 			ImGui::Checkbox("Draw BB", &mesh_cmp->draw_bounding_box);
 
 			ImGui::Spacing();
-		}			
+		}
 		else
 		{
 			ImGui::SameLine();
@@ -798,7 +817,7 @@ void UI_InspectorPanel::PrintMeshProperties()
 			}
 
 			App->resources->mesh_importer->DrawMeshList();
-		}	
+		}
 	}
 }
 
@@ -822,7 +841,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		ImGui::Text("Diffuse Texture:"); ImGui::SameLine();
 
-		if(mat_cmp->GetMaterial() != nullptr && mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
+		if (mat_cmp->GetMaterial() != nullptr && mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr)
 			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", mat_cmp->GetMaterial()->name.c_str()); ImGui::SameLine();
 
 		if (ImGui::SmallButton("+"))
@@ -832,7 +851,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 
 		App->resources->material_importer->DrawTextureList();
 
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 
 		ImGui::ImageButton((ImTextureID)App->resources->material_importer->GetCheckerTexture()->GetTextureID(), ImVec2(15, 15));
 
@@ -843,7 +862,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		}
 
 		ImGui::Spacing();
-		
+
 		if ((mat_cmp->GetMaterial() != nullptr && mat_cmp->GetMaterial()->GetDiffuseTexture() != nullptr))
 		{
 			ImGui::Image((ImTextureID)mat_cmp->GetMaterial()->GetDiffuseTexture()->GetTextureID(), ImVec2(150, 150), ImVec2(0, 1), ImVec2(1, 0));
@@ -866,7 +885,7 @@ void UI_InspectorPanel::PrintMaterialProperties()
 		}
 
 		ImGui::Spacing();
-	}		
+	}
 }
 
 void UI_InspectorPanel::PrintCanvasScalerProperties()
@@ -897,7 +916,7 @@ void UI_InspectorPanel::PrintCanvasScalerProperties()
 
 void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 {
-	
+
 	int selected_proj = camera_cmp->camera->frustum.type;
 	std::string label = "Projection##" + camera_cmp->GetGameObject()->GetName();
 
@@ -907,13 +926,13 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 		{
 		case 0:
 			camera_cmp->camera->frustum.type = PerspectiveFrustum;
-			break; 
+			break;
 
 		case 1:
 			camera_cmp->camera->frustum.type = OrthographicFrustum;
-			break; 
+			break;
 		}
-		
+
 	}
 
 	if (ImGui::InputFloat("Near Plane", &camera_cmp->camera->frustum.nearPlaneDistance, 0.1f))
@@ -933,10 +952,10 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 		camera_cmp->camera->SetFOV(temp_v_fov_in_degrees * DEGTORAD);
 	}
 
-	
+
 	if (ImGui::SliderFloat("Aspect Ratio modifier", &camera_cmp->camera->aspect_ratio, 0.1, 10.0f))
 	{
-		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio); 
+		camera_cmp->camera->SetAspectRatio(camera_cmp->camera->aspect_ratio);
 	}
 
 
@@ -947,7 +966,7 @@ void UI_InspectorPanel::PrintCameraProperties(ComponentCamera* camera_cmp)
 	}
 
 	ImGui::Checkbox("Draw Frustum", &camera_cmp->draw_frustum);
-	
+
 }
 
 

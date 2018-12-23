@@ -49,6 +49,7 @@ void ComponentCanvasScaler::SetScaleFactor(float newValue)
 
 void ComponentCanvasScaler::SetScaleType(Scale_Type new_type)
 {
+	CalculatePosScaler();
 	scale_type = new_type;
 }
 

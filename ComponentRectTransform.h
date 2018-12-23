@@ -76,6 +76,8 @@ public:
 
 	bool isMouseInsideRect(float2 mouse_pos_in_canvas);
 
+	void CalculateRelSizeWithSize();
+
 	// ----------------------
 
 	void FitToParentRect();
