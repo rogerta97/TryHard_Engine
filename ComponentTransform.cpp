@@ -375,6 +375,7 @@ void ComponentTransform::CalculateGlobalViewMatrix()
 
 	
 	auto child = gameobject->GetChildList()->begin();
+
 	while (child != gameobject->GetChildList()->end())
 	{
 		ComponentTransform* child_trans = nullptr;

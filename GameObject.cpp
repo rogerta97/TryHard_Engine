@@ -736,11 +736,15 @@ void GameObject::LoadPrefab(const char* prefab_name)
 
 void GameObject::ModifyIDSet()
 {
-	unique_id = App->resources->GenerateUID();
+	this->unique_id = App->resources->GenerateUID();
 
 	if (!child_list.empty())
-		for (auto it = child_list.begin(); it != child_list.end(); it++)				
+		for (auto it = child_list.begin(); it != child_list.end(); it++)
+		{
 			(*it)->ModifyIDSet();
+			(*it)->SetParent(App->scene->GetGameObjectByID(unique_id));
+		}
+			
 			
 }
 

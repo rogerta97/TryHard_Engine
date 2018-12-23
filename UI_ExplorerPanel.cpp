@@ -223,7 +223,7 @@ void UI_ExplorerPanel::DrawExplorerRecursive(std::string folder, bool get_meta =
 
 				else if (App->file_system->GetFileType(folder.c_str()) == FT_PREFAB)
 				{
-					App->scene->CleanScene();
+					//App->scene->CleanScene();
 					string obj_name = App->file_system->GetLastPathItem(folder.c_str());
 
 					GameObject* new_go = App->scene->LoadPrefab(obj_name.c_str());
