@@ -32,6 +32,8 @@ bool UI_HierarchyPanel::Start()
 	show_create_menu = false; 
 	want_to_drag = false;
 
+	is_mouse_in = false;
+
 	source_in_drag = nullptr;
 	dst_in_drag = nullptr;
 
@@ -55,7 +57,7 @@ bool UI_HierarchyPanel::Update()
 
 		ImGui::Separator();
 		ImGui::BeginChild("");
-
+		is_mouse_in = ImGui::IsMouseHoveringWindow();
 		int id = -1;
 		for (auto it = App->scene->current_scene->scene_gameobjects.begin(); it != App->scene->current_scene->scene_gameobjects.end(); it++)
 		{
@@ -182,7 +184,7 @@ bool UI_HierarchyPanel::Update()
 
 	}
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN && App->scene->GetGameObjectsAmmount() == 0)
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN && App->scene->GetGameObjectsAmmount() == 0 && is_mouse_in)
 		App->imgui->hierarchy_panel->show_create_menu = true; 
 
 	if (App->imgui->hierarchy_panel->show_create_menu)

@@ -22,6 +22,8 @@ public:
 	bool show_create_menu; 
 	bool want_to_drag; 
 
+	bool is_mouse_in;
+
 	GameObject* source_in_drag; 
 	GameObject* dst_in_drag; 
 };
