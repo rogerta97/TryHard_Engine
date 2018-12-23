@@ -40,8 +40,12 @@ void UI_Button::Update()
 			if (!component_container->OnMousePressed.empty())
 				for (auto it = component_container->OnMousePressed.begin(); it != component_container->OnMousePressed.end(); it++)
 				{
+				
 					std::function<void()> curr_func = (*it);
-					curr_func();
+						
+					if(curr_func != nullptr)
+						curr_func();
+									
 				}
 
 			action_done = true;
