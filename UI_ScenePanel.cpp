@@ -103,6 +103,7 @@ bool UI_ScenePanel::Update()
 			{
 				play = false; 
 				App->BroadCastEvent(Event(STOP));
+				App->camera->SetLocked(false); 
 				App->SetGameState(GameState::STOPPED);
 			}
 			else if (App->GetGameState() == STOPPED)

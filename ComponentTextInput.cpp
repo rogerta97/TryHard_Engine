@@ -209,7 +209,8 @@ void ComponentTextInput::Draw(bool is_editor)
 {
 	//Draw the button inside ComponentText for debugging	
 	//DrawButtonFrame();
-	DrawCursor(); 	
+	if(GetInputField()->GetSelected())
+		DrawCursor(); 	
 }
 
 void ComponentTextInput::Load(JSON_Object * json_obj)

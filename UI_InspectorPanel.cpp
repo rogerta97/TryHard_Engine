@@ -381,7 +381,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::Columns(3, "", false);
 
-		if (ImGui::DragFloat("", &show_pos[0]))
+		if (ImGui::DragFloat("PosX", &show_pos[0]))
 		{
 			if(!lock)
 				rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
@@ -390,7 +390,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("", &show_pos[1]))
+		if (ImGui::DragFloat("PosY", &show_pos[1]))
 		{
 			if (!lock)
 				rtransform->SetRelativePos({ show_pos[0],show_pos[1] });
@@ -399,7 +399,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 
 		ImGui::NextColumn();
 
-		if (ImGui::DragFloat("", &show_pos[2]))
+		if (ImGui::DragFloat("PosZ", &show_pos[2]))
 		{
 			if (!lock)
 				rtransform->GetTransform()->SetPosition(float3(rtransform->GetTransform()->GetPosition().x, rtransform->GetTransform()->GetPosition().y, show_pos[2]));
@@ -444,6 +444,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			{
 				if (!lock)
 				{
+					rtransform->width = tmp_width; 
 					rtransform->Resize({ rtransform->width, rtransform->height });
 					rtransform->edited = true;
 				}
@@ -455,6 +456,7 @@ void UI_InspectorPanel::PrintRectTransformProperties()
 			{
 				if (!lock)
 				{
+					rtransform->height = tmp_height;
 					rtransform->Resize({ rtransform->width, rtransform->height });
 					rtransform->edited = true;
 				}
